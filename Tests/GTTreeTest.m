@@ -47,12 +47,6 @@
 	tree = (GTTree *)[repo lookup:sha error:&error];
 }
 
-- (void)tearDownClass {
-	
-	// make sure our memory mgt is working
-	[[NSGarbageCollector defaultCollector] collectExhaustively];
-}
-
 - (void)testCanReadTreeData {
 	
 	GHAssertEqualStrings(sha, tree.sha, nil);

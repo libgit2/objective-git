@@ -45,12 +45,6 @@
 	repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH] error:&error];
 }
 
-- (void)tearDownClass {
-	
-	// make sure our memory mgt is working
-	[[NSGarbageCollector defaultCollector] collectExhaustively];
-}
-
 - (void)testCanReadCommitData {
 	
 	NSString *sha = @"8496071c1b46c854b31185ea97743be6a8774479";
@@ -122,11 +116,11 @@
 	GHAssertTrue([obj isKindOfClass:[GTTree class]], nil);
 	GTTree *tree = (GTTree *)obj;
 
-	GTCommit *commit = [[GTCommit alloc] initInRepo:repo error:&error];
-	GTSignature *person = [[GTSignature alloc] 
+	GTCommit *commit = [[[GTCommit alloc] initInRepo:repo error:&error] autorelease];
+	GTSignature *person = [[[GTSignature alloc] 
 						   initWithName:@"Tim" 
 						   email:@"tclem@github.com" 
-						   time:[NSDate date]];
+						   time:[NSDate date]] autorelease];
 	
 	commit.message = @"new message";
 	commit.author = person;

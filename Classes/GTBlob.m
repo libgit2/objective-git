@@ -68,4 +68,13 @@
 	git_blob_set_rawcontent(self.blob, [NSString utf8StringForString:newContent], [newContent length]);
 }
 
+#pragma mark -
+#pragma mark Memory Management
+
+- (void)dealloc {
+	
+	self.content = nil;
+	[super dealloc];
+}
+
 @end

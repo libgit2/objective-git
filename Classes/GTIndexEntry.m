@@ -94,6 +94,9 @@
 - (void)setSha:(NSString *)theSha{
 
 	git_oid_mkstr(&entry->oid, [NSString utf8StringForString:theSha]);
+
+// I hate that we allways have to have NSError ** for crap like this
+// there has got to be a better way.
 //	if(gitError != GIT_SUCCESS){
 //		if(error != NULL)
 //			*error = [NSError gitErrorForMkStr:gitError];
@@ -170,6 +173,18 @@
 	
 	self.entry->flags &= ~GIT_IDXENTRY_STAGEMASK;
 	self.entry->flags |= (theStage << GIT_IDXENTRY_STAGESHIFT);
+}
+
+#pragma mark -
+#pragma mark Memory Management
+
+- (void)dealloc {
+	
+	self.path = nil;
+	self.sha = nil;
+	self.mTime = nil;
+	self.cTime = nil;
+	[super dealloc];
 }
 
 @end

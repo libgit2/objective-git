@@ -46,12 +46,6 @@
 	[index refreshAndReturnError:&error];
 }
 
-- (void)tearDownClass {
-	
-	// make sure our memory mgt is working
-	[[NSGarbageCollector defaultCollector] collectExhaustively];
-}
-
 - (void)testCanCountIndexEntries {
 	
 	GHAssertEquals(2, (int)index.entryCount, nil);
@@ -90,7 +84,7 @@
 - (GTIndexEntry *)createNewIndexEntry {
 	
 	NSDate *now = [NSDate date];
-	GTIndexEntry *e = [[GTIndexEntry alloc] init];
+	GTIndexEntry *e = [[[GTIndexEntry alloc] init] autorelease];
 	e.path = @"new_path";
 	e.sha = @"d385f264afb75a56a5bec74243be9b367ba4ca08";
 	e.mTime = now;
@@ -212,7 +206,7 @@
 	[m createDirectoryAtPath:[tempPath path] withIntermediateDirectories:YES attributes:nil error:&error];
 	
 	// run 'git init'
-	NSTask *task = [[NSTask alloc] init];
+	NSTask *task = [[[NSTask alloc] init] autorelease];
 	[task setLaunchPath:@"/usr/local/bin/git"];
 	[task setCurrentDirectoryPath:[tempPath path]];
 	[task setArguments:[NSArray arrayWithObjects:@"init", nil]];

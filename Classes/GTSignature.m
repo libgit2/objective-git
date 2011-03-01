@@ -108,12 +108,16 @@
 			];
 }
 
+#pragma mark -
+#pragma mark Memory Management
 
-- (void)finalize {
+- (void)dealloc {
 	
 	git_signature_free(signature);
-	[super finalize];
+	self.name = nil;
+	self.email = nil;
+	self.time = nil;
+	[super dealloc];
 }
-
 
 @end

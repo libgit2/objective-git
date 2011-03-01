@@ -147,13 +147,13 @@ static NSString * const GTTagClassName = @"GTTag";
 	return 0 == git_oid_cmp(git_object_id(self.object), git_object_id(((GTObject *)otherObject).object)) ? YES : NO;
 }
 
-// Do NOT call git_object_free()
-// The object is owned by the repo and will be 
-// garbage collected when the repo is freed
-/*- (void)finalize {
+#pragma mark -
+#pragma mark Memory Management
+
+- (void)dealloc {
 	
-	git_object_free(object);
-	[super finalize];
-}*/
+	self.repo = nil;
+	[super dealloc];
+}
 
 @end

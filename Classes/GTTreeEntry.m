@@ -88,4 +88,15 @@
 	return [GTObject objectInRepo:self.tree.repo withObject:obj];
 }
 
+#pragma mark -
+#pragma mark Memory Management
+
+- (void)dealloc {
+	
+	self.name = nil;
+	self.sha = nil;
+	self.tree = nil;
+	[super dealloc];
+}
+
 @end

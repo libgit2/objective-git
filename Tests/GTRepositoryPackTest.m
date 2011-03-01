@@ -43,12 +43,6 @@
 	repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH] error:&error];
 }
 
-- (void)tearDownClass {
-	
-	// make sure our memory mgt is working
-	[[NSGarbageCollector defaultCollector] collectExhaustively];
-}
-
 - (void)testCanTellIfPackedObjectExists {
 	
 	GHAssertTrue([repo exists:@"41bc8c69075bbdb46c5c6f0566cc8cc5b46e8bd9"], nil);

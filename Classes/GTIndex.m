@@ -135,4 +135,13 @@
 	}
 }
 
+#pragma mark -
+#pragma mark Memory Management
+
+- (void)dealloc {
+	
+	self.path = nil;
+	[super dealloc];
+}
+
 @end

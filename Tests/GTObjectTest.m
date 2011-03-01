@@ -43,12 +43,6 @@
 	repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH] error:&error];
 }
 
-- (void)tearDownClass {
-	
-	// make sure our memory mgt is working
-	[[NSGarbageCollector defaultCollector] collectExhaustively];
-}
-
 - (void)testCanLookupEmptyStringFails {
 	
 	NSError *error = nil;

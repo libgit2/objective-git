@@ -46,15 +46,9 @@ static NSString *NewRepoPath = @"file://localhost/Users/tclem/github/local/unit_
 	NSError *error = nil;
 	repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH] error:&error];
 
-	obj = [[GTRawObject alloc] initWithType:GIT_OBJ_BLOB string:@"my test data\n"];
+	obj = [[[GTRawObject alloc] initWithType:GIT_OBJ_BLOB string:@"my test data\n"] autorelease];
 	
 	[[NSFileManager defaultManager] removeItemAtPath:NewRepoPath error:&error];
-}
-
-- (void)tearDownClass {
-	
-	// make sure our memory mgt is working
-	[[NSGarbageCollector defaultCollector] collectExhaustively];
 }
 
 - (void)testCreateRepositoryInDirectory {
@@ -134,7 +128,7 @@ static NSString *NewRepoPath = @"file://localhost/Users/tclem/github/local/unit_
 	NSError *error = nil;
 	GTRepository *aRepo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH] error:&error];
 	NSString *sha = @"a4a7dce85cf63874e984719f4fdd239f5145052f";
-	__block NSMutableArray *commits = [[NSMutableArray alloc] init];
+	__block NSMutableArray *commits = [[[NSMutableArray alloc] init] autorelease];
 	[aRepo walk:sha 
 		  error:&error
 		  block:^(GTCommit *commit){

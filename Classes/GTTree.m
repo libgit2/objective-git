@@ -100,8 +100,12 @@
 	return [self createEntryWithEntry:newEntry];
 }
 
-// Do NOT implement finalize here
-// Because GTTree derives from GTObject, the cleanup of self.object
-// which is a (git_tree *) in this class will happen in GTObject
+#pragma mark -
+#pragma mark Memory Management
+
+- (void)dealloc {
+	
+	[super dealloc];
+}
 
 @end

@@ -36,12 +36,6 @@
 
 @implementation GTTagTest
 
-- (void)tearDownClass {
-	
-	// make sure our memory mgt is working
-	[[NSGarbageCollector defaultCollector] collectExhaustively];
-}
-
 - (void)testCanReadTagData {
 	
 	NSError *error = nil;

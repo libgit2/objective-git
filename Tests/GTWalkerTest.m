@@ -43,12 +43,6 @@
 	
 }
 
-- (void)tearDownClass {
-	
-	// make sure our memory mgt is working
-	[[NSGarbageCollector defaultCollector] collectExhaustively];
-}
-
 - (void)testCanWalkSimpleRevlist {
 	
 	NSError *error = nil;
@@ -56,7 +50,7 @@
 	[repo.walker push:@"9fd738e8f7967c078dceed8190330fc8648ee56a" error:&error];
 	GHAssertNil(error, nil);
 	
-	NSMutableArray *shas = [[NSMutableArray alloc] initWithCapacity:4];
+	NSMutableArray *shas = [[[NSMutableArray alloc] initWithCapacity:4] autorelease];
 	for (int i=0; i < 4; i++) {
 		GTCommit *c = [repo.walker next];
 		[shas addObject:c.sha];
@@ -121,7 +115,7 @@
 	[repo.walker sorting:sortMode];
 	[repo.walker push:sha error:&error];
 	
-	NSMutableArray *commits = [[NSMutableArray alloc] initWithCapacity:6];
+	NSMutableArray *commits = [[[NSMutableArray alloc] initWithCapacity:6] autorelease];
 	for(int i=0; i < 6; i++) {
 		[commits addObject:[repo.walker next]];
 	}

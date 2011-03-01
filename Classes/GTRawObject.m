@@ -70,4 +70,13 @@
 	return [NSString stringWithUTF8String:[data bytes]];
 }
 
+#pragma mark -
+#pragma mark Memory Management
+
+- (void)dealloc {
+	
+	self.data = nil;
+	[super dealloc];
+}
+
 @end

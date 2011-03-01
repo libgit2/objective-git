@@ -86,4 +86,17 @@
 	git_tag_set_tagger(self.tag, theTagger.signature);
 }
 
+#pragma mark -
+#pragma mark Memory Management
+
+- (void)dealloc {
+	
+	self.message = nil;
+	self.name = nil;
+	self.target = nil;
+	self.targetType = nil;
+	self.tagger = nil;
+	[super dealloc];
+}
+
 @end

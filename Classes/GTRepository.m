@@ -269,11 +269,17 @@
 	}
 }
 
-- (void)finalize {
+#pragma mark -
+#pragma mark Memory Management
+
+- (void)dealloc {
 	
-	// TODO: Gotta figure out all this memory management crap
-	//git_repository_free(repo);
-	[super finalize];
+	// todo: get our memory interaction with c library functioning
+	git_repository_free(self.repo);
+	self.fileUrl = nil;
+	self.walker = nil;
+	self.index = nil;
+	[super dealloc];
 }
 
 @end

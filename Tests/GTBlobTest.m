@@ -45,12 +45,6 @@
 	sha = @"fa49b077972391ad58037050f2a75f74e3671e92";
 }
 
-- (void)tearDownClass {
-	
-	// make sure our memory mgt is working
-	[[NSGarbageCollector defaultCollector] collectExhaustively];
-}
-
 - (void)testCanReadBlobData {
 	
 	NSError *error = nil;
@@ -78,7 +72,7 @@
 - (void)testCanWriteNewBlobData {
 	
 	NSError *error = nil;
-	GTBlob *blob = [[GTBlob alloc] initInRepo:repo error:&error];
+	GTBlob *blob = [[[GTBlob alloc] initInRepo:repo error:&error] autorelease];
 	GHAssertNil(error, nil);
 	GHAssertNotNil(blob, nil);
 	blob.content = @"a new blob content";
@@ -91,7 +85,6 @@
 
 - (void)testCanGetCompleteContentWithNulls {
 
-	//@"100644 example_helper.rb\x00\xD3\xD5\xED\x9DA4_\xE3\xC3\nK\xCD<!\xEA-_\x9E\xDC=40000 examples\x00\xAE\xCB\xE9d!|\xB9\xA6\x96\x024],U\xEE\x99\xA2\xEE\xD4\x92 ";
 	NSError *error = nil;
 	char bytes[] = "100644 example_helper.rb\00\xD3\xD5\xED\x9D A4_\x00 40000 examples";
 	NSData *content = [NSData dataWithBytes:bytes length:sizeof(bytes)];

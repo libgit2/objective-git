@@ -32,7 +32,7 @@
 @interface GTRawObject : NSObject {}
 
 @property (nonatomic, assign) git_otype type;
-@property (nonatomic, copy) NSData *data;
+@property (nonatomic, retain) NSData *data;
 
 + (id)rawObjectWithType:(git_otype)theType data:(NSData *)theData;
 + (id)rawObjectWithType:(git_otype)theType string:(NSString *)string;

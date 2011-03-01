@@ -97,10 +97,15 @@
 	return (GTCommit *)[GTObject objectInRepo:self.repo withObject:(git_object*)commit];
 }
 
-- (void)finalize {
+#pragma mark -
+#pragma mark Memory Management
+
+- (void)dealloc {
 	
 	git_revwalk_free(self.walk);
-	[super finalize];
+	self.repo = nil;
+	[super dealloc];
 }
+
 
 @end

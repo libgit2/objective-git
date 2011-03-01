@@ -50,7 +50,7 @@ static NSString *TEST_INDEX_PATH = @"file://localhost/Volumes/GitHub/Mac/Objecti
 static inline void rm_loose(NSString *sha){
 	
 	NSError *error;
-	NSFileManager *m = [[NSFileManager alloc] init];
+	NSFileManager *m = [[[NSFileManager alloc] init] autorelease];
 	NSString *objDir = [NSString stringWithFormat:@"objects/%@", [sha substringToIndex:2]];
 	NSURL *basePath = [[NSURL URLWithString:TEST_REPO_PATH] URLByAppendingPathComponent:objDir];
 	NSURL *filePath = [basePath URLByAppendingPathComponent:[sha substringFromIndex:2]];

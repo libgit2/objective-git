@@ -127,4 +127,16 @@
 	return parents;
 }
 
+#pragma mark -
+#pragma mark Memory Management
+
+- (void)dealloc {
+	
+	self.message = nil;
+	self.author = nil;
+	self.commiter = nil;
+	self.tree = nil;
+	[super dealloc];
+}
+
 @end
