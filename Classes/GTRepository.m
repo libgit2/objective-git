@@ -1,0 +1,258 @@
+//
+//  GTRepository.m
+//  ObjectiveGitFramework
+//
+//  Created by Timothy Clem on 2/17/11.
+//  Copyright 2011 GitHub Inc. All rights reserved.
+//
+
+#import "GTRepository.h"
+#import "GTWalker.h"
+#import "GTObject.h"
+#import "GTCommit.h"
+#import "GTRawObject.h"
+#import "NSError+Git.h"
+#import "NSString+Git.h"
+#import "GTIndex.h"
+
+@interface GTRepository ()
+@end
+
+
+@implementation GTRepository
+
+@synthesize repo;
+@synthesize fileUrl;
+@synthesize walker;
+@synthesize index;
+
++ (id)repoByOpeningRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error {
+	return [[[GTRepository alloc]initByOpeningRepositoryInDirectory:localFileUrl error:error] autorelease];
+}
+
++ (id)repoByCreatingRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error {
+	return [[[GTRepository alloc]initByCreatingRepositoryInDirectory:localFileUrl error:error] autorelease];
+}
+
+- (id)initByOpeningRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error {
+	
+	if(self = [super init]){
+		
+		self.fileUrl = localFileUrl;
+		
+		GTLog("Opening repository in directory: %@", localFileUrl);
+		
+		const char *path;
+		if([[localFileUrl path] hasSuffix:@".git"]) {
+			path = [NSString utf8StringForString:[localFileUrl path]];
+		} else {
+			path = [NSString utf8StringForString:[NSString stringWithFormat:@"%@/.git", [localFileUrl path]]];
+		}
+		
+		git_repository *r;
+		int gitError = git_repository_open(&r, path);
+		if(gitError != GIT_SUCCESS) {
+			if(error != NULL)
+				*error = [NSError gitErrorForOpenRepository:gitError];
+			return nil;
+		}
+		self.repo = r;
+		
+		self.walker = [[[GTWalker alloc] initWithRepository:self error:error] autorelease];
+		if(self.walker == nil) return nil;
+	}
+	return self;
+}
+
+- (id)initByCreatingRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error {
+	
+	if(self = [super init]){
+		
+		self.fileUrl = localFileUrl;
+		
+		GTLog("Creating repository in directory: %@", localFileUrl);
+		
+		git_repository *r;
+		const char * path = [NSString utf8StringForString:[localFileUrl path]];
+		int gitError = git_repository_init(&r, path, 0);
+		if(gitError != GIT_SUCCESS) {
+			if(error != NULL)
+				*error = [NSError gitErrorForInitRepository:gitError];
+			return nil;
+		} 
+		self.repo = r;
+		
+		self.walker = [[[GTWalker alloc] initWithRepository:self error:error] autorelease];
+		if(self.walker == nil) return nil;
+	}
+	return self;
+}
+
+#pragma mark -
+#pragma mark API 
+
++ (void)mapRawObject:(GTRawObject *)rawObj toObject:(git_rawobj *)obj {
+	
+	obj->type = rawObj.type;
+	obj->len = 0;
+	obj->data = NULL;
+	if (rawObj.data != nil) {
+		obj->len = [rawObj.data length];
+		obj->data = malloc(obj->len);
+		memcpy(obj->data, [rawObj.data bytes], obj->len);
+	}
+}
+
++ (NSString *)shaForOid:(git_oid)oid {
+	
+	char hex[41];
+	git_oid_fmt(hex, &oid);
+	hex[40] = 0;
+	return [NSString stringWithCString:hex encoding:NSUTF8StringEncoding];	
+}
+
++ (NSString *)hash:(GTRawObject *)rawObj error:(NSError **)error {
+	
+	git_rawobj obj;
+	git_oid oid;
+	
+	[GTRepository mapRawObject:rawObj toObject:&obj];
+	
+	int gitError = git_rawobj_hash(&oid, &obj);
+	if(gitError != GIT_SUCCESS){
+		if (error != NULL)
+			*error = [NSError gitErrorForHashObject:gitError];
+		return nil;
+	}
+	
+	return [GTRepository shaForOid:oid];
+}
+
+#pragma mark -
+#pragma mark Properties
+
+- (GTObject *)lookup:(NSString *)sha error:(NSError **)error {
+	
+	git_otype type = GIT_OBJ_ANY;
+	git_oid oid;
+	git_object *obj;
+	
+	git_oid_mkstr(&oid, [NSString utf8StringForString:sha]);
+	int gitError = git_repository_lookup(&obj, self.repo, &oid, type);
+	if(gitError != GIT_SUCCESS){
+		if(error != NULL)
+			*error = [NSError gitErrorForLookupSha:gitError];
+		return nil;
+	}
+	
+	return [GTObject objectInRepo:self withObject:obj];
+}
+- (BOOL)exists:(NSString *)sha {
+	return [self hasObject:sha];
+}
+- (BOOL)hasObject:(NSString *)sha {
+	
+	git_odb *odb;
+	git_oid oid;
+	
+	odb = git_repository_database(self.repo);
+	git_oid_mkstr(&oid, [NSString utf8StringForString:sha]);
+	
+	return git_odb_exists(odb, &oid) ? YES : NO;
+}
+
+- (GTRawObject *)newRawObject:(const git_rawobj *)obj {
+	
+	return [[GTRawObject rawObjectWithType:obj->type data:[NSData dataWithBytes:obj->data length:obj->len]] autorelease];
+}
+
+- (GTRawObject *)rawRead:(const git_oid *)oid error:(NSError **)error {
+	
+	git_odb *odb;
+	git_rawobj obj;
+	
+	odb = git_repository_database(self.repo);
+	int gitError = git_odb_read(&obj, odb, oid);
+	if(gitError != GIT_SUCCESS) {
+		if(error != NULL)
+			*error = [NSError gitErrorForRawRead:gitError];
+		return nil;
+	}
+	
+	GTRawObject *rawObj = [self newRawObject:&obj];
+	git_rawobj_close(&obj);
+	
+	return rawObj;
+}
+
+- (GTRawObject *)read:(NSString *)sha error:(NSError **)error {
+	
+	git_oid oid;
+	int gitError = git_oid_mkstr(&oid, [NSString utf8StringForString:sha]);
+	if(gitError != GIT_SUCCESS) {
+		if (error != NULL)
+			*error = [NSError gitErrorForMkStr:gitError];
+		return nil;
+	}
+	return [self rawRead:&oid error:error];
+}
+
+- (NSString *)write:(GTRawObject *)rawObj error:(NSError **)error {
+	
+	git_odb *odb;
+	git_rawobj obj;
+	git_oid oid;
+	
+	odb = git_repository_database(self.repo);
+	
+	[GTRepository mapRawObject:rawObj toObject:&obj];
+	int gitError = git_odb_write(&oid, odb, &obj);
+	git_rawobj_close(&obj);
+	if(gitError != GIT_SUCCESS) {
+		if(error != NULL)
+			*error = [NSError gitErrorForWriteObjectToDb:gitError];
+		return nil;
+	}
+	
+	return [GTRepository shaForOid:oid];
+}
+
+- (void)walk:(NSString *)sha sorting:(unsigned int)sortMode error:(NSError **)error block:(void (^)(GTCommit *commit))block {
+	
+	if(block == nil)return;
+
+	[self.walker sorting:sortMode];
+	[self.walker push:sha error:error];
+	
+	GTCommit *commit = nil;
+	while((commit = [self.walker next]) != nil){
+		block(commit);
+	}
+}
+
+- (void)walk:(NSString *)sha error:(NSError **)error block:(void (^)(GTCommit *commit))block {
+	
+	[self walk:sha sorting:GIT_SORT_TIME  error:error block:block];
+}
+
+- (void)setupIndexAndReturnError:(NSError **)error {
+	
+	git_index *i;
+	int gitError = git_repository_index(&i, self.repo);
+	if(gitError != GIT_SUCCESS) {
+		if(error != NULL)
+			*error = [NSError gitErrorForInitRepoIndex:gitError];
+	}
+	else {
+		self.index = [[GTIndex indexWithIndex:i] autorelease];
+	}
+}
+
+- (void)finalize {
+	
+	// TODO: Gotta figure out all this memory management crap
+	//git_repository_free(repo);
+	[super finalize];
+}
+
+@end

@@ -1,0 +1,9 @@
+//
+// Prefix header for all source files of the 'ObjectiveGitFramework' target in the 'ObjectiveGitFramework' project.
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif
+
+#define GTLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
