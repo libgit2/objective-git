@@ -165,13 +165,7 @@
 }
 - (void)setStage:(NSUInteger)theStage {
 	
-	if(theStage < 0 || theStage > 3){
-		return;
-// hate that I have to mess up the properties to return an error
-// just don't set the stage if a bad value is passed in.
-//		if(error != NULL)
-//			*error = [NSError gitErrorForIndexStageValue];
-	}
+	NSParameterAssert(theStage >= 0 && theStage <= 3);
 	
 	self.entry->flags &= ~GIT_IDXENTRY_STAGEMASK;
 	self.entry->flags |= (theStage << GIT_IDXENTRY_STAGESHIFT);
