@@ -75,10 +75,11 @@ static NSString *NewRepoPath = @"file://localhost/Users/tclem/github/local/unit_
 
 - (void)testCanTellIfAnObjectExists {
 	
-	GHAssertTrue([repo hasObject:@"8496071c1b46c854b31185ea97743be6a8774479"], nil);
-	GHAssertTrue([repo hasObject:@"1385f264afb75a56a5bec74243be9b367ba4ca08"], nil);
-	GHAssertFalse([repo hasObject:@"ce08fe4884650f067bd5703b6a59a8b3b3c99a09"], nil);
-	GHAssertFalse([repo hasObject:@"8496071c1c46c854b31185ea97743be6a8774479"], nil);
+	NSError *error = nil;
+	GHAssertTrue([repo hasObject:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error], nil);
+	GHAssertTrue([repo hasObject:@"1385f264afb75a56a5bec74243be9b367ba4ca08" error:&error], nil);
+	GHAssertFalse([repo hasObject:@"ce08fe4884650f067bd5703b6a59a8b3b3c99a09" error:&error], nil);
+	GHAssertFalse([repo hasObject:@"8496071c1c46c854b31185ea97743be6a8774479" error:&error], nil);
 }
 
 - (void)testCanReadObjectFromDb {
@@ -118,7 +119,7 @@ static NSString *NewRepoPath = @"file://localhost/Users/tclem/github/local/unit_
 	GHAssertNil(error, nil);
 	GHAssertNotNil(sha, nil);
 	GHAssertEqualStrings(sha, @"76b1b55ab653581d6f2c7230d34098e837197674", nil);
-	GHAssertTrue([repo exists:sha], nil);
+	GHAssertTrue([repo exists:sha error:&error], nil);
 	
 	rm_loose(sha);
 }

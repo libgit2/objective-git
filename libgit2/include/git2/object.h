@@ -39,6 +39,49 @@
 GIT_BEGIN_DECL
 
 /**
+ * Lookup a reference to one of the objects in a repostory.
+ *
+ * The generated reference is owned by the repository and
+ * should not be freed by the user.
+ *
+ * The 'type' parameter must match the type of the object
+ * in the odb; the method will fail otherwise.
+ * The special value 'GIT_OBJ_ANY' may be passed to let
+ * the method guess the object's type.
+ *
+ * @param object pointer to the looked-up object
+ * @param repo the repository to look up the object
+ * @param id the unique identifier for the object
+ * @param type the type of the object
+ * @return a reference to the object
+ */
+GIT_EXTERN(int) git_object_lookup(git_object **object, git_repository *repo, const git_oid *id, git_otype type);
+
+/**
+ * Create a new in-memory repository object with
+ * the given type.
+ *
+ * The object's attributes can be filled in using the
+ * corresponding setter methods.
+ *
+ * The object will be written back to given git_repository
+ * when the git_object_write() function is called; objects
+ * cannot be written to disk until all their main
+ * attributes have been properly filled.
+ *
+ * Objects are instantiated with no SHA1 id; their id
+ * will be automatically generated when writing to the
+ * repository.
+ *
+ * @param object pointer to the new object
+ * @parem repo Repository where the object belongs
+ * @param type Type of the object to be created
+ * @return the new object
+ */
+GIT_EXTERN(int) git_object_new(git_object **object, git_repository *repo, git_otype type);
+
+
+/**
  * Write back an object to disk.
  *
  * The object will be written to its corresponding
@@ -66,7 +109,7 @@ GIT_EXTERN(int) git_object_write(git_object *object);
  * @param obj the repository object
  * @return the SHA1 id
  */
-GIT_EXTERN(const git_oid *) git_object_id(git_object *obj);
+GIT_EXTERN(const git_oid *) git_object_id(const git_object *obj);
 
 /**
  * Get the object type of an object
@@ -74,7 +117,7 @@ GIT_EXTERN(const git_oid *) git_object_id(git_object *obj);
  * @param obj the repository object
  * @return the object's type
  */
-GIT_EXTERN(git_otype) git_object_type(git_object *obj);
+GIT_EXTERN(git_otype) git_object_type(const git_object *obj);
 
 /**
  * Get the repository that owns this object
@@ -82,21 +125,30 @@ GIT_EXTERN(git_otype) git_object_type(git_object *obj);
  * @param obj the object
  * @return the repository who owns this object
  */
-GIT_EXTERN(git_repository *) git_object_owner(git_object *obj);
+GIT_EXTERN(git_repository *) git_object_owner(const git_object *obj);
 
 /**
- * Free a reference to one of the objects in the repository.
+ * Close an open object
  *
- * Repository objects are managed automatically by the library,
- * but this method can be used to force freeing one of the
- * objects.
+ * This method instructs the library to close an existing
+ * object; note that git_objects are owned by the repository
+ * and are reference counted, so the object may or may not be
+ * freed after this library call, depending on whether any other 
+ * objects still depend on it.
  *
- * Careful: freeing objects in the middle of a repository
- * traversal will most likely cause errors.
+ * IMPORTANT:
+ * It is *not* necessary to call this method when you stop using
+ * an object, since all object memory is automatically reclaimed
+ * by the repository when it is freed.
  *
- * @param object the object to free
+ * Forgetting to call `git_object_close` does not cause memory
+ * leaks, but it's is recommended to close as soon as possible
+ * the biggest objects (e.g. blobs) to prevent wasting memory
+ * space.
+ *
+ * @param object the object to close
  */
-GIT_EXTERN(void) git_object_free(git_object *object);
+GIT_EXTERN(void) git_object_close(git_object *object);
 
 /**
  * Convert an object type to it's string representation.

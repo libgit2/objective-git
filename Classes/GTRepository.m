@@ -32,9 +32,11 @@
 #import "GTObject.h"
 #import "GTCommit.h"
 #import "GTRawObject.h"
+#import "GTLib.h"
+#import "GTIndex.h"
 #import "NSError+Git.h"
 #import "NSString+Git.h"
-#import "GTIndex.h"
+
 
 @interface GTRepository ()
 @end
@@ -124,14 +126,6 @@
 	}
 }
 
-+ (NSString *)shaForOid:(git_oid)oid {
-	
-	char hex[41];
-	git_oid_fmt(hex, &oid);
-	hex[40] = 0;
-	return [NSString stringWithCString:hex encoding:NSUTF8StringEncoding];	
-}
-
 + (NSString *)hash:(GTRawObject *)rawObj error:(NSError **)error {
 	
 	git_rawobj obj;
@@ -146,7 +140,7 @@
 		return nil;
 	}
 	
-	return [GTRepository shaForOid:oid];
+	return [GTLib hexFromOid:&oid];
 }
 
 #pragma mark -
@@ -158,8 +152,15 @@
 	git_oid oid;
 	git_object *obj;
 	
-	git_oid_mkstr(&oid, [NSString utf8StringForString:sha]);
-	int gitError = git_repository_lookup(&obj, self.repo, &oid, type);
+	int gitError = git_oid_mkstr(&oid, [NSString utf8StringForString:sha]);
+	if(gitError != GIT_SUCCESS){
+		if(error != NULL)
+			*error = [NSError gitErrorForMkStr:gitError];
+		return nil;
+	}
+	
+	gitError = git_object_lookup(&obj, self.repo, &oid, type);
+	//int gitError = git_repository_lookup(&obj, self.repo, &oid, type);
 	if(gitError != GIT_SUCCESS){
 		if(error != NULL)
 			*error = [NSError gitErrorForLookupSha:gitError];
@@ -168,16 +169,21 @@
 	
 	return [GTObject objectInRepo:self withObject:obj];
 }
-- (BOOL)exists:(NSString *)sha {
-	return [self hasObject:sha];
+- (BOOL)exists:(NSString *)sha error:(NSError **)error {
+	return [self hasObject:sha error:error];
 }
-- (BOOL)hasObject:(NSString *)sha {
+- (BOOL)hasObject:(NSString *)sha error:(NSError **)error{
 	
 	git_odb *odb;
 	git_oid oid;
 	
 	odb = git_repository_database(self.repo);
-	git_oid_mkstr(&oid, [NSString utf8StringForString:sha]);
+	int gitError = git_oid_mkstr(&oid, [NSString utf8StringForString:sha]);
+	if(gitError != GIT_SUCCESS){
+		if(error != NULL)
+			*error = [NSError gitErrorForMkStr:gitError];
+		return NO;
+	}
 	
 	return git_odb_exists(odb, &oid) ? YES : NO;
 }
@@ -235,7 +241,7 @@
 		return nil;
 	}
 	
-	return [GTRepository shaForOid:oid];
+	return [GTLib hexFromOid:&oid];
 }
 
 - (void)walk:(NSString *)sha sorting:(unsigned int)sortMode error:(NSError **)error block:(void (^)(GTCommit *commit))block {

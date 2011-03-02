@@ -48,8 +48,8 @@
 - (id)initByCreatingRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error;
 + (NSString *)hash:(GTRawObject *)rawObj error:(NSError **)error;
 - (GTObject *)lookup:(NSString *)sha error:(NSError **)error;
-- (BOOL)exists:(NSString *)sha;
-- (BOOL)hasObject:(NSString *)sha;
+- (BOOL)exists:(NSString *)sha error:(NSError **)error;
+- (BOOL)hasObject:(NSString *)sha error:(NSError **)error;
 - (GTRawObject *)rawRead:(const git_oid *)oid error:(NSError **)error;
 - (GTRawObject *)read:(NSString *)sha error:(NSError **)error;
 - (NSString *)write:(GTRawObject *)rawObj error:(NSError **)error;

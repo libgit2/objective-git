@@ -30,14 +30,20 @@
 #import <git2.h>
 #import "GTLib.h"
 #import "NSString+Git.h"
+#import "NSError+Git.h"
 
 
 @implementation GTLib
 
-+ (NSData *)hexToRaw:(NSString *)hex {
++ (NSData *)hexToRaw:(NSString *)hex error:(NSError **)error {
 
 	git_oid oid;
-	git_oid_mkstr(&oid, [NSString utf8StringForString:hex]);
+	int gitError = git_oid_mkstr(&oid, [NSString utf8StringForString:hex]);
+	if(gitError != GIT_SUCCESS){
+		if(error != NULL)
+			*error = [NSError gitErrorForMkStr:gitError];
+		return nil;
+	}
 
 	return [NSData dataWithBytes:oid.id length:20];
 }
@@ -45,12 +51,16 @@
 + (NSString *)rawToHex:(NSData *)raw {
 	
 	git_oid oid;
-	char hex[41];
 	
 	git_oid_mkraw(&oid, [raw bytes]);
-	git_oid_fmt(hex, &oid);
-	hex[40] = 0;
+	return [GTLib hexFromOid:&oid];
+}
+
++ (NSString *)hexFromOid:(git_oid const *)oid {
 	
+	char hex[41];
+	git_oid_fmt(hex, oid);
+	hex[40] = 0;
 	return [NSString stringForUTF8String:hex];
 }
 

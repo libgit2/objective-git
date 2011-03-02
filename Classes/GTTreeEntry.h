@@ -37,9 +37,10 @@
 @property (nonatomic, assign) git_tree_entry *entry;
 @property (nonatomic, assign) NSString *name;
 @property (nonatomic, assign) NSInteger attributes;
-@property (nonatomic, assign) NSString *sha;
 @property (nonatomic, assign) GTTree *tree;
 
 - (GTObject *)toObjectAndReturnError:(NSError **)error;
+- (NSString *)sha;
+- (void)setSha:(NSString *)newSha error:(NSError **)error;
 
 @end

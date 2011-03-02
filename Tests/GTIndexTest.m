@@ -83,10 +83,11 @@
 
 - (GTIndexEntry *)createNewIndexEntry {
 	
+	NSError *error = nil;
 	NSDate *now = [NSDate date];
 	GTIndexEntry *e = [[[GTIndexEntry alloc] init] autorelease];
 	e.path = @"new_path";
-	e.sha = @"d385f264afb75a56a5bec74243be9b367ba4ca08";
+	[e setSha:@"d385f264afb75a56a5bec74243be9b367ba4ca08" error:&error];
 	e.mTime = now;
 	e.cTime = now;
 	e.fileSize = 1000;
@@ -117,11 +118,12 @@
 
 - (void)testCanUpdateEntries {
 	
+	NSError *error = nil;
 	NSDate *now = [NSDate date];
 	GTIndexEntry *e = [index getEntryAtIndex:0];
 	
 	e.path = @"new_path";
-	e.sha = @"12ea3153a78002a988bb92f4123e7e831fd1138a";
+	[e setSha:@"12ea3153a78002a988bb92f4123e7e831fd1138a" error:&error];
 	e.mTime = now;
 	e.cTime = now;
 	e.fileSize = 1000;
@@ -219,6 +221,7 @@
 	
 	// open the repo and write to the index
 	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:repoPath error:&error];
+	if(error != nil) GHTestLog(@"error = %@", [error localizedDescription]);
 	GHAssertNil(error, nil);
 	[repo setupIndexAndReturnError:&error];
 	GHAssertNil(error, nil);

@@ -30,7 +30,8 @@
 
 @interface GTLib : NSObject {}
 
-+ (NSData *)hexToRaw:(NSString *)hex;
++ (NSData *)hexToRaw:(NSString *)hex error:(NSError **)error;
 + (NSString *)rawToHex:(NSData *)raw;
++ (NSString *)hexFromOid:(git_oid const *)oid;
 
 @end

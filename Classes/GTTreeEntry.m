@@ -30,6 +30,7 @@
 #import "GTTreeEntry.h"
 #import "GTObject.h"
 #import "GTTree.h"
+#import "GTLib.h"
 #import "NSString+Git.h"
 #import "NSError+Git.h"
 
@@ -38,7 +39,6 @@
 @synthesize entry;
 @synthesize name;
 @synthesize attributes;
-@synthesize sha;
 @synthesize tree;
 
 - (NSString *)name {
@@ -61,18 +61,20 @@
 
 - (NSString *)sha {
 	
-	char hex[41];
-	git_oid_fmt(hex, git_tree_entry_id(self.entry));
-	hex[40] = 0;
-	return [NSString stringForUTF8String:hex];
+	return [GTLib hexFromOid:git_tree_entry_id(self.entry)];
 }
-- (void)setSha:(NSString *)s {
+- (void)setSha:(NSString *)newSha error:(NSError **)error {
 	
 	git_oid oid;
-	int gitError = git_oid_mkstr(&oid, [NSString utf8StringForString:s]);
-	if(gitError == GIT_SUCCESS){
-		git_tree_entry_set_id(self.entry, &oid);
+	
+	int gitError = git_oid_mkstr(&oid, [NSString utf8StringForString:newSha]);
+	if(gitError != GIT_SUCCESS){
+		if(error != NULL)
+			*error = [NSError gitErrorForMkStr:gitError];
+		return;
 	}
+
+	git_tree_entry_set_id(self.entry, &oid);
 }
 
 - (GTObject *)toObjectAndReturnError:(NSError **)error {
@@ -96,7 +98,6 @@
 	// All these properties pass through to underlying C object
 	// there is nothing to release here
 	//self.name = nil;
-	//self.sha = nil;
 	
 	self.tree = nil;
 	[super dealloc];

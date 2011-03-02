@@ -196,4 +196,49 @@ static NSString * const GTGitErrorDomain = @"GTGitErrorDomain";
 										forKey:NSLocalizedDescriptionKey]];	
 }
 
++ (NSError *)gitErrorForLookupRef: (int)code {
+	
+	return [NSError errorWithDomain:GTGitErrorDomain
+							   code:code
+						   userInfo:
+			[NSDictionary dictionaryWithObject:@"Failed to lookup reference"
+										forKey:NSLocalizedDescriptionKey]];	
+}
+
++ (NSError *)gitErrorForCreateRef: (int)code {
+	
+	return [NSError errorWithDomain:GTGitErrorDomain
+							   code:code
+						   userInfo:
+			[NSDictionary dictionaryWithObject:@"Failed to create symbolic reference"
+										forKey:NSLocalizedDescriptionKey]];	
+}
+
++ (NSError *)gitErrorForSetRefTarget: (int)code {
+	
+	return [NSError errorWithDomain:GTGitErrorDomain
+							   code:code
+						   userInfo:
+			[NSDictionary dictionaryWithObject:@"Failed to set reference target"
+										forKey:NSLocalizedDescriptionKey]];	
+}
+
++ (NSError *)gitErrorForPackAllRefs: (int)code {
+	
+	return [NSError errorWithDomain:GTGitErrorDomain
+							   code:code
+						   userInfo:
+			[NSDictionary dictionaryWithObject:@"Failed to pack all references in repo"
+										forKey:NSLocalizedDescriptionKey]];	
+}
+
++ (NSError *)gitErrorForDeleteRef: (int)code {
+	
+	return [NSError errorWithDomain:GTGitErrorDomain
+							   code:code
+						   userInfo:
+			[NSDictionary dictionaryWithObject:@"Failed to delete reference"
+										forKey:NSLocalizedDescriptionKey]];	
+}
+
 @end

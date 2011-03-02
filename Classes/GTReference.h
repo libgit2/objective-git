@@ -1,12 +1,8 @@
 //
-//  GTLibTest.m
+//  GTReference.h
 //  ObjectiveGitFramework
 //
-//  Created by Timothy Clem on 2/22/11.
-//
-//  The MIT License
-//
-//  Copyright (c) 2011 Tim Clem
+//  Created by Timothy Clem on 3/2/11.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -27,33 +23,24 @@
 //  THE SOFTWARE.
 //
 
-#import "Contants.h"
-#import "NSData+Base64.h"
+#import <git2.h>
 
+@class GTRepository;
 
-@interface GTLibTest : GHTestCase {}
-@end
+@interface GTReference : NSObject {}
 
+@property (nonatomic, assign) git_reference *ref;
+@property (nonatomic, assign) GTRepository *repo;
+@property (nonatomic, assign) NSString *name;
+@property (nonatomic, assign, readonly) NSString *type;
 
-@implementation GTLibTest
++ (id)referenceByLookingUpRef:(NSString *)refName inRepo:(GTRepository *)theRepo error:(NSError **)error;
++ (id)referenceByCreatingRef:(NSString *)refName fromRef:(NSString *)target inRepo:(GTRepository *)theRepo error:(NSError **)error;
+- (id)initByLookingUpRef:(NSString *)refName inRepo:(GTRepository *)theRepo error:(NSError **)error;
+- (id)initByCreatingRef:(NSString *)refName fromRef:(NSString *)target inRepo:(GTRepository *)theRepo error:(NSError **)error;
 
-- (void)testCanConvertHexToRaw {
-	
-	NSError *error = nil;
-	NSData *raw = [GTLib hexToRaw:@"ce08fe4884650f067bd5703b6a59a8b3b3c99a09" error:&error];
-	GHAssertNil(error, nil);
-	
-	NSString *b64raw = [raw base64EncodedString];
-	GHAssertEqualStrings(@"zgj+SIRlDwZ71XA7almos7PJmgk=", b64raw, nil);
-}
-
-- (void)testCanConvertRawToHex {
-	
-	NSString *rawb64 = @"FqASNFZ4mrze9Ld1ITwjqL109eA=";
-	NSData *raw = [NSData dataFromBase64String:rawb64];
-	NSString *hex = [GTLib rawToHex:raw];
-	
-	GHAssertEqualStrings(hex, @"16a0123456789abcdef4b775213c23a8bd74f5e0", nil);
-}
+- (NSString *)target;
+- (void)setTarget:(NSString *)newTarget error:(NSError **)error;
+- (void)packAllAndReturnError:(NSError **)error;
 
 @end

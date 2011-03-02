@@ -50,5 +50,10 @@
 + (NSError *)gitErrorForIndexStageValue;
 + (NSError *)gitErrorForAddEntryToIndex: (int)code;
 + (NSError *)gitErrorForWriteIndex: (int)code;
++ (NSError *)gitErrorForLookupRef: (int)code;
++ (NSError *)gitErrorForCreateRef: (int)code;
++ (NSError *)gitErrorForSetRefTarget: (int)code;
++ (NSError *)gitErrorForPackAllRefs: (int)code;
++ (NSError *)gitErrorForDeleteRef: (int)code;
 
 @end

@@ -45,8 +45,9 @@
 
 - (void)testCanTellIfPackedObjectExists {
 	
-	GHAssertTrue([repo exists:@"41bc8c69075bbdb46c5c6f0566cc8cc5b46e8bd9"], nil);
-	GHAssertTrue([repo exists:@"f82a8eb4cb20e88d1030fd10d89286215a715396"], nil);
+	NSError *error = nil;
+	GHAssertTrue([repo exists:@"41bc8c69075bbdb46c5c6f0566cc8cc5b46e8bd9" error:&error], nil);
+	GHAssertTrue([repo exists:@"f82a8eb4cb20e88d1030fd10d89286215a715396" error:&error], nil);
 }
 
 - (void)testCanReadAPackedObjectFromDb {

@@ -30,6 +30,7 @@
 #import "GTObject.h"
 #import "GTCommit.h"
 #import "GTRawObject.h"
+#import "GTLib.h"
 #import "NSError+Git.h"
 #import "NSString+Git.h"
 
@@ -83,7 +84,8 @@ static NSString * const GTTagClassName = @"GTTag";
 + (git_object *)getNewObjectInRepo:(git_repository *)r type:(git_otype)theType error:(NSError **)error {
 	
 	git_object *obj;
-	int gitError = git_repository_newobject(&obj, r, theType);
+	int gitError = git_object_new(&obj, r, theType);
+	//int gitError = git_repository_newobject(&obj, r, theType);
 	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError gitErrorForNewObject:gitError];
@@ -96,8 +98,16 @@ static NSString * const GTTagClassName = @"GTTag";
 	
 	git_object *obj = NULL;
 	git_oid oid;
-	git_oid_mkstr(&oid, [NSString utf8StringForString:sha]);
-	int gitError = git_repository_lookup(&obj, r, &oid, theType);
+	
+	int gitError = git_oid_mkstr(&oid, [NSString utf8StringForString:sha]);
+	if(gitError != GIT_SUCCESS){
+		if(error != NULL)
+			*error = [NSError gitErrorForMkStr:gitError];
+		return nil;
+	}
+	
+	gitError = git_object_lookup(&obj, r, &oid, theType);
+	//int gitError = git_repository_lookup(&obj, r, &oid, theType);
 	if(gitError != GIT_SUCCESS){
 		if(error != NULL)
 			*error = [NSError gitErrorForLookupSha:gitError];
@@ -114,10 +124,7 @@ static NSString * const GTTagClassName = @"GTTag";
 
 - (NSString *)sha {
 	
-	char hex[41];
-	git_oid_fmt(hex, git_object_id(self.object));
-	hex[40] = 0;
-	return [NSString stringForUTF8String:hex];
+	return [GTLib hexFromOid:git_object_id(self.object)];
 }
 
 - (NSString *)writeAndReturnError:(NSError **)error {

@@ -28,6 +28,7 @@
 //
 
 #import "GTIndexEntry.h"
+#import "GTLib.h"
 #import "NSString+Git.h"
 #import "NSError+Git.h"
 
@@ -35,7 +36,6 @@
 
 @synthesize entry;
 @synthesize path;
-@synthesize sha;
 @synthesize mTime;
 @synthesize cTime;
 @synthesize fileSize;
@@ -86,21 +86,15 @@
 
 - (NSString *)sha {
 	
-	char hex[41];
-	git_oid_fmt(hex, &entry->oid);
-	hex[40] = 0;
-	return [NSString stringForUTF8String:hex];
+	return [GTLib hexFromOid:&entry->oid];
 }
-- (void)setSha:(NSString *)theSha{
+- (void)setSha:(NSString *)theSha error:(NSError **)error {
 
-	git_oid_mkstr(&entry->oid, [NSString utf8StringForString:theSha]);
-
-// I hate that we allways have to have NSError ** for crap like this
-// there has got to be a better way.
-//	if(gitError != GIT_SUCCESS){
-//		if(error != NULL)
-//			*error = [NSError gitErrorForMkStr:gitError];
-//	}
+	int gitError = git_oid_mkstr(&entry->oid, [NSString utf8StringForString:theSha]);
+	if(gitError != GIT_SUCCESS){
+		if(error != NULL)
+			*error = [NSError gitErrorForMkStr:gitError];
+	}
 }
 
 - (NSDate *)mTime {

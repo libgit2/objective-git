@@ -34,7 +34,6 @@
 
 @property (nonatomic, assign) git_index_entry *entry;
 @property (nonatomic, assign) NSString *path;
-@property (nonatomic, assign) NSString *sha;
 @property (nonatomic, assign) NSDate *mTime;
 @property (nonatomic, assign) NSDate *cTime;
 @property (nonatomic, assign) long long fileSize;
@@ -49,5 +48,8 @@
 
 + (id)indexEntryWithEntry:(git_index_entry *)theEntry;
 - (id)initWithEntry:(git_index_entry *)theEntry;
+
+- (NSString *)sha;
+- (void)setSha:(NSString *)theSha error:(NSError **)error;
 
 @end
