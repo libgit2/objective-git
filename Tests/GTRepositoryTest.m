@@ -126,7 +126,9 @@ static NSString *NewRepoPath = @"file://localhost/Users/tclem/github/local/unit_
 - (void)testCanWalk {
 	
 	NSError *error = nil;
-	GTRepository *aRepo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH] error:&error];
+	// alloc and init to verify memory management
+	GTRepository *aRepo = [[GTRepository alloc] initByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH] error:&error];
+	GHTestLog(@"%d", [aRepo retainCount]);
 	NSString *sha = @"a4a7dce85cf63874e984719f4fdd239f5145052f";
 	__block NSMutableArray *commits = [[[NSMutableArray alloc] init] autorelease];
 	[aRepo walk:sha 
@@ -148,6 +150,9 @@ static NSString *NewRepoPath = @"file://localhost/Users/tclem/github/local/unit_
 		GTCommit *commit = [commits objectAtIndex:i];
 		GHAssertEqualStrings([commit.sha substringToIndex:5], [expectedShas objectAtIndex:i], nil);
 	}
+	
+	GHAssertEquals(1, (int)[aRepo retainCount], nil);
+	[aRepo release];
 }
 
 @end

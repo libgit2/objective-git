@@ -31,6 +31,7 @@
 #import "NSString+Git.h"
 #import "GTSignature.h"
 
+
 @implementation GTTag
 
 @synthesize tag;
@@ -91,11 +92,13 @@
 
 - (void)dealloc {
 	
-	self.message = nil;
-	self.name = nil;
-	self.target = nil;
-	self.targetType = nil;
-	self.tagger = nil;
+	// All these properties pass through to underlying C object
+	// there is nothing to release here
+	//self.message = nil;
+	//self.name = nil;
+	//self.target = nil;
+	//self.targetType = nil;
+	//self.tagger = nil;
 	[super dealloc];
 }
 

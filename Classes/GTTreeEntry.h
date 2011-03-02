@@ -35,10 +35,10 @@
 @interface GTTreeEntry : NSObject {}
 
 @property (nonatomic, assign) git_tree_entry *entry;
-@property (nonatomic, copy) NSString *name;
-@property (nonatomic) NSInteger attributes;
-@property (nonatomic, copy) NSString *sha;
-@property (nonatomic, retain) GTTree *tree;
+@property (nonatomic, assign) NSString *name;
+@property (nonatomic, assign) NSInteger attributes;
+@property (nonatomic, assign) NSString *sha;
+@property (nonatomic, assign) GTTree *tree;
 
 - (GTObject *)toObjectAndReturnError:(NSError **)error;
 

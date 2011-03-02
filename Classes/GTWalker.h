@@ -35,7 +35,7 @@
 
 @interface GTWalker : NSObject {}
 
-@property (nonatomic, retain) GTRepository *repo;
+@property (nonatomic, assign) GTRepository *repo;
 
 - (id)initWithRepository:(GTRepository *)theRepo error:(NSError **)error;
 - (void)push:(NSString *)sha error:(NSError **)error;

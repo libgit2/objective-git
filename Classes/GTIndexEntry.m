@@ -81,7 +81,7 @@
 	if(self.entry->path != NULL)
 		free(self.entry->path);
 	
-	entry->path = (char *)[NSString utf8StringForString:thePath];
+	entry->path = strdup([NSString utf8StringForString:thePath]);
 }
 
 - (NSString *)sha {
@@ -167,6 +167,8 @@
 	
 	if(theStage < 0 || theStage > 3){
 		return;
+// hate that I have to mess up the properties to return an error
+// just don't set the stage if a bad value is passed in.
 //		if(error != NULL)
 //			*error = [NSError gitErrorForIndexStageValue];
 	}
@@ -179,11 +181,16 @@
 #pragma mark Memory Management
 
 - (void)dealloc {
+
+	// todo: do we free here?
+	// free(self.entry);
 	
-	self.path = nil;
-	self.sha = nil;
-	self.mTime = nil;
-	self.cTime = nil;
+	// All these properties pass through to underlying C object
+	// there is nothing to release here
+	//self.path = nil;
+	//self.sha = nil;
+	//self.mTime = nil;
+	//self.cTime = nil;
 	[super dealloc];
 }
 

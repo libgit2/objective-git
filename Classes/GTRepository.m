@@ -184,7 +184,7 @@
 
 - (GTRawObject *)newRawObject:(const git_rawobj *)obj {
 	
-	return [[GTRawObject rawObjectWithType:obj->type data:[NSData dataWithBytes:obj->data length:obj->len]] autorelease];
+	return [GTRawObject rawObjectWithType:obj->type data:[NSData dataWithBytes:obj->data length:obj->len]];
 }
 
 - (GTRawObject *)rawRead:(const git_oid *)oid error:(NSError **)error {
@@ -265,7 +265,7 @@
 			*error = [NSError gitErrorForInitRepoIndex:gitError];
 	}
 	else {
-		self.index = [[GTIndex indexWithIndex:i] autorelease];
+		self.index = [GTIndex indexWithIndex:i];
 	}
 }
 
@@ -274,9 +274,9 @@
 
 - (void)dealloc {
 	
-	// todo: get our memory interaction with c library functioning
 	git_repository_free(self.repo);
 	self.fileUrl = nil;
+	self.walker.repo = nil;
 	self.walker = nil;
 	self.index = nil;
 	[super dealloc];

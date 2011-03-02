@@ -32,15 +32,13 @@
 
 @class GTSignature;
 
-@interface GTTag : GTObject {
-
-}
+@interface GTTag : GTObject {}
 
 @property (nonatomic, assign) git_tag *tag;
-@property (nonatomic, copy) NSString *message;
-@property (nonatomic, copy) NSString *name;
-@property (nonatomic, retain) GTObject *target;
-@property (nonatomic, copy) NSString *targetType;
-@property (nonatomic, retain) GTSignature *tagger;
+@property (nonatomic, assign) NSString *message;
+@property (nonatomic, assign) NSString *name;
+@property (nonatomic, assign) GTObject *target;
+@property (nonatomic, assign, readonly) NSString *targetType;
+@property (nonatomic, assign) GTSignature *tagger;
 
 @end

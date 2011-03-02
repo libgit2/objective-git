@@ -38,9 +38,9 @@
 @synthesize time;
 
 + (id)signatureWithSignature:(git_signature *)theSignature {
+	
 	return [[[GTSignature alloc] initWithSignature:theSignature] autorelease];
 }
-
 - (id)initWithSignature:(git_signature *)theSignature {
 	
 	if(self = [self init]) {
@@ -50,6 +50,7 @@
 }
 
 + (id)signatureWithName:(NSString *)theName email:(NSString *)theEmail time:(NSDate *)theTime {
+	
 	return [[[GTSignature alloc] initWithName:theName email:theEmail time:theTime] autorelease];
 }
 - (id)initWithName:(NSString *)theName email:(NSString *)theEmail time:(NSDate *)theTime {
@@ -113,10 +114,14 @@
 
 - (void)dealloc {
 	
-	git_signature_free(signature);
-	self.name = nil;
-	self.email = nil;
-	self.time = nil;
+	// if i free the signature, writes fails
+	//git_signature_free(self.signature);
+	
+	// All these properties pass through to underlying C object
+	// there is nothing to release here
+	//self.name = nil;
+	//self.email = nil;
+	//self.time = nil;
 	[super dealloc];
 }
 

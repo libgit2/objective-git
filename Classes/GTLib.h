@@ -28,9 +28,7 @@
 //
 
 
-@interface GTLib : NSObject {
-
-}
+@interface GTLib : NSObject {}
 
 + (NSData *)hexToRaw:(NSString *)hex;
 + (NSString *)rawToHex:(NSData *)raw;

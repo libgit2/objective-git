@@ -132,10 +132,12 @@
 
 - (void)dealloc {
 	
-	self.message = nil;
-	self.author = nil;
-	self.commiter = nil;
-	self.tree = nil;
+	// All these properties pass through to underlying C object
+	// there is nothing to release here
+	//self.message = nil;
+	//self.author = nil;
+	//self.commiter = nil;
+	//self.tree = nil;
 	[super dealloc];
 }
 

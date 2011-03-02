@@ -32,6 +32,7 @@
 #import "NSString+Git.h"
 #import "NSError+Git.h"
 
+
 @implementation GTIndex
 
 @synthesize index;
@@ -140,6 +141,7 @@
 
 - (void)dealloc {
 	
+	//git_index_free(self.index);
 	self.path = nil;
 	[super dealloc];
 }

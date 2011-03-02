@@ -29,6 +29,7 @@
 
 #import <git2.h>
 
+
 @class GTIndexEntry;
 
 @interface GTIndex : NSObject {}

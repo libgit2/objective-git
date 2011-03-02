@@ -38,11 +38,11 @@
 @property (nonatomic, assign, readonly) git_commit *commit;
 @property (nonatomic, copy) NSString *message;
 @property (nonatomic, copy, readonly) NSString *messageShort;
-@property (nonatomic, retain, readonly) NSDate *time;
-@property (nonatomic, retain) GTSignature *author;
-@property (nonatomic, retain) GTSignature *commiter;
-@property (nonatomic, retain) GTTree *tree;
-@property (nonatomic, retain, readonly) NSArray *parents;
+@property (nonatomic, assign, readonly) NSDate *time;
+@property (nonatomic, assign) GTSignature *author;
+@property (nonatomic, assign) GTSignature *commiter;
+@property (nonatomic, assign) GTTree *tree;
+@property (nonatomic, assign, readonly) NSArray *parents;
 
 - (id)initInRepo:(GTRepository *)theRepo error:(NSError **)error;
 

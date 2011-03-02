@@ -30,12 +30,11 @@
 #import <git2.h>
 #import "GTObject.h"
 
-@interface GTBlob : GTObject {
 
-}
+@interface GTBlob : GTObject {}
 
 @property (nonatomic, assign, readonly) NSInteger size;
-@property (nonatomic, copy) NSString *content;
+@property (nonatomic, assign) NSString *content;
 
 - (id)initInRepo:(GTRepository *)theRepo error:(NSError **)error;
 

@@ -46,9 +46,7 @@
 + (id)repoByCreatingRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error;
 - (id)initByOpeningRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error;
 - (id)initByCreatingRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error;
-
 + (NSString *)hash:(GTRawObject *)rawObj error:(NSError **)error;
-
 - (GTObject *)lookup:(NSString *)sha error:(NSError **)error;
 - (BOOL)exists:(NSString *)sha;
 - (BOOL)hasObject:(NSString *)sha;

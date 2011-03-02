@@ -93,8 +93,11 @@
 
 - (void)dealloc {
 	
-	self.name = nil;
-	self.sha = nil;
+	// All these properties pass through to underlying C object
+	// there is nothing to release here
+	//self.name = nil;
+	//self.sha = nil;
+	
 	self.tree = nil;
 	[super dealloc];
 }

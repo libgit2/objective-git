@@ -30,15 +30,13 @@
 #import <git2.h>
 
 
-@interface GTIndexEntry : NSObject {
-
-}
+@interface GTIndexEntry : NSObject {}
 
 @property (nonatomic, assign) git_index_entry *entry;
-@property (nonatomic, copy) NSString *path;
-@property (nonatomic, copy) NSString *sha;
-@property (nonatomic, copy) NSDate *mTime;
-@property (nonatomic, copy) NSDate *cTime;
+@property (nonatomic, assign) NSString *path;
+@property (nonatomic, assign) NSString *sha;
+@property (nonatomic, assign) NSDate *mTime;
+@property (nonatomic, assign) NSDate *cTime;
 @property (nonatomic, assign) long long fileSize;
 @property (nonatomic, assign) NSUInteger dev;
 @property (nonatomic, assign) NSUInteger ino;

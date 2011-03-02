@@ -41,10 +41,9 @@ static NSString * const GTTagClassName = @"GTTag";
 
 @implementation GTObject
 
+@synthesize object;
 @synthesize type;
 @synthesize sha;
-
-@synthesize object;
 @synthesize repo;
 
 + (id)objectInRepo:(GTRepository *)theRepo withObject:(git_object *)theObject {
