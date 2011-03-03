@@ -18,3 +18,4 @@
 #import "GTIndex.h"
 #import "GTIndexEntry.h"
 #import "GTReference.h"
+#import "GTBranch.h"

@@ -112,7 +112,7 @@
 	NSError *error = nil;
 	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH] error:&error];
 	NSString *sha = @"a4a7dce85cf63874e984719f4fdd239f5145052f";
-	[repo.walker sorting:sortMode];
+	[repo.walker setSortingOptions:sortMode];
 	[repo.walker push:sha error:&error];
 	
 	NSMutableArray *commits = [[[NSMutableArray alloc] initWithCapacity:6] autorelease];

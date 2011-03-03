@@ -7,12 +7,11 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
-@class GTWalker;
+#import "GTWalker.h"
 
 
 @protocol GHWalkable
 
-- (GTWalker *)walkerWithError:(NSError **)error;
+- (GTWalker *)walkerWithOptions:(GTWalkerOptions)options error:(NSError **)error;
 
 @end

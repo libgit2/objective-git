@@ -54,8 +54,9 @@
 	return self.reference.name;
 }
 
-- (GTWalker *)walkerWithError:(NSError **)error {
+- (GTWalker *)walkerWithOptions:(GTWalkerOptions)options error:(NSError **)error {
 	GTWalker *walker = [[GTWalker alloc] initWithRepository:self.repository error:error];
+	[walker setSortingOptions:options];
 	[walker push:[GTLib hexFromOid:self.reference.oid] error:error];
 	return walker;
 }

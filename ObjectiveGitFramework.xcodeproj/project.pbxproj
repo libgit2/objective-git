@@ -24,8 +24,8 @@
 
 /* Begin PBXBuildFile section */
 		8803DA871313145700E6E818 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8803DA861313145700E6E818 /* libz.dylib */; };
-		88F50F58132054D800584FBE /* GHWalkable.h in Headers */ = {isa = PBXBuildFile; fileRef = 88F50F55132054D800584FBE /* GHWalkable.h */; };
-		88F50F59132054D800584FBE /* GTBranch.h in Headers */ = {isa = PBXBuildFile; fileRef = 88F50F56132054D800584FBE /* GTBranch.h */; };
+		88F50F58132054D800584FBE /* GHWalkable.h in Headers */ = {isa = PBXBuildFile; fileRef = 88F50F55132054D800584FBE /* GHWalkable.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		88F50F59132054D800584FBE /* GTBranch.h in Headers */ = {isa = PBXBuildFile; fileRef = 88F50F56132054D800584FBE /* GTBranch.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88F50F5A132054D800584FBE /* GTBranch.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F50F57132054D800584FBE /* GTBranch.m */; };
 		88F6D9D91320451F00CC0BA8 /* ObjectiveGit.h in Headers */ = {isa = PBXBuildFile; fileRef = 88F6D9D81320451F00CC0BA8 /* ObjectiveGit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88F6D9FA1320467100CC0BA8 /* GTCommit.h in Headers */ = {isa = PBXBuildFile; fileRef = BD6C22A41314609A00992935 /* GTCommit.h */; settings = {ATTRIBUTES = (Public, ); }; };
