@@ -48,8 +48,6 @@ static NSString *newRepoPath = @"file://localhost/Users/tclem/github/local/unit_
 	repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH] error:&error];
 
 	obj = [[[GTRawObject alloc] initWithType:GIT_OBJ_BLOB string:@"my test data\n"] autorelease];
-	
-	//[[NSFileManager defaultManager] removeItemAtPath:NewRepoPath error:&error];
 }
 
 - (void)testCreateRepositoryInDirectory {
@@ -66,7 +64,6 @@ static NSString *newRepoPath = @"file://localhost/Users/tclem/github/local/unit_
 	GHAssertTrue([[NSFileManager defaultManager] removeItemAtURL:newRepoURL error:&error], [error localizedDescription]);
 }
 
-/*
 - (void)testFailsToOpenNonExistentRepo {
 	
 	NSError *error = nil;
@@ -75,7 +72,7 @@ static NSString *newRepoPath = @"file://localhost/Users/tclem/github/local/unit_
 	GHAssertNil(badRepo, nil);
 	GHAssertNotNil(error, nil);
 	GHTestLog(@"error = %@", [error localizedDescription]);
-}*/
+}
 
 - (void)testCanTellIfAnObjectExists {
 	

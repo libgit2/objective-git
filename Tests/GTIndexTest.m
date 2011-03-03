@@ -195,17 +195,24 @@
 	GHAssertEquals(4, (int)[index2 entryCount], nil);
 }
 
+- (void)testCanOpenGitRepo {
+	
+	NSError *error = nil;
+	GTRepository *gitRepo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:@"/tmp/arepo2/.git"] error:&error];
+	GHAssertNil(error, [error localizedDescription]);
+	GHAssertNotNil(gitRepo, nil);
+}
+
 - (void)testCanAddFromAPath {
 	 
 	//setup
 	NSError *error = nil;
 	NSFileManager *m = [[[NSFileManager alloc] init] autorelease];
-	tempPath = [NSURL URLWithString:@"file://localhost/private/tmp/index_dir"];
+	tempPath = [NSURL URLWithString:@"/tmp/index_dir"];
 	NSURL *repoPath = [tempPath URLByAppendingPathComponent:@".git"];
 	
-	if([m fileExistsAtPath:[tempPath path]])
-		[m removeItemAtURL:tempPath error:&error];
-	[m createDirectoryAtPath:[tempPath path] withIntermediateDirectories:YES attributes:nil error:&error];
+	[m removeItemAtPath:[tempPath path] error:&error];
+	GHAssertTrue([m createDirectoryAtPath:[tempPath path] withIntermediateDirectories:YES attributes:nil error:&error], [error localizedDescription]);
 	
 	// run 'git init'
 	NSTask *task = [[[NSTask alloc] init] autorelease];
@@ -214,25 +221,25 @@
 	[task setArguments:[NSArray arrayWithObjects:@"init", nil]];
 	[task launch];
 	[task waitUntilExit];
+	GHAssertTrue([task terminationStatus] == 0, @"git init failed");
 
 	// create a new file in working dir
-	NSURL *file = [NSURL URLWithString:@"file://localhost/private/tmp/index_dir/test.txt"];
+	NSURL *file = [NSURL URLWithString:@"/tmp/index_dir/test.txt"];
 	[@"test content" writeToURL:file atomically:NO encoding:NSUTF8StringEncoding error:&error];
 	
 	// open the repo and write to the index
 	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:repoPath error:&error];
-	if(error != nil) GHTestLog(@"error = %@", [error localizedDescription]);
-	GHAssertNil(error, nil);
+	GHAssertNil(error, [error localizedDescription]);
 	[repo setupIndexAndReturnError:&error];
-	GHAssertNil(error, nil);
+	GHAssertNil(error, [error localizedDescription]);
 	[repo.index addFile:[file lastPathComponent] error:&error]; 
-	GHAssertNil(error, nil);
+	GHAssertNil(error, [error localizedDescription]);
 	[repo.index writeAndReturnError:&error]; 
-	GHAssertNil(error, nil);
+	GHAssertNil(error, [error localizedDescription]);
 	
 	GTIndex *index2 = [GTIndex indexWithPath:[tempPath URLByAppendingPathComponent:@".git/index"] error:&error];
 	[index2 refreshAndReturnError:&error];
-	GHAssertNil(error, nil);
+	GHAssertNil(error, [error localizedDescription]);
 	
 	GHAssertEqualStrings([index2 getEntryAtIndex:0].path, @"test.txt", nil);
 }
