@@ -33,6 +33,7 @@
 @property (nonatomic, assign) GTRepository *repo;
 @property (nonatomic, assign) NSString *name;
 @property (nonatomic, assign, readonly) NSString *type;
+@property (nonatomic, readonly) const git_oid *oid;
 
 + (id)referenceByLookingUpRef:(NSString *)refName inRepo:(GTRepository *)theRepo error:(NSError **)error;
 + (id)referenceByCreatingRef:(NSString *)refName fromRef:(NSString *)target inRepo:(GTRepository *)theRepo error:(NSError **)error;
