@@ -29,7 +29,8 @@
 
 #import "Contants.h"
 
-static NSString *NewRepoPath = @"file://localhost/Users/tclem/github/local/unit_test";
+
+static NSString *newRepoPath = @"file://localhost/Users/tclem/github/local/unit_test";
 
 @interface GTRepositoryTest : GHTestCase {
 
@@ -41,25 +42,28 @@ static NSString *NewRepoPath = @"file://localhost/Users/tclem/github/local/unit_
 
 @implementation GTRepositoryTest
  
-- (void)setUpClass {
+- (void)setUp {
 	
 	NSError *error = nil;
 	repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH] error:&error];
 
 	obj = [[[GTRawObject alloc] initWithType:GIT_OBJ_BLOB string:@"my test data\n"] autorelease];
 	
-	[[NSFileManager defaultManager] removeItemAtPath:NewRepoPath error:&error];
+	//[[NSFileManager defaultManager] removeItemAtPath:NewRepoPath error:&error];
 }
 
 - (void)testCreateRepositoryInDirectory {
 	
+	NSURL *newRepoURL = [NSURL URLWithString:newRepoPath];
 	NSError *error = nil;
-	GTRepository *newRepo = [GTRepository repoByCreatingRepositoryInDirectory:[NSURL URLWithString:NewRepoPath] error:&error];
+	GTRepository *newRepo = [GTRepository repoByCreatingRepositoryInDirectory:newRepoURL error:&error];
 	
 	GHAssertNotNil(newRepo, nil);
 	GHAssertNil(error, nil);
 	GHAssertNotNil(newRepo.fileUrl, nil);
 	GHAssertNotNULL(newRepo.repo, nil);
+	
+	GHAssertTrue([[NSFileManager defaultManager] removeItemAtURL:newRepoURL error:&error], [error localizedDescription]);
 }
 
 /*
