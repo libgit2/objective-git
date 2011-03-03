@@ -42,6 +42,7 @@
 		BD6C235413146E6A00992935 /* GTObject.m in Sources */ = {isa = PBXBuildFile; fileRef = BD6C22A81314625800992935 /* GTObject.m */; };
 		BD6C23EC131478A100992935 /* GTCommitTest.m in Sources */ = {isa = PBXBuildFile; fileRef = BD6C23EB131478A100992935 /* GTCommitTest.m */; };
 		BD6C254613148DD300992935 /* GTSignature.m in Sources */ = {isa = PBXBuildFile; fileRef = BD6C254413148DC900992935 /* GTSignature.m */; };
+		BD8F69D0131F0AEE009DA3A1 /* GTReferenceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = BD8F69CF131F0AEE009DA3A1 /* GTReferenceTest.m */; };
 		BDD6272A1318322E00DE34D1 /* GTTreeTest.m in Sources */ = {isa = PBXBuildFile; fileRef = BDD627291318322E00DE34D1 /* GTTreeTest.m */; };
 		BDD62796131838A800DE34D1 /* GTBlobTest.m in Sources */ = {isa = PBXBuildFile; fileRef = BDD62795131838A800DE34D1 /* GTBlobTest.m */; };
 		BDD627991318391200DE34D1 /* GTBlob.h in Headers */ = {isa = PBXBuildFile; fileRef = BDD627971318391200DE34D1 /* GTBlob.h */; };
@@ -156,6 +157,7 @@
 		BD6C23EB131478A100992935 /* GTCommitTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTCommitTest.m; sourceTree = "<group>"; };
 		BD6C254313148DC900992935 /* GTSignature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTSignature.h; sourceTree = "<group>"; };
 		BD6C254413148DC900992935 /* GTSignature.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTSignature.m; sourceTree = "<group>"; };
+		BD8F69CF131F0AEE009DA3A1 /* GTReferenceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTReferenceTest.m; sourceTree = "<group>"; };
 		BDD627291318322E00DE34D1 /* GTTreeTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTTreeTest.m; sourceTree = "<group>"; };
 		BDD62795131838A800DE34D1 /* GTBlobTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTBlobTest.m; sourceTree = "<group>"; };
 		BDD627971318391200DE34D1 /* GTBlob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTBlob.h; sourceTree = "<group>"; };
@@ -300,6 +302,7 @@
 				BDD62920131C035500DE34D1 /* GTTagTest.m */,
 				BDFAF99F131C16F2000508BC /* GTRepositoryPackTest.m */,
 				BDFAF9CD131C18FE000508BC /* GTIndexTest.m */,
+				BD8F69CF131F0AEE009DA3A1 /* GTReferenceTest.m */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -520,6 +523,7 @@
 				BDD62921131C035500DE34D1 /* GTTagTest.m in Sources */,
 				BDFAF9A0131C16F2000508BC /* GTRepositoryPackTest.m in Sources */,
 				BDFAF9CE131C18FE000508BC /* GTIndexTest.m in Sources */,
+				BD8F69D0131F0AEE009DA3A1 /* GTReferenceTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

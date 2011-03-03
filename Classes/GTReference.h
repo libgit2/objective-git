@@ -42,5 +42,6 @@
 - (NSString *)target;
 - (void)setTarget:(NSString *)newTarget error:(NSError **)error;
 - (void)packAllAndReturnError:(NSError **)error;
+- (void)deleteAndReturnError:(NSError **)error;
 
 @end

@@ -43,6 +43,7 @@
 #import "GTTag.h"
 #import "GTIndex.h"
 #import "GTIndexEntry.h"
+#import "GTReference.h"
 
 static NSString *TEST_REPO_PATH = @"file://localhost/Volumes/GitHub/Mac/ObjectiveGitFramework/Tests/fixtures/testrepo.git";
 static NSString *TEST_INDEX_PATH = @"file://localhost/Volumes/GitHub/Mac/ObjectiveGitFramework/Tests/fixtures/testrepo.git/index";

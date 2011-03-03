@@ -56,7 +56,7 @@
 			
 			gitError = git_reference_create_oid(&ref, 
 												self.repo.repo, 
-												[NSString utf8StringForString:theTarget], 
+												[NSString utf8StringForString:refName], 
 												&oid);
 		}
 		else {
