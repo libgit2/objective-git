@@ -97,6 +97,15 @@
 	return (GTCommit *)[GTObject objectInRepo:self.repo withObject:(git_object*)commit];
 }
 
+- (void)walkCommitsUsingBlock:(void (^)(GTCommit *commit, BOOL *stop))block {
+	GTCommit *currentCommit = nil;
+	BOOL stop = NO;
+	while((currentCommit = [self next])) {
+		block(currentCommit, &stop);
+		if(stop) break;
+	}
+}
+
 #pragma mark -
 #pragma mark Memory Management
 

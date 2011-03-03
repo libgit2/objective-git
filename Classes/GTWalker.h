@@ -44,4 +44,6 @@
 - (void)sorting:(unsigned int)sortMode;
 - (GTCommit *)next;
 
+- (void)walkCommitsUsingBlock:(void (^)(GTCommit *commit, BOOL *stop))block;
+
 @end
