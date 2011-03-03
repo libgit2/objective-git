@@ -24,6 +24,9 @@
 
 /* Begin PBXBuildFile section */
 		8803DA871313145700E6E818 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8803DA861313145700E6E818 /* libz.dylib */; };
+		88F50F58132054D800584FBE /* GHWalkable.h in Headers */ = {isa = PBXBuildFile; fileRef = 88F50F55132054D800584FBE /* GHWalkable.h */; };
+		88F50F59132054D800584FBE /* GTBranch.h in Headers */ = {isa = PBXBuildFile; fileRef = 88F50F56132054D800584FBE /* GTBranch.h */; };
+		88F50F5A132054D800584FBE /* GTBranch.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F50F57132054D800584FBE /* GTBranch.m */; };
 		88F6D9D91320451F00CC0BA8 /* ObjectiveGit.h in Headers */ = {isa = PBXBuildFile; fileRef = 88F6D9D81320451F00CC0BA8 /* ObjectiveGit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88F6D9FA1320467100CC0BA8 /* GTCommit.h in Headers */ = {isa = PBXBuildFile; fileRef = BD6C22A41314609A00992935 /* GTCommit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88F6D9FB1320467500CC0BA8 /* GTObject.h in Headers */ = {isa = PBXBuildFile; fileRef = BD6C22A71314625800992935 /* GTObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -138,6 +141,9 @@
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		32DBCF5E0370ADEE00C91783 /* ObjectiveGitFramework_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectiveGitFramework_Prefix.pch; sourceTree = "<group>"; };
 		8803DA861313145700E6E818 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		88F50F55132054D800584FBE /* GHWalkable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GHWalkable.h; path = Classes/GHWalkable.h; sourceTree = SOURCE_ROOT; };
+		88F50F56132054D800584FBE /* GTBranch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTBranch.h; path = Classes/GTBranch.h; sourceTree = SOURCE_ROOT; };
+		88F50F57132054D800584FBE /* GTBranch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTBranch.m; path = Classes/GTBranch.m; sourceTree = SOURCE_ROOT; };
 		88F6D9D81320451F00CC0BA8 /* ObjectiveGit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ObjectiveGit.h; path = Classes/ObjectiveGit.h; sourceTree = "<group>"; };
 		8DC2EF5A0486A6940098B216 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* ObjectiveGit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ObjectiveGit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -323,6 +329,9 @@
 				BDFAF9C8131C1868000508BC /* GTIndexEntry.m */,
 				BD441E06131ED0C300187010 /* GTReference.h */,
 				BD441E07131ED0C300187010 /* GTReference.m */,
+				88F50F56132054D800584FBE /* GTBranch.h */,
+				88F50F57132054D800584FBE /* GTBranch.m */,
+				88F50F55132054D800584FBE /* GHWalkable.h */,
 			);
 			name = "libgit2 Wrappers";
 			path = Categories;
@@ -395,6 +404,8 @@
 				88F6D9FA1320467100CC0BA8 /* GTCommit.h in Headers */,
 				88F6D9FB1320467500CC0BA8 /* GTObject.h in Headers */,
 				88F6D9FC1320467800CC0BA8 /* GTSignature.h in Headers */,
+				88F50F58132054D800584FBE /* GHWalkable.h in Headers */,
+				88F50F59132054D800584FBE /* GTBranch.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -526,6 +537,7 @@
 				BDFAF9C4131C1845000508BC /* GTIndex.m in Sources */,
 				BDFAF9CA131C1868000508BC /* GTIndexEntry.m in Sources */,
 				BD441E09131ED0C300187010 /* GTReference.m in Sources */,
+				88F50F5A132054D800584FBE /* GTBranch.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
