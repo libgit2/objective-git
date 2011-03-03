@@ -28,7 +28,9 @@
 //
 
 #import <git2.h>
-#import "GTRepository.h"
+
+@class GTRepository;
+@class GTRawObject;
 
 
 @interface GTObject : NSObject {}

@@ -29,6 +29,7 @@
 
 #import "GTBlob.h"
 #import "NSString+Git.h"
+#import "GTRepository.h"
 
 
 @implementation GTBlob

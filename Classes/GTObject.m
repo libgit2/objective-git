@@ -33,6 +33,7 @@
 #import "GTLib.h"
 #import "NSError+Git.h"
 #import "NSString+Git.h"
+#import "GTRepository.h"
 
 static NSString * const GTCommitClassName = @"GTCommit";
 static NSString * const GTTreeClassName = @"GTTree";

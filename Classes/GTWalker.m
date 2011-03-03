@@ -30,6 +30,7 @@
 #import "GTWalker.h"
 #import "GTCommit.h"
 #import "NSError+Git.h"
+#import "GTRepository.h"
 
 
 @interface GTWalker()
@@ -82,9 +83,8 @@
 	git_revwalk_reset(self.walk);
 }
 
-- (void)sorting:(unsigned int)sortMode {
-	
-	git_revwalk_sorting(self.walk, sortMode);
+- (void)setSortingOptions:(GTWalkerOptions)options {
+	git_revwalk_sorting(self.walk, options);
 }
 
 - (GTCommit *)next {

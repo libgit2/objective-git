@@ -244,11 +244,11 @@
 	return [GTLib hexFromOid:&oid];
 }
 
-- (void)walk:(NSString *)sha sorting:(unsigned int)sortMode error:(NSError **)error block:(void (^)(GTCommit *commit))block {
+- (void)walk:(NSString *)sha sorting:(GTWalkerOptions)sortMode error:(NSError **)error block:(void (^)(GTCommit *commit))block {
 	
 	if(block == nil)return;
 
-	[self.walker sorting:sortMode];
+	[self.walker setSortingOptions:sortMode];
 	[self.walker push:sha error:error];
 	
 	GTCommit *commit = nil;

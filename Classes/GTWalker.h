@@ -28,9 +28,16 @@
 //
 
 #import <git2.h>
-#import "GTRepository.h"
 #import "GTObject.h"
 
+typedef enum {
+	GTWalkerOptionsNone = 0,
+	GTWalkerOptionsTopologicalSort = 1 << 0,
+	GTWalkerOptionsTimeSort = 1 << 1,
+	GTWalkerOptionsReverse = 1 << 2,
+} GTWalkerOptions;
+
+@class GTRepository;
 @class GTCommit;
 
 @interface GTWalker : NSObject {}
@@ -41,7 +48,7 @@
 - (void)push:(NSString *)sha error:(NSError **)error;
 - (void)hide:(NSString *)sha error:(NSError **)error;
 - (void)reset;
-- (void)sorting:(unsigned int)sortMode;
+- (void)setSortingOptions:(GTWalkerOptions)options;
 - (GTCommit *)next;
 
 - (void)walkCommitsUsingBlock:(void (^)(GTCommit *commit, BOOL *stop))block;
