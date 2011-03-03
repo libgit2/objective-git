@@ -46,4 +46,61 @@
 	GHAssertNil(error, nil);
 }
 
+-(void)testCanCreateRefFromSha {
+	
+	NSError *error = nil;
+	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH] error:&error];
+	GHAssertNil(error, nil);
+	GTReference *ref = [GTReference referenceByCreatingRef:@"refs/heads/unit_test" fromRef:@"36060c58702ed4c2a40832c51758d5344201d89a" inRepo:repo error:&error];
+	GHAssertNil(error, nil);
+	GHAssertNotNil(ref, nil);
+	
+	GHAssertEqualStrings(@"36060c58702ed4c2a40832c51758d5344201d89a", ref.target, nil);
+	GHAssertEqualStrings(@"commit", ref.type, nil);
+	GHAssertEqualStrings(@"refs/heads/unit_test", ref.name, nil);
+	
+	[ref deleteAndReturnError:&error];
+	GHAssertNil(error, [error localizedDescription]);
+}
+
+-(void)testCanRenameRef {
+	
+	NSError *error = nil;
+	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH] error:&error];
+	GHAssertNil(error, nil);
+	GTReference *ref = [GTReference referenceByCreatingRef:@"refs/heads/unit_test" fromRef:@"36060c58702ed4c2a40832c51758d5344201d89a" inRepo:repo error:&error];
+	GHAssertNil(error, nil);
+	GHAssertNotNil(ref, nil);
+	GHAssertEqualStrings(@"36060c58702ed4c2a40832c51758d5344201d89a", ref.target, nil);
+	GHAssertEqualStrings(@"commit", ref.type, nil);
+	GHAssertEqualStrings(@"refs/heads/unit_test", ref.name, nil);
+	
+	ref.name = @"refs/heads/new_name";
+	GHAssertEqualStrings(@"refs/heads/new_name", ref.name, nil);
+	
+	[ref deleteAndReturnError:&error];
+	GHAssertNil(error, [error localizedDescription]);
+}
+
+-(void)testCanSetTargetOnRef {
+	
+	NSError *error = nil;
+	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH] error:&error];
+	GHAssertNil(error, [error localizedDescription]);
+	GTReference *ref = [GTReference referenceByCreatingRef:@"refs/heads/unit_test" fromRef:@"36060c58702ed4c2a40832c51758d5344201d89a" inRepo:repo error:&error];
+	GHAssertNil(error, [error localizedDescription]);
+	GHAssertNotNil(ref, nil);
+	GHAssertEqualStrings(@"36060c58702ed4c2a40832c51758d5344201d89a", ref.target, nil);
+	GHAssertEqualStrings(@"commit", ref.type, nil);
+	GHAssertEqualStrings(@"refs/heads/unit_test", ref.name, nil);
+	
+	[ref setTarget:@"5b5b025afb0b4c913b4c338a42934a3863bf3644" error:&error];
+	
+	GHAssertNil(error, [error localizedDescription]);
+	GHAssertEqualStrings(@"5b5b025afb0b4c913b4c338a42934a3863bf3644", ref.target, nil);
+	
+	[ref deleteAndReturnError:&error];
+	GHAssertNil(error, [error localizedDescription]);
+}
+
 @end
