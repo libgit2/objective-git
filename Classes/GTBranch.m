@@ -61,4 +61,13 @@
 	return walker;
 }
 
+- (GTCommit *)mostRecentCommitWithError:(NSError **)error {
+	GTWalker *walker = [self walkerWithOptions:GTWalkerOptionsTopologicalSort error:error];
+	if(walker == nil) {
+		return nil;
+	}
+	
+	return [walker next];
+}
+
 @end

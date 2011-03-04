@@ -19,4 +19,6 @@
 
 - (id)initWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error;
 
+- (GTCommit *)mostRecentCommitWithError:(NSError **)error;
+
 @end
