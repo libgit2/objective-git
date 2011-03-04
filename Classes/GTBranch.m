@@ -35,14 +35,14 @@
 @synthesize repository;
 
 + (NSString *)defaultBranchRefPath {
-	return @"refs/heads";
+	return @"refs/heads/";
 }
 
 - (id)initWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error {
 	self = [super init];
 	if(self == nil) return nil;
 	
-	self.reference = [GTReference referenceByLookingUpRef:[NSString stringWithFormat:@"%@/%@", [[self class] defaultBranchRefPath], branchName] inRepo:repo error:error];
+	self.reference = [GTReference referenceByLookingUpRef:[NSString stringWithFormat:@"%@%@", [[self class] defaultBranchRefPath], branchName] inRepo:repo error:error];
 	if(self.reference == nil) return nil;
 	
 	self.repository = repo;
@@ -51,7 +51,7 @@
 }
 
 - (NSString *)name {
-	return self.reference.name;
+	return [self.reference.name stringByReplacingOccurrencesOfString:[[self class] defaultBranchRefPath] withString:@""];
 }
 
 - (GTWalker *)walkerWithOptions:(GTWalkerOptions)options error:(NSError **)error {
