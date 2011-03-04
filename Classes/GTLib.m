@@ -64,4 +64,10 @@
 	return [NSString stringForUTF8String:hex];
 }
 
++ (NSString *)shortUniqueShaFromSha:(NSString *)sha {
+	// Kyle says with a length of 6 our chances of collision are 9.6e-29, so we'll take those odds
+	static const NSUInteger magicUniqueLength = 6;
+	return [sha substringToIndex:magicUniqueLength];
+}
+
 @end
