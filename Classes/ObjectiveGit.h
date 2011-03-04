@@ -19,3 +19,4 @@
 #import "GTIndexEntry.h"
 #import "GTReference.h"
 #import "GTBranch.h"
+#import "GTObject.h"
