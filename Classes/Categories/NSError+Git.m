@@ -241,4 +241,13 @@ static NSString * const GTGitErrorDomain = @"GTGitErrorDomain";
 										forKey:NSLocalizedDescriptionKey]];	
 }
 
++ (NSError *)gitErrorForResloveRef: (int)code {
+	
+	return [NSError errorWithDomain:GTGitErrorDomain
+							   code:code
+						   userInfo:
+			[NSDictionary dictionaryWithObject:@"Failed to resolve reference"
+										forKey:NSLocalizedDescriptionKey]];	
+}
+
 @end

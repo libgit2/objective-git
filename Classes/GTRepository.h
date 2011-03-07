@@ -29,6 +29,7 @@
 
 #import <git2.h>
 #import "GTWalker.h"
+#import "GTReference.h"
 
 @class GTWalker;
 @class GTObject;
@@ -57,5 +58,7 @@
 - (void)walk:(NSString *)sha sorting:(GTWalkerOptions)sortMode error:(NSError **)error block:(void (^)(GTCommit *commit))block;
 - (void)walk:(NSString *)sha error:(NSError **)error block:(void (^)(GTCommit *commit))block;
 - (void)setupIndexAndReturnError:(NSError **)error;
+
+- (GTReference *)headAndReturnError:(NSError **)error;
 
 @end

@@ -65,6 +65,25 @@
 	GHAssertNil([repo.walker next], nil);
 }
 
+- (void)testCanWalkFromHead {
+	
+	NSError *error = nil;
+	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH] error:&error];
+	GHAssertNil(error, [error localizedDescription]);
+	GTReference *head = [repo headAndReturnError:&error];
+	GHAssertNil(error, [error localizedDescription]);
+				
+	__block int count = 0;
+	[repo walk:head.target 
+		  error:&error
+		  block:^(GTCommit *commit){
+			  count ++;
+		  }];
+	GHAssertNil(error, [error localizedDescription]);
+	GHAssertEquals(3, count, nil);
+	
+}
+
 - (void)testCanWalkPartOfARevList {
 	
 	NSError *error = nil;

@@ -55,5 +55,6 @@
 + (NSError *)gitErrorForSetRefTarget: (int)code;
 + (NSError *)gitErrorForPackAllRefs: (int)code;
 + (NSError *)gitErrorForDeleteRef: (int)code;
++ (NSError *)gitErrorForResloveRef: (int)code;
 
 @end

@@ -157,4 +157,15 @@ static NSString *newRepoPath = @"file://localhost/Users/tclem/github/local/unit_
 	[aRepo release];
 }
 
+- (void)testLookupHead {
+	
+	NSError *error = nil;
+	//GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH] error:&error];
+	GHAssertNil(error, [error localizedDescription]);
+	GTReference *head = [repo headAndReturnError:&error];
+	GHAssertNil(error, [error localizedDescription]);
+	GHAssertEqualStrings(head.target, @"36060c58702ed4c2a40832c51758d5344201d89a", nil);
+	GHAssertEqualStrings(head.type, @"commit", nil);
+}
+
 @end

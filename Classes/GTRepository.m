@@ -275,6 +275,14 @@
 	}
 }
 
+- (GTReference *)headAndReturnError:(NSError **)error {
+
+	GTReference *headSymRef = [GTReference referenceByLookingUpRef:@"HEAD" inRepo:self error:error];	
+	if(headSymRef == nil) return nil;
+	
+	return [GTReference referenceByResolvingRef:headSymRef error:error];
+}
+
 #pragma mark -
 #pragma mark Memory Management
 

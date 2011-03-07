@@ -37,8 +37,10 @@
 
 + (id)referenceByLookingUpRef:(NSString *)refName inRepo:(GTRepository *)theRepo error:(NSError **)error;
 + (id)referenceByCreatingRef:(NSString *)refName fromRef:(NSString *)target inRepo:(GTRepository *)theRepo error:(NSError **)error;
++ (id)referenceByResolvingRef:(GTReference *)symbolicRef error:(NSError **)error;
 - (id)initByLookingUpRef:(NSString *)refName inRepo:(GTRepository *)theRepo error:(NSError **)error;
 - (id)initByCreatingRef:(NSString *)refName fromRef:(NSString *)target inRepo:(GTRepository *)theRepo error:(NSError **)error;
+- (id)initByResolvingRef:(GTReference *)symbolicRef error:(NSError **)error;
 
 - (NSString *)target;
 - (void)setTarget:(NSString *)newTarget error:(NSError **)error;
