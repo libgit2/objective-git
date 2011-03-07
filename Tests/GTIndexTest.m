@@ -198,7 +198,7 @@
 - (void)testCanOpenGitRepo {
 	
 	NSError *error = nil;
-	GTRepository *gitRepo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:@"/tmp/arepo2/.git"] error:&error];
+	GTRepository *gitRepo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:@"file://localhost/private/tmp/arepo2/.git"] error:&error];
 	GHAssertNil(error, [error localizedDescription]);
 	GHAssertNotNil(gitRepo, nil);
 }
@@ -208,7 +208,7 @@
 	//setup
 	NSError *error = nil;
 	NSFileManager *m = [[[NSFileManager alloc] init] autorelease];
-	tempPath = [NSURL URLWithString:@"/tmp/index_dir"];
+	tempPath = [NSURL URLWithString:@"file://localhost/private/tmp/index_dir"];
 	NSURL *repoPath = [tempPath URLByAppendingPathComponent:@".git"];
 	
 	[m removeItemAtPath:[tempPath path] error:&error];
@@ -224,7 +224,7 @@
 	GHAssertTrue([task terminationStatus] == 0, @"git init failed");
 
 	// create a new file in working dir
-	NSURL *file = [NSURL URLWithString:@"/tmp/index_dir/test.txt"];
+	NSURL *file = [NSURL URLWithString:@"file://localhost/private/tmp/index_dir/test.txt"];
 	[@"test content" writeToURL:file atomically:NO encoding:NSUTF8StringEncoding error:&error];
 	
 	// open the repo and write to the index
