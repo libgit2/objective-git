@@ -46,5 +46,6 @@
 - (void)setTarget:(NSString *)newTarget error:(NSError **)error;
 - (void)packAllAndReturnError:(NSError **)error;
 - (void)deleteAndReturnError:(NSError **)error;
+- (GTReference *)resolveAndReturnError:(NSError **)error;
 
 @end

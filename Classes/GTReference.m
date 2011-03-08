@@ -188,6 +188,11 @@
 	self.ref = NULL; /* this has been free'd */
 }
 
+- (GTReference *)resolveAndReturnError:(NSError **)error {
+	
+	return [GTReference referenceByResolvingRef:self error:error];
+}
+
 - (const git_oid *)oid {
 	return git_reference_oid(self.ref);
 }
