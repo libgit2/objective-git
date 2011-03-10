@@ -37,12 +37,12 @@
 
 + (id)rawObjectWithType:(git_otype)theType data:(NSData *)theData {
 	
-	return [[[GTRawObject alloc] initWithType:theType data:theData] autorelease];
+	return [[[self alloc] initWithType:theType data:theData] autorelease];
 }
 
 + (id)rawObjectWithType:(git_otype)theType string:(NSString *)string {
 	
-	return [[[GTRawObject alloc] initWithType:theType string:string] autorelease];
+	return [[[self alloc] initWithType:theType string:string] autorelease];
 }
 
 - (id)initWithType:(git_otype)theType data:(NSData *)theData {

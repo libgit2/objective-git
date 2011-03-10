@@ -27,24 +27,18 @@
 #import "GTReference.h"
 #import "GTLib.h"
 #import "GTWalker.h"
+#import "GTRepository.h"
+
 
 @interface GTBranch ()
-@property (nonatomic, retain) GTReference *reference;
-@property (nonatomic, retain) GTRepository *repository;
+@property (nonatomic, assign) GTReference *reference;
+@property (nonatomic, assign) GTRepository *repository;
 
 + (NSString *)defaultBranchRefPath;
 @end
 
 
 @implementation GTBranch
-
-- (void)dealloc {
-	self.reference = nil;
-	self.repository = nil;
-	
-	[super dealloc];
-}
-
 
 #pragma mark API
 
@@ -55,36 +49,102 @@
 	return @"refs/heads/";
 }
 
++ (id)branchWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error {
+	
+	return [[[self alloc] initWithName:branchName repository:repo error:error] autorelease];
+}
+
++ (id)branchWithShortName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error {
+	
+	return [[[self alloc] initWithShortName:branchName repository:repo error:error] autorelease];
+}
+
++ (id)branchWithReference:(GTReference *)ref repository:(GTRepository *)repo {
+	
+	return [[[self alloc] initWithReference:ref repository:repo] autorelease];
+}
+
++ (id)branchFromCurrentBranchInRepository:(GTRepository *)repo error:(NSError **)error {
+	
+	GTReference *head = [repo headAndReturnError:error];
+	if (head == nil) return nil;
+	
+	return [self branchWithReference:head repository:repo];
+}
+
 - (id)initWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error {
-	self = [super init];
-	if(self == nil) return nil;
 	
-	self.reference = [GTReference referenceByLookingUpRef:[NSString stringWithFormat:@"%@%@", [[self class] defaultBranchRefPath], branchName] inRepo:repo error:error];
-	if(self.reference == nil) return nil;
+	if(self = [super init]) {
+		self.reference = [GTReference referenceByLookingUpRef:branchName inRepo:repo error:error];
+		if(self.reference == nil) return nil;
+		
+		self.repository = repo;
+	}
+	return self;
+}
+
+- (id)initWithShortName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error {
 	
-	self.repository = repo;
-	
+	if(self = [super init]) {
+		self.reference = [GTReference referenceByLookingUpRef:[NSString stringWithFormat:@"%@%@", [[self class] defaultBranchRefPath], branchName] inRepo:repo error:error];
+		if(self.reference == nil) return nil;
+		
+		self.repository = repo;
+	}
+	return self;
+}
+
+- (id)initWithReference:(GTReference *)ref repository:(GTRepository *)repo {
+
+	if(self = [super init]) {
+		self.reference = ref;
+		self.repository = repo;
+	}
 	return self;
 }
 
 - (NSString *)name {
-	return [self.reference.name stringByReplacingOccurrencesOfString:[[self class] defaultBranchRefPath] withString:@""];
+	
+	return self.reference.name;		
 }
 
-- (GTWalker *)walkerWithOptions:(GTWalkerOptions)options error:(NSError **)error {
-	GTWalker *walker = [[GTWalker alloc] initWithRepository:self.repository error:error];
-	[walker setSortingOptions:options];
-	[walker push:[GTLib hexFromOid:self.reference.oid] error:error];
-	return walker;
+- (NSString *)shortName {
+	
+	return [self.reference.name stringByReplacingOccurrencesOfString:[[self class] defaultBranchRefPath] withString:@""];		
+}
+
+- (NSString *)sha {
+	
+	return self.reference.target;
 }
 
 - (GTCommit *)mostRecentCommitWithError:(NSError **)error {
-	GTWalker *walker = [self walkerWithOptions:GTWalkerOptionsTopologicalSort error:error];
-	if(walker == nil) {
-		return nil;
+	
+	[self.repository.walker setSortingOptions:GTWalkerOptionsTopologicalSort];
+	[self.repository.walker push:self.reference.target error:error];
+	
+	return [self.repository.walker next];
+}
+
+- (BOOL)isEqual:(id)otherObject {
+	
+	if(![otherObject isKindOfClass:[GTBranch class]]) {
+		return NO;
 	}
 	
-	return [walker next];
+	GTBranch *otherBranch = otherObject;
+	
+	return [self.reference.name isEqualToString:otherBranch.reference.name];
+}
+
+- (NSUInteger)hash {
+	
+	return [self.name hash];
+}
+
+- (NSString *)description {
+	
+	return [NSString stringWithFormat:@"<%@: %p>: name: %@, sha: %@", NSStringFromClass([self class]), self, self.name, self.sha];
 }
 
 @end

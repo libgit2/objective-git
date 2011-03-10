@@ -44,7 +44,7 @@
 
 + (id)indexWithPath:(NSURL *)localFileUrl error:(NSError **)error {
 	
-	return [[[GTIndex alloc] initWithPath:localFileUrl error:error] autorelease];
+	return [[[self alloc] initWithPath:localFileUrl error:error] autorelease];
 }
 
 - (id)initWithPath:(NSURL *)localFileUrl error:(NSError **)error {
@@ -65,7 +65,7 @@
 
 + (id)indexWithIndex:(git_index *)theIndex {
 	
-	return [[[GTIndex alloc] initWithGitIndex:theIndex] autorelease];
+	return [[[self alloc] initWithGitIndex:theIndex] autorelease];
 }
 
 - (id)initWithGitIndex:(git_index *)theIndex; {

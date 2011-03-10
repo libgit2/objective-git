@@ -39,7 +39,7 @@
 
 + (id)signatureWithSignature:(git_signature *)theSignature {
 	
-	return [[[GTSignature alloc] initWithSignature:theSignature] autorelease];
+	return [[[self alloc] initWithSignature:theSignature] autorelease];
 }
 - (id)initWithSignature:(git_signature *)theSignature {
 	
@@ -51,7 +51,7 @@
 
 + (id)signatureWithName:(NSString *)theName email:(NSString *)theEmail time:(NSDate *)theTime {
 	
-	return [[[GTSignature alloc] initWithName:theName email:theEmail time:theTime] autorelease];
+	return [[[self alloc] initWithName:theName email:theEmail time:theTime] autorelease];
 }
 - (id)initWithName:(NSString *)theName email:(NSString *)theEmail time:(NSDate *)theTime {
 	

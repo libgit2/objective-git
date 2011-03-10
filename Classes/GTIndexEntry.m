@@ -51,7 +51,7 @@
 
 + (id)indexEntryWithEntry:(git_index_entry *)theEntry {
 	
-	return [[[GTIndexEntry alloc] initWithEntry:theEntry] autorelease];
+	return [[[self alloc] initWithEntry:theEntry] autorelease];
 }
 
 - (id)initWithEntry:(git_index_entry *)theEntry {

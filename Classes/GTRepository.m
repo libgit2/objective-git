@@ -34,6 +34,7 @@
 #import "GTRawObject.h"
 #import "GTLib.h"
 #import "GTIndex.h"
+#import "GTBranch.h"
 #import "NSError+Git.h"
 #import "NSString+Git.h"
 
@@ -50,11 +51,11 @@
 @synthesize index;
 
 + (id)repoByOpeningRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error {
-	return [[[GTRepository alloc]initByOpeningRepositoryInDirectory:localFileUrl error:error] autorelease];
+	return [[[self alloc]initByOpeningRepositoryInDirectory:localFileUrl error:error] autorelease];
 }
 
 + (id)repoByCreatingRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error {
-	return [[[GTRepository alloc]initByCreatingRepositoryInDirectory:localFileUrl error:error] autorelease];
+	return [[[self alloc]initByCreatingRepositoryInDirectory:localFileUrl error:error] autorelease];
 }
 
 - (id)initByOpeningRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error {

@@ -23,17 +23,26 @@
 //  THE SOFTWARE.
 //
 
-#import "GHWalkable.h"
-
+@class GTCommit;
+@class GTReference;
 @class GTRepository;
 
-
-@interface GTBranch : NSObject <GHWalkable> {}
+@interface GTBranch : NSObject {}
 
 @property (nonatomic, readonly) NSString *name;
-@property (nonatomic, readonly, retain) GTRepository *repository;
+@property (nonatomic, readonly) NSString *shortName;
+@property (nonatomic, readonly) NSString *sha;
+@property (nonatomic, readonly, assign) GTRepository *repository;
+@property (nonatomic, readonly, assign) GTReference *reference;
 
+
++ (id)branchWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error;
++ (id)branchWithShortName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error;
++ (id)branchWithReference:(GTReference *)ref repository:(GTRepository *)repo;
++ (id)branchFromCurrentBranchInRepository:(GTRepository *)repo error:(NSError **)error;
 - (id)initWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error;
+- (id)initWithShortName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error;
+- (id)initWithReference:(GTReference *)ref repository:(GTRepository *)repo;
 
 - (GTCommit *)mostRecentCommitWithError:(NSError **)error;
 

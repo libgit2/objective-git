@@ -250,4 +250,13 @@ static NSString * const GTGitErrorDomain = @"GTGitErrorDomain";
 										forKey:NSLocalizedDescriptionKey]];	
 }
 
++ (NSError *)gitErrorForRenameRef: (int)code {
+	
+	return [NSError errorWithDomain:GTGitErrorDomain
+							   code:code
+						   userInfo:
+			[NSDictionary dictionaryWithObject:@"Failed to rename reference"
+										forKey:NSLocalizedDescriptionKey]];	
+}
+
 @end

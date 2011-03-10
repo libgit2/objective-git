@@ -31,11 +31,13 @@
 #import "GTWalker.h"
 #import "GTReference.h"
 
+
 @class GTWalker;
 @class GTObject;
 @class GTRawObject;
 @class GTCommit;
 @class GTIndex;
+@class GTBranch;
 
 @interface GTRepository : NSObject {}
 

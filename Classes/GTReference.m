@@ -34,22 +34,21 @@
 
 @synthesize ref;
 @synthesize repo;
-@synthesize name;
 @synthesize type;
 
 + (id)referenceByLookingUpRef:(NSString *)refName inRepo:(GTRepository *)theRepo error:(NSError **)error {
 
-	return [[[GTReference alloc] initByLookingUpRef:refName inRepo:theRepo error:error] autorelease];
+	return [[[self alloc] initByLookingUpRef:refName inRepo:theRepo error:error] autorelease];
 }
 
 + (id)referenceByCreatingRef:(NSString *)refName fromRef:(NSString *)target inRepo:(GTRepository *)theRepo error:(NSError **)error {
 		
-	return [[[GTReference alloc] initByCreatingRef:refName fromRef:target inRepo:theRepo error:error] autorelease];
+	return [[[self alloc] initByCreatingRef:refName fromRef:target inRepo:theRepo error:error] autorelease];
 }
 
 + (id)referenceByResolvingRef:(GTReference *)symbolicRef error:(NSError **)error {
 	
-	return [[[GTReference alloc] initByResolvingRef:symbolicRef error:error] autorelease];
+	return [[[self alloc] initByResolvingRef:symbolicRef error:error] autorelease];
 }
 
 - (id)initByLookingUpRef:(NSString *)refName inRepo:(GTRepository *)theRepo error:(NSError **)error {
@@ -117,11 +116,13 @@
 	
 	return [NSString stringForUTF8String:git_reference_name(self.ref)];
 }
-- (void)setName:(NSString *)newName {
-	
-	// todo: this can return an error
-	// should we use NSError ?
-	git_reference_rename(self.ref, [NSString utf8StringForString:newName]);
+- (void)setName:(NSString *)newName error:(NSError **)error {
+
+	int gitError = git_reference_rename(self.ref, [NSString utf8StringForString:newName]);
+	if(gitError != GIT_SUCCESS) {
+		if(error != NULL)
+			*error = [NSError gitErrorForRenameRef:gitError];
+	}
 }
 
 - (NSString *)type {

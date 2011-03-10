@@ -31,7 +31,6 @@
 
 @property (nonatomic, assign) git_reference *ref;
 @property (nonatomic, assign) GTRepository *repo;
-@property (nonatomic, assign) NSString *name;
 @property (nonatomic, assign, readonly) NSString *type;
 @property (nonatomic, readonly) const git_oid *oid;
 
@@ -44,6 +43,8 @@
 
 - (NSString *)target;
 - (void)setTarget:(NSString *)newTarget error:(NSError **)error;
+- (NSString *)name;
+- (void)setName:(NSString *)newName error:(NSError **)error;
 - (void)packAllAndReturnError:(NSError **)error;
 - (void)deleteAndReturnError:(NSError **)error;
 - (GTReference *)resolveAndReturnError:(NSError **)error;

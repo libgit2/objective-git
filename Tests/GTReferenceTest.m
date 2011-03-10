@@ -75,7 +75,8 @@
 	GHAssertEqualStrings(@"commit", ref.type, nil);
 	GHAssertEqualStrings(@"refs/heads/unit_test", ref.name, nil);
 	
-	ref.name = @"refs/heads/new_name";
+	[ref setName:@"refs/heads/new_name" error:&error];
+	GHAssertNil(error, [error localizedDescription]);
 	GHAssertEqualStrings(@"refs/heads/new_name", ref.name, nil);
 	
 	[ref deleteAndReturnError:&error];
