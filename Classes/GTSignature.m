@@ -35,7 +35,7 @@
 
 - (void)dealloc {
 	
-	// if i free the signature, writes fails
+	// signature will be freed by repo
 	//git_signature_free(self.signature);
 	
 	// All these properties pass through to underlying C object

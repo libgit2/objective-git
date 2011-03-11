@@ -38,8 +38,9 @@
 @property (nonatomic, assign) NSDate *time;
 
 + (id)signatureWithSignature:(git_signature *)theSignature;
-- (id)initWithSignature:(git_signature *)theSignature;
 + (id)signatureWithName:(NSString *)theName email:(NSString *)theEmail time:(NSDate *)theTime;
+
+- (id)initWithSignature:(git_signature *)theSignature;
 - (id)initWithName:(NSString *)theName email:(NSString *)theEmail time:(NSDate *)theTime;
 
 @end
