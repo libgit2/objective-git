@@ -34,6 +34,21 @@
 
 @implementation GTTag
 
+- (void)dealloc {
+	
+	// All these properties pass through to underlying C object
+	// there is nothing to release here
+	//self.message = nil;
+	//self.name = nil;
+	//self.target = nil;
+	//self.targetType = nil;
+	//self.tagger = nil;
+	[super dealloc];
+}
+
+#pragma mark -
+#pragma mark API
+
 @synthesize tag;
 @synthesize message;
 @synthesize name;
@@ -85,21 +100,6 @@
 - (void)setTagger:(GTSignature *)theTagger {
 	
 	git_tag_set_tagger(self.tag, theTagger.signature);
-}
-
-#pragma mark -
-#pragma mark Memory Management
-
-- (void)dealloc {
-	
-	// All these properties pass through to underlying C object
-	// there is nothing to release here
-	//self.message = nil;
-	//self.name = nil;
-	//self.target = nil;
-	//self.targetType = nil;
-	//self.tagger = nil;
-	[super dealloc];
 }
 
 @end

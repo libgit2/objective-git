@@ -40,13 +40,12 @@
 - (id)initByLookingUpRef:(NSString *)refName inRepo:(GTRepository *)theRepo error:(NSError **)error;
 - (id)initByCreatingRef:(NSString *)refName fromRef:(NSString *)target inRepo:(GTRepository *)theRepo error:(NSError **)error;
 - (id)initByResolvingRef:(GTReference *)symbolicRef error:(NSError **)error;
-
 - (NSString *)target;
-- (void)setTarget:(NSString *)newTarget error:(NSError **)error;
+- (BOOL)setTarget:(NSString *)newTarget error:(NSError **)error;
 - (NSString *)name;
-- (void)setName:(NSString *)newName error:(NSError **)error;
-- (void)packAllAndReturnError:(NSError **)error;
-- (void)deleteAndReturnError:(NSError **)error;
+- (BOOL)setName:(NSString *)newName error:(NSError **)error;
+- (BOOL)packAllAndReturnError:(NSError **)error;
+- (BOOL)deleteAndReturnError:(NSError **)error;
 - (GTReference *)resolveAndReturnError:(NSError **)error;
 
 @end

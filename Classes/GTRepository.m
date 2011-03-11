@@ -45,7 +45,6 @@
 
 @implementation GTRepository
 
-
 - (void)dealloc {
 	
 	git_repository_free(self.repo);
@@ -55,7 +54,6 @@
 	self.index = nil;
 	[super dealloc];
 }
-
 
 #pragma mark -
 #pragma mark API 

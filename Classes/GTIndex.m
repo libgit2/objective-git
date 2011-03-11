@@ -35,12 +35,19 @@
 
 @implementation GTIndex
 
+- (void)dealloc {
+	
+	//git_index_free(self.index);
+	self.path = nil;
+	[super dealloc];
+}
+
+#pragma mark -
+#pragma mark API
+
 @synthesize index;
 @synthesize path;
 @synthesize entryCount;
-
-#pragma mark -
-#pragma mark Initialization
 
 + (id)indexWithPath:(NSURL *)localFileUrl error:(NSError **)error {
 	
@@ -76,21 +83,20 @@
 	return self;
 }
 
-#pragma mark -
-#pragma mark API
-
 - (NSInteger)entryCount {
 	
 	return git_index_entrycount(self.index);
 }
 
-- (void)refreshAndReturnError:(NSError **)error {
+- (BOOL)refreshAndReturnError:(NSError **)error {
 	
 	int gitError = git_index_read(self.index);
 	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError gitErrorForReadIndex:gitError];
+		return NO;
 	}
+	return YES;
 }
 
 - (void)clear {
@@ -109,41 +115,37 @@
 	return [GTIndexEntry indexEntryWithEntry:git_index_get(self.index, i)];
 }
 
-- (void)addEntry:(GTIndexEntry *)entry error:(NSError **)error {
+- (BOOL)addEntry:(GTIndexEntry *)entry error:(NSError **)error {
 
 	int gitError = git_index_insert(self.index, entry.entry);
 	if(gitError != GIT_SUCCESS){
 		if(error != NULL)
 			*error = [NSError gitErrorForAddEntryToIndex:gitError];
+		return NO;
 	}
+	return YES;
 }
 
-- (void)addFile:(NSString *)file error:(NSError **)error {
+- (BOOL)addFile:(NSString *)file error:(NSError **)error {
 	
 	int gitError = git_index_add(self.index, [NSString utf8StringForString:file], 0);
 	if(gitError != GIT_SUCCESS){
 		if(error != NULL)
 			*error = [NSError gitErrorForAddEntryToIndex:gitError];
+		return NO;
 	}
+	return YES;
 }
 
-- (void)writeAndReturnError:(NSError **)error {
+- (BOOL)writeAndReturnError:(NSError **)error {
 	
 	int gitError = git_index_write(self.index);
 	if(gitError != GIT_SUCCESS){
 		if(error != NULL)
 			*error = [NSError gitErrorForWriteIndex:gitError];
+		return NO;
 	}
-}
-
-#pragma mark -
-#pragma mark Memory Management
-
-- (void)dealloc {
-	
-	//git_index_free(self.index);
-	self.path = nil;
-	[super dealloc];
+	return YES;
 }
 
 @end

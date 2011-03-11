@@ -34,7 +34,22 @@
 #import "NSError+Git.h"
 #import "GTRepository.h"
 
+
 @implementation GTCommit
+
+- (void)dealloc {
+	
+	// All these properties pass through to underlying C object
+	// there is nothing to release here
+	//self.message = nil;
+	//self.author = nil;
+	//self.commiter = nil;
+	//self.tree = nil;
+	[super dealloc];
+}
+
+#pragma mark -
+#pragma mark API 
 
 @synthesize commit;
 @synthesize message;
@@ -44,7 +59,6 @@
 @synthesize commiter;
 @synthesize tree;
 @synthesize parents;
-
 
 - (id)initInRepo:(GTRepository *)theRepo error:(NSError **)error {
 	
@@ -126,20 +140,6 @@
 		parents = [NSArray arrayWithArray:rents];
 	}
 	return parents;
-}
-
-#pragma mark -
-#pragma mark Memory Management
-
-- (void)dealloc {
-	
-	// All these properties pass through to underlying C object
-	// there is nothing to release here
-	//self.message = nil;
-	//self.author = nil;
-	//self.commiter = nil;
-	//self.tree = nil;
-	[super dealloc];
 }
 
 @end

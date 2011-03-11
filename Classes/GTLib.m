@@ -35,6 +35,9 @@
 
 @implementation GTLib
 
+#pragma mark -
+#pragma mark API 
+
 + (NSData *)hexToRaw:(NSString *)hex error:(NSError **)error {
 
 	git_oid oid;

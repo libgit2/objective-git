@@ -41,6 +41,6 @@
 
 - (GTObject *)toObjectAndReturnError:(NSError **)error;
 - (NSString *)sha;
-- (void)setSha:(NSString *)newSha error:(NSError **)error;
+- (BOOL)setSha:(NSString *)newSha error:(NSError **)error;
 
 @end

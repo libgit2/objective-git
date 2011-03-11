@@ -42,12 +42,12 @@
 - (id)initWithPath:(NSURL *)localFileUrl error:(NSError **)error;
 + (id)indexWithIndex:(git_index *)theIndex;
 - (id)initWithGitIndex:(git_index *)theIndex;
-- (void)refreshAndReturnError:(NSError **)error;
+- (BOOL)refreshAndReturnError:(NSError **)error;
 - (void)clear;
 - (GTIndexEntry *)getEntryAtIndex:(NSInteger)theIndex;
 - (GTIndexEntry *)getEntryWithName:(NSString *)name;
-- (void)addEntry:(GTIndexEntry *)entry error:(NSError **)error;
-- (void)addFile:(NSString *)file error:(NSError **)error;
-- (void)writeAndReturnError:(NSError **)error;
+- (BOOL)addEntry:(GTIndexEntry *)entry error:(NSError **)error;
+- (BOOL)addFile:(NSString *)file error:(NSError **)error;
+- (BOOL)writeAndReturnError:(NSError **)error;
 
 @end

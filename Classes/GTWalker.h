@@ -51,6 +51,4 @@ typedef enum {
 - (void)setSortingOptions:(GTWalkerOptions)options;
 - (GTCommit *)next;
 
-//- (void)walkCommitsUsingBlock:(void (^)(GTCommit *commit, BOOL *stop))block;
-
 @end

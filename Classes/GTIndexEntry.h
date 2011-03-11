@@ -48,7 +48,6 @@
 
 + (id)indexEntryWithEntry:(git_index_entry *)theEntry;
 - (id)initWithEntry:(git_index_entry *)theEntry;
-
 - (NSString *)sha;
 - (void)setSha:(NSString *)theSha error:(NSError **)error;
 

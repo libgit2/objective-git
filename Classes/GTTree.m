@@ -32,14 +32,20 @@
 #import "NSString+Git.h"
 #import "NSError+Git.h"
 
+
 @interface GTTree()
-
 @property (nonatomic, retain) NSMutableArray *entries;
-
 @end
 
-
 @implementation GTTree
+
+- (void)dealloc {
+	
+	[super dealloc];
+}
+
+#pragma mark -
+#pragma mark API
 
 @synthesize tree;
 @synthesize entries;
@@ -98,14 +104,6 @@
 	}
 	
 	return [self createEntryWithEntry:newEntry];
-}
-
-#pragma mark -
-#pragma mark Memory Management
-
-- (void)dealloc {
-	
-	[super dealloc];
 }
 
 @end

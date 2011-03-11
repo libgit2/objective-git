@@ -35,6 +35,7 @@
 #import "NSString+Git.h"
 #import "GTRepository.h"
 
+
 static NSString * const GTCommitClassName = @"GTCommit";
 static NSString * const GTTreeClassName = @"GTTree";
 static NSString * const GTBlobClassName = @"GTBlob";
@@ -42,6 +43,15 @@ static NSString * const GTObjectClassName = @"GTObject";
 static NSString * const GTTagClassName = @"GTTag";
 
 @implementation GTObject
+
+- (void)dealloc {
+	
+	self.repo = nil;
+	[super dealloc];
+}
+
+#pragma mark -
+#pragma mark API 
 
 @synthesize object;
 @synthesize type;
@@ -151,15 +161,6 @@ static NSString * const GTTagClassName = @"GTTag";
 	if(![otherObject isKindOfClass:[GTObject class]]) return NO;
 	
 	return 0 == git_oid_cmp(git_object_id(self.object), git_object_id(((GTObject *)otherObject).object)) ? YES : NO;
-}
-
-#pragma mark -
-#pragma mark Memory Management
-
-- (void)dealloc {
-	
-	self.repo = nil;
-	[super dealloc];
 }
 
 @end

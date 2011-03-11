@@ -34,6 +34,17 @@
 
 @implementation GTBlob
 
+- (void)dealloc {
+	
+	// All these properties pass through to underlying C object
+	// there is nothing to release here
+	//self.content = nil;
+	[super dealloc];
+}
+
+#pragma mark -
+#pragma mark API
+
 @synthesize size;
 @synthesize content;
 
@@ -67,17 +78,6 @@
 - (void)setContent:(NSString *)newContent {
 		
 	git_blob_set_rawcontent(self.blob, [NSString utf8StringForString:newContent], [newContent length]);
-}
-
-#pragma mark -
-#pragma mark Memory Management
-
-- (void)dealloc {
-	
-	// All these properties pass through to underlying C object
-	// there is nothing to release here
-	//self.content = nil;
-	[super dealloc];
 }
 
 @end

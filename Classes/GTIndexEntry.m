@@ -32,7 +32,25 @@
 #import "NSString+Git.h"
 #import "NSError+Git.h"
 
+
 @implementation GTIndexEntry
+
+- (void)dealloc {
+	
+	// todo: do we free here?
+	// free(self.entry);
+	
+	// All these properties pass through to underlying C object
+	// there is nothing to release here
+	//self.path = nil;
+	//self.sha = nil;
+	//self.mTime = nil;
+	//self.cTime = nil;
+	[super dealloc];
+}
+
+#pragma mark -
+#pragma mark API
 
 @synthesize entry;
 @synthesize path;
@@ -47,7 +65,6 @@
 @synthesize flags;
 @synthesize stage;
 @synthesize isValid;
-
 
 + (id)indexEntryWithEntry:(git_index_entry *)theEntry {
 	
@@ -163,23 +180,6 @@
 	
 	self.entry->flags &= ~GIT_IDXENTRY_STAGEMASK;
 	self.entry->flags |= (theStage << GIT_IDXENTRY_STAGESHIFT);
-}
-
-#pragma mark -
-#pragma mark Memory Management
-
-- (void)dealloc {
-
-	// todo: do we free here?
-	// free(self.entry);
-	
-	// All these properties pass through to underlying C object
-	// there is nothing to release here
-	//self.path = nil;
-	//self.sha = nil;
-	//self.mTime = nil;
-	//self.cTime = nil;
-	[super dealloc];
 }
 
 @end

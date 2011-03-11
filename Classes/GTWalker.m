@@ -38,7 +38,6 @@
 @property (nonatomic, assign) git_revwalk *walk;
 @end
 
-
 @implementation GTWalker
 
 - (void)dealloc {

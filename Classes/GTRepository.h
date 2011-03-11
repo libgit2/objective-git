@@ -61,7 +61,6 @@
 - (BOOL)walk:(NSString *)sha sorting:(GTWalkerOptions)sortMode error:(NSError **)error block:(void (^)(GTCommit *commit, BOOL *stop))block;
 - (BOOL)walk:(NSString *)sha error:(NSError **)error block:(void (^)(GTCommit *commit, BOOL *stop))block;
 - (BOOL)setupIndexAndReturnError:(NSError **)error;
-
 - (GTReference *)headAndReturnError:(NSError **)error;
 
 @end

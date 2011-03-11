@@ -34,7 +34,21 @@
 #import "NSString+Git.h"
 #import "NSError+Git.h"
 
+
 @implementation GTTreeEntry
+
+- (void)dealloc {
+	
+	// All these properties pass through to underlying C object
+	// there is nothing to release here
+	//self.name = nil;
+	
+	self.tree = nil;
+	[super dealloc];
+}
+
+#pragma mark -
+#pragma mark API
 
 @synthesize entry;
 @synthesize name;
@@ -63,7 +77,7 @@
 	
 	return [GTLib convertOidToSha:git_tree_entry_id(self.entry)];
 }
-- (void)setSha:(NSString *)newSha error:(NSError **)error {
+- (BOOL)setSha:(NSString *)newSha error:(NSError **)error {
 	
 	git_oid oid;
 	
@@ -71,10 +85,11 @@
 	if(gitError != GIT_SUCCESS){
 		if(error != NULL)
 			*error = [NSError gitErrorForMkStr:gitError];
-		return;
+		return NO;
 	}
 
 	git_tree_entry_set_id(self.entry, &oid);
+	return YES;
 }
 
 - (GTObject *)toObjectAndReturnError:(NSError **)error {
@@ -88,19 +103,6 @@
 	}
 	
 	return [GTObject objectInRepo:self.tree.repo withObject:obj];
-}
-
-#pragma mark -
-#pragma mark Memory Management
-
-- (void)dealloc {
-	
-	// All these properties pass through to underlying C object
-	// there is nothing to release here
-	//self.name = nil;
-	
-	self.tree = nil;
-	[super dealloc];
 }
 
 @end

@@ -32,6 +32,19 @@
 
 @implementation GTReference
 
+- (void)dealloc {
+	
+	self.repo = nil;
+	// All these properties pass through to underlying C object
+	// there is nothing to release here
+	//self.name = nil;
+	//self.type = nil;
+	[super dealloc];
+}
+
+#pragma mark -
+#pragma mark API
+
 @synthesize ref;
 @synthesize repo;
 @synthesize type;
@@ -116,13 +129,15 @@
 	
 	return [NSString stringForUTF8String:git_reference_name(self.ref)];
 }
-- (void)setName:(NSString *)newName error:(NSError **)error {
+- (BOOL)setName:(NSString *)newName error:(NSError **)error {
 
 	int gitError = git_reference_rename(self.ref, [NSString utf8StringForString:newName]);
 	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError gitErrorForRenameRef:gitError];
+		return NO;
 	}
+	return YES;
 }
 
 - (NSString *)type {
@@ -140,7 +155,7 @@
 		return [NSString stringForUTF8String:git_reference_target(self.ref)];
 	}
 }
-- (void)setTarget:(NSString *)newTarget error:(NSError **)error {
+- (BOOL)setTarget:(NSString *)newTarget error:(NSError **)error {
 	
 	int gitError;
 	
@@ -151,7 +166,7 @@
 		if(gitError != GIT_SUCCESS){
 			if(error != NULL)
 				*error = [NSError gitErrorForMkStr:gitError];
-			return;
+			return NO;
 		}
 		
 		gitError = git_reference_set_oid(self.ref, &oid);
@@ -164,29 +179,32 @@
 	if(gitError != GIT_SUCCESS){
 		if(error != NULL)
 			*error = [NSError gitErrorForSetRefTarget:gitError];
-		return;
+		return NO;
 	}
+	return YES;
 }
 
-- (void)packAllAndReturnError:(NSError **)error {
+- (BOOL)packAllAndReturnError:(NSError **)error {
 	
 	int gitError = git_reference_packall(self.repo.repo);
 	if(gitError != GIT_SUCCESS){
 		if(error != NULL)
 			*error = [NSError gitErrorForPackAllRefs:gitError];
-		return;
+		return NO;
 	}
+	return YES;
 }
 
-- (void)deleteAndReturnError:(NSError **)error {
+- (BOOL)deleteAndReturnError:(NSError **)error {
 	
 	int gitError = git_reference_delete(self.ref);
 	if(gitError != GIT_SUCCESS){
 		if(error != NULL)
 			*error = [NSError gitErrorForDeleteRef:gitError];
-		return;
+		return NO;
 	}
 	self.ref = NULL; /* this has been free'd */
+	return YES;
 }
 
 - (GTReference *)resolveAndReturnError:(NSError **)error {
@@ -196,16 +214,6 @@
 
 - (const git_oid *)oid {
 	return git_reference_oid(self.ref);
-}
-
-- (void)dealloc {
-	
-	self.repo = nil;
-	// All these properties pass through to underlying C object
-	// there is nothing to release here
-	//self.name = nil;
-	//self.type = nil;
-	[super dealloc];
 }
 
 @end

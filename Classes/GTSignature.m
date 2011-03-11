@@ -30,7 +30,24 @@
 #import "GTSignature.h"
 #import "NSString+Git.h"
 
+
 @implementation GTSignature
+
+- (void)dealloc {
+	
+	// if i free the signature, writes fails
+	//git_signature_free(self.signature);
+	
+	// All these properties pass through to underlying C object
+	// there is nothing to release here
+	//self.name = nil;
+	//self.email = nil;
+	//self.time = nil;
+	[super dealloc];
+}
+
+#pragma mark -
+#pragma mark API 
 
 @synthesize signature;
 @synthesize name;
@@ -107,22 +124,6 @@
 			self.email,
 			self.time
 			];
-}
-
-#pragma mark -
-#pragma mark Memory Management
-
-- (void)dealloc {
-	
-	// if i free the signature, writes fails
-	//git_signature_free(self.signature);
-	
-	// All these properties pass through to underlying C object
-	// there is nothing to release here
-	//self.name = nil;
-	//self.email = nil;
-	//self.time = nil;
-	[super dealloc];
 }
 
 @end
