@@ -245,34 +245,50 @@
 	return [GTLib hexFromOid:&oid];
 }
 
-- (void)walk:(NSString *)sha sorting:(GTWalkerOptions)sortMode error:(NSError **)error block:(void (^)(GTCommit *commit))block {
+- (BOOL)walk:(NSString *)sha sorting:(GTWalkerOptions)sortMode error:(NSError **)error block:(void (^)(GTCommit *commit, BOOL *stop))block {
 	
-	if(block == nil)return;
+	if(block == nil) {
+		if(error != NULL)
+			*error = [NSError gitErrorForNoBlockProvided];
+		return NO;	
+	}
 
+	if(sha == nil){
+		GTReference *head = [self headAndReturnError:error];
+		if(head == nil) return NO;
+		sha = head.target;
+	}
+	
 	[self.walker setSortingOptions:sortMode];
-	[self.walker push:sha error:error];
+	BOOL success = [self.walker push:sha error:error];
+	if(!success) return NO; 
 	
 	GTCommit *commit = nil;
 	while((commit = [self.walker next]) != nil){
-		block(commit);
+		BOOL stop = NO;
+		block(commit, &stop);
+		if(stop) break;
 	}
+	return YES;
 }
 
-- (void)walk:(NSString *)sha error:(NSError **)error block:(void (^)(GTCommit *commit))block {
+- (BOOL)walk:(NSString *)sha error:(NSError **)error block:(void (^)(GTCommit *commit, BOOL *stop))block {
 	
-	[self walk:sha sorting:GIT_SORT_TIME  error:error block:block];
+	return [self walk:sha sorting:GIT_SORT_TIME error:error block:block];
 }
 
-- (void)setupIndexAndReturnError:(NSError **)error {
+- (BOOL)setupIndexAndReturnError:(NSError **)error {
 	
 	git_index *i;
 	int gitError = git_repository_index(&i, self.repo);
 	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError gitErrorForInitRepoIndex:gitError];
+		return NO;
 	}
 	else {
 		self.index = [GTIndex indexWithIndex:i];
+		return YES;
 	}
 }
 

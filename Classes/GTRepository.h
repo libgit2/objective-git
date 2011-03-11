@@ -57,9 +57,9 @@
 - (GTRawObject *)rawRead:(const git_oid *)oid error:(NSError **)error;
 - (GTRawObject *)read:(NSString *)sha error:(NSError **)error;
 - (NSString *)write:(GTRawObject *)rawObj error:(NSError **)error;
-- (void)walk:(NSString *)sha sorting:(GTWalkerOptions)sortMode error:(NSError **)error block:(void (^)(GTCommit *commit))block;
-- (void)walk:(NSString *)sha error:(NSError **)error block:(void (^)(GTCommit *commit))block;
-- (void)setupIndexAndReturnError:(NSError **)error;
+- (BOOL)walk:(NSString *)sha sorting:(GTWalkerOptions)sortMode error:(NSError **)error block:(void (^)(GTCommit *commit, BOOL *stop))block;
+- (BOOL)walk:(NSString *)sha error:(NSError **)error block:(void (^)(GTCommit *commit, BOOL *stop))block;
+- (BOOL)setupIndexAndReturnError:(NSError **)error;
 
 - (GTReference *)headAndReturnError:(NSError **)error;
 

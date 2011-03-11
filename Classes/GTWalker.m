@@ -62,20 +62,24 @@
 	return self;
 }
 
-- (void)push:(NSString *)sha error:(NSError **)error {
+- (BOOL)push:(NSString *)sha error:(NSError **)error {
 	
 	git_commit *commit;
 	commit = (git_commit *)[GTObject getNewObjectInRepo:self.repo.repo sha:sha type:GIT_OBJ_COMMIT error:error];
+	if(commit == nil) return NO;
 	
 	git_revwalk_push(self.walk, commit);
+	return YES;
 }
 
-- (void)hide:(NSString *)sha error:(NSError **)error {
+- (BOOL)hide:(NSString *)sha error:(NSError **)error {
 	
 	git_commit *commit;
 	commit = (git_commit *)[GTObject getNewObjectInRepo:self.repo.repo sha:sha type:GIT_OBJ_COMMIT error:error];
+	if(commit == nil) return NO;
 	
 	git_revwalk_hide(self.walk, commit);
+	return YES;
 }
 
 - (void)reset {
@@ -97,14 +101,14 @@
 	return (GTCommit *)[GTObject objectInRepo:self.repo withObject:(git_object*)commit];
 }
 
-- (void)walkCommitsUsingBlock:(void (^)(GTCommit *commit, BOOL *stop))block {
-	GTCommit *currentCommit = nil;
-	BOOL stop = NO;
-	while((currentCommit = [self next])) {
-		block(currentCommit, &stop);
-		if(stop) break;
-	}
-}
+//- (void)walkCommitsUsingBlock:(void (^)(GTCommit *commit, BOOL *stop))block {
+//	GTCommit *currentCommit = nil;
+//	BOOL stop = NO;
+//	while((currentCommit = [self next])) {
+//		block(currentCommit, &stop);
+//		if(stop) break;
+//	}
+//}
 
 #pragma mark -
 #pragma mark Memory Management

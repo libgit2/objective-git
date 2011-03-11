@@ -259,4 +259,12 @@ static NSString * const GTGitErrorDomain = @"GTGitErrorDomain";
 										forKey:NSLocalizedDescriptionKey]];	
 }
 
++ (NSError *)gitErrorForNoBlockProvided {
+	return [NSError errorWithDomain:GTGitErrorDomain
+							   code:-1
+						   userInfo:
+			[NSDictionary dictionaryWithObject:@"No block was provided to the method"
+										forKey:NSLocalizedDescriptionKey]];
+}
+
 @end

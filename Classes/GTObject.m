@@ -108,7 +108,6 @@ static NSString * const GTTagClassName = @"GTTag";
 	}
 	
 	gitError = git_object_lookup(&obj, r, &oid, theType);
-	//int gitError = git_repository_lookup(&obj, r, &oid, theType);
 	if(gitError != GIT_SUCCESS){
 		if(error != NULL)
 			*error = [NSError gitErrorForLookupSha:gitError];

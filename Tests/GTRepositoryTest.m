@@ -133,12 +133,13 @@ static NSString *newRepoPath = @"file://localhost/Users/tclem/github/local/unit_
 	GHTestLog(@"%d", [aRepo retainCount]);
 	NSString *sha = @"a4a7dce85cf63874e984719f4fdd239f5145052f";
 	__block NSMutableArray *commits = [[[NSMutableArray alloc] init] autorelease];
-	[aRepo walk:sha 
-		  error:&error
-		  block:^(GTCommit *commit){
-			 [commits addObject:commit];
-		 }];
-	GHAssertNil(error, nil);
+	BOOL success = [aRepo walk:sha
+						 error:&error
+						 block:^(GTCommit *commit, BOOL *stop) {
+								[commits addObject:commit];
+						 }];
+	GHAssertTrue(success, nil);
+	GHAssertNil(error, [error localizedDescription]);
 	
 	NSArray *expectedShas = [NSArray arrayWithObjects:
 							 @"a4a7d",

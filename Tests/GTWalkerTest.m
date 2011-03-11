@@ -75,13 +75,27 @@
 				
 	__block int count = 0;
 	[repo walk:head.target 
-		  error:&error
-		  block:^(GTCommit *commit){
+		 error:&error
+		  block:^(GTCommit *commit, BOOL *stop){
 			  count ++;
 		  }];
 	GHAssertNil(error, [error localizedDescription]);
 	GHAssertEquals(3, count, nil);
+}
+
+- (void)testCanWalkFromHeadShortcut {
 	
+	NSError *error = nil;
+	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH] error:&error];
+	
+	__block int count = 0;
+	[repo walk:nil 
+		 error:&error
+		 block:^(GTCommit *commit, BOOL *stop){
+			 count ++;
+		 }];
+	GHAssertNil(error, [error localizedDescription]);
+	GHAssertEquals(3, count, nil);
 }
 
 - (void)testCanWalkPartOfARevList {

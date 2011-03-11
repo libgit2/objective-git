@@ -123,7 +123,9 @@
 	[self.repository.walker setSortingOptions:GTWalkerOptionsTopologicalSort];
 	[self.repository.walker push:self.reference.target error:error];
 	
-	return [self.repository.walker next];
+	GTCommit *next = [self.repository.walker next];
+	[self.repository.walker reset];
+	return next;
 }
 
 - (BOOL)isEqual:(id)otherObject {

@@ -57,5 +57,6 @@
 + (NSError *)gitErrorForDeleteRef: (int)code;
 + (NSError *)gitErrorForResloveRef: (int)code;
 + (NSError *)gitErrorForRenameRef: (int)code;
++ (NSError *)gitErrorForNoBlockProvided;
 
 @end
