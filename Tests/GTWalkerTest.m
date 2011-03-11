@@ -47,8 +47,8 @@
 	
 	NSError *error = nil;
 	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH] error:&error];
-	[repo.walker push:@"9fd738e8f7967c078dceed8190330fc8648ee56a" error:&error];
-	GHAssertNil(error, nil);
+	BOOL success = [repo.walker push:@"9fd738e8f7967c078dceed8190330fc8648ee56a" error:&error];
+	GHAssertTrue(success, [error localizedDescription]);
 	
 	NSMutableArray *shas = [[[NSMutableArray alloc] initWithCapacity:4] autorelease];
 	for (int i=0; i < 4; i++) {
@@ -74,12 +74,12 @@
 	GHAssertNil(error, [error localizedDescription]);
 				
 	__block int count = 0;
-	[repo walk:head.target 
-		 error:&error
-		  block:^(GTCommit *commit, BOOL *stop){
-			  count ++;
-		  }];
-	GHAssertNil(error, [error localizedDescription]);
+	BOOL success = [repo walk:head.target 
+						error:&error
+						block:^(GTCommit *commit, BOOL *stop){
+							count ++;
+						}];
+	GHAssertTrue(success, [error localizedDescription]);
 	GHAssertEquals(3, count, nil);
 }
 
@@ -89,12 +89,12 @@
 	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH] error:&error];
 	
 	__block int count = 0;
-	[repo walk:nil 
-		 error:&error
-		 block:^(GTCommit *commit, BOOL *stop){
-			 count ++;
-		 }];
-	GHAssertNil(error, [error localizedDescription]);
+	BOOL success = [repo walk:nil 
+						error:&error
+						block:^(GTCommit *commit, BOOL *stop){
+							count ++;
+						}];
+	GHAssertTrue(success, [error localizedDescription]);
 	GHAssertEquals(3, count, nil);
 }
 
@@ -103,8 +103,8 @@
 	NSError *error = nil;
 	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH] error:&error];
 	NSString *sha = @"8496071c1b46c854b31185ea97743be6a8774479";
-	[repo.walker push:sha error:&error];
-	GHAssertNil(error, nil);
+	BOOL success = [repo.walker push:sha error:&error];
+	GHAssertTrue(success, [error localizedDescription]);
 	
 	GHAssertEqualStrings([repo.walker next].sha, sha, nil);
 	GHAssertNil([repo.walker next], nil);
@@ -114,11 +114,13 @@
 	
 	NSError *error = nil;
 	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH] error:&error];
-	[repo.walker push:@"9fd738e8f7967c078dceed8190330fc8648ee56a" error:&error];
-	[repo.walker hide:@"5b5b025afb0b4c913b4c338a42934a3863bf3644" error:&error];
+	BOOL success = [repo.walker push:@"9fd738e8f7967c078dceed8190330fc8648ee56a" error:&error];
+	GHAssertTrue(success, [error localizedDescription]);
+	success = [repo.walker hide:@"5b5b025afb0b4c913b4c338a42934a3863bf3644" error:&error];
+	GHAssertTrue(success, [error localizedDescription]);
 	
 	for(int i=0; i < 2; i++) {
-		[repo.walker next];
+		GHAssertNotNil([repo.walker next], nil);
 	}
 	
 	GHAssertNil([repo.walker next], nil);
@@ -129,14 +131,16 @@
 	NSError *error = nil;
 	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH] error:&error];
 	NSString *sha = @"8496071c1b46c854b31185ea97743be6a8774479";
-	[repo.walker push:sha error:&error];
+	BOOL success = [repo.walker push:sha error:&error];
+	GHAssertTrue(success, nil);
 	GHAssertEqualStrings([repo.walker next].sha, sha, nil);
 	GHAssertNil([repo.walker next], nil);
 	
 	[repo.walker reset];
 	
 	GHAssertNil([repo.walker next], nil);
-	[repo.walker push:sha error:&error];
+	success = [repo.walker push:sha error:&error];
+	GHAssertTrue(success, [error localizedDescription]);
 	GHAssertEqualStrings([repo.walker next].sha, sha, nil);
 }
 
@@ -146,7 +150,8 @@
 	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH] error:&error];
 	NSString *sha = @"a4a7dce85cf63874e984719f4fdd239f5145052f";
 	[repo.walker setSortingOptions:sortMode];
-	[repo.walker push:sha error:&error];
+	BOOL success = [repo.walker push:sha error:&error];
+	GHAssertTrue(success, [error localizedDescription]);
 	
 	NSMutableArray *commits = [[[NSMutableArray alloc] initWithCapacity:6] autorelease];
 	for(int i=0; i < 6; i++) {

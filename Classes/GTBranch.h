@@ -35,7 +35,6 @@
 @property (nonatomic, readonly, assign) GTRepository *repository;
 @property (nonatomic, readonly, assign) GTReference *reference;
 
-
 + (id)branchWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error;
 + (id)branchWithShortName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error;
 + (id)branchWithReference:(GTReference *)ref repository:(GTRepository *)repo;

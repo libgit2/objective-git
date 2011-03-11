@@ -41,7 +41,7 @@
 	
 	NSError *error = nil;
 	NSData *raw = [GTLib hexToRaw:@"ce08fe4884650f067bd5703b6a59a8b3b3c99a09" error:&error];
-	GHAssertNil(error, nil);
+	GHAssertNil(error, [error localizedDescription]);
 	
 	NSString *b64raw = [raw base64EncodedString];
 	GHAssertEqualStrings(@"zgj+SIRlDwZ71XA7almos7PJmgk=", b64raw, nil);

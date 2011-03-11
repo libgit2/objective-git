@@ -51,7 +51,7 @@
 	NSError *error = nil;
 	GTObject *obj = [repo lookupBySha:sha error:&error];
 	
-	GHAssertNil(error, nil);
+	GHAssertNil(error, [error localizedDescription]);
 	GHAssertNotNil(obj, nil);
 	GHAssertTrue([obj isKindOfClass:[GTCommit class]], nil);
 	GHAssertEqualStrings(obj.type, @"commit", nil);
@@ -82,7 +82,7 @@
 	NSError *error = nil;
 	GTObject *obj = [repo lookupBySha:sha error:&error];
 	
-	GHAssertNil(error, nil);
+	GHAssertNil(error, [error localizedDescription]);
 	GHAssertNotNil(obj, nil);
 	
 	GTCommit *commit = (GTCommit *)obj;
@@ -94,14 +94,15 @@
 	NSError *error = nil;
 	NSString *sha = @"8496071c1b46c854b31185ea97743be6a8774479";
 	GTCommit *obj = (GTCommit *)[repo lookupBySha:sha error:&error];
+	GHAssertNil(error, [error localizedDescription]);
 	GHAssertNotNil(obj, nil);
-	GHAssertNil(error, nil);
 	
 	obj.message = @"new message";
 	NSString *newSha = [obj writeAndReturnError:&error];
 	
+	GHAssertNil(error, [error localizedDescription]);
 	GHAssertNotNil(newSha, nil);
-	GHAssertNil(error, nil);
+	
 	rm_loose(newSha);
 }
 
@@ -111,7 +112,7 @@
 	NSError *error = nil;
 	GTObject *obj = [repo lookupBySha:tsha error:&error];
 	
-	GHAssertNil(error, nil);
+	GHAssertNil(error, [error localizedDescription]);
 	GHAssertNotNil(obj, nil);
 	GHAssertTrue([obj isKindOfClass:[GTTree class]], nil);
 	GTTree *tree = (GTTree *)obj;
@@ -127,7 +128,7 @@
 	commit.commiter = person;
 	commit.tree = tree;
 	NSString *newSha = [commit writeAndReturnError:&error];
-	GHAssertNil(error, nil);
+	GHAssertNil(error, [error localizedDescription]);
 	GHAssertNotNil(newSha, nil);
 	GHTestLog(@"wrote sha %@", newSha);
 	

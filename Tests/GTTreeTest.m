@@ -63,12 +63,12 @@
 	GTTreeEntry *tent = [tree entryAtIndex:2];
 	
 	GTObject *bentObj = [bent toObjectAndReturnError:&error];
-	GHAssertNil(error, nil);
+	GHAssertNil(error, [error localizedDescription]);
 	GHAssertEqualStrings(@"README", bent.name, nil);
 	GHAssertEqualStrings(bentObj.sha, bent.sha, nil);
 	
 	GTObject *tentObj = [tent toObjectAndReturnError:&error];
-	GHAssertNil(error, nil);
+	GHAssertNil(error, [error localizedDescription]);
 	GHAssertEqualStrings(@"subdir", tent.name, nil);
 	GHAssertEqualStrings(@"619f9935957e010c419cb9d15621916ddfcc0b96", tentObj.sha, nil);
 	GHAssertEqualStrings(@"tree", tentObj.type, nil);

@@ -43,8 +43,8 @@
 	NSString *sha = @"0c37a5391bbff43c37f0d0371823a5509eed5b1d";
 	GTTag *tag = (GTTag *)[repo lookupBySha:sha error:&error];
 	
+	GHAssertNil(error, [error localizedDescription]);
 	GHAssertNotNil(tag, nil);
-	GHAssertNil(error, nil);
 	GHAssertEqualStrings(sha, tag.sha, nil);
 	GHAssertEqualStrings(@"tag", tag.type, nil);
 	GHAssertEqualStrings(@"test tag message\n", tag.message, nil);
@@ -68,7 +68,7 @@
 	tag.message = @"new message";
 	[tag writeAndReturnError:&error];
 	
-	GHAssertNil(error, nil);
+	GHAssertNil(error, [error localizedDescription]);
 	GHAssertNotEqualStrings(tag.sha, sha, nil);
 	
 	rm_loose(tag.sha);

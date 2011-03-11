@@ -105,13 +105,15 @@
 	
 	return [GTLib convertOidToSha:&entry->oid];
 }
-- (void)setSha:(NSString *)theSha error:(NSError **)error {
+- (BOOL)setSha:(NSString *)theSha error:(NSError **)error {
 
 	int gitError = git_oid_mkstr(&entry->oid, [NSString utf8StringForString:theSha]);
 	if(gitError != GIT_SUCCESS){
 		if(error != NULL)
 			*error = [NSError gitErrorForMkStr:gitError];
+		return NO;
 	}
+	return YES;
 }
 
 - (NSDate *)mTime {

@@ -56,8 +56,8 @@ static NSString *newRepoPath = @"file://localhost/Users/tclem/github/local/unit_
 	NSError *error = nil;
 	GTRepository *newRepo = [GTRepository repoByCreatingRepositoryInDirectory:newRepoURL error:&error];
 	
+	GHAssertNil(error, [error localizedDescription]);
 	GHAssertNotNil(newRepo, nil);
-	GHAssertNil(error, nil);
 	GHAssertNotNil(newRepo.fileUrl, nil);
 	GHAssertNotNULL(newRepo.repo, nil);
 	
@@ -88,8 +88,8 @@ static NSString *newRepoPath = @"file://localhost/Users/tclem/github/local/unit_
 	NSError *error = nil;
 	GTRawObject *rawObj = [repo read:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error];
 	
+	GHAssertNil(error, [error localizedDescription]);
 	GHAssertNotNil(rawObj, nil);
-	GHAssertNil(error, nil);
 	GHAssertEqualStrings(@"tree 181037049a54a1eb5fab404658a3a250b44335d7", [[rawObj dataAsUTF8String] substringToIndex:45], nil);
 	GHAssertEquals((int)[rawObj.data length], 172, nil);
 	GHAssertEquals(rawObj.type, GIT_OBJ_COMMIT, nil);
@@ -117,7 +117,7 @@ static NSString *newRepoPath = @"file://localhost/Users/tclem/github/local/unit_
 	NSError *error = nil;
 	NSString *sha = [repo write:obj error:&error];
 	
-	GHAssertNil(error, nil);
+	GHAssertNil(error, [error localizedDescription]);
 	GHAssertNotNil(sha, nil);
 	GHAssertEqualStrings(sha, @"76b1b55ab653581d6f2c7230d34098e837197674", nil);
 	GHAssertTrue([repo exists:sha error:&error], nil);
@@ -138,8 +138,7 @@ static NSString *newRepoPath = @"file://localhost/Users/tclem/github/local/unit_
 						 block:^(GTCommit *commit, BOOL *stop) {
 								[commits addObject:commit];
 						 }];
-	GHAssertTrue(success, nil);
-	GHAssertNil(error, [error localizedDescription]);
+	GHAssertTrue(success, [error localizedDescription]);
 	
 	NSArray *expectedShas = [NSArray arrayWithObjects:
 							 @"a4a7d",
@@ -161,7 +160,6 @@ static NSString *newRepoPath = @"file://localhost/Users/tclem/github/local/unit_
 - (void)testLookupHead {
 	
 	NSError *error = nil;
-	GHAssertNil(error, [error localizedDescription]);
 	GTReference *head = [repo headAndReturnError:&error];
 	GHAssertNil(error, [error localizedDescription]);
 	GHAssertEqualStrings(head.target, @"36060c58702ed4c2a40832c51758d5344201d89a", nil);

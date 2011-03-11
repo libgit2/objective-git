@@ -121,7 +121,8 @@
 - (GTCommit *)mostRecentCommitWithError:(NSError **)error {
 	
 	[self.repository.walker setSortingOptions:GTWalkerOptionsTopologicalSort];
-	[self.repository.walker push:self.reference.target error:error];
+	BOOL success = [self.repository.walker push:self.reference.target error:error];
+	if(!success) return nil;
 	
 	return [self.repository.walker next];
 }

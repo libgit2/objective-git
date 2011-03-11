@@ -43,7 +43,8 @@
 	
 	NSError *error = nil;
 	index = [GTIndex indexWithPath:[NSURL URLWithString:TEST_INDEX_PATH] error:&error];
-	[index refreshAndReturnError:&error];
+	BOOL success = [index refreshAndReturnError:&error];
+	GHAssertTrue(success, [error localizedDescription]);
 }
 
 - (void)testCanCountIndexEntries {
@@ -87,7 +88,8 @@
 	NSDate *now = [NSDate date];
 	GTIndexEntry *e = [[[GTIndexEntry alloc] init] autorelease];
 	e.path = @"new_path";
-	[e setSha:@"d385f264afb75a56a5bec74243be9b367ba4ca08" error:&error];
+	BOOL success = [e setSha:@"d385f264afb75a56a5bec74243be9b367ba4ca08" error:&error];
+	GHAssertTrue(success, [error localizedDescription]);
 	e.mTime = now;
 	e.cTime = now;
 	e.fileSize = 1000;
@@ -109,7 +111,7 @@
 	
 	NSError *error = nil;
 	e.stage = 3;
-	GHAssertNil(error, nil);
+	GHAssertNil(error, [error localizedDescription]);
 	GHAssertEquals((NSUInteger)12288, e.flags, nil);
 	
 	e.flags = e.flags | GIT_IDXENTRY_VALID;
@@ -123,7 +125,8 @@
 	GTIndexEntry *e = [index getEntryAtIndex:0];
 	
 	e.path = @"new_path";
-	[e setSha:@"12ea3153a78002a988bb92f4123e7e831fd1138a" error:&error];
+	BOOL success = [e setSha:@"12ea3153a78002a988bb92f4123e7e831fd1138a" error:&error];
+	GHAssertTrue(success, [error localizedDescription]);
 	e.mTime = now;
 	e.cTime = now;
 	e.fileSize = 1000;
@@ -152,9 +155,9 @@
 	NSError *error = nil;
 	GTIndexEntry *e = [self createNewIndexEntry];
 	
-	[index addEntry:e error:&error];
+	BOOL success = [index addEntry:e error:&error];
 	
-	GHAssertNil(error, nil);
+	GHAssertTrue(success, [error localizedDescription]);
 	GHAssertEquals(3, (int)[index entryCount], nil);
 	e = [index getEntryAtIndex:2];
 	GHAssertEqualStrings(@"new_path", e.path, nil);
@@ -173,7 +176,9 @@
 	[m copyItemAtURL:[NSURL URLWithString:TEST_INDEX_PATH] toURL:tempPath error:&error];
 	
 	wIndex = [GTIndex indexWithPath:tempPath error:&error];
-	[wIndex refreshAndReturnError:&error];
+	GHAssertNil(error, [error localizedDescription]);
+	BOOL success = [wIndex refreshAndReturnError:&error];
+	GHAssertTrue(success, [error localizedDescription]);
 }
 
 - (void)testCanWriteNewIndex {
@@ -181,17 +186,19 @@
 	NSError *error = nil;
 	[self createTempPath];
 	GTIndexEntry *e = [self createNewIndexEntry];
-	[wIndex addEntry:e error:&error];
-	GHAssertNil(error, nil);
+	BOOL success = [wIndex addEntry:e error:&error];
+	GHAssertTrue(success, [error localizedDescription]);
 	
 	e.path = @"else.txt";
-	[wIndex addEntry:e error:&error];
-	GHAssertNil(error, nil);
-	[wIndex writeAndReturnError:&error];
-	GHAssertNil(error, nil);
+	success = [wIndex addEntry:e error:&error];
+	GHAssertTrue(success, [error localizedDescription]);
+	success = [wIndex writeAndReturnError:&error];
+	GHAssertTrue(success, [error localizedDescription]);
 	
 	GTIndex *index2 = [GTIndex indexWithPath:tempPath error:&error];
-	[index2 refreshAndReturnError:&error];
+	GHAssertNil(error, [error localizedDescription]);
+	success = [index2 refreshAndReturnError:&error];
+	GHAssertTrue(success, [error localizedDescription]);
 	GHAssertEquals(4, (int)[index2 entryCount], nil);
 }
 
@@ -230,16 +237,16 @@
 	// open the repo and write to the index
 	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:repoPath error:&error];
 	GHAssertNil(error, [error localizedDescription]);
-	[repo setupIndexAndReturnError:&error];
-	GHAssertNil(error, [error localizedDescription]);
-	[repo.index addFile:[file lastPathComponent] error:&error]; 
-	GHAssertNil(error, [error localizedDescription]);
-	[repo.index writeAndReturnError:&error]; 
-	GHAssertNil(error, [error localizedDescription]);
+	BOOL success = [repo setupIndexAndReturnError:&error];
+	GHAssertTrue(success, [error localizedDescription]);
+	success = [repo.index addFile:[file lastPathComponent] error:&error]; 
+	GHAssertTrue(success, [error localizedDescription]);
+	success = [repo.index writeAndReturnError:&error]; 
+	GHAssertTrue(success, [error localizedDescription]);
 	
 	GTIndex *index2 = [GTIndex indexWithPath:[tempPath URLByAppendingPathComponent:@".git/index"] error:&error];
-	[index2 refreshAndReturnError:&error];
-	GHAssertNil(error, [error localizedDescription]);
+	success = [index2 refreshAndReturnError:&error];
+	GHAssertTrue(success, [error localizedDescription]);
 	
 	GHAssertEqualStrings([index2 getEntryAtIndex:0].path, @"test.txt", nil);
 }

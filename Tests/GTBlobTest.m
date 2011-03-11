@@ -62,10 +62,11 @@
 	blob.content = @"my new content";
 	GHAssertEqualStrings(sha, blob.sha, nil);
 	
-	[blob writeAndReturnError:&error];
+	NSString *newSha = [blob writeAndReturnError:&error];
 	
-	GHAssertNil(error, nil);
+	GHAssertNil(error, [error localizedDescription]);
 	GHAssertEqualStrings(@"2dd916ea1ff086d61fbc1c286079305ffad4e92e", blob.sha, nil);
+	GHAssertEqualStrings(@"2dd916ea1ff086d61fbc1c286079305ffad4e92e", newSha, nil);
 	rm_loose(blob.sha);
 }
 
@@ -73,12 +74,12 @@
 	
 	NSError *error = nil;
 	GTBlob *blob = [[[GTBlob alloc] initInRepo:repo error:&error] autorelease];
-	GHAssertNil(error, nil);
+	GHAssertNil(error, [error localizedDescription]);
 	GHAssertNotNil(blob, nil);
 	blob.content = @"a new blob content";
 	
 	[blob writeAndReturnError:&error];
-	GHAssertNil(error, nil);
+	GHAssertNil(error, [error localizedDescription]);
 	
 	rm_loose(blob.sha);
 }
@@ -92,11 +93,11 @@
 
 	NSString *newSha = [repo write:obj error:&error];
 
-	GHAssertNil(error, nil);
+	GHAssertNil(error, [error localizedDescription]);
 	GHAssertNotNil(newSha, nil);
 	GTBlob *blob = (GTBlob *)[repo lookupBySha:newSha error:&error];
 	GTRawObject *newObj = [blob readRawAndReturnError:&error];
-	GHAssertNil(error, nil);
+	GHAssertNil(error, [error localizedDescription]);
 	GHTestLog(@"original content = %@", [obj data]);
 	GHTestLog(@"lookup content   = %@", [newObj data]);
 	GHAssertTrue([newObj.data isEqualToData:obj.data], nil);

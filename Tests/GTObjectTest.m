@@ -68,7 +68,7 @@
 	NSError *error = nil;
 	GTObject *obj = [repo lookupBySha:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error];
 	
-	GHAssertNil(error, nil);
+	GHAssertNil(error, [error localizedDescription]);
 	GHAssertNotNil(obj, nil);
 	GHAssertEqualStrings(obj.type, @"commit", nil);
 	GHAssertEqualStrings(obj.sha, @"8496071c1b46c854b31185ea97743be6a8774479", nil);
@@ -94,7 +94,7 @@
 	
 	GTRawObject *rawObj = [obj readRawAndReturnError:&error];
 	GHAssertNotNil(rawObj, nil);
-	GHAssertNil(error, nil);
+	GHAssertNil(error, [error localizedDescription]);
 	GHTestLog(@"rawObj len = %d", [rawObj.data length]);
 }
 
