@@ -45,6 +45,21 @@
 
 @implementation GTRepository
 
+
+- (void)dealloc {
+	
+	git_repository_free(self.repo);
+	self.fileUrl = nil;
+	self.walker.repo = nil;
+	self.walker = nil;
+	self.index = nil;
+	[super dealloc];
+}
+
+
+#pragma mark -
+#pragma mark API 
+
 @synthesize repo;
 @synthesize fileUrl;
 @synthesize walker;
@@ -112,9 +127,6 @@
 	return self;
 }
 
-#pragma mark -
-#pragma mark API 
-
 + (void)mapRawObject:(GTRawObject *)rawObj toObject:(git_rawobj *)obj {
 	
 	obj->type = rawObj.type;
@@ -141,17 +153,27 @@
 		return nil;
 	}
 	
-	return [GTLib hexFromOid:&oid];
+	return [GTLib convertOidToSha:&oid];
 }
 
-#pragma mark -
-#pragma mark Properties
-
-- (GTObject *)lookup:(NSString *)sha error:(NSError **)error {
+- (GTObject *)lookupByOid:(git_oid *)oid error:(NSError **)error {
 	
 	git_otype type = GIT_OBJ_ANY;
-	git_oid oid;
 	git_object *obj;
+	
+	int gitError = git_object_lookup(&obj, self.repo, oid, type);
+	if(gitError != GIT_SUCCESS){
+		if(error != NULL)
+			*error = [NSError gitErrorForLookupObject:gitError];
+		return nil;
+	}
+	
+	return [GTObject objectInRepo:self withObject:obj];
+}
+
+- (GTObject *)lookupBySha:(NSString *)sha error:(NSError **)error {
+	
+	git_oid oid;
 	
 	int gitError = git_oid_mkstr(&oid, [NSString utf8StringForString:sha]);
 	if(gitError != GIT_SUCCESS){
@@ -160,19 +182,13 @@
 		return nil;
 	}
 	
-	gitError = git_object_lookup(&obj, self.repo, &oid, type);
-	//int gitError = git_repository_lookup(&obj, self.repo, &oid, type);
-	if(gitError != GIT_SUCCESS){
-		if(error != NULL)
-			*error = [NSError gitErrorForLookupSha:gitError];
-		return nil;
-	}
-	
-	return [GTObject objectInRepo:self withObject:obj];
+	return [self lookupByOid:&oid error:error];
 }
+
 - (BOOL)exists:(NSString *)sha error:(NSError **)error {
 	return [self hasObject:sha error:error];
 }
+
 - (BOOL)hasObject:(NSString *)sha error:(NSError **)error{
 	
 	git_odb *odb;
@@ -242,7 +258,7 @@
 		return nil;
 	}
 	
-	return [GTLib hexFromOid:&oid];
+	return [GTLib convertOidToSha:&oid];
 }
 
 - (BOOL)walk:(NSString *)sha sorting:(GTWalkerOptions)sortMode error:(NSError **)error block:(void (^)(GTCommit *commit, BOOL *stop))block {
@@ -298,19 +314,6 @@
 	if(headSymRef == nil) return nil;
 	
 	return [GTReference referenceByResolvingRef:headSymRef error:error];
-}
-
-#pragma mark -
-#pragma mark Memory Management
-
-- (void)dealloc {
-	
-	git_repository_free(self.repo);
-	self.fileUrl = nil;
-	self.walker.repo = nil;
-	self.walker = nil;
-	self.index = nil;
-	[super dealloc];
 }
 
 @end

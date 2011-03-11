@@ -41,7 +41,7 @@
 	NSError *error = nil;
 	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH] error:&error];
 	NSString *sha = @"0c37a5391bbff43c37f0d0371823a5509eed5b1d";
-	GTTag *tag = (GTTag *)[repo lookup:sha error:&error];
+	GTTag *tag = (GTTag *)[repo lookupBySha:sha error:&error];
 	
 	GHAssertNotNil(tag, nil);
 	GHAssertNil(error, nil);
@@ -63,7 +63,7 @@
 	NSError *error = nil;
 	NSString *sha = @"0c37a5391bbff43c37f0d0371823a5509eed5b1d";
 	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH] error:&error];
-	GTTag *tag = (GTTag *)[repo lookup:sha error:&error];
+	GTTag *tag = (GTTag *)[repo lookupBySha:sha error:&error];
 	
 	tag.message = @"new message";
 	[tag writeAndReturnError:&error];

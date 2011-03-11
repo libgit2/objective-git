@@ -53,15 +53,26 @@
 	git_oid oid;
 	
 	git_oid_mkraw(&oid, [raw bytes]);
-	return [GTLib hexFromOid:&oid];
+	return [GTLib convertOidToSha:&oid];
 }
 
-+ (NSString *)hexFromOid:(git_oid const *)oid {
++ (NSString *)convertOidToSha:(git_oid const *)oid {
 	
 	char hex[41];
 	git_oid_fmt(hex, oid);
 	hex[40] = 0;
 	return [NSString stringForUTF8String:hex];
+}
+
++ (BOOL)convertSha:(NSString *)sha toOid:(git_oid *)oid error:(NSError **)error {
+	
+	int gitError = git_oid_mkstr(oid, [NSString utf8StringForString:sha]);
+	if(gitError != GIT_SUCCESS){
+		if(error != NULL)
+			*error = [NSError gitErrorForMkStr:gitError];
+		return NO;
+	}
+	return YES;
 }
 
 + (NSString *)shortUniqueShaFromSha:(NSString *)sha {

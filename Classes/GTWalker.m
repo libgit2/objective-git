@@ -29,18 +29,27 @@
 
 #import "GTWalker.h"
 #import "GTCommit.h"
+#import "GTLib.h"
 #import "NSError+Git.h"
 #import "GTRepository.h"
 
 
 @interface GTWalker()
-
 @property (nonatomic, assign) git_revwalk *walk;
-
 @end
 
 
 @implementation GTWalker
+
+- (void)dealloc {
+	
+	git_revwalk_free(self.walk);
+	self.repo = nil;
+	[super dealloc];
+}
+
+#pragma mark -
+#pragma mark API
 
 @synthesize repo;
 @synthesize walk;
@@ -63,22 +72,33 @@
 }
 
 - (BOOL)push:(NSString *)sha error:(NSError **)error {
+
+	git_oid oid;
+	BOOL success = [GTLib convertSha:sha toOid:&oid error:error];
+	if(!success)return NO;
 	
-	git_commit *commit;
-	commit = (git_commit *)[GTObject getNewObjectInRepo:self.repo.repo sha:sha type:GIT_OBJ_COMMIT error:error];
-	if(commit == nil) return NO;
+	int gitError = git_revwalk_push(self.walk, &oid);
+	if(gitError != GIT_SUCCESS) {
+		if (error != NULL)
+			*error = [NSError gitErrorForPushRevWalker:gitError];
+		return NO;
+	}
 	
-	git_revwalk_push(self.walk, commit);
 	return YES;
 }
 
 - (BOOL)hide:(NSString *)sha error:(NSError **)error {
 	
-	git_commit *commit;
-	commit = (git_commit *)[GTObject getNewObjectInRepo:self.repo.repo sha:sha type:GIT_OBJ_COMMIT error:error];
-	if(commit == nil) return NO;
+	git_oid oid;
+	BOOL success = [GTLib convertSha:sha toOid:&oid error:error];
+	if(!success)return NO;
 	
-	git_revwalk_hide(self.walk, commit);
+	int gitError = git_revwalk_hide(self.walk, &oid);
+	if(gitError != GIT_SUCCESS) {
+		if (error != NULL)
+			*error = [NSError gitErrorForHideRevWalker:gitError];
+		return NO;
+	}
 	return YES;
 }
 
@@ -93,32 +113,13 @@
 
 - (GTCommit *)next {
 
-	git_commit *commit;
-	int gitError = git_revwalk_next(&commit, self.walk);
+	git_oid oid;
+	int gitError = git_revwalk_next(&oid, self.walk);
 	if(gitError == GIT_EREVWALKOVER)
 		return nil;
 	
-	return (GTCommit *)[GTObject objectInRepo:self.repo withObject:(git_object*)commit];
+	// ignore error if we can't lookup object and just return nil
+	return (GTCommit *)[self.repo lookupBySha:[GTLib convertOidToSha:&oid] error:nil];
 }
-
-//- (void)walkCommitsUsingBlock:(void (^)(GTCommit *commit, BOOL *stop))block {
-//	GTCommit *currentCommit = nil;
-//	BOOL stop = NO;
-//	while((currentCommit = [self next])) {
-//		block(currentCommit, &stop);
-//		if(stop) break;
-//	}
-//}
-
-#pragma mark -
-#pragma mark Memory Management
-
-- (void)dealloc {
-	
-	git_revwalk_free(self.walk);
-	self.repo = nil;
-	[super dealloc];
-}
-
 
 @end

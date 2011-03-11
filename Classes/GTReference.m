@@ -134,7 +134,7 @@
 	
 	if(git_reference_type(self.ref) == GIT_REF_OID) {
 		
-		return [GTLib hexFromOid:git_reference_oid(self.ref)];
+		return [GTLib convertOidToSha:git_reference_oid(self.ref)];
 	}
 	else {
 		return [NSString stringForUTF8String:git_reference_target(self.ref)];

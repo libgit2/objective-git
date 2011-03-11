@@ -49,7 +49,7 @@
 	
 	NSString *sha = @"8496071c1b46c854b31185ea97743be6a8774479";
 	NSError *error = nil;
-	GTObject *obj = [repo lookup:sha error:&error];
+	GTObject *obj = [repo lookupBySha:sha error:&error];
 	
 	GHAssertNil(error, nil);
 	GHAssertNotNil(obj, nil);
@@ -80,7 +80,7 @@
 	
 	NSString *sha = @"a4a7dce85cf63874e984719f4fdd239f5145052f";
 	NSError *error = nil;
-	GTObject *obj = [repo lookup:sha error:&error];
+	GTObject *obj = [repo lookupBySha:sha error:&error];
 	
 	GHAssertNil(error, nil);
 	GHAssertNotNil(obj, nil);
@@ -93,7 +93,7 @@
 	
 	NSError *error = nil;
 	NSString *sha = @"8496071c1b46c854b31185ea97743be6a8774479";
-	GTCommit *obj = (GTCommit *)[repo lookup:sha error:&error];
+	GTCommit *obj = (GTCommit *)[repo lookupBySha:sha error:&error];
 	GHAssertNotNil(obj, nil);
 	GHAssertNil(error, nil);
 	
@@ -109,7 +109,7 @@
 	
 	NSString *tsha = @"c4dc1555e4d4fa0e0c9c3fc46734c7c35b3ce90b";
 	NSError *error = nil;
-	GTObject *obj = [repo lookup:tsha error:&error];
+	GTObject *obj = [repo lookupBySha:tsha error:&error];
 	
 	GHAssertNil(error, nil);
 	GHAssertNotNil(obj, nil);

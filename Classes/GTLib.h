@@ -32,7 +32,8 @@
 
 + (NSData *)hexToRaw:(NSString *)hex error:(NSError **)error;
 + (NSString *)rawToHex:(NSData *)raw;
-+ (NSString *)hexFromOid:(git_oid const *)oid;
++ (NSString *)convertOidToSha:(git_oid const *)oid;
++ (BOOL)convertSha:(NSString *)sha toOid:(git_oid *)oid error:(NSError **)error;
 + (NSString *)shortUniqueShaFromSha:(NSString *)sha;
 
 @end

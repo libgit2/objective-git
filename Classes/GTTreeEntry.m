@@ -61,7 +61,7 @@
 
 - (NSString *)sha {
 	
-	return [GTLib hexFromOid:git_tree_entry_id(self.entry)];
+	return [GTLib convertOidToSha:git_tree_entry_id(self.entry)];
 }
 - (void)setSha:(NSString *)newSha error:(NSError **)error {
 	

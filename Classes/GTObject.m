@@ -110,7 +110,7 @@ static NSString * const GTTagClassName = @"GTTag";
 	gitError = git_object_lookup(&obj, r, &oid, theType);
 	if(gitError != GIT_SUCCESS){
 		if(error != NULL)
-			*error = [NSError gitErrorForLookupSha:gitError];
+			*error = [NSError gitErrorForLookupObject:gitError];
 		return nil;
 	}
 	NSAssert(obj, @"Failed to lookup git_object from repo");
@@ -124,7 +124,7 @@ static NSString * const GTTagClassName = @"GTTag";
 
 - (NSString *)sha {
 	
-	return [GTLib hexFromOid:git_object_id(self.object)];
+	return [GTLib convertOidToSha:git_object_id(self.object)];
 }
 
 - (NSString *)writeAndReturnError:(NSError **)error {

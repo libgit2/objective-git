@@ -69,12 +69,30 @@ static NSString * const GTGitErrorDomain = @"GTGitErrorDomain";
 										forKey:NSLocalizedDescriptionKey]];	
 }
 
-+ (NSError *)gitErrorForLookupSha: (int)code {
++ (NSError *)gitErrorForPushRevWalker: (int)code {
 	
 	return [NSError errorWithDomain:GTGitErrorDomain
 							   code:code
 						   userInfo:
-			[NSDictionary dictionaryWithObject:@"Failed to lookup sha"
+			[NSDictionary dictionaryWithObject:@"Failed to push sha onto rev walker"
+										forKey:NSLocalizedDescriptionKey]];	
+}
+
++ (NSError *)gitErrorForHideRevWalker: (int)code {
+	
+	return [NSError errorWithDomain:GTGitErrorDomain
+							   code:code
+						   userInfo:
+			[NSDictionary dictionaryWithObject:@"Failed to hide sha on rev walker"
+										forKey:NSLocalizedDescriptionKey]];	
+}
+
++ (NSError *)gitErrorForLookupObject: (int)code {
+	
+	return [NSError errorWithDomain:GTGitErrorDomain
+							   code:code
+						   userInfo:
+			[NSDictionary dictionaryWithObject:@"Failed to lookup object in repository"
 										forKey:NSLocalizedDescriptionKey]];	
 }
 

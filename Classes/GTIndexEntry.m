@@ -86,7 +86,7 @@
 
 - (NSString *)sha {
 	
-	return [GTLib hexFromOid:&entry->oid];
+	return [GTLib convertOidToSha:&entry->oid];
 }
 - (void)setSha:(NSString *)theSha error:(NSError **)error {
 

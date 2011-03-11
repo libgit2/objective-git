@@ -48,7 +48,7 @@
 - (void)testCanReadBlobData {
 	
 	NSError *error = nil;
-	GTBlob *blob = (GTBlob *)[repo lookup:sha error:&error];
+	GTBlob *blob = (GTBlob *)[repo lookupBySha:sha error:&error];
 	GHAssertEquals(9, (int)blob.size, nil);
 	GHAssertEqualStrings(@"new file\n", blob.content, nil);
 	GHAssertEqualStrings(@"blob", blob.type, nil);
@@ -58,7 +58,7 @@
 - (void)testCanRewriteBlobData {
 	
 	NSError *error = nil;
-	GTBlob *blob = (GTBlob *)[repo lookup:sha error:&error];
+	GTBlob *blob = (GTBlob *)[repo lookupBySha:sha error:&error];
 	blob.content = @"my new content";
 	GHAssertEqualStrings(sha, blob.sha, nil);
 	
@@ -94,7 +94,7 @@
 
 	GHAssertNil(error, nil);
 	GHAssertNotNil(newSha, nil);
-	GTBlob *blob = (GTBlob *)[repo lookup:newSha error:&error];
+	GTBlob *blob = (GTBlob *)[repo lookupBySha:newSha error:&error];
 	GTRawObject *newObj = [blob readRawAndReturnError:&error];
 	GHAssertNil(error, nil);
 	GHTestLog(@"original content = %@", [obj data]);
