@@ -81,7 +81,11 @@
 
 - (GTObject *)target {
 	
-	return [GTObject objectInRepo:self.repo withObject:(git_object *)git_tag_target(self.tag)];
+	git_object *t;
+	// todo: might want to actually return an error here
+	int gitError = git_tag_target(&t, self.tag);
+	if(gitError != GIT_SUCCESS) return nil;
+	return [GTObject objectInRepo:self.repo withObject:(git_object *)t];
 }
 - (void)setTarget:(GTObject *)theTarget {
 	

@@ -119,8 +119,15 @@
 
 - (GTTree *)tree {
 
-	const git_tree *t = git_commit_tree(self.commit);
-	return t ? (GTTree *)[GTObject objectInRepo:self.repo withObject:(git_object *)t] : nil;
+	git_tree *t;
+	
+	int gitError = git_commit_tree(&t, self.commit);
+	if(gitError != GIT_SUCCESS){
+		// todo: might want to return this error (and change method signature)
+		GTLog("Failed to get tree with error code: %d", gitError);
+		return nil;
+	}
+	return (GTTree *)[GTObject objectInRepo:self.repo withObject:(git_object *)t];
 }
 - (void)setTree:(GTTree *)t {
 	
@@ -132,8 +139,9 @@
 	if(parents == nil){
 		NSMutableArray *rents = [[[NSMutableArray alloc] init] autorelease];
 		
+		// todo: do we care if a call to git_commit_parent fails?
 		git_commit *parent;
-		for(int i=0; (parent = git_commit_parent(self.commit, i)) != NULL; i++) {
+		for(int i=0; git_commit_parent(&parent, self.commit, i) == GIT_SUCCESS; i++) {
 			[rents addObject:(GTCommit *)[GTObject objectInRepo:self.repo withObject:(git_object *)parent]];
 		}
 		
