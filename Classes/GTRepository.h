@@ -63,6 +63,8 @@
 - (GTObject *)lookupBySha:(NSString *)sha type:(GTObjectType)type error:(NSError **)error;
 - (GTObject *)lookupBySha:(NSString *)sha error:(NSError **)error;
 
+/* Check to see if objects exist in the repo
+ */
 - (BOOL)exists:(NSString *)sha error:(NSError **)error;
 - (BOOL)hasObject:(NSString *)sha error:(NSError **)error;
 

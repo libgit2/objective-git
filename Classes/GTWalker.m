@@ -118,7 +118,7 @@
 		return nil;
 	
 	// ignore error if we can't lookup object and just return nil
-	return (GTCommit *)[self.repo lookupBySha:[GTLib convertOidToSha:&oid] error:nil];
+	return (GTCommit *)[self.repo lookupBySha:[GTLib convertOidToSha:&oid] type:GTObjectTypeCommit error:nil];
 }
 
 @end
