@@ -92,11 +92,10 @@ static NSString * const GTTagClassName = @"GTTag";
 	return self;
 }
 
-+ (git_object *)getNewObjectInRepo:(git_repository *)r type:(git_otype)theType error:(NSError **)error {
++ (git_object *)getNewObjectInRepo:(git_repository *)r type:(GTObjectType)theType error:(NSError **)error {
 	
 	git_object *obj;
 	int gitError = git_object_new(&obj, r, theType);
-	//int gitError = git_repository_newobject(&obj, r, theType);
 	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError gitErrorForNewObject:gitError];
@@ -105,7 +104,7 @@ static NSString * const GTTagClassName = @"GTTag";
 	return obj;
 }
 
-+ (git_object *)getNewObjectInRepo:(git_repository *)r sha:(NSString *)sha type:(git_otype)theType error:(NSError **)error {
++ (git_object *)getNewObjectInRepo:(git_repository *)r sha:(NSString *)sha type:(GTObjectType)theType error:(NSError **)error {
 	
 	git_object *obj = NULL;
 	git_oid oid;

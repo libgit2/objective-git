@@ -45,17 +45,17 @@
 @synthesize type;
 @synthesize data;
 
-+ (id)rawObjectWithType:(git_otype)theType data:(NSData *)theData {
++ (id)rawObjectWithType:(GTObjectType)theType data:(NSData *)theData {
 	
 	return [[[self alloc] initWithType:theType data:theData] autorelease];
 }
 
-+ (id)rawObjectWithType:(git_otype)theType string:(NSString *)string {
++ (id)rawObjectWithType:(GTObjectType)theType string:(NSString *)string {
 	
 	return [[[self alloc] initWithType:theType string:string] autorelease];
 }
 
-- (id)initWithType:(git_otype)theType data:(NSData *)theData {
+- (id)initWithType:(GTObjectType)theType data:(NSData *)theData {
 	
 	if(self = [super init]) {
 		self.type = theType;
@@ -64,7 +64,7 @@
 	return self;
 }
 
-- (id)initWithType:(git_otype)theType string:(NSString *)string {
+- (id)initWithType:(GTObjectType)theType string:(NSString *)string {
 	
 	if(self = [super init]) {
 		self.type = theType;

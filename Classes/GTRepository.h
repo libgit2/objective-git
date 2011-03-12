@@ -46,24 +46,36 @@
 @property (nonatomic, retain) GTWalker *walker;
 @property (nonatomic, retain) GTIndex *index;
 
+// Convenience initializers
 + (id)repoByOpeningRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error;
 + (id)repoByCreatingRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error;
 
 - (id)initByOpeningRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error;
 - (id)initByCreatingRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error;
 
+// Helper for getting the sha1 has of a raw object
 + (NSString *)hash:(GTRawObject *)rawObj error:(NSError **)error;
 
+/* Lookup objects in the repo by oid or sha1
+ */
+- (GTObject *)lookupByOid:(git_oid *)oid type:(GTObjectType)type error:(NSError **)error;
 - (GTObject *)lookupByOid:(git_oid *)oid error:(NSError **)error;
+- (GTObject *)lookupBySha:(NSString *)sha type:(GTObjectType)type error:(NSError **)error;
 - (GTObject *)lookupBySha:(NSString *)sha error:(NSError **)error;
+
 - (BOOL)exists:(NSString *)sha error:(NSError **)error;
 - (BOOL)hasObject:(NSString *)sha error:(NSError **)error;
+
 - (GTRawObject *)rawRead:(const git_oid *)oid error:(NSError **)error;
 - (GTRawObject *)read:(NSString *)sha error:(NSError **)error;
+
 - (NSString *)write:(GTRawObject *)rawObj error:(NSError **)error;
+
 - (BOOL)walk:(NSString *)sha sorting:(GTWalkerOptions)sortMode error:(NSError **)error block:(void (^)(GTCommit *commit, BOOL *stop))block;
 - (BOOL)walk:(NSString *)sha error:(NSError **)error block:(void (^)(GTCommit *commit, BOOL *stop))block;
+
 - (BOOL)setupIndexAndReturnError:(NSError **)error;
+
 - (GTReference *)headAndReturnError:(NSError **)error;
 
 @end

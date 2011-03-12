@@ -154,9 +154,8 @@
 	return [GTLib convertOidToSha:&oid];
 }
 
-- (GTObject *)lookupByOid:(git_oid *)oid error:(NSError **)error {
+- (GTObject *)lookupByOid:(git_oid *)oid type:(GTObjectType)type error:(NSError **)error {
 	
-	git_otype type = GIT_OBJ_ANY;
 	git_object *obj;
 	
 	int gitError = git_object_lookup(&obj, self.repo, oid, type);
@@ -169,7 +168,12 @@
 	return [GTObject objectInRepo:self withObject:obj];
 }
 
-- (GTObject *)lookupBySha:(NSString *)sha error:(NSError **)error {
+- (GTObject *)lookupByOid:(git_oid *)oid error:(NSError **)error {
+	
+	return [self lookupByOid:oid type:GTObjectTypeAny error:error];
+}
+
+- (GTObject *)lookupBySha:(NSString *)sha type:(GTObjectType)type error:(NSError **)error {
 	
 	git_oid oid;
 	
@@ -180,7 +184,12 @@
 		return nil;
 	}
 	
-	return [self lookupByOid:&oid error:error];
+	return [self lookupByOid:&oid type:type error:error];
+}
+
+- (GTObject *)lookupBySha:(NSString *)sha error:(NSError **)error {
+	
+	return [self lookupBySha:sha type:GTObjectTypeAny error:error];
 }
 
 - (BOOL)exists:(NSString *)sha error:(NSError **)error {

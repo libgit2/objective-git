@@ -29,9 +29,22 @@
 
 #import <git2.h>
 
+
+typedef enum {
+	GTObjectTypeAny = -2,			/**< Object can be any of the following */
+	GTObjectTypeBad = -1,			/**< Object is invalid. */
+	GTObjectTypeExt1 = 0,			/**< Reserved for future use. */
+	GTObjectTypeCommit = 1,		/**< A commit object. */
+	GTObjectTypeTree = 2,			/**< A tree (directory listing) object. */
+	GTObjectTypeBlob = 3,			/**< A file revision object. */
+	GTObjectTypeTag = 4,			/**< An annotated tag object. */
+	GTObjectTypeExt2 = 5,			/**< Reserved for future use. */
+	GTObjectTypeOffsetDelta = 6,	/**< A delta, base is given by an offset. */
+	GTObjectTypeRefDelta = 7,		/**< A delta, base is given by object id. */
+} GTObjectType;
+
 @class GTRepository;
 @class GTRawObject;
-
 
 @interface GTObject : NSObject {}
 
@@ -40,8 +53,8 @@
 @property (nonatomic, assign, readonly) NSString *sha;
 @property (nonatomic, assign) GTRepository *repo;
 
-+ (git_object *)getNewObjectInRepo:(git_repository *)r type:(git_otype)theType error:(NSError **)error;
-+ (git_object *)getNewObjectInRepo:(git_repository *)r sha:(NSString *)sha type:(git_otype)theType error:(NSError **)error;
++ (git_object *)getNewObjectInRepo:(git_repository *)r type:(GTObjectType)theType error:(NSError **)error;
++ (git_object *)getNewObjectInRepo:(git_repository *)r sha:(NSString *)sha type:(GTObjectType)theType error:(NSError **)error;
 + (id)objectInRepo:(GTRepository *)theRepo withObject:(git_object *)theObject; 
 - (id)initInRepo:(GTRepository *)theRepo withObject:(git_object *)theObject;
 - (NSString *)writeAndReturnError:(NSError **)error;
