@@ -74,7 +74,7 @@
 
 - (id)initWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error {
 	
-	if(self = [super init]) {
+	if((self = [super init])) {
 		self.reference = [GTReference referenceByLookingUpRef:branchName inRepo:repo error:error];
 		if(self.reference == nil) return nil;
 		
@@ -85,7 +85,7 @@
 
 - (id)initWithShortName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error {
 	
-	if(self = [super init]) {
+	if((self = [super init])) {
 		self.reference = [GTReference referenceByLookingUpRef:[NSString stringWithFormat:@"%@%@", [[self class] defaultBranchRefPath], branchName] inRepo:repo error:error];
 		if(self.reference == nil) return nil;
 		
@@ -96,7 +96,7 @@
 
 - (id)initWithReference:(GTReference *)ref repository:(GTRepository *)repo {
 
-	if(self = [super init]) {
+	if((self = [super init])) {
 		self.reference = ref;
 		self.repository = repo;
 	}

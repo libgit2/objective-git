@@ -76,7 +76,7 @@
 
 - (id)initByOpeningRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error {
 	
-	if(self = [super init]){
+	if((self = [super init])){
 		
 		self.fileUrl = localFileUrl;
 		
@@ -109,7 +109,7 @@
 
 - (id)initByCreatingRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error {
 	
-	if(self = [super init]){
+	if((self = [super init])){
 		
 		self.fileUrl = localFileUrl;
 		

@@ -56,7 +56,7 @@
 
 - (id)initWithPath:(NSURL *)localFileUrl error:(NSError **)error {
 	
-	if(self = [super init]) {
+	if((self = [super init])) {
 		self.path = localFileUrl;
 		git_index *i;
 		int gitError = git_index_open_bare(&i, [NSString utf8StringForString:[self.path path]]);
@@ -77,7 +77,7 @@
 
 - (id)initWithGitIndex:(git_index *)theIndex; {
 	
-	if(self = [super init]){
+	if((self = [super init])){
 		self.index = theIndex;
 	}
 	return self;

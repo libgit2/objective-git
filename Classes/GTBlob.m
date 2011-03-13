@@ -50,7 +50,7 @@
 
 - (id)initInRepo:(GTRepository *)theRepo error:(NSError **)error {
 	
-	if(self = [super init]) {
+	if((self = [super init])) {
 		self.repo = theRepo;
 		self.object = [GTObject getNewObjectInRepo:self.repo.repo type:GIT_OBJ_BLOB error:error];
 		if(self.object == nil)return nil;

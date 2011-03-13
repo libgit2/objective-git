@@ -29,19 +29,10 @@
 
 #import "Contants.h"
 
-@interface GTWalkerTest : GHTestCase {
-
-	//GTRepository *repo;
-}
+@interface GTWalkerTest : GHTestCase {}
 @end
 
 @implementation GTWalkerTest
-
-- (void)setUp {
-
-	//NSError *error = nil;
-	
-}
 
 - (void)testCanWalkSimpleRevlist {
 	

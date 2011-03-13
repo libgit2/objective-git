@@ -55,7 +55,7 @@
 
 - (id)initByLookingUpRef:(NSString *)refName inRepo:(GTRepository *)theRepo error:(NSError **)error {
 	
-	if(self = [super init]) {
+	if((self = [super init])) {
 		self.repo = theRepo;
 		int gitError = git_reference_lookup(&ref, self.repo.repo, [NSString utf8StringForString:refName]);
 		if(gitError != GIT_SUCCESS){
@@ -73,7 +73,7 @@
 
 - (id)initByCreatingRef:(NSString *)refName fromRef:(NSString *)theTarget inRepo:(GTRepository *)theRepo error:(NSError **)error {
 	
-	if(self = [super init]) {
+	if((self = [super init])) {
 		
 		git_oid oid;
 		int gitError;
@@ -109,7 +109,7 @@
 
 - (id)initByResolvingRef:(GTReference *)symbolicRef error:(NSError **)error {
 	
-	if(self = [super init]) {
+	if((self = [super init])) {
 		
 		int gitError = git_reference_resolve(&ref, symbolicRef.ref);
 		if(gitError != GIT_SUCCESS) {

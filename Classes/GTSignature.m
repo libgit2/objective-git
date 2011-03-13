@@ -72,7 +72,7 @@
 }
 - (id)initWithName:(NSString *)theName email:(NSString *)theEmail time:(NSDate *)theTime {
 	
-	if(self = [super init]) {
+	if((self = [super init])) {
 		self.signature = git_signature_new(
 										   [NSString utf8StringForString:theName], 
 										   [NSString utf8StringForString:theEmail], 

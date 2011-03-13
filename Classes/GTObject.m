@@ -85,7 +85,7 @@ static NSString * const GTTagClassName = @"GTTag";
 
 - (id)initInRepo:(GTRepository *)theRepo withObject:(git_object *)theObject {
 	
-	if(self = [super init]){
+	if((self = [super init])){
 		self.repo = theRepo;
 		self.object = theObject;
 	}

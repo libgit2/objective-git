@@ -73,7 +73,7 @@
 
 - (id)initWithEntry:(git_index_entry *)theEntry {
 	
-	if(self = [super init]) {
+	if((self = [super init])) {
 		self.entry = theEntry;
 	}
 	return self;
@@ -81,7 +81,7 @@
 
 - (id)init {
 	
-	if(self = [super init]) {
+	if((self = [super init])) {
 		self.entry = malloc(sizeof(git_index_entry));
 		memset(self.entry, 0x0, sizeof(git_index_entry));
 	}

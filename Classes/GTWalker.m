@@ -55,7 +55,7 @@
 
 - (id)initWithRepository:(GTRepository *)theRepo error:(NSError **)error {
 	
-	if(self = [super init]){
+	if((self = [super init])){
 	
 		self.repo = theRepo;
 		git_revwalk *w;

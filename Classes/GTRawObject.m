@@ -57,7 +57,7 @@
 
 - (id)initWithType:(GTObjectType)theType data:(NSData *)theData {
 	
-	if(self = [super init]) {
+	if((self = [super init])) {
 		self.type = theType;
 		self.data = theData;
 	}
@@ -66,7 +66,7 @@
 
 - (id)initWithType:(GTObjectType)theType string:(NSString *)string {
 	
-	if(self = [super init]) {
+	if((self = [super init])) {
 		self.type = theType;
 		self.data = [string dataUsingEncoding:NSUTF8StringEncoding];
 	}
