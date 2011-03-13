@@ -42,7 +42,6 @@
 @interface GTRepository ()
 @end
 
-
 @implementation GTRepository
 
 - (void)dealloc {
@@ -55,6 +54,18 @@
 	[super dealloc];
 }
 
++ (void)mapRawObject:(GTRawObject *)rawObj toObject:(git_rawobj *)obj {
+	
+	obj->type = rawObj.type;
+	obj->len = 0;
+	obj->data = NULL;
+	if (rawObj.data != nil) {
+		obj->len = [rawObj.data length];
+		obj->data = malloc(obj->len);
+		memcpy(obj->data, [rawObj.data bytes], obj->len);
+	}
+}
+
 #pragma mark -
 #pragma mark API 
 
@@ -62,14 +73,6 @@
 @synthesize fileUrl;
 @synthesize walker;
 @synthesize index;
-
-+ (id)repoByOpeningRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error {
-	return [[[self alloc]initByOpeningRepositoryInDirectory:localFileUrl error:error] autorelease];
-}
-
-+ (id)repoByCreatingRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error {
-	return [[[self alloc]initByCreatingRepositoryInDirectory:localFileUrl error:error] autorelease];
-}
 
 - (id)initByOpeningRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error {
 	
@@ -100,6 +103,9 @@
 	}
 	return self;
 }
++ (id)repoByOpeningRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error {
+	return [[[self alloc]initByOpeningRepositoryInDirectory:localFileUrl error:error] autorelease];
+}
 
 - (id)initByCreatingRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error {
 	
@@ -124,17 +130,8 @@
 	}
 	return self;
 }
-
-+ (void)mapRawObject:(GTRawObject *)rawObj toObject:(git_rawobj *)obj {
-	
-	obj->type = rawObj.type;
-	obj->len = 0;
-	obj->data = NULL;
-	if (rawObj.data != nil) {
-		obj->len = [rawObj.data length];
-		obj->data = malloc(obj->len);
-		memcpy(obj->data, [rawObj.data bytes], obj->len);
-	}
++ (id)repoByCreatingRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error {
+	return [[[self alloc]initByCreatingRepositoryInDirectory:localFileUrl error:error] autorelease];
 }
 
 + (NSString *)hash:(GTRawObject *)rawObj error:(NSError **)error {
@@ -322,6 +319,16 @@
 	if(headSymRef == nil) return nil;
 	
 	return [GTReference referenceByResolvingRef:headSymRef error:error];
+}
+
+- (NSArray *)listReferencesOfTypes:(GTReferenceTypes)types error:(NSError **)error {
+	
+	return [GTReference listReferencesInRepo:self types:types error:error];
+}
+
+- (NSArray *)listAllReferencesAndReturnError:(NSError **)error {
+
+	return [GTReference listAllReferencesInRepo:self error:error];
 }
 
 @end

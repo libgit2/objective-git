@@ -277,6 +277,15 @@ static NSString * const GTGitErrorDomain = @"GTGitErrorDomain";
 										forKey:NSLocalizedDescriptionKey]];	
 }
 
++ (NSError *)gitErrorForListAllRefs: (int)code {
+	
+	return [NSError errorWithDomain:GTGitErrorDomain
+							   code:code
+						   userInfo:
+			[NSDictionary dictionaryWithObject:@"Failed to list all references"
+										forKey:NSLocalizedDescriptionKey]];	
+}
+
 + (NSError *)gitErrorForNoBlockProvided {
 	return [NSError errorWithDomain:GTGitErrorDomain
 							   code:-1

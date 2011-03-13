@@ -42,27 +42,16 @@
 	[super dealloc];
 }
 
+- (const git_oid *)oid {
+	return git_reference_oid(self.ref);
+}
+
 #pragma mark -
 #pragma mark API
 
 @synthesize ref;
 @synthesize repo;
 @synthesize type;
-
-+ (id)referenceByLookingUpRef:(NSString *)refName inRepo:(GTRepository *)theRepo error:(NSError **)error {
-
-	return [[[self alloc] initByLookingUpRef:refName inRepo:theRepo error:error] autorelease];
-}
-
-+ (id)referenceByCreatingRef:(NSString *)refName fromRef:(NSString *)target inRepo:(GTRepository *)theRepo error:(NSError **)error {
-		
-	return [[[self alloc] initByCreatingRef:refName fromRef:target inRepo:theRepo error:error] autorelease];
-}
-
-+ (id)referenceByResolvingRef:(GTReference *)symbolicRef error:(NSError **)error {
-	
-	return [[[self alloc] initByResolvingRef:symbolicRef error:error] autorelease];
-}
 
 - (id)initByLookingUpRef:(NSString *)refName inRepo:(GTRepository *)theRepo error:(NSError **)error {
 	
@@ -76,6 +65,10 @@
 		}
 	}
 	return self;
+}
++ (id)referenceByLookingUpRef:(NSString *)refName inRepo:(GTRepository *)theRepo error:(NSError **)error {
+
+	return [[[self alloc] initByLookingUpRef:refName inRepo:theRepo error:error] autorelease];
 }
 
 - (id)initByCreatingRef:(NSString *)refName fromRef:(NSString *)theTarget inRepo:(GTRepository *)theRepo error:(NSError **)error {
@@ -109,6 +102,10 @@
 	}
 	return self;
 }
++ (id)referenceByCreatingRef:(NSString *)refName fromRef:(NSString *)target inRepo:(GTRepository *)theRepo error:(NSError **)error {
+		
+	return [[[self alloc] initByCreatingRef:refName fromRef:target inRepo:theRepo error:error] autorelease];
+}
 
 - (id)initByResolvingRef:(GTReference *)symbolicRef error:(NSError **)error {
 	
@@ -123,6 +120,10 @@
 		self.repo = symbolicRef.repo;
 	}
 	return self;
+}
++ (id)referenceByResolvingRef:(GTReference *)symbolicRef error:(NSError **)error {
+	
+	return [[[self alloc] initByResolvingRef:symbolicRef error:error] autorelease];
 }
 
 - (NSString *)name {
@@ -143,6 +144,35 @@
 - (NSString *)type {
 	
 	return [NSString stringForUTF8String:git_object_type2string(git_reference_type(self.ref))];
+}
+
++ (NSArray *)listReferencesInRepo:(GTRepository *)theRepo types:(GTReferenceTypes)types error:(NSError **)error {
+	
+	NSParameterAssert(theRepo != nil);
+	NSParameterAssert(theRepo.repo != nil);
+	
+	git_strarray array;
+	
+	int gitError = git_reference_listall(&array, theRepo.repo, types);
+	if(gitError != GIT_SUCCESS) {
+		if(error != NULL)
+			*error = [NSError gitErrorForListAllRefs:gitError];
+		return nil;
+	}
+	
+	NSMutableArray *references = [[NSMutableArray arrayWithCapacity:array.count] autorelease];
+	for(int i=0; i< array.count; i++) {
+		[references addObject:[NSString stringForUTF8String:array.strings[i]]];
+	}
+	
+	git_strarray_free(&array);
+	
+	return references;
+}
+
++ (NSArray *)listAllReferencesInRepo:(GTRepository *)theRepo error:(NSError **)error {
+	
+	return [self listReferencesInRepo:theRepo types:GTReferenceTypesListAll error:error];
 }
 
 - (NSString *)target {
@@ -210,10 +240,6 @@
 - (GTReference *)resolveAndReturnError:(NSError **)error {
 	
 	return [GTReference referenceByResolvingRef:self error:error];
-}
-
-- (const git_oid *)oid {
-	return git_reference_oid(self.ref);
 }
 
 @end

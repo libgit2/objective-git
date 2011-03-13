@@ -47,24 +47,27 @@
 @property (nonatomic, retain) GTIndex *index;
 
 // Convenience initializers
+- (id)initByOpeningRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error;
 + (id)repoByOpeningRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error;
+
+- (id)initByCreatingRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error;
 + (id)repoByCreatingRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error;
 
-- (id)initByOpeningRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error;
-- (id)initByCreatingRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error;
-
 // Helper for getting the sha1 has of a raw object
+//
+// rawObj - the GTRawObject to compute a sha1 hash for
+// error(out) - will be filled if an error occurs
+//
+// returns the sha1 for the raw object or nil if there was an error
 + (NSString *)hash:(GTRawObject *)rawObj error:(NSError **)error;
 
-/* Lookup objects in the repo by oid or sha1
- */
+// Lookup objects in the repo by oid or sha1
 - (GTObject *)lookupByOid:(git_oid *)oid type:(GTObjectType)type error:(NSError **)error;
 - (GTObject *)lookupByOid:(git_oid *)oid error:(NSError **)error;
 - (GTObject *)lookupBySha:(NSString *)sha type:(GTObjectType)type error:(NSError **)error;
 - (GTObject *)lookupBySha:(NSString *)sha error:(NSError **)error;
 
-/* Check to see if objects exist in the repo
- */
+// Check to see if objects exist in the repo
 - (BOOL)exists:(NSString *)sha error:(NSError **)error;
 - (BOOL)hasObject:(NSString *)sha error:(NSError **)error;
 
@@ -79,5 +82,9 @@
 - (BOOL)setupIndexAndReturnError:(NSError **)error;
 
 - (GTReference *)headAndReturnError:(NSError **)error;
+
+// Convenience methods to return references in this repository (see GTReference.h)
+- (NSArray *)listReferencesOfTypes:(GTReferenceTypes)types error:(NSError **)error;
+- (NSArray *)listAllReferencesAndReturnError:(NSError **)error;
 
 @end

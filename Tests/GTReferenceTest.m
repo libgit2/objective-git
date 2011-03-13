@@ -9,13 +9,18 @@
 #import "Contants.h"
 
 @interface GTReferenceTest : GHTestCase {
-	
+	NSArray *expectedRefs;
 }
 @end
 
 @implementation GTReferenceTest
 
--(void)testCanOpenRef {
+- (void)setUpClass {
+	
+	expectedRefs = [NSArray arrayWithObjects:@"refs/heads/master", @"refs/tags/v0.9", @"refs/tags/v1.0", @"refs/heads/packed", nil];
+}
+
+- (void)testCanOpenRef {
 	
 	NSError *error = nil;
 	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH] error:&error];
@@ -29,7 +34,7 @@
 	GHAssertEqualStrings(@"refs/heads/master", ref.name, nil);
 }
 
--(void)testCanCreateRefFromSymbolicRef {
+- (void)testCanCreateRefFromSymbolicRef {
 	
 	NSError *error = nil;
 	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH] error:&error];
@@ -46,7 +51,7 @@
 	GHAssertTrue(success, [error localizedDescription]);
 }
 
--(void)testCanCreateRefFromSha {
+- (void)testCanCreateRefFromSha {
 	
 	NSError *error = nil;
 	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH] error:&error];
@@ -63,7 +68,7 @@
 	GHAssertTrue(success, [error localizedDescription]);
 }
 
--(void)testCanRenameRef {
+- (void)testCanRenameRef {
 	
 	NSError *error = nil;
 	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH] error:&error];
@@ -83,7 +88,7 @@
 	GHAssertTrue(success, [error localizedDescription]);
 }
 
--(void)testCanSetTargetOnRef {
+- (void)testCanSetTargetOnRef {
 	
 	NSError *error = nil;
 	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH] error:&error];
@@ -102,6 +107,73 @@
 	
 	success = [ref deleteAndReturnError:&error];
 	GHAssertTrue(success, [error localizedDescription]);
+}
+
+- (void)testCanListAllReferences {
+	
+	NSError *error = nil;
+	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH] error:&error];
+	GHAssertNil(error, [error localizedDescription]);
+	
+	NSArray *refs = [GTReference listAllReferencesInRepo:repo error:&error];
+	GHAssertNil(error, [error localizedDescription]);
+	GHAssertEquals(4, (int)refs.count, nil);
+	
+	for(int i=0; i < refs.count; i++) {
+		GHTestLog(@"%@", [refs objectAtIndex:i]);
+		GHAssertEqualStrings([expectedRefs objectAtIndex:i], [refs objectAtIndex:i], nil);
+	}
+}
+
+- (void)testCanListOidReferences {
+	
+	NSError *error = nil;
+	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH] error:&error];
+	GHAssertNil(error, [error localizedDescription]);
+	
+	NSArray *refs = [GTReference listReferencesInRepo:repo types:GTReferenceTypesOid error:&error];
+	GHAssertNil(error, [error localizedDescription]);
+	GHAssertEquals(3, (int)refs.count, nil);
+	
+	for(int i=0; i < refs.count; i++) {
+		GHAssertEqualStrings([expectedRefs objectAtIndex:i], [refs objectAtIndex:i], nil);
+	}
+}
+
+- (void)testCanListSymbolicReferences {
+	
+	NSError *error = nil;
+	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH] error:&error];
+	GHAssertNil(error, [error localizedDescription]);
+	
+	// create a symbolic reference
+	GTReference *ref = [GTReference referenceByCreatingRef:@"refs/heads/unit_test" fromRef:@"refs/heads/master" inRepo:repo error:&error];
+	GHAssertNotNil(ref, [error localizedDescription]);
+	
+	@try {
+		
+		NSArray *refs = [GTReference listReferencesInRepo:repo types:GTReferenceTypesSymoblic error:&error];
+		GHAssertNil(error, [error localizedDescription]);
+		GHAssertEquals(1, (int)refs.count, nil);	
+		GHAssertEqualStrings(@"refs/heads/unit_test", [refs objectAtIndex:0], nil);
+	}
+	@finally {
+		// cleanup
+		[ref deleteAndReturnError:&error];
+	}
+}
+
+- (void)testCanListPackedReferences {
+	
+	NSError *error = nil;
+	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH] error:&error];
+	GHAssertNil(error, [error localizedDescription]);
+	
+	NSArray *refs = [GTReference listReferencesInRepo:repo types:GTReferenceTypesPacked error:&error];
+	GHAssertNil(error, [error localizedDescription]);
+	GHAssertEquals(1, (int)refs.count, nil);
+	
+	GHAssertEqualStrings(@"refs/heads/packed", [refs objectAtIndex:0], nil);
 }
 
 @end

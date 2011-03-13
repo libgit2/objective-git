@@ -57,10 +57,10 @@
 		GHTestLog(@"%@", c.sha);
 	}
 	
-	GHAssertEqualStrings([[shas objectAtIndex:0] substringToIndex:5], @"84960", nil);
-	GHAssertEqualStrings([[shas objectAtIndex:1] substringToIndex:5], @"5b5b0", nil);
-	GHAssertEqualStrings([[shas objectAtIndex:2] substringToIndex:5], @"4a202", nil);
-	GHAssertEqualStrings([[shas objectAtIndex:3] substringToIndex:5], @"9fd73", nil);
+	GHAssertEqualStrings([[shas objectAtIndex:0] substringToIndex:5], @"9fd73", nil);
+	GHAssertEqualStrings([[shas objectAtIndex:1] substringToIndex:5], @"4a202", nil);
+	GHAssertEqualStrings([[shas objectAtIndex:2] substringToIndex:5], @"5b5b0", nil);
+	GHAssertEqualStrings([[shas objectAtIndex:3] substringToIndex:5], @"84960", nil);
 	
 	GHAssertNil([repo.walker next], nil);
 }
@@ -138,7 +138,6 @@
 	
 	[repo.walker reset];
 	
-	GHAssertNil([repo.walker next], nil);
 	success = [repo.walker push:sha error:&error];
 	GHAssertTrue(success, [error localizedDescription]);
 	GHAssertEqualStrings([repo.walker next].sha, sha, nil);

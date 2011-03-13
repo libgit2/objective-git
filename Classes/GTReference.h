@@ -25,6 +25,14 @@
 
 #import <git2.h>
 
+typedef enum {
+	GTReferenceTypesOid = 1,		/** A reference which points at an object id */
+	GTReferenceTypesSymoblic = 2,	/** A reference which points at another reference */
+	GTReferenceTypesPacked = 4,
+	GTReferenceTypesHasPeel = 8,
+	GTReferenceTypesListAll = GTReferenceTypesOid|GTReferenceTypesSymoblic|GTReferenceTypesPacked,
+} GTReferenceTypes;
+
 @class GTRepository;
 
 @interface GTReference : NSObject {}
@@ -34,12 +42,37 @@
 @property (nonatomic, assign, readonly) NSString *type;
 @property (nonatomic, readonly) const git_oid *oid;
 
+// Convenience initializers
 + (id)referenceByLookingUpRef:(NSString *)refName inRepo:(GTRepository *)theRepo error:(NSError **)error;
-+ (id)referenceByCreatingRef:(NSString *)refName fromRef:(NSString *)target inRepo:(GTRepository *)theRepo error:(NSError **)error;
-+ (id)referenceByResolvingRef:(GTReference *)symbolicRef error:(NSError **)error;
 - (id)initByLookingUpRef:(NSString *)refName inRepo:(GTRepository *)theRepo error:(NSError **)error;
+
++ (id)referenceByCreatingRef:(NSString *)refName fromRef:(NSString *)target inRepo:(GTRepository *)theRepo error:(NSError **)error;
 - (id)initByCreatingRef:(NSString *)refName fromRef:(NSString *)target inRepo:(GTRepository *)theRepo error:(NSError **)error;
+
++ (id)referenceByResolvingRef:(GTReference *)symbolicRef error:(NSError **)error;
 - (id)initByResolvingRef:(GTReference *)symbolicRef error:(NSError **)error;
+
+// List references in a repository
+// 
+// repository - The GTRepository to list references in
+// types - One or more GTReferenceTypes
+// error(out) - will be filled if an error occurs
+// 
+// returns an array of NSStrings holding the names of the references
+// returns nil if an error occurred and fills the error parameter
++ (NSArray *)listReferencesInRepo:(GTRepository *)theRepo types:(GTReferenceTypes)types error:(NSError **)error;
+
+// List all references in a repository
+//
+// This is a convenience method for listReferencesInRepo: type:GTReferenceTypesListAll error:
+// 
+// repository - The GTRepository to list references in
+// error(out) - will be filled if an error occurs
+// 
+// returns an array of NSStrings holding the names of the references
+// returns nil if an error occurred and fills the error parameter
++ (NSArray *)listAllReferencesInRepo:(GTRepository *)theRepo error:(NSError **)error;
+
 - (NSString *)target;
 - (BOOL)setTarget:(NSString *)newTarget error:(NSError **)error;
 - (NSString *)name;
