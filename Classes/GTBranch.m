@@ -40,37 +40,36 @@
 
 @implementation GTBranch
 
-#pragma mark API
-
-@synthesize reference;
-@synthesize repository;
-
 + (NSString *)defaultBranchRefPath {
 	return @"refs/heads/";
 }
 
-+ (id)branchWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error {
+- (BOOL)isEqual:(id)otherObject {
 	
-	return [[[self alloc] initWithName:branchName repository:repo error:error] autorelease];
+	if(![otherObject isKindOfClass:[GTBranch class]]) {
+		return NO;
+	}
+	
+	GTBranch *otherBranch = otherObject;
+	
+	return [self.reference.name isEqualToString:otherBranch.reference.name];
 }
 
-+ (id)branchWithShortName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error {
+- (NSUInteger)hash {
 	
-	return [[[self alloc] initWithShortName:branchName repository:repo error:error] autorelease];
+	return [self.name hash];
 }
 
-+ (id)branchWithReference:(GTReference *)ref repository:(GTRepository *)repo {
+- (NSString *)description {
 	
-	return [[[self alloc] initWithReference:ref repository:repo] autorelease];
+	return [NSString stringWithFormat:@"<%@: %p>: name: %@, sha: %@", NSStringFromClass([self class]), self, self.name, self.sha];
 }
 
-+ (id)branchFromCurrentBranchInRepository:(GTRepository *)repo error:(NSError **)error {
-	
-	GTReference *head = [repo headAndReturnError:error];
-	if (head == nil) return nil;
-	
-	return [self branchWithReference:head repository:repo];
-}
+#pragma mark -
+#pragma mark API
+
+@synthesize reference;
+@synthesize repository;
 
 - (id)initWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error {
 	
@@ -81,6 +80,10 @@
 		self.repository = repo;
 	}
 	return self;
+}
++ (id)branchWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error {
+	
+	return [[[self alloc] initWithName:branchName repository:repo error:error] autorelease];
 }
 
 - (id)initWithShortName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error {
@@ -93,14 +96,30 @@
 	}
 	return self;
 }
++ (id)branchWithShortName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error {
+	
+	return [[[self alloc] initWithShortName:branchName repository:repo error:error] autorelease];
+}
 
 - (id)initWithReference:(GTReference *)ref repository:(GTRepository *)repo {
-
+	
 	if((self = [super init])) {
 		self.reference = ref;
 		self.repository = repo;
 	}
 	return self;
+}
++ (id)branchWithReference:(GTReference *)ref repository:(GTRepository *)repo {
+	
+	return [[[self alloc] initWithReference:ref repository:repo] autorelease];
+}
+
++ (id)branchFromCurrentBranchInRepository:(GTRepository *)repo error:(NSError **)error {
+	
+	GTReference *head = [repo headAndReturnError:error];
+	if (head == nil) return nil;
+	
+	return [self branchWithReference:head repository:repo];
 }
 
 - (NSString *)name {
@@ -126,27 +145,6 @@
 	if(!success) return nil;
 	
 	return [self.repository.walker next];
-}
-
-- (BOOL)isEqual:(id)otherObject {
-	
-	if(![otherObject isKindOfClass:[GTBranch class]]) {
-		return NO;
-	}
-	
-	GTBranch *otherBranch = otherObject;
-	
-	return [self.reference.name isEqualToString:otherBranch.reference.name];
-}
-
-- (NSUInteger)hash {
-	
-	return [self.name hash];
-}
-
-- (NSString *)description {
-	
-	return [NSString stringWithFormat:@"<%@: %p>: name: %@, sha: %@", NSStringFromClass([self class]), self, self.name, self.sha];
 }
 
 @end

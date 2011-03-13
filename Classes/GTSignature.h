@@ -37,10 +37,11 @@
 @property (nonatomic, assign) NSString *email;
 @property (nonatomic, assign) NSDate *time;
 
-+ (id)signatureWithSignature:(git_signature *)theSignature;
-+ (id)signatureWithName:(NSString *)theName email:(NSString *)theEmail time:(NSDate *)theTime;
-
+// Convenience initializers
 - (id)initWithSignature:(git_signature *)theSignature;
++ (id)signatureWithSignature:(git_signature *)theSignature;
+
 - (id)initWithName:(NSString *)theName email:(NSString *)theEmail time:(NSDate *)theTime;
++ (id)signatureWithName:(NSString *)theName email:(NSString *)theEmail time:(NSDate *)theTime;
 
 @end

@@ -35,14 +35,23 @@
 @property (nonatomic, readonly, assign) GTRepository *repository;
 @property (nonatomic, readonly, assign) GTReference *reference;
 
-+ (id)branchWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error;
-+ (id)branchWithShortName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error;
-+ (id)branchWithReference:(GTReference *)ref repository:(GTRepository *)repo;
-+ (id)branchFromCurrentBranchInRepository:(GTRepository *)repo error:(NSError **)error;
+// Convenience initializers
 - (id)initWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error;
-- (id)initWithShortName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error;
-- (id)initWithReference:(GTReference *)ref repository:(GTRepository *)repo;
++ (id)branchWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error;
 
+- (id)initWithShortName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error;
++ (id)branchWithShortName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error;
+
+- (id)initWithReference:(GTReference *)ref repository:(GTRepository *)repo;
++ (id)branchWithReference:(GTReference *)ref repository:(GTRepository *)repo;
+
++ (id)branchFromCurrentBranchInRepository:(GTRepository *)repo error:(NSError **)error;
+
+// Get the most recent commit in this repository
+// 
+// error(out) - will be filled if an error occurs
+// 
+// returns a GTCommit object or nil if an error occurred
 - (GTCommit *)mostRecentCommitWithError:(NSError **)error;
 
 @end

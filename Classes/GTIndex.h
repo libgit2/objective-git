@@ -38,16 +38,37 @@
 @property (nonatomic, copy) NSURL *path;
 @property (nonatomic, assign) NSInteger entryCount;
 
-+ (id)indexWithPath:(NSURL *)localFileUrl error:(NSError **)error;
+// Convenience initializers
 - (id)initWithPath:(NSURL *)localFileUrl error:(NSError **)error;
-+ (id)indexWithIndex:(git_index *)theIndex;
++ (id)indexWithPath:(NSURL *)localFileUrl error:(NSError **)error;
+
 - (id)initWithGitIndex:(git_index *)theIndex;
++ (id)indexWithIndex:(git_index *)theIndex;
+
+// Refresh the index from the datastore
+//
+// error(out) - will be filled if an error occurs
+//
+// returns YES if refresh was successful
 - (BOOL)refreshAndReturnError:(NSError **)error;
+
+// Clear the contents (all entry objects) of the index. This happens in memory.
+// Changes can be written to the datastore by calling writeAndReturnError:
 - (void)clear;
+
+// Get entries from the index
 - (GTIndexEntry *)getEntryAtIndex:(NSInteger)theIndex;
 - (GTIndexEntry *)getEntryWithName:(NSString *)name;
+
+// Add entries to the index
 - (BOOL)addEntry:(GTIndexEntry *)entry error:(NSError **)error;
 - (BOOL)addFile:(NSString *)file error:(NSError **)error;
+
+// Write the index to the datastore
+//
+// error(out) - will be filled if an error occurs
+//
+// returns YES if the write was successful.
 - (BOOL)writeAndReturnError:(NSError **)error;
 
 @end

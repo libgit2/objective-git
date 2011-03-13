@@ -46,8 +46,10 @@
 @property (nonatomic, assign) NSUInteger stage;
 @property (nonatomic, assign, readonly) BOOL isValid;
 
-+ (id)indexEntryWithEntry:(git_index_entry *)theEntry;
+// Convenience initializers
 - (id)initWithEntry:(git_index_entry *)theEntry;
++ (id)indexEntryWithEntry:(git_index_entry *)theEntry;
+
 - (NSString *)sha;
 - (BOOL)setSha:(NSString *)theSha error:(NSError **)error;
 

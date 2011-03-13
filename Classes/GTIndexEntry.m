@@ -66,9 +66,13 @@
 @synthesize stage;
 @synthesize isValid;
 
-+ (id)indexEntryWithEntry:(git_index_entry *)theEntry {
+- (id)init {
 	
-	return [[[self alloc] initWithEntry:theEntry] autorelease];
+	if((self = [super init])) {
+		self.entry = malloc(sizeof(git_index_entry));
+		memset(self.entry, 0x0, sizeof(git_index_entry));
+	}
+	return self;
 }
 
 - (id)initWithEntry:(git_index_entry *)theEntry {
@@ -78,14 +82,9 @@
 	}
 	return self;
 }
-
-- (id)init {
++ (id)indexEntryWithEntry:(git_index_entry *)theEntry {
 	
-	if((self = [super init])) {
-		self.entry = malloc(sizeof(git_index_entry));
-		memset(self.entry, 0x0, sizeof(git_index_entry));
-	}
-	return self;
+	return [[[self alloc] initWithEntry:theEntry] autorelease];
 }
 
 - (NSString *)path {

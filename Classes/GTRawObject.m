@@ -45,16 +45,6 @@
 @synthesize type;
 @synthesize data;
 
-+ (id)rawObjectWithType:(GTObjectType)theType data:(NSData *)theData {
-	
-	return [[[self alloc] initWithType:theType data:theData] autorelease];
-}
-
-+ (id)rawObjectWithType:(GTObjectType)theType string:(NSString *)string {
-	
-	return [[[self alloc] initWithType:theType string:string] autorelease];
-}
-
 - (id)initWithType:(GTObjectType)theType data:(NSData *)theData {
 	
 	if((self = [super init])) {
@@ -62,6 +52,10 @@
 		self.data = theData;
 	}
 	return self;
+}
++ (id)rawObjectWithType:(GTObjectType)theType data:(NSData *)theData {
+	
+	return [[[self alloc] initWithType:theType data:theData] autorelease];
 }
 
 - (id)initWithType:(GTObjectType)theType string:(NSString *)string {
@@ -71,6 +65,10 @@
 		self.data = [string dataUsingEncoding:NSUTF8StringEncoding];
 	}
 	return self;
+}
++ (id)rawObjectWithType:(GTObjectType)theType string:(NSString *)string {
+	
+	return [[[self alloc] initWithType:theType string:string] autorelease];
 }
 
 - (NSString *)dataAsUTF8String {

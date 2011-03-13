@@ -37,9 +37,32 @@
 @property (nonatomic, assign) git_tree *tree;
 @property (nonatomic, readonly) NSInteger entryCount;
 
+// Clear all the entries in the tree. This will not take effect until the object
+// is written back to the datastore
 - (void)clear;
+
+// Get a entry at the specified index
+//
+// index - index to retreive entry from
+//
+// returns a GTTreeEntry or nil if there is nothing at the index
 - (GTTreeEntry *)entryAtIndex:(NSInteger)index;
+
+// Get a entry by name
+//
+// name - the name of the entry
+//
+// returns a GTTreeEntry or nil if there is nothing with the specified name
 - (GTTreeEntry *)entryByName:(NSString *)name;
-- (GTTreeEntry *)addEntryWithObjId:(NSString *)oid filename:(NSString *)filename mode:(NSInteger *)mode error:(NSError **)error;
+
+// Add an entry to the index
+//
+// sha - the sha of the file to add
+// filename - the name of the file to add
+// mode - the file mode
+// error(out) - will be filled if an error occurs
+//
+// returns the added GTTreeEntry or nil if an error occurred
+- (GTTreeEntry *)addEntryWithSha:(NSString *)sha filename:(NSString *)filename mode:(NSInteger *)mode error:(NSError **)error;
 
 @end

@@ -42,6 +42,11 @@
 	[super dealloc];
 }
 
+- (git_blob *)blob {
+	
+	return (git_blob *)self.object;
+}
+
 #pragma mark -
 #pragma mark API
 
@@ -56,11 +61,6 @@
 		if(self.object == nil)return nil;
 	}
 	return self;
-}
-
-- (git_blob *)blob {
-	
-	return (git_blob *)self.object;
 }
 
 - (NSInteger)size {

@@ -29,6 +29,7 @@
 
 #import "GTTree.h"
 #import "GTTreeEntry.h"
+#import "GTLib.h"
 #import "NSString+Git.h"
 #import "NSError+Git.h"
 
@@ -44,17 +45,17 @@
 	[super dealloc];
 }
 
+- (git_tree *)tree {
+	
+	return (git_tree *)self.object;
+}
+
 #pragma mark -
 #pragma mark API
 
 @synthesize tree;
 @synthesize entries;
 @synthesize entryCount;
-
-- (git_tree *)tree {
-	
-	return (git_tree *)self.object;
-}
 
 - (NSInteger)entryCount {
 
@@ -84,19 +85,15 @@
 	return [self createEntryWithEntry:git_tree_entry_byname(self.tree, [NSString utf8StringForString:name])];
 }
 
-- (GTTreeEntry *)addEntryWithObjId:(NSString *)ObjId filename:(NSString *)filename mode:(NSInteger *)mode error:(NSError **)error {
+- (GTTreeEntry *)addEntryWithSha:(NSString *)sha filename:(NSString *)filename mode:(NSInteger *)mode error:(NSError **)error {
 	
 	git_tree_entry *newEntry;
 	git_oid oid;
 	
-	int gitError = git_oid_mkstr(&oid, [NSString utf8StringForString:ObjId]);
-	if(gitError != GIT_SUCCESS){
-		if(error != NULL)
-			*error = [NSError gitErrorForMkStr:gitError];
-		return nil;
-	}
+	BOOL success = [GTLib convertSha:sha toOid:&oid error:error];
+	if(!success) return nil;
 	
-	gitError = git_tree_add_entry(&newEntry, self.tree, &oid, [NSString utf8StringForString:filename], (int)mode);
+	int gitError = git_tree_add_entry(&newEntry, self.tree, &oid, [NSString utf8StringForString:filename], (int)mode);
 	if(gitError != GIT_SUCCESS){
 		if(error != NULL)
 			*error = [NSError gitErrorForAddTreeEntry:gitError];

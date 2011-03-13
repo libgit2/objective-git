@@ -46,6 +46,11 @@
 	[super dealloc];
 }
 
+- (git_tag *)tag {
+	
+	return (git_tag *)self.object;
+}
+
 #pragma mark -
 #pragma mark API
 
@@ -55,11 +60,6 @@
 @synthesize target;
 @synthesize targetType;
 @synthesize tagger;
-
-- (git_tag *)tag {
-	
-	return (git_tag *)self.object;
-}
 
 - (NSString *)message {
 	

@@ -53,11 +53,26 @@ typedef enum {
 @property (nonatomic, assign, readonly) NSString *sha;
 @property (nonatomic, assign) GTRepository *repo;
 
+// Convenience initializers
+- (id)initInRepo:(GTRepository *)theRepo withObject:(git_object *)theObject;
++ (id)objectInRepo:(GTRepository *)theRepo withObject:(git_object *)theObject; 
+
+// Helpers
 + (git_object *)getNewObjectInRepo:(git_repository *)r type:(GTObjectType)theType error:(NSError **)error;
 + (git_object *)getNewObjectInRepo:(git_repository *)r sha:(NSString *)sha type:(GTObjectType)theType error:(NSError **)error;
-+ (id)objectInRepo:(GTRepository *)theRepo withObject:(git_object *)theObject; 
-- (id)initInRepo:(GTRepository *)theRepo withObject:(git_object *)theObject;
+
+// Write this object to the datastore
+//
+// error(out) - will be filled if an error occurs
+//
+// returns an NSString of the sha1 hash of the written object or nil if an error occurred.
 - (NSString *)writeAndReturnError:(NSError **)error;
+
+// Red the raw object from the datastore
+//
+// error(out) - will be filled if an error occurs
+// 
+// returns a GTRawObject or nil if an error occurred.
 - (GTRawObject *)readRawAndReturnError:(NSError **)error;
 
 @end

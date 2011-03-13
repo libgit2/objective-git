@@ -202,14 +202,6 @@
 	GHAssertEquals(4, (int)[index2 entryCount], nil);
 }
 
-- (void)testCanOpenGitRepo {
-	
-	NSError *error = nil;
-	GTRepository *gitRepo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:@"file://localhost/private/tmp/arepo2/.git"] error:&error];
-	GHAssertNil(error, [error localizedDescription]);
-	GHAssertNotNil(gitRepo, nil);
-}
-
 - (void)testCanAddFromAPath {
 	 
 	//setup

@@ -48,6 +48,11 @@
 	[super dealloc];
 }
 
+- (git_commit *)commit {
+	
+	return (git_commit *)self.object;
+}
+
 #pragma mark -
 #pragma mark API 
 
@@ -68,11 +73,6 @@
 		if(self.object == nil)return nil;
 	}
 	return self;
-}
-
-- (git_commit *)commit {
-
-	return (git_commit *)self.object;
 }
 
 - (NSString *)message {

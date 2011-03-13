@@ -30,15 +30,20 @@
 #import <git2.h>
 #import "GTObject.h"
 
+
 @interface GTRawObject : NSObject {}
 
 @property (nonatomic, assign) GTObjectType type;
 @property (nonatomic, retain) NSData *data;
 
-+ (id)rawObjectWithType:(GTObjectType)theType data:(NSData *)theData;
-+ (id)rawObjectWithType:(GTObjectType)theType string:(NSString *)string;
+// Convenience initializers
 - (id)initWithType:(GTObjectType)theType data:(NSData *)theData;
++ (id)rawObjectWithType:(GTObjectType)theType data:(NSData *)theData;
+
 - (id)initWithType:(GTObjectType)theType string:(NSString *)string;
++ (id)rawObjectWithType:(GTObjectType)theType string:(NSString *)string;
+
+// Helper to return the data of this raw object as a utf8 string
 - (NSString *)dataAsUTF8String;
 
 @end

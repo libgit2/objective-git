@@ -49,11 +49,6 @@
 @synthesize path;
 @synthesize entryCount;
 
-+ (id)indexWithPath:(NSURL *)localFileUrl error:(NSError **)error {
-	
-	return [[[self alloc] initWithPath:localFileUrl error:error] autorelease];
-}
-
 - (id)initWithPath:(NSURL *)localFileUrl error:(NSError **)error {
 	
 	if((self = [super init])) {
@@ -69,10 +64,9 @@
 	}
 	return self;
 }
-
-+ (id)indexWithIndex:(git_index *)theIndex {
++ (id)indexWithPath:(NSURL *)localFileUrl error:(NSError **)error {
 	
-	return [[[self alloc] initWithGitIndex:theIndex] autorelease];
+	return [[[self alloc] initWithPath:localFileUrl error:error] autorelease];
 }
 
 - (id)initWithGitIndex:(git_index *)theIndex; {
@@ -81,6 +75,10 @@
 		self.index = theIndex;
 	}
 	return self;
+}
++ (id)indexWithIndex:(git_index *)theIndex {
+	
+	return [[[self alloc] initWithGitIndex:theIndex] autorelease];
 }
 
 - (NSInteger)entryCount {

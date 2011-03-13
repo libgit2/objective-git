@@ -77,8 +77,26 @@ typedef enum {
 - (BOOL)setTarget:(NSString *)newTarget error:(NSError **)error;
 - (NSString *)name;
 - (BOOL)setName:(NSString *)newName error:(NSError **)error;
+
+// Pack this reference
+//
+// error(out) - will be filled if an error occurs
+//
+// returns YES if the pack was successful
 - (BOOL)packAllAndReturnError:(NSError **)error;
+
+// Delete this reference
+//
+// error(out) - will be filled if an error occurs
+//
+// returns YES if the delete was successful
 - (BOOL)deleteAndReturnError:(NSError **)error;
+
+// Resolve this reference as a symbolic ref
+//
+// error(out) - will be filled if an error occurs
+//
+// returns the peeled GTReference or nil if an error occurred.
 - (GTReference *)resolveAndReturnError:(NSError **)error;
 
 @end

@@ -29,6 +29,7 @@
 
 #import <git2.h>
 
+
 @class GTTree;
 @class GTObject;
 
@@ -39,7 +40,14 @@
 @property (nonatomic, assign) NSInteger attributes;
 @property (nonatomic, assign) GTTree *tree;
 
+// Turn entry into an GTObject
+//
+// error(out) - will be filled if an error occurs
+//
+// returns this entry as a GTObject or nil if an error occurred.
 - (GTObject *)toObjectAndReturnError:(NSError **)error;
+
+// The sha1 of this tree entry
 - (NSString *)sha;
 - (BOOL)setSha:(NSString *)newSha error:(NSError **)error;
 

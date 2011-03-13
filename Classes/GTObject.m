@@ -50,6 +50,16 @@ static NSString * const GTTagClassName = @"GTTag";
 	[super dealloc];
 }
 
+- (NSUInteger)hash {
+	return [self.sha hash];
+}
+
+- (BOOL)isEqual:(id)otherObject {
+	if(![otherObject isKindOfClass:[GTObject class]]) return NO;
+	
+	return 0 == git_oid_cmp(git_object_id(self.object), git_object_id(((GTObject *)otherObject).object)) ? YES : NO;
+}
+
 #pragma mark -
 #pragma mark API 
 
@@ -58,6 +68,14 @@ static NSString * const GTTagClassName = @"GTTag";
 @synthesize sha;
 @synthesize repo;
 
+- (id)initInRepo:(GTRepository *)theRepo withObject:(git_object *)theObject {
+	
+	if((self = [super init])){
+		self.repo = theRepo;
+		self.object = theObject;
+	}
+	return self;
+}
 + (id)objectInRepo:(GTRepository *)theRepo withObject:(git_object *)theObject {
 
 	NSString *klass;
@@ -81,15 +99,6 @@ static NSString * const GTTagClassName = @"GTTag";
 	}
 	
 	return [[[NSClassFromString(klass) alloc] initInRepo:theRepo withObject:theObject] autorelease];
-}
-
-- (id)initInRepo:(GTRepository *)theRepo withObject:(git_object *)theObject {
-	
-	if((self = [super init])){
-		self.repo = theRepo;
-		self.object = theObject;
-	}
-	return self;
 }
 
 + (git_object *)getNewObjectInRepo:(git_repository *)r type:(GTObjectType)theType error:(NSError **)error {
@@ -150,16 +159,6 @@ static NSString * const GTTagClassName = @"GTTag";
 - (GTRawObject *)readRawAndReturnError:(NSError **)error {
 	
 	return [self.repo rawRead:git_object_id(self.object) error:error];
-}
-
-- (NSUInteger)hash {
-	return [self.sha hash];
-}
-
-- (BOOL)isEqual:(id)otherObject {
-	if(![otherObject isKindOfClass:[GTObject class]]) return NO;
-	
-	return 0 == git_oid_cmp(git_object_id(self.object), git_object_id(((GTObject *)otherObject).object)) ? YES : NO;
 }
 
 @end

@@ -46,6 +46,20 @@
 	[super dealloc];
 }
 
+- (NSString *)description {
+	return [NSString stringWithFormat:@"\
+			\n\t %@						\
+			\n\t name = %@				\
+			\n\t email = %@				\
+			\n\t time = %@				\
+			",
+			NSStringFromClass([self class]),
+			self.name,
+			self.email,
+			self.time
+			];
+}
+
 #pragma mark -
 #pragma mark API 
 
@@ -54,10 +68,6 @@
 @synthesize email;
 @synthesize time;
 
-+ (id)signatureWithSignature:(git_signature *)theSignature {
-	
-	return [[[self alloc] initWithSignature:theSignature] autorelease];
-}
 - (id)initWithSignature:(git_signature *)theSignature {
 	
 	if(self = [self init]) {
@@ -65,11 +75,11 @@
 	}
 	return self;
 }
-
-+ (id)signatureWithName:(NSString *)theName email:(NSString *)theEmail time:(NSDate *)theTime {
++ (id)signatureWithSignature:(git_signature *)theSignature {
 	
-	return [[[self alloc] initWithName:theName email:theEmail time:theTime] autorelease];
+	return [[[self alloc] initWithSignature:theSignature] autorelease];
 }
+
 - (id)initWithName:(NSString *)theName email:(NSString *)theEmail time:(NSDate *)theTime {
 	
 	if((self = [super init])) {
@@ -78,9 +88,13 @@
 										   [NSString utf8StringForString:theEmail], 
 										   [theTime timeIntervalSince1970], 
 										   0);
-		// tclem todo: figure out offset for NSDate
+		// todo: figure out offset for NSDate
 	}
 	return self;
+}
++ (id)signatureWithName:(NSString *)theName email:(NSString *)theEmail time:(NSDate *)theTime {
+	
+	return [[[self alloc] initWithName:theName email:theEmail time:theTime] autorelease];
 }
 
 - (NSString *)name {
@@ -110,20 +124,6 @@
 - (void)setTime:(NSDate *)d {
 	
 	self.signature->when.time = [d timeIntervalSince1970];
-}
-
-- (NSString *)description {
-	return [NSString stringWithFormat:@"\
-			\n\t %@						\
-			\n\t name = %@				\
-			\n\t email = %@				\
-			\n\t time = %@				\
-			",
-			NSStringFromClass([self class]),
-			self.name,
-			self.email,
-			self.time
-			];
 }
 
 @end
