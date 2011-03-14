@@ -70,7 +70,7 @@
 
 - (id)initWithSignature:(git_signature *)theSignature {
 	
-	if(self = [self init]) {
+	if((self = [self init])) {
 		self.signature = theSignature;
 	}
 	return self;
