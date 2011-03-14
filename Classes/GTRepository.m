@@ -74,6 +74,21 @@
 @synthesize walker;
 @synthesize index;
 
++ (BOOL)isAGitDirectory:(NSURL *)directory {
+    
+    NSFileManager *fm = [[[NSFileManager alloc] init] autorelease];
+    BOOL isDir = NO;
+    NSURL *headFileURL = [directory URLByAppendingPathComponent:@"HEAD"];
+    
+    if([fm fileExistsAtPath:[headFileURL path] isDirectory:&isDir] && !isDir) {
+        NSURL *objectsDir = [directory URLByAppendingPathComponent:@"objects"];
+        if([fm fileExistsAtPath:[objectsDir path] isDirectory:&isDir] && isDir) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
 - (id)initByOpeningRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error {
 	
 	if((self = [super init])){
@@ -83,10 +98,10 @@
 		GTLog("Opening repository in directory: %@", localFileUrl);
 		
 		const char *path;
-		if([[localFileUrl path] hasSuffix:@".git"]) {
-			path = [NSString utf8StringForString:[localFileUrl path]];
+		if([[localFileUrl path] hasSuffix:@".git"] && [GTRepository isAGitDirectory:localFileUrl]) {
+            path = [NSString utf8StringForString:[localFileUrl path]];
 		} else {
-			path = [NSString utf8StringForString:[NSString stringWithFormat:@"%@/.git", [localFileUrl path]]];
+			path = [NSString utf8StringForString:[[localFileUrl URLByAppendingPathComponent:@".git"] path]];
 		}
 		
 		git_repository *r;
