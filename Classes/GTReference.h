@@ -60,7 +60,7 @@ typedef enum {
 // 
 // returns an array of NSStrings holding the names of the references
 // returns nil if an error occurred and fills the error parameter
-+ (NSArray *)listReferencesInRepo:(GTRepository *)theRepo types:(GTReferenceTypes)types error:(NSError **)error;
++ (NSArray *)listReferenceNamesInRepo:(GTRepository *)theRepo types:(GTReferenceTypes)types error:(NSError **)error;
 
 // List all references in a repository
 //
@@ -71,7 +71,7 @@ typedef enum {
 // 
 // returns an array of NSStrings holding the names of the references
 // returns nil if an error occurred and fills the error parameter
-+ (NSArray *)listAllReferencesInRepo:(GTRepository *)theRepo error:(NSError **)error;
++ (NSArray *)listAllReferenceNamesInRepo:(GTRepository *)theRepo error:(NSError **)error;
 
 - (NSString *)target;
 - (BOOL)setTarget:(NSString *)newTarget error:(NSError **)error;

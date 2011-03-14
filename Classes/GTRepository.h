@@ -84,7 +84,10 @@
 - (GTReference *)headAndReturnError:(NSError **)error;
 
 // Convenience methods to return references in this repository (see GTReference.h)
-- (NSArray *)listReferencesOfTypes:(GTReferenceTypes)types error:(NSError **)error;
-- (NSArray *)listAllReferencesAndReturnError:(NSError **)error;
+- (NSArray *)listReferenceNamesOfTypes:(GTReferenceTypes)types error:(NSError **)error;
+- (NSArray *)listAllReferenceNamesAndReturnError:(NSError **)error;
+
+// Convenience methods to return branches in the repository
+- (NSArray *)listAllBranchesAndReturnError:(NSError **)error;
 
 @end

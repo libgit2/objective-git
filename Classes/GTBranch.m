@@ -147,4 +147,20 @@
 	return [self.repository.walker next];
 }
 
++ (NSArray *)listAllBranchesInRepository:(GTRepository *)repo error:(NSError **)error {
+
+    NSArray *references = [GTReference listAllReferenceNamesInRepo:repo error:error];
+    if(references == nil) return nil;
+
+    NSMutableArray *branches = [NSMutableArray array];
+    for(NSString *ref in references) {
+        if([ref hasPrefix:@"refs/heads/"]){
+            GTBranch *b = [GTBranch branchWithName:ref repository:repo error:error];
+            if(b != nil)
+                [branches addObject:b];
+        }
+    }
+    return branches;
+}
+
 @end

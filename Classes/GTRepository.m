@@ -35,6 +35,7 @@
 #import "GTLib.h"
 #import "GTIndex.h"
 #import "GTBranch.h"
+#import "GTTag.h"
 #import "NSError+Git.h"
 #import "NSString+Git.h"
 
@@ -337,14 +338,19 @@
 	return [GTReference referenceByResolvingRef:headSymRef error:error];
 }
 
-- (NSArray *)listReferencesOfTypes:(GTReferenceTypes)types error:(NSError **)error {
+- (NSArray *)listReferenceNamesOfTypes:(GTReferenceTypes)types error:(NSError **)error {
 	
-	return [GTReference listReferencesInRepo:self types:types error:error];
+	return [GTReference listReferenceNamesInRepo:self types:types error:error];
 }
 
-- (NSArray *)listAllReferencesAndReturnError:(NSError **)error {
+- (NSArray *)listAllReferenceNamesAndReturnError:(NSError **)error {
 
-	return [GTReference listAllReferencesInRepo:self error:error];
+	return [GTReference listAllReferenceNamesInRepo:self error:error];
+}
+
+- (NSArray *)listAllBranchesAndReturnError:(NSError **)error {
+    
+    return [GTBranch listAllBranchesInRepository:self error:error];
 }
 
 @end

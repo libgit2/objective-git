@@ -19,12 +19,23 @@
 - (void)testCanOpenHeadInRepo {
 	
 	NSError *error = nil;
-	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:@"file://localhost/Users/tclem/github/local/libgit2"] error:&error];
+	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH] error:&error];
 	GHAssertNil(error, [error localizedDescription]);
 	
 	GTBranch *current = [GTBranch branchFromCurrentBranchInRepository:repo error:&error];
 	GHAssertNil(error, [error localizedDescription]);
 	GHAssertNotNil(current, nil);
+}
+
+- (void)testCanListBranchesInRepo {
+    
+    NSError *error = nil;
+	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH] error:&error];
+	GHAssertNil(error, [error localizedDescription]);
+    
+    NSArray *branches = [GTBranch listAllBranchesInRepository:repo error:&error];
+    GHAssertNotNil(branches, [error localizedDescription], nil);
+    GHAssertEquals(2, (int)branches.count, nil);
 }
 
 @end

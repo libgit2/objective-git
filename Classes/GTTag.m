@@ -30,7 +30,8 @@
 #import "GTTag.h"
 #import "NSString+Git.h"
 #import "GTSignature.h"
-
+#import "GTReference.h"
+#import "GTRepository.h"
 
 @implementation GTTag
 
@@ -60,6 +61,20 @@
 @synthesize target;
 @synthesize targetType;
 @synthesize tagger;
+
+//- (id)initWithReference:(GTReference *)ref repo:(GTRepository *)repo error:(NSError **)error {
+// 
+//    if((self = [super init])) {
+//        self.repo = repo;
+//        self.object = [GTObject getNewObjectInRepo:repo.repo type:GTObjectTypeTag error:error];
+//        if(self.object == nil)return nil;
+//        self.name = ref.name;
+//        self.target = [repo lookupBySha:ref.target error:error];
+//        if(self.target == nil)return nil;
+//        // todo: message?
+//    }
+//    return self;
+//}
 
 - (NSString *)message {
 	

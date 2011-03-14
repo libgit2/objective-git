@@ -54,4 +54,11 @@
 // returns a GTCommit object or nil if an error occurred
 - (GTCommit *)mostRecentCommitWithError:(NSError **)error;
 
+// List all branches in a repository
+//
+// error(out) - will be filled if an error occurs
+//
+// returns an NSArray of GTBranch objects or nil if an error occurred
++ (NSArray *)listAllBranchesInRepository:(GTRepository *)repo error:(NSError **)error;
+
 @end

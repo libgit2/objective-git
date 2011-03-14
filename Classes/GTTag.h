@@ -31,6 +31,7 @@
 #import "GTObject.h"
 
 @class GTSignature;
+@class GTRepository;
 
 @interface GTTag : GTObject {}
 

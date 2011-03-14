@@ -146,7 +146,7 @@
 	return [NSString stringForUTF8String:git_object_type2string(git_reference_type(self.ref))];
 }
 
-+ (NSArray *)listReferencesInRepo:(GTRepository *)theRepo types:(GTReferenceTypes)types error:(NSError **)error {
++ (NSArray *)listReferenceNamesInRepo:(GTRepository *)theRepo types:(GTReferenceTypes)types error:(NSError **)error {
 	
 	NSParameterAssert(theRepo != nil);
 	NSParameterAssert(theRepo.repo != nil);
@@ -170,9 +170,9 @@
 	return references;
 }
 
-+ (NSArray *)listAllReferencesInRepo:(GTRepository *)theRepo error:(NSError **)error {
++ (NSArray *)listAllReferenceNamesInRepo:(GTRepository *)theRepo error:(NSError **)error {
 	
-	return [self listReferencesInRepo:theRepo types:GTReferenceTypesListAll error:error];
+	return [self listReferenceNamesInRepo:theRepo types:GTReferenceTypesListAll error:error];
 }
 
 - (NSString *)target {
