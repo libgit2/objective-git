@@ -145,6 +145,10 @@ static NSString * const GTTagClassName = @"GTTag";
 	return [GTLib convertOidToSha:git_object_id(self.object)];
 }
 
+- (NSString *)shortSha {
+	return [GTLib shortUniqueShaFromSha:self.sha];
+}
+
 - (NSString *)writeAndReturnError:(NSError **)error {
 	
 	int gitError = git_object_write(self.object);

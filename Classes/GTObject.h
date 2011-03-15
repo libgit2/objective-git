@@ -51,6 +51,7 @@ typedef enum {
 @property (nonatomic, assign) git_object *object;
 @property (nonatomic, assign, readonly) NSString *type;
 @property (nonatomic, assign, readonly) NSString *sha;
+@property (nonatomic, readonly) NSString *shortSha;
 @property (nonatomic, assign) GTRepository *repo;
 
 // Convenience initializers
