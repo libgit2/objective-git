@@ -39,9 +39,6 @@
 - (id)initWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error;
 + (id)branchWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error;
 
-- (id)initWithShortName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error;
-+ (id)branchWithShortName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error;
-
 - (id)initWithReference:(GTReference *)ref repository:(GTRepository *)repo;
 + (id)branchWithReference:(GTReference *)ref repository:(GTRepository *)repo;
 

@@ -33,16 +33,10 @@
 @interface GTBranch ()
 @property (nonatomic, assign) GTReference *reference;
 @property (nonatomic, assign) GTRepository *repository;
-
-+ (NSString *)defaultBranchRefPath;
 @end
 
 
 @implementation GTBranch
-
-+ (NSString *)defaultBranchRefPath {
-	return @"refs/heads/";
-}
 
 - (BOOL)isEqual:(id)otherObject {
 	
@@ -86,21 +80,6 @@
 	return [[[self alloc] initWithName:branchName repository:repo error:error] autorelease];
 }
 
-- (id)initWithShortName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error {
-	
-	if((self = [super init])) {
-		self.reference = [GTReference referenceByLookingUpRef:[NSString stringWithFormat:@"%@%@", [[self class] defaultBranchRefPath], branchName] inRepo:repo error:error];
-		if(self.reference == nil) return nil;
-		
-		self.repository = repo;
-	}
-	return self;
-}
-+ (id)branchWithShortName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error {
-	
-	return [[[self alloc] initWithShortName:branchName repository:repo error:error] autorelease];
-}
-
 - (id)initWithReference:(GTReference *)ref repository:(GTRepository *)repo {
 	
 	if((self = [super init])) {
@@ -129,7 +108,8 @@
 
 - (NSString *)shortName {
 	
-	return [self.reference.name stringByReplacingOccurrencesOfString:[[self class] defaultBranchRefPath] withString:@""];		
+	NSArray *chunks = [self.reference.name componentsSeparatedByString:@"/"];
+	return [chunks lastObject];
 }
 
 - (NSString *)sha {
