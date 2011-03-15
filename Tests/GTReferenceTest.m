@@ -23,7 +23,7 @@
 - (void)testCanOpenRef {
 	
 	NSError *error = nil;
-	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH] error:&error];
+	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH()] error:&error];
 	GHAssertNil(error, [error localizedDescription]);
 	GTReference *ref = [GTReference referenceByLookingUpRef:@"refs/heads/master" inRepo:repo error:&error];
 	GHAssertNil(error, [error localizedDescription]);
@@ -37,7 +37,7 @@
 - (void)testCanOpenTagRef {
     
     NSError *error = nil;
-	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH] error:&error];
+	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH()] error:&error];
 	GHAssertNil(error, [error localizedDescription]);
 	GTReference *ref = [GTReference referenceByLookingUpRef:@"refs/tags/v0.9" inRepo:repo error:&error];
 	GHAssertNil(error, [error localizedDescription]);
@@ -51,7 +51,7 @@
 - (void)testCanCreateRefFromSymbolicRef {
 	
 	NSError *error = nil;
-	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH] error:&error];
+	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH()] error:&error];
 	GHAssertNil(error, [error localizedDescription]);
 	GTReference *ref = [GTReference referenceByCreatingRef:@"refs/heads/unit_test" fromRef:@"refs/heads/master" inRepo:repo error:&error];
 	GHAssertNil(error, [error localizedDescription]);
@@ -68,7 +68,7 @@
 - (void)testCanCreateRefFromSha {
 	
 	NSError *error = nil;
-	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH] error:&error];
+	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH()] error:&error];
 	GHAssertNil(error, [error localizedDescription]);
 	GTReference *ref = [GTReference referenceByCreatingRef:@"refs/heads/unit_test" fromRef:@"36060c58702ed4c2a40832c51758d5344201d89a" inRepo:repo error:&error];
 	GHAssertNil(error, [error localizedDescription]);
@@ -85,7 +85,7 @@
 - (void)testCanRenameRef {
 	
 	NSError *error = nil;
-	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH] error:&error];
+	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH()] error:&error];
 	GHAssertNil(error, [error localizedDescription]);
 	GTReference *ref = [GTReference referenceByCreatingRef:@"refs/heads/unit_test" fromRef:@"36060c58702ed4c2a40832c51758d5344201d89a" inRepo:repo error:&error];
 	GHAssertNil(error, [error localizedDescription]);
@@ -105,7 +105,7 @@
 - (void)testCanSetTargetOnRef {
 	
 	NSError *error = nil;
-	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH] error:&error];
+	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH()] error:&error];
 	GHAssertNil(error, [error localizedDescription]);
 	GTReference *ref = [GTReference referenceByCreatingRef:@"refs/heads/unit_test" fromRef:@"36060c58702ed4c2a40832c51758d5344201d89a" inRepo:repo error:&error];
 	GHAssertNil(error, [error localizedDescription]);
@@ -126,7 +126,7 @@
 - (void)testCanListAllReferences {
 	
 	NSError *error = nil;
-	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH] error:&error];
+	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH()] error:&error];
 	GHAssertNil(error, [error localizedDescription]);
 	
 	NSArray *refs = [GTReference listAllReferenceNamesInRepo:repo error:&error];
@@ -142,7 +142,7 @@
 - (void)testCanListOidReferences {
 	
 	NSError *error = nil;
-	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH] error:&error];
+	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH()] error:&error];
 	GHAssertNil(error, [error localizedDescription]);
 	
 	NSArray *refs = [GTReference listReferenceNamesInRepo:repo types:GTReferenceTypesOid error:&error];
@@ -157,7 +157,7 @@
 - (void)testCanListSymbolicReferences {
 	
 	NSError *error = nil;
-	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH] error:&error];
+	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH()] error:&error];
 	GHAssertNil(error, [error localizedDescription]);
 	
 	// create a symbolic reference
@@ -180,7 +180,7 @@
 - (void)testCanListPackedReferences {
 	
 	NSError *error = nil;
-	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH] error:&error];
+	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH()] error:&error];
 	GHAssertNil(error, [error localizedDescription]);
 	
 	NSArray *refs = [GTReference listReferenceNamesInRepo:repo types:GTReferenceTypesPacked error:&error];

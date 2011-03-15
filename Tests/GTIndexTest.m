@@ -42,7 +42,7 @@
 - (void)setUp {
 	
 	NSError *error = nil;
-	index = [GTIndex indexWithPath:[NSURL URLWithString:TEST_INDEX_PATH] error:&error];
+	index = [GTIndex indexWithPath:[NSURL URLWithString:TEST_INDEX_PATH()] error:&error];
 	BOOL success = [index refreshAndReturnError:&error];
 	GHAssertTrue(success, [error localizedDescription]);
 }
@@ -166,14 +166,15 @@
 
 - (void)createTempPath {
 	
-	NSError *error = nil;
-	NSFileManager *m = [[[NSFileManager alloc] init] autorelease];
-	tempPath = [NSURL URLWithString:@"file://localhost/private/tmp/index"];
-	
-	if([m fileExistsAtPath:[tempPath path]])
+    NSError *error = nil;
+    NSFileManager *m = [[[NSFileManager alloc] init] autorelease];
+    tempPath = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"index"]];	
+
+    if([m fileExistsAtPath:[tempPath path]])
 		[m removeItemAtURL:tempPath error:&error];
 	
-	[m copyItemAtURL:[NSURL URLWithString:TEST_INDEX_PATH] toURL:tempPath error:&error];
+	[m copyItemAtURL:[NSURL fileURLWithPath:TEST_INDEX_PATH()] toURL:tempPath error:&error];
+    GHAssertNil(error, [error localizedDescription]);
 	
 	wIndex = [GTIndex indexWithPath:tempPath error:&error];
 	GHAssertNil(error, [error localizedDescription]);
@@ -207,7 +208,7 @@
 	//setup
 	NSError *error = nil;
 	NSFileManager *m = [[[NSFileManager alloc] init] autorelease];
-	tempPath = [NSURL URLWithString:@"file://localhost/private/tmp/index_dir"];
+	tempPath = [NSURL URLWithString:[NSTemporaryDirectory() stringByAppendingPathComponent:@"index_dir"]];
 	NSURL *repoPath = [tempPath URLByAppendingPathComponent:@".git"];
 	
 	[m removeItemAtPath:[tempPath path] error:&error];
@@ -223,7 +224,7 @@
 	GHAssertTrue([task terminationStatus] == 0, @"git init failed");
 
 	// create a new file in working dir
-	NSURL *file = [NSURL URLWithString:@"file://localhost/private/tmp/index_dir/test.txt"];
+	NSURL *file = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"index_dir/test.txt"]];
 	[@"test content" writeToURL:file atomically:NO encoding:NSUTF8StringEncoding error:&error];
 	
 	// open the repo and write to the index

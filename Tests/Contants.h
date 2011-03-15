@@ -46,15 +46,20 @@
 #import "GTReference.h"
 #import "GTBranch.h"
 
-static NSString *TEST_REPO_PATH = @"file://localhost/Volumes/GitHub/Mac/ObjectiveGitFramework/Tests/fixtures/testrepo.git";
-static NSString *TEST_INDEX_PATH = @"file://localhost/Volumes/GitHub/Mac/ObjectiveGitFramework/Tests/fixtures/testrepo.git/index";
+static inline NSString *TEST_REPO_PATH(void) {
+    return [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"fixtures/testrepo.git"];
+}
+
+static inline NSString *TEST_INDEX_PATH(void){
+    return [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"fixtures/testrepo.git/index"];
+}
 
 static inline void rm_loose(NSString *sha){
 	
 	NSError *error;
 	NSFileManager *m = [[[NSFileManager alloc] init] autorelease];
 	NSString *objDir = [NSString stringWithFormat:@"objects/%@", [sha substringToIndex:2]];
-	NSURL *basePath = [[NSURL URLWithString:TEST_REPO_PATH] URLByAppendingPathComponent:objDir];
+	NSURL *basePath = [[NSURL URLWithString:TEST_REPO_PATH()] URLByAppendingPathComponent:objDir];
 	NSURL *filePath = [basePath URLByAppendingPathComponent:[sha substringFromIndex:2]];
 	
 	NSLog(@"deleting file %@", filePath);

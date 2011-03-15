@@ -30,8 +30,6 @@
 #import "Contants.h"
 
 
-static NSString *newRepoPath = @"file://localhost/Users/tclem/github/local/unit_test";
-
 @interface GTRepositoryTest : GHTestCase {
 
 	GTRepository *repo;
@@ -45,23 +43,28 @@ static NSString *newRepoPath = @"file://localhost/Users/tclem/github/local/unit_
 - (void)setUp {
 	
 	NSError *error = nil;
-	repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH] error:&error];
+	repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH()] error:&error];
 
 	obj = [[[GTRawObject alloc] initWithType:GIT_OBJ_BLOB string:@"my test data\n"] autorelease];
 }
 
 - (void)testCreateRepositoryInDirectory {
 	
-	NSURL *newRepoURL = [NSURL URLWithString:newRepoPath];
-	NSError *error = nil;
+    NSError *error = nil;
+    NSFileManager *fm = [[[NSFileManager alloc] init] autorelease];
+	NSURL *newRepoURL = [NSURL URLWithString:[NSTemporaryDirectory() stringByAppendingPathComponent:@"unit_test"]];
+    
+    if([fm fileExistsAtPath:[newRepoURL path]]) {
+        [fm removeItemAtPath:[newRepoURL path] error:&error];
+        GHAssertNil(error, [error localizedDescription]);
+    }
+    
 	GTRepository *newRepo = [GTRepository repoByCreatingRepositoryInDirectory:newRepoURL error:&error];
 	
 	GHAssertNil(error, [error localizedDescription]);
 	GHAssertNotNil(newRepo, nil);
 	GHAssertNotNil(newRepo.fileUrl, nil);
 	GHAssertNotNULL(newRepo.repo, nil);
-	
-	GHAssertTrue([[NSFileManager defaultManager] removeItemAtURL:newRepoURL error:&error], [error localizedDescription]);
 }
 
 - (void)testFailsToOpenNonExistentRepo {
@@ -129,7 +132,7 @@ static NSString *newRepoPath = @"file://localhost/Users/tclem/github/local/unit_
 	
 	NSError *error = nil;
 	// alloc and init to verify memory management
-	GTRepository *aRepo = [[GTRepository alloc] initByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH] error:&error];
+	GTRepository *aRepo = [[GTRepository alloc] initByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH()] error:&error];
 	GHTestLog(@"%d", [aRepo retainCount]);
 	NSString *sha = @"a4a7dce85cf63874e984719f4fdd239f5145052f";
 	__block NSMutableArray *commits = [[[NSMutableArray alloc] init] autorelease];
