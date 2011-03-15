@@ -59,7 +59,7 @@
 @synthesize commit;
 @synthesize message;
 @synthesize messageShort;
-@synthesize time;
+@synthesize date;
 @synthesize author;
 @synthesize commiter;
 @synthesize tree;
@@ -91,7 +91,7 @@
 	return [NSString stringForUTF8String:s];
 }
 
-- (NSDate *)time {
+- (NSDate *)date {
 	
 	time_t t = git_commit_time(self.commit);
 	return [NSDate dateWithTimeIntervalSince1970:t];

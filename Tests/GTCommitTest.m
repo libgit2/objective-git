@@ -60,7 +60,7 @@
 	GTCommit *commit = (GTCommit *)obj;
 	GHAssertEqualStrings(commit.message, @"testing\n", nil);
 	GHAssertEqualStrings(commit.messageShort, @"testing", nil);
-	GHAssertEquals((int)[commit.time timeIntervalSince1970], 1273360386, nil); 
+	GHAssertEquals((int)[commit.date timeIntervalSince1970], 1273360386, nil); 
 	
 	GTSignature *author = commit.author;
 	GHAssertEqualStrings(author.name, @"Scott Chacon", nil);
