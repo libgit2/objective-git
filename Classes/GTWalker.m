@@ -80,6 +80,8 @@
 	BOOL success = [GTLib convertSha:sha toOid:&oid error:error];
 	if(!success)return NO;
 	
+	[self reset];
+	
 	int gitError = git_revwalk_push(self.walk, &oid);
 	if(gitError != GIT_SUCCESS) {
 		if (error != NULL)
@@ -127,7 +129,6 @@
 
 - (NSInteger)countFromSha:(NSString *)sha error:(NSError **)error {
 	
-	[self reset];
 	[self setSortingOptions:GTWalkerOptionsNone];
 	
 	BOOL success = [self push:sha error:error];
