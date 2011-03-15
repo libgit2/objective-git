@@ -160,7 +160,7 @@
 		return nil;
 	}
 	
-	NSMutableArray *references = [[NSMutableArray arrayWithCapacity:array.count] autorelease];
+	NSMutableArray *references = [NSMutableArray arrayWithCapacity:array.count];
 	for(int i=0; i< array.count; i++) {
 		[references addObject:[NSString stringForUTF8String:array.strings[i]]];
 	}

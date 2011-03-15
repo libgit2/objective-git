@@ -225,11 +225,6 @@
 	return git_odb_exists(odb, &oid) ? YES : NO;
 }
 
-- (GTRawObject *)newRawObject:(const git_rawobj *)obj {
-	
-	return [GTRawObject rawObjectWithType:obj->type data:[NSData dataWithBytes:obj->data length:obj->len]];
-}
-
 - (GTRawObject *)rawRead:(const git_oid *)oid error:(NSError **)error {
 	
 	git_odb *odb;
@@ -243,7 +238,7 @@
 		return nil;
 	}
 	
-	GTRawObject *rawObj = [self newRawObject:&obj];
+	GTRawObject *rawObj = [GTRawObject rawObjectWithRawObject:&obj];
 	git_rawobj_close(&obj);
 	
 	return rawObj;

@@ -71,6 +71,19 @@
 	return [[[self alloc] initWithType:theType string:string] autorelease];
 }
 
+- (id)initWithRawObject:(const git_rawobj *)obj {
+    
+    if((self = [super init])) {
+        self.type = obj->type;
+        self.data = [NSData dataWithBytes:obj->data length:obj->len];
+    }
+    return self;
+}
++ (id)rawObjectWithRawObject:(const git_rawobj *)obj {
+    
+    return [[[self alloc] initWithRawObject:obj] autorelease];
+}
+
 - (NSString *)dataAsUTF8String {
 	
 	if(!self.data) return nil;

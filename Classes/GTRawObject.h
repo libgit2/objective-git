@@ -43,6 +43,9 @@
 - (id)initWithType:(GTObjectType)theType string:(NSString *)string;
 + (id)rawObjectWithType:(GTObjectType)theType string:(NSString *)string;
 
+- (id)initWithRawObject:(const git_rawobj *)obj;
++ (id)rawObjectWithRawObject:(const git_rawobj *)obj;
+
 // Helper to return the data of this raw object as a utf8 string
 - (NSString *)dataAsUTF8String;
 
