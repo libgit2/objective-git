@@ -41,6 +41,7 @@
 
 
 @interface GTRepository ()
+@property (nonatomic, retain) GTWalker *walker;
 @end
 
 @implementation GTRepository
@@ -67,14 +68,6 @@
 	}
 }
 
-#pragma mark -
-#pragma mark API 
-
-@synthesize repo;
-@synthesize fileUrl;
-@synthesize walker;
-@synthesize index;
-
 + (BOOL)isAGitDirectory:(NSURL *)directory {
     
     NSFileManager *fm = [[[NSFileManager alloc] init] autorelease];
@@ -89,6 +82,14 @@
     }
     return NO;
 }
+
+#pragma mark -
+#pragma mark API 
+
+@synthesize repo;
+@synthesize fileUrl;
+@synthesize walker;
+@synthesize index;
 
 - (id)initByOpeningRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error {
 	
@@ -290,7 +291,7 @@
 		sha = head.target;
 	}
 	
-	//[self.walker reset];
+	[self.walker reset];
 	[self.walker setSortingOptions:sortMode];
 	BOOL success = [self.walker push:sha error:error];
 	if(!success) return NO; 
@@ -301,7 +302,7 @@
 		block(commit, &stop);
 		if(stop) break;
 	}
-	[self.walker reset];
+	//[self.walker reset];
 	return YES;
 }
 
@@ -346,6 +347,14 @@
 - (NSArray *)listAllBranchesAndReturnError:(NSError **)error {
     
     return [GTBranch listAllBranchesInRepository:self error:error];
+}
+
+- (NSInteger)numberOfCommitsInCurrentBranchAndReturnError:(NSError **)error {
+	
+	GTReference *head = [self headAndReturnError:error];
+	if(head == nil)return NSNotFound;
+	
+	return [self.walker countFromSha:head.target error:error];
 }
 
 @end

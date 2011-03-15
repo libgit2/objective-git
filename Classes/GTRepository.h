@@ -43,7 +43,7 @@
 
 @property (nonatomic, assign) git_repository *repo;
 @property (nonatomic, retain) NSURL *fileUrl;
-@property (nonatomic, retain) GTWalker *walker;
+@property (nonatomic, retain, readonly) GTWalker *walker;
 @property (nonatomic, retain) GTIndex *index;
 
 // Convenience initializers
@@ -90,4 +90,11 @@
 // Convenience methods to return branches in the repository
 - (NSArray *)listAllBranchesAndReturnError:(NSError **)error;
 
+// Count all commits in the current branch (HEAD)
+//
+// error(out) - will be filled if an error occurs
+//
+// returns number of commits in the current branch or NSNotFound if an error occurred
+- (NSInteger)numberOfCommitsInCurrentBranchAndReturnError:(NSError **)error;
+	
 @end

@@ -160,6 +160,27 @@
 	[aRepo release];
 }
 
+- (void)testCanWalkALot {
+	
+	NSError *error = nil;
+	GTRepository *aRepo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH()] error:&error];
+	NSString *sha = @"a4a7dce85cf63874e984719f4fdd239f5145052f";
+	
+	for(int i=0; i < 100; i++) {
+		
+		__block NSInteger count = 0;
+		BOOL success = [aRepo walk:sha
+							 error:&error
+							 block:^(GTCommit *commit, BOOL *stop) {
+								 count++;
+							 }];
+		GHAssertTrue(success, [error localizedDescription]);
+		GHAssertEquals(6, (int)count, nil);
+		
+		[[NSGarbageCollector defaultCollector] collectExhaustively];
+	}
+}
+
 - (void)testLookupHead {
 	
 	NSError *error = nil;

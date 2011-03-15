@@ -63,6 +63,6 @@
 // error(out) - will be filled if an error occurs
 //
 // returns number of commits in the branch or NSNotFound if an error occurred
-- (NSUInteger)numberOfCommitsAndReturnError:(NSError **)error;
+- (NSInteger)numberOfCommitsAndReturnError:(NSError **)error;
 
 @end

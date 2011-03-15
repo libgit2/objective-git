@@ -69,6 +69,10 @@
 	}
 	return self;
 }
++ (id)walkerWithRepository:(GTRepository *)theRepo error:(NSError **)error {
+	
+	return [[[self alloc] initWithRepository:theRepo error:error] autorelease];
+}
 
 - (BOOL)push:(NSString *)sha error:(NSError **)error {
 
@@ -121,8 +125,9 @@
 	return (GTCommit *)[self.repo lookupBySha:[GTLib convertOidToSha:&oid] type:GTObjectTypeCommit error:nil];
 }
 
-- (NSUInteger)countFromSha:(NSString *)sha error:(NSError **)error {
+- (NSInteger)countFromSha:(NSString *)sha error:(NSError **)error {
 	
+	[self reset];
 	[self setSortingOptions:GTWalkerOptionsNone];
 	
 	BOOL success = [self push:sha error:error];

@@ -138,7 +138,7 @@
     return branches;
 }
 
-- (NSUInteger)numberOfCommitsAndReturnError:(NSError **)error {
+- (NSInteger)numberOfCommitsAndReturnError:(NSError **)error {
 
 	return [self.repository.walker countFromSha:self.sha error:error];
 }

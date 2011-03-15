@@ -48,12 +48,13 @@ typedef enum {
 @property (nonatomic, assign) GTRepository *repo;
 
 - (id)initWithRepository:(GTRepository *)theRepo error:(NSError **)error;
++ (id)walkerWithRepository:(GTRepository *)theRepo error:(NSError **)error;
 
 - (BOOL)push:(NSString *)sha error:(NSError **)error;
 - (BOOL)hide:(NSString *)sha error:(NSError **)error;
 - (void)reset;
 - (void)setSortingOptions:(GTWalkerOptions)options;
 - (GTCommit *)next;
-- (NSUInteger)countFromSha:(NSString *)sha error:(NSError **)error;
+- (NSInteger)countFromSha:(NSString *)sha error:(NSError **)error;
 
 @end
