@@ -165,8 +165,6 @@
 		[references addObject:[NSString stringForUTF8String:array.strings[i]]];
 	}
 	
-	git_strarray_free(&array);
-	
 	return references;
 }
 

@@ -135,7 +135,7 @@
 	
 	for(int i=0; i < refs.count; i++) {
 		GHTestLog(@"%@", [refs objectAtIndex:i]);
-		GHAssertEqualStrings([expectedRefs objectAtIndex:i], [refs objectAtIndex:i], nil);
+        GHAssertTrue([expectedRefs containsObject:[refs objectAtIndex:i]], nil);
 	}
 }
 
@@ -173,7 +173,8 @@
 	}
 	@finally {
 		// cleanup
-		[ref deleteAndReturnError:&error];
+		BOOL success = [ref deleteAndReturnError:&error];
+        GHAssertTrue(success, [error localizedDescription]);
 	}
 }
 
