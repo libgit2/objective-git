@@ -47,7 +47,7 @@
 
 + (id)branchFromCurrentBranchInRepository:(GTRepository *)repo error:(NSError **)error;
 
-// Get the most recent commit in this repository
+// Get the target commit for this branch
 // 
 // error(out) - will be filled if an error occurs
 // 
