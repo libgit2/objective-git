@@ -52,7 +52,7 @@
 // error(out) - will be filled if an error occurs
 // 
 // returns a GTCommit object or nil if an error occurred
-- (GTCommit *)mostRecentCommitWithError:(NSError **)error;
+- (GTCommit *)targetCommitAndReturnError:(NSError **)error;
 
 // List all branches in a repository
 //

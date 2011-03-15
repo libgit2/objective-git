@@ -137,14 +137,15 @@
 	return self.reference.target;
 }
 
-- (GTCommit *)mostRecentCommitWithError:(NSError **)error {
+- (GTCommit *)targetCommitAndReturnError:(NSError **)error {
 	
 	//[self.repository.walker reset];
-	[self.repository.walker setSortingOptions:GTWalkerOptionsTopologicalSort];
-	BOOL success = [self.repository.walker push:self.reference.target error:error];
-	if(!success) return nil;
-	
-	return [self.repository.walker next];
+//	[self.repository.walker setSortingOptions:GTWalkerOptionsTopologicalSort];
+//	BOOL success = [self.repository.walker push:self.reference.target error:error];
+//	if(!success) return nil;
+//	
+//	return [self.repository.walker next];
+    return (GTCommit *)[self.repository lookupBySha:self.sha error:error];
 }
 
 + (NSArray *)listAllBranchesInRepository:(GTRepository *)repo error:(NSError **)error {
