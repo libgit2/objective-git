@@ -58,4 +58,11 @@
 // returns an NSArray of GTBranch objects or nil if an error occurred
 + (NSArray *)listAllBranchesInRepository:(GTRepository *)repo error:(NSError **)error;
 
+// Count all commits in this branch
+//
+// error(out) - will be filled if an error occurs
+//
+// returns number of commits in the branch or NSNotFound if an error occurred
+- (NSUInteger)numberOfCommitsAndReturnError:(NSError **)error;
+
 @end

@@ -121,4 +121,19 @@
 	return (GTCommit *)[self.repo lookupBySha:[GTLib convertOidToSha:&oid] type:GTObjectTypeCommit error:nil];
 }
 
+- (NSUInteger)countFromSha:(NSString *)sha error:(NSError **)error {
+	
+	[self setSortingOptions:GTWalkerOptionsNone];
+	
+	BOOL success = [self push:sha error:error];
+	if(!success) return NSNotFound;
+	
+	git_oid oid;
+	NSUInteger count = 0;
+	while(git_revwalk_next(&oid, self.walk) == GIT_SUCCESS) {
+		count++;
+	}
+	return count;
+}
+
 @end

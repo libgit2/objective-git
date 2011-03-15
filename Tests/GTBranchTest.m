@@ -38,4 +38,20 @@
     GHAssertEquals(2, (int)branches.count, nil);
 }
 
+- (void)testCanCountCommitsInBranch {
+	
+	NSError *error = nil;
+	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH()] error:&error];
+	GHAssertNil(error, [error localizedDescription]);
+	
+	GTReference *head = [repo headAndReturnError:&error];
+	GHAssertNotNil(head, [error localizedDescription]);
+	GTBranch *master = [GTBranch branchWithReference:head repository:repo];
+	GHAssertNotNil(master, [error localizedDescription]);
+	
+	NSUInteger n = [master numberOfCommitsAndReturnError:&error];
+	GHAssertNotEquals(n, NSNotFound, [error localizedDescription]);
+	GHAssertEquals(3, (int)n, nil);
+}
+
 @end

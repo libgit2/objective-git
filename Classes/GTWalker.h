@@ -54,5 +54,6 @@ typedef enum {
 - (void)reset;
 - (void)setSortingOptions:(GTWalkerOptions)options;
 - (GTCommit *)next;
+- (NSUInteger)countFromSha:(NSString *)sha error:(NSError **)error;
 
 @end
