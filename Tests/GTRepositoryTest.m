@@ -190,4 +190,72 @@
 	GHAssertEqualStrings(head.type, @"commit", nil);
 }
 
+- (void)testWalkCommitAndThenWalkAgain {
+	NSError *error = nil;
+	// alloc and init to verify memory management
+	GTRepository *aRepo = [[GTRepository alloc] initByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH()] error:&error];
+	GHTestLog(@"%d", [aRepo retainCount]);
+	NSString *sha = @"a4a7dce85cf63874e984719f4fdd239f5145052f";
+	__block NSMutableArray *commits = [[[NSMutableArray alloc] init] autorelease];
+	BOOL success = [aRepo walk:sha
+						 error:&error
+						 block:^(GTCommit *commit, BOOL *stop) {
+							 [commits addObject:commit];
+						 }];
+	GHAssertTrue(success, [error localizedDescription]);
+	
+	NSArray *expectedShas = [NSArray arrayWithObjects:
+							 @"a4a7d",
+							 @"c4780",
+							 @"9fd73",
+							 @"4a202",
+							 @"5b5b0",
+							 @"84960",
+							 nil];
+	for(int i=0; i < [expectedShas count]; i++) {
+		GTCommit *commit = [commits objectAtIndex:i];
+		GHAssertEqualStrings([commit.sha substringToIndex:5], [expectedShas objectAtIndex:i], nil);
+	}
+	
+	NSString *tsha = @"c4dc1555e4d4fa0e0c9c3fc46734c7c35b3ce90b";
+	GTObject *aObj = [aRepo lookupBySha:tsha error:&error];
+	
+	GHAssertNil(error, [error localizedDescription]);
+	GHAssertNotNil(aObj, nil);
+	GHAssertTrue([aObj isKindOfClass:[GTTree class]], nil);
+	GTTree *tree = (GTTree *)aObj;
+	
+	GTCommit *commit = [[[GTCommit alloc] initInRepo:repo error:&error] autorelease];
+	GTSignature *person = [[[GTSignature alloc] 
+							initWithName:@"Tim" 
+							email:@"tclem@github.com" 
+							time:[NSDate date]] autorelease];
+	
+	commit.message = @"new message";
+	commit.author = person;
+	commit.commiter = person;
+	commit.tree = tree;
+	NSString *newSha = [commit writeAndReturnError:&error];
+	GHAssertNil(error, [error localizedDescription]);
+	GHAssertNotNil(newSha, nil);
+	GHTestLog(@"wrote sha %@", newSha);
+	
+	__block GTCommit *firstCommit = nil;
+	success = [aRepo walk:nil
+				  sorting:GTWalkerOptionsTopologicalSort
+					error:&error
+					block:^(GTCommit *commit, BOOL *stop) {
+						firstCommit = commit;
+						*stop = YES;
+					}];
+	GHAssertTrue(success, [error localizedDescription]);
+	
+	GHAssertEqualStrings(firstCommit.sha, newSha, @"The first commit from the walker isn't the commit we just made.");
+	
+	rm_loose(newSha);
+	
+	GHAssertEquals(1, (int)[aRepo retainCount], nil);
+	[aRepo release];
+}
+
 @end
