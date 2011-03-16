@@ -214,7 +214,7 @@
 	
 	commit.message = @"new message";
 	commit.author = person;
-	commit.commiter = person;
+	commit.committer = person;
 	commit.tree = tree;
 	NSString *newSha = [commit writeAndReturnError:&error];
 	GHAssertNil(error, [error localizedDescription]);

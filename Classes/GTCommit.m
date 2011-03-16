@@ -43,7 +43,7 @@
 	// there is nothing to release here
 	//self.message = nil;
 	//self.author = nil;
-	//self.commiter = nil;
+	//self.committer = nil;
 	//self.tree = nil;
 	[super dealloc];
 }
@@ -62,7 +62,7 @@
 @synthesize messageDetails;
 @synthesize date;
 @synthesize author;
-@synthesize commiter;
+@synthesize committer;
 @synthesize tree;
 @synthesize parents;
 
@@ -125,12 +125,12 @@
 	git_commit_set_author(self.commit, a.signature);
 }
 
-- (GTSignature *)commiter {
+- (GTSignature *)committer {
 	
 	const git_signature *s = git_commit_committer(self.commit);
 	return [GTSignature signatureWithSignature:(git_signature *)s];
 }
-- (void)setCommiter:(GTSignature *)c {
+- (void)setCommitter:(GTSignature *)c {
 	
 	git_commit_set_committer(self.commit, c.signature);
 }
