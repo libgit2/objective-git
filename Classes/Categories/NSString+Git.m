@@ -35,12 +35,12 @@
 
 + (const char*)utf8StringForString:(NSString *)str {
 	
-	return [str cStringUsingEncoding:NSUTF8StringEncoding];
+	return str ? [str cStringUsingEncoding:NSUTF8StringEncoding] : "";
 }
 
 + (NSString *)stringForUTF8String:(const char*)str {
 	
-	return [NSString stringWithCString:str encoding:NSUTF8StringEncoding];
+	return str ? [NSString stringWithCString:str encoding:NSUTF8StringEncoding] : @"";
 }
 
 @end

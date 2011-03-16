@@ -135,4 +135,31 @@
 	rm_loose(newSha);
 }
 
+- (void)testCanHandleNilWrites {
+	
+	NSString *tsha = @"c4dc1555e4d4fa0e0c9c3fc46734c7c35b3ce90b";
+	NSError *error = nil;
+	GTObject *obj = [repo lookupBySha:tsha error:&error];
+	GHAssertNotNil(obj, [error localizedDescription]);
+	GHAssertTrue([obj isKindOfClass:[GTTree class]], nil);
+	GTTree *tree = (GTTree *)obj;
+	
+	GTCommit *commit = [[[GTCommit alloc] initInRepo:repo error:&error] autorelease];
+	GTSignature *person = [[[GTSignature alloc] 
+							initWithName:@"Tim" 
+							email:@"tclem@github.com" 
+							time:[NSDate date]] autorelease];
+	
+	commit.message = nil;
+	commit.author = person;
+	commit.commiter = person;
+	commit.tree = tree;
+	NSString *newSha = [commit writeAndReturnError:&error];
+	GHAssertNil(error, [error localizedDescription]);
+	GHAssertNotNil(newSha, nil);
+	GHTestLog(@"wrote sha %@", newSha);
+	
+	rm_loose(newSha);
+}
+
 @end
