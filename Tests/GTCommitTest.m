@@ -67,10 +67,10 @@
 	GHAssertEqualStrings(author.email, @"schacon@gmail.com", nil);
 	GHAssertEquals((int)[author.time timeIntervalSince1970], 1273360386, nil);
 	
-	GTSignature *commiter = commit.commiter;
-	GHAssertEqualStrings(commiter.name, @"Scott Chacon", nil);
-	GHAssertEqualStrings(commiter.email, @"schacon@gmail.com", nil);
-	GHAssertEquals((int)[commiter.time timeIntervalSince1970], 1273360386, nil);
+	GTSignature *committer = commit.committer;
+	GHAssertEqualStrings(committer.name, @"Scott Chacon", nil);
+	GHAssertEqualStrings(committer.email, @"schacon@gmail.com", nil);
+	GHAssertEquals((int)[committer.time timeIntervalSince1970], 1273360386, nil);
 	
 	GHAssertEqualStrings(commit.tree.sha, @"181037049a54a1eb5fab404658a3a250b44335d7", nil);
 	GHAssertTrue([commit.parents count] == 0, nil);
@@ -125,7 +125,7 @@
 	
 	commit.message = @"new message";
 	commit.author = person;
-	commit.commiter = person;
+	commit.committer = person;
 	commit.tree = tree;
 	NSString *newSha = [commit writeAndReturnError:&error];
 	GHAssertNil(error, [error localizedDescription]);

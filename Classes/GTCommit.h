@@ -41,7 +41,7 @@
 @property (nonatomic, copy, readonly) NSString *messageShort;
 @property (nonatomic, assign, readonly) NSDate *date;
 @property (nonatomic, assign) GTSignature *author;
-@property (nonatomic, assign) GTSignature *commiter;
+@property (nonatomic, assign) GTSignature *committer;
 @property (nonatomic, assign) GTTree *tree;
 @property (nonatomic, assign, readonly) NSArray *parents;
 
