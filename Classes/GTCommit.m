@@ -59,6 +59,7 @@
 @synthesize commit;
 @synthesize message;
 @synthesize messageShort;
+@synthesize messageDetails;
 @synthesize date;
 @synthesize author;
 @synthesize commiter;
@@ -89,6 +90,23 @@
 	
 	const char *s = git_commit_message_short(self.commit);
 	return [NSString stringForUTF8String:s];
+}
+
+- (NSString *)messageDetails {
+	
+	NSArray *lines = [self.message componentsSeparatedByString:@"\n"];
+	if(lines.count < 2) return @"";
+	
+	NSMutableString *result = [NSMutableString string];
+	NSString *secondLine = [(NSString *)[lines objectAtIndex:1] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+	if(secondLine.length != 0) {
+		[result appendFormat:@"%@\n", secondLine];
+	}
+	for(int i=2; i < lines.count; i++) {
+		[result appendFormat:@"%@\n", [lines objectAtIndex:i]];
+	}
+	
+	return result;
 }
 
 - (NSDate *)date {

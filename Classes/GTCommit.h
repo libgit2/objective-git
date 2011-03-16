@@ -39,6 +39,7 @@
 @property (nonatomic, assign, readonly) git_commit *commit;
 @property (nonatomic, copy) NSString *message;
 @property (nonatomic, copy, readonly) NSString *messageShort;
+@property (nonatomic, copy, readonly) NSString *messageDetails;
 @property (nonatomic, assign, readonly) NSDate *date;
 @property (nonatomic, assign) GTSignature *author;
 @property (nonatomic, assign) GTSignature *commiter;
