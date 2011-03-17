@@ -91,4 +91,16 @@
 	return [NSString stringWithUTF8String:[data bytes]];
 }
 
+- (void)mapToObject:(git_rawobj *)obj {
+	
+	obj->type = self.type;
+	obj->len = 0;
+	obj->data = NULL;
+	if (self.data != nil) {
+		obj->len = [self.data length];
+		obj->data = malloc(obj->len);
+		memcpy(obj->data, [self.data bytes], obj->len);
+	}
+}
+
 @end

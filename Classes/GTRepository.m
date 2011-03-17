@@ -56,18 +56,6 @@
 	[super dealloc];
 }
 
-+ (void)mapRawObject:(GTRawObject *)rawObj toObject:(git_rawobj *)obj {
-	
-	obj->type = rawObj.type;
-	obj->len = 0;
-	obj->data = NULL;
-	if (rawObj.data != nil) {
-		obj->len = [rawObj.data length];
-		obj->data = malloc(obj->len);
-		memcpy(obj->data, [rawObj.data bytes], obj->len);
-	}
-}
-
 + (BOOL)isAGitDirectory:(NSURL *)directory {
 	
 	NSFileManager *fm = [[[NSFileManager alloc] init] autorelease];
@@ -158,7 +146,7 @@
 	git_rawobj obj;
 	git_oid oid;
 	
-	[GTRepository mapRawObject:rawObj toObject:&obj];
+	[rawObj mapToObject:&obj];
 	
 	int gitError = git_rawobj_hash(&oid, &obj);
 	if(gitError != GIT_SUCCESS) {
@@ -268,7 +256,7 @@
 	
 	odb = git_repository_database(self.repo);
 	
-	[GTRepository mapRawObject:rawObj toObject:&obj];
+	[rawObj mapToObject:&obj];
 	int gitError = git_odb_write(&oid, odb, &obj);
 	git_rawobj_close(&obj);
 	if(gitError != GIT_SUCCESS) {
