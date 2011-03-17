@@ -49,4 +49,6 @@
 // Helper to return the data of this raw object as a utf8 string
 - (NSString *)dataAsUTF8String;
 
+- (void)mapToObject:(git_rawobj *)obj;
+
 @end
