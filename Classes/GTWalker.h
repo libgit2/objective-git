@@ -32,10 +32,10 @@
 
 
 typedef enum {
-	GTWalkerOptionsNone = 0,
-	GTWalkerOptionsTopologicalSort = 1 << 0,
-	GTWalkerOptionsTimeSort = 1 << 1,
-	GTWalkerOptionsReverse = 1 << 2,
+	GTWalkerOptionsNone = GIT_SORT_NONE,
+	GTWalkerOptionsTopologicalSort = GIT_SORT_TOPOLOGICAL,
+	GTWalkerOptionsTimeSort = GIT_SORT_TIME,
+	GTWalkerOptionsReverse = GIT_SORT_REVERSE,
 } GTWalkerOptions;
 
 @class GTRepository;
