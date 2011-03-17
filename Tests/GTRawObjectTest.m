@@ -7,7 +7,7 @@
 //
 
 #import "Contants.h"
-#import "NSString+Git.h"
+
 
 @interface GTRawObjectTest : GHTestCase {
 	
