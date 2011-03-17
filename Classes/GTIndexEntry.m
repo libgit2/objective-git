@@ -39,13 +39,6 @@
 	
 	// todo: do we free here?
 	// free(self.entry);
-	
-	// All these properties pass through to underlying C object
-	// there is nothing to release here
-	//self.path = nil;
-	//self.sha = nil;
-	//self.mTime = nil;
-	//self.cTime = nil;
 	[super dealloc];
 }
 
@@ -107,7 +100,7 @@
 - (BOOL)setSha:(NSString *)theSha error:(NSError **)error {
 
 	int gitError = git_oid_mkstr(&entry->oid, [NSString utf8StringForString:theSha]);
-	if(gitError != GIT_SUCCESS){
+	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError gitErrorForMkStr:gitError];
 		return NO;
@@ -139,35 +132,36 @@
 	self.entry->ctime.nanoseconds = 1000 * (t - (int)t);
 }
 
-- (long long)fileSize {	return self.entry->file_size; }
+- (long long)fileSize { return self.entry->file_size; }
 - (void)setFileSize:(long long) size { self.entry->file_size = size; }
 
-- (NSUInteger)dev {	return self.entry->dev; }
-- (void)setDev:(NSUInteger)theDev {	self.entry->dev = theDev; }
+- (NSUInteger)dev { return self.entry->dev; }
+- (void)setDev:(NSUInteger)theDev { self.entry->dev = theDev; }
 
-- (NSUInteger)ino {	return self.entry->ino; }
-- (void)setIno:(NSUInteger)theIno {	self.entry->ino = theIno; }
+- (NSUInteger)ino { return self.entry->ino; }
+- (void)setIno:(NSUInteger)theIno { self.entry->ino = theIno; }
 
 - (NSUInteger)mode { return self.entry->mode; }
-- (void)setMode:(NSUInteger)theMode {	self.entry->mode = theMode; }
+- (void)setMode:(NSUInteger)theMode { self.entry->mode = theMode; }
 
-- (NSUInteger)uid {	return self.entry->uid; }
-- (void)setUid:(NSUInteger)theUid {	self.entry->uid = theUid; }
+- (NSUInteger)uid { return self.entry->uid; }
+- (void)setUid:(NSUInteger)theUid { self.entry->uid = theUid; }
 
 - (NSUInteger)gid { return self.entry->gid; }
-- (void)setGid:(NSUInteger)theGid {	self.entry->gid = theGid; }
+- (void)setGid:(NSUInteger)theGid { self.entry->gid = theGid; }
 
-- (NSUInteger)flags { 
+- (NSUInteger)flags {
 	
 	return (self.entry->flags & 0xFFFF) | (self.entry->flags_extended << 16); 
 }
-- (void)setFlags:(NSUInteger)theFlags {	
+- (void)setFlags:(NSUInteger)theFlags {
 	
 	self.entry->flags = (unsigned short)(theFlags & 0xFFFF);
 	self.entry->flags_extended = (unsigned short)((theFlags >> 16) & 0xFFFF);
 }
 
 - (BOOL)isValid {
+	
 	return (self.flags & GIT_IDXENTRY_VALID) != 0;
 }
 

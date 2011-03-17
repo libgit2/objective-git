@@ -30,6 +30,7 @@
 #import <git2.h>
 #import "GTObject.h"
 
+
 typedef enum {
 	GTWalkerOptionsNone = 0,
 	GTWalkerOptionsTopologicalSort = 1 << 0,

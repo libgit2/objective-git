@@ -39,10 +39,10 @@
 #pragma mark API 
 
 + (NSData *)hexToRaw:(NSString *)hex error:(NSError **)error {
-
+	
 	git_oid oid;
 	int gitError = git_oid_mkstr(&oid, [NSString utf8StringForString:hex]);
-	if(gitError != GIT_SUCCESS){
+	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError gitErrorForMkStr:gitError];
 		return nil;
@@ -70,7 +70,7 @@
 + (BOOL)convertSha:(NSString *)sha toOid:(git_oid *)oid error:(NSError **)error {
 	
 	int gitError = git_oid_mkstr(oid, [NSString utf8StringForString:sha]);
-	if(gitError != GIT_SUCCESS){
+	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError gitErrorForMkStr:gitError];
 		return NO;
@@ -79,6 +79,7 @@
 }
 
 + (NSString *)shortUniqueShaFromSha:(NSString *)sha {
+	
 	// Kyle says with a length of 6 our chances of collision are 9.6e-29, so we'll take those odds
 	// todo: Vicent wrote something to do this officially: consider using it instead
 	static const NSUInteger magicUniqueLength = 6;

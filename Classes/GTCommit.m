@@ -37,17 +37,6 @@
 
 @implementation GTCommit
 
-- (void)dealloc {
-	
-	// All these properties pass through to underlying C object
-	// there is nothing to release here
-	//self.message = nil;
-	//self.author = nil;
-	//self.committer = nil;
-	//self.tree = nil;
-	[super dealloc];
-}
-
 - (git_commit *)commit {
 	
 	return (git_commit *)self.object;
@@ -71,13 +60,13 @@
 	if((self = [super init])) {
 		self.repo = theRepo;
 		self.object = [GTObject getNewObjectInRepo:self.repo.repo type:GIT_OBJ_COMMIT error:error];
-		if(self.object == nil)return nil;
+		if(self.object == nil) return nil;
 	}
 	return self;
 }
 
 - (NSString *)message {
-
+	
 	const char *s = git_commit_message(self.commit);
 	return [NSString stringForUTF8String:s];
 }
@@ -116,7 +105,7 @@
 }
 
 - (GTSignature *)author {
-
+	
 	const git_signature *s = git_commit_author(self.commit);
 	return [GTSignature signatureWithSignature:(git_signature *)s];
 }
@@ -136,11 +125,11 @@
 }
 
 - (GTTree *)tree {
-
+	
 	git_tree *t;
 	
 	int gitError = git_commit_tree(&t, self.commit);
-	if(gitError != GIT_SUCCESS){
+	if(gitError != GIT_SUCCESS) {
 		// todo: might want to return this error (and change method signature)
 		GTLog("Failed to get tree with error code: %d", gitError);
 		return nil;
@@ -154,8 +143,8 @@
 
 - (NSArray *)parents {
 	
-	if(parents == nil){
-		NSMutableArray *rents = [[[NSMutableArray alloc] init] autorelease];
+	if(parents == nil) {
+		NSMutableArray *rents = [NSMutableArray array];
 		
 		// todo: do we care if a call to git_commit_parent fails?
 		git_commit *parent;

@@ -30,6 +30,7 @@
 #import <git2.h>
 #import "GTObject.h"
 
+
 @class GTSignature;
 @class GTRepository;
 

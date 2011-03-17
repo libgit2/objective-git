@@ -34,7 +34,6 @@
 @interface GTLibTest : GHTestCase {}
 @end
 
-
 @implementation GTLibTest
 
 - (void)testCanConvertHexToRaw {

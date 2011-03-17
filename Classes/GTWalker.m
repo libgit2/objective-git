@@ -55,8 +55,7 @@
 
 - (id)initWithRepository:(GTRepository *)theRepo error:(NSError **)error {
 	
-	if((self = [super init])){
-	
+	if((self = [super init])) {
 		self.repo = theRepo;
 		git_revwalk *w;
 		int gitError = git_revwalk_new(&w, self.repo.repo);
@@ -75,7 +74,7 @@
 }
 
 - (BOOL)push:(NSString *)sha error:(NSError **)error {
-
+	
 	git_oid oid;
 	BOOL success = [GTLib convertSha:sha toOid:&oid error:error];
 	if(!success)return NO;
@@ -113,11 +112,12 @@
 }
 
 - (void)setSortingOptions:(GTWalkerOptions)options {
+	
 	git_revwalk_sorting(self.walk, options);
 }
 
 - (GTCommit *)next {
-
+	
 	git_oid oid;
 	int gitError = git_revwalk_next(&oid, self.walk);
 	if(gitError == GIT_EREVWALKOVER)

@@ -8,13 +8,10 @@
 
 #import "Contants.h"
 
-@interface GTBranchTest : GHTestCase {
-	
-}
+@interface GTBranchTest : GHTestCase {}
 @end
 
 @implementation GTBranchTest
-
 
 - (void)testCanOpenHeadInRepo {
 	
@@ -28,14 +25,14 @@
 }
 
 - (void)testCanListBranchesInRepo {
-    
-    NSError *error = nil;
+	
+	NSError *error = nil;
 	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH()] error:&error];
 	GHAssertNil(error, [error localizedDescription]);
-    
-    NSArray *branches = [GTBranch listAllBranchesInRepository:repo error:&error];
-    GHAssertNotNil(branches, [error localizedDescription], nil);
-    GHAssertEquals(2, (int)branches.count, nil);
+	
+	NSArray *branches = [GTBranch listAllBranchesInRepository:repo error:&error];
+	GHAssertNotNil(branches, [error localizedDescription], nil);
+	GHAssertEquals(2, (int)branches.count, nil);
 }
 
 - (void)testCanCountCommitsInBranch {

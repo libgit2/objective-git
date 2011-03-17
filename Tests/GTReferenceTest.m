@@ -8,6 +8,7 @@
 
 #import "Contants.h"
 
+
 @interface GTReferenceTest : GHTestCase {
 	NSArray *expectedRefs;
 }
@@ -35,8 +36,8 @@
 }
 
 - (void)testCanOpenTagRef {
-    
-    NSError *error = nil;
+	
+	NSError *error = nil;
 	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH()] error:&error];
 	GHAssertNil(error, [error localizedDescription]);
 	GTReference *ref = [GTReference referenceByLookingUpRef:@"refs/tags/v0.9" inRepo:repo error:&error];

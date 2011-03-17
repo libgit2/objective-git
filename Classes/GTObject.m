@@ -51,10 +51,12 @@ static NSString * const GTTagClassName = @"GTTag";
 }
 
 - (NSUInteger)hash {
+	
 	return [self.sha hash];
 }
 
 - (BOOL)isEqual:(id)otherObject {
+	
 	if(![otherObject isKindOfClass:[GTObject class]]) return NO;
 	
 	return 0 == git_oid_cmp(git_object_id(self.object), git_object_id(((GTObject *)otherObject).object)) ? YES : NO;
@@ -70,14 +72,14 @@ static NSString * const GTTagClassName = @"GTTag";
 
 - (id)initInRepo:(GTRepository *)theRepo withObject:(git_object *)theObject {
 	
-	if((self = [super init])){
+	if((self = [super init])) {
 		self.repo = theRepo;
 		self.object = theObject;
 	}
 	return self;
 }
 + (id)objectInRepo:(GTRepository *)theRepo withObject:(git_object *)theObject {
-
+	
 	NSString *klass;
 	git_otype t = git_object_type(theObject);
 	switch (t) {
@@ -119,14 +121,14 @@ static NSString * const GTTagClassName = @"GTTag";
 	git_oid oid;
 	
 	int gitError = git_oid_mkstr(&oid, [NSString utf8StringForString:sha]);
-	if(gitError != GIT_SUCCESS){
+	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError gitErrorForMkStr:gitError];
 		return nil;
 	}
 	
 	gitError = git_object_lookup(&obj, r, &oid, theType);
-	if(gitError != GIT_SUCCESS){
+	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError gitErrorForLookupObject:gitError];
 		return nil;
@@ -146,13 +148,14 @@ static NSString * const GTTagClassName = @"GTTag";
 }
 
 - (NSString *)shortSha {
+	
 	return [GTLib shortUniqueShaFromSha:self.sha];
 }
 
 - (NSString *)writeAndReturnError:(NSError **)error {
 	
 	int gitError = git_object_write(self.object);
-	if(gitError != GIT_SUCCESS){
+	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError gitErrorForWriteObject:gitError];
 		return nil;

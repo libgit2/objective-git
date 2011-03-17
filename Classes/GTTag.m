@@ -33,19 +33,8 @@
 #import "GTReference.h"
 #import "GTRepository.h"
 
-@implementation GTTag
 
-- (void)dealloc {
-	
-	// All these properties pass through to underlying C object
-	// there is nothing to release here
-	//self.message = nil;
-	//self.name = nil;
-	//self.target = nil;
-	//self.targetType = nil;
-	//self.tagger = nil;
-	[super dealloc];
-}
+@implementation GTTag
 
 - (git_tag *)tag {
 	

@@ -46,15 +46,18 @@
 #import "GTReference.h"
 #import "GTBranch.h"
 
+
 static inline NSString *TEST_REPO_PATH(void) {
-    return [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"fixtures/testrepo.git"];
+	
+	return [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"fixtures/testrepo.git"];
 }
 
-static inline NSString *TEST_INDEX_PATH(void){
-    return [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"fixtures/testrepo.git/index"];
+static inline NSString *TEST_INDEX_PATH(void) {
+	
+	return [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"fixtures/testrepo.git/index"];
 }
 
-static inline void rm_loose(NSString *sha){
+static inline void rm_loose(NSString *sha) {
 	
 	NSError *error;
 	NSFileManager *m = [[[NSFileManager alloc] init] autorelease];

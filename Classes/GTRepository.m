@@ -69,18 +69,18 @@
 }
 
 + (BOOL)isAGitDirectory:(NSURL *)directory {
-    
-    NSFileManager *fm = [[[NSFileManager alloc] init] autorelease];
-    BOOL isDir = NO;
-    NSURL *headFileURL = [directory URLByAppendingPathComponent:@"HEAD"];
-    
-    if([fm fileExistsAtPath:[headFileURL path] isDirectory:&isDir] && !isDir) {
-        NSURL *objectsDir = [directory URLByAppendingPathComponent:@"objects"];
-        if([fm fileExistsAtPath:[objectsDir path] isDirectory:&isDir] && isDir) {
-            return YES;
-        }
-    }
-    return NO;
+	
+	NSFileManager *fm = [[[NSFileManager alloc] init] autorelease];
+	BOOL isDir = NO;
+	NSURL *headFileURL = [directory URLByAppendingPathComponent:@"HEAD"];
+	
+	if([fm fileExistsAtPath:[headFileURL path] isDirectory:&isDir] && !isDir) {
+		NSURL *objectsDir = [directory URLByAppendingPathComponent:@"objects"];
+		if([fm fileExistsAtPath:[objectsDir path] isDirectory:&isDir] && isDir) {
+			return YES;
+		}
+	}
+	return NO;
 }
 
 #pragma mark -
@@ -93,7 +93,7 @@
 
 - (id)initByOpeningRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error {
 	
-	if((self = [super init])){
+	if((self = [super init])) {
 		
 		self.fileUrl = localFileUrl;
 		
@@ -102,7 +102,8 @@
 		const char *path;
 		if([[localFileUrl path] hasSuffix:@".git"] && [GTRepository isAGitDirectory:localFileUrl]) {
             path = [NSString utf8StringForString:[localFileUrl path]];
-		} else {
+		}
+		else {
 			path = [NSString utf8StringForString:[[localFileUrl URLByAppendingPathComponent:@".git"] path]];
 		}
 		
@@ -121,13 +122,13 @@
 	return self;
 }
 + (id)repoByOpeningRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error {
+	
 	return [[[self alloc]initByOpeningRepositoryInDirectory:localFileUrl error:error] autorelease];
 }
 
 - (id)initByCreatingRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error {
 	
-	if((self = [super init])){
-		
+	if((self = [super init])) {
 		self.fileUrl = localFileUrl;
 		
 		GTLog("Creating repository in directory: %@", localFileUrl);
@@ -148,6 +149,7 @@
 	return self;
 }
 + (id)repoByCreatingRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error {
+	
 	return [[[self alloc]initByCreatingRepositoryInDirectory:localFileUrl error:error] autorelease];
 }
 
@@ -159,7 +161,7 @@
 	[GTRepository mapRawObject:rawObj toObject:&obj];
 	
 	int gitError = git_rawobj_hash(&oid, &obj);
-	if(gitError != GIT_SUCCESS){
+	if(gitError != GIT_SUCCESS) {
 		if (error != NULL)
 			*error = [NSError gitErrorForHashObject:gitError];
 		return nil;
@@ -173,7 +175,7 @@
 	git_object *obj;
 	
 	int gitError = git_object_lookup(&obj, self.repo, oid, type);
-	if(gitError != GIT_SUCCESS){
+	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError gitErrorForLookupObject:gitError];
 		return nil;
@@ -192,7 +194,7 @@
 	git_oid oid;
 	
 	int gitError = git_oid_mkstr(&oid, [NSString utf8StringForString:sha]);
-	if(gitError != GIT_SUCCESS){
+	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError gitErrorForMkStr:gitError];
 		return nil;
@@ -207,6 +209,7 @@
 }
 
 - (BOOL)exists:(NSString *)sha error:(NSError **)error {
+	
 	return [self hasObject:sha error:error];
 }
 
@@ -217,7 +220,7 @@
 	
 	odb = git_repository_database(self.repo);
 	int gitError = git_oid_mkstr(&oid, [NSString utf8StringForString:sha]);
-	if(gitError != GIT_SUCCESS){
+	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError gitErrorForMkStr:gitError];
 		return NO;
@@ -285,7 +288,7 @@
 		return NO;	
 	}
 
-	if(sha == nil){
+	if(sha == nil) {
 		GTReference *head = [self headAndReturnError:error];
 		if(head == nil) return NO;
 		sha = head.target;
@@ -297,7 +300,7 @@
 	if(!success) return NO; 
 	
 	GTCommit *commit = nil;
-	while((commit = [self.walker next]) != nil){
+	while((commit = [self.walker next]) != nil) {
 		BOOL stop = NO;
 		block(commit, &stop);
 		if(stop) break;
@@ -327,8 +330,8 @@
 }
 
 - (GTReference *)headAndReturnError:(NSError **)error {
-
-	GTReference *headSymRef = [GTReference referenceByLookingUpRef:@"HEAD" inRepo:self error:error];	
+	
+	GTReference *headSymRef = [GTReference referenceByLookingUpRef:@"HEAD" inRepo:self error:error];
 	if(headSymRef == nil) return nil;
 	
 	return [GTReference referenceByResolvingRef:headSymRef error:error];
@@ -340,7 +343,7 @@
 }
 
 - (NSArray *)listAllReferenceNamesAndReturnError:(NSError **)error {
-
+	
 	return [GTReference listAllReferenceNamesInRepo:self error:error];
 }
 
@@ -352,7 +355,7 @@
 - (NSInteger)numberOfCommitsInCurrentBranchAndReturnError:(NSError **)error {
 	
 	GTReference *head = [self headAndReturnError:error];
-	if(head == nil)return NSNotFound;
+	if(head == nil) return NSNotFound;
 	
 	return [self.walker countFromSha:head.target error:error];
 }

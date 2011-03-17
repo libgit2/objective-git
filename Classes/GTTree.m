@@ -40,11 +40,6 @@
 
 @implementation GTTree
 
-- (void)dealloc {
-	
-	[super dealloc];
-}
-
 - (git_tree *)tree {
 	
 	return (git_tree *)self.object;
@@ -58,7 +53,7 @@
 @synthesize entryCount;
 
 - (NSInteger)entryCount {
-
+	
 	return [[NSNumber numberWithInt:git_tree_entrycount(self.tree)] integerValue];
 }
 
@@ -94,7 +89,7 @@
 	if(!success) return nil;
 	
 	int gitError = git_tree_add_entry(&newEntry, self.tree, &oid, [NSString utf8StringForString:filename], (int)mode);
-	if(gitError != GIT_SUCCESS){
+	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError gitErrorForAddTreeEntry:gitError];
 		return nil;

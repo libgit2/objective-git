@@ -34,14 +34,6 @@
 
 @implementation GTBlob
 
-- (void)dealloc {
-	
-	// All these properties pass through to underlying C object
-	// there is nothing to release here
-	//self.content = nil;
-	[super dealloc];
-}
-
 - (git_blob *)blob {
 	
 	return (git_blob *)self.object;
@@ -71,12 +63,12 @@
 - (NSString *)content {
 	
 	NSInteger s = [self size];
-	if(s == 0) return [NSString stringForUTF8String:""];
+	if(s == 0) return @"";
 	
 	return [NSString stringForUTF8String:git_blob_rawcontent(self.blob)];
 }
 - (void)setContent:(NSString *)newContent {
-		
+	
 	git_blob_set_rawcontent(self.blob, [NSString utf8StringForString:newContent], [newContent length]);
 }
 

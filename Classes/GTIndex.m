@@ -71,7 +71,7 @@
 
 - (id)initWithGitIndex:(git_index *)theIndex; {
 	
-	if((self = [super init])){
+	if((self = [super init])) {
 		self.index = theIndex;
 	}
 	return self;
@@ -114,9 +114,9 @@
 }
 
 - (BOOL)addEntry:(GTIndexEntry *)entry error:(NSError **)error {
-
+	
 	int gitError = git_index_insert(self.index, entry.entry);
-	if(gitError != GIT_SUCCESS){
+	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError gitErrorForAddEntryToIndex:gitError];
 		return NO;
@@ -127,7 +127,7 @@
 - (BOOL)addFile:(NSString *)file error:(NSError **)error {
 	
 	int gitError = git_index_add(self.index, [NSString utf8StringForString:file], 0);
-	if(gitError != GIT_SUCCESS){
+	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError gitErrorForAddEntryToIndex:gitError];
 		return NO;
@@ -138,7 +138,7 @@
 - (BOOL)writeAndReturnError:(NSError **)error {
 	
 	int gitError = git_index_write(self.index);
-	if(gitError != GIT_SUCCESS){
+	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError gitErrorForWriteIndex:gitError];
 		return NO;

@@ -29,8 +29,9 @@
 
 #import "Contants.h"
 
-@interface GTIndexTest : GHTestCase {
 
+@interface GTIndexTest : GHTestCase {
+	
 	GTIndex *index;
 	GTIndex *wIndex;
 	NSURL *tempPath;
@@ -99,7 +100,7 @@
 	e.uid = 502;
 	e.gid = 502;
 	e.stage = 3;
-
+	
 	return e;
 }
 
@@ -151,7 +152,7 @@
 }
 
 - (void)testCanAddNewEntries {
-
+	
 	NSError *error = nil;
 	GTIndexEntry *e = [self createNewIndexEntry];
 	
@@ -169,7 +170,7 @@
     NSError *error = nil;
     NSFileManager *m = [[[NSFileManager alloc] init] autorelease];
     tempPath = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"index"]];	
-
+	
     if([m fileExistsAtPath:[tempPath path]])
 		[m removeItemAtURL:tempPath error:&error];
 	
@@ -222,7 +223,7 @@
 	[task launch];
 	[task waitUntilExit];
 	GHAssertTrue([task terminationStatus] == 0, @"git init failed");
-
+	
 	// create a new file in working dir
 	NSURL *file = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"index_dir/test.txt"]];
 	[@"test content" writeToURL:file atomically:NO encoding:NSUTF8StringEncoding error:&error];

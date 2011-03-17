@@ -39,10 +39,6 @@
 
 - (void)dealloc {
 	
-	// All these properties pass through to underlying C object
-	// there is nothing to release here
-	//self.name = nil;
-	
 	self.tree = nil;
 	[super dealloc];
 }
@@ -82,7 +78,7 @@
 	git_oid oid;
 	
 	int gitError = git_oid_mkstr(&oid, [NSString utf8StringForString:newSha]);
-	if(gitError != GIT_SUCCESS){
+	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError gitErrorForMkStr:gitError];
 		return NO;
@@ -96,7 +92,7 @@
 	
 	git_object *obj;
 	int gitError = git_tree_entry_2object(&obj, self.entry);
-	if(gitError != GIT_SUCCESS){
+	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError gitErrorForTreeEntryToObject:gitError];
 		return nil;

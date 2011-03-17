@@ -33,20 +33,8 @@
 
 @implementation GTSignature
 
-- (void)dealloc {
-	
-	// signature will be freed by repo
-	//git_signature_free(self.signature);
-	
-	// All these properties pass through to underlying C object
-	// there is nothing to release here
-	//self.name = nil;
-	//self.email = nil;
-	//self.time = nil;
-	[super dealloc];
-}
-
 - (NSString *)description {
+	
 	return [NSString stringWithFormat:@"\
 			\n\t %@						\
 			\n\t name = %@				\

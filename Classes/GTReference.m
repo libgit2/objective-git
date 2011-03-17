@@ -35,10 +35,6 @@
 - (void)dealloc {
 	
 	self.repo = nil;
-	// All these properties pass through to underlying C object
-	// there is nothing to release here
-	//self.name = nil;
-	//self.type = nil;
 	[super dealloc];
 }
 
@@ -58,7 +54,7 @@
 	if((self = [super init])) {
 		self.repo = theRepo;
 		int gitError = git_reference_lookup(&ref, self.repo.repo, [NSString utf8StringForString:refName]);
-		if(gitError != GIT_SUCCESS){
+		if(gitError != GIT_SUCCESS) {
 			if(error != NULL)
 				*error = [NSError gitErrorForLookupRef:gitError];
 			return nil;
@@ -67,7 +63,7 @@
 	return self;
 }
 + (id)referenceByLookingUpRef:(NSString *)refName inRepo:(GTRepository *)theRepo error:(NSError **)error {
-
+	
 	return [[[self alloc] initByLookingUpRef:refName inRepo:theRepo error:error] autorelease];
 }
 
@@ -80,21 +76,19 @@
 		
 		self.repo = theRepo;
 		if (git_oid_mkstr(&oid, [NSString utf8StringForString:theTarget]) == GIT_SUCCESS) {
-			
 			gitError = git_reference_create_oid(&ref, 
 												self.repo.repo, 
 												[NSString utf8StringForString:refName], 
 												&oid);
 		}
 		else {
-			
 			gitError = git_reference_create_symbolic(&ref, 
 													 self.repo.repo, 
 													 [NSString utf8StringForString:refName], 
 													 [NSString utf8StringForString:theTarget]);
 		}
 		
-		if(gitError != GIT_SUCCESS){
+		if(gitError != GIT_SUCCESS) {
 			if(error != NULL)
 				*error = [NSError gitErrorForCreateRef:gitError];
 			return nil;
@@ -131,7 +125,7 @@
 	return [NSString stringForUTF8String:git_reference_name(self.ref)];
 }
 - (BOOL)setName:(NSString *)newName error:(NSError **)error {
-
+	
 	int gitError = git_reference_rename(self.ref, [NSString utf8StringForString:newName]);
 	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
@@ -176,7 +170,6 @@
 - (NSString *)target {
 	
 	if(git_reference_type(self.ref) == GIT_REF_OID) {
-		
 		return [GTLib convertOidToSha:git_reference_oid(self.ref)];
 	}
 	else {
@@ -188,10 +181,9 @@
 	int gitError;
 	
 	if(git_reference_type(self.ref) == GIT_REF_OID) {
-		
 		git_oid oid;
 		gitError = git_oid_mkstr(&oid, [NSString utf8StringForString:newTarget]);
-		if(gitError != GIT_SUCCESS){
+		if(gitError != GIT_SUCCESS) {
 			if(error != NULL)
 				*error = [NSError gitErrorForMkStr:gitError];
 			return NO;
@@ -200,11 +192,10 @@
 		gitError = git_reference_set_oid(self.ref, &oid);
 	}
 	else {
-		
 		gitError = git_reference_set_target(self.ref, [NSString utf8StringForString:newTarget]);
 	}
 
-	if(gitError != GIT_SUCCESS){
+	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError gitErrorForSetRefTarget:gitError];
 		return NO;
@@ -215,7 +206,7 @@
 - (BOOL)packAllAndReturnError:(NSError **)error {
 	
 	int gitError = git_reference_packall(self.repo.repo);
-	if(gitError != GIT_SUCCESS){
+	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError gitErrorForPackAllRefs:gitError];
 		return NO;
@@ -226,7 +217,7 @@
 - (BOOL)deleteAndReturnError:(NSError **)error {
 	
 	int gitError = git_reference_delete(self.ref);
-	if(gitError != GIT_SUCCESS){
+	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError gitErrorForDeleteRef:gitError];
 		return NO;

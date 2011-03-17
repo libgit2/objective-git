@@ -30,6 +30,7 @@
 #import <git2.h>
 #import "GTObject.h"
 
+
 @class GTTreeEntry;
 
 @interface GTTree : GTObject {}

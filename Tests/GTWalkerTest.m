@@ -29,6 +29,7 @@
 
 #import "Contants.h"
 
+
 @interface GTWalkerTest : GHTestCase {}
 @end
 
@@ -41,7 +42,7 @@
 	BOOL success = [repo.walker push:@"9fd738e8f7967c078dceed8190330fc8648ee56a" error:&error];
 	GHAssertTrue(success, [error localizedDescription]);
 	
-	NSMutableArray *shas = [[[NSMutableArray alloc] initWithCapacity:4] autorelease];
+	NSMutableArray *shas = [NSMutableArray arrayWithCapacity:4];
 	for (int i=0; i < 4; i++) {
 		GTCommit *c = [repo.walker next];
 		[shas addObject:c.sha];
@@ -67,7 +68,7 @@
 	__block int count = 0;
 	BOOL success = [repo walk:head.target 
 						error:&error
-						block:^(GTCommit *commit, BOOL *stop){
+						block:^(GTCommit *commit, BOOL *stop) {
 							count ++;
 						}];
 	GHAssertTrue(success, [error localizedDescription]);
@@ -82,7 +83,7 @@
 	__block int count = 0;
 	BOOL success = [repo walk:nil 
 						error:&error
-						block:^(GTCommit *commit, BOOL *stop){
+						block:^(GTCommit *commit, BOOL *stop) {
 							count ++;
 						}];
 	GHAssertTrue(success, [error localizedDescription]);

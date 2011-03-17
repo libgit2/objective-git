@@ -29,6 +29,7 @@
 
 #import "NSError+Git.h"
 
+
 static NSString * const GTGitErrorDomain = @"GTGitErrorDomain";
 
 @implementation NSError (Git)
@@ -287,6 +288,7 @@ static NSString * const GTGitErrorDomain = @"GTGitErrorDomain";
 }
 
 + (NSError *)gitErrorForNoBlockProvided {
+	
 	return [NSError errorWithDomain:GTGitErrorDomain
 							   code:-1
 						   userInfo:

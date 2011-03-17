@@ -29,6 +29,7 @@
 
 #import "Contants.h"
 
+
 @interface GTRepositoryPackTest : GHTestCase {
 	
 	GTRepository *repo;
@@ -51,7 +52,7 @@
 }
 
 - (void)testCanReadAPackedObjectFromDb {
-
+	
 	NSError *error = nil;
 	GTRawObject *obj = [repo read:@"41bc8c69075bbdb46c5c6f0566cc8cc5b46e8bd9" error:&error];
 	

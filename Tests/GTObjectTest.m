@@ -30,7 +30,7 @@
 #import "Contants.h"
 
 @interface GTObjectTest : GHTestCase {
-
+	
 	GTRepository *repo;
 }
 @end
@@ -38,7 +38,7 @@
 @implementation GTObjectTest
 
 - (void)setUpClass {
-
+	
 	NSError *error = nil;
 	repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH()] error:&error];
 }
@@ -86,10 +86,10 @@
 }
 
 - (void)testCanReadRawDataFromObject {
-
+	
 	NSError *error = nil;
 	GTObject *obj = [repo lookupBySha:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error];
-
+	
 	GHAssertNotNil(obj, nil);
 	
 	GTRawObject *rawObj = [obj readRawAndReturnError:&error];

@@ -29,9 +29,8 @@
 
 #import "Contants.h"
 
-@interface GTTagTest : GHTestCase {
 
-}
+@interface GTTagTest : GHTestCase {}
 @end
 
 @implementation GTTagTest
@@ -59,7 +58,7 @@
 }
 
 - (void)testCanWriteTagData {
-
+	
 	NSError *error = nil;
 	NSString *sha = @"0c37a5391bbff43c37f0d0371823a5509eed5b1d";
 	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH()] error:&error];

@@ -35,7 +35,6 @@
 @property (nonatomic, assign) GTRepository *repository;
 @end
 
-
 @implementation GTBranch
 
 - (BOOL)isEqual:(id)otherObject {
@@ -103,7 +102,7 @@
 
 - (NSString *)name {
 	
-	return self.reference.name;		
+	return self.reference.name;
 }
 
 - (NSString *)shortName {
@@ -123,13 +122,13 @@
 }
 
 + (NSArray *)listAllBranchesInRepository:(GTRepository *)repo error:(NSError **)error {
-
+	
     NSArray *references = [GTReference listAllReferenceNamesInRepo:repo error:error];
     if(references == nil) return nil;
-
+	
     NSMutableArray *branches = [NSMutableArray array];
     for(NSString *ref in references) {
-        if([ref hasPrefix:@"refs/heads/"]){
+        if([ref hasPrefix:@"refs/heads/"]) {
             GTBranch *b = [GTBranch branchWithName:ref repository:repo error:error];
             if(b != nil)
                 [branches addObject:b];
@@ -139,7 +138,7 @@
 }
 
 - (NSInteger)numberOfCommitsAndReturnError:(NSError **)error {
-
+	
 	return [self.repository.walker countFromSha:self.sha error:error];
 }
 

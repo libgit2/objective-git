@@ -50,15 +50,15 @@
 
 - (void)testCreateRepositoryInDirectory {
 	
-    NSError *error = nil;
-    NSFileManager *fm = [[[NSFileManager alloc] init] autorelease];
+	NSError *error = nil;
+	NSFileManager *fm = [[[NSFileManager alloc] init] autorelease];
 	NSURL *newRepoURL = [NSURL URLWithString:[NSTemporaryDirectory() stringByAppendingPathComponent:@"unit_test"]];
-    
-    if([fm fileExistsAtPath:[newRepoURL path]]) {
-        [fm removeItemAtPath:[newRepoURL path] error:&error];
-        GHAssertNil(error, [error localizedDescription]);
-    }
-    
+	
+	if([fm fileExistsAtPath:[newRepoURL path]]) {
+		[fm removeItemAtPath:[newRepoURL path] error:&error];
+		GHAssertNil(error, [error localizedDescription]);
+	}
+	
 	GTRepository *newRepo = [GTRepository repoByCreatingRepositoryInDirectory:newRepoURL error:&error];
 	
 	GHAssertNil(error, [error localizedDescription]);
