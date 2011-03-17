@@ -89,7 +89,7 @@
 	NSError *error = nil;
 	char bytes[] = "100644 example_helper.rb\00\xD3\xD5\xED\x9D A4_\x00 40000 examples";
 	NSData *content = [NSData dataWithBytes:bytes length:sizeof(bytes)];
-	GTRawObject *obj = [GTRawObject rawObjectWithType:GIT_OBJ_BLOB data:content];
+	GTRawObject *obj = [GTRawObject rawObjectWithType:GTObjectTypeBlob data:content];
 
 	NSString *newSha = [repo write:obj error:&error];
 
