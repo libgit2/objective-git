@@ -45,7 +45,7 @@
 	NSError *error = nil;
 	repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH()] error:&error];
 
-	obj = [[[GTRawObject alloc] initWithType:GIT_OBJ_BLOB string:@"my test data\n"] autorelease];
+	obj = [[[GTRawObject alloc] initWithType:GTObjectTypeBlob string:@"my test data\n"] autorelease];
 }
 
 - (void)testCreateRepositoryInDirectory {
@@ -95,7 +95,7 @@
 	GHAssertNotNil(rawObj, nil);
 	GHAssertEqualStrings(@"tree 181037049a54a1eb5fab404658a3a250b44335d7", [[rawObj dataAsUTF8String] substringToIndex:45], nil);
 	GHAssertEquals((int)[rawObj.data length], 172, nil);
-	GHAssertEquals(rawObj.type, GIT_OBJ_COMMIT, nil);
+	GHAssertEquals(rawObj.type, GTObjectTypeCommit, nil);
 }
 
 - (void)testReadingFailsOnUnknownObjects {

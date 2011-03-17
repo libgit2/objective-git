@@ -59,7 +59,7 @@
 	
 	if((self = [super init])) {
 		self.repo = theRepo;
-		self.object = [GTObject getNewObjectInRepo:self.repo.repo type:GIT_OBJ_COMMIT error:error];
+		self.object = [GTObject getNewObjectInRepo:self.repo.repo type:GTObjectTypeCommit error:error];
 		if(self.object == nil) return nil;
 	}
 	return self;
