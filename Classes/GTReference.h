@@ -26,10 +26,10 @@
 #import <git2.h>
 
 typedef enum {
-	GTReferenceTypesOid = 1,		/** A reference which points at an object id */
-	GTReferenceTypesSymoblic = 2,	/** A reference which points at another reference */
-	GTReferenceTypesPacked = 4,
-	GTReferenceTypesHasPeel = 8,
+	GTReferenceTypesOid = GIT_REF_OID,				/** A reference which points at an object id */
+	GTReferenceTypesSymoblic = GIT_REF_SYMBOLIC,	/** A reference which points at another reference */
+	GTReferenceTypesPacked = GIT_REF_PACKED,
+	GTReferenceTypesHasPeel = GIT_REF_HAS_PEEL,
 	GTReferenceTypesListAll = GTReferenceTypesOid|GTReferenceTypesSymoblic|GTReferenceTypesPacked,
 } GTReferenceTypes;
 
