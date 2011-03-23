@@ -4,6 +4,7 @@
 
 build/*
 ObjectiveGitFramework/build/*
+ObjectiveGit-iOS.framework/*
 
 *.pbxuser
 *.perspective
