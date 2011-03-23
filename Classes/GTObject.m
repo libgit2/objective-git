@@ -29,7 +29,7 @@
 
 #import "GTObject.h"
 #import "GTCommit.h"
-#import "GTRawObject.h"
+#import "GTOdbObject.h"
 #import "GTLib.h"
 #import "NSError+Git.h"
 #import "NSString+Git.h"
@@ -41,6 +41,9 @@ static NSString * const GTTreeClassName = @"GTTree";
 static NSString * const GTBlobClassName = @"GTBlob";
 static NSString * const GTObjectClassName = @"GTObject";
 static NSString * const GTTagClassName = @"GTTag";
+
+@interface GTObject()
+@end
 
 @implementation GTObject
 
@@ -102,7 +105,7 @@ static NSString * const GTTagClassName = @"GTTag";
 	
 	return [[[NSClassFromString(klass) alloc] initInRepo:theRepo withObject:theObject] autorelease];
 }
-
+/*
 + (git_object *)getNewObjectInRepo:(git_repository *)r type:(GTObjectType)theType error:(NSError **)error {
 	
 	git_object *obj;
@@ -135,7 +138,7 @@ static NSString * const GTTagClassName = @"GTTag";
 	}
 	NSAssert(obj, @"Failed to lookup git_object from repo");
 	return obj;
-}
+}*/
 
 - (NSString *)type {
 	
@@ -152,6 +155,7 @@ static NSString * const GTTagClassName = @"GTTag";
 	return [GTLib shortUniqueShaFromSha:self.sha];
 }
 
+/*
 - (NSString *)writeAndReturnError:(NSError **)error {
 	
 	int gitError = git_object_write(self.object);
@@ -162,8 +166,9 @@ static NSString * const GTTagClassName = @"GTTag";
 	}
 	return self.sha;
 }
+*/
 
-- (GTRawObject *)readRawAndReturnError:(NSError **)error {
+- (GTOdbObject *)readRawAndReturnError:(NSError **)error {
 	
 	return [self.repo rawRead:git_object_id(self.object) error:error];
 }

@@ -45,34 +45,30 @@
 #pragma mark -
 #pragma mark API 
 
-@synthesize commit;
-@synthesize message;
-@synthesize messageShort;
-@synthesize messageDetails;
-@synthesize date;
-@synthesize author;
-@synthesize committer;
-@synthesize tree;
+//@synthesize commit;
+//@synthesize message;
+//@synthesize messageShort;
+//@synthesize messageDetails;
+//@synthesize date;
+//@synthesize author;
+//@synthesize committer;
+//@synthesize tree;
 @synthesize parents;
 
-- (id)initInRepo:(GTRepository *)theRepo error:(NSError **)error {
-	
-	if((self = [super init])) {
-		self.repo = theRepo;
-		self.object = [GTObject getNewObjectInRepo:self.repo.repo type:GTObjectTypeCommit error:error];
-		if(self.object == nil) return nil;
-	}
-	return self;
-}
+//- (id)initInRepo:(GTRepository *)theRepo error:(NSError **)error {
+//	
+//	if((self = [super init])) {
+//		self.repo = theRepo;
+//		self.object = [GTObject getNewObjectInRepo:self.repo.repo type:GTObjectTypeCommit error:error];
+//		if(self.object == nil) return nil;
+//	}
+//	return self;
+//}
 
 - (NSString *)message {
 	
 	const char *s = git_commit_message(self.commit);
 	return [NSString stringForUTF8String:s];
-}
-- (void)setMessage:(NSString *)m {
-	
-	git_commit_set_message(self.commit, [NSString utf8StringForString:m]);
 }
 
 - (NSString *)messageShort {
@@ -109,19 +105,11 @@
 	const git_signature *s = git_commit_author(self.commit);
 	return [GTSignature signatureWithSignature:(git_signature *)s];
 }
-- (void)setAuthor:(GTSignature *)a {
-	
-	git_commit_set_author(self.commit, a.signature);
-}
 
 - (GTSignature *)committer {
 	
 	const git_signature *s = git_commit_committer(self.commit);
 	return [GTSignature signatureWithSignature:(git_signature *)s];
-}
-- (void)setCommitter:(GTSignature *)c {
-	
-	git_commit_set_committer(self.commit, c.signature);
 }
 
 - (GTTree *)tree {
@@ -135,10 +123,6 @@
 		return nil;
 	}
 	return (GTTree *)[GTObject objectInRepo:self.repo withObject:(git_object *)t];
-}
-- (void)setTree:(GTTree *)t {
-	
-	git_commit_set_tree(self.commit, t.tree);
 }
 
 - (NSArray *)parents {

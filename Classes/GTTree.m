@@ -35,7 +35,7 @@
 
 
 @interface GTTree()
-@property (nonatomic, retain) NSMutableArray *entries;
+@property (nonatomic, assign) git_tree *tree;
 @end
 
 @implementation GTTree
@@ -49,25 +49,15 @@
 #pragma mark API
 
 @synthesize tree;
-@synthesize entries;
-@synthesize entryCount;
 
 - (NSInteger)entryCount {
 	
 	return [[NSNumber numberWithInt:git_tree_entrycount(self.tree)] integerValue];
 }
 
-- (void)clear {
-	
-	git_tree_clear_entries(self.tree);
-}
-
 - (GTTreeEntry *)createEntryWithEntry:(git_tree_entry *)entry {
 	
-	GTTreeEntry *e = [[[GTTreeEntry alloc] init] autorelease];
-	e.entry = entry;
-	e.tree = self;
-	return e;
+	return [GTTreeEntry entryWithEntry:entry parentTree:self];
 }
 
 - (GTTreeEntry *)entryAtIndex:(NSInteger)index {
@@ -80,6 +70,7 @@
 	return [self createEntryWithEntry:git_tree_entry_byname(self.tree, [NSString utf8StringForString:name])];
 }
 
+/*
 - (GTTreeEntry *)addEntryWithSha:(NSString *)sha filename:(NSString *)filename mode:(NSInteger *)mode error:(NSError **)error {
 	
 	git_tree_entry *newEntry;
@@ -97,5 +88,5 @@
 	
 	return [self createEntryWithEntry:newEntry];
 }
-
+*/
 @end

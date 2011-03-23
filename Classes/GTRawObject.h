@@ -26,7 +26,7 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 //
-
+/*
 #import <git2.h>
 #import "GTObject.h"
 
@@ -52,3 +52,4 @@
 - (void)mapToObject:(git_rawobj *)obj;
 
 @end
+*/

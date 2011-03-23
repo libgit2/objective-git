@@ -62,4 +62,6 @@
 + (NSError *)gitErrorForListAllRefs: (int)code;
 + (NSError *)gitErrorForNoBlockProvided;
 
++ (NSError *)gitErrorFor:(int)code withDescription:(NSString *)desc;
+
 @end

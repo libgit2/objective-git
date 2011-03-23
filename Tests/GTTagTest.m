@@ -57,6 +57,8 @@
 	GHAssertEqualStrings(@"schacon@gmail.com", c.email, nil);
 }
 
+// todo
+/*
 - (void)testCanWriteTagData {
 	
 	NSError *error = nil;
@@ -72,5 +74,5 @@
 	
 	rm_loose(tag.sha);
 }
-
+*/
 @end

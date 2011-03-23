@@ -35,12 +35,12 @@
 
 @interface GTTree : GTObject {}
 
-@property (nonatomic, assign) git_tree *tree;
-@property (nonatomic, readonly) NSInteger entryCount;
+@property (nonatomic, assign, readonly) git_tree *tree;
 
-// Clear all the entries in the tree. This will not take effect until the object
-// is written back to the datastore
-- (void)clear;
+// Get the number of entries
+//
+// returns the number of entries in this tree
+- (NSInteger)entryCount;
 
 // Get a entry at the specified index
 //
@@ -56,6 +56,7 @@
 // returns a GTTreeEntry or nil if there is nothing with the specified name
 - (GTTreeEntry *)entryByName:(NSString *)name;
 
+/*
 // Add an entry to the index
 //
 // sha - the sha of the file to add
@@ -65,5 +66,6 @@
 //
 // returns the added GTTreeEntry or nil if an error occurred
 - (GTTreeEntry *)addEntryWithSha:(NSString *)sha filename:(NSString *)filename mode:(NSInteger *)mode error:(NSError **)error;
+*/
 
 @end

@@ -34,17 +34,17 @@
 
 @class GTWalker;
 @class GTObject;
-@class GTRawObject;
+@class GTOdbObject;
 @class GTCommit;
 @class GTIndex;
 @class GTBranch;
 
 @interface GTRepository : NSObject {}
 
-@property (nonatomic, assign) git_repository *repo;
-@property (nonatomic, retain) NSURL *fileUrl;
+@property (nonatomic, assign, readonly) git_repository *repo;
+@property (nonatomic, retain, readonly) NSURL *fileUrl;
 @property (nonatomic, retain, readonly) GTWalker *walker;
-@property (nonatomic, retain) GTIndex *index;
+@property (nonatomic, retain, readonly) GTIndex *index;
 
 // Convenience initializers
 - (id)initByOpeningRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error;
@@ -55,11 +55,11 @@
 
 // Helper for getting the sha1 has of a raw object
 //
-// rawObj - the GTRawObject to compute a sha1 hash for
+// rawObj - the GTOdbObject to compute a sha1 hash for
 // error(out) - will be filled if an error occurs
 //
 // returns the sha1 for the raw object or nil if there was an error
-+ (NSString *)hash:(GTRawObject *)rawObj error:(NSError **)error;
++ (NSString *)hash:(NSString *)data type:(GTObjectType)type error:(NSError **)error;
 
 // Lookup objects in the repo by oid or sha1
 - (GTObject *)lookupByOid:(git_oid *)oid type:(GTObjectType)type error:(NSError **)error;
@@ -71,10 +71,10 @@
 - (BOOL)exists:(NSString *)sha error:(NSError **)error;
 - (BOOL)hasObject:(NSString *)sha error:(NSError **)error;
 
-- (GTRawObject *)rawRead:(const git_oid *)oid error:(NSError **)error;
-- (GTRawObject *)read:(NSString *)sha error:(NSError **)error;
+- (GTOdbObject *)rawRead:(const git_oid *)oid error:(NSError **)error;
+- (GTOdbObject *)read:(NSString *)sha error:(NSError **)error;
 
-- (NSString *)write:(GTRawObject *)rawObj error:(NSError **)error;
+- (NSString *)write:(NSString *)data type:(GTObjectType)type error:(NSError **)error;
 
 - (BOOL)walk:(NSString *)sha sorting:(GTWalkerOptions)sortMode error:(NSError **)error block:(void (^)(GTCommit *commit, BOOL *stop))block;
 - (BOOL)walk:(NSString *)sha error:(NSError **)error block:(void (^)(GTCommit *commit, BOOL *stop))block;
