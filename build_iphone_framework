@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-TARGET_NAME="iPhone-ObjectiveGit"
+TARGET_NAME="ObjectiveGit-iOS"
 HEADER_FILES=(Classes/**/*.h)
 PLIST_FILES="Info.plist"
 
@@ -8,7 +8,7 @@ PLIST_FILES="Info.plist"
 xcodebuild -configuration Release -target "$TARGET_NAME" -sdk iphoneos clean build
 xcodebuild -configuration Release -target "$TARGET_NAME" -sdk iphonesimulator clean build
 
-FRAMEWORK_NAME=objectiveGit-iphone
+FRAMEWORK_NAME=ObjectiveGit-iOS
 FRAMEWORK_VERSION=A
 FRAMEWORK_CURRENT_VERSION=0.1
 FRAMEWORK_COMPATIBILITY_VERSION=0.1
