@@ -29,9 +29,11 @@
 
 #import "GTTag.h"
 #import "NSString+Git.h"
+#import "NSError+Git.h"
 #import "GTSignature.h"
 #import "GTReference.h"
 #import "GTRepository.h"
+#import "GTLib.h"
 
 @interface GTTag()
 @property (nonatomic, assign) git_tag *tag;
@@ -48,6 +50,25 @@
 #pragma mark API
 
 @synthesize tag;
+
++ (GTTag *)tagInRepo:(GTRepository *)theRepo name:(NSString *)tagName target:(GTObject *)theTarget tagger:(GTSignature *)theTagger message:(NSString *)theMessage error:(NSError **)error {
+
+	NSString *sha = [GTTag createTagInRepo:theRepo name:tagName target:theTarget tagger:theTagger message:theMessage error:error];
+	return sha ? (GTTag *)[theRepo lookupBySha:sha type:GTObjectTypeTag error:error] : nil;
+}
+
++ (NSString *)createTagInRepo:(GTRepository *)theRepo name:(NSString *)tagName target:(GTObject *)theTarget tagger:(GTSignature *)theTagger message:(NSString *)theMessage error:(NSError **)error {
+	
+	git_oid oid;
+	int gitError = git_tag_create_o(&oid, theRepo.repo, [NSString utf8StringForString:tagName], theTarget.object, theTagger.signature, [NSString utf8StringForString:theMessage]);
+	if(gitError != GIT_SUCCESS) {
+		if(error != NULL)
+			*error = [NSError gitErrorFor:gitError withDescription:@"Failed to create tag in repository"];
+		return nil;
+	}
+	
+	return [GTLib convertOidToSha:&oid];
+}
 
 - (NSString *)message {
 	

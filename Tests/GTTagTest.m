@@ -57,8 +57,6 @@
 	GHAssertEqualStrings(@"schacon@gmail.com", c.email, nil);
 }
 
-// todo
-/*
 - (void)testCanWriteTagData {
 	
 	NSError *error = nil;
@@ -66,13 +64,11 @@
 	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH()] error:&error];
 	GTTag *tag = (GTTag *)[repo lookupBySha:sha error:&error];
 	
-	tag.message = @"new message";
-	[tag writeAndReturnError:&error];
-	
-	GHAssertNil(error, [error localizedDescription]);
-	GHAssertNotEqualStrings(tag.sha, sha, nil);
+	NSString *newSha = [GTTag createTagInRepo:repo name:tag.name target:tag.target tagger:tag.tagger message:@"new message" error:&error];
+	GHAssertNotNil(newSha, [error localizedDescription]);
+	GHAssertNotEqualStrings(newSha, sha, nil);
 	
 	rm_loose(tag.sha);
 }
-*/
+
 @end

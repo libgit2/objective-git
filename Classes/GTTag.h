@@ -38,6 +38,9 @@
 
 @property (nonatomic, assign, readonly) git_tag *tag;
 
++ (GTTag *)tagInRepo:(GTRepository *)theRepo name:(NSString *)tagName target:(GTObject *)theTarget tagger:(GTSignature *)theTagger message:(NSString *)theMessage error:(NSError **)error;
++ (NSString *)createTagInRepo:(GTRepository *)theRepo name:(NSString *)tagName target:(GTObject *)theTarget tagger:(GTSignature *)theTagger message:(NSString *)theMessage error:(NSError **)error;
+
 - (NSString *)message;
 - (NSString *)name;
 - (GTObject *)target;
