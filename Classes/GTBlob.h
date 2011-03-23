@@ -37,9 +37,9 @@
 // 
 // These call the associated createInRepo: methods, but then lookup the newly 
 // created blob in the repo and return it
-+ (id)blobInRepo:(GTRepository *)theRepo content:(NSString *)content error:(NSError **)error;
-+ (id)blobInRepo:(GTRepository *)theRepo data:(NSData *)data error:(NSError **)error;
-+ (id)blobInRepo:(GTRepository *)theRepo file:(NSURL *)file error:(NSError **)error;
++ (GTBlob *)blobInRepo:(GTRepository *)theRepo content:(NSString *)content error:(NSError **)error;
++ (GTBlob *)blobInRepo:(GTRepository *)theRepo data:(NSData *)data error:(NSError **)error;
++ (GTBlob *)blobInRepo:(GTRepository *)theRepo file:(NSURL *)file error:(NSError **)error;
 
 // Create a blob in the specified repository
 //

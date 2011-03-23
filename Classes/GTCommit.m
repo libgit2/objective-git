@@ -30,6 +30,7 @@
 #import "GTCommit.h"
 #import "GTSignature.h"
 #import "GTTree.h"
+#import "GTLib.h"
 #import "NSString+Git.h"
 #import "NSError+Git.h"
 #import "GTRepository.h"
@@ -46,6 +47,53 @@
 #pragma mark API 
 
 @synthesize parents;
+
++ (GTCommit *)commitInRepo:(GTRepository *)theRepo
+			updateRefNamed:(NSString *)refName
+					author:(GTSignature *)authorSig
+				 committer:(GTSignature *)committerSig
+				   message:(NSString *)newMessage
+					  tree:(GTTree *)theTree 
+				   parents:(NSArray *)theParents 
+					 error:(NSError **)error {
+	
+	NSString *sha = [GTCommit createCommitInRepo:theRepo updateRefNamed:refName author:authorSig committer:committerSig message:newMessage tree:theTree parents:theParents error:error];
+	return sha ? (GTCommit *)[theRepo lookupBySha:sha type:GTObjectTypeCommit error:error] : nil;
+}
+
++ (NSString *)createCommitInRepo:(GTRepository *)theRepo
+				  updateRefNamed:(NSString *)refName
+						  author:(GTSignature *)authorSig
+					   committer:(GTSignature *)committerSig
+						 message:(NSString *)newMessage
+							tree:(GTTree *)theTree 
+						 parents:(NSArray *)theParents 
+						   error:(NSError **)error {
+	
+	int count = theParents ? theParents.count : 0;
+	git_commit const *parentCommits[count];
+	for(int i = 0; i < count; i++){
+		parentCommits[i] = ((GTCommit *)[theParents objectAtIndex:i]).commit;
+	}		
+	
+	git_oid oid;
+	int gitError = git_commit_create_o(
+									   &oid, 
+									   theRepo.repo, 
+									   refName ? [NSString utf8StringForString:refName] : NULL, 
+									   authorSig.signature, 
+									   committerSig.signature, 
+									   [NSString utf8StringForString:newMessage], 
+									   theTree.tree, 
+									   count, 
+									   parentCommits);
+	if(gitError != GIT_SUCCESS) {
+		if(error != NULL)
+			*error = [NSError gitErrorFor:gitError withDescription:@"Failed to create commit in repository"];
+		return nil;
+	}
+	return [GTLib convertOidToSha:&oid];
+}
 
 - (NSString *)message {
 	

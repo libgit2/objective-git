@@ -191,7 +191,7 @@
 	GHAssertEqualStrings(head.type, @"commit", nil);
 }
 
-//todo
+// This messes other tests up b/c it writes a new HEAD, but doesn't set it back again
 /*
 - (void)testLookupHeadThenCommitAndThenLookupHeadAgain {
 	
@@ -203,33 +203,24 @@
 	
 	NSString *tsha = @"c4dc1555e4d4fa0e0c9c3fc46734c7c35b3ce90b";
 	GTObject *aObj = [repo lookupBySha:tsha error:&error];
-	
-	GHAssertNil(error, [error localizedDescription]);
-	GHAssertNotNil(aObj, nil);
+
+	GHAssertNotNil(aObj, [error localizedDescription]);
 	GHAssertTrue([aObj isKindOfClass:[GTTree class]], nil);
 	GTTree *tree = (GTTree *)aObj;
-	
-	GTCommit *commit = [[[GTCommit alloc] initInRepo:repo error:&error] autorelease];
 	GTSignature *person = [[[GTSignature alloc] 
 							initWithName:@"Tim" 
 							email:@"tclem@github.com" 
 							time:[NSDate date]] autorelease];
-	
-	commit.message = @"new message";
-	commit.author = person;
-	commit.committer = person;
-	commit.tree = tree;
-	NSString *newSha = [commit writeAndReturnError:&error];
-	GHAssertNil(error, [error localizedDescription]);
-	GHAssertNotNil(newSha, nil);
-	GHTestLog(@"wrote sha %@", newSha);
+	GTCommit *commit = [GTCommit commitInRepo:repo updateRefNamed:@"HEAD" author:person committer:person message:@"new message" tree:tree parents:nil error:&error];
+	GHAssertNotNil(commit, [error localizedDescription]);
+	GHTestLog(@"wrote sha %@", commit.sha);
 	
 	head = [repo headAndReturnError:&error];
 	GHAssertNotNil(head, [error localizedDescription]);
 	
-	GHAssertEqualStrings(head.target, newSha, nil);
+	GHAssertEqualStrings(head.target, commit.sha, nil);
 	
-	rm_loose(newSha);
+	rm_loose(commit.sha);
 }
 */
 @end

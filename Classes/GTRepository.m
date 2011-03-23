@@ -250,7 +250,6 @@
 	return [self rawRead:&oid error:error];
 }
 
-// todo: get appropriate error messages here
 - (NSString *)write:(NSString *)data type:(GTObjectType)type error:(NSError **)error {
 	
 	git_odb_stream *stream;

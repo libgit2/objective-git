@@ -38,6 +38,24 @@
 
 @property (nonatomic, assign, readonly) NSArray *parents;
 
++ (GTCommit *)commitInRepo:(GTRepository *)theRepo
+			updateRefNamed:(NSString *)refName
+					author:(GTSignature *)authorSig
+				 committer:(GTSignature *)committerSig
+				   message:(NSString *)newMessage
+					  tree:(GTTree *)theTree 
+				   parents:(NSArray *)theParents 
+					 error:(NSError **)error;
+
++ (NSString *)createCommitInRepo:(GTRepository *)theRepo
+				  updateRefNamed:(NSString *)refName
+						  author:(GTSignature *)authorSig
+					   committer:(GTSignature *)committerSig
+						 message:(NSString *)newMessage
+							tree:(GTTree *)theTree 
+						 parents:(NSArray *)theParents 
+						   error:(NSError **)error;
+
 - (NSString *)message;
 - (NSString *)messageShort;
 - (NSString *)messageDetails;

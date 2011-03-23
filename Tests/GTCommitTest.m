@@ -90,21 +90,23 @@
 	GHAssertTrue([commit.parents count] == 2, nil);
 }
 
-// todo: reenable
-/*
 - (void)testCanWriteCommitData {
 	
 	NSError *error = nil;
 	NSString *sha = @"8496071c1b46c854b31185ea97743be6a8774479";
 	GTCommit *obj = (GTCommit *)[repo lookupBySha:sha error:&error];
-	GHAssertNil(error, [error localizedDescription]);
-	GHAssertNotNil(obj, nil);
+	GHAssertNotNil(obj, [error localizedDescription]);
 	
-	obj.message = @"new message";
-	NSString *newSha = [obj writeAndReturnError:&error];
+	NSString *newSha = [GTCommit createCommitInRepo:repo 
+									 updateRefNamed:nil 
+											 author:obj.author 
+										  committer:obj.committer 
+											message:@"a new message" 
+											   tree:obj.tree 
+											parents:obj.parents 
+											  error:&error];
 	
-	GHAssertNil(error, [error localizedDescription]);
-	GHAssertNotNil(newSha, nil);
+	GHAssertNotNil(newSha, [error localizedDescription]);
 	
 	rm_loose(newSha);
 }
@@ -119,23 +121,15 @@
 	GHAssertNotNil(obj, nil);
 	GHAssertTrue([obj isKindOfClass:[GTTree class]], nil);
 	GTTree *tree = (GTTree *)obj;
-
-	GTCommit *commit = [[[GTCommit alloc] initInRepo:repo error:&error] autorelease];
 	GTSignature *person = [[[GTSignature alloc] 
 						   initWithName:@"Tim" 
 						   email:@"tclem@github.com" 
 						   time:[NSDate date]] autorelease];
+	GTCommit *commit = [GTCommit commitInRepo:repo updateRefNamed:nil author:person committer:person message:@"new message" tree:tree parents:nil error:&error];
+	GHAssertNotNil(commit, [error localizedDescription]);
+	GHTestLog(@"wrote sha %@", commit.sha);
 	
-	commit.message = @"new message";
-	commit.author = person;
-	commit.committer = person;
-	commit.tree = tree;
-	NSString *newSha = [commit writeAndReturnError:&error];
-	GHAssertNil(error, [error localizedDescription]);
-	GHAssertNotNil(newSha, nil);
-	GHTestLog(@"wrote sha %@", newSha);
-	
-	rm_loose(newSha);
+	rm_loose(commit.sha);
 }
 
 - (void)testCanHandleNilWrites {
@@ -143,26 +137,20 @@
 	NSString *tsha = @"c4dc1555e4d4fa0e0c9c3fc46734c7c35b3ce90b";
 	NSError *error = nil;
 	GTObject *obj = [repo lookupBySha:tsha error:&error];
-	GHAssertNotNil(obj, [error localizedDescription]);
+	
+	GHAssertNil(error, [error localizedDescription]);
+	GHAssertNotNil(obj, nil);
 	GHAssertTrue([obj isKindOfClass:[GTTree class]], nil);
 	GTTree *tree = (GTTree *)obj;
-	
-	GTCommit *commit = [[[GTCommit alloc] initInRepo:repo error:&error] autorelease];
 	GTSignature *person = [[[GTSignature alloc] 
 							initWithName:@"Tim" 
 							email:@"tclem@github.com" 
 							time:[NSDate date]] autorelease];
+	GTCommit *commit = [GTCommit commitInRepo:repo updateRefNamed:nil author:person committer:person message:nil tree:tree parents:nil error:&error];
+	GHAssertNotNil(commit, [error localizedDescription]);
+	GHTestLog(@"wrote sha %@", commit.sha);
 	
-	commit.message = nil;
-	commit.author = person;
-	commit.committer = person;
-	commit.tree = tree;
-	NSString *newSha = [commit writeAndReturnError:&error];
-	GHAssertNil(error, [error localizedDescription]);
-	GHAssertNotNil(newSha, nil);
-	GHTestLog(@"wrote sha %@", newSha);
-	
-	rm_loose(newSha);
+	rm_loose(commit.sha);
 }
-*/
+
 @end
