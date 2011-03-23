@@ -27,8 +27,6 @@
 //  THE SOFTWARE.
 //
 
-#import <Cocoa/Cocoa.h>
-
 
 @interface NSString (Git)
 

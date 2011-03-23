@@ -27,9 +27,6 @@
 //  THE SOFTWARE.
 //
 
-#import <Cocoa/Cocoa.h>
-
-
 @interface NSError (Git)
 
 + (NSError *)gitErrorForInitRepository: (int)code;
