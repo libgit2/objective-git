@@ -33,14 +33,10 @@
 
 @interface GTBlob : GTObject {}
 
-//@property (nonatomic, assign, readonly) NSInteger size;
-//@property (nonatomic, assign, readonly) NSString *content;
-
-//- (id)initInRepo:(GTRepository *)theRepo content:(NSString *)newContent error:(NSError **)error;
-
 + (NSString *)createInRepo:(GTRepository *)theRepo content:(NSString *)content error:(NSError **)error;
 + (NSString *)createInRepo:(GTRepository *)theRepo data:(NSData *)data error:(NSError **)error;
 + (NSString *)createInRepo:(GTRepository *)theRepo file:(NSURL *)file error:(NSError **)error;
+
 - (NSInteger)size;
 - (NSString *)content;
 

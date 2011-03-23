@@ -58,21 +58,6 @@ typedef enum {
 - (id)initInRepo:(GTRepository *)theRepo withObject:(git_object *)theObject;
 + (id)objectInRepo:(GTRepository *)theRepo withObject:(git_object *)theObject; 
 
-/*
-// Helpers
-+ (git_object *)getNewObjectInRepo:(git_repository *)r type:(GTObjectType)theType error:(NSError **)error;
-+ (git_object *)getNewObjectInRepo:(git_repository *)r sha:(NSString *)sha type:(GTObjectType)theType error:(NSError **)error;
-*/
-
-/*
-// Write this object to the datastore
-//
-// error(out) - will be filled if an error occurs
-//
-// returns an NSString of the sha1 hash of the written object or nil if an error occurred.
-- (NSString *)writeAndReturnError:(NSError **)error;
-*/
-
 // Read the raw object from the datastore
 //
 // error(out) - will be filled if an error occurs

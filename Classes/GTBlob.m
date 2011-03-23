@@ -44,31 +44,6 @@
 #pragma mark -
 #pragma mark API
 
-//@synthesize size;
-//@synthesize content;
-
-/*
-- (id)initInRepo:(GTRepository *)theRepo content:(NSString *)newContent error:(NSError **)error {
-	
-	if((self = [super init])) {
-		git_oid oid;
-		
-		self.repo = theRepo;
-		
-		int gitError = git_blob_create_frombuffer(&oid, self.repo.repo, [NSString utf8StringForString:newContent], newContent.length);
-		if(gitError != GIT_SUCCESS) {
-			if(error != NULL)
-				*error = [NSError gitErrorFor:gitError withDescription:@"Failed to create blob from buffer"];
-			return nil;
-		}
-		
-		self.object = [self.repo lookupByOid:&oid error:error];
-		if(self.object == nil)return nil;
-	}
-	return self;
-}
-*/
-
 + (NSString *)createInRepo:(GTRepository *)theRepo content:(NSString *)content error:(NSError **)error {
 	
 	git_oid oid;
@@ -120,10 +95,5 @@
 	
 	return [NSString stringForUTF8String:git_blob_rawcontent(self.blob)];
 }
-/*
-- (void)setContent:(NSString *)newContent {
-	
-	git_blob_set_rawcontent(self.blob, [NSString utf8StringForString:newContent], [newContent length]);
-}
-*/
+
 @end

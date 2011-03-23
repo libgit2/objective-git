@@ -45,25 +45,7 @@
 #pragma mark -
 #pragma mark API 
 
-//@synthesize commit;
-//@synthesize message;
-//@synthesize messageShort;
-//@synthesize messageDetails;
-//@synthesize date;
-//@synthesize author;
-//@synthesize committer;
-//@synthesize tree;
 @synthesize parents;
-
-//- (id)initInRepo:(GTRepository *)theRepo error:(NSError **)error {
-//	
-//	if((self = [super init])) {
-//		self.repo = theRepo;
-//		self.object = [GTObject getNewObjectInRepo:self.repo.repo type:GTObjectTypeCommit error:error];
-//		if(self.object == nil) return nil;
-//	}
-//	return self;
-//}
 
 - (NSString *)message {
 	

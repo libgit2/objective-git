@@ -55,7 +55,7 @@
 
 // Helper for getting the sha1 has of a raw object
 //
-// rawObj - the GTOdbObject to compute a sha1 hash for
+// data - the data to compute a sha1 hash for
 // error(out) - will be filled if an error occurs
 //
 // returns the sha1 for the raw object or nil if there was an error

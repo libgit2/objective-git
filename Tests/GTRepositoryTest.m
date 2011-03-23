@@ -191,7 +191,7 @@
 	GHAssertEqualStrings(head.type, @"commit", nil);
 }
 
-// todo
+//todo
 /*
 - (void)testLookupHeadThenCommitAndThenLookupHeadAgain {
 	

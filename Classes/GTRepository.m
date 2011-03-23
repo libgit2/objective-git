@@ -88,7 +88,7 @@
 		
 		self.fileUrl = localFileUrl;
 		
-		GTLog("Opening repository in directory: %@", localFileUrl);
+		//GTLog("Opening repository in directory: %@", localFileUrl);
 		
 		const char *path;
 		if([[localFileUrl path] hasSuffix:@".git"] && [GTRepository isAGitDirectory:localFileUrl]) {
@@ -122,7 +122,7 @@
 	if((self = [super init])) {
 		self.fileUrl = localFileUrl;
 		
-		GTLog("Creating repository in directory: %@", localFileUrl);
+		//GTLog("Creating repository in directory: %@", localFileUrl);
 		
 		git_repository *r;
 		const char * path = [NSString utf8StringForString:[localFileUrl path]];
@@ -262,21 +262,21 @@
 	int gitError = git_odb_open_wstream(&stream, odb, data.length, type);
 	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
-			*error = [NSError gitErrorForWriteObjectToDb:gitError];
+			*error = [NSError gitErrorFor:gitError withDescription:@"Failed to open write stream on odb"];
 		return nil;
 	}
 	
 	gitError = stream->write(stream, [NSString utf8StringForString:data], data.length);
 	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
-			*error = [NSError gitErrorForWriteObjectToDb:gitError];
+			*error = [NSError gitErrorFor:gitError withDescription:@"Failed to write to stream on odb"];
 		return nil;
 	}
 	
 	gitError = stream->finalize_write(&oid, stream);
 	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
-			*error = [NSError gitErrorForWriteObjectToDb:gitError];
+			*error = [NSError gitErrorFor:gitError withDescription:@"Failed to finalize write on odb"];
 		return nil;
 	}
 
@@ -297,7 +297,6 @@
 		sha = head.target;
 	}
 	
-	//[self.walker reset];
 	[self.walker setSortingOptions:sortMode];
 	BOOL success = [self.walker push:sha error:error];
 	if(!success) return NO; 
@@ -308,7 +307,6 @@
 		block(commit, &stop);
 		if(stop) break;
 	}
-	//[self.walker reset];
 	return YES;
 }
 

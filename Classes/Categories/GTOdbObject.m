@@ -40,7 +40,6 @@
 - (GTObjectType)type {
 
 	return git_odb_object_type(self.odbObject);
-	//return [NSString stringForUTF8String:git_object_type2string(git_odb_object_type(self.odbObject))];
 }
 
 - (NSUInteger)length {
