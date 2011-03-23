@@ -64,6 +64,10 @@
 @synthesize reference;
 @synthesize repository;
 
++ (NSString *)namePrefix {
+	return @"refs/heads/";
+}
+
 - (id)initWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error {
 	
 	if((self = [super init])) {
@@ -128,7 +132,7 @@
 	
     NSMutableArray *branches = [NSMutableArray array];
     for(NSString *ref in references) {
-        if([ref hasPrefix:@"refs/heads/"]) {
+        if([ref hasPrefix:[[self class] namePrefix]]) {
             GTBranch *b = [GTBranch branchWithName:ref repository:repo error:error];
             if(b != nil)
                 [branches addObject:b];
