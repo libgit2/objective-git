@@ -97,5 +97,7 @@
 //
 // returns number of commits in the current branch or NSNotFound if an error occurred
 - (NSInteger)numberOfCommitsInCurrentBranchAndReturnError:(NSError **)error;
+
+- (GTBranch *)createBranchFrom:(GTReference *)ref named:(NSString *)name error:(NSError **)error;
 	
 @end

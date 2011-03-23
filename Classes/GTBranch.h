@@ -35,6 +35,8 @@
 @property (nonatomic, readonly, assign) GTRepository *repository;
 @property (nonatomic, readonly, assign) GTReference *reference;
 
++ (NSString *)namePrefix;
+
 // Convenience initializers
 - (id)initWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error;
 + (id)branchWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error;

@@ -364,4 +364,9 @@
 	return [self.walker countFromSha:head.target error:error];
 }
 
+- (GTBranch *)createBranchFrom:(GTReference *)ref named:(NSString *)name error:(NSError **)error {
+	GTReference *newRef = [GTReference referenceByCreatingRef:[NSString stringWithFormat:@"%@%@", [GTBranch namePrefix], name] fromRef:[ref target] inRepo:self error:error];
+	return [GTBranch branchWithReference:newRef repository:self];
+}
+
 @end
