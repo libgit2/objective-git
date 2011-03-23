@@ -32,7 +32,6 @@
 		88F6D9FC1320467800CC0BA8 /* GTSignature.h in Headers */ = {isa = PBXBuildFile; fileRef = BD6C254313148DC900992935 /* GTSignature.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
-		AAFFBB3413320B63004E48A4 /* GTRawObjectTest.m in Sources */ = {isa = PBXBuildFile; fileRef = AAFFBB3313320B60004E48A4 /* GTRawObjectTest.m */; };
 		AAFFBB35133215FF004E48A4 /* NSString+Git.m in Sources */ = {isa = PBXBuildFile; fileRef = BDD8AB14130F047A00CB5D40 /* NSString+Git.m */; };
 		BD441E08131ED0C300187010 /* GTReference.h in Headers */ = {isa = PBXBuildFile; fileRef = BD441E06131ED0C300187010 /* GTReference.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BD441E09131ED0C300187010 /* GTReference.m in Sources */ = {isa = PBXBuildFile; fileRef = BD441E07131ED0C300187010 /* GTReference.m */; };
@@ -43,8 +42,6 @@
 		BD6B0412131496B8001909D0 /* GTTree.m in Sources */ = {isa = PBXBuildFile; fileRef = BD6B0410131496B8001909D0 /* GTTree.m */; };
 		BD6B0417131496CC001909D0 /* GTTreeEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = BD6B0415131496CC001909D0 /* GTTreeEntry.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BD6B0418131496CC001909D0 /* GTTreeEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = BD6B0416131496CC001909D0 /* GTTreeEntry.m */; };
-		BD6B079A1316E739001909D0 /* GTRawObject.h in Headers */ = {isa = PBXBuildFile; fileRef = BD6B07981316E739001909D0 /* GTRawObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BD6B079B1316E739001909D0 /* GTRawObject.m in Sources */ = {isa = PBXBuildFile; fileRef = BD6B07991316E739001909D0 /* GTRawObject.m */; };
 		BD6B07FA1316F24D001909D0 /* GTObjectTest.m in Sources */ = {isa = PBXBuildFile; fileRef = BD6B07F91316F24D001909D0 /* GTObjectTest.m */; };
 		BD6C22411314453900992935 /* GTWalkerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = BD6C22401314453900992935 /* GTWalkerTest.m */; };
 		BD6C22431314481B00992935 /* GTLibTest.m in Sources */ = {isa = PBXBuildFile; fileRef = BD6C22421314481B00992935 /* GTLibTest.m */; };
@@ -151,7 +148,6 @@
 		88F6D9D81320451F00CC0BA8 /* ObjectiveGit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ObjectiveGit.h; path = Classes/ObjectiveGit.h; sourceTree = "<group>"; };
 		8DC2EF5A0486A6940098B216 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* ObjectiveGit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ObjectiveGit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		AAFFBB3313320B60004E48A4 /* GTRawObjectTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTRawObjectTest.m; sourceTree = "<group>"; };
 		BD441E06131ED0C300187010 /* GTReference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTReference.h; path = ../GTReference.h; sourceTree = "<group>"; };
 		BD441E07131ED0C300187010 /* GTReference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTReference.m; path = ../GTReference.m; sourceTree = "<group>"; };
 		BD56DF24133A5BAA00C9B707 /* GTOdbObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTOdbObject.h; sourceTree = "<group>"; };
@@ -161,8 +157,6 @@
 		BD6B0410131496B8001909D0 /* GTTree.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTTree.m; path = ../GTTree.m; sourceTree = "<group>"; };
 		BD6B0415131496CC001909D0 /* GTTreeEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTTreeEntry.h; path = ../GTTreeEntry.h; sourceTree = "<group>"; };
 		BD6B0416131496CC001909D0 /* GTTreeEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTTreeEntry.m; path = ../GTTreeEntry.m; sourceTree = "<group>"; };
-		BD6B07981316E739001909D0 /* GTRawObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTRawObject.h; path = ../GTRawObject.h; sourceTree = "<group>"; };
-		BD6B07991316E739001909D0 /* GTRawObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTRawObject.m; path = ../GTRawObject.m; sourceTree = "<group>"; };
 		BD6B07F91316F24D001909D0 /* GTObjectTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = GTObjectTest.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		BD6B08921316FB55001909D0 /* Contants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Contants.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		BD6C22401314453900992935 /* GTWalkerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = GTWalkerTest.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -318,8 +312,6 @@
 				BDD8AE6E13131B8800CB5D40 /* GTWalker.m */,
 				BD6C22A71314625800992935 /* GTObject.h */,
 				BD6C22A81314625800992935 /* GTObject.m */,
-				BD6B07981316E739001909D0 /* GTRawObject.h */,
-				BD6B07991316E739001909D0 /* GTRawObject.m */,
 				BD56DF24133A5BAA00C9B707 /* GTOdbObject.h */,
 				BD56DF25133A5BAA00C9B707 /* GTOdbObject.m */,
 				BD6C22A41314609A00992935 /* GTCommit.h */,
@@ -366,7 +358,6 @@
 				BDFAF9CD131C18FE000508BC /* GTIndexTest.m */,
 				BD8F69CF131F0AEE009DA3A1 /* GTReferenceTest.m */,
 				BD5B2FD61329686F00251129 /* GTBranchTest.m */,
-				AAFFBB3313320B60004E48A4 /* GTRawObjectTest.m */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -407,7 +398,6 @@
 				BDD8AE6F13131B8800CB5D40 /* GTWalker.h in Headers */,
 				BD6B0411131496B8001909D0 /* GTTree.h in Headers */,
 				BD6B0417131496CC001909D0 /* GTTreeEntry.h in Headers */,
-				BD6B079A1316E739001909D0 /* GTRawObject.h in Headers */,
 				BDD627991318391200DE34D1 /* GTBlob.h in Headers */,
 				BDD62924131C03D600DE34D1 /* GTTag.h in Headers */,
 				BDFAF9C3131C1845000508BC /* GTIndex.h in Headers */,
@@ -545,7 +535,6 @@
 				BD6C254613148DD300992935 /* GTSignature.m in Sources */,
 				BD6B0412131496B8001909D0 /* GTTree.m in Sources */,
 				BD6B0418131496CC001909D0 /* GTTreeEntry.m in Sources */,
-				BD6B079B1316E739001909D0 /* GTRawObject.m in Sources */,
 				BDD6279A1318391200DE34D1 /* GTBlob.m in Sources */,
 				BDD62925131C03D600DE34D1 /* GTTag.m in Sources */,
 				BDFAF9C4131C1845000508BC /* GTIndex.m in Sources */,
@@ -575,7 +564,6 @@
 				BDFAF9CE131C18FE000508BC /* GTIndexTest.m in Sources */,
 				BD8F69D0131F0AEE009DA3A1 /* GTReferenceTest.m in Sources */,
 				BD5B2FD71329686F00251129 /* GTBranchTest.m in Sources */,
-				AAFFBB3413320B63004E48A4 /* GTRawObjectTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
