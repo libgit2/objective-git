@@ -230,7 +230,7 @@
 	
 	// open the repo and write to the index
 	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:repoPath error:&error];
-	GHAssertNil(error, [error localizedDescription]);
+	GHAssertNotNil(repo, [error localizedDescription]);
 	BOOL success = [repo setupIndexAndReturnError:&error];
 	GHAssertTrue(success, [error localizedDescription]);
 	success = [repo.index addFile:[file lastPathComponent] error:&error]; 
