@@ -37,6 +37,11 @@
 
 @implementation GTBranch
 
++ (NSString *)namePrefix {
+	
+	return @"refs/heads/";
+}
+
 - (BOOL)isEqual:(id)otherObject {
 	
 	if(![otherObject isKindOfClass:[GTBranch class]]) {
@@ -63,10 +68,6 @@
 
 @synthesize reference;
 @synthesize repository;
-
-+ (NSString *)namePrefix {
-	return @"refs/heads/";
-}
 
 - (id)initWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error {
 	

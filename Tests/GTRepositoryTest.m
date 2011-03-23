@@ -135,7 +135,7 @@
 	GTRepository *aRepo = [[GTRepository alloc] initByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH()] error:&error];
 	GHTestLog(@"%d", [aRepo retainCount]);
 	NSString *sha = @"a4a7dce85cf63874e984719f4fdd239f5145052f";
-	__block NSMutableArray *commits = [[[NSMutableArray alloc] init] autorelease];
+	NSMutableArray *commits = [NSMutableArray array];
 	BOOL success = [aRepo walk:sha
 						 error:&error
 						 block:^(GTCommit *commit, BOOL *stop) {
@@ -167,7 +167,6 @@
 	NSString *sha = @"a4a7dce85cf63874e984719f4fdd239f5145052f";
 	
 	for(int i=0; i < 100; i++) {
-		
 		__block NSInteger count = 0;
 		BOOL success = [aRepo walk:sha
 							 error:&error
@@ -178,6 +177,27 @@
 		GHAssertEquals(6, (int)count, nil);
 		
 		[[NSGarbageCollector defaultCollector] collectExhaustively];
+	}
+}
+
+- (void)testCanSelectCommits {
+	
+	NSError *error = nil;
+	GTRepository *aRepo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH()] error:&error];
+	NSString *sha = @"a4a7dce85cf63874e984719f4fdd239f5145052f";
+	
+	__block NSInteger count = 0;
+	NSArray *commits = [aRepo selectCommitsStartingFrom:sha error:&error block:^BOOL(GTCommit *commit, BOOL *stop) {
+		count++;
+		if(count > 2) *stop = YES;
+		return [[commit parents] count] < 2;
+	}];
+	
+	GHAssertEquals(2, (int)[commits count], nil);
+	NSArray *expectedShas = [NSArray arrayWithObjects:@"c4780", @"9fd73", nil];
+	for(int i=0; i < [expectedShas count]; i++) {
+		GTCommit *commit = [commits objectAtIndex:i];
+		GHAssertEqualStrings([commit.sha substringToIndex:5], [expectedShas objectAtIndex:i], nil);
 	}
 }
 

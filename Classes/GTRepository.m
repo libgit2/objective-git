@@ -303,7 +303,8 @@
 }
 
 - (NSArray *)selectCommitsStartingFrom:(NSString *)sha error:(NSError **)error block:(BOOL (^)(GTCommit *commit, BOOL *stop))block {
-	__block NSMutableArray *passingCommits = [NSMutableArray array];
+	
+	NSMutableArray *passingCommits = [NSMutableArray array];
 	BOOL success = [self walk:sha error:error block:^(GTCommit *commit, BOOL *stop) {
 		BOOL passes = block(commit, stop);
 		if(passes) {
@@ -365,6 +366,7 @@
 }
 
 - (GTBranch *)createBranchFrom:(GTReference *)ref named:(NSString *)name error:(NSError **)error {
+	
 	GTReference *newRef = [GTReference referenceByCreatingRef:[NSString stringWithFormat:@"%@%@", [GTBranch namePrefix], name] fromRef:[ref target] inRepo:self error:error];
 	return [GTBranch branchWithReference:newRef repository:self];
 }
