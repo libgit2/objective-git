@@ -302,6 +302,22 @@
 	return [self walk:sha sorting:GIT_SORT_TIME error:error block:block];
 }
 
+- (NSArray *)selectCommitsStartingFrom:(NSString *)sha error:(NSError **)error block:(BOOL (^)(GTCommit *commit, BOOL *stop))block {
+	__block NSMutableArray *passingCommits = [NSMutableArray array];
+	BOOL success = [self walk:sha error:error block:^(GTCommit *commit, BOOL *stop) {
+		BOOL passes = block(commit, stop);
+		if(passes) {
+			[passingCommits addObject:commit];
+		}
+	}];
+	
+	if(success) {
+		return passingCommits;
+	} else {
+		return nil;
+	}
+}
+
 - (BOOL)setupIndexAndReturnError:(NSError **)error {
 	
 	git_index *i;
