@@ -54,7 +54,7 @@
 - (void)testCanReadAPackedObjectFromDb {
 	
 	NSError *error = nil;
-	GTRawObject *obj = [repo read:@"41bc8c69075bbdb46c5c6f0566cc8cc5b46e8bd9" error:&error];
+	GTOdbObject *obj = [repo read:@"41bc8c69075bbdb46c5c6f0566cc8cc5b46e8bd9" error:&error];
 	
 	GHAssertEquals(230, (int)[obj.data length], nil);
 	GHAssertEquals(GTObjectTypeCommit, obj.type, nil);

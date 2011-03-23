@@ -33,7 +33,7 @@
 #import "GTRepository.h"
 #import "GTLib.h"
 #import "GTObject.h"
-#import "GTRawObject.h"
+#import "GTOdbObject.h"
 #import "GTCommit.h"
 #import "GTSignature.h"
 #import "GTTree.h"

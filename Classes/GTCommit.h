@@ -36,16 +36,32 @@
 
 @interface GTCommit : GTObject {}
 
-@property (nonatomic, assign, readonly) git_commit *commit;
-@property (nonatomic, copy) NSString *message;
-@property (nonatomic, copy, readonly) NSString *messageShort;
-@property (nonatomic, copy, readonly) NSString *messageDetails;
-@property (nonatomic, assign, readonly) NSDate *date;
-@property (nonatomic, assign) GTSignature *author;
-@property (nonatomic, assign) GTSignature *committer;
-@property (nonatomic, assign) GTTree *tree;
 @property (nonatomic, assign, readonly) NSArray *parents;
 
-- (id)initInRepo:(GTRepository *)theRepo error:(NSError **)error;
++ (GTCommit *)commitInRepo:(GTRepository *)theRepo
+			updateRefNamed:(NSString *)refName
+					author:(GTSignature *)authorSig
+				 committer:(GTSignature *)committerSig
+				   message:(NSString *)newMessage
+					  tree:(GTTree *)theTree 
+				   parents:(NSArray *)theParents 
+					 error:(NSError **)error;
+
++ (NSString *)createCommitInRepo:(GTRepository *)theRepo
+				  updateRefNamed:(NSString *)refName
+						  author:(GTSignature *)authorSig
+					   committer:(GTSignature *)committerSig
+						 message:(NSString *)newMessage
+							tree:(GTTree *)theTree 
+						 parents:(NSArray *)theParents 
+						   error:(NSError **)error;
+
+- (NSString *)message;
+- (NSString *)messageShort;
+- (NSString *)messageDetails;
+- (NSDate *)date;
+- (GTSignature *)author;
+- (GTSignature *)committer;
+- (GTTree *)tree;
 
 @end

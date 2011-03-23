@@ -30,6 +30,7 @@
 #import "GTCommit.h"
 #import "GTSignature.h"
 #import "GTTree.h"
+#import "GTLib.h"
 #import "NSString+Git.h"
 #import "NSError+Git.h"
 #import "GTRepository.h"
@@ -45,34 +46,59 @@
 #pragma mark -
 #pragma mark API 
 
-@synthesize commit;
-@synthesize message;
-@synthesize messageShort;
-@synthesize messageDetails;
-@synthesize date;
-@synthesize author;
-@synthesize committer;
-@synthesize tree;
 @synthesize parents;
 
-- (id)initInRepo:(GTRepository *)theRepo error:(NSError **)error {
++ (GTCommit *)commitInRepo:(GTRepository *)theRepo
+			updateRefNamed:(NSString *)refName
+					author:(GTSignature *)authorSig
+				 committer:(GTSignature *)committerSig
+				   message:(NSString *)newMessage
+					  tree:(GTTree *)theTree 
+				   parents:(NSArray *)theParents 
+					 error:(NSError **)error {
 	
-	if((self = [super init])) {
-		self.repo = theRepo;
-		self.object = [GTObject getNewObjectInRepo:self.repo.repo type:GTObjectTypeCommit error:error];
-		if(self.object == nil) return nil;
+	NSString *sha = [GTCommit createCommitInRepo:theRepo updateRefNamed:refName author:authorSig committer:committerSig message:newMessage tree:theTree parents:theParents error:error];
+	return sha ? (GTCommit *)[theRepo lookupBySha:sha type:GTObjectTypeCommit error:error] : nil;
+}
+
++ (NSString *)createCommitInRepo:(GTRepository *)theRepo
+				  updateRefNamed:(NSString *)refName
+						  author:(GTSignature *)authorSig
+					   committer:(GTSignature *)committerSig
+						 message:(NSString *)newMessage
+							tree:(GTTree *)theTree 
+						 parents:(NSArray *)theParents 
+						   error:(NSError **)error {
+	
+	int count = theParents ? theParents.count : 0;
+	git_commit const *parentCommits[count];
+	for(int i = 0; i < count; i++){
+		parentCommits[i] = ((GTCommit *)[theParents objectAtIndex:i]).commit;
+	}		
+	
+	git_oid oid;
+	int gitError = git_commit_create_o(
+									   &oid, 
+									   theRepo.repo, 
+									   refName ? [NSString utf8StringForString:refName] : NULL, 
+									   authorSig.signature, 
+									   committerSig.signature, 
+									   [NSString utf8StringForString:newMessage], 
+									   theTree.tree, 
+									   count, 
+									   parentCommits);
+	if(gitError != GIT_SUCCESS) {
+		if(error != NULL)
+			*error = [NSError gitErrorFor:gitError withDescription:@"Failed to create commit in repository"];
+		return nil;
 	}
-	return self;
+	return [GTLib convertOidToSha:&oid];
 }
 
 - (NSString *)message {
 	
 	const char *s = git_commit_message(self.commit);
 	return [NSString stringForUTF8String:s];
-}
-- (void)setMessage:(NSString *)m {
-	
-	git_commit_set_message(self.commit, [NSString utf8StringForString:m]);
 }
 
 - (NSString *)messageShort {
@@ -109,19 +135,11 @@
 	const git_signature *s = git_commit_author(self.commit);
 	return [GTSignature signatureWithSignature:(git_signature *)s];
 }
-- (void)setAuthor:(GTSignature *)a {
-	
-	git_commit_set_author(self.commit, a.signature);
-}
 
 - (GTSignature *)committer {
 	
 	const git_signature *s = git_commit_committer(self.commit);
 	return [GTSignature signatureWithSignature:(git_signature *)s];
-}
-- (void)setCommitter:(GTSignature *)c {
-	
-	git_commit_set_committer(self.commit, c.signature);
 }
 
 - (GTTree *)tree {
@@ -135,10 +153,6 @@
 		return nil;
 	}
 	return (GTTree *)[GTObject objectInRepo:self.repo withObject:(git_object *)t];
-}
-- (void)setTree:(GTTree *)t {
-	
-	git_commit_set_tree(self.commit, t.tree);
 }
 
 - (NSArray *)parents {

@@ -31,7 +31,7 @@
 #import "GTWalker.h"
 #import "GTObject.h"
 #import "GTCommit.h"
-#import "GTRawObject.h"
+#import "GTOdbObject.h"
 #import "GTLib.h"
 #import "GTIndex.h"
 #import "GTBranch.h"
@@ -41,7 +41,10 @@
 
 
 @interface GTRepository ()
+@property (nonatomic, assign) git_repository *repo;
+@property (nonatomic, retain) NSURL *fileUrl;
 @property (nonatomic, retain) GTWalker *walker;
+@property (nonatomic, retain) GTIndex *index;
 @end
 
 @implementation GTRepository
@@ -85,7 +88,7 @@
 		
 		self.fileUrl = localFileUrl;
 		
-		GTLog("Opening repository in directory: %@", localFileUrl);
+		//GTLog("Opening repository in directory: %@", localFileUrl);
 		
 		const char *path;
 		if([[localFileUrl path] hasSuffix:@".git"] && [GTRepository isAGitDirectory:localFileUrl]) {
@@ -119,7 +122,7 @@
 	if((self = [super init])) {
 		self.fileUrl = localFileUrl;
 		
-		GTLog("Creating repository in directory: %@", localFileUrl);
+		//GTLog("Creating repository in directory: %@", localFileUrl);
 		
 		git_repository *r;
 		const char * path = [NSString utf8StringForString:[localFileUrl path]];
@@ -141,14 +144,12 @@
 	return [[[self alloc]initByCreatingRepositoryInDirectory:localFileUrl error:error] autorelease];
 }
 
-+ (NSString *)hash:(GTRawObject *)rawObj error:(NSError **)error {
+
++ (NSString *)hash:(NSString *)data type:(GTObjectType)type error:(NSError **)error {
 	
-	git_rawobj obj;
 	git_oid oid;
-	
-	[rawObj mapToObject:&obj];
-	
-	int gitError = git_rawobj_hash(&oid, &obj);
+
+	int gitError = git_odb_hash(&oid, [NSString utf8StringForString:data], [data length], type);
 	if(gitError != GIT_SUCCESS) {
 		if (error != NULL)
 			*error = [NSError gitErrorForHashObject:gitError];
@@ -157,6 +158,7 @@
 	
 	return [GTLib convertOidToSha:&oid];
 }
+
 
 - (GTObject *)lookupByOid:(git_oid *)oid type:(GTObjectType)type error:(NSError **)error {
 	
@@ -217,10 +219,10 @@
 	return git_odb_exists(odb, &oid) ? YES : NO;
 }
 
-- (GTRawObject *)rawRead:(const git_oid *)oid error:(NSError **)error {
+- (GTOdbObject *)rawRead:(const git_oid *)oid error:(NSError **)error {
 	
 	git_odb *odb;
-	git_rawobj obj;
+	git_odb_object *obj;
 	
 	odb = git_repository_database(self.repo);
 	int gitError = git_odb_read(&obj, odb, oid);
@@ -230,13 +232,13 @@
 		return nil;
 	}
 	
-	GTRawObject *rawObj = [GTRawObject rawObjectWithRawObject:&obj];
-	git_rawobj_close(&obj);
+	GTOdbObject *rawObj = [GTOdbObject objectWithObject:obj];
+	git_odb_object_close(obj);
 	
 	return rawObj;
 }
 
-- (GTRawObject *)read:(NSString *)sha error:(NSError **)error {
+- (GTOdbObject *)read:(NSString *)sha error:(NSError **)error {
 	
 	git_oid oid;
 	int gitError = git_oid_mkstr(&oid, [NSString utf8StringForString:sha]);
@@ -248,23 +250,35 @@
 	return [self rawRead:&oid error:error];
 }
 
-- (NSString *)write:(GTRawObject *)rawObj error:(NSError **)error {
+- (NSString *)write:(NSString *)data type:(GTObjectType)type error:(NSError **)error {
 	
+	git_odb_stream *stream;
 	git_odb *odb;
-	git_rawobj obj;
 	git_oid oid;
 	
 	odb = git_repository_database(self.repo);
 	
-	[rawObj mapToObject:&obj];
-	int gitError = git_odb_write(&oid, odb, &obj);
-	git_rawobj_close(&obj);
+	int gitError = git_odb_open_wstream(&stream, odb, data.length, type);
 	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
-			*error = [NSError gitErrorForWriteObjectToDb:gitError];
+			*error = [NSError gitErrorFor:gitError withDescription:@"Failed to open write stream on odb"];
 		return nil;
 	}
 	
+	gitError = stream->write(stream, [NSString utf8StringForString:data], data.length);
+	if(gitError != GIT_SUCCESS) {
+		if(error != NULL)
+			*error = [NSError gitErrorFor:gitError withDescription:@"Failed to write to stream on odb"];
+		return nil;
+	}
+	
+	gitError = stream->finalize_write(&oid, stream);
+	if(gitError != GIT_SUCCESS) {
+		if(error != NULL)
+			*error = [NSError gitErrorFor:gitError withDescription:@"Failed to finalize write on odb"];
+		return nil;
+	}
+
 	return [GTLib convertOidToSha:&oid];
 }
 
@@ -282,7 +296,6 @@
 		sha = head.target;
 	}
 	
-	//[self.walker reset];
 	[self.walker setSortingOptions:sortMode];
 	BOOL success = [self.walker push:sha error:error];
 	if(!success) return NO; 
@@ -293,7 +306,6 @@
 		block(commit, &stop);
 		if(stop) break;
 	}
-	//[self.walker reset];
 	return YES;
 }
 

@@ -31,9 +31,15 @@
 #import "GTObject.h"
 #import "GTTree.h"
 #import "GTLib.h"
+#import "GTRepository.h"
 #import "NSString+Git.h"
 #import "NSError+Git.h"
 
+
+@interface GTTreeEntry()
+@property (nonatomic, assign) git_tree_entry *entry;
+@property (nonatomic, assign) GTTree *tree;
+@end
 
 @implementation GTTreeEntry
 
@@ -47,51 +53,40 @@
 #pragma mark API
 
 @synthesize entry;
-@synthesize name;
-@synthesize attributes;
 @synthesize tree;
+
+- (id)initWithEntry:(git_tree_entry *)theEntry parentTree:(GTTree *)parent {
+	if((self = [super init])) {
+		self.entry = theEntry;
+		self.tree = parent;
+	}
+	return self;
+}
+
++ (id)entryWithEntry:(git_tree_entry *)theEntry parentTree:(GTTree *)parent {
+	
+	return [[[self alloc] initWithEntry:theEntry parentTree:parent] autorelease];
+}
 
 - (NSString *)name {
 	
 	return [NSString stringForUTF8String:git_tree_entry_name(self.entry)];
-}
-- (void)setName:(NSString *)n {
-	
-	git_tree_entry_set_name(self.entry, [NSString utf8StringForString:n]);
 }
 
 - (NSInteger)attributes {
 	
 	return git_tree_entry_attributes(self.entry);
 }
-- (void)setAttributes:(NSInteger)attr {
-	
-	git_tree_entry_set_attributes(self.entry, attr);
-}
 
 - (NSString *)sha {
 	
 	return [GTLib convertOidToSha:git_tree_entry_id(self.entry)];
 }
-- (BOOL)setSha:(NSString *)newSha error:(NSError **)error {
-	
-	git_oid oid;
-	
-	int gitError = git_oid_mkstr(&oid, [NSString utf8StringForString:newSha]);
-	if(gitError != GIT_SUCCESS) {
-		if(error != NULL)
-			*error = [NSError gitErrorForMkStr:gitError];
-		return NO;
-	}
-
-	git_tree_entry_set_id(self.entry, &oid);
-	return YES;
-}
 
 - (GTObject *)toObjectAndReturnError:(NSError **)error {
 	
 	git_object *obj;
-	int gitError = git_tree_entry_2object(&obj, self.entry);
+	int gitError = git_tree_entry_2object(&obj, self.tree.repo.repo, self.entry);
 	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError gitErrorForTreeEntryToObject:gitError];

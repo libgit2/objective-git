@@ -35,10 +35,15 @@
 
 @interface GTTreeEntry : NSObject {}
 
-@property (nonatomic, assign) git_tree_entry *entry;
-@property (nonatomic, assign) NSString *name;
-@property (nonatomic, assign) NSInteger attributes;
-@property (nonatomic, assign) GTTree *tree;
+@property (nonatomic, assign, readonly) git_tree_entry *entry;
+@property (nonatomic, assign, readonly) GTTree *tree;
+
+- (id)initWithEntry:(git_tree_entry *)theEntry parentTree:(GTTree *)parent;
++ (id)entryWithEntry:(git_tree_entry *)theEntry parentTree:(GTTree *)parent;
+
+- (NSString *)name;
+- (NSInteger)attributes;
+- (NSString *)sha;
 
 // Turn entry into an GTObject
 //
@@ -46,9 +51,5 @@
 //
 // returns this entry as a GTObject or nil if an error occurred.
 - (GTObject *)toObjectAndReturnError:(NSError **)error;
-
-// The sha1 of this tree entry
-- (NSString *)sha;
-- (BOOL)setSha:(NSString *)newSha error:(NSError **)error;
 
 @end

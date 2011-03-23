@@ -29,7 +29,7 @@
 
 #import "GTObject.h"
 #import "GTCommit.h"
-#import "GTRawObject.h"
+#import "GTOdbObject.h"
 #import "GTLib.h"
 #import "NSError+Git.h"
 #import "NSString+Git.h"
@@ -41,6 +41,9 @@ static NSString * const GTTreeClassName = @"GTTree";
 static NSString * const GTBlobClassName = @"GTBlob";
 static NSString * const GTObjectClassName = @"GTObject";
 static NSString * const GTTagClassName = @"GTTag";
+
+@interface GTObject()
+@end
 
 @implementation GTObject
 
@@ -103,40 +106,6 @@ static NSString * const GTTagClassName = @"GTTag";
 	return [[[NSClassFromString(klass) alloc] initInRepo:theRepo withObject:theObject] autorelease];
 }
 
-+ (git_object *)getNewObjectInRepo:(git_repository *)r type:(GTObjectType)theType error:(NSError **)error {
-	
-	git_object *obj;
-	int gitError = git_object_new(&obj, r, theType);
-	if(gitError != GIT_SUCCESS) {
-		if(error != NULL)
-			*error = [NSError gitErrorForNewObject:gitError];
-		return nil;
-	}
-	return obj;
-}
-
-+ (git_object *)getNewObjectInRepo:(git_repository *)r sha:(NSString *)sha type:(GTObjectType)theType error:(NSError **)error {
-	
-	git_object *obj = NULL;
-	git_oid oid;
-	
-	int gitError = git_oid_mkstr(&oid, [NSString utf8StringForString:sha]);
-	if(gitError != GIT_SUCCESS) {
-		if(error != NULL)
-			*error = [NSError gitErrorForMkStr:gitError];
-		return nil;
-	}
-	
-	gitError = git_object_lookup(&obj, r, &oid, theType);
-	if(gitError != GIT_SUCCESS) {
-		if(error != NULL)
-			*error = [NSError gitErrorForLookupObject:gitError];
-		return nil;
-	}
-	NSAssert(obj, @"Failed to lookup git_object from repo");
-	return obj;
-}
-
 - (NSString *)type {
 	
 	return [NSString stringForUTF8String:git_object_type2string(git_object_type(self.object))];
@@ -152,18 +121,7 @@ static NSString * const GTTagClassName = @"GTTag";
 	return [GTLib shortUniqueShaFromSha:self.sha];
 }
 
-- (NSString *)writeAndReturnError:(NSError **)error {
-	
-	int gitError = git_object_write(self.object);
-	if(gitError != GIT_SUCCESS) {
-		if(error != NULL)
-			*error = [NSError gitErrorForWriteObject:gitError];
-		return nil;
-	}
-	return self.sha;
-}
-
-- (GTRawObject *)readRawAndReturnError:(NSError **)error {
+- (GTOdbObject *)readRawAndReturnError:(NSError **)error {
 	
 	return [self.repo rawRead:git_object_id(self.object) error:error];
 }

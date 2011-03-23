@@ -36,11 +36,15 @@
 
 @interface GTTag : GTObject {}
 
-@property (nonatomic, assign) git_tag *tag;
-@property (nonatomic, assign) NSString *message;
-@property (nonatomic, assign) NSString *name;
-@property (nonatomic, assign) GTObject *target;
-@property (nonatomic, assign, readonly) NSString *targetType;
-@property (nonatomic, assign) GTSignature *tagger;
+@property (nonatomic, assign, readonly) git_tag *tag;
+
++ (GTTag *)tagInRepo:(GTRepository *)theRepo name:(NSString *)tagName target:(GTObject *)theTarget tagger:(GTSignature *)theTagger message:(NSString *)theMessage error:(NSError **)error;
++ (NSString *)createTagInRepo:(GTRepository *)theRepo name:(NSString *)tagName target:(GTObject *)theTarget tagger:(GTSignature *)theTagger message:(NSString *)theMessage error:(NSError **)error;
+
+- (NSString *)message;
+- (NSString *)name;
+- (GTObject *)target;
+- (NSString *)targetType;
+- (GTSignature *)tagger;
 
 @end

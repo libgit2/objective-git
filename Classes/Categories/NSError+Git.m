@@ -296,4 +296,13 @@ static NSString * const GTGitErrorDomain = @"GTGitErrorDomain";
 										forKey:NSLocalizedDescriptionKey]];
 }
 
++ (NSError *)gitErrorFor:(int)code withDescription:(NSString *)desc {
+	
+	return [NSError errorWithDomain:GTGitErrorDomain
+							   code:-1
+						   userInfo:
+			[NSDictionary dictionaryWithObject:desc
+										forKey:NSLocalizedDescriptionKey]];
+}
+
 @end

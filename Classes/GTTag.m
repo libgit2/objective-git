@@ -29,10 +29,15 @@
 
 #import "GTTag.h"
 #import "NSString+Git.h"
+#import "NSError+Git.h"
 #import "GTSignature.h"
 #import "GTReference.h"
 #import "GTRepository.h"
+#import "GTLib.h"
 
+@interface GTTag()
+@property (nonatomic, assign) git_tag *tag;
+@end
 
 @implementation GTTag
 
@@ -45,42 +50,34 @@
 #pragma mark API
 
 @synthesize tag;
-@synthesize message;
-@synthesize name;
-@synthesize target;
-@synthesize targetType;
-@synthesize tagger;
 
-//- (id)initWithReference:(GTReference *)ref repo:(GTRepository *)repo error:(NSError **)error {
-// 
-//    if((self = [super init])) {
-//        self.repo = repo;
-//        self.object = [GTObject getNewObjectInRepo:repo.repo type:GTObjectTypeTag error:error];
-//        if(self.object == nil)return nil;
-//        self.name = ref.name;
-//        self.target = [repo lookupBySha:ref.target error:error];
-//        if(self.target == nil)return nil;
-//        // todo: message?
-//    }
-//    return self;
-//}
++ (GTTag *)tagInRepo:(GTRepository *)theRepo name:(NSString *)tagName target:(GTObject *)theTarget tagger:(GTSignature *)theTagger message:(NSString *)theMessage error:(NSError **)error {
+
+	NSString *sha = [GTTag createTagInRepo:theRepo name:tagName target:theTarget tagger:theTagger message:theMessage error:error];
+	return sha ? (GTTag *)[theRepo lookupBySha:sha type:GTObjectTypeTag error:error] : nil;
+}
+
++ (NSString *)createTagInRepo:(GTRepository *)theRepo name:(NSString *)tagName target:(GTObject *)theTarget tagger:(GTSignature *)theTagger message:(NSString *)theMessage error:(NSError **)error {
+	
+	git_oid oid;
+	int gitError = git_tag_create_o(&oid, theRepo.repo, [NSString utf8StringForString:tagName], theTarget.object, theTagger.signature, [NSString utf8StringForString:theMessage]);
+	if(gitError != GIT_SUCCESS) {
+		if(error != NULL)
+			*error = [NSError gitErrorFor:gitError withDescription:@"Failed to create tag in repository"];
+		return nil;
+	}
+	
+	return [GTLib convertOidToSha:&oid];
+}
 
 - (NSString *)message {
 	
 	return [NSString stringForUTF8String:git_tag_message(self.tag)];
 }
-- (void)setMessage:(NSString *)theMessage {
-	
-	git_tag_set_message(self.tag, [NSString utf8StringForString:theMessage]);
-}
 
 - (NSString *)name {
 	
 	return [NSString stringForUTF8String:git_tag_name(self.tag)];
-}
-- (void)setName:(NSString *)theName {
-	
-	git_tag_set_name(self.tag, [NSString utf8StringForString:theName]);
 }
 
 - (GTObject *)target {
@@ -91,10 +88,6 @@
 	if(gitError != GIT_SUCCESS) return nil;
 	return [GTObject objectInRepo:self.repo withObject:(git_object *)t];
 }
-- (void)setTarget:(GTObject *)theTarget {
-	
-	git_tag_set_target(self.tag, theTarget.object);
-}
 
 - (NSString *)targetType {
 	
@@ -104,10 +97,6 @@
 - (GTSignature *)tagger {
 	
 	return [GTSignature signatureWithSignature:(git_signature *)git_tag_tagger(self.tag)];
-}
-- (void)setTagger:(GTSignature *)theTagger {
-	
-	git_tag_set_tagger(self.tag, theTagger.signature);
 }
 
 @end

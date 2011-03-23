@@ -92,7 +92,7 @@
 	
 	GHAssertNotNil(obj, nil);
 	
-	GTRawObject *rawObj = [obj readRawAndReturnError:&error];
+	GTOdbObject *rawObj = [obj readRawAndReturnError:&error];
 	GHAssertNotNil(rawObj, nil);
 	GHAssertNil(error, [error localizedDescription]);
 	GHTestLog(@"rawObj len = %d", [rawObj.data length]);
