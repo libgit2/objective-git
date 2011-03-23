@@ -7,7 +7,7 @@
 //
 
 #import <git2.h>
-
+#import "GTObject.h"
 
 @interface GTOdbObject : NSObject {}
 
@@ -17,7 +17,7 @@
 + (id)objectWithObject:(git_odb_object *)object;
 
 - (NSString *)hash;
-- (NSString *)type;
+- (GTObjectType)type;
 - (NSUInteger)length;
 - (NSData *)data;
 - (NSString *)dataAsUTF8String;
