@@ -44,6 +44,24 @@
 #pragma mark -
 #pragma mark API
 
++ (id)blobInRepo:(GTRepository *)theRepo content:(NSString *)content error:(NSError **)error {
+	
+	NSString *sha = [GTBlob createInRepo:theRepo content:content error:error];
+	return sha ? (GTBlob *)[theRepo lookupBySha:sha type:GTObjectTypeBlob error:error] : nil;
+}
+
++ (id)blobInRepo:(GTRepository *)theRepo data:(NSData *)data error:(NSError **)error {
+	
+	NSString *sha = [GTBlob createInRepo:theRepo data:data error:error];
+	return sha ? (GTBlob *)[theRepo lookupBySha:sha type:GTObjectTypeBlob error:error] : nil;
+}
+
++ (id)blobInRepo:(GTRepository *)theRepo file:(NSURL *)file error:(NSError **)error {
+	
+	NSString *sha = [GTBlob createInRepo:theRepo file:file error:error];
+	return sha ? (GTBlob *)[theRepo lookupBySha:sha type:GTObjectTypeBlob error:error] : nil;
+}
+
 + (NSString *)createInRepo:(GTRepository *)theRepo content:(NSString *)content error:(NSError **)error {
 	
 	git_oid oid;

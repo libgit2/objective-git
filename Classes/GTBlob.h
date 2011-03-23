@@ -33,6 +33,17 @@
 
 @interface GTBlob : GTObject {}
 
+// Convenience initializers
+// 
+// These call the associated createInRepo: methods, but then lookup the newly 
+// created blob in the repo and return it
++ (id)blobInRepo:(GTRepository *)theRepo content:(NSString *)content error:(NSError **)error;
++ (id)blobInRepo:(GTRepository *)theRepo data:(NSData *)data error:(NSError **)error;
++ (id)blobInRepo:(GTRepository *)theRepo file:(NSURL *)file error:(NSError **)error;
+
+// Create a blob in the specified repository
+//
+// returns the sha1 of the created blob or nil if an error occurred
 + (NSString *)createInRepo:(GTRepository *)theRepo content:(NSString *)content error:(NSError **)error;
 + (NSString *)createInRepo:(GTRepository *)theRepo data:(NSData *)data error:(NSError **)error;
 + (NSString *)createInRepo:(GTRepository *)theRepo file:(NSURL *)file error:(NSError **)error;

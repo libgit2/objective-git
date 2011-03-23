@@ -82,6 +82,15 @@
 	rm_loose(newSha);
 }
 
+- (void)testCanWriteNewBlobData2 {
+	
+	NSError *error = nil;
+	GTBlob *blob = [GTBlob blobInRepo:repo content:@"a new blob content" error:&error];
+	GHAssertNotNil(blob, [error localizedDescription]);
+	
+	rm_loose(blob.sha);
+}
+
 - (void)testCanGetCompleteContentWithNulls {
 	
 	NSError *error = nil;
