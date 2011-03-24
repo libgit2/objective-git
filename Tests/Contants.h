@@ -54,13 +54,45 @@
 
 
 static inline NSString *TEST_REPO_PATH(void) {
-	
+#if TARGET_OS_IPHONE
+    return [NSTemporaryDirectory() stringByAppendingFormat:@"fixtures/testrepo.git"];
+#else
 	return [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"fixtures/testrepo.git"];
+#endif
 }
 
 static inline NSString *TEST_INDEX_PATH(void) {
-	
+#if TARGET_OS_IPHONE
+    return [NSTemporaryDirectory() stringByAppendingFormat:@"fixtures/testrepo.git/index"];
+#else
 	return [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"fixtures/testrepo.git/index"];
+#endif
+}
+
+static inline void CREATE_WRITABLE_FIXTURES(void) {
+#if TARGET_OS_IPHONE
+    NSFileManager *fm = [NSFileManager defaultManager];
+	
+    if([fm fileExistsAtPath:TEST_REPO_PATH()])
+		[fm removeItemAtPath:TEST_REPO_PATH() error:nil];
+    
+    NSString *repoInBundle = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"fixtures/testrepo.git"];
+    
+    NSString *fixturesDir = [TEST_REPO_PATH() stringByDeletingPathExtension];
+    NSError *error = nil;
+    [fm createDirectoryAtPath:fixturesDir withIntermediateDirectories:YES attributes:nil error:&error];
+    if (error) {
+        NSLog(@"%@", [error localizedDescription]);
+        [NSException raise:@"Fixture Setup Error:" format:[error localizedDescription]];
+    }
+    
+    [fm copyItemAtPath:repoInBundle toPath:TEST_REPO_PATH() error:&error];
+    if (error) {
+        NSLog(@"%@", [error localizedDescription]);
+        [NSException raise:@"Fixture Setup Error:" format:[error localizedDescription]];
+    }
+    
+#endif
 }
 
 static inline void rm_loose(NSString *sha) {
