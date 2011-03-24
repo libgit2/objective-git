@@ -68,7 +68,7 @@ static inline void rm_loose(NSString *sha) {
 	NSError *error;
 	NSFileManager *m = [[[NSFileManager alloc] init] autorelease];
 	NSString *objDir = [NSString stringWithFormat:@"objects/%@", [sha substringToIndex:2]];
-	NSURL *basePath = [[NSURL URLWithString:TEST_REPO_PATH()] URLByAppendingPathComponent:objDir];
+	NSURL *basePath = [[NSURL fileURLWithPath:TEST_REPO_PATH()] URLByAppendingPathComponent:objDir];
 	NSURL *filePath = [basePath URLByAppendingPathComponent:[sha substringFromIndex:2]];
 	
 	NSLog(@"deleting file %@", filePath);

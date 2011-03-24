@@ -16,7 +16,7 @@
 - (void)testCanOpenHeadInRepo {
 	
 	NSError *error = nil;
-	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH()] error:&error];
+	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
 	GHAssertNil(error, [error localizedDescription]);
 	
 	GTBranch *current = [GTBranch branchFromCurrentBranchInRepository:repo error:&error];
@@ -27,7 +27,7 @@
 - (void)testCanListBranchesInRepo {
 	
 	NSError *error = nil;
-	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH()] error:&error];
+	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
 	GHAssertNil(error, [error localizedDescription]);
 	
 	NSArray *branches = [GTBranch listAllBranchesInRepository:repo error:&error];
@@ -38,7 +38,7 @@
 - (void)testCanCountCommitsInBranch {
 	
 	NSError *error = nil;
-	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH()] error:&error];
+	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
 	GHAssertNil(error, [error localizedDescription]);
 	
 	GTReference *head = [repo headAndReturnError:&error];

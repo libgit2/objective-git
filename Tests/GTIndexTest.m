@@ -43,7 +43,7 @@
 - (void)setUp {
 	
 	NSError *error = nil;
-	index = [GTIndex indexWithPath:[NSURL URLWithString:TEST_INDEX_PATH()] error:&error];
+	index = [GTIndex indexWithPath:[NSURL fileURLWithPath:TEST_INDEX_PATH()] error:&error];
 	BOOL success = [index refreshAndReturnError:&error];
 	GHAssertTrue(success, [error localizedDescription]);
 }
@@ -209,7 +209,7 @@
 	//setup
 	NSError *error = nil;
 	NSFileManager *m = [[[NSFileManager alloc] init] autorelease];
-	tempPath = [NSURL URLWithString:[NSTemporaryDirectory() stringByAppendingPathComponent:@"index_dir"]];
+	tempPath = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"index_dir"]];
 	NSURL *repoPath = [tempPath URLByAppendingPathComponent:@".git"];
 	
 	[m removeItemAtPath:[tempPath path] error:&error];
