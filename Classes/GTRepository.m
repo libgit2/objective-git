@@ -369,8 +369,23 @@
 	NSMutableArray *allBranches = [NSMutableArray array];
 	NSArray *localBranches = [GTBranch listAllLocalBranchesInRepository:self error:error];
 	NSArray *remoteBranches = [GTBranch listAllRemoteBranchesInRepository:self error:error];
+	
 	[allBranches addObjectsFromArray:localBranches];
-	[allBranches addObjectsFromArray:remoteBranches];
+	
+	// we want to add the remote branches that we don't already have as a local branch
+	NSMutableDictionary *shortNamesToBranches = [NSMutableDictionary dictionary];
+	for(GTBranch *branch in localBranches) {
+		[shortNamesToBranches setObject:branch forKey:branch.shortName];
+	}
+	
+	for(GTBranch *branch in remoteBranches) {
+		GTBranch *localBranch = [shortNamesToBranches objectForKey:branch.shortName];
+		if(localBranch == nil) {
+			[allBranches addObject:branch];
+		}
+		
+		localBranch.remoteBranch = branch;
+	}
 	
     return allBranches;
 }
