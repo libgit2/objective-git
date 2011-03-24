@@ -63,10 +63,14 @@
 	
 	NSString *newBranchName = [NSString stringWithFormat:@"%@%@", [GTBranch localNamePrefix], @"this_is_the_renamed_branch"];
 	GTBranch *firstBranch = [branches objectAtIndex:0];
+	NSString *originalBranchName = firstBranch.name;
 	BOOL success = [firstBranch.reference setName:newBranchName error:&error];
 	GHAssertTrue(success, [error localizedDescription]);
-	
 	GHAssertEqualStrings(firstBranch.name, newBranchName, nil);
+	
+	success = [firstBranch.reference setName:originalBranchName error:&error];
+	GHAssertTrue(success, [error localizedDescription]);
+	GHAssertEqualStrings(firstBranch.name, originalBranchName, nil);
 }
 
 @end
