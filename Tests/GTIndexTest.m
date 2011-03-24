@@ -205,7 +205,7 @@
 }
 
 - (void)testCanAddFromAPath {
-	 
+#ifndef TARGET_OS_IPHONE
 	//setup
 	NSError *error = nil;
 	NSFileManager *m = [[[NSFileManager alloc] init] autorelease];
@@ -243,6 +243,7 @@
 	GHAssertTrue(success, [error localizedDescription]);
 	
 	GHAssertEqualStrings([index2 getEntryAtIndex:0].path, @"test.txt", nil);
+#endif
 }
 
 @end
