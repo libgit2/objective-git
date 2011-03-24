@@ -34,6 +34,8 @@
 // If you are using the static library and importing header files manually
 //#import "GHUnit.h"
 
+#import "Contants.h"
+
 // Default exception handler
 void exceptionHandler(NSException *exception) { 
   NSLog(@"%@\n%@", [exception reason], GHUStackTraceFromException(exception));
@@ -68,7 +70,11 @@ int main(int argc, char *argv[]) {
   
   // Register any special test case classes
   //[[GHTesting sharedInstance] registerClassName:@"GHSpecialTestCase"];  
-  
+    
+  // Moves the repo fixture to a writable directory (Only used on iOS)
+  CREATE_WRITABLE_FIXTURES();
+
+    
   int retVal = 0;
   // If GHUNIT_CLI is set we are using the command line interface and run the tests
   // Otherwise load the GUI app
