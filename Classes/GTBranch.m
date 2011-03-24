@@ -73,6 +73,13 @@
 
 @synthesize reference;
 @synthesize repository;
+@synthesize remoteBranch;
+
+- (void)dealloc {
+	
+	[remoteBranch release];
+	[super dealloc];
+}
 
 - (id)initWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error {
 	
@@ -181,6 +188,17 @@
 
 - (BOOL)isLocal {
 	return [self.name hasPrefix:[[self class] localNamePrefix]];
+}
+
+- (GTBranch *)remoteBranch {
+	
+	if(remoteBranch != nil) {
+		return remoteBranch;
+	} else if([self isRemote]) {
+		return self;
+	}
+	
+	return nil;
 }
 
 @end

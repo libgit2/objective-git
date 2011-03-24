@@ -34,6 +34,7 @@
 @property (nonatomic, readonly) NSString *sha;
 @property (nonatomic, readonly, assign) GTRepository *repository;
 @property (nonatomic, readonly, assign) GTReference *reference;
+@property (nonatomic, retain) GTBranch *remoteBranch;
 
 + (NSString *)localNamePrefix;
 + (NSString *)remoteNamePrefix;
