@@ -24,7 +24,7 @@
 	GHAssertNotNil(current, nil);
 }
 
-- (void)testCanListBranchesInRepo {
+- (void)testCanListLocalBranchesInRepo {
 	
 	NSError *error = nil;
 	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
@@ -33,6 +33,16 @@
 	NSArray *branches = [GTBranch listAllLocalBranchesInRepository:repo error:&error];
 	GHAssertNotNil(branches, [error localizedDescription], nil);
 	GHAssertEquals(2, (int)branches.count, nil);
+}
+
+- (void)testCanListRemoteBranchesInRepo {
+	NSError *error = nil;
+	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
+	GHAssertNil(error, [error localizedDescription]);
+	
+	NSArray *branches = [GTBranch listAllRemoteBranchesInRepository:repo error:&error];
+	GHAssertNotNil(branches, [error localizedDescription], nil);
+	GHAssertEquals(0, (int)branches.count, nil);
 }
 
 - (void)testCanCountCommitsInBranch {
