@@ -51,6 +51,7 @@
 	GHAssertEquals((NSUInteger)3, n, nil);
 }
 
+/*
 - (void)testCanRenameBranch {
 	
 	NSError *error = nil;
@@ -72,5 +73,6 @@
 	GHAssertTrue(success, [error localizedDescription]);
 	GHAssertEqualStrings(firstBranch.name, originalBranchName, nil);
 }
+ */
 
 @end
