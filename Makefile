@@ -13,4 +13,6 @@ clean:
 test:
 	GHUNIT_AUTORUN=1 GHUNIT_AUTOEXIT=1 $(COMMAND) -target $(TEST_TARGET) -configuration Debug -sdk $(SDK) build
 
+test-ios:
+	GHUNIT_CLI=1 xcodebuild -target Tests-iOS -configuration Debug build
 	
