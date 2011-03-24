@@ -35,7 +35,8 @@
 @property (nonatomic, readonly, assign) GTRepository *repository;
 @property (nonatomic, readonly, assign) GTReference *reference;
 
-+ (NSString *)namePrefix;
++ (NSString *)localNamePrefix;
++ (NSString *)remoteNamePrefix;
 
 // Convenience initializers
 - (id)initWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error;
@@ -53,12 +54,26 @@
 // returns a GTCommit object or nil if an error occurred
 - (GTCommit *)targetCommitAndReturnError:(NSError **)error;
 
-// List all branches in a repository
+// List all local branches in a repository
 //
 // error(out) - will be filled if an error occurs
 //
 // returns an NSArray of GTBranch objects or nil if an error occurred
-+ (NSArray *)listAllBranchesInRepository:(GTRepository *)repo error:(NSError **)error;
++ (NSArray *)listAllLocalBranchesInRepository:(GTRepository *)repo error:(NSError **)error;
+
+// List all remote branches in a repository
+//
+// error(out) - will be filled if an error occurs
+//
+// returns an NSArray of GTBranch objects or nil if an error occurred
++ (NSArray *)listAllRemoteBranchesInRepository:(GTRepository *)repo error:(NSError **)error;
+
+// List all branches in a repository with the given prefix.
+//
+// error(out) - will be filled if an error occurs
+//
+// returns an NSArray of GTBranch objects or nil if an error occurred
++ (NSArray *)listAllBranchesInRepository:(GTRepository *)repo withPrefix:(NSString *)prefix error:(NSError **)error;
 
 // Count all commits in this branch
 //
