@@ -177,7 +177,7 @@
 		GHAssertTrue(success, [error localizedDescription]);
 		GHAssertEquals(6, (int)count, nil);
 		
-		[[NSGarbageCollector defaultCollector] collectExhaustively];
+		//[[NSGarbageCollector defaultCollector] collectExhaustively];
 	}
 }
 

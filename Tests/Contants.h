@@ -27,7 +27,12 @@
 //  THE SOFTWARE.
 //
 
+#if TARGET_OS_IPHONE
+#import <GHUnitIOS/GHUnit.h>
+#else
 #import <GHUnit/GHUnit.h>
+#endif
+
 #import <git2.h>
 
 #import "GTRepository.h"
