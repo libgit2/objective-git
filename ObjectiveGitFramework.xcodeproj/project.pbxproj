@@ -150,7 +150,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 04DB4644133AB57600D9C624 /* ObjectiveGit-iOS */;
+			remoteGlobalIDString = 04DB4644133AB57600D9C624;
 			remoteInfo = "ObjectiveGit-iOS";
 		};
 		BD6C221C1314428300992935 /* PBXContainerItemProxy */ = {
