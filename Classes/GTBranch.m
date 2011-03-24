@@ -37,9 +37,14 @@
 
 @implementation GTBranch
 
-+ (NSString *)namePrefix {
++ (NSString *)localNamePrefix {
 	
 	return @"refs/heads/";
+}
+
++ (NSString *)remoteNamePrefix {
+	
+	return @"refs/remotes/";
 }
 
 - (BOOL)isEqual:(id)otherObject {
@@ -126,14 +131,24 @@
     return (GTCommit *)[self.repository lookupBySha:self.sha error:error];
 }
 
-+ (NSArray *)listAllBranchesInRepository:(GTRepository *)repo error:(NSError **)error {
++ (NSArray *)listAllLocalBranchesInRepository:(GTRepository *)repo error:(NSError **)error {
 	
-    NSArray *references = [GTReference listAllReferenceNamesInRepo:repo error:error];
+    return [self listAllBranchesInRepository:repo withPrefix:[self localNamePrefix] error:error];
+}
+
++ (NSArray *)listAllRemoteBranchesInRepository:(GTRepository *)repo error:(NSError **)error {
+	
+	return [self listAllBranchesInRepository:repo withPrefix:[self remoteNamePrefix] error:error];
+}
+
++ (NSArray *)listAllBranchesInRepository:(GTRepository *)repo withPrefix:(NSString *)prefix error:(NSError **)error {
+	
+	NSArray *references = [GTReference listAllReferenceNamesInRepo:repo error:error];
     if(references == nil) return nil;
 	
     NSMutableArray *branches = [NSMutableArray array];
     for(NSString *ref in references) {
-        if([ref hasPrefix:[[self class] namePrefix]]) {
+        if([ref hasPrefix:prefix]) {
             GTBranch *b = [GTBranch branchWithName:ref repository:repo error:error];
             if(b != nil)
                 [branches addObject:b];
