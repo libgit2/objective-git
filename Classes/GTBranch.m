@@ -138,7 +138,20 @@
 
 + (NSArray *)listAllRemoteBranchesInRepository:(GTRepository *)repo error:(NSError **)error {
 	
-	return [self listAllBranchesInRepository:repo withPrefix:[self remoteNamePrefix] error:error];
+	static NSArray *unwantedRemoteBranches = nil;
+	if(unwantedRemoteBranches == nil) {
+		unwantedRemoteBranches = [NSArray arrayWithObjects:@"HEAD", @"master", nil];
+	}
+	
+	NSArray *remoteBranches =[self listAllBranchesInRepository:repo withPrefix:[self remoteNamePrefix] error:error];
+	NSMutableArray *filteredList = [NSMutableArray arrayWithCapacity:remoteBranches.count];
+	for(GTBranch *branch in remoteBranches) {
+		if(![unwantedRemoteBranches containsObject:branch.shortName]) {
+			[filteredList addObject:branch];
+		}
+	}
+	
+	return filteredList;
 }
 
 + (NSArray *)listAllBranchesInRepository:(GTRepository *)repo withPrefix:(NSString *)prefix error:(NSError **)error {
@@ -160,6 +173,14 @@
 - (NSInteger)numberOfCommitsAndReturnError:(NSError **)error {
 	
 	return [self.repository.walker countFromSha:self.sha error:error];
+}
+
+- (BOOL)isRemote {
+	return [self.name hasPrefix:[[self class] remoteNamePrefix]];
+}
+
+- (BOOL)isLocal {
+	return [self.name hasPrefix:[[self class] localNamePrefix]];
 }
 
 @end

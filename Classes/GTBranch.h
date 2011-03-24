@@ -82,4 +82,7 @@
 // returns number of commits in the branch or NSNotFound if an error occurred
 - (NSInteger)numberOfCommitsAndReturnError:(NSError **)error;
 
+- (BOOL)isRemote;
+- (BOOL)isLocal;
+
 @end
