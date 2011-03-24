@@ -366,7 +366,13 @@
 
 - (NSArray *)listAllBranchesAndReturnError:(NSError **)error {
     
-    return [GTBranch listAllBranchesInRepository:self error:error];
+	NSMutableArray *allBranches = [NSMutableArray array];
+	NSArray *localBranches = [GTBranch listAllLocalBranchesInRepository:self error:error];
+	NSArray *remoteBranches = [GTBranch listAllRemoteBranchesInRepository:self error:error];
+	[allBranches addObjectsFromArray:localBranches];
+	[allBranches addObjectsFromArray:remoteBranches];
+	
+    return allBranches;
 }
 
 - (NSInteger)numberOfCommitsInCurrentBranchAndReturnError:(NSError **)error {
@@ -379,7 +385,7 @@
 
 - (GTBranch *)createBranchFrom:(GTReference *)ref named:(NSString *)name error:(NSError **)error {
 	
-	GTReference *newRef = [GTReference referenceByCreatingRef:[NSString stringWithFormat:@"%@%@", [GTBranch namePrefix], name] fromRef:[ref target] inRepo:self error:error];
+	GTReference *newRef = [GTReference referenceByCreatingRef:[NSString stringWithFormat:@"%@%@", [GTBranch localNamePrefix], name] fromRef:[ref target] inRepo:self error:error];
 	return [GTBranch branchWithReference:newRef repository:self];
 }
 
