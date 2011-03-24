@@ -47,8 +47,8 @@
 	GHAssertNotNil(master, [error localizedDescription]);
 	
 	NSUInteger n = [master numberOfCommitsAndReturnError:&error];
-	GHAssertNotEquals(n, NSNotFound, [error localizedDescription]);
-	GHAssertEquals(3, (int)n, nil);
+	GHAssertNotEquals(n, (NSUInteger)NSNotFound, [error localizedDescription]);
+	GHAssertEquals((NSUInteger)3, n, nil);
 }
 
 @end
