@@ -61,10 +61,12 @@
 	GHAssertNotNil(branches, [error localizedDescription], nil);
 	GHAssertEquals(2, (int)branches.count, nil);
 	
-	static NSString * const newBrachName = @"this_is_the_renamed_branch";
+	NSString *newBranchName = [NSString stringWithFormat:@"%@%@", [GTBranch localNamePrefix], @"this_is_the_renamed_branch"];
 	GTBranch *firstBranch = [branches objectAtIndex:0];
-	BOOL success = [firstBranch.reference setName:newBrachName error:&error];
+	BOOL success = [firstBranch.reference setName:newBranchName error:&error];
 	GHAssertTrue(success, [error localizedDescription]);
+	
+	GHAssertEqualStrings(firstBranch.name, newBranchName, nil);
 }
 
 @end
