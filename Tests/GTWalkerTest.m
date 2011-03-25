@@ -208,29 +208,4 @@
 	}		
 }
 
-- (void)testCanReverseWalkFromTheFirstCommit {
-	
-	NSError *error = nil;
-	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
-	NSString *sha = @"8496071c1b46c854b31185ea97743be6a8774479";
-	[repo.walker setSortingOptions:GTWalkerOptionsTopologicalSort | GTWalkerOptionsReverse];
-	BOOL success = [repo.walker push:sha error:&error];
-	GHAssertTrue(success, [error localizedDescription]);
-	
-	NSArray *expectedShas = [NSArray arrayWithObjects:
-							 @"8496071c1b46c854b31185ea97743be6a8774479", 
-							 @"5b5b025afb0b4c913b4c338a42934a3863bf3644", 
-							 @"c47800c7266a2be04c571c04d5a6614691ea99bd", 
-							 @"4a202b346bb0fb0db7eff3cffeb3c70babbd2045", 
-							 @"9fd738e8f7967c078dceed8190330fc8648ee56a", 
-							 @"a4a7dce85cf63874e984719f4fdd239f5145052f", 
-							 nil];
-
-	for(int i=0; i < 6; i++) {
-		GTCommit *commit = [repo.walker next];
-		NSString *expectedSha = [expectedShas objectAtIndex:i];
-		GHAssertEqualStrings(commit.sha, expectedSha, nil);
-	}
-}
-
 @end
