@@ -150,7 +150,9 @@
 		unwantedRemoteBranches = [NSArray arrayWithObjects:@"HEAD", @"master", nil];
 	}
 	
-	NSArray *remoteBranches =[self listAllBranchesInRepository:repo withPrefix:[self remoteNamePrefix] error:error];
+	NSArray *remoteBranches = [self listAllBranchesInRepository:repo withPrefix:[self remoteNamePrefix] error:error];
+	if(remoteBranches == nil) return nil;
+	
 	NSMutableArray *filteredList = [NSMutableArray arrayWithCapacity:remoteBranches.count];
 	for(GTBranch *branch in remoteBranches) {
 		if(![unwantedRemoteBranches containsObject:branch.shortName]) {

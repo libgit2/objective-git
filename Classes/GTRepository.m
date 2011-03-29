@@ -369,6 +369,7 @@
 	NSMutableArray *allBranches = [NSMutableArray array];
 	NSArray *localBranches = [GTBranch listAllLocalBranchesInRepository:self error:error];
 	NSArray *remoteBranches = [GTBranch listAllRemoteBranchesInRepository:self error:error];
+	if(localBranches == nil || remoteBranches == nil) return nil;
 	
 	[allBranches addObjectsFromArray:localBranches];
 	
