@@ -55,7 +55,7 @@
 	
 	GTBranch *otherBranch = otherObject;
 	
-	return [self.reference.name isEqualToString:otherBranch.reference.name];
+	return [self.name isEqualToString:otherBranch.name];
 }
 
 - (NSUInteger)hash {
