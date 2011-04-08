@@ -37,7 +37,7 @@
 
 
 @interface GTTreeEntry()
-@property (nonatomic, assign) git_tree_entry *entry;
+@property (nonatomic, assign) const git_tree_entry *entry;
 @property (nonatomic, assign) GTTree *tree;
 @end
 
@@ -55,7 +55,7 @@
 @synthesize entry;
 @synthesize tree;
 
-- (id)initWithEntry:(git_tree_entry *)theEntry parentTree:(GTTree *)parent {
+- (id)initWithEntry:(const git_tree_entry *)theEntry parentTree:(GTTree *)parent {
 	if((self = [super init])) {
 		self.entry = theEntry;
 		self.tree = parent;
@@ -63,7 +63,7 @@
 	return self;
 }
 
-+ (id)entryWithEntry:(git_tree_entry *)theEntry parentTree:(GTTree *)parent {
++ (id)entryWithEntry:(const git_tree_entry *)theEntry parentTree:(GTTree *)parent {
 	
 	return [[[self alloc] initWithEntry:theEntry parentTree:parent] autorelease];
 }

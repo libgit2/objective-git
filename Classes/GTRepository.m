@@ -405,4 +405,8 @@
 	return [GTBranch branchWithReference:newRef repository:self];
 }
 
+- (BOOL)isEmpty {
+	return git_repository_is_empty(self.repo);
+}
+
 @end

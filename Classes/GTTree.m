@@ -55,7 +55,7 @@
 	return [[NSNumber numberWithInt:git_tree_entrycount(self.tree)] integerValue];
 }
 
-- (GTTreeEntry *)createEntryWithEntry:(git_tree_entry *)entry {
+- (GTTreeEntry *)createEntryWithEntry:(const git_tree_entry *)entry {
 	
 	return [GTTreeEntry entryWithEntry:entry parentTree:self];
 }

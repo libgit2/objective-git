@@ -99,5 +99,7 @@
 - (NSInteger)numberOfCommitsInCurrentBranchAndReturnError:(NSError **)error;
 
 - (GTBranch *)createBranchFrom:(GTReference *)ref named:(NSString *)name error:(NSError **)error;
+
+- (BOOL)isEmpty;
 	
 @end
