@@ -211,6 +211,10 @@
 	GHAssertEqualStrings(head.type, @"commit", nil);
 }
 
+- (void)testIsEmpty {
+	GHAssertFalse([repo isEmpty], nil);
+}
+
 // This messes other tests up b/c it writes a new HEAD, but doesn't set it back again
 /*
 - (void)testLookupHeadThenCommitAndThenLookupHeadAgain {
