@@ -35,7 +35,7 @@
 
 @interface GTTree : GTObject {}
 
-@property (nonatomic, assign, readonly) git_tree *tree;
+@property (nonatomic, readonly) git_tree *tree;
 
 // Get the number of entries
 //

@@ -33,6 +33,8 @@
 
 @interface GTBlob : GTObject {}
 
+@property (nonatomic, readonly) git_blob *blob;
+
 // Convenience initializers
 // 
 // These call the associated createInRepo: methods, but then lookup the newly 

@@ -35,9 +35,6 @@
 #import "GTRepository.h"
 #import "GTLib.h"
 
-@interface GTTag()
-@property (nonatomic, assign) git_tag *tag;
-@end
 
 @implementation GTTag
 
@@ -49,7 +46,7 @@
 #pragma mark -
 #pragma mark API
 
-@synthesize tag;
+@synthesize tagger;
 
 + (GTTag *)tagInRepo:(GTRepository *)theRepo name:(NSString *)tagName target:(GTObject *)theTarget tagger:(GTSignature *)theTagger message:(NSString *)theMessage error:(NSError **)error {
 
@@ -96,7 +93,10 @@
 
 - (GTSignature *)tagger {
 	
-	return [GTSignature signatureWithSignature:(git_signature *)git_tag_tagger(self.tag)];
+	if(tagger == nil) {
+		tagger = [GTSignature signatureWithSignature:(git_signature *)git_tag_tagger(self.tag)];
+	}
+	return tagger;
 }
 
 @end

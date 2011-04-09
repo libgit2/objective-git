@@ -16,7 +16,9 @@
 
 @implementation GTOdbObject
 
+#pragma mark -
 #pragma mark API
+
 @synthesize odbObject;
 
 - (id)initWithObject:(git_odb_object *)object {

@@ -34,10 +34,6 @@
 #import "NSError+Git.h"
 
 
-@interface GTTree()
-@property (nonatomic, assign) git_tree *tree;
-@end
-
 @implementation GTTree
 
 - (git_tree *)tree {
@@ -47,8 +43,6 @@
 
 #pragma mark -
 #pragma mark API
-
-@synthesize tree;
 
 - (NSInteger)entryCount {
 	

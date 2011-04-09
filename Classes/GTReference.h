@@ -39,7 +39,7 @@ typedef enum {
 
 @property (nonatomic, assign) git_reference *ref;
 @property (nonatomic, assign) GTRepository *repo;
-@property (nonatomic, assign, readonly) NSString *type;
+@property (nonatomic, readonly) NSString *type;
 @property (nonatomic, readonly) const git_oid *oid;
 
 // Convenience initializers
