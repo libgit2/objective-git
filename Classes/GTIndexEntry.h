@@ -44,7 +44,7 @@
 @property (nonatomic, assign) NSUInteger gid;
 @property (nonatomic, assign) NSUInteger flags;
 @property (nonatomic, assign) NSUInteger stage;
-@property (nonatomic, assign, readonly) BOOL isValid;
+@property (nonatomic, readonly) BOOL isValid;
 
 // Convenience initializers
 - (id)initWithEntry:(git_index_entry *)theEntry;

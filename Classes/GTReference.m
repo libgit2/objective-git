@@ -39,6 +39,7 @@
 }
 
 - (const git_oid *)oid {
+	
 	return git_reference_oid(self.ref);
 }
 

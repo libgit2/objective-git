@@ -48,15 +48,15 @@ typedef enum {
 
 @interface GTObject : NSObject {}
 
-@property (nonatomic, assign) git_object *object;
-@property (nonatomic, assign, readonly) NSString *type;
-@property (nonatomic, assign, readonly) NSString *sha;
+@property (nonatomic, readonly) git_object *object;
+@property (nonatomic, readonly) NSString *type;
+@property (nonatomic, readonly) NSString *sha;
 @property (nonatomic, readonly) NSString *shortSha;
 @property (nonatomic, assign) GTRepository *repo;
 
 // Convenience initializers
 - (id)initInRepo:(GTRepository *)theRepo withObject:(git_object *)theObject;
-+ (id)objectInRepo:(GTRepository *)theRepo withObject:(git_object *)theObject; 
++ (id)objectInRepo:(GTRepository *)theRepo withObject:(git_object *)theObject;
 
 // Read the raw object from the datastore
 //

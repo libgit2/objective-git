@@ -36,7 +36,10 @@
 
 @interface GTCommit : GTObject {}
 
-@property (nonatomic, assign, readonly) NSArray *parents;
+@property (nonatomic, readonly) git_commit *commit;
+@property (nonatomic, readonly) GTSignature *author;
+@property (nonatomic, readonly) GTSignature *committer;
+@property (nonatomic, readonly) NSArray *parents;
 
 + (GTCommit *)commitInRepo:(GTRepository *)theRepo
 			updateRefNamed:(NSString *)refName
@@ -59,9 +62,7 @@
 - (NSString *)message;
 - (NSString *)messageShort;
 - (NSString *)messageDetails;
-- (NSDate *)date;
-- (GTSignature *)author;
-- (GTSignature *)committer;
+- (NSDate *)time;
 - (GTTree *)tree;
 
 @end

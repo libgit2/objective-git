@@ -42,9 +42,6 @@ static NSString * const GTBlobClassName = @"GTBlob";
 static NSString * const GTObjectClassName = @"GTObject";
 static NSString * const GTTagClassName = @"GTTag";
 
-@interface GTObject()
-@end
-
 @implementation GTObject
 
 - (void)dealloc {
@@ -77,7 +74,7 @@ static NSString * const GTTagClassName = @"GTTag";
 	
 	if((self = [super init])) {
 		self.repo = theRepo;
-		self.object = theObject;
+		object = theObject;
 	}
 	return self;
 }

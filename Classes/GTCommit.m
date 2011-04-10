@@ -44,8 +44,10 @@
 }
 
 #pragma mark -
-#pragma mark API 
+#pragma mark API
 
+@synthesize author;
+@synthesize committer;
 @synthesize parents;
 
 + (GTCommit *)commitInRepo:(GTRepository *)theRepo
@@ -74,7 +76,7 @@
 	git_commit const *parentCommits[count];
 	for(int i = 0; i < count; i++){
 		parentCommits[i] = ((GTCommit *)[theParents objectAtIndex:i]).commit;
-	}		
+	}
 	
 	git_oid oid;
 	int gitError = git_commit_create_o(
@@ -124,7 +126,7 @@
 	return result;
 }
 
-- (NSDate *)date {
+- (NSDate *)time {
 	
 	time_t t = git_commit_time(self.commit);
 	return [NSDate dateWithTimeIntervalSince1970:t];
@@ -132,14 +134,18 @@
 
 - (GTSignature *)author {
 	
-	const git_signature *s = git_commit_author(self.commit);
-	return [GTSignature signatureWithSignature:(git_signature *)s];
+	if(author == nil) {
+		author = [GTSignature signatureWithSignature:(git_signature *)git_commit_author(self.commit)];
+	}
+	return author;
 }
 
 - (GTSignature *)committer {
 	
-	const git_signature *s = git_commit_committer(self.commit);
-	return [GTSignature signatureWithSignature:(git_signature *)s];
+	if(committer == nil) {
+		committer = [GTSignature signatureWithSignature:(git_signature *)git_commit_committer(self.commit)];
+	}
+	return committer;
 }
 
 - (GTTree *)tree {
