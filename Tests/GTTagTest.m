@@ -57,18 +57,37 @@
 	GHAssertEqualStrings(@"schacon@gmail.com", c.email, nil);
 }
 
-- (void)testCanWriteTagData {
+- (void)testCreateTagWithSameNameFails {
 	
 	NSError *error = nil;
 	NSString *sha = @"0c37a5391bbff43c37f0d0371823a5509eed5b1d";
 	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
 	GTTag *tag = (GTTag *)[repo lookupBySha:sha error:&error];
 	
-	NSString *newSha = [GTTag createTagInRepo:repo name:tag.name target:tag.target tagger:tag.tagger message:@"new message" error:&error];
+	[GTTag createTagInRepo:repo name:tag.name target:tag.target tagger:tag.tagger message:@"new message" error:&error];
+	GHAssertNotNil(error, nil);
+}
+
+- (void)testCreateTag {
+	NSError *error = nil;
+	NSString *sha = @"0c37a5391bbff43c37f0d0371823a5509eed5b1d";
+	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
+	GTTag *tag = (GTTag *)[repo lookupBySha:sha error:&error];
+
+	NSString *newSha = [GTTag createTagInRepo:repo name:@"a_new_tag" target:tag.target tagger:tag.tagger message:@"my tag\n" error:&error];
 	GHAssertNotNil(newSha, [error localizedDescription]);
-	GHAssertNotEqualStrings(newSha, sha, nil);
 	
-	rm_loose(tag.sha);
+	tag = (GTTag *)[repo lookupBySha:newSha error:&error];
+	GHAssertNil(error, [error localizedDescription]);
+	GHAssertNotNil(tag, nil);
+	GHAssertEqualStrings(newSha, tag.sha, nil);
+	GHAssertEqualStrings(@"tag", tag.type, nil);
+	GHAssertEqualStrings(@"my tag\n", tag.message, nil);
+	GHAssertEqualStrings(@"a_new_tag", tag.name, nil);
+	GHAssertEqualStrings(@"5b5b025afb0b4c913b4c338a42934a3863bf3644", tag.target.sha, nil);
+	GHAssertEqualStrings(@"commit", tag.targetType, nil);
+
+	rm_loose(newSha);
 }
 
 @end
