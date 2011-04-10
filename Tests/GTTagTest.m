@@ -60,15 +60,24 @@
 - (void)testCanWriteTagData {
 	
 	NSError *error = nil;
-	NSString *sha = @"0c37a5391bbff43c37f0d0371823a5509eed5b1d";
+	NSString *sha = @"36060c58702ed4c2a40832c51758d5344201d89a";
 	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
-	GTTag *tag = (GTTag *)[repo lookupBySha:sha error:&error];
+	GTCommit *commit = (GTCommit *)[repo lookupBySha:sha error:&error];
 	
-	NSString *newSha = [GTTag createTagInRepo:repo name:tag.name target:tag.target tagger:tag.tagger message:@"new message" error:&error];
+	NSString *newSha = [GTTag createTagInRepo:repo name:@"v1.1" target:commit tagger:commit.committer message:@"new message" error:&error];
 	GHAssertNotNil(newSha, [error localizedDescription]);
-	GHAssertNotEqualStrings(newSha, sha, nil);
 	
-	rm_loose(tag.sha);
+	GTTag *tag = (GTTag *)[repo lookupBySha:newSha error:&error];
+	GHAssertNotNil(tag, [error localizedDescription]);
+	GHAssertEqualStrings(@"new message", tag.message, nil);
+	
+	GTCommit *c = (GTCommit *)[tag target];
+	GHAssertEqualStrings(@"36060c58702ed4c2a40832c51758d5344201d89a", c.sha, nil);
+	
+	rm_loose(newSha);
+	NSFileManager *m = [[[NSFileManager alloc] init] autorelease];
+	NSURL *tagPath = [[NSURL fileURLWithPath:TEST_REPO_PATH()] URLByAppendingPathComponent:@"refs/tags/v1.1"];
+	[m removeItemAtURL:tagPath error:&error];
 }
 
 @end

@@ -69,8 +69,6 @@ static NSString * const GTTagClassName = @"GTTag";
 #pragma mark API 
 
 @synthesize object;
-@synthesize type;
-@synthesize sha;
 @synthesize repo;
 
 - (id)initInRepo:(GTRepository *)theRepo withObject:(git_object *)theObject {
