@@ -88,6 +88,9 @@
 	GHAssertEqualStrings(@"commit", tag.targetType, nil);
 
 	rm_loose(newSha);
+	NSFileManager *m = [[[NSFileManager alloc] init] autorelease];
+	NSURL *tagPath = [[NSURL fileURLWithPath:TEST_REPO_PATH()] URLByAppendingPathComponent:@"refs/tags/a_new_tag"];
+	[m removeItemAtURL:tagPath error:&error];
 }
 
 @end
