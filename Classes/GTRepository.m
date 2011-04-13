@@ -296,6 +296,7 @@
 		sha = head.target;
 	}
 	
+	[self.walker reset];
 	[self.walker setSortingOptions:sortMode];
 	BOOL success = [self.walker push:sha error:error];
 	if(!success) return NO; 
