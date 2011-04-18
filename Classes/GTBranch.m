@@ -124,13 +124,35 @@
 
 - (NSString *)shortName {
 	
-	NSArray *chunks = [self.reference.name componentsSeparatedByString:@"/"];
-	return [chunks lastObject];
+	if([self isLocal]) {
+		return [self.name stringByReplacingOccurrencesOfString:[[self class] localNamePrefix] withString:@""];
+	} else if([self isRemote]) {
+		// remote repos also have their remote in their name
+		NSString *remotePath = [[[self class] remoteNamePrefix] stringByAppendingFormat:[NSString stringWithFormat:@"%@/", [self remoteName]]];
+		return [self.name stringByReplacingOccurrencesOfString:remotePath withString:@""];
+	} else {
+		return self.name;
+	}
 }
 
 - (NSString *)sha {
 	
 	return self.reference.target;
+}
+
+- (NSString *)remoteName {
+	
+	if(![self isRemote]) {
+		return [self.remoteBranch remoteName];
+	}
+	
+	NSArray *components = [self.name componentsSeparatedByString:@"/"];
+	// refs/heads/origin/branch_name
+	if(components.count < 4) {
+		return nil;
+	}
+	
+	return [components objectAtIndex:2];
 }
 
 - (GTCommit *)targetCommitAndReturnError:(NSError **)error {
