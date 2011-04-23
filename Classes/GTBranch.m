@@ -31,11 +31,18 @@
 
 
 @interface GTBranch ()
-@property (nonatomic, assign) GTReference *reference;
+@property (nonatomic, retain) GTReference *reference;
 @property (nonatomic, assign) GTRepository *repository;
 @end
 
 @implementation GTBranch
+
+- (void)dealloc {
+
+    self.reference = nil;
+    self.remoteBranch = nil;
+	[super dealloc];
+}
 
 + (NSString *)localNamePrefix {
 	
@@ -74,12 +81,6 @@
 @synthesize reference;
 @synthesize repository;
 @synthesize remoteBranch;
-
-- (void)dealloc {
-	
-	[remoteBranch release];
-	[super dealloc];
-}
 
 - (id)initWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error {
 	
