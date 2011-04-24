@@ -172,9 +172,15 @@
 			[rents addObject:(GTCommit *)[GTObject objectInRepo:self.repo withObject:(git_object *)parent]];
 		}
 		
-		parents = [NSArray arrayWithArray:rents];
+		parents = [[NSArray arrayWithArray:rents] retain];
 	}
 	return parents;
+}
+
+- (void)dealloc
+{
+    [parents release];
+    [super dealloc];
 }
 
 @end
