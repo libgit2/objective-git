@@ -135,7 +135,7 @@
 - (GTSignature *)author {
 	
 	if(author == nil) {
-		author = [GTSignature signatureWithSignature:(git_signature *)git_commit_author(self.commit)];
+		author = [[GTSignature signatureWithSignature:(git_signature *)git_commit_author(self.commit)] retain];
 	}
 	return author;
 }
@@ -143,7 +143,7 @@
 - (GTSignature *)committer {
 	
 	if(committer == nil) {
-		committer = [GTSignature signatureWithSignature:(git_signature *)git_commit_committer(self.commit)];
+		committer = [[GTSignature signatureWithSignature:(git_signature *)git_commit_committer(self.commit)] retain];
 	}
 	return committer;
 }
@@ -180,6 +180,8 @@
 - (void)dealloc
 {
     [parents release];
+    [committer release];
+    [author release];
     [super dealloc];
 }
 
