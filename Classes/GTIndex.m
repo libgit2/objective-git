@@ -115,7 +115,7 @@
 
 - (BOOL)addEntry:(GTIndexEntry *)entry error:(NSError **)error {
 	
-	int gitError = git_index_insert(self.index, entry.entry);
+	int gitError = git_index_add2(self.index, entry.entry);
 	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError gitErrorForAddEntryToIndex:gitError];
