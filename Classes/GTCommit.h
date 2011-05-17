@@ -41,28 +41,28 @@
 @property (nonatomic, readonly) GTSignature *committer;
 @property (nonatomic, readonly) NSArray *parents;
 
-+ (GTCommit *)commitInRepo:(GTRepository *)theRepo
-			updateRefNamed:(NSString *)refName
-					author:(GTSignature *)authorSig
-				 committer:(GTSignature *)committerSig
-				   message:(NSString *)newMessage
-					  tree:(GTTree *)theTree 
-				   parents:(NSArray *)theParents 
-					 error:(NSError **)error;
++ (GTCommit *)commitInRepository:(GTRepository *)theRepo
+                  updateRefNamed:(NSString *)refName
+                          author:(GTSignature *)authorSig
+                       committer:(GTSignature *)committerSig
+                         message:(NSString *)newMessage
+                            tree:(GTTree *)theTree 
+                         parents:(NSArray *)theParents 
+                           error:(NSError **)error;
 
-+ (NSString *)createCommitInRepo:(GTRepository *)theRepo
-				  updateRefNamed:(NSString *)refName
-						  author:(GTSignature *)authorSig
-					   committer:(GTSignature *)committerSig
-						 message:(NSString *)newMessage
-							tree:(GTTree *)theTree 
-						 parents:(NSArray *)theParents 
-						   error:(NSError **)error;
++ (NSString *)shaByCreatingCommitInRepository:(GTRepository *)theRepo
+                               updateRefNamed:(NSString *)refName
+                                       author:(GTSignature *)authorSig
+                                    committer:(GTSignature *)committerSig
+                                      message:(NSString *)newMessage
+                                         tree:(GTTree *)theTree 
+                                      parents:(NSArray *)theParents 
+                                        error:(NSError **)error;
 
 - (NSString *)message;
-- (NSString *)messageShort;
+- (NSString *)shortMessage;
 - (NSString *)messageDetails;
-- (NSDate *)time;
+- (NSDate *)commitDate;
 - (GTTree *)tree;
 
 @end

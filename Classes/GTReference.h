@@ -24,6 +24,7 @@
 //
 
 #import <git2.h>
+#import "GTObject.h"
 
 typedef enum {
 	GTReferenceTypesOid = GIT_REF_OID,				/** A reference which points at an object id */
@@ -35,22 +36,22 @@ typedef enum {
 
 @class GTRepository;
 
-@interface GTReference : NSObject {}
+@interface GTReference : NSObject <GTObject> {}
 
 @property (nonatomic, assign) git_reference *ref;
-@property (nonatomic, assign) GTRepository *repo;
+@property (nonatomic, assign) GTRepository *repository;
 @property (nonatomic, readonly) NSString *type;
 @property (nonatomic, readonly) const git_oid *oid;
 
 // Convenience initializers
-+ (id)referenceByLookingUpRef:(NSString *)refName inRepo:(GTRepository *)theRepo error:(NSError **)error;
-- (id)initByLookingUpRef:(NSString *)refName inRepo:(GTRepository *)theRepo error:(NSError **)error;
++ (id)referenceByLookingUpReferencedNamed:(NSString *)refName inRepository:(GTRepository *)theRepo error:(NSError **)error;
+- (id)initByLookingUpReferenceNamed:(NSString *)refName inRepository:(GTRepository *)theRepo error:(NSError **)error;
 
-+ (id)referenceByCreatingRef:(NSString *)refName fromRef:(NSString *)target inRepo:(GTRepository *)theRepo error:(NSError **)error;
-- (id)initByCreatingRef:(NSString *)refName fromRef:(NSString *)target inRepo:(GTRepository *)theRepo error:(NSError **)error;
++ (id)referenceByCreatingReferenceNamed:(NSString *)refName fromReferenceTarget:(NSString *)target inRepository:(GTRepository *)theRepo error:(NSError **)error;
+- (id)initByCreatingReferenceNamed:(NSString *)refName fromReferenceTarget:(NSString *)target inRepository:(GTRepository *)theRepo error:(NSError **)error;
 
-+ (id)referenceByResolvingRef:(GTReference *)symbolicRef error:(NSError **)error;
-- (id)initByResolvingRef:(GTReference *)symbolicRef error:(NSError **)error;
++ (id)referenceByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error;
+- (id)initByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error;
 
 // List references in a repository
 // 
@@ -60,7 +61,7 @@ typedef enum {
 // 
 // returns an array of NSStrings holding the names of the references
 // returns nil if an error occurred and fills the error parameter
-+ (NSArray *)listReferenceNamesInRepo:(GTRepository *)theRepo types:(GTReferenceTypes)types error:(NSError **)error;
++ (NSArray *)referenceNamesInRepository:(GTRepository *)theRepo types:(GTReferenceTypes)types error:(NSError **)error;
 
 // List all references in a repository
 //
@@ -71,7 +72,7 @@ typedef enum {
 // 
 // returns an array of NSStrings holding the names of the references
 // returns nil if an error occurred and fills the error parameter
-+ (NSArray *)listAllReferenceNamesInRepo:(GTRepository *)theRepo error:(NSError **)error;
++ (NSArray *)referenceNamesInRepository:(GTRepository *)theRepo error:(NSError **)error;
 
 - (NSString *)target;
 - (BOOL)setTarget:(NSString *)newTarget error:(NSError **)error;
@@ -83,20 +84,20 @@ typedef enum {
 // error(out) - will be filled if an error occurs
 //
 // returns YES if the pack was successful
-- (BOOL)packAllAndReturnError:(NSError **)error;
+- (BOOL)packAllWithError:(NSError **)error;
 
 // Delete this reference
 //
 // error(out) - will be filled if an error occurs
 //
 // returns YES if the delete was successful
-- (BOOL)deleteAndReturnError:(NSError **)error;
+- (BOOL)deleteWithError:(NSError **)error;
 
 // Resolve this reference as a symbolic ref
 //
 // error(out) - will be filled if an error occurs
 //
 // returns the peeled GTReference or nil if an error occurred.
-- (GTReference *)resolveAndReturnError:(NSError **)error;
+- (GTReference *)resolvedReferenceWithError:(NSError **)error;
 
 @end

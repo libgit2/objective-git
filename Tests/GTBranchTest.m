@@ -33,7 +33,7 @@
 - (void)testCanListLocalBranchesInRepo {
 	
     NSError *error = nil;
-	NSArray *branches = [GTBranch listAllLocalBranchesInRepository:repo error:&error];
+	NSArray *branches = [GTBranch branchesInRepository:repo error:&error];
 	GHAssertNotNil(branches, [error localizedDescription], nil);
 	GHAssertEquals(2, (int)branches.count, nil);
 }
@@ -41,7 +41,7 @@
 - (void)testCanListRemoteBranchesInRepo {
 	
     NSError *error = nil;
-	NSArray *branches = [GTBranch listAllRemoteBranchesInRepository:repo error:&error];
+	NSArray *branches = [GTBranch remoteBranchesInRepository:repo error:&error];
 	GHAssertNotNil(branches, [error localizedDescription], nil);
 	GHAssertEquals(0, (int)branches.count, nil);
 }
@@ -49,12 +49,12 @@
 - (void)testCanCountCommitsInBranch {
 	
     NSError *error = nil;
-	GTReference *head = [repo headAndReturnError:&error];
+	GTReference *head = [repo headReference:&error];
 	GHAssertNotNil(head, [error localizedDescription]);
 	GTBranch *master = [GTBranch branchWithReference:head repository:repo];
 	GHAssertNotNil(master, [error localizedDescription]);
 	
-	NSUInteger n = [master numberOfCommitsAndReturnError:&error];
+	NSUInteger n = [master numberOfCommitsWithError:&error];
 	GHAssertNotEquals(n, (NSUInteger)NSNotFound, [error localizedDescription]);
 	GHAssertEquals((NSUInteger)3, n, nil);
 }
@@ -65,7 +65,7 @@
 	// This allows us to release the object and test that the branch
 	// is retaining properly.
     NSError *error = nil;
-    GTReference *head = [[GTReference alloc] initByLookingUpRef:@"HEAD" inRepo:repo error:&error];
+    GTReference *head = [[GTReference alloc] initByLookingUpReferenceNamed:@"HEAD" inRepository:repo error:&error];
 	GHAssertNotNil(head, [error localizedDescription]);
 	GTBranch *current = [GTBranch branchWithReference:head repository:repo];
 	GHAssertNotNil(current, [error localizedDescription]);

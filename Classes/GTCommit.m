@@ -40,7 +40,7 @@
 
 - (git_commit *)commit {
 	
-	return (git_commit *)self.object;
+	return (git_commit *)self.obj;
 }
 
 #pragma mark -
@@ -50,7 +50,7 @@
 @synthesize committer;
 @synthesize parents;
 
-+ (GTCommit *)commitInRepo:(GTRepository *)theRepo
++ (GTCommit *)commitInRepository:(GTRepository *)theRepo
 			updateRefNamed:(NSString *)refName
 					author:(GTSignature *)authorSig
 				 committer:(GTSignature *)committerSig
@@ -59,11 +59,11 @@
 				   parents:(NSArray *)theParents 
 					 error:(NSError **)error {
 	
-	NSString *sha = [GTCommit createCommitInRepo:theRepo updateRefNamed:refName author:authorSig committer:committerSig message:newMessage tree:theTree parents:theParents error:error];
-	return sha ? (GTCommit *)[theRepo lookupBySha:sha type:GTObjectTypeCommit error:error] : nil;
+	NSString *sha = [GTCommit shaByCreatingCommitInRepository:theRepo updateRefNamed:refName author:authorSig committer:committerSig message:newMessage tree:theTree parents:theParents error:error];
+	return sha ? (GTCommit *)[theRepo lookupObjectBySha:sha type:GTObjectTypeCommit error:error] : nil;
 }
 
-+ (NSString *)createCommitInRepo:(GTRepository *)theRepo
++ (NSString *)shaByCreatingCommitInRepository:(GTRepository *)theRepo
 				  updateRefNamed:(NSString *)refName
 						  author:(GTSignature *)authorSig
 					   committer:(GTSignature *)committerSig
@@ -83,8 +83,8 @@
 									   &oid, 
 									   theRepo.repo, 
 									   refName ? [NSString utf8StringForString:refName] : NULL, 
-									   authorSig.signature, 
-									   committerSig.signature, 
+									   authorSig.sig, 
+									   committerSig.sig, 
 									   [NSString utf8StringForString:newMessage], 
 									   theTree.tree, 
 									   count, 
@@ -103,7 +103,7 @@
 	return [NSString stringForUTF8String:s];
 }
 
-- (NSString *)messageShort {
+- (NSString *)shortMessage {
 	
 	const char *s = git_commit_message_short(self.commit);
 	return [NSString stringForUTF8String:s];
@@ -126,7 +126,7 @@
 	return result;
 }
 
-- (NSDate *)time {
+- (NSDate *)commitDate {
 	
 	time_t t = git_commit_time(self.commit);
 	return [NSDate dateWithTimeIntervalSince1970:t];
@@ -135,7 +135,7 @@
 - (GTSignature *)author {
 	
 	if(author == nil) {
-		author = [[GTSignature signatureWithSignature:(git_signature *)git_commit_author(self.commit)] retain];
+		author = [[GTSignature signatureWithSig:(git_signature *)git_commit_author(self.commit)] retain];
 	}
 	return author;
 }
@@ -143,7 +143,7 @@
 - (GTSignature *)committer {
 	
 	if(committer == nil) {
-		committer = [[GTSignature signatureWithSignature:(git_signature *)git_commit_committer(self.commit)] retain];
+		committer = [[GTSignature signatureWithSig:(git_signature *)git_commit_committer(self.commit)] retain];
 	}
 	return committer;
 }
@@ -158,7 +158,7 @@
 		GTLog("Failed to get tree with error code: %d", gitError);
 		return nil;
 	}
-	return (GTTree *)[GTObject objectInRepo:self.repo withObject:(git_object *)t];
+	return (GTTree *)[GTObject objectWithObj:(git_object *)t inRepository:self.repository];
 }
 
 - (NSArray *)parents {
@@ -169,7 +169,7 @@
 		// todo: do we care if a call to git_commit_parent fails?
 		git_commit *parent;
 		for(int i=0; git_commit_parent(&parent, self.commit, i) == GIT_SUCCESS; i++) {
-			[rents addObject:(GTCommit *)[GTObject objectInRepo:self.repo withObject:(git_object *)parent]];
+            [rents addObject:(GTCommit *)[GTObject objectWithObj:(git_object *)parent inRepository:self.repository]];
 		}
 		
 		parents = [[NSArray arrayWithArray:rents] retain];

@@ -48,7 +48,7 @@
 - (void)testCanReadBlobData {
 	
 	NSError *error = nil;
-	GTBlob *blob = (GTBlob *)[repo lookupBySha:sha error:&error];
+	GTBlob *blob = (GTBlob *)[repo lookupObjectBySha:sha error:&error];
 	GHAssertEquals(9, (int)blob.size, nil);
 	GHAssertEqualStrings(@"new file\n", blob.content, nil);
 	GHAssertEqualStrings(@"blob", blob.type, nil);
@@ -76,7 +76,7 @@
 - (void)testCanWriteNewBlobData {
 	
 	NSError *error = nil;
-	NSString *newSha = [GTBlob createInRepo:repo content:@"a new blob content" error:&error];
+	NSString *newSha = [GTBlob shaByCreatingBlobInRepository:repo content:@"a new blob content" error:&error];
 	GHAssertNotNil(newSha, [error localizedDescription]);
 	
 	rm_loose(newSha);
@@ -85,7 +85,7 @@
 - (void)testCanWriteNewBlobData2 {
 	
 	NSError *error = nil;
-	GTBlob *blob = [GTBlob blobInRepo:repo content:@"a new blob content" error:&error];
+	GTBlob *blob = [GTBlob blobInRepository:repo content:@"a new blob content" error:&error];
 	GHAssertNotNil(blob, [error localizedDescription]);
 	
 	rm_loose(blob.sha);
@@ -98,7 +98,7 @@
 	NSData *content = [NSData dataWithBytes:bytes length:sizeof(bytes)];
 	
 	
-	NSString *newSha = [GTBlob createInRepo:repo data:content error:&error];
+	NSString *newSha = [GTBlob shaByCreatingBlobInRepository:repo data:content error:&error];
 	GHAssertNotNil(newSha, [error localizedDescription]);
 	
 	rm_loose(newSha);

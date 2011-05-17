@@ -34,7 +34,7 @@
 	return [[[self alloc] initWithObject:object] autorelease];
 }
 
-- (NSString *)hash {
+- (NSString *)shaHash {
 	
 	return [GTLib convertOidToSha:git_odb_object_id(self.odbObject)];
 }

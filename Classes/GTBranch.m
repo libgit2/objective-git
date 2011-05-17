@@ -85,7 +85,7 @@
 - (id)initWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error {
 	
 	if((self = [super init])) {
-		self.reference = [GTReference referenceByLookingUpRef:branchName inRepo:repo error:error];
+		self.reference = [GTReference referenceByLookingUpReferencedNamed:branchName inRepository:repo error:error];
 		if(self.reference == nil) return nil;
 		
 		self.repository = repo;
@@ -112,7 +112,7 @@
 
 + (id)branchFromCurrentBranchInRepository:(GTRepository *)repo error:(NSError **)error {
 	
-	GTReference *head = [repo headAndReturnError:error];
+	GTReference *head = [repo headReference:error];
 	if (head == nil) return nil;
 	
 	return [self branchWithReference:head repository:repo];
@@ -125,9 +125,9 @@
 
 - (NSString *)shortName {
 	
-	if([self isLocal]) {
+	if([self branchType] == GTBranchTypeLocal) {
 		return [self.name stringByReplacingOccurrencesOfString:[[self class] localNamePrefix] withString:@""];
-	} else if([self isRemote]) {
+	} else if([self branchType] == GTBranchTypeRemote) {
 		// remote repos also have their remote in their name
 		NSString *remotePath = [[[self class] remoteNamePrefix] stringByAppendingFormat:[NSString stringWithFormat:@"%@/", [self remoteName]]];
 		return [self.name stringByReplacingOccurrencesOfString:remotePath withString:@""];
@@ -143,7 +143,7 @@
 
 - (NSString *)remoteName {
 	
-	if(![self isRemote]) {
+	if([self branchType] == GTBranchTypeLocal) {
 		return [self.remoteBranch remoteName];
 	}
 	
@@ -158,22 +158,22 @@
 
 - (GTCommit *)targetCommitAndReturnError:(NSError **)error {
 	
-    return (GTCommit *)[self.repository lookupBySha:self.sha error:error];
+    return (GTCommit *)[self.repository lookupObjectBySha:self.sha error:error];
 }
 
-+ (NSArray *)listAllLocalBranchesInRepository:(GTRepository *)repo error:(NSError **)error {
++ (NSArray *)branchesInRepository:(GTRepository *)repo error:(NSError **)error {
 	
-    return [self listAllBranchesInRepository:repo withPrefix:[self localNamePrefix] error:error];
+    return [self branchesInRepository:repo withPrefix:[self localNamePrefix] error:error];
 }
 
-+ (NSArray *)listAllRemoteBranchesInRepository:(GTRepository *)repo error:(NSError **)error {
++ (NSArray *)remoteBranchesInRepository:(GTRepository *)repo error:(NSError **)error {
 	
 	static NSArray *unwantedRemoteBranches = nil;
 	if(unwantedRemoteBranches == nil) {
 		unwantedRemoteBranches = [NSArray arrayWithObjects:@"HEAD", nil];
 	}
 	
-	NSArray *remoteBranches = [self listAllBranchesInRepository:repo withPrefix:[self remoteNamePrefix] error:error];
+	NSArray *remoteBranches = [self branchesInRepository:repo withPrefix:[self remoteNamePrefix] error:error];
 	if(remoteBranches == nil) return nil;
 	
 	NSMutableArray *filteredList = [NSMutableArray arrayWithCapacity:remoteBranches.count];
@@ -186,9 +186,9 @@
 	return filteredList;
 }
 
-+ (NSArray *)listAllBranchesInRepository:(GTRepository *)repo withPrefix:(NSString *)prefix error:(NSError **)error {
++ (NSArray *)branchesInRepository:(GTRepository *)repo withPrefix:(NSString *)prefix error:(NSError **)error {
 	
-	NSArray *references = [GTReference listAllReferenceNamesInRepo:repo error:error];
+	NSArray *references = [GTReference referenceNamesInRepository:repo error:error];
     if(references == nil) return nil;
 	
     NSMutableArray *branches = [NSMutableArray array];
@@ -202,24 +202,23 @@
     return branches;
 }
 
-- (NSInteger)numberOfCommitsAndReturnError:(NSError **)error {
+- (NSInteger)numberOfCommitsWithError:(NSError **)error {
 	
 	return [self.repository.walker countFromSha:self.sha error:error];
 }
 
-- (BOOL)isRemote {
-	return [self.name hasPrefix:[[self class] remoteNamePrefix]];
-}
-
-- (BOOL)isLocal {
-	return [self.name hasPrefix:[[self class] localNamePrefix]];
+- (GTBranchType)branchType {
+    if ([self.name hasPrefix:[[self class] remoteNamePrefix]]) {
+        return GTBranchTypeRemote;
+    }
+    return GTBranchTypeLocal;
 }
 
 - (GTBranch *)remoteBranch {
 	
 	if(remoteBranch != nil) {
 		return remoteBranch;
-	} else if([self isRemote]) {
+	} else if([self branchType] == GTBranchTypeRemote) {
 		return self;
 	}
 	

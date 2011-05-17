@@ -34,8 +34,8 @@
 
 @property (nonatomic, assign) git_index_entry *entry;
 @property (nonatomic, assign) NSString *path;
-@property (nonatomic, assign) NSDate *mTime;
-@property (nonatomic, assign) NSDate *cTime;
+@property (nonatomic, assign) NSDate *modificationDate;
+@property (nonatomic, assign) NSDate *creationDate;
 @property (nonatomic, assign) long long fileSize;
 @property (nonatomic, assign) NSUInteger dev;
 @property (nonatomic, assign) NSUInteger ino;

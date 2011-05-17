@@ -16,7 +16,7 @@
 - (id)initWithObject:(git_odb_object *)object;
 + (id)objectWithObject:(git_odb_object *)object;
 
-- (NSString *)hash;
+- (NSString *)shaHash;
 - (GTObjectType)type;
 - (NSUInteger)length;
 - (NSData *)data;

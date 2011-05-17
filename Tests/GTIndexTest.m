@@ -44,7 +44,7 @@
 	
 	NSError *error = nil;
 	index = [GTIndex indexWithPath:[NSURL fileURLWithPath:TEST_INDEX_PATH()] error:&error];
-	BOOL success = [index refreshAndReturnError:&error];
+	BOOL success = [index refreshWithError:&error];
 	GHAssertTrue(success, [error localizedDescription]);
 }
 
@@ -66,8 +66,8 @@
 	GHAssertNotNil(e, nil);
 	GHAssertEqualStrings(@"README", e.path, nil);
 	GHAssertEqualStrings(@"1385f264afb75a56a5bec74243be9b367ba4ca08", e.sha, nil);
-	GHAssertEquals(1273360380, (int)[e.mTime timeIntervalSince1970], nil);
-	GHAssertEquals(1273360380, (int)[e.cTime timeIntervalSince1970], nil);
+	GHAssertEquals(1273360380, (int)[e.modificationDate timeIntervalSince1970], nil);
+	GHAssertEquals(1273360380, (int)[e.creationDate timeIntervalSince1970], nil);
 	GHAssertEquals((long long)4, e.fileSize, nil);
 	GHAssertEquals((NSUInteger)234881026, e.dev, nil);
 	GHAssertEquals((NSUInteger)6674088, e.ino, nil);
@@ -91,8 +91,8 @@
 	e.path = @"new_path";
 	BOOL success = [e setSha:@"d385f264afb75a56a5bec74243be9b367ba4ca08" error:&error];
 	GHAssertTrue(success, [error localizedDescription]);
-	e.mTime = now;
-	e.cTime = now;
+	e.modificationDate = now;
+	e.creationDate = now;
 	e.fileSize = 1000;
 	e.dev = 234881027;
 	e.ino = 88888;
@@ -128,8 +128,8 @@
 	e.path = @"new_path";
 	BOOL success = [e setSha:@"12ea3153a78002a988bb92f4123e7e831fd1138a" error:&error];
 	GHAssertTrue(success, [error localizedDescription]);
-	e.mTime = now;
-	e.cTime = now;
+	e.modificationDate = now;
+	e.creationDate = now;
 	e.fileSize = 1000;
 	e.dev = 234881027;
 	e.ino = 88888;
@@ -140,8 +140,8 @@
 	
 	GHAssertEqualStrings(@"new_path", e.path, nil);
 	GHAssertEqualStrings(@"12ea3153a78002a988bb92f4123e7e831fd1138a", e.sha, nil);
-	GHAssertEquals((int)[now timeIntervalSince1970], (int)[e.mTime timeIntervalSince1970], nil);
-	GHAssertEquals((int)[now timeIntervalSince1970], (int)[e.cTime timeIntervalSince1970], nil);
+	GHAssertEquals((int)[now timeIntervalSince1970], (int)[e.modificationDate timeIntervalSince1970], nil);
+	GHAssertEquals((int)[now timeIntervalSince1970], (int)[e.creationDate timeIntervalSince1970], nil);
 	GHAssertEquals((long long)1000, e.fileSize, nil);
 	GHAssertEquals((NSUInteger)234881027, e.dev, nil);
 	GHAssertEquals((NSUInteger)88888, e.ino, nil);
@@ -179,7 +179,7 @@
 	
 	wIndex = [GTIndex indexWithPath:tempPath error:&error];
 	GHAssertNil(error, [error localizedDescription]);
-	BOOL success = [wIndex refreshAndReturnError:&error];
+	BOOL success = [wIndex refreshWithError:&error];
 	GHAssertTrue(success, [error localizedDescription]);
 }
 
@@ -194,12 +194,12 @@
 	e.path = @"else.txt";
 	success = [wIndex addEntry:e error:&error];
 	GHAssertTrue(success, [error localizedDescription]);
-	success = [wIndex writeAndReturnError:&error];
+	success = [wIndex writeWithError:&error];
 	GHAssertTrue(success, [error localizedDescription]);
 	
 	GTIndex *index2 = [GTIndex indexWithPath:tempPath error:&error];
 	GHAssertNil(error, [error localizedDescription]);
-	success = [index2 refreshAndReturnError:&error];
+	success = [index2 refreshWithError:&error];
 	GHAssertTrue(success, [error localizedDescription]);
 	GHAssertEquals(4, (int)[index2 entryCount], nil);
 }

@@ -62,7 +62,7 @@
 	NSError *error = nil;
 	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
 	GHAssertNil(error, [error localizedDescription]);
-	GTReference *head = [repo headAndReturnError:&error];
+	GTReference *head = [repo headReference:&error];
 	GHAssertNil(error, [error localizedDescription]);
 				
 	__block int count = 0;

@@ -53,7 +53,7 @@
 	
 	git_repository_free(self.repo);
 	self.fileUrl = nil;
-	self.walker.repo = nil;
+	self.walker.repository = nil;
 	self.walker = nil;
 	self.index = nil;
 	[super dealloc];
@@ -160,7 +160,7 @@
 }
 
 
-- (GTObject *)lookupByOid:(git_oid *)oid type:(GTObjectType)type error:(NSError **)error {
+- (GTObject *)lookupObjectByOid:(git_oid *)oid type:(GTObjectType)type error:(NSError **)error {
 	
 	git_object *obj;
 	
@@ -171,15 +171,15 @@
 		return nil;
 	}
 	
-	return [GTObject objectInRepo:self withObject:obj];
+    return [GTObject objectWithObj:obj inRepository:self];
 }
 
-- (GTObject *)lookupByOid:(git_oid *)oid error:(NSError **)error {
+- (GTObject *)lookupObjectByOid:(git_oid *)oid error:(NSError **)error {
 	
-	return [self lookupByOid:oid type:GTObjectTypeAny error:error];
+	return [self lookupObjectByOid:oid type:GTObjectTypeAny error:error];
 }
 
-- (GTObject *)lookupBySha:(NSString *)sha type:(GTObjectType)type error:(NSError **)error {
+- (GTObject *)lookupObjectBySha:(NSString *)sha type:(GTObjectType)type error:(NSError **)error {
 	
 	git_oid oid;
 	
@@ -190,12 +190,12 @@
 		return nil;
 	}
 	
-	return [self lookupByOid:&oid type:type error:error];
+	return [self lookupObjectByOid:&oid type:type error:error];
 }
 
-- (GTObject *)lookupBySha:(NSString *)sha error:(NSError **)error {
+- (GTObject *)lookupObjectBySha:(NSString *)sha error:(NSError **)error {
 	
-	return [self lookupBySha:sha type:GTObjectTypeAny error:error];
+	return [self lookupObjectBySha:sha type:GTObjectTypeAny error:error];
 }
 
 - (BOOL)exists:(NSString *)sha error:(NSError **)error {
@@ -291,7 +291,7 @@
 	}
 
 	if(sha == nil) {
-		GTReference *head = [self headAndReturnError:error];
+		GTReference *head = [self headReference:error];
 		if(head == nil) return NO;
 		sha = head.target;
 	}
@@ -332,7 +332,7 @@
 	}
 }
 
-- (BOOL)setupIndexAndReturnError:(NSError **)error {
+- (BOOL)setupIndex:(NSError **)error {
 	
 	git_index *i;
 	int gitError = git_repository_index(&i, self.repo);
@@ -342,34 +342,34 @@
 		return NO;
 	}
 	else {
-		self.index = [GTIndex indexWithIndex:i];
+		self.index = [GTIndex indexWithGitIndex:i];
 		return YES;
 	}
 }
 
-- (GTReference *)headAndReturnError:(NSError **)error {
+- (GTReference *)headReference:(NSError **)error {
 	
-	GTReference *headSymRef = [GTReference referenceByLookingUpRef:@"HEAD" inRepo:self error:error];
+	GTReference *headSymRef = [GTReference referenceByLookingUpReferencedNamed:@"HEAD" inRepository:self error:error];
 	if(headSymRef == nil) return nil;
 	
-	return [GTReference referenceByResolvingRef:headSymRef error:error];
+	return [GTReference referenceByResolvingSymbolicReference:headSymRef error:error];
 }
 
-- (NSArray *)listReferenceNamesOfTypes:(GTReferenceTypes)types error:(NSError **)error {
+- (NSArray *)allReferenceNamesOfTypes:(GTReferenceTypes)types error:(NSError **)error {
 	
-	return [GTReference listReferenceNamesInRepo:self types:types error:error];
+	return [GTReference referenceNamesInRepository:self types:types error:error];
 }
 
-- (NSArray *)listAllReferenceNamesAndReturnError:(NSError **)error {
+- (NSArray *)allReferenceNames:(NSError **)error {
 	
-	return [GTReference listAllReferenceNamesInRepo:self error:error];
+	return [GTReference referenceNamesInRepository:self error:error];
 }
 
-- (NSArray *)listAllBranchesAndReturnError:(NSError **)error {
+- (NSArray *)allBranches:(NSError **)error {
     
 	NSMutableArray *allBranches = [NSMutableArray array];
-	NSArray *localBranches = [GTBranch listAllLocalBranchesInRepository:self error:error];
-	NSArray *remoteBranches = [GTBranch listAllRemoteBranchesInRepository:self error:error];
+	NSArray *localBranches = [GTBranch branchesInRepository:self error:error];
+	NSArray *remoteBranches = [GTBranch remoteBranchesInRepository:self error:error];
 	if(localBranches == nil || remoteBranches == nil) return nil;
 	
 	[allBranches addObjectsFromArray:localBranches];
@@ -392,22 +392,26 @@
     return allBranches;
 }
 
-- (NSInteger)numberOfCommitsInCurrentBranchAndReturnError:(NSError **)error {
+- (NSInteger)numberOfCommitsInCurrentBranch:(NSError **)error {
 	
-	GTReference *head = [self headAndReturnError:error];
+	GTReference *head = [self headReference:error];
 	if(head == nil) return NSNotFound;
 	
 	return [self.walker countFromSha:head.target error:error];
 }
 
-- (GTBranch *)createBranchFrom:(GTReference *)ref named:(NSString *)name error:(NSError **)error {
+- (GTBranch *)createBranchNamed:(NSString *)name fromReference:(GTReference *)ref error:(NSError **)error {
 	
-	GTReference *newRef = [GTReference referenceByCreatingRef:[NSString stringWithFormat:@"%@%@", [GTBranch localNamePrefix], name] fromRef:[ref target] inRepo:self error:error];
+	GTReference *newRef = [GTReference referenceByCreatingReferenceNamed:[NSString stringWithFormat:@"%@%@", [GTBranch localNamePrefix], name] fromReferenceTarget:[ref target] inRepository:self error:error];
 	return [GTBranch branchWithReference:newRef repository:self];
 }
 
 - (BOOL)isEmpty {
 	return git_repository_is_empty(self.repo);
+}
+
+- (GTRepository *)repository {
+    return self;
 }
 
 @end
