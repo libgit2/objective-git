@@ -117,5 +117,12 @@
 //
 // returns whether this repository is empty
 - (BOOL)isEmpty;
+
+// Find the commits that are on our local branch but not on the remote branch.
+//
+// error(out) - will be filled if an error occurs
+//
+// returns the local commits, an empty array if there is no remote branch, or nil if an error occurred
+- (NSArray *)localCommitsWithError:(NSError **)error;
 	
 @end

@@ -415,7 +415,49 @@
 	GTReference *head = [self headReferenceWithError:error];
 	if (head == nil) return nil;
 	
+	// TODO: we should set its remoteBranch property
+	
 	return [GTBranch branchWithReference:head repository:self];
+}
+
+- (NSArray *)localCommitsWithError:(NSError **)error {
+	
+	GTBranch *localBranch = [self currentBranchWithError:error];
+	if(localBranch == nil) {
+		return nil;
+	}
+	
+	GTBranch *remoteBranch = localBranch.remoteBranch;
+	if(remoteBranch == nil) {
+		return [NSArray array];
+	}
+	
+	GTWalker *localBranchWalker = [GTWalker walkerWithRepository:self error:error];
+	if(localBranchWalker == nil) {
+		return nil;
+	}
+	
+	[localBranchWalker setSortingOptions:GTWalkerOptionsTopologicalSort];
+	
+	BOOL success = [localBranchWalker push:localBranch.sha error:error];
+	if(!success) {
+		return nil;
+	}
+	
+	NSString *remoteBranchTip = remoteBranch.sha;
+	NSMutableArray *commits = [NSMutableArray array];
+	GTCommit *currentCommit = [localBranchWalker next];
+	while(currentCommit != nil) {
+		if([currentCommit.sha isEqualToString:remoteBranchTip]) {
+			break;
+		}
+		
+		[commits addObject:currentCommit];
+		
+		currentCommit = [localBranchWalker next];
+	}
+	
+	return commits;
 }
 
 - (GTRepository *)repository {
