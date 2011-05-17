@@ -83,7 +83,7 @@
 - (NSString *)path {
 	
 	if(self.entry->path == NULL)return nil;
-	return [NSString git_stringWithUTF8String:self.entry->path];
+	return [NSString stringWithUTF8String:self.entry->path];
 }
 - (void)setPath:(NSString *)thePath {
 	

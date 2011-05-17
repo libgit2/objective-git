@@ -111,7 +111,7 @@
 	NSInteger s = [self size];
 	if(s == 0) return @"";
 	
-	return [NSString git_stringWithUTF8String:git_blob_rawcontent(self.blob)];
+	return [NSString stringWithUTF8String:git_blob_rawcontent(self.blob)];
 }
 
 - (NSData *)data {

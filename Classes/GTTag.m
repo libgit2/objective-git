@@ -69,12 +69,12 @@
 
 - (NSString *)message {
 	
-	return [NSString git_stringWithUTF8String:git_tag_message(self.tag)];
+	return [NSString stringWithUTF8String:git_tag_message(self.tag)];
 }
 
 - (NSString *)name {
 	
-	return [NSString git_stringWithUTF8String:git_tag_name(self.tag)];
+	return [NSString stringWithUTF8String:git_tag_name(self.tag)];
 }
 
 - (GTObject *)target {
@@ -88,7 +88,7 @@
 
 - (NSString *)targetType {
 	
-	return [NSString git_stringWithUTF8String:git_object_type2string(git_tag_type(self.tag))];
+	return [NSString stringWithUTF8String:git_object_type2string(git_tag_type(self.tag))];
 }
 
 - (GTSignature *)tagger {

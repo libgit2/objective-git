@@ -105,7 +105,7 @@ static NSString * const GTTagClassName = @"GTTag";
 
 - (NSString *)type {
 	
-	return [NSString git_stringWithUTF8String:git_object_type2string(git_object_type(self.obj))];
+	return [NSString stringWithUTF8String:git_object_type2string(git_object_type(self.obj))];
 }
 
 - (NSString *)sha {

@@ -77,7 +77,7 @@
 
 - (NSString *)name {
 	
-	return [NSString git_stringWithUTF8String:self.sig->name];
+	return [NSString stringWithUTF8String:self.sig->name];
 }
 - (void)setName:(NSString *)n {
 	
@@ -87,7 +87,7 @@
 
 - (NSString *)email {
 	
-	return [NSString git_stringWithUTF8String:self.sig->email];
+	return [NSString stringWithUTF8String:self.sig->email];
 }
 - (void)setEmail:(NSString *)e {
 	

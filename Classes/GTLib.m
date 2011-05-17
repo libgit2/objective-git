@@ -64,7 +64,7 @@
 	char hex[41];
 	git_oid_fmt(hex, oid);
 	hex[40] = 0;
-	return [NSString git_stringWithUTF8String:hex];
+	return [NSString stringWithUTF8String:hex];
 }
 
 + (BOOL)convertSha:(NSString *)sha toOid:(git_oid *)oid error:(NSError **)error {
