@@ -38,6 +38,10 @@
 
 @implementation GTCommit
 
+- (NSString *)description {
+	return [NSString stringWithFormat:@"<%@: %p> author: %@, shortMessage: %@, message: %@", NSStringFromClass([self class]), self, self.author, [self shortMessage], [self message]];
+}
+
 - (git_commit *)commit {
 	
 	return (git_commit *)self.obj;
