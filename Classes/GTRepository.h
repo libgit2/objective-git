@@ -97,10 +97,25 @@
 // returns number of commits in the current branch or NSNotFound if an error occurred
 - (NSInteger)numberOfCommitsInCurrentBranch:(NSError **)error;
 
+// Create a new branch with this name and based off this reference.
+//
+// name - the name for the new branch
+// ref - the reference to create the new branch off
+// error(out) - will be filled if an error occurs
+//
+// returns the new branch or nil if an error occurred.
 - (GTBranch *)createBranchNamed:(NSString *)name fromReference:(GTReference *)ref error:(NSError **)error;
 
+// Get the current branch.
+//
+// error(out) - will be filled if an error occurs
+//
+// returns the current branch or nil if an error occurred.
 - (GTBranch *)currentBranchWithError:(NSError **)error;
 
+// Is this repository empty? This will only be the case in a freshly `git init`'d repository.
+//
+// returns whether this repository is empty
 - (BOOL)isEmpty;
 	
 @end
