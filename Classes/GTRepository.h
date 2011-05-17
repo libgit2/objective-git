@@ -81,7 +81,7 @@
 
 - (BOOL)setupIndex:(NSError **)error;
 
-- (GTReference *)headReference:(NSError **)error;
+- (GTReference *)headReferenceWithError:(NSError **)error;
 
 // Convenience methods to return references in this repository (see GTReference.h)
 - (NSArray *)allReferenceNamesOfTypes:(GTReferenceTypes)types error:(NSError **)error;

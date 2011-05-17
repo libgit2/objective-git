@@ -49,7 +49,7 @@
 - (void)testCanCountCommitsInBranch {
 	
     NSError *error = nil;
-	GTReference *head = [repo headReference:&error];
+	GTReference *head = [repo headReferenceWithError:&error];
 	GHAssertNotNil(head, [error localizedDescription]);
 	GTBranch *master = [GTBranch branchWithReference:head repository:repo];
 	GHAssertNotNil(master, [error localizedDescription]);

@@ -205,7 +205,7 @@
 - (void)testLookupHead {
 	
 	NSError *error = nil;
-	GTReference *head = [repo headReference:&error];
+	GTReference *head = [repo headReferenceWithError:&error];
 	GHAssertNil(error, [error localizedDescription]);
 	GHAssertEqualStrings(head.target, @"36060c58702ed4c2a40832c51758d5344201d89a", nil);
 	GHAssertEqualStrings(head.type, @"commit", nil);

@@ -291,7 +291,7 @@
 	}
 
 	if(sha == nil) {
-		GTReference *head = [self headReference:error];
+		GTReference *head = [self headReferenceWithError:error];
 		if(head == nil) return NO;
 		sha = head.target;
 	}
@@ -347,7 +347,7 @@
 	}
 }
 
-- (GTReference *)headReference:(NSError **)error {
+- (GTReference *)headReferenceWithError:(NSError **)error {
 	
 	GTReference *headSymRef = [GTReference referenceByLookingUpReferencedNamed:@"HEAD" inRepository:self error:error];
 	if(headSymRef == nil) return nil;
@@ -394,7 +394,7 @@
 
 - (NSInteger)numberOfCommitsInCurrentBranch:(NSError **)error {
 	
-	GTReference *head = [self headReference:error];
+	GTReference *head = [self headReferenceWithError:error];
 	if(head == nil) return NSNotFound;
 	
 	return [self.walker countFromSha:head.target error:error];

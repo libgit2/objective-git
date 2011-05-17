@@ -112,7 +112,7 @@
 
 + (id)branchFromCurrentBranchInRepository:(GTRepository *)repo error:(NSError **)error {
 	
-	GTReference *head = [repo headReference:error];
+	GTReference *head = [repo headReferenceWithError:error];
 	if (head == nil) return nil;
 	
 	return [self branchWithReference:head repository:repo];
