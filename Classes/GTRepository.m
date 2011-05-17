@@ -415,9 +415,17 @@
 	GTReference *head = [self headReferenceWithError:error];
 	if (head == nil) return nil;
 	
-	// TODO: we should set its remoteBranch property
+	GTBranch *currentBranch = [GTBranch branchWithReference:head repository:self];
 	
-	return [GTBranch branchWithReference:head repository:self];
+	NSArray *remoteBranches = [GTBranch remoteBranchesInRepository:self error:error];
+	for(GTBranch *branch in remoteBranches) {
+		if([branch.shortName isEqualToString:currentBranch.shortName]) {
+			currentBranch.remoteBranch = branch;
+			break;
+		}
+	}
+	
+	return currentBranch;
 }
 
 - (NSArray *)localCommitsWithError:(NSError **)error {
