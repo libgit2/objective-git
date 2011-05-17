@@ -35,17 +35,7 @@
 
 - (NSString *)description {
 	
-	return [NSString stringWithFormat:@"\
-			\n\t %@						\
-			\n\t name = %@				\
-			\n\t email = %@				\
-			\n\t time = %@				\
-			",
-			NSStringFromClass([self class]),
-			self.name,
-			self.email,
-			self.time
-			];
+	return [NSString stringWithFormat:@"<%@: %p> name: %@, email: %@, time: %@", NSStringFromClass([self class]), self, self.name, self.email, self.time];
 }
 
 #pragma mark -
