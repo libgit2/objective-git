@@ -31,7 +31,6 @@
 #import "GTSignature.h"
 #import "GTTree.h"
 #import "GTLib.h"
-#import "NSString+Git.h"
 #import "NSError+Git.h"
 #import "GTRepository.h"
 

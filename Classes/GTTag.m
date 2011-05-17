@@ -28,7 +28,6 @@
 //
 
 #import "GTTag.h"
-#import "NSString+Git.h"
 #import "NSError+Git.h"
 #import "GTSignature.h"
 #import "GTReference.h"

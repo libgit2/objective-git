@@ -32,7 +32,6 @@
 #import "GTOdbObject.h"
 #import "GTLib.h"
 #import "NSError+Git.h"
-#import "NSString+Git.h"
 #import "GTRepository.h"
 
 

@@ -28,7 +28,6 @@
 //
 
 #import "GTSignature.h"
-#import "NSString+Git.h"
 
 
 @implementation GTSignature

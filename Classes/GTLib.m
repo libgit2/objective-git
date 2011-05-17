@@ -29,7 +29,6 @@
 
 #import <git2.h>
 #import "GTLib.h"
-#import "NSString+Git.h"
 #import "NSError+Git.h"
 
 

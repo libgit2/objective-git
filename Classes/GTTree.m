@@ -30,7 +30,6 @@
 #import "GTTree.h"
 #import "GTTreeEntry.h"
 #import "GTLib.h"
-#import "NSString+Git.h"
 #import "NSError+Git.h"
 
 

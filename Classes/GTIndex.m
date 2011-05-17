@@ -29,7 +29,6 @@
 
 #import "GTIndex.h"
 #import "GTIndexEntry.h"
-#import "NSString+Git.h"
 #import "NSError+Git.h"
 
 

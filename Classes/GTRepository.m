@@ -37,7 +37,6 @@
 #import "GTBranch.h"
 #import "GTTag.h"
 #import "NSError+Git.h"
-#import "NSString+Git.h"
 
 
 @interface GTRepository ()

@@ -28,7 +28,6 @@
 //
 
 #import "GTBlob.h"
-#import "NSString+Git.h"
 #import "NSError+Git.h"
 #import "GTRepository.h"
 #import "GTLib.h"
