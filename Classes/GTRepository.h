@@ -99,6 +99,8 @@
 
 - (GTBranch *)createBranchNamed:(NSString *)name fromReference:(GTReference *)ref error:(NSError **)error;
 
+- (GTBranch *)currentBranchWithError:(NSError **)error;
+
 - (BOOL)isEmpty;
 	
 @end

@@ -410,6 +410,14 @@
 	return git_repository_is_empty(self.repo);
 }
 
+- (GTBranch *)currentBranchWithError:(NSError **)error {
+	
+	GTReference *head = [self headReferenceWithError:error];
+	if (head == nil) return nil;
+	
+	return [GTBranch branchWithReference:head repository:self];
+}
+
 - (GTRepository *)repository {
     return self;
 }

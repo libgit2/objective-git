@@ -110,14 +110,6 @@
 	return [[[self alloc] initWithReference:ref repository:repo] autorelease];
 }
 
-+ (id)branchFromCurrentBranchInRepository:(GTRepository *)repo error:(NSError **)error {
-	
-	GTReference *head = [repo headReferenceWithError:error];
-	if (head == nil) return nil;
-	
-	return [self branchWithReference:head repository:repo];
-}
-
 - (NSString *)name {
 	
 	return self.reference.name;

@@ -55,8 +55,6 @@ typedef enum {
 - (id)initWithReference:(GTReference *)ref repository:(GTRepository *)repo;
 + (id)branchWithReference:(GTReference *)ref repository:(GTRepository *)repo;
 
-+ (id)branchFromCurrentBranchInRepository:(GTRepository *)repo error:(NSError **)error;
-
 // Get the target commit for this branch
 // 
 // error(out) - will be filled if an error occurs
