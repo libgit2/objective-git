@@ -70,7 +70,7 @@
 
 - (NSString *)name {
 	
-	return [NSString stringForUTF8String:git_tree_entry_name(self.entry)];
+	return [NSString git_stringWithUTF8String:git_tree_entry_name(self.entry)];
 }
 
 - (NSInteger)attributes {

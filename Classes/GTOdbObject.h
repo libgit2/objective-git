@@ -13,8 +13,8 @@
 
 @property (nonatomic, assign, readonly) git_odb_object *odbObject;
 
-- (id)initWithObject:(git_odb_object *)object;
-+ (id)objectWithObject:(git_odb_object *)object;
+- (id)initWithOdbObj:(git_odb_object *)object;
++ (id)objectWithOdbObj:(git_odb_object *)object;
 
 - (NSString *)shaHash;
 - (GTObjectType)type;

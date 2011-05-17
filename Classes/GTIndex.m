@@ -54,7 +54,7 @@
 	if((self = [super init])) {
 		self.path = localFileUrl;
 		git_index *i;
-		int gitError = git_index_open_bare(&i, [NSString utf8StringForString:[self.path path]]);
+		int gitError = git_index_open_bare(&i, [[self.path path] UTF8String]);
 		if(gitError != GIT_SUCCESS) {
 			if(error != NULL)
 				*error = [NSError gitErrorForInitIndex:gitError];
@@ -109,7 +109,7 @@
 
 - (GTIndexEntry *)getEntryWithName:(NSString *)name {
 	
-	int i = git_index_find(self.index, [NSString utf8StringForString:name]);
+	int i = git_index_find(self.index, [name UTF8String]);
 	return [GTIndexEntry indexEntryWithEntry:git_index_get(self.index, i)];
 }
 
@@ -126,7 +126,7 @@
 
 - (BOOL)addFile:(NSString *)file error:(NSError **)error {
 	
-	int gitError = git_index_add(self.index, [NSString utf8StringForString:file], 0);
+	int gitError = git_index_add(self.index, [file UTF8String], 0);
 	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError gitErrorForAddEntryToIndex:gitError];

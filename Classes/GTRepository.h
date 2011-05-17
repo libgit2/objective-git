@@ -45,12 +45,9 @@
 @property (nonatomic, retain, readonly) GTWalker *walker;
 @property (nonatomic, retain, readonly) GTIndex *index;
 
-// Convenience initializers
-- (id)initByOpeningRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error;
-+ (id)repoByOpeningRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error;
-
-- (id)initByCreatingRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error;
-+ (id)repoByCreatingRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error;
+// Initializer
+- (id)initWithDirectoryURL:(NSURL *)localFileUrl createIfNeeded:(BOOL)create error:(NSError **)error;
++ (id)repositoryWithDirectoryURL:(NSURL *)localFileUrl createIfNeeded:(BOOL)create error:(NSError **)error;
 
 // Helper for getting the sha1 has of a raw object
 //
@@ -61,10 +58,10 @@
 + (NSString *)hash:(NSString *)data type:(GTObjectType)type error:(NSError **)error;
 
 // Lookup objects in the repo by oid or sha1
-- (GTObject *)lookupObjectByOid:(git_oid *)oid type:(GTObjectType)type error:(NSError **)error;
-- (GTObject *)lookupObjectByOid:(git_oid *)oid error:(NSError **)error;
-- (GTObject *)lookupObjectBySha:(NSString *)sha type:(GTObjectType)type error:(NSError **)error;
-- (GTObject *)lookupObjectBySha:(NSString *)sha error:(NSError **)error;
+- (GTObject *)fetchObjectWithOid:(git_oid *)oid type:(GTObjectType)type error:(NSError **)error;
+- (GTObject *)fetchObjectWithOid:(git_oid *)oid error:(NSError **)error;
+- (GTObject *)fetchObjectWithSha:(NSString *)sha type:(GTObjectType)type error:(NSError **)error;
+- (GTObject *)fetchObjectWithSha:(NSString *)sha error:(NSError **)error;
 
 // Check to see if objects exist in the repo
 - (BOOL)exists:(NSString *)sha error:(NSError **)error;

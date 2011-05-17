@@ -41,7 +41,7 @@
 + (NSData *)hexToRaw:(NSString *)hex error:(NSError **)error {
 	
 	git_oid oid;
-	int gitError = git_oid_mkstr(&oid, [NSString utf8StringForString:hex]);
+	int gitError = git_oid_mkstr(&oid, [hex UTF8String]);
 	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError gitErrorForMkStr:gitError];
@@ -64,12 +64,12 @@
 	char hex[41];
 	git_oid_fmt(hex, oid);
 	hex[40] = 0;
-	return [NSString stringForUTF8String:hex];
+	return [NSString git_stringWithUTF8String:hex];
 }
 
 + (BOOL)convertSha:(NSString *)sha toOid:(git_oid *)oid error:(NSError **)error {
 	
-	int gitError = git_oid_mkstr(oid, [NSString utf8StringForString:sha]);
+	int gitError = git_oid_mkstr(oid, [sha UTF8String]);
 	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError gitErrorForMkStr:gitError];

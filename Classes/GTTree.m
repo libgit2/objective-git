@@ -61,7 +61,7 @@
 
 - (GTTreeEntry *)entryWithName:(NSString *)name {
 	
-	return [self createEntryWithEntry:git_tree_entry_byname(self.tree, [NSString utf8StringForString:name])];
+	return [self createEntryWithEntry:git_tree_entry_byname(self.tree, [name UTF8String])];
 }
 
 /*
@@ -73,7 +73,7 @@
 	BOOL success = [GTLib convertSha:sha toOid:&oid error:error];
 	if(!success) return nil;
 	
-	int gitError = git_tree_add_entry(&newEntry, self.tree, &oid, [NSString utf8StringForString:filename], (int)mode);
+	int gitError = git_tree_add_entry(&newEntry, self.tree, &oid, [filename UTF8String], (int)mode);
 	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError gitErrorForAddTreeEntry:gitError];

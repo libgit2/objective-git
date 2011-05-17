@@ -43,9 +43,9 @@
 - (void)setUp {
 	
 	NSError *error = nil;
-	repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
+	repo = [GTRepository repositoryWithDirectoryURL:[NSURL fileURLWithPath:TEST_REPO_PATH()] createIfNeeded:NO error:&error];
 	sha = @"c4dc1555e4d4fa0e0c9c3fc46734c7c35b3ce90b";
-	tree = (GTTree *)[repo lookupObjectBySha:sha error:&error];
+	tree = (GTTree *)[repo fetchObjectWithSha:sha error:&error];
 }
 
 - (void)testCanReadTreeData {

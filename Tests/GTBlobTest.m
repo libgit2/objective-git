@@ -41,14 +41,14 @@
 - (void)setUp {
 	
 	NSError *error = nil;
-	repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
+	repo = [GTRepository repositoryWithDirectoryURL:[NSURL fileURLWithPath:TEST_REPO_PATH()] createIfNeeded:NO error:&error];
 	sha = @"fa49b077972391ad58037050f2a75f74e3671e92";
 }
 
 - (void)testCanReadBlobData {
 	
 	NSError *error = nil;
-	GTBlob *blob = (GTBlob *)[repo lookupObjectBySha:sha error:&error];
+	GTBlob *blob = (GTBlob *)[repo fetchObjectWithSha:sha error:&error];
 	GHAssertEquals(9, (int)blob.size, nil);
 	GHAssertEqualStrings(@"new file\n", blob.content, nil);
 	GHAssertEqualStrings(@"blob", blob.type, nil);

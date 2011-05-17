@@ -150,7 +150,7 @@
 
 - (GTCommit *)targetCommitAndReturnError:(NSError **)error {
 	
-    return (GTCommit *)[self.repository lookupObjectBySha:self.sha error:error];
+    return (GTCommit *)[self.repository fetchObjectWithSha:self.sha error:error];
 }
 
 + (NSArray *)branchesInRepository:(GTRepository *)repo error:(NSError **)error {

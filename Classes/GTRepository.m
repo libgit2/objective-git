@@ -82,74 +82,60 @@
 @synthesize walker;
 @synthesize index;
 
-- (id)initByOpeningRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error {
-	
-	if((self = [super init])) {
-		
-		self.fileUrl = localFileUrl;
-		
-		//GTLog("Opening repository in directory: %@", localFileUrl);
-		
-		const char *path;
-		if([[localFileUrl path] hasSuffix:@".git"] && [GTRepository isAGitDirectory:localFileUrl]) {
-            path = [NSString utf8StringForString:[localFileUrl path]];
-		}
-		else {
-			path = [NSString utf8StringForString:[[localFileUrl URLByAppendingPathComponent:@".git"] path]];
-		}
-		
+- (id)initWithDirectoryURL:(NSURL *)localFileUrl createIfNeeded:(BOOL)create error:(NSError **)error {
+    if ((self = [super init])) {
+        const char *path = [[localFileUrl path] UTF8String];
+        if (![[localFileUrl path] hasSuffix:@".git"] || ![GTRepository isAGitDirectory:localFileUrl]) {
+            localFileUrl = [localFileUrl URLByAppendingPathComponent:@".git"];
+            path = [[localFileUrl path] UTF8String];
+        }
+        
+        self.fileUrl = localFileUrl;
+        
+        //attempt to open the URL
 		git_repository *r;
 		int gitError = git_repository_open(&r, path);
 		if(gitError != GIT_SUCCESS) {
-			if(error != NULL)
-				*error = [NSError gitErrorForOpenRepository:gitError];
-			return nil;
+            if (create == YES) {
+                //couldn't open the repo; attempt to create it
+                gitError = git_repository_init(&r, path, 0);
+                if (gitError != GIT_SUCCESS) {
+                    if (error != NULL) {
+                        *error = [NSError gitErrorForInitRepository:gitError];
+                    }
+                    [self release];
+                    return nil;
+                } 
+            } else {
+                if(error != NULL) {
+                    *error = [NSError gitErrorForOpenRepository:gitError];
+                }
+                [self release];
+                return nil;
+            }
 		}
+        
 		self.repo = r;
 		
 		self.walker = [[[GTWalker alloc] initWithRepository:self error:error] autorelease];
-		if(self.walker == nil) return nil;
-	}
-	return self;
-}
-+ (id)repoByOpeningRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error {
-	
-	return [[[self alloc]initByOpeningRepositoryInDirectory:localFileUrl error:error] autorelease];
-}
-
-- (id)initByCreatingRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error {
-	
-	if((self = [super init])) {
-		self.fileUrl = localFileUrl;
-		
-		//GTLog("Creating repository in directory: %@", localFileUrl);
-		
-		git_repository *r;
-		const char * path = [NSString utf8StringForString:[localFileUrl path]];
-		int gitError = git_repository_init(&r, path, 0);
-		if(gitError != GIT_SUCCESS) {
-			if(error != NULL)
-				*error = [NSError gitErrorForInitRepository:gitError];
-			return nil;
-		} 
-		self.repo = r;
-		
-		self.walker = [[[GTWalker alloc] initWithRepository:self error:error] autorelease];
-		if(self.walker == nil) return nil;
-	}
-	return self;
-}
-+ (id)repoByCreatingRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error {
-	
-	return [[[self alloc]initByCreatingRepositoryInDirectory:localFileUrl error:error] autorelease];
+		if (self.walker == nil) {
+            [self release];
+            return nil;
+        }
+        
+    }
+    return self;
 }
 
++ (id)repositoryWithDirectoryURL:(NSURL *)localFileUrl createIfNeeded:(BOOL)create error:(NSError **)error {
+    return [[[self alloc] initWithDirectoryURL:localFileUrl createIfNeeded:create error:error] autorelease];
+}
 
 + (NSString *)hash:(NSString *)data type:(GTObjectType)type error:(NSError **)error {
 	
 	git_oid oid;
 
-	int gitError = git_odb_hash(&oid, [NSString utf8StringForString:data], [data length], type);
+	int gitError = git_odb_hash(&oid, [data UTF8String], [data length], type);
 	if(gitError != GIT_SUCCESS) {
 		if (error != NULL)
 			*error = [NSError gitErrorForHashObject:gitError];
@@ -160,7 +146,7 @@
 }
 
 
-- (GTObject *)lookupObjectByOid:(git_oid *)oid type:(GTObjectType)type error:(NSError **)error {
+- (GTObject *)fetchObjectWithOid:(git_oid *)oid type:(GTObjectType)type error:(NSError **)error {
 	
 	git_object *obj;
 	
@@ -174,28 +160,28 @@
     return [GTObject objectWithObj:obj inRepository:self];
 }
 
-- (GTObject *)lookupObjectByOid:(git_oid *)oid error:(NSError **)error {
+- (GTObject *)fetchObjectWithOid:(git_oid *)oid error:(NSError **)error {
 	
-	return [self lookupObjectByOid:oid type:GTObjectTypeAny error:error];
+	return [self fetchObjectWithOid:oid type:GTObjectTypeAny error:error];
 }
 
-- (GTObject *)lookupObjectBySha:(NSString *)sha type:(GTObjectType)type error:(NSError **)error {
+- (GTObject *)fetchObjectWithSha:(NSString *)sha type:(GTObjectType)type error:(NSError **)error {
 	
 	git_oid oid;
 	
-	int gitError = git_oid_mkstr(&oid, [NSString utf8StringForString:sha]);
+	int gitError = git_oid_mkstr(&oid, [sha UTF8String]);
 	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError gitErrorForMkStr:gitError];
 		return nil;
 	}
 	
-	return [self lookupObjectByOid:&oid type:type error:error];
+	return [self fetchObjectWithOid:&oid type:type error:error];
 }
 
-- (GTObject *)lookupObjectBySha:(NSString *)sha error:(NSError **)error {
+- (GTObject *)fetchObjectWithSha:(NSString *)sha error:(NSError **)error {
 	
-	return [self lookupObjectBySha:sha type:GTObjectTypeAny error:error];
+	return [self fetchObjectWithSha:sha type:GTObjectTypeAny error:error];
 }
 
 - (BOOL)exists:(NSString *)sha error:(NSError **)error {
@@ -209,7 +195,7 @@
 	git_oid oid;
 	
 	odb = git_repository_database(self.repo);
-	int gitError = git_oid_mkstr(&oid, [NSString utf8StringForString:sha]);
+	int gitError = git_oid_mkstr(&oid, [sha UTF8String]);
 	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError gitErrorForMkStr:gitError];
@@ -232,7 +218,7 @@
 		return nil;
 	}
 	
-	GTOdbObject *rawObj = [GTOdbObject objectWithObject:obj];
+	GTOdbObject *rawObj = [GTOdbObject objectWithOdbObj:obj];
 	git_odb_object_close(obj);
 	
 	return rawObj;
@@ -241,7 +227,7 @@
 - (GTOdbObject *)read:(NSString *)sha error:(NSError **)error {
 	
 	git_oid oid;
-	int gitError = git_oid_mkstr(&oid, [NSString utf8StringForString:sha]);
+	int gitError = git_oid_mkstr(&oid, [sha UTF8String]);
 	if(gitError != GIT_SUCCESS) {
 		if (error != NULL)
 			*error = [NSError gitErrorForMkStr:gitError];
@@ -265,7 +251,7 @@
 		return nil;
 	}
 	
-	gitError = stream->write(stream, [NSString utf8StringForString:data], data.length);
+	gitError = stream->write(stream, [data UTF8String], data.length);
 	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError gitErrorFor:gitError withDescription:@"Failed to write to stream on odb"];

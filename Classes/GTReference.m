@@ -54,7 +54,7 @@
 	
 	if((self = [super init])) {
 		self.repository = theRepo;
-		int gitError = git_reference_lookup(&ref, self.repository.repo, [NSString utf8StringForString:refName]);
+		int gitError = git_reference_lookup(&ref, self.repository.repo, [refName UTF8String]);
 		if(gitError != GIT_SUCCESS) {
 			if(error != NULL)
 				*error = [NSError gitErrorForLookupRef:gitError];
@@ -76,17 +76,17 @@
 		int gitError;
 		
 		self.repository = theRepo;
-		if (git_oid_mkstr(&oid, [NSString utf8StringForString:theTarget]) == GIT_SUCCESS) {
+		if (git_oid_mkstr(&oid, [theTarget UTF8String]) == GIT_SUCCESS) {
 			gitError = git_reference_create_oid(&ref, 
 												self.repository.repo, 
-												[NSString utf8StringForString:refName], 
+												[refName UTF8String], 
 												&oid);
 		}
 		else {
 			gitError = git_reference_create_symbolic(&ref, 
 													 self.repository.repo, 
-													 [NSString utf8StringForString:refName], 
-													 [NSString utf8StringForString:theTarget]);
+													 [refName UTF8String], 
+													 [theTarget UTF8String]);
 		}
 		
 		if(gitError != GIT_SUCCESS) {
@@ -123,11 +123,11 @@
 
 - (NSString *)name {
 	
-	return [NSString stringForUTF8String:git_reference_name(self.ref)];
+	return [NSString git_stringWithUTF8String:git_reference_name(self.ref)];
 }
 - (BOOL)setName:(NSString *)newName error:(NSError **)error {
 	
-	int gitError = git_reference_rename(self.ref, [NSString utf8StringForString:newName]);
+	int gitError = git_reference_rename(self.ref, [newName UTF8String]);
 	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError gitErrorForRenameRef:gitError];
@@ -138,7 +138,7 @@
 
 - (NSString *)type {
 	
-	return [NSString stringForUTF8String:git_object_type2string(git_reference_type(self.ref))];
+	return [NSString git_stringWithUTF8String:git_object_type2string(git_reference_type(self.ref))];
 }
 
 + (NSArray *)referenceNamesInRepository:(GTRepository *)theRepo types:(GTReferenceTypes)types error:(NSError **)error {
@@ -157,7 +157,7 @@
 	
 	NSMutableArray *references = [NSMutableArray arrayWithCapacity:array.count];
 	for(int i=0; i< array.count; i++) {
-		[references addObject:[NSString stringForUTF8String:array.strings[i]]];
+		[references addObject:[NSString git_stringWithUTF8String:array.strings[i]]];
 	}
 	
 	return references;
@@ -174,7 +174,7 @@
 		return [GTLib convertOidToSha:git_reference_oid(self.ref)];
 	}
 	else {
-		return [NSString stringForUTF8String:git_reference_target(self.ref)];
+		return [NSString git_stringWithUTF8String:git_reference_target(self.ref)];
 	}
 }
 - (BOOL)setTarget:(NSString *)newTarget error:(NSError **)error {
@@ -183,7 +183,7 @@
 	
 	if(git_reference_type(self.ref) == GIT_REF_OID) {
 		git_oid oid;
-		gitError = git_oid_mkstr(&oid, [NSString utf8StringForString:newTarget]);
+		gitError = git_oid_mkstr(&oid, [newTarget UTF8String]);
 		if(gitError != GIT_SUCCESS) {
 			if(error != NULL)
 				*error = [NSError gitErrorForMkStr:gitError];
@@ -193,7 +193,7 @@
 		gitError = git_reference_set_oid(self.ref, &oid);
 	}
 	else {
-		gitError = git_reference_set_target(self.ref, [NSString utf8StringForString:newTarget]);
+		gitError = git_reference_set_target(self.ref, [newTarget UTF8String]);
 	}
 
 	if(gitError != GIT_SUCCESS) {
