@@ -47,8 +47,8 @@
 
 @synthesize entry;
 @synthesize path;
-@synthesize mTime;
-@synthesize cTime;
+@synthesize modificationDate;
+@synthesize creationDate;
 @synthesize fileSize;
 @synthesize dev;
 @synthesize ino;
@@ -108,24 +108,24 @@
 	return YES;
 }
 
-- (NSDate *)mTime {
+- (NSDate *)modificationDate {
 	
 	double time = self.entry->mtime.seconds + (self.entry->mtime.nanoseconds/1000);
 	return [NSDate dateWithTimeIntervalSince1970:time];
 }
-- (void)setMTime:(NSDate *)time {
+- (void)setModificationDate:(NSDate *)time {
 	
 	NSTimeInterval t = [time timeIntervalSince1970];
 	self.entry->mtime.seconds = (int)t;
 	self.entry->mtime.nanoseconds = 1000 * (t - (int)t);
 }
 
-- (NSDate *)cTime {
+- (NSDate *)creationDate {
 	
 	double time = self.entry->ctime.seconds + (self.entry->ctime.nanoseconds/1000);
 	return [NSDate dateWithTimeIntervalSince1970:time];
 }
-- (void)setCTime:(NSDate *)time {
+- (void)setCreationDate:(NSDate *)time {
 	
 	NSTimeInterval t = [time timeIntervalSince1970];
 	self.entry->ctime.seconds = (int)t;

@@ -45,14 +45,14 @@
 	NSError *error = nil;
 	repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
 	sha = @"c4dc1555e4d4fa0e0c9c3fc46734c7c35b3ce90b";
-	tree = (GTTree *)[repo lookupBySha:sha error:&error];
+	tree = (GTTree *)[repo lookupObjectBySha:sha error:&error];
 }
 
 - (void)testCanReadTreeData {
 	
 	GHAssertEqualStrings(sha, tree.sha, nil);
 	GHAssertEqualStrings(@"tree", tree.type, nil);
-	GHAssertTrue([tree entryCount] == 3, nil);
+	GHAssertTrue([tree numberOfEntries] == 3, nil);
 	GHAssertEqualStrings(@"1385f264afb75a56a5bec74243be9b367ba4ca08", [tree entryAtIndex:0].sha, nil);
 	GHAssertEqualStrings(@"fa49b077972391ad58037050f2a75f74e3671e92", [tree entryAtIndex:1].sha, nil);
 }

@@ -49,7 +49,7 @@
 	
 	NSString *sha = @"8496071c1b46c854b31185ea97743be6a8774479";
 	NSError *error = nil;
-	GTObject *obj = [repo lookupBySha:sha error:&error];
+	GTObject *obj = [repo lookupObjectBySha:sha error:&error];
 	
 	GHAssertNil(error, [error localizedDescription]);
 	GHAssertNotNil(obj, nil);
@@ -81,7 +81,7 @@
 	
 	NSString *sha = @"a4a7dce85cf63874e984719f4fdd239f5145052f";
 	NSError *error = nil;
-	GTObject *obj = [repo lookupBySha:sha error:&error];
+	GTObject *obj = [repo lookupObjectBySha:sha error:&error];
 	
 	GHAssertNil(error, [error localizedDescription]);
 	GHAssertNotNil(obj, nil);
@@ -94,10 +94,10 @@
 	
 	NSError *error = nil;
 	NSString *sha = @"8496071c1b46c854b31185ea97743be6a8774479";
-	GTCommit *obj = (GTCommit *)[repo lookupBySha:sha error:&error];
+	GTCommit *obj = (GTCommit *)[repo lookupObjectBySha:sha error:&error];
 	GHAssertNotNil(obj, [error localizedDescription]);
 	
-	NSString *newSha = [GTCommit createCommitInRepo:repo 
+	NSString *newSha = [GTCommit shaByCreatingCommitInRepository:repo 
 									 updateRefNamed:nil 
 											 author:obj.author 
 										  committer:obj.committer 
@@ -115,7 +115,7 @@
 	
 	NSString *tsha = @"c4dc1555e4d4fa0e0c9c3fc46734c7c35b3ce90b";
 	NSError *error = nil;
-	GTObject *obj = [repo lookupBySha:tsha error:&error];
+	GTObject *obj = [repo lookupObjectBySha:tsha error:&error];
 	
 	GHAssertNil(error, [error localizedDescription]);
 	GHAssertNotNil(obj, nil);
@@ -125,7 +125,7 @@
 						   initWithName:@"Tim" 
 						   email:@"tclem@github.com" 
 						   time:[NSDate date]] autorelease];
-	GTCommit *commit = [GTCommit commitInRepo:repo updateRefNamed:nil author:person committer:person message:@"new message" tree:tree parents:nil error:&error];
+	GTCommit *commit = [GTCommit commitInRepository:repo updateRefNamed:nil author:person committer:person message:@"new message" tree:tree parents:nil error:&error];
 	GHAssertNotNil(commit, [error localizedDescription]);
 	GHTestLog(@"wrote sha %@", commit.sha);
 	
@@ -136,7 +136,7 @@
 	
 	NSString *tsha = @"c4dc1555e4d4fa0e0c9c3fc46734c7c35b3ce90b";
 	NSError *error = nil;
-	GTObject *obj = [repo lookupBySha:tsha error:&error];
+	GTObject *obj = [repo lookupObjectBySha:tsha error:&error];
 	
 	GHAssertNil(error, [error localizedDescription]);
 	GHAssertNotNil(obj, nil);
@@ -146,7 +146,7 @@
 							initWithName:@"Tim" 
 							email:@"tclem@github.com" 
 							time:[NSDate date]] autorelease];
-	GTCommit *commit = [GTCommit commitInRepo:repo updateRefNamed:nil author:person committer:person message:nil tree:tree parents:nil error:&error];
+	GTCommit *commit = [GTCommit commitInRepository:repo updateRefNamed:nil author:person committer:person message:nil tree:tree parents:nil error:&error];
 	GHAssertNotNil(commit, [error localizedDescription]);
 	GHTestLog(@"wrote sha %@", commit.sha);
 	

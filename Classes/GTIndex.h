@@ -43,14 +43,14 @@
 + (id)indexWithPath:(NSURL *)localFileUrl error:(NSError **)error;
 
 - (id)initWithGitIndex:(git_index *)theIndex;
-+ (id)indexWithIndex:(git_index *)theIndex;
++ (id)indexWithGitIndex:(git_index *)theIndex;
 
 // Refresh the index from the datastore
 //
 // error(out) - will be filled if an error occurs
 //
 // returns YES if refresh was successful
-- (BOOL)refreshAndReturnError:(NSError **)error;
+- (BOOL)refreshWithError:(NSError **)error;
 
 // Clear the contents (all entry objects) of the index. This happens in memory.
 // Changes can be written to the datastore by calling writeAndReturnError:
@@ -69,6 +69,6 @@
 // error(out) - will be filled if an error occurs
 //
 // returns YES if the write was successful.
-- (BOOL)writeAndReturnError:(NSError **)error;
+- (BOOL)writeWithError:(NSError **)error;
 
 @end

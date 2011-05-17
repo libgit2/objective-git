@@ -40,7 +40,7 @@
 // Get the number of entries
 //
 // returns the number of entries in this tree
-- (NSInteger)entryCount;
+- (NSInteger)numberOfEntries;
 
 // Get a entry at the specified index
 //
@@ -54,7 +54,7 @@
 // name - the name of the entry
 //
 // returns a GTTreeEntry or nil if there is nothing with the specified name
-- (GTTreeEntry *)entryByName:(NSString *)name;
+- (GTTreeEntry *)entryWithName:(NSString *)name;
 
 /*
 // Add an entry to the index

@@ -40,13 +40,14 @@ typedef enum {
 
 @class GTRepository;
 @class GTCommit;
+@protocol GTObject;
 
 // This object is usually used from within a repository. You generally don't 
 // need to instantiate a GTWalker. Instead, use the walker property on 
 // GTRepository
-@interface GTWalker : NSObject {}
+@interface GTWalker : NSObject <GTObject> {}
 
-@property (nonatomic, assign) GTRepository *repo;
+@property (nonatomic, assign) GTRepository *repository;
 
 - (id)initWithRepository:(GTRepository *)theRepo error:(NSError **)error;
 + (id)walkerWithRepository:(GTRepository *)theRepo error:(NSError **)error;

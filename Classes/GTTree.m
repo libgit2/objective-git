@@ -38,13 +38,13 @@
 
 - (git_tree *)tree {
 	
-	return (git_tree *)self.object;
+	return (git_tree *)self.obj;
 }
 
 #pragma mark -
 #pragma mark API
 
-- (NSInteger)entryCount {
+- (NSInteger)numberOfEntries {
 	
 	return [[NSNumber numberWithInt:git_tree_entrycount(self.tree)] integerValue];
 }
@@ -59,7 +59,7 @@
 	return [self createEntryWithEntry:git_tree_entry_byindex(self.tree, index)];
 }
 
-- (GTTreeEntry *)entryByName:(NSString *)name {
+- (GTTreeEntry *)entryWithName:(NSString *)name {
 	
 	return [self createEntryWithEntry:git_tree_entry_byname(self.tree, [NSString utf8StringForString:name])];
 }

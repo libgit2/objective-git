@@ -83,17 +83,34 @@
 	return [GTLib convertOidToSha:git_tree_entry_id(self.entry)];
 }
 
+- (GTRepository *)repository {
+    return self.tree.repository;
+}
+
 - (GTObject *)toObjectAndReturnError:(NSError **)error {
-	
-	git_object *obj;
-	int gitError = git_tree_entry_2object(&obj, self.tree.repo.repo, self.entry);
-	if(gitError != GIT_SUCCESS) {
-		if(error != NULL)
-			*error = [NSError gitErrorForTreeEntryToObject:gitError];
-		return nil;
-	}
-	
-	return [GTObject objectInRepo:self.tree.repo withObject:obj];
+	return [GTObject objectWithTreeEntry:self error:error];
+}
+
+@end
+
+@implementation GTObject (GTTreeEntry)
+
++ (id)objectWithTreeEntry:(GTTreeEntry *)treeEntry error:(NSError **)error {
+    return [[[self alloc] initWithTreeEntry:treeEntry error:error] autorelease];
+}
+
+- (id)initWithTreeEntry:(GTTreeEntry *)treeEntry error:(NSError **)error {
+    git_object *obj;
+    int gitError = git_tree_entry_2object(&obj, treeEntry.repository.repo, treeEntry.entry);
+    if (gitError != GIT_SUCCESS) {
+        if (error != NULL) {
+            *error = [NSError gitErrorForTreeEntryToObject:gitError];
+        }
+        [self release];
+        return nil;
+    }
+    
+    return [self initWithObj:obj inRepository:treeEntry.repository];
 }
 
 @end

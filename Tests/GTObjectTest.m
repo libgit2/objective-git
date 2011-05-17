@@ -46,7 +46,7 @@
 - (void)testCanLookupEmptyStringFails {
 	
 	NSError *error = nil;
-	GTObject *obj = [repo lookupBySha:@"" error:&error];
+	GTObject *obj = [repo lookupObjectBySha:@"" error:&error];
 	
 	GHAssertNotNil(error, nil);
 	GHAssertNil(obj, nil);
@@ -56,7 +56,7 @@
 - (void)testCanLookupBadObjectFails {
 	
 	NSError *error = nil;
-	GTObject *obj = [repo lookupBySha:@"a496071c1b46c854b31185ea97743be6a8774479" error:&error];
+	GTObject *obj = [repo lookupObjectBySha:@"a496071c1b46c854b31185ea97743be6a8774479" error:&error];
 	
 	GHAssertNotNil(error, nil);
 	GHAssertNil(obj, nil);
@@ -66,7 +66,7 @@
 - (void)testCanLookupAnObject {
 	
 	NSError *error = nil;
-	GTObject *obj = [repo lookupBySha:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error];
+	GTObject *obj = [repo lookupObjectBySha:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error];
 	
 	GHAssertNil(error, [error localizedDescription]);
 	GHAssertNotNil(obj, nil);
@@ -77,8 +77,8 @@
 - (void)testTwoObjectsAreTheSame {
 	
 	NSError *error = nil;
-	GTObject *obj1 = [repo lookupBySha:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error];
-	GTObject *obj2 = [repo lookupBySha:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error];
+	GTObject *obj1 = [repo lookupObjectBySha:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error];
+	GTObject *obj2 = [repo lookupObjectBySha:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error];
 	
 	GHAssertNotNil(obj1, nil);
 	GHAssertNotNil(obj2, nil);
@@ -88,7 +88,7 @@
 - (void)testCanReadRawDataFromObject {
 	
 	NSError *error = nil;
-	GTObject *obj = [repo lookupBySha:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error];
+	GTObject *obj = [repo lookupObjectBySha:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error];
 	
 	GHAssertNotNil(obj, nil);
 	

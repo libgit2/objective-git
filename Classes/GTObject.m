@@ -46,7 +46,7 @@ static NSString * const GTTagClassName = @"GTTag";
 
 - (void)dealloc {
 	
-	self.repo = nil;
+	self.repository = nil;
 	[super dealloc];
 }
 
@@ -59,26 +59,26 @@ static NSString * const GTTagClassName = @"GTTag";
 	
 	if(![otherObject isKindOfClass:[GTObject class]]) return NO;
 	
-	return 0 == git_oid_cmp(git_object_id(self.object), git_object_id(((GTObject *)otherObject).object)) ? YES : NO;
+	return 0 == git_oid_cmp(git_object_id(self.obj), git_object_id(((GTObject *)otherObject).obj)) ? YES : NO;
 }
 
 #pragma mark -
 #pragma mark API 
 
-@synthesize object;
+@synthesize obj;
 @synthesize type;
 @synthesize sha;
-@synthesize repo;
+@synthesize repository;
 
-- (id)initInRepo:(GTRepository *)theRepo withObject:(git_object *)theObject {
+- (id)initWithObj:(git_object *)theObject inRepository:(GTRepository *)theRepo {
 	
 	if((self = [super init])) {
-		self.repo = theRepo;
-		object = theObject;
+		self.repository = theRepo;
+		obj = theObject;
 	}
 	return self;
 }
-+ (id)objectInRepo:(GTRepository *)theRepo withObject:(git_object *)theObject {
++ (id)objectWithObj:(git_object *)theObject inRepository:(GTRepository *)theRepo {
 	
 	NSString *klass;
 	git_otype t = git_object_type(theObject);
@@ -100,17 +100,17 @@ static NSString * const GTTagClassName = @"GTTag";
 			break;
 	}
 	
-	return [[[NSClassFromString(klass) alloc] initInRepo:theRepo withObject:theObject] autorelease];
+    return [[[NSClassFromString(klass) alloc] initWithObj:theObject inRepository:theRepo] autorelease];
 }
 
 - (NSString *)type {
 	
-	return [NSString stringForUTF8String:git_object_type2string(git_object_type(self.object))];
+	return [NSString stringForUTF8String:git_object_type2string(git_object_type(self.obj))];
 }
 
 - (NSString *)sha {
 	
-	return [GTLib convertOidToSha:git_object_id(self.object)];
+	return [GTLib convertOidToSha:git_object_id(self.obj)];
 }
 
 - (NSString *)shortSha {
@@ -120,7 +120,7 @@ static NSString * const GTTagClassName = @"GTTag";
 
 - (GTOdbObject *)readRawAndReturnError:(NSError **)error {
 	
-	return [self.repo rawRead:git_object_id(self.object) error:error];
+	return [self.repository rawRead:git_object_id(self.obj) error:error];
 }
 
 @end

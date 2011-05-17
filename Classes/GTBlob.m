@@ -38,31 +38,31 @@
 
 - (git_blob *)blob {
 	
-	return (git_blob *)self.object;
+	return (git_blob *)self.obj;
 }
 
 #pragma mark -
 #pragma mark API
 
-+ (GTBlob *)blobInRepo:(GTRepository *)theRepo content:(NSString *)content error:(NSError **)error {
++ (GTBlob *)blobInRepository:(GTRepository *)theRepo content:(NSString *)content error:(NSError **)error {
 	
-	NSString *sha = [GTBlob createInRepo:theRepo content:content error:error];
-	return sha ? (GTBlob *)[theRepo lookupBySha:sha type:GTObjectTypeBlob error:error] : nil;
+	NSString *sha = [GTBlob shaByCreatingBlobInRepository:theRepo content:content error:error];
+	return sha ? (GTBlob *)[theRepo lookupObjectBySha:sha type:GTObjectTypeBlob error:error] : nil;
 }
 
-+ (GTBlob *)blobInRepo:(GTRepository *)theRepo data:(NSData *)data error:(NSError **)error {
++ (GTBlob *)blobInRepository:(GTRepository *)theRepo data:(NSData *)data error:(NSError **)error {
 	
-	NSString *sha = [GTBlob createInRepo:theRepo data:data error:error];
-	return sha ? (GTBlob *)[theRepo lookupBySha:sha type:GTObjectTypeBlob error:error] : nil;
+	NSString *sha = [GTBlob shaByCreatingBlobInRepository:theRepo data:data error:error];
+	return sha ? (GTBlob *)[theRepo lookupObjectBySha:sha type:GTObjectTypeBlob error:error] : nil;
 }
 
-+ (GTBlob *)blobInRepo:(GTRepository *)theRepo file:(NSURL *)file error:(NSError **)error {
++ (GTBlob *)blobInRepository:(GTRepository *)theRepo file:(NSURL *)file error:(NSError **)error {
 	
-	NSString *sha = [GTBlob createInRepo:theRepo file:file error:error];
-	return sha ? (GTBlob *)[theRepo lookupBySha:sha type:GTObjectTypeBlob error:error] : nil;
+	NSString *sha = [GTBlob shaByCreatingBlobInRepository:theRepo file:file error:error];
+	return sha ? (GTBlob *)[theRepo lookupObjectBySha:sha type:GTObjectTypeBlob error:error] : nil;
 }
 
-+ (NSString *)createInRepo:(GTRepository *)theRepo content:(NSString *)content error:(NSError **)error {
++ (NSString *)shaByCreatingBlobInRepository:(GTRepository *)theRepo content:(NSString *)content error:(NSError **)error {
 	
 	git_oid oid;
 	int gitError = git_blob_create_frombuffer(&oid, theRepo.repo, [NSString utf8StringForString:content], content.length);
@@ -75,7 +75,7 @@
 	return [GTLib convertOidToSha:&oid];
 }
 
-+ (NSString *)createInRepo:(GTRepository *)theRepo data:(NSData *)data error:(NSError **)error {
++ (NSString *)shaByCreatingBlobInRepository:(GTRepository *)theRepo data:(NSData *)data error:(NSError **)error {
 	
 	git_oid oid;
 	int gitError = git_blob_create_frombuffer(&oid, theRepo.repo, [data bytes], data.length);
@@ -88,7 +88,7 @@
 	return [GTLib convertOidToSha:&oid];
 }
 
-+ (NSString *)createInRepo:(GTRepository *)theRepo file:(NSURL *)file error:(NSError **)error {
++ (NSString *)shaByCreatingBlobInRepository:(GTRepository *)theRepo file:(NSURL *)file error:(NSError **)error {
 	
 	git_oid oid;
 	int gitError = git_blob_create_fromfile(&oid, theRepo.repo, [NSString utf8StringForString:[file path]]);
@@ -112,6 +112,13 @@
 	if(s == 0) return @"";
 	
 	return [NSString stringForUTF8String:git_blob_rawcontent(self.blob)];
+}
+
+- (NSData *)data {
+    NSInteger s = [self size];
+    if (s == 0) return [NSData data];
+    
+    return [NSData dataWithBytes:git_blob_rawcontent(self.blob) length:s];
 }
 
 @end

@@ -28,12 +28,11 @@
 //
 
 #import <git2.h>
-
+#import "GTObject.h"
 
 @class GTTree;
-@class GTObject;
 
-@interface GTTreeEntry : NSObject {}
+@interface GTTreeEntry : NSObject <GTObject> {}
 
 @property (nonatomic, assign, readonly) const git_tree_entry *entry;
 @property (nonatomic, assign, readonly) GTTree *tree;
@@ -51,5 +50,12 @@
 //
 // returns this entry as a GTObject or nil if an error occurred.
 - (GTObject *)toObjectAndReturnError:(NSError **)error;
+
+@end
+
+@interface GTObject (GTTreeEntry)
+
++ (id)objectWithTreeEntry:(GTTreeEntry *)treeEntry error:(NSError **)error;
+- (id)initWithTreeEntry:(GTTreeEntry *)treeEntry error:(NSError **)error;
 
 @end

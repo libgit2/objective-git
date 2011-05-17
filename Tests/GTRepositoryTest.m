@@ -65,7 +65,7 @@
 	GHAssertNil(error, [error localizedDescription]);
 	GHAssertNotNil(newRepo, nil);
 	GHAssertNotNil(newRepo.fileUrl, nil);
-	GHAssertNotNULL(newRepo.repo, nil);
+	GHAssertNotNULL(newRepo.repository, nil);
 }
 
 - (void)testFailsToOpenNonExistentRepo {
@@ -205,7 +205,7 @@
 - (void)testLookupHead {
 	
 	NSError *error = nil;
-	GTReference *head = [repo headAndReturnError:&error];
+	GTReference *head = [repo headReference:&error];
 	GHAssertNil(error, [error localizedDescription]);
 	GHAssertEqualStrings(head.target, @"36060c58702ed4c2a40832c51758d5344201d89a", nil);
 	GHAssertEqualStrings(head.type, @"commit", nil);

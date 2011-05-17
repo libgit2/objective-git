@@ -43,22 +43,22 @@
 - (void)dealloc {
 	
 	git_revwalk_free(self.walk);
-	self.repo = nil;
+	self.repository = nil;
 	[super dealloc];
 }
 
 #pragma mark -
 #pragma mark API
 
-@synthesize repo;
+@synthesize repository;
 @synthesize walk;
 
 - (id)initWithRepository:(GTRepository *)theRepo error:(NSError **)error {
 	
 	if((self = [super init])) {
-		self.repo = theRepo;
+		self.repository = theRepo;
 		git_revwalk *w;
-		int gitError = git_revwalk_new(&w, self.repo.repo);
+		int gitError = git_revwalk_new(&w, self.repository.repo);
 		if(gitError != GIT_SUCCESS) {
 			if (error != NULL)
 				*error = [NSError gitErrorForInitRevWalker:gitError];
@@ -124,7 +124,7 @@
 		return nil;
 	
 	// ignore error if we can't lookup object and just return nil
-	return (GTCommit *)[self.repo lookupBySha:[GTLib convertOidToSha:&oid] type:GTObjectTypeCommit error:nil];
+	return (GTCommit *)[self.repository lookupObjectBySha:[GTLib convertOidToSha:&oid] type:GTObjectTypeCommit error:nil];
 }
 
 - (NSInteger)countFromSha:(NSString *)sha error:(NSError **)error {

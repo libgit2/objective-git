@@ -76,7 +76,7 @@
 	}
 	return self;
 }
-+ (id)indexWithIndex:(git_index *)theIndex {
++ (id)indexWithGitIndex:(git_index *)theIndex {
 	
 	return [[[self alloc] initWithGitIndex:theIndex] autorelease];
 }
@@ -86,7 +86,7 @@
 	return git_index_entrycount(self.index);
 }
 
-- (BOOL)refreshAndReturnError:(NSError **)error {
+- (BOOL)refreshWithError:(NSError **)error {
 	
 	int gitError = git_index_read(self.index);
 	if(gitError != GIT_SUCCESS) {
@@ -135,7 +135,7 @@
 	return YES;
 }
 
-- (BOOL)writeAndReturnError:(NSError **)error {
+- (BOOL)writeWithError:(NSError **)error {
 	
 	int gitError = git_index_write(self.index);
 	if(gitError != GIT_SUCCESS) {

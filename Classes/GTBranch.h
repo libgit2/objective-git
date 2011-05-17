@@ -23,16 +23,24 @@
 //  THE SOFTWARE.
 //
 
+#import "GTObject.h"
+
 @class GTCommit;
 @class GTReference;
 @class GTRepository;
 
-@interface GTBranch : NSObject {}
+typedef enum {
+    GTBranchTypeLocal = 1,
+    GTBranchTypeRemote
+} GTBranchType;
+
+@interface GTBranch : NSObject <GTObject> {}
 
 @property (nonatomic, readonly) NSString *name;
 @property (nonatomic, readonly) NSString *shortName;
 @property (nonatomic, readonly) NSString *sha;
 @property (nonatomic, readonly) NSString *remoteName;
+@property (nonatomic, readonly) GTBranchType branchType;
 @property (nonatomic, readonly, assign) GTRepository *repository;
 @property (nonatomic, readonly, retain) GTReference *reference;
 @property (nonatomic, retain) GTBranch *remoteBranch;
@@ -61,30 +69,27 @@
 // error(out) - will be filled if an error occurs
 //
 // returns an NSArray of GTBranch objects or nil if an error occurred
-+ (NSArray *)listAllLocalBranchesInRepository:(GTRepository *)repo error:(NSError **)error;
++ (NSArray *)branchesInRepository:(GTRepository *)repo error:(NSError **)error;
 
 // List all remote branches in a repository
 //
 // error(out) - will be filled if an error occurs
 //
 // returns an NSArray of GTBranch objects or nil if an error occurred
-+ (NSArray *)listAllRemoteBranchesInRepository:(GTRepository *)repo error:(NSError **)error;
++ (NSArray *)remoteBranchesInRepository:(GTRepository *)repo error:(NSError **)error;
 
 // List all branches in a repository with the given prefix.
 //
 // error(out) - will be filled if an error occurs
 //
 // returns an NSArray of GTBranch objects or nil if an error occurred
-+ (NSArray *)listAllBranchesInRepository:(GTRepository *)repo withPrefix:(NSString *)prefix error:(NSError **)error;
++ (NSArray *)branchesInRepository:(GTRepository *)repo withPrefix:(NSString *)prefix error:(NSError **)error;
 
 // Count all commits in this branch
 //
 // error(out) - will be filled if an error occurs
 //
 // returns number of commits in the branch or NSNotFound if an error occurred
-- (NSInteger)numberOfCommitsAndReturnError:(NSError **)error;
-
-- (BOOL)isRemote;
-- (BOOL)isLocal;
+- (NSInteger)numberOfCommitsWithError:(NSError **)error;
 
 @end
