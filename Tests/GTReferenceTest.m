@@ -167,14 +167,14 @@
 	
 	@try {
 		
-		NSArray *refs = [GTReference listReferenceNamesInRepo:repo types:GTReferenceTypesSymoblic error:&error];
+		NSArray *refs = [GTReference referenceNamesInRepository:repo types:GTReferenceTypesSymoblic error:&error];
 		GHAssertNil(error, [error localizedDescription]);
 		GHAssertEquals(1, (int)refs.count, nil);	
 		GHAssertEqualStrings(@"refs/heads/unit_test", [refs objectAtIndex:0], nil);
 	}
 	@finally {
 		// cleanup
-		BOOL success = [ref deleteAndReturnError:&error];
+		BOOL success = [ref deleteWithError:&error];
         GHAssertTrue(success, [error localizedDescription]);
 	}
 }
