@@ -25,7 +25,7 @@
 - (void)testCanOpenHeadInRepo {
 	
     NSError *error = nil;
-	GTBranch *current = [GTBranch branchFromCurrentBranchInRepository:repo error:&error];
+	GTBranch *current = [repo currentBranchWithError:&error];
 	GHAssertNil(error, [error localizedDescription]);
 	GHAssertNotNil(current, nil);
 }
