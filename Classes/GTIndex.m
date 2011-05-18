@@ -102,12 +102,12 @@
 	git_index_clear(self.index);
 }
 
-- (GTIndexEntry *)getEntryAtIndex:(NSInteger)theIndex {
+- (GTIndexEntry *)entryAtIndex:(NSInteger)theIndex {
 	
 	return [GTIndexEntry indexEntryWithEntry:git_index_get(self.index, theIndex)];
 }
 
-- (GTIndexEntry *)getEntryWithName:(NSString *)name {
+- (GTIndexEntry *)entryWithName:(NSString *)name {
 	
 	int i = git_index_find(self.index, [name UTF8String]);
 	return [GTIndexEntry indexEntryWithEntry:git_index_get(self.index, i)];

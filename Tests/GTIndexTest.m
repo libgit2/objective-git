@@ -61,7 +61,7 @@
 
 - (void)testCanGetAllDataFromAnEntry {
 	
-	GTIndexEntry *e = [index getEntryAtIndex:0];
+	GTIndexEntry *e = [index entryAtIndex:0];
 	
 	GHAssertNotNil(e, nil);
 	GHAssertEqualStrings(@"README", e.path, nil);
@@ -78,7 +78,7 @@
 	GHAssertFalse(e.isValid, nil);
 	GHAssertEquals((NSUInteger)0, e.stage, nil);
 	
-	e = [index getEntryAtIndex:1];
+	e = [index entryAtIndex:1];
 	GHAssertEqualStrings(@"new.txt", e.path, nil);
 	GHAssertEqualStrings(@"fa49b077972391ad58037050f2a75f74e3671e92", e.sha	, nil);
 }
@@ -123,7 +123,7 @@
 	
 	NSError *error = nil;
 	NSDate *now = [NSDate date];
-	GTIndexEntry *e = [index getEntryAtIndex:0];
+	GTIndexEntry *e = [index entryAtIndex:0];
 	
 	e.path = @"new_path";
 	BOOL success = [e setSha:@"12ea3153a78002a988bb92f4123e7e831fd1138a" error:&error];
@@ -160,7 +160,7 @@
 	
 	GHAssertTrue(success, [error localizedDescription]);
 	GHAssertEquals(3, (int)[index entryCount], nil);
-	e = [index getEntryAtIndex:2];
+	e = [index entryAtIndex:2];
 	GHAssertEqualStrings(@"new_path", e.path, nil);
 }
 
@@ -242,7 +242,7 @@
 	success = [index2 refreshAndReturnError:&error];
 	GHAssertTrue(success, [error localizedDescription]);
 	
-	GHAssertEqualStrings([index2 getEntryAtIndex:0].path, @"test.txt", nil);
+	GHAssertEqualStrings([index2 entryAtIndex:0].path, @"test.txt", nil);
 #endif
 }
 
