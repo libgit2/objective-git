@@ -41,7 +41,7 @@
 - (void)setUp {
 	
 	NSError *error = nil;
-	repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
+	repo = [GTRepository repositoryWithDirectoryURL:[NSURL fileURLWithPath:TEST_REPO_PATH()] createIfNeeded:NO error:&error];
 }
 
 - (void)testCanTellIfPackedObjectExists {
@@ -54,7 +54,7 @@
 - (void)testCanReadAPackedObjectFromDb {
 	
 	NSError *error = nil;
-	GTOdbObject *obj = [repo read:@"41bc8c69075bbdb46c5c6f0566cc8cc5b46e8bd9" error:&error];
+    GTOdbObject *obj = [[repo objectDatabase] objectWithSha:@"41bc8c69075bbdb46c5c6f0566cc8cc5b46e8bd9" error:&error];
 	
 	GHAssertEquals(230, (int)[obj.data length], nil);
 	GHAssertEquals(GTObjectTypeCommit, obj.type, nil);

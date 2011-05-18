@@ -26,7 +26,7 @@
 #import "GTBranch.h"
 #import "GTReference.h"
 #import "GTLib.h"
-#import "GTWalker.h"
+#import "GTEnumerator.h"
 #import "GTRepository.h"
 
 
@@ -86,7 +86,10 @@
 	
 	if((self = [super init])) {
 		self.reference = [GTReference referenceByLookingUpReferencedNamed:branchName inRepository:repo error:error];
-		if(self.reference == nil) return nil;
+		if(self.reference == nil) {
+            [self release];
+            return nil;
+        }
 		
 		self.repository = repo;
 	}
@@ -150,7 +153,7 @@
 
 - (GTCommit *)targetCommitAndReturnError:(NSError **)error {
 	
-    return (GTCommit *)[self.repository lookupObjectBySha:self.sha error:error];
+    return (GTCommit *)[self.repository fetchObjectWithSha:self.sha error:error];
 }
 
 + (NSArray *)branchesInRepository:(GTRepository *)repo error:(NSError **)error {
@@ -196,7 +199,7 @@
 
 - (NSInteger)numberOfCommitsWithError:(NSError **)error {
 	
-	return [self.repository.walker countFromSha:self.sha error:error];
+	return [self.repository.enumerator countFromSha:self.sha error:error];
 }
 
 - (GTBranchType)branchType {

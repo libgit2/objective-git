@@ -40,13 +40,13 @@
 - (void)setUpClass {
 	
 	NSError *error = nil;
-	repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
+	repo = [GTRepository repositoryWithDirectoryURL:[NSURL fileURLWithPath:TEST_REPO_PATH()] createIfNeeded:NO error:&error];
 }
 
 - (void)testCanLookupEmptyStringFails {
 	
 	NSError *error = nil;
-	GTObject *obj = [repo lookupObjectBySha:@"" error:&error];
+	GTObject *obj = [repo fetchObjectWithSha:@"" error:&error];
 	
 	GHAssertNotNil(error, nil);
 	GHAssertNil(obj, nil);
@@ -56,7 +56,7 @@
 - (void)testCanLookupBadObjectFails {
 	
 	NSError *error = nil;
-	GTObject *obj = [repo lookupObjectBySha:@"a496071c1b46c854b31185ea97743be6a8774479" error:&error];
+	GTObject *obj = [repo fetchObjectWithSha:@"a496071c1b46c854b31185ea97743be6a8774479" error:&error];
 	
 	GHAssertNotNil(error, nil);
 	GHAssertNil(obj, nil);
@@ -66,7 +66,7 @@
 - (void)testCanLookupAnObject {
 	
 	NSError *error = nil;
-	GTObject *obj = [repo lookupObjectBySha:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error];
+	GTObject *obj = [repo fetchObjectWithSha:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error];
 	
 	GHAssertNil(error, [error localizedDescription]);
 	GHAssertNotNil(obj, nil);
@@ -77,8 +77,8 @@
 - (void)testTwoObjectsAreTheSame {
 	
 	NSError *error = nil;
-	GTObject *obj1 = [repo lookupObjectBySha:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error];
-	GTObject *obj2 = [repo lookupObjectBySha:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error];
+	GTObject *obj1 = [repo fetchObjectWithSha:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error];
+	GTObject *obj2 = [repo fetchObjectWithSha:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error];
 	
 	GHAssertNotNil(obj1, nil);
 	GHAssertNotNil(obj2, nil);
@@ -88,11 +88,11 @@
 - (void)testCanReadRawDataFromObject {
 	
 	NSError *error = nil;
-	GTObject *obj = [repo lookupObjectBySha:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error];
+	GTObject *obj = [repo fetchObjectWithSha:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error];
 	
 	GHAssertNotNil(obj, nil);
 	
-	GTOdbObject *rawObj = [obj readRawAndReturnError:&error];
+	GTOdbObject *rawObj = [obj odbObjectWithError:&error];
 	GHAssertNotNil(rawObj, nil);
 	GHAssertNil(error, [error localizedDescription]);
 	GHTestLog(@"rawObj len = %d", [rawObj.data length]);

@@ -29,10 +29,10 @@
 
 #import "GTObject.h"
 #import "GTCommit.h"
+#import "GTObjectDatabase.h"
 #import "GTOdbObject.h"
 #import "GTLib.h"
 #import "NSError+Git.h"
-#import "NSString+Git.h"
 #import "GTRepository.h"
 
 
@@ -105,7 +105,7 @@ static NSString * const GTTagClassName = @"GTTag";
 
 - (NSString *)type {
 	
-	return [NSString stringForUTF8String:git_object_type2string(git_object_type(self.obj))];
+	return [NSString stringWithUTF8String:git_object_type2string(git_object_type(self.obj))];
 }
 
 - (NSString *)sha {
@@ -118,9 +118,9 @@ static NSString * const GTTagClassName = @"GTTag";
 	return [GTLib shortUniqueShaFromSha:self.sha];
 }
 
-- (GTOdbObject *)readRawAndReturnError:(NSError **)error {
-	
-	return [self.repository rawRead:git_object_id(self.obj) error:error];
+- (GTOdbObject *)odbObjectWithError:(NSError **)error {
+	GTObjectDatabase *odb = self.repository.objectDatabase;
+    return [odb objectWithOid:git_object_id(self.obj) error:error];
 }
 
 @end

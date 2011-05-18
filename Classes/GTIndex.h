@@ -57,8 +57,8 @@
 - (void)clear;
 
 // Get entries from the index
-- (GTIndexEntry *)getEntryAtIndex:(NSInteger)theIndex;
-- (GTIndexEntry *)getEntryWithName:(NSString *)name;
+- (GTIndexEntry *)entryAtIndex:(NSInteger)theIndex;
+- (GTIndexEntry *)entryWithName:(NSString *)name;
 
 // Add entries to the index
 - (BOOL)addEntry:(GTIndexEntry *)entry error:(NSError **)error;

@@ -28,7 +28,6 @@
 //
 
 #import "GTTag.h"
-#import "NSString+Git.h"
 #import "NSError+Git.h"
 #import "GTSignature.h"
 #import "GTReference.h"
@@ -51,13 +50,13 @@
 + (GTTag *)tagInRepository:(GTRepository *)theRepo name:(NSString *)tagName target:(GTObject *)theTarget tagger:(GTSignature *)theTagger message:(NSString *)theMessage error:(NSError **)error {
 
 	NSString *sha = [GTTag shaByCreatingTagInRepository:theRepo name:tagName target:theTarget tagger:theTagger message:theMessage error:error];
-	return sha ? (GTTag *)[theRepo lookupObjectBySha:sha type:GTObjectTypeTag error:error] : nil;
+	return sha ? (GTTag *)[theRepo fetchObjectWithSha:sha objectType:GTObjectTypeTag error:error] : nil;
 }
 
 + (NSString *)shaByCreatingTagInRepository:(GTRepository *)theRepo name:(NSString *)tagName target:(GTObject *)theTarget tagger:(GTSignature *)theTagger message:(NSString *)theMessage error:(NSError **)error {
 	
 	git_oid oid;
-	int gitError = git_tag_create_o(&oid, theRepo.repo, [NSString utf8StringForString:tagName], theTarget.obj, theTagger.sig, [NSString utf8StringForString:theMessage]);
+	int gitError = git_tag_create_o(&oid, theRepo.repo, [tagName UTF8String], theTarget.obj, theTagger.sig, [theMessage UTF8String]);
 	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError gitErrorFor:gitError withDescription:@"Failed to create tag in repository"];
@@ -69,12 +68,12 @@
 
 - (NSString *)message {
 	
-	return [NSString stringForUTF8String:git_tag_message(self.tag)];
+	return [NSString stringWithUTF8String:git_tag_message(self.tag)];
 }
 
 - (NSString *)name {
 	
-	return [NSString stringForUTF8String:git_tag_name(self.tag)];
+	return [NSString stringWithUTF8String:git_tag_name(self.tag)];
 }
 
 - (GTObject *)target {
@@ -88,7 +87,7 @@
 
 - (NSString *)targetType {
 	
-	return [NSString stringForUTF8String:git_object_type2string(git_tag_type(self.tag))];
+	return [NSString stringWithUTF8String:git_object_type2string(git_tag_type(self.tag))];
 }
 
 - (GTSignature *)tagger {

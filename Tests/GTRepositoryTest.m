@@ -44,7 +44,7 @@
 - (void)setUp {
 	
 	NSError *error = nil;
-	repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
+    repo = [GTRepository repositoryWithDirectoryURL:[NSURL fileURLWithPath:TEST_REPO_PATH()] createIfNeeded:NO error:&error];
 	testContent = @"my test data\n";
 	testContentType = GTObjectTypeBlob;
 }
@@ -60,7 +60,7 @@
 		GHAssertNil(error, [error localizedDescription]);
 	}
 	
-	GTRepository *newRepo = [GTRepository repoByCreatingRepositoryInDirectory:newRepoURL error:&error];
+	GTRepository *newRepo = [GTRepository repositoryWithDirectoryURL:newRepoURL createIfNeeded:YES error:&error];
 	
 	GHAssertNil(error, [error localizedDescription]);
 	GHAssertNotNil(newRepo, nil);
@@ -71,7 +71,7 @@
 - (void)testFailsToOpenNonExistentRepo {
 	
 	NSError *error = nil;
-	GTRepository *badRepo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL fileURLWithPath:@"fake/1235"] error:&error];
+	GTRepository *badRepo = [GTRepository repositoryWithDirectoryURL:[NSURL fileURLWithPath:@"fake/1235"] createIfNeeded:NO error:&error];
 	
 	GHAssertNil(badRepo, nil);
 	GHAssertNotNil(error, nil);
@@ -81,16 +81,16 @@
 - (void)testCanTellIfAnObjectExists {
 	
 	NSError *error = nil;
-	GHAssertTrue([repo hasObject:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error], nil);
-	GHAssertTrue([repo hasObject:@"1385f264afb75a56a5bec74243be9b367ba4ca08" error:&error], nil);
-	GHAssertFalse([repo hasObject:@"ce08fe4884650f067bd5703b6a59a8b3b3c99a09" error:&error], nil);
-	GHAssertFalse([repo hasObject:@"8496071c1c46c854b31185ea97743be6a8774479" error:&error], nil);
+	GHAssertTrue([[repo objectDatabase] containsObjectWithSha:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error], nil);
+	GHAssertTrue([[repo objectDatabase] containsObjectWithSha:@"1385f264afb75a56a5bec74243be9b367ba4ca08" error:&error], nil);
+	GHAssertFalse([[repo objectDatabase] containsObjectWithSha:@"ce08fe4884650f067bd5703b6a59a8b3b3c99a09" error:&error], nil);
+	GHAssertFalse([[repo objectDatabase] containsObjectWithSha:@"8496071c1c46c854b31185ea97743be6a8774479" error:&error], nil);
 }
 
 - (void)testCanReadObjectFromDb {
 	
 	NSError *error = nil;
-	GTOdbObject *rawObj = [repo read:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error];
+	GTOdbObject *rawObj = [[repo objectDatabase] objectWithSha:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error];
 	
 	GHAssertNil(error, [error localizedDescription]);
 	GHAssertNotNil(rawObj, nil);
@@ -102,7 +102,7 @@
 - (void)testReadingFailsOnUnknownObjects {
 	
 	NSError *error = nil;
-	GTOdbObject *rawObj = [repo read:@"a496071c1b46c854b31185ea97743be6a8774471" error:&error];
+	GTOdbObject *rawObj = [[repo objectDatabase] objectWithSha:@"a496071c1b46c854b31185ea97743be6a8774471" error:&error];
 	
 	GHAssertNil(rawObj, nil);
 	GHAssertNotNil(error, nil);
@@ -112,19 +112,19 @@
 - (void)testCanHashData {
 	
 	NSError *error = nil;
-	NSString *sha = [GTRepository hash:testContent type:testContentType error:&error];
+	NSString *sha = [GTRepository shaForString:testContent objectType:testContentType error:&error];
 	GHAssertEqualStrings(sha, @"76b1b55ab653581d6f2c7230d34098e837197674", nil);
 }
 
 - (void)testCanWriteToDb {
 	
 	NSError *error = nil;
-	NSString *sha = [repo write:testContent type:testContentType error:&error];
+	NSString *sha = [[repo objectDatabase] shaByInsertingString:testContent objectType:testContentType error:&error];
 	
 	GHAssertNil(error, [error localizedDescription]);
 	GHAssertNotNil(sha, nil);
 	GHAssertEqualStrings(sha, @"76b1b55ab653581d6f2c7230d34098e837197674", nil);
-	GHAssertTrue([repo exists:sha error:&error], nil);
+	GHAssertTrue([[repo objectDatabase] containsObjectWithSha:sha error:&error], nil);
 	
 	rm_loose(sha);
 }
@@ -133,16 +133,16 @@
 	
 	NSError *error = nil;
 	// alloc and init to verify memory management
-	GTRepository *aRepo = [[GTRepository alloc] initByOpeningRepositoryInDirectory:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
+	GTRepository *aRepo = [[GTRepository alloc] initWithDirectoryURL:[NSURL fileURLWithPath:TEST_REPO_PATH()] createIfNeeded:NO error:&error];
 	GHTestLog(@"%d", [aRepo retainCount]);
 	NSString *sha = @"a4a7dce85cf63874e984719f4fdd239f5145052f";
 	NSMutableArray *commits = [NSMutableArray array];
-	BOOL success = [aRepo walk:sha
-						 error:&error
-						 block:^(GTCommit *commit, BOOL *stop) {
-								[commits addObject:commit];
-						 }];
-	GHAssertTrue(success, [error localizedDescription]);
+    [aRepo enumerateCommitsBeginningAtSha:sha 
+                                    error:&error 
+                               usingBlock:^(GTCommit *commit, BOOL *stop) {
+                                   [commits addObject:commit];
+                               }];
+	GHAssertNil(error, [error localizedDescription]);
 	
 	NSArray *expectedShas = [NSArray arrayWithObjects:
 							 @"a4a7d",
@@ -164,17 +164,15 @@
 - (void)testCanWalkALot {
 	
 	NSError *error = nil;
-	GTRepository *aRepo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
+	GTRepository *aRepo = [GTRepository repositoryWithDirectoryURL:[NSURL fileURLWithPath:TEST_REPO_PATH()] createIfNeeded:NO error:&error];
 	NSString *sha = @"a4a7dce85cf63874e984719f4fdd239f5145052f";
 	
 	for(int i=0; i < 100; i++) {
 		__block NSInteger count = 0;
-		BOOL success = [aRepo walk:sha
-							 error:&error
-							 block:^(GTCommit *commit, BOOL *stop) {
-								 count++;
-							 }];
-		GHAssertTrue(success, [error localizedDescription]);
+        [aRepo enumerateCommitsBeginningAtSha:sha error:&error usingBlock:^(GTCommit *commit, BOOL *stop) {
+            count++;
+        }];
+		GHAssertNil(error, [error localizedDescription]);
 		GHAssertEquals(6, (int)count, nil);
 		
 		//[[NSGarbageCollector defaultCollector] collectExhaustively];
@@ -184,11 +182,11 @@
 - (void)testCanSelectCommits {
 	
 	NSError *error = nil;
-	GTRepository *aRepo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
+	GTRepository *aRepo = [GTRepository repositoryWithDirectoryURL:[NSURL fileURLWithPath:TEST_REPO_PATH()] createIfNeeded:NO error:&error];
 	NSString *sha = @"a4a7dce85cf63874e984719f4fdd239f5145052f";
 	
 	__block NSInteger count = 0;
-	NSArray *commits = [aRepo selectCommitsStartingFrom:sha error:&error block:^BOOL(GTCommit *commit, BOOL *stop) {
+	NSArray *commits = [aRepo selectCommitsBeginningAtSha:sha error:&error block:^BOOL(GTCommit *commit, BOOL *stop) {
 		count++;
 		if(count > 2) *stop = YES;
 		return [[commit parents] count] < 2;

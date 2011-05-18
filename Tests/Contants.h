@@ -38,19 +38,19 @@
 #import "GTRepository.h"
 #import "GTLib.h"
 #import "GTObject.h"
+#import "GTObjectDatabase.h"
 #import "GTOdbObject.h"
 #import "GTCommit.h"
 #import "GTSignature.h"
 #import "GTTree.h"
 #import "GTTreeEntry.h"
-#import "GTWalker.h"
+#import "GTEnumerator.h"
 #import "GTBlob.h"
 #import "GTTag.h"
 #import "GTIndex.h"
 #import "GTIndexEntry.h"
 #import "GTReference.h"
 #import "GTBranch.h"
-#import "NSString+Git.h"
 
 
 static inline NSString *TEST_REPO_PATH(void) {

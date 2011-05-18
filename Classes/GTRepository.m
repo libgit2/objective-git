@@ -28,23 +28,27 @@
 //
 
 #import "GTRepository.h"
-#import "GTWalker.h"
+#import "GTEnumerator.h"
 #import "GTObject.h"
 #import "GTCommit.h"
-#import "GTOdbObject.h"
+#import "GTObjectDatabase.h"
 #import "GTLib.h"
 #import "GTIndex.h"
 #import "GTBranch.h"
 #import "GTTag.h"
 #import "NSError+Git.h"
-#import "NSString+Git.h"
 
 
 @interface GTRepository ()
 @property (nonatomic, assign) git_repository *repo;
 @property (nonatomic, retain) NSURL *fileUrl;
-@property (nonatomic, retain) GTWalker *walker;
+@property (nonatomic, retain) GTEnumerator *enumerator;
 @property (nonatomic, retain) GTIndex *index;
+@property (nonatomic, retain) GTObjectDatabase *objectDatabase;
+@end
+
+@interface GTEnumerator ()
+@property (nonatomic, assign) BOOL checksForMainThreadViolations;
 @end
 
 @implementation GTRepository
@@ -53,9 +57,9 @@
 	
 	git_repository_free(self.repo);
 	self.fileUrl = nil;
-	self.walker.repository = nil;
-	self.walker = nil;
+	self.enumerator = nil;
 	self.index = nil;
+    self.objectDatabase = nil;
 	[super dealloc];
 }
 
@@ -79,77 +83,66 @@
 
 @synthesize repo;
 @synthesize fileUrl;
-@synthesize walker;
+@synthesize enumerator;
 @synthesize index;
+@synthesize objectDatabase;
 
-- (id)initByOpeningRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error {
-	
-	if((self = [super init])) {
-		
-		self.fileUrl = localFileUrl;
-		
-		//GTLog("Opening repository in directory: %@", localFileUrl);
-		
-		const char *path;
-		if([[localFileUrl path] hasSuffix:@".git"] && [GTRepository isAGitDirectory:localFileUrl]) {
-            path = [NSString utf8StringForString:[localFileUrl path]];
-		}
-		else {
-			path = [NSString utf8StringForString:[[localFileUrl URLByAppendingPathComponent:@".git"] path]];
-		}
-		
+- (id)initWithDirectoryURL:(NSURL *)localFileUrl createIfNeeded:(BOOL)create error:(NSError **)error {
+    if ((self = [super init])) {
+        const char *path = [[localFileUrl path] UTF8String];
+        if (![[localFileUrl path] hasSuffix:@".git"] || ![GTRepository isAGitDirectory:localFileUrl]) {
+            localFileUrl = [localFileUrl URLByAppendingPathComponent:@".git"];
+            path = [[localFileUrl path] UTF8String];
+        }
+        
+        self.fileUrl = localFileUrl;
+        
+        //attempt to open the URL
 		git_repository *r;
 		int gitError = git_repository_open(&r, path);
 		if(gitError != GIT_SUCCESS) {
-			if(error != NULL)
-				*error = [NSError gitErrorForOpenRepository:gitError];
-			return nil;
+            if (create == YES) {
+                //couldn't open the repo; attempt to create it
+                gitError = git_repository_init(&r, path, 0);
+                if (gitError != GIT_SUCCESS) {
+                    if (error != NULL) {
+                        *error = [NSError gitErrorForInitRepository:gitError];
+                    }
+                    [self release];
+                    return nil;
+                } 
+            } else {
+                if(error != NULL) {
+                    *error = [NSError gitErrorForOpenRepository:gitError];
+                }
+                [self release];
+                return nil;
+            }
 		}
+        
 		self.repo = r;
 		
-		self.walker = [[[GTWalker alloc] initWithRepository:self error:error] autorelease];
-		if(self.walker == nil) return nil;
-	}
-	return self;
-}
-+ (id)repoByOpeningRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error {
-	
-	return [[[self alloc]initByOpeningRepositoryInDirectory:localFileUrl error:error] autorelease];
-}
-
-- (id)initByCreatingRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error {
-	
-	if((self = [super init])) {
-		self.fileUrl = localFileUrl;
-		
-		//GTLog("Creating repository in directory: %@", localFileUrl);
-		
-		git_repository *r;
-		const char * path = [NSString utf8StringForString:[localFileUrl path]];
-		int gitError = git_repository_init(&r, path, 0);
-		if(gitError != GIT_SUCCESS) {
-			if(error != NULL)
-				*error = [NSError gitErrorForInitRepository:gitError];
-			return nil;
-		} 
-		self.repo = r;
-		
-		self.walker = [[[GTWalker alloc] initWithRepository:self error:error] autorelease];
-		if(self.walker == nil) return nil;
-	}
-	return self;
-}
-+ (id)repoByCreatingRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error {
-	
-	return [[[self alloc]initByCreatingRepositoryInDirectory:localFileUrl error:error] autorelease];
+        self.enumerator = [GTEnumerator enumeratorWithRepository:self error:error];
+		if (self.enumerator == nil) {
+            [self release];
+            return nil;
+        }
+        self.enumerator.checksForMainThreadViolations = YES;
+        
+        self.objectDatabase = [GTObjectDatabase objectDatabaseWithRepository:self];
+    }
+    return self;
 }
 
++ (id)repositoryWithDirectoryURL:(NSURL *)localFileUrl createIfNeeded:(BOOL)create error:(NSError **)error {
+    return [[[self alloc] initWithDirectoryURL:localFileUrl createIfNeeded:create error:error] autorelease];
+}
 
-+ (NSString *)hash:(NSString *)data type:(GTObjectType)type error:(NSError **)error {
++ (NSString *)shaForString:(NSString *)data objectType:(GTObjectType)type error:(NSError **)error {
 	
 	git_oid oid;
 
-	int gitError = git_odb_hash(&oid, [NSString utf8StringForString:data], [data length], type);
+	int gitError = git_odb_hash(&oid, [data UTF8String], [data length], type);
 	if(gitError != GIT_SUCCESS) {
 		if (error != NULL)
 			*error = [NSError gitErrorForHashObject:gitError];
@@ -160,7 +153,7 @@
 }
 
 
-- (GTObject *)lookupObjectByOid:(git_oid *)oid type:(GTObjectType)type error:(NSError **)error {
+- (GTObject *)fetchObjectWithOid:(git_oid *)oid objectType:(GTObjectType)type error:(NSError **)error {
 	
 	git_object *obj;
 	
@@ -174,165 +167,74 @@
     return [GTObject objectWithObj:obj inRepository:self];
 }
 
-- (GTObject *)lookupObjectByOid:(git_oid *)oid error:(NSError **)error {
+- (GTObject *)fetchObjectWithOid:(git_oid *)oid error:(NSError **)error {
 	
-	return [self lookupObjectByOid:oid type:GTObjectTypeAny error:error];
+	return [self fetchObjectWithOid:oid objectType:GTObjectTypeAny error:error];
 }
 
-- (GTObject *)lookupObjectBySha:(NSString *)sha type:(GTObjectType)type error:(NSError **)error {
+- (GTObject *)fetchObjectWithSha:(NSString *)sha objectType:(GTObjectType)type error:(NSError **)error {
 	
 	git_oid oid;
 	
-	int gitError = git_oid_mkstr(&oid, [NSString utf8StringForString:sha]);
+	int gitError = git_oid_mkstr(&oid, [sha UTF8String]);
 	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError gitErrorForMkStr:gitError];
 		return nil;
 	}
 	
-	return [self lookupObjectByOid:&oid type:type error:error];
+	return [self fetchObjectWithOid:&oid objectType:type error:error];
 }
 
-- (GTObject *)lookupObjectBySha:(NSString *)sha error:(NSError **)error {
+- (GTObject *)fetchObjectWithSha:(NSString *)sha error:(NSError **)error {
 	
-	return [self lookupObjectBySha:sha type:GTObjectTypeAny error:error];
+	return [self fetchObjectWithSha:sha objectType:GTObjectTypeAny error:error];
 }
 
-- (BOOL)exists:(NSString *)sha error:(NSError **)error {
-	
-	return [self hasObject:sha error:error];
-}
-
-- (BOOL)hasObject:(NSString *)sha error:(NSError **)error{
-	
-	git_odb *odb;
-	git_oid oid;
-	
-	odb = git_repository_database(self.repo);
-	int gitError = git_oid_mkstr(&oid, [NSString utf8StringForString:sha]);
-	if(gitError != GIT_SUCCESS) {
-		if(error != NULL)
-			*error = [NSError gitErrorForMkStr:gitError];
-		return NO;
-	}
-	
-	return git_odb_exists(odb, &oid) ? YES : NO;
-}
-
-- (GTOdbObject *)rawRead:(const git_oid *)oid error:(NSError **)error {
-	
-	git_odb *odb;
-	git_odb_object *obj;
-	
-	odb = git_repository_database(self.repo);
-	int gitError = git_odb_read(&obj, odb, oid);
-	if(gitError != GIT_SUCCESS) {
-		if(error != NULL)
-			*error = [NSError gitErrorForRawRead:gitError];
-		return nil;
-	}
-	
-	GTOdbObject *rawObj = [GTOdbObject objectWithObject:obj];
-	git_odb_object_close(obj);
-	
-	return rawObj;
-}
-
-- (GTOdbObject *)read:(NSString *)sha error:(NSError **)error {
-	
-	git_oid oid;
-	int gitError = git_oid_mkstr(&oid, [NSString utf8StringForString:sha]);
-	if(gitError != GIT_SUCCESS) {
-		if (error != NULL)
-			*error = [NSError gitErrorForMkStr:gitError];
-		return nil;
-	}
-	return [self rawRead:&oid error:error];
-}
-
-- (NSString *)write:(NSString *)data type:(GTObjectType)type error:(NSError **)error {
-	
-	git_odb_stream *stream;
-	git_odb *odb;
-	git_oid oid;
-	
-	odb = git_repository_database(self.repo);
-	
-	int gitError = git_odb_open_wstream(&stream, odb, data.length, type);
-	if(gitError != GIT_SUCCESS) {
-		if(error != NULL)
-			*error = [NSError gitErrorFor:gitError withDescription:@"Failed to open write stream on odb"];
-		return nil;
-	}
-	
-	gitError = stream->write(stream, [NSString utf8StringForString:data], data.length);
-	if(gitError != GIT_SUCCESS) {
-		if(error != NULL)
-			*error = [NSError gitErrorFor:gitError withDescription:@"Failed to write to stream on odb"];
-		return nil;
-	}
-	
-	gitError = stream->finalize_write(&oid, stream);
-	if(gitError != GIT_SUCCESS) {
-		if(error != NULL)
-			*error = [NSError gitErrorFor:gitError withDescription:@"Failed to finalize write on odb"];
-		return nil;
-	}
-
-	return [GTLib convertOidToSha:&oid];
-}
-
-- (BOOL)walk:(NSString *)sha sorting:(GTWalkerOptions)sortMode error:(NSError **)error block:(void (^)(GTCommit *commit, BOOL *stop))block {
-	
+- (void)enumerateCommitsBeginningAtSha:(NSString *)sha sortOptions:(GTEnumeratorOptions)options error:(NSError **)error usingBlock:(void (^)(GTCommit *, BOOL*))block {
+    
 	if(block == nil) {
 		if(error != NULL)
 			*error = [NSError gitErrorForNoBlockProvided];
-		return NO;	
+		return;
 	}
-
+    
 	if(sha == nil) {
 		GTReference *head = [self headReferenceWithError:error];
-		if(head == nil) return NO;
+		if(head == nil) return;
 		sha = head.target;
 	}
 	
-	[self.walker reset];
-	[self.walker setSortingOptions:sortMode];
-	BOOL success = [self.walker push:sha error:error];
-	if(!success) return NO; 
+	[self.enumerator reset];
+	[self.enumerator setOptions:options];
+	BOOL success = [self.enumerator push:sha error:error];
+	if(!success) return; 
 	
 	GTCommit *commit = nil;
-	while((commit = [self.walker next]) != nil) {
+	while((commit = [self.enumerator nextObject]) != nil) {
 		BOOL stop = NO;
 		block(commit, &stop);
 		if(stop) break;
 	}
-	return YES;
 }
 
-- (BOOL)walk:(NSString *)sha error:(NSError **)error block:(void (^)(GTCommit *commit, BOOL *stop))block {
-	
-	return [self walk:sha sorting:GIT_SORT_TIME error:error block:block];
+- (void)enumerateCommitsBeginningAtSha:(NSString *)sha error:(NSError **)error usingBlock:(void (^)(GTCommit *, BOOL*))block {
+    [self enumerateCommitsBeginningAtSha:sha sortOptions:GTEnumeratorOptionsTimeSort error:error usingBlock:block];
 }
 
-- (NSArray *)selectCommitsStartingFrom:(NSString *)sha error:(NSError **)error block:(BOOL (^)(GTCommit *commit, BOOL *stop))block {
+- (NSArray *)selectCommitsBeginningAtSha:(NSString *)sha error:(NSError **)error block:(BOOL (^)(GTCommit *commit, BOOL *stop))block {
 	
 	NSMutableArray *passingCommits = [NSMutableArray array];
-	BOOL success = [self walk:sha error:error block:^(GTCommit *commit, BOOL *stop) {
+    [self enumerateCommitsBeginningAtSha:sha error:error usingBlock:^(GTCommit *commit, BOOL *stop) {
 		BOOL passes = block(commit, stop);
 		if(passes) {
 			[passingCommits addObject:commit];
 		}
-	}];
-	
-	if(success) {
-		return passingCommits;
-	} else {
-		return nil;
-	}
+    }];
+    return passingCommits;
 }
 
-- (BOOL)setupIndex:(NSError **)error {
+- (BOOL)setupIndexWithError:(NSError **)error {
 	
 	git_index *i;
 	int gitError = git_repository_index(&i, self.repo);
@@ -360,12 +262,12 @@
 	return [GTReference referenceNamesInRepository:self types:types error:error];
 }
 
-- (NSArray *)allReferenceNames:(NSError **)error {
+- (NSArray *)allReferenceNamesWithError:(NSError **)error {
 	
 	return [GTReference referenceNamesInRepository:self error:error];
 }
 
-- (NSArray *)allBranches:(NSError **)error {
+- (NSArray *)allBranchesWithError:(NSError **)error {
     
 	NSMutableArray *allBranches = [NSMutableArray array];
 	NSArray *localBranches = [GTBranch branchesInRepository:self error:error];
@@ -397,7 +299,7 @@
 	GTReference *head = [self headReferenceWithError:error];
 	if(head == nil) return NSNotFound;
 	
-	return [self.walker countFromSha:head.target error:error];
+	return [self.enumerator countFromSha:head.target error:error];
 }
 
 - (GTBranch *)createBranchNamed:(NSString *)name fromReference:(GTReference *)ref error:(NSError **)error {
@@ -440,21 +342,21 @@
 		return [NSArray array];
 	}
 	
-	GTWalker *localBranchWalker = [GTWalker walkerWithRepository:self error:error];
-	if(localBranchWalker == nil) {
+	GTEnumerator *localBranchEnumerator = [GTEnumerator enumeratorWithRepository:self error:error];
+	if(localBranchEnumerator == nil) {
 		return nil;
 	}
 	
-	[localBranchWalker setSortingOptions:GTWalkerOptionsTopologicalSort];
+	[localBranchEnumerator setOptions:GTEnumeratorOptionsTopologicalSort];
 	
-	BOOL success = [localBranchWalker push:localBranch.sha error:error];
+	BOOL success = [localBranchEnumerator push:localBranch.sha error:error];
 	if(!success) {
 		return nil;
 	}
 	
 	NSString *remoteBranchTip = remoteBranch.sha;
 	NSMutableArray *commits = [NSMutableArray array];
-	GTCommit *currentCommit = [localBranchWalker next];
+	GTCommit *currentCommit = [localBranchEnumerator nextObject];
 	while(currentCommit != nil) {
 		if([currentCommit.sha isEqualToString:remoteBranchTip]) {
 			break;
@@ -462,7 +364,7 @@
 		
 		[commits addObject:currentCommit];
 		
-		currentCommit = [localBranchWalker next];
+		currentCommit = [localBranchEnumerator nextObject];
 	}
 	
 	return commits;

@@ -31,7 +31,6 @@
 #import "GTSignature.h"
 #import "GTTree.h"
 #import "GTLib.h"
-#import "NSString+Git.h"
 #import "NSError+Git.h"
 #import "GTRepository.h"
 
@@ -64,7 +63,7 @@
 					 error:(NSError **)error {
 	
 	NSString *sha = [GTCommit shaByCreatingCommitInRepository:theRepo updateRefNamed:refName author:authorSig committer:committerSig message:newMessage tree:theTree parents:theParents error:error];
-	return sha ? (GTCommit *)[theRepo lookupObjectBySha:sha type:GTObjectTypeCommit error:error] : nil;
+	return sha ? (GTCommit *)[theRepo fetchObjectWithSha:sha objectType:GTObjectTypeCommit error:error] : nil;
 }
 
 + (NSString *)shaByCreatingCommitInRepository:(GTRepository *)theRepo
@@ -86,10 +85,10 @@
 	int gitError = git_commit_create_o(
 									   &oid, 
 									   theRepo.repo, 
-									   refName ? [NSString utf8StringForString:refName] : NULL, 
+									   refName ? [refName UTF8String] : NULL, 
 									   authorSig.sig, 
 									   committerSig.sig, 
-									   [NSString utf8StringForString:newMessage], 
+									   [newMessage UTF8String], 
 									   theTree.tree, 
 									   count, 
 									   parentCommits);
@@ -104,13 +103,13 @@
 - (NSString *)message {
 	
 	const char *s = git_commit_message(self.commit);
-	return [NSString stringForUTF8String:s];
+	return [NSString stringWithUTF8String:s];
 }
 
 - (NSString *)shortMessage {
 	
 	const char *s = git_commit_message_short(self.commit);
-	return [NSString stringForUTF8String:s];
+	return [NSString stringWithUTF8String:s];
 }
 
 - (NSString *)messageDetails {

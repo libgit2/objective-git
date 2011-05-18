@@ -1,12 +1,8 @@
 //
-//  NSString+Git.h
+//  GTObjectDatabase.h
 //  ObjectiveGitFramework
 //
-//  Created by Timothy Clem on 2/18/11.
-//
-//  The MIT License
-//
-//  Copyright (c) 2011 Tim Clem
+//  Created by Dave DeLong on 5/17/2011.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -27,10 +23,24 @@
 //  THE SOFTWARE.
 //
 
+#import <git2.h>
+#import "GTObject.h"
 
-@interface NSString (Git)
 
-+ (const char*)utf8StringForString:(NSString *)str;
-+ (NSString *)stringForUTF8String:(const char*)str;
+@interface GTObjectDatabase : NSObject <GTObject> {
+    git_odb *odb;
+}
+
+@property (nonatomic, assign, readonly) GTRepository *repository;
+
++ (id)objectDatabaseWithRepository:(GTRepository *)repository;
+- (id)initWithRepository:(GTRepository *)repository;
+
+- (GTOdbObject *)objectWithOid:(const git_oid *)oid error:(NSError **)error;
+- (GTOdbObject *)objectWithSha:(NSString *)sha error:(NSError **)error;
+
+- (NSString *)shaByInsertingString:(NSString *)data objectType:(GTObjectType)type error:(NSError **)error;
+
+- (BOOL)containsObjectWithSha:(NSString *)sha error:(NSError **)error;
 
 @end

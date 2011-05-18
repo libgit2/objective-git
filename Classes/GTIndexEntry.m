@@ -29,7 +29,6 @@
 
 #import "GTIndexEntry.h"
 #import "GTLib.h"
-#import "NSString+Git.h"
 #import "NSError+Git.h"
 
 
@@ -83,14 +82,14 @@
 - (NSString *)path {
 	
 	if(self.entry->path == NULL)return nil;
-	return [NSString stringForUTF8String:self.entry->path];
+	return [NSString stringWithUTF8String:self.entry->path];
 }
 - (void)setPath:(NSString *)thePath {
 	
 	if(self.entry->path != NULL)
 		free(self.entry->path);
 	
-	entry->path = strdup([NSString utf8StringForString:thePath]);
+	entry->path = strdup([thePath UTF8String]);
 }
 
 - (NSString *)sha {
@@ -99,7 +98,7 @@
 }
 - (BOOL)setSha:(NSString *)theSha error:(NSError **)error {
 
-	int gitError = git_oid_mkstr(&entry->oid, [NSString utf8StringForString:theSha]);
+	int gitError = git_oid_mkstr(&entry->oid, [theSha UTF8String]);
 	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError gitErrorForMkStr:gitError];

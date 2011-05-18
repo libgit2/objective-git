@@ -1,5 +1,5 @@
 //
-//  GTWalker.m
+//  GTEnumerator.m
 //  ObjectiveGitFramework
 //
 //  Created by Timothy Clem on 2/21/11.
@@ -27,18 +27,21 @@
 //  THE SOFTWARE.
 //
 
-#import "GTWalker.h"
+#import "GTEnumerator.h"
 #import "GTCommit.h"
 #import "GTLib.h"
 #import "NSError+Git.h"
 #import "GTRepository.h"
 
 
-@interface GTWalker()
+@interface GTEnumerator()
 @property (nonatomic, assign) git_revwalk *walk;
+@property (nonatomic, assign) BOOL checksForMainThreadViolations;
 @end
 
-@implementation GTWalker
+#define CHECK_MAIN_THREAD if(self.checksForMainThreadViolations && ![NSThread isMainThread]) { GTLog(@"%@ should only be used from the main thread.", self); }
+
+@implementation GTEnumerator
 
 - (void)dealloc {
 	
@@ -52,6 +55,8 @@
 
 @synthesize repository;
 @synthesize walk;
+@synthesize options;
+@synthesize checksForMainThreadViolations;
 
 - (id)initWithRepository:(GTRepository *)theRepo error:(NSError **)error {
 	
@@ -62,19 +67,20 @@
 		if(gitError != GIT_SUCCESS) {
 			if (error != NULL)
 				*error = [NSError gitErrorForInitRevWalker:gitError];
+            [self release];
 			return nil;
 		}
 		self.walk = w;
 	}
 	return self;
 }
-+ (id)walkerWithRepository:(GTRepository *)theRepo error:(NSError **)error {
++ (id)enumeratorWithRepository:(GTRepository *)theRepo error:(NSError **)error {
 	
 	return [[[self alloc] initWithRepository:theRepo error:error] autorelease];
 }
 
 - (BOOL)push:(NSString *)sha error:(NSError **)error {
-	
+	CHECK_MAIN_THREAD
 	git_oid oid;
 	BOOL success = [GTLib convertSha:sha toOid:&oid error:error];
 	if(!success)return NO;
@@ -91,8 +97,8 @@
 	return YES;
 }
 
-- (BOOL)hide:(NSString *)sha error:(NSError **)error {
-	
+- (BOOL)skipCommitWithHash:(NSString *)sha error:(NSError **)error {
+	CHECK_MAIN_THREAD
 	git_oid oid;
 	BOOL success = [GTLib convertSha:sha toOid:&oid error:error];
 	if(!success)return NO;
@@ -107,29 +113,39 @@
 }
 
 - (void)reset {
-	
+	CHECK_MAIN_THREAD
 	git_revwalk_reset(self.walk);
 }
 
-- (void)setSortingOptions:(GTWalkerOptions)options {
-	
+- (void)setOptions:(GTEnumeratorOptions)newOptions {
+	CHECK_MAIN_THREAD
+    options = newOptions;
 	git_revwalk_sorting(self.walk, options);
 }
 
-- (GTCommit *)next {
-	
+- (id)nextObject {
+	CHECK_MAIN_THREAD
 	git_oid oid;
 	int gitError = git_revwalk_next(&oid, self.walk);
 	if(gitError == GIT_EREVWALKOVER)
 		return nil;
 	
 	// ignore error if we can't lookup object and just return nil
-	return (GTCommit *)[self.repository lookupObjectBySha:[GTLib convertOidToSha:&oid] type:GTObjectTypeCommit error:nil];
+	return [self.repository fetchObjectWithSha:[GTLib convertOidToSha:&oid] objectType:GTObjectTypeCommit error:nil];
+}
+
+- (NSArray *)allObjects {
+    NSMutableArray *array = [NSMutableArray array];
+    id object = nil;
+    while ((object = [self nextObject]) != nil) {
+        [array addObject:object];
+    }
+    return array;
 }
 
 - (NSInteger)countFromSha:(NSString *)sha error:(NSError **)error {
-	
-	[self setSortingOptions:GTWalkerOptionsNone];
+	CHECK_MAIN_THREAD
+	[self setOptions:GTEnumeratorOptionsNone];
 	
 	BOOL success = [self push:sha error:error];
 	if(!success) return NSNotFound;

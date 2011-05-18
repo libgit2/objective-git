@@ -29,10 +29,10 @@
 
 #import <git2.h>
 #import "GTObject.h"
-#import "GTWalker.h"
+#import "GTEnumerator.h"
 #import "GTReference.h"
 
-
+@class GTObjectDatabase;
 @class GTOdbObject;
 @class GTCommit;
 @class GTIndex;
@@ -42,15 +42,13 @@
 
 @property (nonatomic, assign, readonly) git_repository *repo;
 @property (nonatomic, retain, readonly) NSURL *fileUrl;
-@property (nonatomic, retain, readonly) GTWalker *walker;
+@property (nonatomic, retain, readonly) GTEnumerator *enumerator; // should only be used on the main thread
 @property (nonatomic, retain, readonly) GTIndex *index;
+@property (nonatomic, retain, readonly) GTObjectDatabase *objectDatabase;
 
-// Convenience initializers
-- (id)initByOpeningRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error;
-+ (id)repoByOpeningRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error;
-
-- (id)initByCreatingRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error;
-+ (id)repoByCreatingRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error;
+// Initializer
+- (id)initWithDirectoryURL:(NSURL *)localFileUrl createIfNeeded:(BOOL)create error:(NSError **)error;
++ (id)repositoryWithDirectoryURL:(NSURL *)localFileUrl createIfNeeded:(BOOL)create error:(NSError **)error;
 
 // Helper for getting the sha1 has of a raw object
 //
@@ -58,37 +56,29 @@
 // error(out) - will be filled if an error occurs
 //
 // returns the sha1 for the raw object or nil if there was an error
-+ (NSString *)hash:(NSString *)data type:(GTObjectType)type error:(NSError **)error;
++ (NSString *)shaForString:(NSString *)data objectType:(GTObjectType)type error:(NSError **)error;
 
 // Lookup objects in the repo by oid or sha1
-- (GTObject *)lookupObjectByOid:(git_oid *)oid type:(GTObjectType)type error:(NSError **)error;
-- (GTObject *)lookupObjectByOid:(git_oid *)oid error:(NSError **)error;
-- (GTObject *)lookupObjectBySha:(NSString *)sha type:(GTObjectType)type error:(NSError **)error;
-- (GTObject *)lookupObjectBySha:(NSString *)sha error:(NSError **)error;
+- (GTObject *)fetchObjectWithOid:(git_oid *)oid objectType:(GTObjectType)type error:(NSError **)error;
+- (GTObject *)fetchObjectWithOid:(git_oid *)oid error:(NSError **)error;
+- (GTObject *)fetchObjectWithSha:(NSString *)sha objectType:(GTObjectType)type error:(NSError **)error;
+- (GTObject *)fetchObjectWithSha:(NSString *)sha error:(NSError **)error;
 
-// Check to see if objects exist in the repo
-- (BOOL)exists:(NSString *)sha error:(NSError **)error;
-- (BOOL)hasObject:(NSString *)sha error:(NSError **)error;
+- (void)enumerateCommitsBeginningAtSha:(NSString *)sha sortOptions:(GTEnumeratorOptions)options error:(NSError **)error usingBlock:(void (^)(GTCommit *, BOOL*))block;
+- (void)enumerateCommitsBeginningAtSha:(NSString *)sha error:(NSError **)error usingBlock:(void (^)(GTCommit *, BOOL*))block;
 
-- (GTOdbObject *)rawRead:(const git_oid *)oid error:(NSError **)error;
-- (GTOdbObject *)read:(NSString *)sha error:(NSError **)error;
+- (NSArray *)selectCommitsBeginningAtSha:(NSString *)sha error:(NSError **)error block:(BOOL (^)(GTCommit *commit, BOOL *stop))block;
 
-- (NSString *)write:(NSString *)data type:(GTObjectType)type error:(NSError **)error;
-
-- (BOOL)walk:(NSString *)sha sorting:(GTWalkerOptions)sortMode error:(NSError **)error block:(void (^)(GTCommit *commit, BOOL *stop))block;
-- (BOOL)walk:(NSString *)sha error:(NSError **)error block:(void (^)(GTCommit *commit, BOOL *stop))block;
-- (NSArray *)selectCommitsStartingFrom:(NSString *)sha error:(NSError **)error block:(BOOL (^)(GTCommit *commit, BOOL *stop))block;
-
-- (BOOL)setupIndex:(NSError **)error;
+- (BOOL)setupIndexWithError:(NSError **)error;
 
 - (GTReference *)headReferenceWithError:(NSError **)error;
 
 // Convenience methods to return references in this repository (see GTReference.h)
 - (NSArray *)allReferenceNamesOfTypes:(GTReferenceTypes)types error:(NSError **)error;
-- (NSArray *)allReferenceNames:(NSError **)error;
+- (NSArray *)allReferenceNamesWithError:(NSError **)error;
 
 // Convenience methods to return branches in the repository
-- (NSArray *)allBranches:(NSError **)error;
+- (NSArray *)allBranchesWithError:(NSError **)error;
 
 // Count all commits in the current branch (HEAD)
 //
