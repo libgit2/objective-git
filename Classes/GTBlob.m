@@ -46,19 +46,19 @@
 + (GTBlob *)blobInRepository:(GTRepository *)theRepo content:(NSString *)content error:(NSError **)error {
 	
 	NSString *sha = [GTBlob shaByCreatingBlobInRepository:theRepo content:content error:error];
-	return sha ? (GTBlob *)[theRepo fetchObjectWithSha:sha type:GTObjectTypeBlob error:error] : nil;
+	return sha ? (GTBlob *)[theRepo fetchObjectWithSha:sha objectType:GTObjectTypeBlob error:error] : nil;
 }
 
 + (GTBlob *)blobInRepository:(GTRepository *)theRepo data:(NSData *)data error:(NSError **)error {
 	
 	NSString *sha = [GTBlob shaByCreatingBlobInRepository:theRepo data:data error:error];
-	return sha ? (GTBlob *)[theRepo fetchObjectWithSha:sha type:GTObjectTypeBlob error:error] : nil;
+	return sha ? (GTBlob *)[theRepo fetchObjectWithSha:sha objectType:GTObjectTypeBlob error:error] : nil;
 }
 
 + (GTBlob *)blobInRepository:(GTRepository *)theRepo file:(NSURL *)file error:(NSError **)error {
 	
 	NSString *sha = [GTBlob shaByCreatingBlobInRepository:theRepo file:file error:error];
-	return sha ? (GTBlob *)[theRepo fetchObjectWithSha:sha type:GTObjectTypeBlob error:error] : nil;
+	return sha ? (GTBlob *)[theRepo fetchObjectWithSha:sha objectType:GTObjectTypeBlob error:error] : nil;
 }
 
 + (NSString *)shaByCreatingBlobInRepository:(GTRepository *)theRepo content:(NSString *)content error:(NSError **)error {

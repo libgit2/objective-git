@@ -71,6 +71,8 @@
 		04DB4B10133BC1A000D9C624 /* GTReferenceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = BD8F69CF131F0AEE009DA3A1 /* GTReferenceTest.m */; };
 		04DB4B11133BC1A000D9C624 /* GTBranchTest.m in Sources */ = {isa = PBXBuildFile; fileRef = BD5B2FD61329686F00251129 /* GTBranchTest.m */; };
 		04DB4B6B133BC34100D9C624 /* GHUnitIOSTestMain.m in Sources */ = {isa = PBXBuildFile; fileRef = BDD9C486133BA73E003708E7 /* GHUnitIOSTestMain.m */; };
+		55C804F3138390D4004DCB0F /* GTObjectDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C804F213839046004DCB0F /* GTObjectDatabase.m */; };
+		55C804F4138390D4004DCB0F /* GTObjectDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C804F213839046004DCB0F /* GTObjectDatabase.m */; };
 		8803DA871313145700E6E818 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8803DA861313145700E6E818 /* libz.dylib */; };
 		88F50F59132054D800584FBE /* GTBranch.h in Headers */ = {isa = PBXBuildFile; fileRef = 88F50F56132054D800584FBE /* GTBranch.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88F50F5A132054D800584FBE /* GTBranch.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F50F57132054D800584FBE /* GTBranch.m */; };
@@ -204,6 +206,8 @@
 		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		32DBCF5E0370ADEE00C91783 /* ObjectiveGitFramework_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectiveGitFramework_Prefix.pch; sourceTree = "<group>"; };
+		55C804F113839045004DCB0F /* GTObjectDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; path = GTObjectDatabase.h; sourceTree = "<group>"; };
+		55C804F213839046004DCB0F /* GTObjectDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTObjectDatabase.m; sourceTree = "<group>"; };
 		8803DA861313145700E6E818 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		88F50F56132054D800584FBE /* GTBranch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTBranch.h; sourceTree = "<group>"; };
 		88F50F57132054D800584FBE /* GTBranch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTBranch.m; sourceTree = "<group>"; };
@@ -480,6 +484,8 @@
 				BD441E07131ED0C300187010 /* GTReference.m */,
 				88F50F56132054D800584FBE /* GTBranch.h */,
 				88F50F57132054D800584FBE /* GTBranch.m */,
+				55C804F113839045004DCB0F /* GTObjectDatabase.h */,
+				55C804F213839046004DCB0F /* GTObjectDatabase.m */,
 				AA046110134F4D2000DF526B /* GTOdbObject.h */,
 				AA046111134F4D2000DF526B /* GTOdbObject.m */,
 			);
@@ -736,6 +742,7 @@
 				04DB466E133AB5EB00D9C624 /* GTReference.m in Sources */,
 				04DB466F133AB5EB00D9C624 /* GTBranch.m in Sources */,
 				AA046115134F4D2000DF526B /* GTOdbObject.m in Sources */,
+				55C804F4138390D4004DCB0F /* GTObjectDatabase.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -759,6 +766,7 @@
 				BD441E09131ED0C300187010 /* GTReference.m in Sources */,
 				88F50F5A132054D800584FBE /* GTBranch.m in Sources */,
 				AA046114134F4D2000DF526B /* GTOdbObject.m in Sources */,
+				55C804F3138390D4004DCB0F /* GTObjectDatabase.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

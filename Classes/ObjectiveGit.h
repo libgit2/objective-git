@@ -36,3 +36,6 @@
 #import "GTReference.h"
 #import "GTBranch.h"
 #import "GTObject.h"
+
+#import "GTObjectDatabase.h"
+#import "GTOdbObject.h"

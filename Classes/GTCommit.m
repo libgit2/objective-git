@@ -63,7 +63,7 @@
 					 error:(NSError **)error {
 	
 	NSString *sha = [GTCommit shaByCreatingCommitInRepository:theRepo updateRefNamed:refName author:authorSig committer:committerSig message:newMessage tree:theTree parents:theParents error:error];
-	return sha ? (GTCommit *)[theRepo fetchObjectWithSha:sha type:GTObjectTypeCommit error:error] : nil;
+	return sha ? (GTCommit *)[theRepo fetchObjectWithSha:sha objectType:GTObjectTypeCommit error:error] : nil;
 }
 
 + (NSString *)shaByCreatingCommitInRepository:(GTRepository *)theRepo

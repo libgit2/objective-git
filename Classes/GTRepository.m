@@ -31,7 +31,7 @@
 #import "GTWalker.h"
 #import "GTObject.h"
 #import "GTCommit.h"
-#import "GTOdbObject.h"
+#import "GTObjectDatabase.h"
 #import "GTLib.h"
 #import "GTIndex.h"
 #import "GTBranch.h"
@@ -44,6 +44,7 @@
 @property (nonatomic, retain) NSURL *fileUrl;
 @property (nonatomic, retain) GTWalker *walker;
 @property (nonatomic, retain) GTIndex *index;
+@property (nonatomic, retain) GTObjectDatabase *objectDatabase;
 @end
 
 @implementation GTRepository
@@ -55,6 +56,7 @@
 	self.walker.repository = nil;
 	self.walker = nil;
 	self.index = nil;
+    self.objectDatabase = nil;
 	[super dealloc];
 }
 
@@ -80,6 +82,7 @@
 @synthesize fileUrl;
 @synthesize walker;
 @synthesize index;
+@synthesize objectDatabase;
 
 - (id)initWithDirectoryURL:(NSURL *)localFileUrl createIfNeeded:(BOOL)create error:(NSError **)error {
     if ((self = [super init])) {
@@ -122,6 +125,7 @@
             return nil;
         }
         
+        self.objectDatabase = [GTObjectDatabase objectDatabaseWithRepository:self];
     }
     return self;
 }
@@ -130,7 +134,7 @@
     return [[[self alloc] initWithDirectoryURL:localFileUrl createIfNeeded:create error:error] autorelease];
 }
 
-+ (NSString *)hash:(NSString *)data type:(GTObjectType)type error:(NSError **)error {
++ (NSString *)shaForString:(NSString *)data objectType:(GTObjectType)type error:(NSError **)error {
 	
 	git_oid oid;
 
@@ -145,7 +149,7 @@
 }
 
 
-- (GTObject *)fetchObjectWithOid:(git_oid *)oid type:(GTObjectType)type error:(NSError **)error {
+- (GTObject *)fetchObjectWithOid:(git_oid *)oid objectType:(GTObjectType)type error:(NSError **)error {
 	
 	git_object *obj;
 	
@@ -161,10 +165,10 @@
 
 - (GTObject *)fetchObjectWithOid:(git_oid *)oid error:(NSError **)error {
 	
-	return [self fetchObjectWithOid:oid type:GTObjectTypeAny error:error];
+	return [self fetchObjectWithOid:oid objectType:GTObjectTypeAny error:error];
 }
 
-- (GTObject *)fetchObjectWithSha:(NSString *)sha type:(GTObjectType)type error:(NSError **)error {
+- (GTObject *)fetchObjectWithSha:(NSString *)sha objectType:(GTObjectType)type error:(NSError **)error {
 	
 	git_oid oid;
 	
@@ -175,96 +179,12 @@
 		return nil;
 	}
 	
-	return [self fetchObjectWithOid:&oid type:type error:error];
+	return [self fetchObjectWithOid:&oid objectType:type error:error];
 }
 
 - (GTObject *)fetchObjectWithSha:(NSString *)sha error:(NSError **)error {
 	
-	return [self fetchObjectWithSha:sha type:GTObjectTypeAny error:error];
-}
-
-- (BOOL)exists:(NSString *)sha error:(NSError **)error {
-	
-	return [self hasObject:sha error:error];
-}
-
-- (BOOL)hasObject:(NSString *)sha error:(NSError **)error{
-	
-	git_odb *odb;
-	git_oid oid;
-	
-	odb = git_repository_database(self.repo);
-	int gitError = git_oid_mkstr(&oid, [sha UTF8String]);
-	if(gitError != GIT_SUCCESS) {
-		if(error != NULL)
-			*error = [NSError gitErrorForMkStr:gitError];
-		return NO;
-	}
-	
-	return git_odb_exists(odb, &oid) ? YES : NO;
-}
-
-- (GTOdbObject *)rawRead:(const git_oid *)oid error:(NSError **)error {
-	
-	git_odb *odb;
-	git_odb_object *obj;
-	
-	odb = git_repository_database(self.repo);
-	int gitError = git_odb_read(&obj, odb, oid);
-	if(gitError != GIT_SUCCESS) {
-		if(error != NULL)
-			*error = [NSError gitErrorForRawRead:gitError];
-		return nil;
-	}
-	
-	GTOdbObject *rawObj = [GTOdbObject objectWithOdbObj:obj];
-	git_odb_object_close(obj);
-	
-	return rawObj;
-}
-
-- (GTOdbObject *)read:(NSString *)sha error:(NSError **)error {
-	
-	git_oid oid;
-	int gitError = git_oid_mkstr(&oid, [sha UTF8String]);
-	if(gitError != GIT_SUCCESS) {
-		if (error != NULL)
-			*error = [NSError gitErrorForMkStr:gitError];
-		return nil;
-	}
-	return [self rawRead:&oid error:error];
-}
-
-- (NSString *)write:(NSString *)data type:(GTObjectType)type error:(NSError **)error {
-	
-	git_odb_stream *stream;
-	git_odb *odb;
-	git_oid oid;
-	
-	odb = git_repository_database(self.repo);
-	
-	int gitError = git_odb_open_wstream(&stream, odb, data.length, type);
-	if(gitError != GIT_SUCCESS) {
-		if(error != NULL)
-			*error = [NSError gitErrorFor:gitError withDescription:@"Failed to open write stream on odb"];
-		return nil;
-	}
-	
-	gitError = stream->write(stream, [data UTF8String], data.length);
-	if(gitError != GIT_SUCCESS) {
-		if(error != NULL)
-			*error = [NSError gitErrorFor:gitError withDescription:@"Failed to write to stream on odb"];
-		return nil;
-	}
-	
-	gitError = stream->finalize_write(&oid, stream);
-	if(gitError != GIT_SUCCESS) {
-		if(error != NULL)
-			*error = [NSError gitErrorFor:gitError withDescription:@"Failed to finalize write on odb"];
-		return nil;
-	}
-
-	return [GTLib convertOidToSha:&oid];
+	return [self fetchObjectWithSha:sha objectType:GTObjectTypeAny error:error];
 }
 
 - (BOOL)walk:(NSString *)sha sorting:(GTWalkerOptions)sortMode error:(NSError **)error block:(void (^)(GTCommit *commit, BOOL *stop))block {
@@ -317,7 +237,7 @@
 	}
 }
 
-- (BOOL)setupIndex:(NSError **)error {
+- (BOOL)setupIndexWithError:(NSError **)error {
 	
 	git_index *i;
 	int gitError = git_repository_index(&i, self.repo);
@@ -345,12 +265,12 @@
 	return [GTReference referenceNamesInRepository:self types:types error:error];
 }
 
-- (NSArray *)allReferenceNames:(NSError **)error {
+- (NSArray *)allReferenceNamesWithError:(NSError **)error {
 	
 	return [GTReference referenceNamesInRepository:self error:error];
 }
 
-- (NSArray *)allBranches:(NSError **)error {
+- (NSArray *)allBranchesWithError:(NSError **)error {
     
 	NSMutableArray *allBranches = [NSMutableArray array];
 	NSArray *localBranches = [GTBranch branchesInRepository:self error:error];

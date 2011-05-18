@@ -1,12 +1,8 @@
 //
-//  GTRepositoryPackTest.m
+//  GTObjectDatabase.h
 //  ObjectiveGitFramework
 //
-//  Created by Timothy Clem on 2/28/11.
-//
-//  The MIT License
-//
-//  Copyright (c) 2011 Tim Clem
+//  Created by Dave DeLong on 5/17/2011.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -27,37 +23,24 @@
 //  THE SOFTWARE.
 //
 
-#import "Contants.h"
+#import <git2.h>
+#import "GTObject.h"
 
 
-@interface GTRepositoryPackTest : GHTestCase {
-	
-	GTRepository *repo;
-}
-@end
-
-@implementation GTRepositoryPackTest
-
-- (void)setUp {
-	
-	NSError *error = nil;
-	repo = [GTRepository repositoryWithDirectoryURL:[NSURL fileURLWithPath:TEST_REPO_PATH()] createIfNeeded:NO error:&error];
+@interface GTObjectDatabase : NSObject <GTObject> {
+    git_odb *odb;
 }
 
-- (void)testCanTellIfPackedObjectExists {
-	
-	NSError *error = nil;
-	GHAssertTrue([repo exists:@"41bc8c69075bbdb46c5c6f0566cc8cc5b46e8bd9" error:&error], nil);
-	GHAssertTrue([repo exists:@"f82a8eb4cb20e88d1030fd10d89286215a715396" error:&error], nil);
-}
+@property (nonatomic, assign, readonly) GTRepository *repository;
 
-- (void)testCanReadAPackedObjectFromDb {
-	
-	NSError *error = nil;
-    GTOdbObject *obj = [[repo objectDatabase] objectWithSha:@"41bc8c69075bbdb46c5c6f0566cc8cc5b46e8bd9" error:&error];
-	
-	GHAssertEquals(230, (int)[obj.data length], nil);
-	GHAssertEquals(GTObjectTypeCommit, obj.type, nil);
-}
++ (id)objectDatabaseWithRepository:(GTRepository *)repository;
+- (id)initWithRepository:(GTRepository *)repository;
+
+- (GTOdbObject *)objectWithOid:(const git_oid *)oid error:(NSError **)error;
+- (GTOdbObject *)objectWithSha:(NSString *)sha error:(NSError **)error;
+
+- (NSString *)shaByInsertingString:(NSString *)data objectType:(GTObjectType)type error:(NSError **)error;
+
+- (BOOL)containsObjectWithSha:(NSString *)sha error:(NSError **)error;
 
 @end
