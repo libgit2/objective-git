@@ -92,7 +92,7 @@
 	return YES;
 }
 
-- (BOOL)hide:(NSString *)sha error:(NSError **)error {
+- (BOOL)skipCommitWithHash:(NSString *)sha error:(NSError **)error {
 	
 	git_oid oid;
 	BOOL success = [GTLib convertSha:sha toOid:&oid error:error];
