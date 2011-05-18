@@ -62,6 +62,7 @@
 		if(gitError != GIT_SUCCESS) {
 			if (error != NULL)
 				*error = [NSError gitErrorForInitRevWalker:gitError];
+            [self release];
 			return nil;
 		}
 		self.walk = w;

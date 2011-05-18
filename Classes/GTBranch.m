@@ -86,7 +86,10 @@
 	
 	if((self = [super init])) {
 		self.reference = [GTReference referenceByLookingUpReferencedNamed:branchName inRepository:repo error:error];
-		if(self.reference == nil) return nil;
+		if(self.reference == nil) {
+            [self release];
+            return nil;
+        }
 		
 		self.repository = repo;
 	}
