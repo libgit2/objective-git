@@ -58,6 +58,7 @@
 		if(gitError != GIT_SUCCESS) {
 			if(error != NULL)
 				*error = [NSError gitErrorForLookupRef:gitError];
+            [self release];
 			return nil;
 		}
 	}
@@ -92,6 +93,7 @@
 		if(gitError != GIT_SUCCESS) {
 			if(error != NULL)
 				*error = [NSError gitErrorForCreateRef:gitError];
+            [self release];
 			return nil;
 		}
 	}
@@ -110,6 +112,7 @@
 		if(gitError != GIT_SUCCESS) {
 			if(error != NULL)
 				*error = [NSError gitErrorForResloveRef:gitError];
+            [self release];
 			return nil;
 		}
 		self.repository = symbolicRef.repository;

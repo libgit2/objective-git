@@ -58,6 +58,7 @@
 		if(gitError != GIT_SUCCESS) {
 			if(error != NULL)
 				*error = [NSError gitErrorForInitIndex:gitError];
+            [self release];
 			return nil;
 		}
 		self.index = i;
