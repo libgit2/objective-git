@@ -1,5 +1,5 @@
 //
-//  GTWalker.m
+//  GTEnumerator.m
 //  ObjectiveGitFramework
 //
 //  Created by Timothy Clem on 2/21/11.
@@ -27,18 +27,18 @@
 //  THE SOFTWARE.
 //
 
-#import "GTWalker.h"
+#import "GTEnumerator.h"
 #import "GTCommit.h"
 #import "GTLib.h"
 #import "NSError+Git.h"
 #import "GTRepository.h"
 
 
-@interface GTWalker()
+@interface GTEnumerator()
 @property (nonatomic, assign) git_revwalk *walk;
 @end
 
-@implementation GTWalker
+@implementation GTEnumerator
 
 - (void)dealloc {
 	
@@ -52,6 +52,7 @@
 
 @synthesize repository;
 @synthesize walk;
+@synthesize options;
 
 - (id)initWithRepository:(GTRepository *)theRepo error:(NSError **)error {
 	
@@ -69,7 +70,7 @@
 	}
 	return self;
 }
-+ (id)walkerWithRepository:(GTRepository *)theRepo error:(NSError **)error {
++ (id)enumeratorWithRepository:(GTRepository *)theRepo error:(NSError **)error {
 	
 	return [[[self alloc] initWithRepository:theRepo error:error] autorelease];
 }
@@ -112,12 +113,12 @@
 	git_revwalk_reset(self.walk);
 }
 
-- (void)setSortingOptions:(GTWalkerOptions)options {
-	
+- (void)setOptions:(GTEnumeratorOptions)newOptions {
+    options = newOptions;
 	git_revwalk_sorting(self.walk, options);
 }
 
-- (GTCommit *)next {
+- (id)nextObject {
 	
 	git_oid oid;
 	int gitError = git_revwalk_next(&oid, self.walk);
@@ -125,12 +126,21 @@
 		return nil;
 	
 	// ignore error if we can't lookup object and just return nil
-	return (GTCommit *)[self.repository fetchObjectWithSha:[GTLib convertOidToSha:&oid] objectType:GTObjectTypeCommit error:nil];
+	return [self.repository fetchObjectWithSha:[GTLib convertOidToSha:&oid] objectType:GTObjectTypeCommit error:nil];
+}
+
+- (NSArray *)allObjects {
+    NSMutableArray *array = [NSMutableArray array];
+    id object = nil;
+    while ((object = [self nextObject]) != nil) {
+        [array addObject:object];
+    }
+    return array;
 }
 
 - (NSInteger)countFromSha:(NSString *)sha error:(NSError **)error {
 	
-	[self setSortingOptions:GTWalkerOptionsNone];
+	[self setOptions:GTEnumeratorOptionsNone];
 	
 	BOOL success = [self push:sha error:error];
 	if(!success) return NSNotFound;

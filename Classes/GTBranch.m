@@ -26,7 +26,7 @@
 #import "GTBranch.h"
 #import "GTReference.h"
 #import "GTLib.h"
-#import "GTWalker.h"
+#import "GTEnumerator.h"
 #import "GTRepository.h"
 
 
@@ -199,7 +199,7 @@
 
 - (NSInteger)numberOfCommitsWithError:(NSError **)error {
 	
-	return [self.repository.walker countFromSha:self.sha error:error];
+	return [self.repository.enumerator countFromSha:self.sha error:error];
 }
 
 - (GTBranchType)branchType {

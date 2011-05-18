@@ -28,7 +28,7 @@
 //
 
 #import "GTRepository.h"
-#import "GTWalker.h"
+#import "GTEnumerator.h"
 #import "GTObject.h"
 #import "GTCommit.h"
 #import "GTObjectDatabase.h"
@@ -42,7 +42,7 @@
 @interface GTRepository ()
 @property (nonatomic, assign) git_repository *repo;
 @property (nonatomic, retain) NSURL *fileUrl;
-@property (nonatomic, retain) GTWalker *walker;
+@property (nonatomic, retain) GTEnumerator *enumerator;
 @property (nonatomic, retain) GTIndex *index;
 @property (nonatomic, retain) GTObjectDatabase *objectDatabase;
 @end
@@ -53,8 +53,8 @@
 	
 	git_repository_free(self.repo);
 	self.fileUrl = nil;
-	self.walker.repository = nil;
-	self.walker = nil;
+	self.enumerator.repository = nil;
+	self.enumerator = nil;
 	self.index = nil;
     self.objectDatabase = nil;
 	[super dealloc];
@@ -80,7 +80,7 @@
 
 @synthesize repo;
 @synthesize fileUrl;
-@synthesize walker;
+@synthesize enumerator;
 @synthesize index;
 @synthesize objectDatabase;
 
@@ -119,8 +119,8 @@
         
 		self.repo = r;
 		
-		self.walker = [[[GTWalker alloc] initWithRepository:self error:error] autorelease];
-		if (self.walker == nil) {
+		self.enumerator = [[[GTEnumerator alloc] initWithRepository:self error:error] autorelease];
+		if (self.enumerator == nil) {
             [self release];
             return nil;
         }
@@ -187,54 +187,47 @@
 	return [self fetchObjectWithSha:sha objectType:GTObjectTypeAny error:error];
 }
 
-- (BOOL)walk:(NSString *)sha sorting:(GTWalkerOptions)sortMode error:(NSError **)error block:(void (^)(GTCommit *commit, BOOL *stop))block {
-	
+- (void)enumerateCommitsBeginningAtSha:(NSString *)sha sortOptions:(GTEnumeratorOptions)options error:(NSError **)error usingBlock:(void (^)(GTCommit *, BOOL*))block {
+    
 	if(block == nil) {
 		if(error != NULL)
 			*error = [NSError gitErrorForNoBlockProvided];
-		return NO;	
+		return;
 	}
-
+    
 	if(sha == nil) {
 		GTReference *head = [self headReferenceWithError:error];
-		if(head == nil) return NO;
+		if(head == nil) return;
 		sha = head.target;
 	}
 	
-	[self.walker reset];
-	[self.walker setSortingOptions:sortMode];
-	BOOL success = [self.walker push:sha error:error];
-	if(!success) return NO; 
+	[self.enumerator reset];
+	[self.enumerator setOptions:options];
+	BOOL success = [self.enumerator push:sha error:error];
+	if(!success) return; 
 	
 	GTCommit *commit = nil;
-	while((commit = [self.walker next]) != nil) {
+	while((commit = [self.enumerator nextObject]) != nil) {
 		BOOL stop = NO;
 		block(commit, &stop);
 		if(stop) break;
 	}
-	return YES;
 }
 
-- (BOOL)walk:(NSString *)sha error:(NSError **)error block:(void (^)(GTCommit *commit, BOOL *stop))block {
-	
-	return [self walk:sha sorting:GIT_SORT_TIME error:error block:block];
+- (void)enumerateCommitsBeginningAtSha:(NSString *)sha error:(NSError **)error usingBlock:(void (^)(GTCommit *, BOOL*))block {
+    [self enumerateCommitsBeginningAtSha:sha sortOptions:GTEnumeratorOptionsTimeSort error:error usingBlock:block];
 }
 
-- (NSArray *)selectCommitsStartingFrom:(NSString *)sha error:(NSError **)error block:(BOOL (^)(GTCommit *commit, BOOL *stop))block {
+- (NSArray *)selectCommitsBeginningAtSha:(NSString *)sha error:(NSError **)error block:(BOOL (^)(GTCommit *commit, BOOL *stop))block {
 	
 	NSMutableArray *passingCommits = [NSMutableArray array];
-	BOOL success = [self walk:sha error:error block:^(GTCommit *commit, BOOL *stop) {
+    [self enumerateCommitsBeginningAtSha:sha error:error usingBlock:^(GTCommit *commit, BOOL *stop) {
 		BOOL passes = block(commit, stop);
 		if(passes) {
 			[passingCommits addObject:commit];
 		}
-	}];
-	
-	if(success) {
-		return passingCommits;
-	} else {
-		return nil;
-	}
+    }];
+    return passingCommits;
 }
 
 - (BOOL)setupIndexWithError:(NSError **)error {
@@ -302,7 +295,7 @@
 	GTReference *head = [self headReferenceWithError:error];
 	if(head == nil) return NSNotFound;
 	
-	return [self.walker countFromSha:head.target error:error];
+	return [self.enumerator countFromSha:head.target error:error];
 }
 
 - (GTBranch *)createBranchNamed:(NSString *)name fromReference:(GTReference *)ref error:(NSError **)error {
@@ -345,21 +338,21 @@
 		return [NSArray array];
 	}
 	
-	GTWalker *localBranchWalker = [GTWalker walkerWithRepository:self error:error];
-	if(localBranchWalker == nil) {
+	GTEnumerator *localBranchEnumerator = [GTEnumerator enumeratorWithRepository:self error:error];
+	if(localBranchEnumerator == nil) {
 		return nil;
 	}
 	
-	[localBranchWalker setSortingOptions:GTWalkerOptionsTopologicalSort];
+	[localBranchEnumerator setOptions:GTEnumeratorOptionsTopologicalSort];
 	
-	BOOL success = [localBranchWalker push:localBranch.sha error:error];
+	BOOL success = [localBranchEnumerator push:localBranch.sha error:error];
 	if(!success) {
 		return nil;
 	}
 	
 	NSString *remoteBranchTip = remoteBranch.sha;
 	NSMutableArray *commits = [NSMutableArray array];
-	GTCommit *currentCommit = [localBranchWalker next];
+	GTCommit *currentCommit = [localBranchEnumerator nextObject];
 	while(currentCommit != nil) {
 		if([currentCommit.sha isEqualToString:remoteBranchTip]) {
 			break;
@@ -367,7 +360,7 @@
 		
 		[commits addObject:currentCommit];
 		
-		currentCommit = [localBranchWalker next];
+		currentCommit = [localBranchEnumerator nextObject];
 	}
 	
 	return commits;
