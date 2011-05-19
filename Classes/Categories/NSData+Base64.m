@@ -67,7 +67,7 @@ static unsigned char base64DecodeLookup[256] =
 // returns the decoded buffer. Must be free'd by caller. Length is given by
 //	outputLength.
 //
-void *NewBase64Decode(
+void *git_NewBase64Decode(
 	const char *inputBuffer,
 	size_t length,
 	size_t *outputLength)
@@ -137,7 +137,7 @@ void *NewBase64Decode(
 // returns the encoded buffer. Must be free'd by caller. Length is given by
 //	outputLength.
 //
-char *NewBase64Encode(
+char *git_NewBase64Encode(
 	const void *buffer,
 	size_t length,
 	bool separateLines,
@@ -248,7 +248,7 @@ char *NewBase64Encode(
 	return outputBuffer;
 }
 
-@implementation NSData (Base64)
+@implementation NSData (GitBase64)
 
 //
 // dataFromBase64String:
@@ -261,11 +261,11 @@ char *NewBase64Encode(
 //
 // returns the autoreleased NSData representation of the base64 string
 //
-+ (NSData *)dataFromBase64String:(NSString *)aString
++ (NSData *)git_dataWithBase64String:(NSString *)aString
 {
 	NSData *data = [aString dataUsingEncoding:NSASCIIStringEncoding];
 	size_t outputLength;
-	void *outputBuffer = NewBase64Decode([data bytes], [data length], &outputLength);
+	void *outputBuffer = git_NewBase64Decode([data bytes], [data length], &outputLength);
 	NSData *result = [NSData dataWithBytes:outputBuffer length:outputLength];
 	free(outputBuffer);
 	return result;
@@ -280,11 +280,11 @@ char *NewBase64Encode(
 // returns an autoreleased NSString being the base 64 representation of the
 //	receiver.
 //
-- (NSString *)base64EncodedString
+- (NSString *)git_base64EncodedString
 {
 	size_t outputLength;
 	char *outputBuffer =
-		NewBase64Encode([self bytes], [self length], true, &outputLength);
+		git_NewBase64Encode([self bytes], [self length], true, &outputLength);
 	
 	NSString *result =
 		[[[NSString alloc]

@@ -50,7 +50,6 @@
 #import "GTIndexEntry.h"
 #import "GTReference.h"
 #import "GTBranch.h"
-#import "NSString+Git.h"
 
 
 static inline NSString *TEST_REPO_PATH(void) {

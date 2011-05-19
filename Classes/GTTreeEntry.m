@@ -32,7 +32,6 @@
 #import "GTTree.h"
 #import "GTLib.h"
 #import "GTRepository.h"
-#import "NSString+Git.h"
 #import "NSError+Git.h"
 
 
@@ -70,7 +69,7 @@
 
 - (NSString *)name {
 	
-	return [NSString stringForUTF8String:git_tree_entry_name(self.entry)];
+	return [NSString stringWithUTF8String:git_tree_entry_name(self.entry)];
 }
 
 - (NSInteger)attributes {
