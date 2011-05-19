@@ -698,7 +698,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = $PROJECT_DIR/Scripts/RunTests.sh;
+			shellScript = "\"$PROJECT_DIR/Scripts/RunTests.sh\"";
 		};
 		BDD9C494133BA80D003708E7 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
