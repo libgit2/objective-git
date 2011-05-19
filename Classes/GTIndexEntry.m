@@ -29,7 +29,6 @@
 
 #import "GTIndexEntry.h"
 #import "GTLib.h"
-#import "NSString+Git.h"
 #import "NSError+Git.h"
 
 
@@ -83,7 +82,7 @@
 - (NSString *)path {
 	
 	if(self.entry->path == NULL)return nil;
-	return [NSString stringForUTF8String:self.entry->path];
+	return [NSString stringWithUTF8String:self.entry->path];
 }
 - (void)setPath:(NSString *)thePath {
 	

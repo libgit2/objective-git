@@ -32,7 +32,6 @@
 #import "GTOdbObject.h"
 #import "GTLib.h"
 #import "NSError+Git.h"
-#import "NSString+Git.h"
 #import "GTRepository.h"
 
 
@@ -105,7 +104,7 @@ static NSString * const GTTagClassName = @"GTTag";
 
 - (NSString *)type {
 	
-	return [NSString stringForUTF8String:git_object_type2string(git_object_type(self.obj))];
+	return [NSString stringWithUTF8String:git_object_type2string(git_object_type(self.obj))];
 }
 
 - (NSString *)sha {

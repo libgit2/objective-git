@@ -26,7 +26,6 @@
 #import "GTReference.h"
 #import "GTRepository.h"
 #import "GTLib.h"
-#import "NSString+Git.h"
 #import "NSError+Git.h"
 
 
@@ -126,7 +125,7 @@
 
 - (NSString *)name {
 	
-	return [NSString stringForUTF8String:git_reference_name(self.ref)];
+	return [NSString stringWithUTF8String:git_reference_name(self.ref)];
 }
 - (BOOL)setName:(NSString *)newName error:(NSError **)error {
 	
@@ -141,7 +140,7 @@
 
 - (NSString *)type {
 	
-	return [NSString stringForUTF8String:git_object_type2string(git_reference_type(self.ref))];
+	return [NSString stringWithUTF8String:git_object_type2string(git_reference_type(self.ref))];
 }
 
 + (NSArray *)referenceNamesInRepository:(GTRepository *)theRepo types:(GTReferenceTypes)types error:(NSError **)error {
@@ -160,7 +159,7 @@
 	
 	NSMutableArray *references = [NSMutableArray arrayWithCapacity:array.count];
 	for(int i=0; i< array.count; i++) {
-		[references addObject:[NSString stringForUTF8String:array.strings[i]]];
+		[references addObject:[NSString stringWithUTF8String:array.strings[i]]];
 	}
 	
 	return references;
@@ -177,7 +176,7 @@
 		return [GTLib convertOidToSha:git_reference_oid(self.ref)];
 	}
 	else {
-		return [NSString stringForUTF8String:git_reference_target(self.ref)];
+		return [NSString stringWithUTF8String:git_reference_target(self.ref)];
 	}
 }
 - (BOOL)setTarget:(NSString *)newTarget error:(NSError **)error {

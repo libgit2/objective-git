@@ -28,7 +28,6 @@
 //
 
 #import "GTBlob.h"
-#import "NSString+Git.h"
 #import "NSError+Git.h"
 #import "GTRepository.h"
 #import "GTLib.h"
@@ -111,7 +110,7 @@
 	NSInteger s = [self size];
 	if(s == 0) return @"";
 	
-	return [NSString stringForUTF8String:git_blob_rawcontent(self.blob)];
+	return [NSString stringWithUTF8String:git_blob_rawcontent(self.blob)];
 }
 
 - (NSData *)data {

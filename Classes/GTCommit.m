@@ -31,7 +31,6 @@
 #import "GTSignature.h"
 #import "GTTree.h"
 #import "GTLib.h"
-#import "NSString+Git.h"
 #import "NSError+Git.h"
 #import "GTRepository.h"
 
@@ -104,13 +103,13 @@
 - (NSString *)message {
 	
 	const char *s = git_commit_message(self.commit);
-	return [NSString stringForUTF8String:s];
+	return [NSString stringWithUTF8String:s];
 }
 
 - (NSString *)shortMessage {
 	
 	const char *s = git_commit_message_short(self.commit);
-	return [NSString stringForUTF8String:s];
+	return [NSString stringWithUTF8String:s];
 }
 
 - (NSString *)messageDetails {

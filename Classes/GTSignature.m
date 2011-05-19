@@ -28,7 +28,6 @@
 //
 
 #import "GTSignature.h"
-#import "NSString+Git.h"
 
 
 @implementation GTSignature
@@ -77,7 +76,7 @@
 
 - (NSString *)name {
 	
-	return [NSString stringForUTF8String:self.sig->name];
+	return [NSString stringWithUTF8String:self.sig->name];
 }
 - (void)setName:(NSString *)n {
 	
@@ -87,7 +86,7 @@
 
 - (NSString *)email {
 	
-	return [NSString stringForUTF8String:self.sig->email];
+	return [NSString stringWithUTF8String:self.sig->email];
 }
 - (void)setEmail:(NSString *)e {
 	
