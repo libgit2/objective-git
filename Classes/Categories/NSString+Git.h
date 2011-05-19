@@ -30,7 +30,6 @@
 
 @interface NSString (Git)
 
-+ (const char*)utf8StringForString:(NSString *)str;
 + (NSString *)stringForUTF8String:(const char*)str;
 
 @end

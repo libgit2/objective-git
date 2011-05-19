@@ -65,7 +65,7 @@
 + (NSString *)shaByCreatingBlobInRepository:(GTRepository *)theRepo content:(NSString *)content error:(NSError **)error {
 	
 	git_oid oid;
-	int gitError = git_blob_create_frombuffer(&oid, theRepo.repo, [NSString utf8StringForString:content], content.length);
+	int gitError = git_blob_create_frombuffer(&oid, theRepo.repo, [content UTF8String], content.length);
 	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError gitErrorFor:gitError withDescription:@"Failed to create blob from NSString"];
@@ -91,7 +91,7 @@
 + (NSString *)shaByCreatingBlobInRepository:(GTRepository *)theRepo file:(NSURL *)file error:(NSError **)error {
 	
 	git_oid oid;
-	int gitError = git_blob_create_fromfile(&oid, theRepo.repo, [NSString utf8StringForString:[file path]]);
+	int gitError = git_blob_create_fromfile(&oid, theRepo.repo, [[file path] UTF8String]);
 	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError gitErrorFor:gitError withDescription:@"Failed to create blob from NSURL"];

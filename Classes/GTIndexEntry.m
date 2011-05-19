@@ -90,7 +90,7 @@
 	if(self.entry->path != NULL)
 		free(self.entry->path);
 	
-	entry->path = strdup([NSString utf8StringForString:thePath]);
+	entry->path = strdup([thePath UTF8String]);
 }
 
 - (NSString *)sha {
@@ -99,7 +99,7 @@
 }
 - (BOOL)setSha:(NSString *)theSha error:(NSError **)error {
 
-	int gitError = git_oid_mkstr(&entry->oid, [NSString utf8StringForString:theSha]);
+	int gitError = git_oid_mkstr(&entry->oid, [theSha UTF8String]);
 	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError gitErrorForMkStr:gitError];

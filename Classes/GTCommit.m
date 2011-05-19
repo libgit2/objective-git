@@ -86,10 +86,10 @@
 	int gitError = git_commit_create_o(
 									   &oid, 
 									   theRepo.repo, 
-									   refName ? [NSString utf8StringForString:refName] : NULL, 
+									   refName ? [refName UTF8String] : NULL, 
 									   authorSig.sig, 
 									   committerSig.sig, 
-									   [NSString utf8StringForString:newMessage], 
+									   [newMessage UTF8String], 
 									   theTree.tree, 
 									   count, 
 									   parentCommits);

@@ -149,7 +149,7 @@
 	
 	git_oid oid;
 
-	int gitError = git_odb_hash(&oid, [NSString utf8StringForString:data], [data length], type);
+	int gitError = git_odb_hash(&oid, [data UTF8String], [data length], type);
 	if(gitError != GIT_SUCCESS) {
 		if (error != NULL)
 			*error = [NSError gitErrorForHashObject:gitError];
@@ -183,7 +183,7 @@
 	
 	git_oid oid;
 	
-	int gitError = git_oid_mkstr(&oid, [NSString utf8StringForString:sha]);
+	int gitError = git_oid_mkstr(&oid, [sha UTF8String]);
 	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError gitErrorForMkStr:gitError];
@@ -209,7 +209,7 @@
 	git_oid oid;
 	
 	odb = git_repository_database(self.repo);
-	int gitError = git_oid_mkstr(&oid, [NSString utf8StringForString:sha]);
+	int gitError = git_oid_mkstr(&oid, [sha UTF8String]);
 	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError gitErrorForMkStr:gitError];
@@ -241,7 +241,7 @@
 - (GTOdbObject *)read:(NSString *)sha error:(NSError **)error {
 	
 	git_oid oid;
-	int gitError = git_oid_mkstr(&oid, [NSString utf8StringForString:sha]);
+	int gitError = git_oid_mkstr(&oid, [sha UTF8String]);
 	if(gitError != GIT_SUCCESS) {
 		if (error != NULL)
 			*error = [NSError gitErrorForMkStr:gitError];
@@ -265,7 +265,7 @@
 		return nil;
 	}
 	
-	gitError = stream->write(stream, [NSString utf8StringForString:data], data.length);
+	gitError = stream->write(stream, [data UTF8String], data.length);
 	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError gitErrorFor:gitError withDescription:@"Failed to write to stream on odb"];

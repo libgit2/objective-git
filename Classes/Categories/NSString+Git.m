@@ -32,12 +32,6 @@
 
 @implementation NSString (Git)
 
-
-+ (const char*)utf8StringForString:(NSString *)str {
-	
-	return str ? [str cStringUsingEncoding:NSUTF8StringEncoding] : "";
-}
-
 + (NSString *)stringForUTF8String:(const char*)str {
 	
 	return str ? [NSString stringWithCString:str encoding:NSUTF8StringEncoding] : @"";

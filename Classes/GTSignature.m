@@ -62,8 +62,8 @@
 	
 	if((self = [super init])) {
 		self.sig = git_signature_new(
-										   [NSString utf8StringForString:theName], 
-										   [NSString utf8StringForString:theEmail], 
+										   [theName UTF8String], 
+										   [theEmail UTF8String], 
 										   [theTime timeIntervalSince1970], 
 										   0);
 		// todo: figure out offset for NSDate
