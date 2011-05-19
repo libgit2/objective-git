@@ -44,7 +44,7 @@
 - (void)setUp {
 	
 	NSError *error = nil;
-	repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
+    repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
 	testContent = @"my test data\n";
 	testContentType = GTObjectTypeBlob;
 }
@@ -60,7 +60,8 @@
 		GHAssertNil(error, [error localizedDescription]);
 	}
 	
-	GTRepository *newRepo = [GTRepository repoByCreatingRepositoryInDirectory:newRepoURL error:&error];
+    GHAssertTrue([GTRepository initializeEmptyRepositoryAtURL:newRepoURL error:&error], nil);
+	GTRepository *newRepo = [GTRepository repositoryWithURL:newRepoURL error:&error];
 	
 	GHAssertNil(error, [error localizedDescription]);
 	GHAssertNotNil(newRepo, nil);
@@ -71,7 +72,7 @@
 - (void)testFailsToOpenNonExistentRepo {
 	
 	NSError *error = nil;
-	GTRepository *badRepo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL fileURLWithPath:@"fake/1235"] error:&error];
+	GTRepository *badRepo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:@"fake/1235"] error:&error];
 	
 	GHAssertNil(badRepo, nil);
 	GHAssertNotNil(error, nil);
@@ -133,7 +134,7 @@
 	
 	NSError *error = nil;
 	// alloc and init to verify memory management
-	GTRepository *aRepo = [[GTRepository alloc] initByOpeningRepositoryInDirectory:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
+	GTRepository *aRepo = [[GTRepository alloc] initWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
 	GHTestLog(@"%d", [aRepo retainCount]);
 	NSString *sha = @"a4a7dce85cf63874e984719f4fdd239f5145052f";
 	NSMutableArray *commits = [NSMutableArray array];
@@ -164,7 +165,7 @@
 - (void)testCanWalkALot {
 	
 	NSError *error = nil;
-	GTRepository *aRepo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
+	GTRepository *aRepo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
 	NSString *sha = @"a4a7dce85cf63874e984719f4fdd239f5145052f";
 	
 	for(int i=0; i < 100; i++) {
@@ -184,7 +185,7 @@
 - (void)testCanSelectCommits {
 	
 	NSError *error = nil;
-	GTRepository *aRepo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
+	GTRepository *aRepo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
 	NSString *sha = @"a4a7dce85cf63874e984719f4fdd239f5145052f";
 	
 	__block NSInteger count = 0;

@@ -38,7 +38,7 @@
 - (void)testCanReadTagData {
 	
 	NSError *error = nil;
-	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
+	GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
 	NSString *sha = @"0c37a5391bbff43c37f0d0371823a5509eed5b1d";
 	GTTag *tag = (GTTag *)[repo lookupObjectBySha:sha error:&error];
 	
@@ -61,7 +61,7 @@
 	
 	NSError *error = nil;
 	NSString *sha = @"0c37a5391bbff43c37f0d0371823a5509eed5b1d";
-	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
+	GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
 	GTTag *tag = (GTTag *)[repo lookupObjectBySha:sha error:&error];
 	
 	[GTTag shaByCreatingTagInRepository:repo name:tag.name target:tag.target tagger:tag.tagger message:@"new message" error:&error];
@@ -71,7 +71,7 @@
 - (void)testCreateTag {
 	NSError *error = nil;
 	NSString *sha = @"0c37a5391bbff43c37f0d0371823a5509eed5b1d";
-	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
+	GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
 	GTTag *tag = (GTTag *)[repo lookupObjectBySha:sha error:&error];
 
 	NSString *newSha = [GTTag shaByCreatingTagInRepository:repo name:@"a_new_tag" target:tag.target tagger:tag.tagger message:@"my tag\n" error:&error];

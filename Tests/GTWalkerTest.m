@@ -38,7 +38,7 @@
 - (void)testCanWalkSimpleRevlist {
 	
 	NSError *error = nil;
-	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
+	GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
 	BOOL success = [repo.walker push:@"9fd738e8f7967c078dceed8190330fc8648ee56a" error:&error];
 	GHAssertTrue(success, [error localizedDescription]);
 	
@@ -60,7 +60,7 @@
 - (void)testCanWalkFromHead {
 	
 	NSError *error = nil;
-	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
+	GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
 	GHAssertNil(error, [error localizedDescription]);
 	GTReference *head = [repo headReferenceWithError:&error];
 	GHAssertNil(error, [error localizedDescription]);
@@ -78,7 +78,7 @@
 - (void)testCanWalkFromHeadShortcut {
 	
 	NSError *error = nil;
-	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
+	GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
 	
 	__block int count = 0;
 	BOOL success = [repo walk:nil 
@@ -93,7 +93,7 @@
 - (void)testCanWalkPartOfARevList {
 	
 	NSError *error = nil;
-	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
+	GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
 	NSString *sha = @"8496071c1b46c854b31185ea97743be6a8774479";
 	BOOL success = [repo.walker push:sha error:&error];
 	GHAssertTrue(success, [error localizedDescription]);
@@ -105,7 +105,7 @@
 - (void)testCanHidePartOfAList {
 	
 	NSError *error = nil;
-	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
+	GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
 	BOOL success = [repo.walker push:@"9fd738e8f7967c078dceed8190330fc8648ee56a" error:&error];
 	GHAssertTrue(success, [error localizedDescription]);
 	success = [repo.walker hide:@"5b5b025afb0b4c913b4c338a42934a3863bf3644" error:&error];
@@ -121,7 +121,7 @@
 - (void)testCanResetAWalker {
 	
 	NSError *error = nil;
-	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
+	GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
 	NSString *sha = @"8496071c1b46c854b31185ea97743be6a8774479";
 	BOOL success = [repo.walker push:sha error:&error];
 	GHAssertTrue(success, nil);
@@ -138,7 +138,7 @@
 - (NSMutableArray *)revListWithSorting:(unsigned int)sortMode {
 	
 	NSError *error = nil;
-	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
+	GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
 	NSString *sha = @"a4a7dce85cf63874e984719f4fdd239f5145052f";
 	[repo.walker setSortingOptions:sortMode];
 	BOOL success = [repo.walker push:sha error:&error];

@@ -41,7 +41,7 @@
 - (void)setUp {
 	
 	NSError *error = nil;
-	repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
+    repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
 	sha = @"fa49b077972391ad58037050f2a75f74e3671e92";
 }
 

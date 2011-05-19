@@ -45,12 +45,10 @@
 @property (nonatomic, retain, readonly) GTWalker *walker;
 @property (nonatomic, retain, readonly) GTIndex *index;
 
-// Convenience initializers
-- (id)initByOpeningRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error;
-+ (id)repoByOpeningRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error;
++ (BOOL)initializeEmptyRepositoryAtURL:(NSURL *)localFileURL error:(NSError **)error;
 
-- (id)initByCreatingRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error;
-+ (id)repoByCreatingRepositoryInDirectory:(NSURL *)localFileUrl error:(NSError **)error;
++ (id)repositoryWithURL:(NSURL *)localFileURL error:(NSError **)error;
+- (id)initWithURL:(NSURL *)localFileURL error:(NSError **)error;
 
 // Helper for getting the sha1 has of a raw object
 //

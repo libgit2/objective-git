@@ -40,7 +40,7 @@
 - (void)setUpClass {
 	
 	NSError *error = nil;
-	repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
+    repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
 }
 
 - (void)testCanLookupEmptyStringFails {
