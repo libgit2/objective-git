@@ -74,6 +74,7 @@
 }
 
 + (NSURL *)_gitURLForURL:(NSURL *)url error:(NSError **)error {
+
     if ([url isFileURL] == NO) {
         if (error != NULL) {
             *error = [NSError errorWithDomain:NSCocoaErrorDomain code:kCFURLErrorUnsupportedURL userInfo:[NSDictionary dictionaryWithObject:@"not a local file URL" forKey:NSLocalizedDescriptionKey]];
@@ -96,11 +97,7 @@
 @synthesize index;
 
 + (BOOL)initializeEmptyRepositoryAtURL:(NSURL *)localFileURL error:(NSError **)error {
-    localFileURL = [self _gitURLForURL:localFileURL error:error];
-    if (localFileURL == nil) {
-        return NO;
-    }
-    
+
     const char *path = [[localFileURL path] UTF8String];
     
     git_repository *r;
@@ -115,10 +112,12 @@
 }
 
 + (id)repositoryWithURL:(NSURL *)localFileURL error:(NSError **)error {
+
     return [[[self alloc] initWithURL:localFileURL error:error] autorelease];
 }
 
 - (id)initWithURL:(NSURL *)localFileURL error:(NSError **)error {
+
     localFileURL = [[self class] _gitURLForURL:localFileURL error:error];
     if (localFileURL == nil) {
         [self release];
@@ -144,6 +143,8 @@
             [self release];
             return nil;
         }
+
+		self.fileUrl = localFileURL;
     }
     return self;
 }
