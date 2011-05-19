@@ -91,10 +91,10 @@
 		
 		const char *path;
 		if([[localFileUrl path] hasSuffix:@".git"] && [GTRepository isAGitDirectory:localFileUrl]) {
-            path = [NSString utf8StringForString:[localFileUrl path]];
+            path = [[localFileUrl path] UTF8String];
 		}
 		else {
-			path = [NSString utf8StringForString:[[localFileUrl URLByAppendingPathComponent:@".git"] path]];
+			path = [[[localFileUrl URLByAppendingPathComponent:@".git"] path] UTF8String];
 		}
 		
 		git_repository *r;
@@ -124,7 +124,7 @@
 		//GTLog("Creating repository in directory: %@", localFileUrl);
 		
 		git_repository *r;
-		const char * path = [NSString utf8StringForString:[localFileUrl path]];
+		const char * path = [[localFileUrl path] UTF8String];
 		int gitError = git_repository_init(&r, path, 0);
 		if(gitError != GIT_SUCCESS) {
 			if(error != NULL)

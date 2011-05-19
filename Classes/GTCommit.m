@@ -88,7 +88,7 @@
 									   refName ? [refName UTF8String] : NULL, 
 									   authorSig.sig, 
 									   committerSig.sig, 
-									   [newMessage UTF8String], 
+									   newMessage ? [newMessage UTF8String] : "", 
 									   theTree.tree, 
 									   count, 
 									   parentCommits);
