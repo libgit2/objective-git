@@ -20,7 +20,7 @@
 
 @synthesize odbObject;
 
-- (id)initWithObject:(git_odb_object *)object {
+- (id)initWithOdbObj:(git_odb_object *)object {
 	
 	if((self = [super init])) {
 		self.odbObject = object;
@@ -28,9 +28,9 @@
 	return self;
 }
 
-+ (id)objectWithObject:(git_odb_object *)object {
++ (id)objectWithOdbObj:(git_odb_object *)object {
 	
-	return [[[self alloc] initWithObject:object] autorelease];
+	return [[[self alloc] initWithOdbObj:object] autorelease];
 }
 
 - (NSString *)shaHash {

@@ -231,7 +231,7 @@
 		return nil;
 	}
 	
-	GTOdbObject *rawObj = [GTOdbObject objectWithObject:obj];
+	GTOdbObject *rawObj = [GTOdbObject objectWithOdbObj:obj];
 	git_odb_object_close(obj);
 	
 	return rawObj;
