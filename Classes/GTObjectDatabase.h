@@ -1,8 +1,8 @@
 //
-//  ObjectiveGit.h
+//  GTObjectDatabase.h
 //  ObjectiveGitFramework
 //
-//  Created by Josh Abernathy on 3/3/11.
+//  Created by Dave DeLong on 5/17/2011.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -23,19 +23,24 @@
 //  THE SOFTWARE.
 //
 
-#import "GTRepository.h"
-#import "GTLib.h"
-#import "GTWalker.h"
-#import "GTCommit.h"
-#import "GTSignature.h"
-#import "GTTree.h"
-#import "GTBlob.h"
-#import "GTTag.h"
-#import "GTIndex.h"
-#import "GTIndexEntry.h"
-#import "GTReference.h"
-#import "GTBranch.h"
+#import <git2.h>
 #import "GTObject.h"
 
-#import "GTObjectDatabase.h"
-#import "GTOdbObject.h"
+
+@interface GTObjectDatabase : NSObject <GTObject> {
+    git_odb *odb;
+}
+
+@property (nonatomic, assign, readonly) GTRepository *repository;
+
++ (id)objectDatabaseWithRepository:(GTRepository *)repository;
+- (id)initWithRepository:(GTRepository *)repository;
+
+- (GTOdbObject *)objectWithOid:(const git_oid *)oid error:(NSError **)error;
+- (GTOdbObject *)objectWithSha:(NSString *)sha error:(NSError **)error;
+
+- (NSString *)shaByInsertingString:(NSString *)data objectType:(GTObjectType)type error:(NSError **)error;
+
+- (BOOL)containsObjectWithSha:(NSString *)sha error:(NSError **)error;
+
+@end

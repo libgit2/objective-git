@@ -32,7 +32,7 @@
 #import "GTWalker.h"
 #import "GTReference.h"
 
-
+@class GTObjectDatabase;
 @class GTOdbObject;
 @class GTCommit;
 @class GTIndex;
@@ -44,6 +44,7 @@
 @property (nonatomic, retain, readonly) NSURL *fileUrl;
 @property (nonatomic, retain, readonly) GTWalker *walker;
 @property (nonatomic, retain, readonly) GTIndex *index;
+@property (nonatomic, retain, readonly) GTObjectDatabase *objectDatabase;
 
 + (BOOL)initializeEmptyRepositoryAtURL:(NSURL *)localFileURL error:(NSError **)error;
 
@@ -63,15 +64,6 @@
 - (GTObject *)lookupObjectByOid:(git_oid *)oid error:(NSError **)error;
 - (GTObject *)lookupObjectBySha:(NSString *)sha type:(GTObjectType)type error:(NSError **)error;
 - (GTObject *)lookupObjectBySha:(NSString *)sha error:(NSError **)error;
-
-// Check to see if objects exist in the repo
-- (BOOL)exists:(NSString *)sha error:(NSError **)error;
-- (BOOL)hasObject:(NSString *)sha error:(NSError **)error;
-
-- (GTOdbObject *)rawRead:(const git_oid *)oid error:(NSError **)error;
-- (GTOdbObject *)read:(NSString *)sha error:(NSError **)error;
-
-- (NSString *)write:(NSString *)data type:(GTObjectType)type error:(NSError **)error;
 
 - (BOOL)walk:(NSString *)sha sorting:(GTWalkerOptions)sortMode error:(NSError **)error block:(void (^)(GTCommit *commit, BOOL *stop))block;
 - (BOOL)walk:(NSString *)sha error:(NSError **)error block:(void (^)(GTCommit *commit, BOOL *stop))block;

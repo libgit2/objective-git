@@ -29,7 +29,7 @@
 
 #import "GTObject.h"
 #import "GTCommit.h"
-#import "GTOdbObject.h"
+#import "GTObjectDatabase.h"
 #import "GTLib.h"
 #import "NSError+Git.h"
 #import "GTRepository.h"
@@ -119,7 +119,7 @@ static NSString * const GTTagClassName = @"GTTag";
 
 - (GTOdbObject *)readRawAndReturnError:(NSError **)error {
 	
-	return [self.repository rawRead:git_object_id(self.obj) error:error];
+    return [self.repository.objectDatabase objectWithOid:git_object_id(self.obj) error:error];
 }
 
 @end
