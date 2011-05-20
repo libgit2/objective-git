@@ -36,7 +36,10 @@
 
 @interface GTEnumerator()
 @property (nonatomic, assign) git_revwalk *walk;
+@property (nonatomic, assign) BOOL checksForMainThreadViolations;
 @end
+
+#define CHECK_MAIN_THREAD if(self.checksForMainThreadViolations && ![NSThread isMainThread]) { GTLog(@"%@ should only be used from the main thread.", self); }
 
 @implementation GTEnumerator
 
@@ -53,6 +56,7 @@
 @synthesize repository;
 @synthesize walk;
 @synthesize options;
+@synthesize checksForMainThreadViolations;
 
 - (id)initWithRepository:(GTRepository *)theRepo error:(NSError **)error {
 	
@@ -76,7 +80,7 @@
 }
 
 - (BOOL)push:(NSString *)sha error:(NSError **)error {
-	
+	CHECK_MAIN_THREAD
 	git_oid oid;
 	BOOL success = [GTLib convertSha:sha toOid:&oid error:error];
 	if(!success)return NO;
@@ -94,7 +98,7 @@
 }
 
 - (BOOL)skipCommitWithHash:(NSString *)sha error:(NSError **)error {
-	
+	CHECK_MAIN_THREAD
 	git_oid oid;
 	BOOL success = [GTLib convertSha:sha toOid:&oid error:error];
 	if(!success)return NO;
@@ -109,17 +113,18 @@
 }
 
 - (void)reset {
-	
+	CHECK_MAIN_THREAD
 	git_revwalk_reset(self.walk);
 }
 
 - (void)setOptions:(GTEnumeratorOptions)newOptions {
+	CHECK_MAIN_THREAD
     options = newOptions;
 	git_revwalk_sorting(self.walk, options);
 }
 
 - (id)nextObject {
-	
+	CHECK_MAIN_THREAD
 	git_oid oid;
 	int gitError = git_revwalk_next(&oid, self.walk);
 	if(gitError == GIT_EREVWALKOVER)
@@ -140,7 +145,7 @@
 }
 
 - (NSInteger)countFromSha:(NSString *)sha error:(NSError **)error {
-	
+	CHECK_MAIN_THREAD
 	[self setOptions:GTEnumeratorOptionsNone];
 	
 	BOOL success = [self push:sha error:error];

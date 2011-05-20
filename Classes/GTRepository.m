@@ -47,13 +47,16 @@
 @property (nonatomic, retain) GTObjectDatabase *objectDatabase;
 @end
 
+@interface GTEnumerator ()
+@property (nonatomic, assign) BOOL checksForMainThreadViolations;
+@end
+
 @implementation GTRepository
 
 - (void)dealloc {
 	
 	git_repository_free(self.repo);
 	self.fileUrl = nil;
-	self.enumerator.repository = nil;
 	self.enumerator = nil;
 	self.index = nil;
     self.objectDatabase = nil;
@@ -141,11 +144,12 @@
         }
         self.repo = r;
 		
-		self.enumerator = [[[GTEnumerator alloc] initWithRepository:self error:error] autorelease];
+		self.enumerator = [GTEnumerator enumeratorWithRepository:self error:error];
 		if (self.enumerator == nil) {
             [self release];
             return nil;
         }
+        self.enumerator.checksForMainThreadViolations = YES;
 
 		self.fileUrl = localFileURL;
         self.objectDatabase = [GTObjectDatabase objectDatabaseWithRepository:self];
