@@ -31,12 +31,16 @@
 #import "GTObject.h"
 
 
-typedef enum {
+// Options to specify enumeration order when walking through a repository.
+// These options may be bitwise-OR'd together
+enum {
 	GTWalkerOptionsNone = GIT_SORT_NONE,
-	GTWalkerOptionsTopologicalSort = GIT_SORT_TOPOLOGICAL,
-	GTWalkerOptionsTimeSort = GIT_SORT_TIME,
-	GTWalkerOptionsReverse = GIT_SORT_REVERSE,
-} GTWalkerOptions;
+	GTWalkerOptionsTopologicalSort = GIT_SORT_TOPOLOGICAL, // sort parents before children
+	GTWalkerOptionsTimeSort = GIT_SORT_TIME, // sort by commit time
+	GTWalkerOptionsReverse = GIT_SORT_REVERSE, // sort in reverse order
+};
+
+typedef NSInteger GTWalkerOptions;
 
 @class GTRepository;
 @class GTCommit;
@@ -53,7 +57,10 @@ typedef enum {
 + (id)walkerWithRepository:(GTRepository *)theRepo error:(NSError **)error;
 
 - (BOOL)push:(NSString *)sha error:(NSError **)error;
-- (BOOL)hide:(NSString *)sha error:(NSError **)error;
+
+// suppress the enumeration of the specified commit and all of its ancestors
+- (BOOL)skipCommitWithHash:(NSString *)sha error:(NSError **)error;
+
 - (void)reset;
 - (void)setSortingOptions:(GTWalkerOptions)options;
 - (GTCommit *)next;

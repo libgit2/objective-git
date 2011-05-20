@@ -108,7 +108,7 @@
 	GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
 	BOOL success = [repo.walker push:@"9fd738e8f7967c078dceed8190330fc8648ee56a" error:&error];
 	GHAssertTrue(success, [error localizedDescription]);
-	success = [repo.walker hide:@"5b5b025afb0b4c913b4c338a42934a3863bf3644" error:&error];
+	success = [repo.walker skipCommitWithHash:@"5b5b025afb0b4c913b4c338a42934a3863bf3644" error:&error];
 	GHAssertTrue(success, [error localizedDescription]);
 	
 	for(int i=0; i < 2; i++) {
