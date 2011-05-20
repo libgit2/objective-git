@@ -38,6 +38,7 @@
 #import "GTRepository.h"
 #import "GTLib.h"
 #import "GTObject.h"
+#import "GTObjectDatabase.h"
 #import "GTOdbObject.h"
 #import "GTCommit.h"
 #import "GTSignature.h"

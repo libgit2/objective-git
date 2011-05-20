@@ -125,7 +125,7 @@
 		return nil;
 	
 	// ignore error if we can't lookup object and just return nil
-	return (GTCommit *)[self.repository lookupObjectBySha:[GTLib convertOidToSha:&oid] type:GTObjectTypeCommit error:nil];
+	return (GTCommit *)[self.repository lookupObjectBySha:[GTLib convertOidToSha:&oid] objectType:GTObjectTypeCommit error:nil];
 }
 
 - (NSInteger)countFromSha:(NSString *)sha error:(NSError **)error {

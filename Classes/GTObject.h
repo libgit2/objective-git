@@ -70,7 +70,7 @@ typedef enum {
 // error(out) - will be filled if an error occurs
 // 
 // returns a GTOdbObject or nil if an error occurred.
-- (GTOdbObject *)readRawAndReturnError:(NSError **)error;
+- (GTOdbObject *)odbObjectWithError:(NSError **)error;
 
 @end
 

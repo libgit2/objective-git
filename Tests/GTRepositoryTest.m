@@ -82,16 +82,16 @@
 - (void)testCanTellIfAnObjectExists {
 	
 	NSError *error = nil;
-	GHAssertTrue([repo hasObject:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error], nil);
-	GHAssertTrue([repo hasObject:@"1385f264afb75a56a5bec74243be9b367ba4ca08" error:&error], nil);
-	GHAssertFalse([repo hasObject:@"ce08fe4884650f067bd5703b6a59a8b3b3c99a09" error:&error], nil);
-	GHAssertFalse([repo hasObject:@"8496071c1c46c854b31185ea97743be6a8774479" error:&error], nil);
+	GHAssertTrue([repo.objectDatabase containsObjectWithSha:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error], nil);
+	GHAssertTrue([repo.objectDatabase containsObjectWithSha:@"1385f264afb75a56a5bec74243be9b367ba4ca08" error:&error], nil);
+	GHAssertFalse([repo.objectDatabase containsObjectWithSha:@"ce08fe4884650f067bd5703b6a59a8b3b3c99a09" error:&error], nil);
+	GHAssertFalse([repo.objectDatabase containsObjectWithSha:@"8496071c1c46c854b31185ea97743be6a8774479" error:&error], nil);
 }
 
 - (void)testCanReadObjectFromDb {
 	
 	NSError *error = nil;
-	GTOdbObject *rawObj = [repo read:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error];
+	GTOdbObject *rawObj = [repo.objectDatabase objectWithSha:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error];
 	
 	GHAssertNil(error, [error localizedDescription]);
 	GHAssertNotNil(rawObj, nil);
@@ -103,7 +103,7 @@
 - (void)testReadingFailsOnUnknownObjects {
 	
 	NSError *error = nil;
-	GTOdbObject *rawObj = [repo read:@"a496071c1b46c854b31185ea97743be6a8774471" error:&error];
+	GTOdbObject *rawObj = [repo.objectDatabase objectWithSha:@"a496071c1b46c854b31185ea97743be6a8774471" error:&error];
 	
 	GHAssertNil(rawObj, nil);
 	GHAssertNotNil(error, nil);
@@ -113,19 +113,19 @@
 - (void)testCanHashData {
 	
 	NSError *error = nil;
-	NSString *sha = [GTRepository hash:testContent type:testContentType error:&error];
+	NSString *sha = [GTRepository hash:testContent objectType:testContentType error:&error];
 	GHAssertEqualStrings(sha, @"76b1b55ab653581d6f2c7230d34098e837197674", nil);
 }
 
 - (void)testCanWriteToDb {
 	
 	NSError *error = nil;
-	NSString *sha = [repo write:testContent type:testContentType error:&error];
+	NSString *sha = [repo.objectDatabase shaByInsertingString:testContent objectType:testContentType error:&error];
 	
 	GHAssertNil(error, [error localizedDescription]);
 	GHAssertNotNil(sha, nil);
 	GHAssertEqualStrings(sha, @"76b1b55ab653581d6f2c7230d34098e837197674", nil);
-	GHAssertTrue([repo exists:sha error:&error], nil);
+	GHAssertTrue([repo.objectDatabase containsObjectWithSha:sha error:&error], nil);
 	
 	rm_loose(sha);
 }
