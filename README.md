@@ -31,8 +31,9 @@ Fork libgit2/objective-git on GitHub, make it awesomer (preferably in a branch n
 for the topic), send a pull request.
 
 ## Contributers
-* Tim Clem (@tclem) <timothy.clem@gmail.com>
-* Colin Timmermans (@ctimmerm) <colintimmermans@gmail.com>
+You can see all the amazing people contributing to this project
+[here](https://github.com/libgit2/objective-git/contributors).
 
 ## License
 MIT. See LICENSE file.
+
