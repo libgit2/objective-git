@@ -43,7 +43,7 @@
 #import "GTSignature.h"
 #import "GTTree.h"
 #import "GTTreeEntry.h"
-#import "GTWalker.h"
+#import "GTEnumerator.h"
 #import "GTBlob.h"
 #import "GTTag.h"
 #import "GTIndex.h"

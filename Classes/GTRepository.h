@@ -29,7 +29,7 @@
 
 #import <git2.h>
 #import "GTObject.h"
-#import "GTWalker.h"
+#import "GTEnumerator.h"
 #import "GTReference.h"
 
 
@@ -42,7 +42,7 @@
 
 @property (nonatomic, assign, readonly) git_repository *repo;
 @property (nonatomic, retain, readonly) NSURL *fileUrl;
-@property (nonatomic, retain, readonly) GTWalker *walker;
+@property (nonatomic, retain, readonly) GTEnumerator *enumerator; // should only be used on the main thread
 @property (nonatomic, retain, readonly) GTIndex *index;
 
 + (BOOL)initializeEmptyRepositoryAtURL:(NSURL *)localFileURL error:(NSError **)error;
@@ -73,9 +73,10 @@
 
 - (NSString *)write:(NSString *)data type:(GTObjectType)type error:(NSError **)error;
 
-- (BOOL)walk:(NSString *)sha sorting:(GTWalkerOptions)sortMode error:(NSError **)error block:(void (^)(GTCommit *commit, BOOL *stop))block;
-- (BOOL)walk:(NSString *)sha error:(NSError **)error block:(void (^)(GTCommit *commit, BOOL *stop))block;
-- (NSArray *)selectCommitsStartingFrom:(NSString *)sha error:(NSError **)error block:(BOOL (^)(GTCommit *commit, BOOL *stop))block;
+- (void)enumerateCommitsBeginningAtSha:(NSString *)sha sortOptions:(GTEnumeratorOptions)options error:(NSError **)error usingBlock:(void (^)(GTCommit *, BOOL*))block;
+- (void)enumerateCommitsBeginningAtSha:(NSString *)sha error:(NSError **)error usingBlock:(void (^)(GTCommit *, BOOL*))block;
+
+- (NSArray *)selectCommitsBeginningAtSha:(NSString *)sha error:(NSError **)error block:(BOOL (^)(GTCommit *commit, BOOL *stop))block;
 
 - (BOOL)setupIndex:(NSError **)error;
 

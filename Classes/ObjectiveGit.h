@@ -25,7 +25,7 @@
 
 #import "GTRepository.h"
 #import "GTLib.h"
-#import "GTWalker.h"
+#import "GTEnumerator.h"
 #import "GTCommit.h"
 #import "GTSignature.h"
 #import "GTTree.h"
