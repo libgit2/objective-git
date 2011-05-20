@@ -103,6 +103,7 @@
 		BD6C254613148DD300992935 /* GTSignature.m in Sources */ = {isa = PBXBuildFile; fileRef = BD6C254413148DC900992935 /* GTSignature.m */; };
 		BD8F69D0131F0AEE009DA3A1 /* GTReferenceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = BD8F69CF131F0AEE009DA3A1 /* GTReferenceTest.m */; };
 		BDAC76F5132FC18400B57507 /* fixtures in Resources */ = {isa = PBXBuildFile; fileRef = BDAC76F4132FC18400B57507 /* fixtures */; };
+		BDB2B1301386F34300C88D55 /* GTObjectDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = 55C8054C13861F34004DCB0F /* GTObjectDatabase.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BDD6272A1318322E00DE34D1 /* GTTreeTest.m in Sources */ = {isa = PBXBuildFile; fileRef = BDD627291318322E00DE34D1 /* GTTreeTest.m */; };
 		BDD62796131838A800DE34D1 /* GTBlobTest.m in Sources */ = {isa = PBXBuildFile; fileRef = BDD62795131838A800DE34D1 /* GTBlobTest.m */; };
 		BDD627991318391200DE34D1 /* GTBlob.h in Headers */ = {isa = PBXBuildFile; fileRef = BDD627971318391200DE34D1 /* GTBlob.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -549,6 +550,7 @@
 				88F6D9FA1320467100CC0BA8 /* GTCommit.h in Headers */,
 				88F6D9FB1320467500CC0BA8 /* GTObject.h in Headers */,
 				AA046112134F4D2000DF526B /* GTOdbObject.h in Headers */,
+				BDB2B1301386F34300C88D55 /* GTObjectDatabase.h in Headers */,
 				88F6D9FC1320467800CC0BA8 /* GTSignature.h in Headers */,
 				88F50F59132054D800584FBE /* GTBranch.h in Headers */,
 			);
