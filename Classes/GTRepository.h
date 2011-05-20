@@ -57,28 +57,28 @@
 // error(out) - will be filled if an error occurs
 //
 // returns the sha1 for the raw object or nil if there was an error
-+ (NSString *)hash:(NSString *)data type:(GTObjectType)type error:(NSError **)error;
++ (NSString *)hash:(NSString *)data objectType:(GTObjectType)type error:(NSError **)error;
 
 // Lookup objects in the repo by oid or sha1
-- (GTObject *)lookupObjectByOid:(git_oid *)oid type:(GTObjectType)type error:(NSError **)error;
+- (GTObject *)lookupObjectByOid:(git_oid *)oid objectType:(GTObjectType)type error:(NSError **)error;
 - (GTObject *)lookupObjectByOid:(git_oid *)oid error:(NSError **)error;
-- (GTObject *)lookupObjectBySha:(NSString *)sha type:(GTObjectType)type error:(NSError **)error;
+- (GTObject *)lookupObjectBySha:(NSString *)sha objectType:(GTObjectType)type error:(NSError **)error;
 - (GTObject *)lookupObjectBySha:(NSString *)sha error:(NSError **)error;
 
 - (BOOL)walk:(NSString *)sha sorting:(GTWalkerOptions)sortMode error:(NSError **)error block:(void (^)(GTCommit *commit, BOOL *stop))block;
 - (BOOL)walk:(NSString *)sha error:(NSError **)error block:(void (^)(GTCommit *commit, BOOL *stop))block;
 - (NSArray *)selectCommitsStartingFrom:(NSString *)sha error:(NSError **)error block:(BOOL (^)(GTCommit *commit, BOOL *stop))block;
 
-- (BOOL)setupIndex:(NSError **)error;
+- (BOOL)setupIndexWithError:(NSError **)error;
 
 - (GTReference *)headReferenceWithError:(NSError **)error;
 
 // Convenience methods to return references in this repository (see GTReference.h)
 - (NSArray *)allReferenceNamesOfTypes:(GTReferenceTypes)types error:(NSError **)error;
-- (NSArray *)allReferenceNames:(NSError **)error;
+- (NSArray *)allReferenceNamesWithError:(NSError **)error;
 
 // Convenience methods to return branches in the repository
-- (NSArray *)allBranches:(NSError **)error;
+- (NSArray *)allBranchesWithError:(NSError **)error;
 
 // Count all commits in the current branch (HEAD)
 //

@@ -113,7 +113,7 @@
 - (void)testCanHashData {
 	
 	NSError *error = nil;
-	NSString *sha = [GTRepository hash:testContent type:testContentType error:&error];
+	NSString *sha = [GTRepository hash:testContent objectType:testContentType error:&error];
 	GHAssertEqualStrings(sha, @"76b1b55ab653581d6f2c7230d34098e837197674", nil);
 }
 

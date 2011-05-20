@@ -153,7 +153,7 @@
     return self;
 }
 
-+ (NSString *)hash:(NSString *)data type:(GTObjectType)type error:(NSError **)error {
++ (NSString *)hash:(NSString *)data objectType:(GTObjectType)type error:(NSError **)error {
 	
 	git_oid oid;
 
@@ -168,7 +168,7 @@
 }
 
 
-- (GTObject *)lookupObjectByOid:(git_oid *)oid type:(GTObjectType)type error:(NSError **)error {
+- (GTObject *)lookupObjectByOid:(git_oid *)oid objectType:(GTObjectType)type error:(NSError **)error {
 	
 	git_object *obj;
 	
@@ -184,10 +184,10 @@
 
 - (GTObject *)lookupObjectByOid:(git_oid *)oid error:(NSError **)error {
 	
-	return [self lookupObjectByOid:oid type:GTObjectTypeAny error:error];
+	return [self lookupObjectByOid:oid objectType:GTObjectTypeAny error:error];
 }
 
-- (GTObject *)lookupObjectBySha:(NSString *)sha type:(GTObjectType)type error:(NSError **)error {
+- (GTObject *)lookupObjectBySha:(NSString *)sha objectType:(GTObjectType)type error:(NSError **)error {
 	
 	git_oid oid;
 	
@@ -198,12 +198,12 @@
 		return nil;
 	}
 	
-	return [self lookupObjectByOid:&oid type:type error:error];
+	return [self lookupObjectByOid:&oid objectType:type error:error];
 }
 
 - (GTObject *)lookupObjectBySha:(NSString *)sha error:(NSError **)error {
 	
-	return [self lookupObjectBySha:sha type:GTObjectTypeAny error:error];
+	return [self lookupObjectBySha:sha objectType:GTObjectTypeAny error:error];
 }
 
 - (BOOL)walk:(NSString *)sha sorting:(GTWalkerOptions)sortMode error:(NSError **)error block:(void (^)(GTCommit *commit, BOOL *stop))block {
@@ -256,7 +256,7 @@
 	}
 }
 
-- (BOOL)setupIndex:(NSError **)error {
+- (BOOL)setupIndexWithError:(NSError **)error {
 	
 	git_index *i;
 	int gitError = git_repository_index(&i, self.repo);
@@ -284,12 +284,12 @@
 	return [GTReference referenceNamesInRepository:self types:types error:error];
 }
 
-- (NSArray *)allReferenceNames:(NSError **)error {
+- (NSArray *)allReferenceNamesWithError:(NSError **)error {
 	
 	return [GTReference referenceNamesInRepository:self error:error];
 }
 
-- (NSArray *)allBranches:(NSError **)error {
+- (NSArray *)allBranchesWithError:(NSError **)error {
     
 	NSMutableArray *allBranches = [NSMutableArray array];
 	NSArray *localBranches = [GTBranch branchesInRepository:self error:error];
