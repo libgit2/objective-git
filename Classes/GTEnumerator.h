@@ -1,5 +1,5 @@
 //
-//  GTWalker.h
+//  GTEnumerator.h
 //  ObjectiveGitFramework
 //
 //  Created by Timothy Clem on 2/21/11.
@@ -31,32 +31,38 @@
 #import "GTObject.h"
 
 
-typedef enum {
-	GTWalkerOptionsNone = GIT_SORT_NONE,
-	GTWalkerOptionsTopologicalSort = GIT_SORT_TOPOLOGICAL,
-	GTWalkerOptionsTimeSort = GIT_SORT_TIME,
-	GTWalkerOptionsReverse = GIT_SORT_REVERSE,
-} GTWalkerOptions;
+// Options to specify enumeration order when enumerating through a repository.
+// These options may be bitwise-OR'd together
+enum {
+	GTEnumeratorOptionsNone = GIT_SORT_NONE,
+	GTEnumeratorOptionsTopologicalSort = GIT_SORT_TOPOLOGICAL, // sort parents before children
+	GTEnumeratorOptionsTimeSort = GIT_SORT_TIME, // sort by commit time
+	GTEnumeratorOptionsReverse = GIT_SORT_REVERSE, // sort in reverse order
+};
+
+typedef NSInteger GTEnumeratorOptions;
 
 @class GTRepository;
 @class GTCommit;
 @protocol GTObject;
 
 // This object is usually used from within a repository. You generally don't 
-// need to instantiate a GTWalker. Instead, use the walker property on 
+// need to instantiate a GTEnumerator. Instead, use the enumerator property on 
 // GTRepository
-@interface GTWalker : NSObject <GTObject> {}
+@interface GTEnumerator : NSEnumerator <GTObject> {}
 
 @property (nonatomic, assign) GTRepository *repository;
+@property (nonatomic, assign) GTEnumeratorOptions options;
 
 - (id)initWithRepository:(GTRepository *)theRepo error:(NSError **)error;
-+ (id)walkerWithRepository:(GTRepository *)theRepo error:(NSError **)error;
++ (id)enumeratorWithRepository:(GTRepository *)theRepo error:(NSError **)error;
 
 - (BOOL)push:(NSString *)sha error:(NSError **)error;
-- (BOOL)hide:(NSString *)sha error:(NSError **)error;
+
+// suppress the enumeration of the specified commit and all of its ancestors
+- (BOOL)skipCommitWithHash:(NSString *)sha error:(NSError **)error;
+
 - (void)reset;
-- (void)setSortingOptions:(GTWalkerOptions)options;
-- (GTCommit *)next;
 - (NSInteger)countFromSha:(NSString *)sha error:(NSError **)error;
 
 @end

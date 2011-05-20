@@ -138,12 +138,12 @@
 	GHTestLog(@"%d", [aRepo retainCount]);
 	NSString *sha = @"a4a7dce85cf63874e984719f4fdd239f5145052f";
 	NSMutableArray *commits = [NSMutableArray array];
-	BOOL success = [aRepo walk:sha
-						 error:&error
-						 block:^(GTCommit *commit, BOOL *stop) {
-								[commits addObject:commit];
-						 }];
-	GHAssertTrue(success, [error localizedDescription]);
+    [aRepo enumerateCommitsBeginningAtSha:sha 
+                                    error:&error 
+                               usingBlock:^(GTCommit *commit, BOOL *stop) {
+                                   [commits addObject:commit];
+                               }];
+	GHAssertNil(error, [error localizedDescription]);
 	
 	NSArray *expectedShas = [NSArray arrayWithObjects:
 							 @"a4a7d",
@@ -170,12 +170,10 @@
 	
 	for(int i=0; i < 100; i++) {
 		__block NSInteger count = 0;
-		BOOL success = [aRepo walk:sha
-							 error:&error
-							 block:^(GTCommit *commit, BOOL *stop) {
-								 count++;
-							 }];
-		GHAssertTrue(success, [error localizedDescription]);
+        [aRepo enumerateCommitsBeginningAtSha:sha error:&error usingBlock:^(GTCommit *commit, BOOL *stop) {
+            count++;
+        }];
+		GHAssertNil(error, [error localizedDescription]);
 		GHAssertEquals(6, (int)count, nil);
 		
 		//[[NSGarbageCollector defaultCollector] collectExhaustively];
@@ -189,7 +187,7 @@
 	NSString *sha = @"a4a7dce85cf63874e984719f4fdd239f5145052f";
 	
 	__block NSInteger count = 0;
-	NSArray *commits = [aRepo selectCommitsStartingFrom:sha error:&error block:^BOOL(GTCommit *commit, BOOL *stop) {
+	NSArray *commits = [aRepo selectCommitsBeginningAtSha:sha error:&error block:^BOOL(GTCommit *commit, BOOL *stop) {
 		count++;
 		if(count > 2) *stop = YES;
 		return [[commit parents] count] < 2;
