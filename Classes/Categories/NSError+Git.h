@@ -27,6 +27,8 @@
 //  THE SOFTWARE.
 //
 
+extern NSString * const GTGitErrorDomain;
+
 @interface NSError (Git)
 
 + (NSError *)gitErrorForInitRepository: (int)code;
