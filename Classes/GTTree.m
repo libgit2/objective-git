@@ -68,8 +68,8 @@
 	
 	git_tree_entry *newEntry;
 	git_oid oid;
-	
-	BOOL success = [GTLib convertSha:sha toOid:&oid error:error];
+ 
+    BOOL success = [sha git_getOid:&oid error:error];
 	if(!success) return nil;
 	
 	int gitError = git_tree_add_entry(&newEntry, self.tree, &oid, [filename UTF8String], (int)mode);

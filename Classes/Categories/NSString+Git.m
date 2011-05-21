@@ -62,7 +62,7 @@
 }
 
 - (BOOL)git_getOid:(git_oid *)oid error:(NSError **)error {
-    if ([self git_isHexString]) {
+    if ([self git_isHexString] == NO) {
         if (error != NULL) {
             *error = [NSError errorWithDomain:GTGitErrorDomain 
                                          code:GIT_EINVALIDARGS 

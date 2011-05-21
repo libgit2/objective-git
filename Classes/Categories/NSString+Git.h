@@ -34,6 +34,13 @@
 + (NSString *)git_stringWithOid:(git_oid *)oid;
 
 - (NSString *)git_shortUniqueShaString;
+
+// Turn a sha1 hash into an Oid
+// 
+// oid(out) - the converted oid
+// error(out) - will be filled if an error occurs
+//
+// returns YES if successful and NO if a failure occurred.
 - (BOOL)git_getOid:(git_oid *)oid error:(NSError **)error;
 
 @end

@@ -66,17 +66,6 @@
 	return [NSString stringWithUTF8String:hex];
 }
 
-+ (BOOL)convertSha:(NSString *)sha toOid:(git_oid *)oid error:(NSError **)error {
-	
-	int gitError = git_oid_mkstr(oid, [sha UTF8String]);
-	if(gitError != GIT_SUCCESS) {
-		if(error != NULL)
-			*error = [NSError gitErrorForMkStr:gitError];
-		return NO;
-	}
-	return YES;
-}
-
 + (NSString *)shortUniqueShaFromSha:(NSString *)sha {
 	
 	// Kyle says with a length of 6 our chances of collision are 9.6e-29, so we'll take those odds
