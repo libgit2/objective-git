@@ -50,6 +50,15 @@
 + (NSString *)shaByCreatingBlobInRepository:(GTRepository *)theRepo data:(NSData *)data error:(NSError **)error;
 + (NSString *)shaByCreatingBlobInRepository:(GTRepository *)theRepo file:(NSURL *)file error:(NSError **)error;
 
+
++ (id)blobWithString:(NSString *)string inRepository:(GTRepository *)repository error:(NSError **)error;
++ (id)blobWithData:(NSData *)data inRepository:(GTRepository *)repository error:(NSError **)error;
++ (id)blobWithFile:(NSURL *)file inRepository:(GTRepository *)repository error:(NSError **)error;
+
+- (id)initWithString:(NSString *)string inRepository:(GTRepository *)repository error:(NSError **)error;
+- (id)initWithData:(NSData *)data inRepository:(GTRepository *)repository error:(NSError **)error;
+- (id)initWithFile:(NSURL *)file inRepository:(GTRepository *)repository error:(NSError **)error;
+
 - (NSInteger)size;
 - (NSString *)content;
 - (NSData *)data;
