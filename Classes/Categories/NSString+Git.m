@@ -32,7 +32,7 @@
 
 @implementation NSString (Git)
 
-+ (NSString *)git_stringWithOid:(git_oid *)oid {
++ (NSString *)git_stringWithOid:(const git_oid *)oid {
 	char hex[41];
 	git_oid_fmt(hex, oid);
 	hex[40] = 0;

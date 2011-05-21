@@ -127,7 +127,7 @@
 		return nil;
 	
 	// ignore error if we can't lookup object and just return nil
-	return [self.repository lookupObjectBySha:[GTLib convertOidToSha:&oid] objectType:GTObjectTypeCommit error:nil];
+	return [self.repository lookupObjectBySha:[NSString git_stringWithOid:&oid] objectType:GTObjectTypeCommit error:nil];
 }
 
 - (NSArray *)allObjects {

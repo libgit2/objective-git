@@ -31,7 +31,12 @@
 
 @interface NSString (Git)
 
-+ (NSString *)git_stringWithOid:(git_oid *)oid;
+// Turn an Oid into a sha1 hash
+// 
+// oid - the raw git_oid to convert
+//
+// returns an NSString of the sha1
++ (NSString *)git_stringWithOid:(const git_oid *)oid;
 
 - (NSString *)git_shortUniqueShaString;
 

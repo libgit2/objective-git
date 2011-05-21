@@ -33,6 +33,7 @@
 #import "GTLib.h"
 #import "NSError+Git.h"
 #import "GTRepository.h"
+#import "NSString+Git.h"
 
 
 static NSString * const GTCommitClassName = @"GTCommit";
@@ -109,7 +110,7 @@ static NSString * const GTTagClassName = @"GTTag";
 
 - (NSString *)sha {
 	
-	return [GTLib convertOidToSha:git_object_id(self.obj)];
+	return [NSString git_stringWithOid:git_object_id(self.obj)];
 }
 
 - (NSString *)shortSha {

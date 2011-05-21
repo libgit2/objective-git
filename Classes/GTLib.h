@@ -33,13 +33,6 @@
 + (NSData *)hexToRaw:(NSString *)hex error:(NSError **)error;
 + (NSString *)rawToHex:(NSData *)raw;
 
-// Turn an Oid into a sha1 hash
-// 
-// oid - the raw git_oid to convert
-//
-// returns an NSString of the sha1
-+ (NSString *)convertOidToSha:(git_oid const *)oid;
-
 // Get a short unique sha1 for a full sha1
 //
 // sha - a NSString of the full sha1 to shorten

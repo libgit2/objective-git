@@ -30,6 +30,7 @@
 #import <git2.h>
 #import "GTLib.h"
 #import "NSError+Git.h"
+#import "NSString+Git.h"
 
 
 @implementation GTLib
@@ -55,15 +56,7 @@
 	git_oid oid;
 	
 	git_oid_mkraw(&oid, [raw bytes]);
-	return [GTLib convertOidToSha:&oid];
-}
-
-+ (NSString *)convertOidToSha:(git_oid const *)oid {
-	
-	char hex[41];
-	git_oid_fmt(hex, oid);
-	hex[40] = 0;
-	return [NSString stringWithUTF8String:hex];
+	return [NSString git_stringWithOid:&oid];
 }
 
 + (NSString *)shortUniqueShaFromSha:(NSString *)sha {

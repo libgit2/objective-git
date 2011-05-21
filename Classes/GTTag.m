@@ -33,6 +33,7 @@
 #import "GTReference.h"
 #import "GTRepository.h"
 #import "GTLib.h"
+#import "NSString+Git.h"
 
 
 @implementation GTTag
@@ -63,7 +64,7 @@
 		return nil;
 	}
 	
-	return [GTLib convertOidToSha:&oid];
+	return [NSString git_stringWithOid:&oid];
 }
 
 - (NSString *)message {

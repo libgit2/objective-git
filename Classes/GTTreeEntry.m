@@ -33,6 +33,7 @@
 #import "GTLib.h"
 #import "GTRepository.h"
 #import "NSError+Git.h"
+#import "NSString+Git.h"
 
 
 @interface GTTreeEntry()
@@ -79,7 +80,7 @@
 
 - (NSString *)sha {
 	
-	return [GTLib convertOidToSha:git_tree_entry_id(self.entry)];
+	return [NSString git_stringWithOid:git_tree_entry_id(self.entry)];
 }
 
 - (GTRepository *)repository {
