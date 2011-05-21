@@ -76,7 +76,8 @@
 - (void)testCanWriteNewBlobData {
 	
 	NSError *error = nil;
-	NSString *newSha = [GTBlob shaByCreatingBlobInRepository:repo content:@"a new blob content" error:&error];
+    GTBlob *blob = [GTBlob blobWithString:@"a new blob content" inRepository:repo error:&error];
+    NSString *newSha = [blob sha];
 	GHAssertNotNil(newSha, [error localizedDescription]);
 	
 	rm_loose(newSha);
@@ -85,7 +86,7 @@
 - (void)testCanWriteNewBlobData2 {
 	
 	NSError *error = nil;
-	GTBlob *blob = [GTBlob blobInRepository:repo content:@"a new blob content" error:&error];
+    GTBlob *blob = [GTBlob blobWithString:@"a new blob content" inRepository:repo error:&error];
 	GHAssertNotNil(blob, [error localizedDescription]);
 	
 	rm_loose(blob.sha);
@@ -97,8 +98,8 @@
 	char bytes[] = "100644 example_helper.rb\00\xD3\xD5\xED\x9D A4_\x00 40000 examples";
 	NSData *content = [NSData dataWithBytes:bytes length:sizeof(bytes)];
 	
-	
-	NSString *newSha = [GTBlob shaByCreatingBlobInRepository:repo data:content error:&error];
+	GTBlob *blob = [GTBlob blobWithData:content inRepository:repo error:&error];
+    NSString *newSha = [blob sha];
 	GHAssertNotNil(newSha, [error localizedDescription]);
 	
 	rm_loose(newSha);
