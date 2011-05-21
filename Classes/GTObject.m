@@ -115,7 +115,7 @@ static NSString * const GTTagClassName = @"GTTag";
 
 - (NSString *)shortSha {
 	
-	return [GTLib shortUniqueShaFromSha:self.sha];
+	return [self.sha git_shortUniqueShaString];
 }
 
 - (GTOdbObject *)odbObjectWithError:(NSError **)error {

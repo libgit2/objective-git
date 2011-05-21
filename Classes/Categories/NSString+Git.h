@@ -38,6 +38,10 @@
 // returns an NSString of the sha1
 + (NSString *)git_stringWithOid:(const git_oid *)oid;
 
+// Get a short unique sha1 for a full sha1
+//
+// returns a NSString of the shortened sha1
+// returns nil if the receiver is not a sha string or is too short
 - (NSString *)git_shortUniqueShaString;
 
 // Turn a sha1 hash into an Oid

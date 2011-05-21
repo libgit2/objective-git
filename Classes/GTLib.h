@@ -33,11 +33,4 @@
 + (NSData *)hexToRaw:(NSString *)hex error:(NSError **)error;
 + (NSString *)rawToHex:(NSData *)raw;
 
-// Get a short unique sha1 for a full sha1
-//
-// sha - a NSString of the full sha1 to shorten
-//
-// returns a NSString of the shortened sha1
-+ (NSString *)shortUniqueShaFromSha:(NSString *)sha;
-
 @end
