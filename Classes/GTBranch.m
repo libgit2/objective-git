@@ -25,7 +25,6 @@
 
 #import "GTBranch.h"
 #import "GTReference.h"
-#import "GTLib.h"
 #import "GTEnumerator.h"
 #import "GTRepository.h"
 

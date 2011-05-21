@@ -1,12 +1,12 @@
 //
-//  GTLib.h
+//  NSString+Git.m
 //  ObjectiveGitFramework
 //
-//  Created by Timothy Clem on 2/18/11.
+//  Created by Dave DeLong on 5/20/11.
 //
 //  The MIT License
 //
-//  Copyright (c) 2011 Tim Clem
+//  Copyright (c) 2011 Dave DeLong
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -27,33 +27,29 @@
 //  THE SOFTWARE.
 //
 
+#import <git2.h>
 
-@interface GTLib : NSObject {}
-
-+ (NSData *)hexToRaw:(NSString *)hex error:(NSError **)error;
-+ (NSString *)rawToHex:(NSData *)raw;
+@interface NSString (Git)
 
 // Turn an Oid into a sha1 hash
 // 
 // oid - the raw git_oid to convert
 //
 // returns an NSString of the sha1
-+ (NSString *)convertOidToSha:(git_oid const *)oid;
++ (NSString *)git_stringWithOid:(const git_oid *)oid;
+
+// Get a short unique sha1 for a full sha1
+//
+// returns a NSString of the shortened sha1
+// returns nil if the receiver is not a sha string or is too short
+- (NSString *)git_shortUniqueShaString;
 
 // Turn a sha1 hash into an Oid
 // 
-// sha - an NSString of the sha1 to convert
 // oid(out) - the converted oid
 // error(out) - will be filled if an error occurs
 //
 // returns YES if successful and NO if a failure occurred.
-+ (BOOL)convertSha:(NSString *)sha toOid:(git_oid *)oid error:(NSError **)error;
-
-// Get a short unique sha1 for a full sha1
-//
-// sha - a NSString of the full sha1 to shorten
-//
-// returns a NSString of the shortened sha1
-+ (NSString *)shortUniqueShaFromSha:(NSString *)sha;
+- (BOOL)git_getOid:(git_oid *)oid error:(NSError **)error;
 
 @end

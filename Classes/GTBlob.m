@@ -30,7 +30,7 @@
 #import "GTBlob.h"
 #import "NSError+Git.h"
 #import "GTRepository.h"
-#import "GTLib.h"
+#import "NSString+Git.h"
 
 
 @implementation GTBlob
@@ -71,7 +71,7 @@
 		return nil;
 	}
 	
-	return [GTLib convertOidToSha:&oid];
+	return [NSString git_stringWithOid:&oid];
 }
 
 + (NSString *)shaByCreatingBlobInRepository:(GTRepository *)theRepo data:(NSData *)data error:(NSError **)error {
@@ -84,7 +84,7 @@
 		return nil;
 	}
 	
-	return [GTLib convertOidToSha:&oid];
+	return [NSString git_stringWithOid:&oid];
 }
 
 + (NSString *)shaByCreatingBlobInRepository:(GTRepository *)theRepo file:(NSURL *)file error:(NSError **)error {
@@ -97,7 +97,7 @@
 		return nil;
 	}
 	
-	return [GTLib convertOidToSha:&oid];
+	return [NSString git_stringWithOid:&oid];
 }
 
 - (NSInteger)size {

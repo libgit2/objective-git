@@ -25,8 +25,8 @@
 
 #import "GTReference.h"
 #import "GTRepository.h"
-#import "GTLib.h"
 #import "NSError+Git.h"
+#import "NSString+Git.h"
 
 
 @implementation GTReference
@@ -173,7 +173,7 @@
 - (NSString *)target {
 	
 	if(git_reference_type(self.ref) == GIT_REF_OID) {
-		return [GTLib convertOidToSha:git_reference_oid(self.ref)];
+		return [NSString git_stringWithOid:git_reference_oid(self.ref)];
 	}
 	else {
 		return [NSString stringWithUTF8String:git_reference_target(self.ref)];

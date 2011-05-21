@@ -36,7 +36,6 @@
 #import <git2.h>
 
 #import "GTRepository.h"
-#import "GTLib.h"
 #import "GTObject.h"
 #import "GTObjectDatabase.h"
 #import "GTOdbObject.h"

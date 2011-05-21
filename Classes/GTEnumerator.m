@@ -29,8 +29,8 @@
 
 #import "GTEnumerator.h"
 #import "GTCommit.h"
-#import "GTLib.h"
 #import "NSError+Git.h"
+#import "NSString+Git.h"
 #import "GTRepository.h"
 
 
@@ -78,7 +78,7 @@
 - (BOOL)push:(NSString *)sha error:(NSError **)error {
 	
 	git_oid oid;
-	BOOL success = [GTLib convertSha:sha toOid:&oid error:error];
+	BOOL success = [sha git_getOid:&oid error:error];
 	if(!success)return NO;
 	
 	[self reset];
@@ -96,7 +96,7 @@
 - (BOOL)skipCommitWithHash:(NSString *)sha error:(NSError **)error {
 	
 	git_oid oid;
-	BOOL success = [GTLib convertSha:sha toOid:&oid error:error];
+	BOOL success = [sha git_getOid:&oid error:error];
 	if(!success)return NO;
 	
 	int gitError = git_revwalk_hide(self.walk, &oid);
@@ -126,7 +126,7 @@
 		return nil;
 	
 	// ignore error if we can't lookup object and just return nil
-	return [self.repository lookupObjectBySha:[GTLib convertOidToSha:&oid] objectType:GTObjectTypeCommit error:nil];
+	return [self.repository lookupObjectBySha:[NSString git_stringWithOid:&oid] objectType:GTObjectTypeCommit error:nil];
 }
 
 - (NSArray *)allObjects {

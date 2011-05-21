@@ -30,9 +30,9 @@
 #import "GTCommit.h"
 #import "GTSignature.h"
 #import "GTTree.h"
-#import "GTLib.h"
 #import "NSError+Git.h"
 #import "GTRepository.h"
+#import "NSString+Git.h"
 
 
 @implementation GTCommit
@@ -97,7 +97,7 @@
 			*error = [NSError gitErrorFor:gitError withDescription:@"Failed to create commit in repository"];
 		return nil;
 	}
-	return [GTLib convertOidToSha:&oid];
+	return [NSString git_stringWithOid:&oid];
 }
 
 - (NSString *)message {

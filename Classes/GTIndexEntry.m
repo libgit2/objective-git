@@ -28,8 +28,8 @@
 //
 
 #import "GTIndexEntry.h"
-#import "GTLib.h"
 #import "NSError+Git.h"
+#import "NSString+Git.h"
 
 
 @implementation GTIndexEntry
@@ -94,7 +94,7 @@
 
 - (NSString *)sha {
 	
-	return [GTLib convertOidToSha:&entry->oid];
+	return [NSString git_stringWithOid:&entry->oid];
 }
 - (BOOL)setSha:(NSString *)theSha error:(NSError **)error {
 

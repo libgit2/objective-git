@@ -32,11 +32,11 @@
 #import "GTObject.h"
 #import "GTCommit.h"
 #import "GTObjectDatabase.h"
-#import "GTLib.h"
 #import "GTIndex.h"
 #import "GTBranch.h"
 #import "GTTag.h"
 #import "NSError+Git.h"
+#import "NSString+Git.h"
 
 
 @interface GTRepository ()
@@ -164,7 +164,7 @@
 		return nil;
 	}
 	
-	return [GTLib convertOidToSha:&oid];
+	return [NSString git_stringWithOid:&oid];
 }
 
 

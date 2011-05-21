@@ -1,5 +1,5 @@
 //
-//  GTLibTest.m
+//  Test.m
 //  ObjectiveGitFramework
 //
 //  Created by Timothy Clem on 2/22/11.
@@ -28,18 +28,21 @@
 //
 
 #import "Contants.h"
-#import "NSData+Base64.h"
+#import "NSData+Git.h"
+#import "NSString+Git.h"
 
-
-@interface GTLibTest : GHTestCase {}
+@interface Test : GHTestCase {}
 @end
 
-@implementation GTLibTest
+@implementation Test
 
 - (void)testCanConvertHexToRaw {
 	
 	NSError *error = nil;
-	NSData *raw = [GTLib hexToRaw:@"ce08fe4884650f067bd5703b6a59a8b3b3c99a09" error:&error];
+    git_oid oid;
+    NSString *sha = @"ce08fe4884650f067bd5703b6a59a8b3b3c99a09";
+    GHAssertTrue([sha git_getOid:&oid error:&error], nil);
+	NSData *raw = [NSData git_dataWithOid:&oid];
 	GHAssertNil(error, [error localizedDescription]);
 	
 	NSString *b64raw = [raw git_base64EncodedString];
@@ -50,7 +53,11 @@
 	
 	NSString *rawb64 = @"FqASNFZ4mrze9Ld1ITwjqL109eA=";
 	NSData *raw = [NSData git_dataWithBase64String:rawb64];
-	NSString *hex = [GTLib rawToHex:raw];
+    git_oid oid;
+    NSError *error = nil;
+    [raw git_getOid:&oid error:&error];
+    GHAssertNil(error, [error localizedDescription]);
+	NSString *hex = [NSString git_stringWithOid:&oid];
 	
 	GHAssertEqualStrings(hex, @"16a0123456789abcdef4b775213c23a8bd74f5e0", nil);
 }

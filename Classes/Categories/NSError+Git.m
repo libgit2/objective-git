@@ -30,7 +30,7 @@
 #import "NSError+Git.h"
 
 
-static NSString * const GTGitErrorDomain = @"GTGitErrorDomain";
+NSString * const GTGitErrorDomain = @"GTGitErrorDomain";
 
 @implementation NSError (Git)
 

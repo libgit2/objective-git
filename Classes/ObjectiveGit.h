@@ -24,7 +24,6 @@
 //
 
 #import "GTRepository.h"
-#import "GTLib.h"
 #import "GTEnumerator.h"
 #import "GTCommit.h"
 #import "GTSignature.h"
@@ -39,3 +38,7 @@
 
 #import "GTObjectDatabase.h"
 #import "GTOdbObject.h"
+
+#import "NSError+Git.h"
+#import "NSData+Git.h"
+#import "NSString+Git.h"

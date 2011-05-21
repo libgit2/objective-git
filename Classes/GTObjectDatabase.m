@@ -27,7 +27,7 @@
 #import "GTRepository.h"
 #import "NSError+Git.h"
 #import "GTOdbObject.h"
-#import "GTLib.h"
+#import "NSString+Git.h"
 
 @interface GTObjectDatabase ()
 @property (nonatomic, assign) GTRepository *repository;
@@ -111,7 +111,7 @@
 		return nil;
 	}
     
-	return [GTLib convertOidToSha:&oid];
+	return [NSString git_stringWithOid:&oid];
 }
 
 - (BOOL)containsObjectWithSha:(NSString *)sha error:(NSError **)error {

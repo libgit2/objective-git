@@ -1,5 +1,5 @@
 //
-//  NSData+Base64.h
+//  NSData+Git.h
 //  base64
 //
 //  Created by Matt Gallagher on 2009/06/03.
@@ -12,6 +12,8 @@
 //  appreciated but not required.
 //
 
+#import <git2.h>
+
 void *git_NewBase64Decode(
 	const char *inputBuffer,
 	size_t length,
@@ -23,9 +25,12 @@ char *git_NewBase64Encode(
 	bool separateLines,
 	size_t *outputLength);
 
-@interface NSData (GitBase64)
+@interface NSData (Git)
 
 + (NSData *)git_dataWithBase64String:(NSString *)aString;
 - (NSString *)git_base64EncodedString;
+
++ (NSData *)git_dataWithOid:(git_oid *)oid;
+- (BOOL)git_getOid:(git_oid *)oid error:(NSError **)error;
 
 @end

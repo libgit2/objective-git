@@ -1,5 +1,5 @@
 //
-//  NSData+Base64.m
+//  NSData+Git.m
 //  base64
 //
 //  Created by Matt Gallagher on 2009/06/03.
@@ -12,7 +12,8 @@
 //  appreciated but not required.
 //
 
-#import "NSData+Base64.h"
+#import "NSData+Git.h"
+#import "NSError+Git.h"
 
 //
 // Mapping from 6 bit pattern to ASCII character.
@@ -248,7 +249,7 @@ char *git_NewBase64Encode(
 	return outputBuffer;
 }
 
-@implementation NSData (GitBase64)
+@implementation NSData (Git)
 
 //
 // dataFromBase64String:
@@ -294,6 +295,27 @@ char *git_NewBase64Encode(
 		autorelease];
 	free(outputBuffer);
 	return result;
+}
+
+
++ (NSData *)git_dataWithOid:(git_oid *)oid {
+    return [NSData dataWithBytes:oid length:sizeof(git_oid)];
+}
+
+- (BOOL)git_getOid:(git_oid *)oid error:(NSError **)error {
+    if ([self length] != sizeof(git_oid)) {
+        if (error != NULL) {
+            *error = [NSError errorWithDomain:GTGitErrorDomain 
+                                         code:GIT_EINVALIDARGS 
+                                     userInfo:
+                      [NSDictionary dictionaryWithObject:@"can't extract oid from data of incorrect length" 
+                                                  forKey:NSLocalizedDescriptionKey]];
+        }
+        return NO;
+    }
+    
+    [self getBytes:oid length:sizeof(git_oid)];
+    return YES;
 }
 
 @end
