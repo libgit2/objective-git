@@ -1,5 +1,5 @@
 //
-//  NSData+Base64.m
+//  NSData+Git.m
 //  base64
 //
 //  Created by Matt Gallagher on 2009/06/03.
@@ -12,7 +12,7 @@
 //  appreciated but not required.
 //
 
-#import "NSData+Base64.h"
+#import "NSData+Git.h"
 
 //
 // Mapping from 6 bit pattern to ASCII character.
@@ -248,7 +248,7 @@ char *git_NewBase64Encode(
 	return outputBuffer;
 }
 
-@implementation NSData (GitBase64)
+@implementation NSData (Git)
 
 //
 // dataFromBase64String:

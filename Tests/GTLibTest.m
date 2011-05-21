@@ -28,7 +28,7 @@
 //
 
 #import "Contants.h"
-#import "NSData+Base64.h"
+#import "NSData+Git.h"
 
 
 @interface GTLibTest : GHTestCase {}
