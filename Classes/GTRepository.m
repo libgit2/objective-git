@@ -32,7 +32,6 @@
 #import "GTObject.h"
 #import "GTCommit.h"
 #import "GTObjectDatabase.h"
-#import "GTLib.h"
 #import "GTIndex.h"
 #import "GTBranch.h"
 #import "GTTag.h"

@@ -29,7 +29,6 @@
 
 #import "GTTree.h"
 #import "GTTreeEntry.h"
-#import "GTLib.h"
 #import "NSError+Git.h"
 
 

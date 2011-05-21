@@ -7,7 +7,6 @@
 //
 
 #import "GTOdbObject.h"
-#import "GTLib.h"
 #import "NSString+Git.h"
 
 @interface GTOdbObject()

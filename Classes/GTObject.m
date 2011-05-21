@@ -30,7 +30,6 @@
 #import "GTObject.h"
 #import "GTCommit.h"
 #import "GTObjectDatabase.h"
-#import "GTLib.h"
 #import "NSError+Git.h"
 #import "GTRepository.h"
 #import "NSString+Git.h"

@@ -25,7 +25,6 @@
 
 #import "GTReference.h"
 #import "GTRepository.h"
-#import "GTLib.h"
 #import "NSError+Git.h"
 #import "NSString+Git.h"
 

@@ -27,7 +27,6 @@
 #import "GTRepository.h"
 #import "NSError+Git.h"
 #import "GTOdbObject.h"
-#import "GTLib.h"
 #import "NSString+Git.h"
 
 @interface GTObjectDatabase ()
