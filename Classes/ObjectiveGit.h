@@ -39,3 +39,7 @@
 
 #import "GTObjectDatabase.h"
 #import "GTOdbObject.h"
+
+#import "NSError+Git.h"
+#import "NSData+Git.h"
+#import "NSString+Git.h"

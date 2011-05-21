@@ -12,6 +12,8 @@
 //  appreciated but not required.
 //
 
+#import <git2.h>
+
 void *git_NewBase64Decode(
 	const char *inputBuffer,
 	size_t length,
@@ -27,5 +29,8 @@ char *git_NewBase64Encode(
 
 + (NSData *)git_dataWithBase64String:(NSString *)aString;
 - (NSString *)git_base64EncodedString;
+
++ (NSData *)git_dataWithOid:(git_oid *)oid;
+- (BOOL)git_getOid:(git_oid *)oid error:(NSError **)error;
 
 @end
