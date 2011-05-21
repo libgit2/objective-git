@@ -38,19 +38,6 @@
 #pragma mark -
 #pragma mark API 
 
-+ (NSData *)hexToRaw:(NSString *)hex error:(NSError **)error {
-	
-	git_oid oid;
-	int gitError = git_oid_mkstr(&oid, [hex UTF8String]);
-	if(gitError != GIT_SUCCESS) {
-		if(error != NULL)
-			*error = [NSError gitErrorForMkStr:gitError];
-		return nil;
-	}
-
-	return [NSData dataWithBytes:oid.id length:20];
-}
-
 + (NSString *)rawToHex:(NSData *)raw {
 	
 	git_oid oid;

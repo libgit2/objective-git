@@ -29,7 +29,7 @@
 
 #import "Contants.h"
 #import "NSData+Git.h"
-
+#import "NSString+Git.h"
 
 @interface GTLibTest : GHTestCase {}
 @end
@@ -39,7 +39,10 @@
 - (void)testCanConvertHexToRaw {
 	
 	NSError *error = nil;
-	NSData *raw = [GTLib hexToRaw:@"ce08fe4884650f067bd5703b6a59a8b3b3c99a09" error:&error];
+    git_oid oid;
+    NSString *sha = @"ce08fe4884650f067bd5703b6a59a8b3b3c99a09";
+    GHAssertTrue([sha git_getOid:&oid error:&error], nil);
+	NSData *raw = [NSData git_dataWithOid:&oid];
 	GHAssertNil(error, [error localizedDescription]);
 	
 	NSString *b64raw = [raw git_base64EncodedString];

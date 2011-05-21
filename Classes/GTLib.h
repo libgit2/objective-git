@@ -30,7 +30,6 @@
 
 @interface GTLib : NSObject {}
 
-+ (NSData *)hexToRaw:(NSString *)hex error:(NSError **)error;
 + (NSString *)rawToHex:(NSData *)raw;
 
 @end
