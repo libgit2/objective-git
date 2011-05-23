@@ -115,7 +115,7 @@
 
 - (void)setOptions:(GTEnumeratorOptions)newOptions {
     options = newOptions;
-	git_revwalk_sorting(self.walk, options);
+	git_revwalk_sorting(self.walk, (unsigned int)options);
 }
 
 - (id)nextObject {
