@@ -44,8 +44,8 @@
 #pragma mark API
 
 - (NSInteger)numberOfEntries {
-	
-	return [[NSNumber numberWithInt:git_tree_entrycount(self.tree)] integerValue];
+
+	return (NSInteger)git_tree_entrycount(self.tree);
 }
 
 - (GTTreeEntry *)createEntryWithEntry:(const git_tree_entry *)entry {
@@ -55,7 +55,7 @@
 
 - (GTTreeEntry *)entryAtIndex:(NSInteger)index {
 	
-	return [self createEntryWithEntry:git_tree_entry_byindex(self.tree, index)];
+	return [self createEntryWithEntry:git_tree_entry_byindex(self.tree, (int)index)];
 }
 
 - (GTTreeEntry *)entryWithName:(NSString *)name {

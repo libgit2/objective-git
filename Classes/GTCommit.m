@@ -75,9 +75,9 @@
 						 parents:(NSArray *)theParents 
 						   error:(NSError **)error {
 	
-	int count = theParents ? theParents.count : 0;
+	NSUInteger count = theParents ? theParents.count : 0;
 	git_commit const *parentCommits[count];
-	for(int i = 0; i < count; i++){
+	for (NSUInteger i = 0; i < count; i++){
 		parentCommits[i] = ((GTCommit *)[theParents objectAtIndex:i]).commit;
 	}
 	
@@ -90,7 +90,7 @@
 									   committerSig.sig, 
 									   newMessage ? [newMessage UTF8String] : "", 
 									   theTree.tree, 
-									   count, 
+									   (int)count, 
 									   parentCommits);
 	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)

@@ -104,7 +104,7 @@
 
 - (GTIndexEntry *)entryAtIndex:(NSInteger)theIndex {
 	
-	return [GTIndexEntry indexEntryWithEntry:git_index_get(self.index, theIndex)];
+	return [GTIndexEntry indexEntryWithEntry:git_index_get(self.index, (int)theIndex)];
 }
 
 - (GTIndexEntry *)entryWithName:(NSString *)name {

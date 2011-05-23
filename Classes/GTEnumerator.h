@@ -40,7 +40,7 @@ enum {
 	GTEnumeratorOptionsReverse = GIT_SORT_REVERSE, // sort in reverse order
 };
 
-typedef NSInteger GTEnumeratorOptions;
+typedef unsigned int GTEnumeratorOptions;
 
 @class GTRepository;
 @class GTCommit;
