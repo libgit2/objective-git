@@ -35,9 +35,7 @@
 @implementation GTIndexEntry
 
 - (void)dealloc {
-	
-	// todo: do we free here?
-	// free(self.entry);
+	free(self.entry);
 	[super dealloc];
 }
 
@@ -61,16 +59,16 @@
 - (id)init {
 	
 	if((self = [super init])) {
-		self.entry = malloc(sizeof(git_index_entry));
-		memset(self.entry, 0x0, sizeof(git_index_entry));
+		self.entry = calloc(1, sizeof(git_index_entry));
 	}
 	return self;
 }
 
 - (id)initWithEntry:(git_index_entry *)theEntry {
 	
-	if((self = [super init])) {
-		self.entry = theEntry;
+	if((self = [self init])) {
+        git_index_entry *thisEntry = self.entry;
+        memcpy(thisEntry, theEntry, sizeof(git_index_entry));
 	}
 	return self;
 }
@@ -132,22 +130,22 @@
 }
 
 - (long long)fileSize { return self.entry->file_size; }
-- (void)setFileSize:(long long) size { self.entry->file_size = size; }
+- (void)setFileSize:(long long) size { self.entry->file_size = (git_off_t)size; }
 
 - (NSUInteger)dev { return self.entry->dev; }
-- (void)setDev:(NSUInteger)theDev { self.entry->dev = theDev; }
+- (void)setDev:(NSUInteger)theDev { self.entry->dev = (unsigned int)theDev; }
 
 - (NSUInteger)ino { return self.entry->ino; }
-- (void)setIno:(NSUInteger)theIno { self.entry->ino = theIno; }
+- (void)setIno:(NSUInteger)theIno { self.entry->ino = (unsigned int)theIno; }
 
 - (NSUInteger)mode { return self.entry->mode; }
-- (void)setMode:(NSUInteger)theMode { self.entry->mode = theMode; }
+- (void)setMode:(NSUInteger)theMode { self.entry->mode = (unsigned int)theMode; }
 
 - (NSUInteger)uid { return self.entry->uid; }
-- (void)setUid:(NSUInteger)theUid { self.entry->uid = theUid; }
+- (void)setUid:(NSUInteger)theUid { self.entry->uid = (unsigned int)theUid; }
 
 - (NSUInteger)gid { return self.entry->gid; }
-- (void)setGid:(NSUInteger)theGid { self.entry->gid = theGid; }
+- (void)setGid:(NSUInteger)theGid { self.entry->gid = (unsigned int)theGid; }
 
 - (NSUInteger)flags {
 	
