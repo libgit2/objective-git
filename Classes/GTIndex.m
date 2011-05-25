@@ -34,6 +34,10 @@
 
 @implementation GTIndex
 
+- (NSString *)description {
+  return [NSString stringWithFormat:@"<%@: %p> path: %@, entryCount: %i", NSStringFromClass([self class]), self, self.path, self.entryCount];
+}
+
 - (void)dealloc {
 	
 	//git_index_free(self.index);

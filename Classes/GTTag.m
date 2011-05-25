@@ -37,6 +37,10 @@
 
 @implementation GTTag
 
+- (NSString *)description {
+  return [NSString stringWithFormat:@"<%@: %p> name: %@, message: %@, targetType: %@", NSStringFromClass([self class]), self, [self name], [self message],  [self targetType]];
+}
+
 - (git_tag *)tag {
 	
 	return (git_tag *)self.obj;

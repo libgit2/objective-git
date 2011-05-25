@@ -49,6 +49,10 @@
 
 @implementation GTRepository
 
+- (NSString *)description {
+  return [NSString stringWithFormat:@"<%@: %p> fileURL: %@", NSStringFromClass([self class]), self, self.fileUrl];
+}
+
 - (void)dealloc {
 	
 	git_repository_free(self.repo);

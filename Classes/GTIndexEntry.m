@@ -34,6 +34,10 @@
 
 @implementation GTIndexEntry
 
+- (NSString *)description {
+  return [NSString stringWithFormat:@"<%@: %p> path: %@, modificationDate: %@, creationDate: %@, fileSize: %@ KB", NSStringFromClass([self class]), self, self.path, self.modificationDate, self.creationDate, [NSNumber numberWithLongLong:self.fileSize]];
+}
+
 - (void)dealloc {
 	free(self.entry);
 	[super dealloc];
