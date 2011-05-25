@@ -35,6 +35,10 @@
 
 @implementation GTObjectDatabase
 
+- (NSString *)description {
+  return [NSString stringWithFormat:@"<%@: %p> repository: %@", NSStringFromClass([self class]), self, self.repository];
+}
+
 - (void)dealloc {
     self.repository = nil;
     [super dealloc];

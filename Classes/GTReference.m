@@ -31,6 +31,10 @@
 
 @implementation GTReference
 
+- (NSString *)description {
+  return [NSString stringWithFormat:@"<%@: %p> type: %@, repository: %@", NSStringFromClass([self class]), self, self.type, self.repository];
+}
+
 - (void)dealloc {
 	
 	self.repository = nil;

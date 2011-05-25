@@ -36,6 +36,10 @@
 
 @implementation GTBranch
 
+- (NSString *)description {
+  return [NSString stringWithFormat:@"<%@: %p> name: %@, shortName: %@, sha: %@, remoteName: %@, repository: %@", NSStringFromClass([self class]), self, self.name, self.shortName, self.sha, self.remoteName, self.repository];
+}
+
 - (void)dealloc {
 
     self.reference = nil;
@@ -67,11 +71,6 @@
 - (NSUInteger)hash {
 	
 	return [self.name hash];
-}
-
-- (NSString *)description {
-	
-	return [NSString stringWithFormat:@"<%@: %p>: name: %@, sha: %@", NSStringFromClass([self class]), self, self.name, self.sha];
 }
 
 #pragma mark -

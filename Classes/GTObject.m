@@ -43,6 +43,10 @@ static NSString * const GTTagClassName = @"GTTag";
 
 @implementation GTObject
 
+- (NSString *)description {
+  return [NSString stringWithFormat:@"<%@: %p> type: %@, shortSha: %@, sha: %@", NSStringFromClass([self class]), self, self.type, self.shortSha, self.sha];
+}
+
 - (void)dealloc {
 	
 	self.repository = nil;

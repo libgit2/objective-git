@@ -34,6 +34,10 @@
 
 @implementation GTTree
 
+- (NSString *)description {
+  return [NSString stringWithFormat:@"<%@: %p> numberOfEntries: %i", NSStringFromClass([self class]), self, [self numberOfEntries]];
+}
+
 - (git_tree *)tree {
 	
 	return (git_tree *)self.obj;

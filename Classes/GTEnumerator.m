@@ -40,6 +40,10 @@
 
 @implementation GTEnumerator
 
+- (NSString *)description {
+  return [NSString stringWithFormat:@"<%@: %p> repository: %@", NSStringFromClass([self class]), self, self.repository];
+}
+
 - (void)dealloc {
 	
 	git_revwalk_free(self.walk);

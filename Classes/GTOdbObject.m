@@ -15,6 +15,10 @@
 
 @implementation GTOdbObject
 
+- (NSString *)description {
+  return [NSString stringWithFormat:@"<%@: %p> shaHash: %@, length: %i, data: %@", NSStringFromClass([self class]), self, [self shaHash], [self length], [self data]];
+}
+
 #pragma mark -
 #pragma mark API
 
