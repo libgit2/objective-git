@@ -51,6 +51,12 @@
 	[super dealloc];
 }
 
+- (void)finalize {
+	
+	git_revwalk_free(self.walk);
+	[super finalize];
+}
+
 #pragma mark -
 #pragma mark API
 

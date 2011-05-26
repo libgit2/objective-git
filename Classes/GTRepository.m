@@ -64,6 +64,12 @@
 	[super dealloc];
 }
 
+- (void)finalize {
+	
+	git_repository_free(self.repo);
+	[super finalize];
+}
+
 + (BOOL)isAGitDirectory:(NSURL *)directory {
 	
 	NSFileManager *fm = [[[NSFileManager alloc] init] autorelease];
