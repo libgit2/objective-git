@@ -51,7 +51,7 @@ typedef unsigned int GTEnumeratorOptions;
 // GTRepository
 @interface GTEnumerator : NSEnumerator <GTObject> {}
 
-@property (nonatomic, assign) GTRepository *repository;
+@property (nonatomic, assign) __weak GTRepository *repository;
 @property (nonatomic, assign) GTEnumeratorOptions options;
 
 - (id)initWithRepository:(GTRepository *)theRepo error:(NSError **)error;
