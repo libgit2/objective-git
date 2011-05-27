@@ -94,7 +94,7 @@
 									   parentCommits);
 	if(gitError != GIT_SUCCESS) {
 		if(error != NULL)
-			*error = [NSError gitErrorFor:gitError withDescription:@"Failed to create commit in repository"];
+			*error = [NSError git_errorFor:gitError withDescription:@"Failed to create commit in repository"];
 		return nil;
 	}
 	return [NSString git_stringWithOid:&oid];

@@ -31,36 +31,15 @@ extern NSString * const GTGitErrorDomain;
 
 @interface NSError (Git)
 
-+ (NSError *)gitErrorForInitRepository: (int)code;
-+ (NSError *)gitErrorForOpenRepository: (int)code;
-+ (NSError *)gitErrorForInitRevWalker: (int)code;
-+ (NSError *)gitErrorForPushRevWalker: (int)code;
-+ (NSError *)gitErrorForHideRevWalker: (int)code;
-+ (NSError *)gitErrorForInitRepoIndex: (int)code;
-+ (NSError *)gitErrorForLookupObject: (int)code;
-+ (NSError *)gitErrorForMkStr: (int)code;
-+ (NSError *)gitErrorForAddTreeEntry: (int)code;
-+ (NSError *)gitErrorForNewObject: (int)code;
-+ (NSError *)gitErrorForWriteObject: (int)code;
-+ (NSError *)gitErrorForRawRead: (int)code;
-+ (NSError *)gitErrorForHashObject: (int)code;
-+ (NSError *)gitErrorForWriteObjectToDb: (int)code;
-+ (NSError *)gitErrorForTreeEntryToObject: (int)code;
-+ (NSError *)gitErrorForInitIndex: (int)code;
-+ (NSError *)gitErrorForReadIndex: (int)code;
-+ (NSError *)gitErrorForIndexStageValue;
-+ (NSError *)gitErrorForAddEntryToIndex: (int)code;
-+ (NSError *)gitErrorForWriteIndex: (int)code;
-+ (NSError *)gitErrorForLookupRef: (int)code;
-+ (NSError *)gitErrorForCreateRef: (int)code;
-+ (NSError *)gitErrorForSetRefTarget: (int)code;
-+ (NSError *)gitErrorForPackAllRefs: (int)code;
-+ (NSError *)gitErrorForDeleteRef: (int)code;
-+ (NSError *)gitErrorForResloveRef: (int)code;
-+ (NSError *)gitErrorForRenameRef: (int)code;
-+ (NSError *)gitErrorForListAllRefs: (int)code;
-+ (NSError *)gitErrorForNoBlockProvided;
+/* Error helper for general errors (non libgit2 related) */
++ (NSError *)git_errorWithDescription:(NSString *)desc;
 
-+ (NSError *)gitErrorFor:(int)code withDescription:(NSString *)desc;
+/* Error helpers for libgit2 error codes */
++ (NSError *)git_errorFor:(int)code withDescription:(NSString *)desc;
++ (NSError *)git_errorFor:(int)code;
+
+/* Error helpers for common libgit2 errors */
++ (NSError *)git_errorForMkStr: (int)code;
++ (NSError *)git_errorForAddEntryToIndex: (int)code;
 
 @end
