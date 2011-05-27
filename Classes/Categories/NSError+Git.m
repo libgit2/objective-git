@@ -42,7 +42,7 @@ NSString * const GTGitErrorDomain = @"GTGitErrorDomain";
 										forKey:NSLocalizedDescriptionKey]];
 }
 
-+ (NSError *)git_errorFor:(int)code withDescription:(NSString *)desc {
++ (NSError *)git_errorFor:(NSInteger)code withDescription:(NSString *)desc {
 	
 	NSString *gitErrorDesc = [NSString stringWithUTF8String:git_lasterror()];
 	
@@ -53,7 +53,7 @@ NSString * const GTGitErrorDomain = @"GTGitErrorDomain";
 										forKey:NSLocalizedDescriptionKey]];
 }
 
-+ (NSError *)git_errorFor:(int)code {
++ (NSError *)git_errorFor:(NSInteger)code {
 	
 	return [NSError errorWithDomain:GTGitErrorDomain
 							   code:code
@@ -62,12 +62,12 @@ NSString * const GTGitErrorDomain = @"GTGitErrorDomain";
 										forKey:NSLocalizedDescriptionKey]];
 }
 
-+ (NSError *)git_errorForMkStr: (int)code {
++ (NSError *)git_errorForMkStr: (NSInteger)code {
 	
 	return [NSError git_errorFor:code withDescription:@"Failed to create object id from sha1."];
 }
 
-+ (NSError *)git_errorForAddEntryToIndex: (int)code {
++ (NSError *)git_errorForAddEntryToIndex: (NSInteger)code {
 	
 	return [NSError git_errorFor:code withDescription:@"Failed to add entry to index."];
 }

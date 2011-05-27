@@ -35,11 +35,11 @@ extern NSString * const GTGitErrorDomain;
 + (NSError *)git_errorWithDescription:(NSString *)desc;
 
 /* Error helpers for libgit2 error codes */
-+ (NSError *)git_errorFor:(int)code withDescription:(NSString *)desc;
-+ (NSError *)git_errorFor:(int)code;
++ (NSError *)git_errorFor:(NSInteger)code withDescription:(NSString *)desc;
++ (NSError *)git_errorFor:(NSInteger)code;
 
 /* Error helpers for common libgit2 errors */
-+ (NSError *)git_errorForMkStr: (int)code;
-+ (NSError *)git_errorForAddEntryToIndex: (int)code;
++ (NSError *)git_errorForMkStr: (NSInteger)code;
++ (NSError *)git_errorForAddEntryToIndex: (NSInteger)code;
 
 @end
