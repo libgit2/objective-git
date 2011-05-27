@@ -66,9 +66,9 @@
 	git_odb_object *obj;
 	
 	int gitError = git_odb_read(&obj, odb, oid);
-	if(gitError != GIT_SUCCESS) {
+	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
-			*error = [NSError gitErrorForRawRead:gitError];
+			*error = [NSError git_errorFor:gitError withDescription:@"Failed to read raw object."];
 		return nil;
 	}
 	
@@ -81,9 +81,9 @@
 - (GTOdbObject *)objectWithSha:(NSString *)sha error:(NSError **)error {
 	git_oid oid;
 	int gitError = git_oid_mkstr(&oid, [sha UTF8String]);
-	if(gitError != GIT_SUCCESS) {
+	if(gitError < GIT_SUCCESS) {
 		if (error != NULL)
-			*error = [NSError gitErrorForMkStr:gitError];
+			*error = [NSError git_errorForMkStr:gitError];
 		return nil;
 	}
     return [self objectWithOid:&oid error:error];
@@ -95,23 +95,23 @@
 	git_oid oid;
 	
 	int gitError = git_odb_open_wstream(&stream, odb, data.length, type);
-	if(gitError != GIT_SUCCESS) {
+	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
-			*error = [NSError gitErrorFor:gitError withDescription:@"Failed to open write stream on odb"];
+			*error = [NSError git_errorFor:gitError withDescription:@"Failed to open write stream on odb."];
 		return nil;
 	}
 	
 	gitError = stream->write(stream, [data UTF8String], data.length);
-	if(gitError != GIT_SUCCESS) {
+	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
-			*error = [NSError gitErrorFor:gitError withDescription:@"Failed to write to stream on odb"];
+			*error = [NSError git_errorFor:gitError withDescription:@"Failed to write to stream on odb."];
 		return nil;
 	}
 	
 	gitError = stream->finalize_write(&oid, stream);
-	if(gitError != GIT_SUCCESS) {
+	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
-			*error = [NSError gitErrorFor:gitError withDescription:@"Failed to finalize write on odb"];
+			*error = [NSError git_errorFor:gitError withDescription:@"Failed to finalize write on odb."];
 		return nil;
 	}
     
@@ -123,9 +123,9 @@
 	git_oid oid;
 	
 	int gitError = git_oid_mkstr(&oid, [sha UTF8String]);
-	if(gitError != GIT_SUCCESS) {
+	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
-			*error = [NSError gitErrorForMkStr:gitError];
+			*error = [NSError git_errorForMkStr:gitError];
 		return NO;
 	}
 	

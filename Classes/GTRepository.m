@@ -115,9 +115,9 @@
     
     git_repository *r;
     int gitError = git_repository_init(&r, path, 0);
-    if (gitError != GIT_SUCCESS) {
+    if (gitError < GIT_SUCCESS) {
         if (error != NULL) {
-            *error = [NSError gitErrorForInitRepository:gitError];
+            *error = [NSError git_errorFor:gitError withDescription:@"Failed to initialize repository."];
         }
     }
     
@@ -142,9 +142,9 @@
         git_repository *r;
         int gitError = git_repository_open(&r, [[localFileURL path] UTF8String]);
         
-        if (gitError != GIT_SUCCESS) {
+        if (gitError < GIT_SUCCESS) {
             if (error != NULL) {
-                *error = [NSError gitErrorForOpenRepository:gitError];
+                *error = [NSError git_errorFor:gitError withDescription:@"Failed to open repository."];
             }
             [self release];
             return nil;
@@ -168,24 +168,23 @@
 	git_oid oid;
 
 	int gitError = git_odb_hash(&oid, [data UTF8String], [data length], type);
-	if(gitError != GIT_SUCCESS) {
+	if(gitError < GIT_SUCCESS) {
 		if (error != NULL)
-			*error = [NSError gitErrorForHashObject:gitError];
+			*error = [NSError git_errorFor:gitError withDescription:@"Failed to get hash for object."];
 		return nil;
 	}
 	
 	return [NSString git_stringWithOid:&oid];
 }
 
-
 - (GTObject *)lookupObjectByOid:(git_oid *)oid objectType:(GTObjectType)type error:(NSError **)error {
 	
 	git_object *obj;
 	
 	int gitError = git_object_lookup(&obj, self.repo, oid, type);
-	if(gitError != GIT_SUCCESS) {
+	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
-			*error = [NSError gitErrorForLookupObject:gitError];
+			*error = [NSError git_errorFor:gitError withDescription:@"Failed to lookup object in repository."];
 		return nil;
 	}
 	
@@ -202,9 +201,9 @@
 	git_oid oid;
 	
 	int gitError = git_oid_mkstr(&oid, [sha UTF8String]);
-	if(gitError != GIT_SUCCESS) {
+	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
-			*error = [NSError gitErrorForMkStr:gitError];
+			*error = [NSError git_errorForMkStr:gitError];
 		return nil;
 	}
 	
@@ -220,7 +219,7 @@
     
 	if(block == nil) {
 		if(error != NULL)
-			*error = [NSError gitErrorForNoBlockProvided];
+			*error = [NSError git_errorWithDescription:@"No block was provided to the method."];
 		return;
 	}
     
@@ -244,7 +243,8 @@
 }
 
 - (void)enumerateCommitsBeginningAtSha:(NSString *)sha error:(NSError **)error usingBlock:(void (^)(GTCommit *, BOOL*))block {
-    [self enumerateCommitsBeginningAtSha:sha sortOptions:GTEnumeratorOptionsTimeSort error:error usingBlock:block];
+    
+	[self enumerateCommitsBeginningAtSha:sha sortOptions:GTEnumeratorOptionsTimeSort error:error usingBlock:block];
 }
 
 - (NSArray *)selectCommitsBeginningAtSha:(NSString *)sha error:(NSError **)error block:(BOOL (^)(GTCommit *commit, BOOL *stop))block {
@@ -263,9 +263,9 @@
 	
 	git_index *i;
 	int gitError = git_repository_index(&i, self.repo);
-	if(gitError != GIT_SUCCESS) {
+	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
-			*error = [NSError gitErrorForInitRepoIndex:gitError];
+			*error = [NSError git_errorFor:gitError withDescription:@"Failed to get index for repository."];
 		return NO;
 	}
 	else {
@@ -396,7 +396,8 @@
 }
 
 - (GTRepository *)repository {
-    return self;
+    
+	return self;
 }
 
 @end

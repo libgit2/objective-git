@@ -105,9 +105,9 @@
 - (id)initWithTreeEntry:(GTTreeEntry *)treeEntry error:(NSError **)error {
     git_object *obj;
     int gitError = git_tree_entry_2object(&obj, treeEntry.repository.repo, treeEntry.entry);
-    if (gitError != GIT_SUCCESS) {
+    if (gitError < GIT_SUCCESS) {
         if (error != NULL) {
-            *error = [NSError gitErrorForTreeEntryToObject:gitError];
+            *error = [NSError git_errorFor:gitError withDescription:@"Failed to get object for tree entry."];
         }
         [self release];
         return nil;

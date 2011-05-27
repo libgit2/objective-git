@@ -92,9 +92,9 @@
 									   theTree.tree, 
 									   (int)count, 
 									   parentCommits);
-	if(gitError != GIT_SUCCESS) {
+	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
-			*error = [NSError gitErrorFor:gitError withDescription:@"Failed to create commit in repository"];
+			*error = [NSError git_errorFor:gitError withDescription:@"Failed to create commit in repository"];
 		return nil;
 	}
 	return [NSString git_stringWithOid:&oid];
@@ -156,7 +156,7 @@
 	git_tree *t;
 	
 	int gitError = git_commit_tree(&t, self.commit);
-	if(gitError != GIT_SUCCESS) {
+	if(gitError < GIT_SUCCESS) {
 		// todo: might want to return this error (and change method signature)
 		GTLog("Failed to get tree with error code: %d", gitError);
 		return nil;

@@ -27,9 +27,8 @@
 //  THE SOFTWARE.
 //
 
-#import <git2.h>
-#import "GTObject.h"
 
+#import "GTObject.h"
 
 @class GTSignature;
 @class GTTree;
