@@ -74,7 +74,7 @@
     }
     
 	int gitError = git_oid_mkstr(oid, [self UTF8String]);
-	if(gitError != GIT_SUCCESS) {
+	if(gitError < GIT_SUCCESS) {
 		if(error != NULL) {
 			*error = [NSError git_errorForMkStr:gitError];
         }

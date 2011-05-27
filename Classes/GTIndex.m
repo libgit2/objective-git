@@ -58,7 +58,7 @@
 		self.path = localFileUrl;
 		git_index *i;
 		int gitError = git_index_open_bare(&i, [[self.path path] UTF8String]);
-		if(gitError != GIT_SUCCESS) {
+		if(gitError < GIT_SUCCESS) {
 			if(error != NULL)
 				*error = [NSError git_errorFor:gitError withDescription:@"Failed to initialize index."];
             [self release];
@@ -93,7 +93,7 @@
 - (BOOL)refreshWithError:(NSError **)error {
 	
 	int gitError = git_index_read(self.index);
-	if(gitError != GIT_SUCCESS) {
+	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError git_errorFor:gitError withDescription:@"Failed to refresh index."];
 		return NO;
@@ -120,7 +120,7 @@
 - (BOOL)addEntry:(GTIndexEntry *)entry error:(NSError **)error {
 	
 	int gitError = git_index_add2(self.index, entry.entry);
-	if(gitError != GIT_SUCCESS) {
+	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError git_errorForAddEntryToIndex:gitError];
 		return NO;
@@ -131,7 +131,7 @@
 - (BOOL)addFile:(NSString *)file error:(NSError **)error {
 	
 	int gitError = git_index_add(self.index, [file UTF8String], 0);
-	if(gitError != GIT_SUCCESS) {
+	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError git_errorForAddEntryToIndex:gitError];
 		return NO;
@@ -142,7 +142,7 @@
 - (BOOL)writeWithError:(NSError **)error {
 	
 	int gitError = git_index_write(self.index);
-	if(gitError != GIT_SUCCESS) {
+	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError git_errorFor:gitError withDescription:@"Failed to write index."];
 		return NO;

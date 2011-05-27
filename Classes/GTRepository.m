@@ -115,7 +115,7 @@
     
     git_repository *r;
     int gitError = git_repository_init(&r, path, 0);
-    if (gitError != GIT_SUCCESS) {
+    if (gitError < GIT_SUCCESS) {
         if (error != NULL) {
             *error = [NSError git_errorFor:gitError withDescription:@"Failed to initialize repository."];
         }
@@ -142,7 +142,7 @@
         git_repository *r;
         int gitError = git_repository_open(&r, [[localFileURL path] UTF8String]);
         
-        if (gitError != GIT_SUCCESS) {
+        if (gitError < GIT_SUCCESS) {
             if (error != NULL) {
                 *error = [NSError git_errorFor:gitError withDescription:@"Failed to open repository."];
             }
@@ -168,7 +168,7 @@
 	git_oid oid;
 
 	int gitError = git_odb_hash(&oid, [data UTF8String], [data length], type);
-	if(gitError != GIT_SUCCESS) {
+	if(gitError < GIT_SUCCESS) {
 		if (error != NULL)
 			*error = [NSError git_errorFor:gitError withDescription:@"Failed to get hash for object."];
 		return nil;
@@ -182,7 +182,7 @@
 	git_object *obj;
 	
 	int gitError = git_object_lookup(&obj, self.repo, oid, type);
-	if(gitError != GIT_SUCCESS) {
+	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError git_errorFor:gitError withDescription:@"Failed to lookup object in repository."];
 		return nil;
@@ -201,7 +201,7 @@
 	git_oid oid;
 	
 	int gitError = git_oid_mkstr(&oid, [sha UTF8String]);
-	if(gitError != GIT_SUCCESS) {
+	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError git_errorForMkStr:gitError];
 		return nil;
@@ -263,7 +263,7 @@
 	
 	git_index *i;
 	int gitError = git_repository_index(&i, self.repo);
-	if(gitError != GIT_SUCCESS) {
+	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError git_errorFor:gitError withDescription:@"Failed to get index for repository."];
 		return NO;
