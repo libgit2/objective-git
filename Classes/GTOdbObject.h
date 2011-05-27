@@ -6,7 +6,7 @@
 //  Copyright 2011 GitHub, Inc. All rights reserved.
 //
 
-#import <git2.h>
+
 #import "GTObject.h"
 
 @interface GTOdbObject : NSObject {}

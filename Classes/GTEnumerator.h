@@ -27,9 +27,8 @@
 //  THE SOFTWARE.
 //
 
-#import <git2.h>
-#import "GTObject.h"
 
+#import "GTObject.h"
 
 // Options to specify enumeration order when enumerating through a repository.
 // These options may be bitwise-OR'd together

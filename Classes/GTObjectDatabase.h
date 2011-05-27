@@ -23,9 +23,8 @@
 //  THE SOFTWARE.
 //
 
-#import <git2.h>
-#import "GTObject.h"
 
+#import "GTObject.h"
 
 @interface GTObjectDatabase : NSObject <GTObject> {
     git_odb *odb;

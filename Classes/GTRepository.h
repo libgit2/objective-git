@@ -27,7 +27,7 @@
 //  THE SOFTWARE.
 //
 
-#import <git2.h>
+
 #import "GTObject.h"
 #import "GTEnumerator.h"
 #import "GTReference.h"
