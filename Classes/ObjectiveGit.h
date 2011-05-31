@@ -23,6 +23,8 @@
 //  THE SOFTWARE.
 //
 
+#import <git2.h>
+
 #import "GTRepository.h"
 #import "GTEnumerator.h"
 #import "GTCommit.h"
