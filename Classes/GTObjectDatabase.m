@@ -94,7 +94,7 @@
 	git_odb_stream *stream;
 	git_oid oid;
 	
-	int gitError = git_odb_open_wstream(&stream, odb, data.length, type);
+	int gitError = git_odb_open_wstream(&stream, odb, data.length, (git_otype) type);
 	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError git_errorFor:gitError withDescription:@"Failed to open write stream on odb."];

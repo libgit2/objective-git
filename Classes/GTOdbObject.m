@@ -44,7 +44,7 @@
 
 - (GTObjectType)type {
 
-	return git_odb_object_type(self.odbObject);
+	return (GTObjectType) git_odb_object_type(self.odbObject);
 }
 
 - (NSUInteger)length {

@@ -167,7 +167,7 @@
 	
 	git_oid oid;
 
-	int gitError = git_odb_hash(&oid, [data UTF8String], [data length], type);
+	int gitError = git_odb_hash(&oid, [data UTF8String], [data length], (git_otype) type);
 	if(gitError < GIT_SUCCESS) {
 		if (error != NULL)
 			*error = [NSError git_errorFor:gitError withDescription:@"Failed to get hash for object."];
@@ -181,7 +181,7 @@
 	
 	git_object *obj;
 	
-	int gitError = git_object_lookup(&obj, self.repo, oid, type);
+	int gitError = git_object_lookup(&obj, self.repo, oid, (git_otype) type);
 	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError git_errorFor:gitError withDescription:@"Failed to lookup object in repository."];

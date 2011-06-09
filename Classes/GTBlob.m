@@ -64,7 +64,7 @@
 - (id)initWithOid:(const git_oid *)oid inRepository:(GTRepository *)repository error:(NSError **)error {
     
 	git_object *obj;
-    int gitError = git_object_lookup(&obj, repository.repo, oid, GTObjectTypeBlob);
+    int gitError = git_object_lookup(&obj, repository.repo, oid, (git_otype) GTObjectTypeBlob);
     if (gitError < GIT_SUCCESS) {
         if (error != NULL) {
             *error = [NSError git_errorFor:gitError withDescription:@"Failed to lookup blob"];
