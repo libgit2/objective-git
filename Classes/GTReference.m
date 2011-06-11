@@ -144,7 +144,7 @@
 
 - (NSString *)type {
 	
-	return [NSString stringWithUTF8String:git_object_type2string(git_reference_type(self.ref))];
+	return [NSString stringWithUTF8String:git_object_type2string((git_otype)git_reference_type(self.ref))];
 }
 
 + (NSArray *)referenceNamesInRepository:(GTRepository *)theRepo types:(GTReferenceTypes)types error:(NSError **)error {
