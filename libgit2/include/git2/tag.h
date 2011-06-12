@@ -53,6 +53,23 @@ GIT_INLINE(int) git_tag_lookup(git_tag **tag, git_repository *repo, const git_oi
 }
 
 /**
+ * Lookup a tag object from the repository,
+ * given a prefix of its identifier (short id).
+ *
+ * @see git_object_lookup_prefix
+ *
+ * @param tag pointer to the looked up tag
+ * @param repo the repo to use when locating the tag.
+ * @param id identity of the tag to locate.
+ * @param len the length of the short identifier
+ * @return 0 on success; error code otherwise
+ */
+GIT_INLINE(int) git_tag_lookup_prefix(git_tag **tag, git_repository *repo, const git_oid *id, unsigned int len)
+{
+	return git_object_lookup_prefix((git_object **)tag, repo, id, len, (git_otype)GIT_OBJ_TAG);
+}
+
+/**
  * Close an open tag
  *
  * This is a wrapper around git_object_close()
@@ -135,7 +152,9 @@ GIT_EXTERN(const char *) git_tag_message(git_tag *t);
  * Create a new tag in the repository from an OID
  *
  * @param oid Pointer where to store the OID of the
- *	newly created tag
+ * newly created tag. If the tag already exists, this parameter
+ * will be the oid of the existed tag, and the function will
+ * return a GIT_EEXISTS error code.
  *
  * @param repo Repository where to store the tag
  *

@@ -52,5 +52,6 @@
 #include "git2/tree.h"
 
 #include "git2/index.h"
+#include "git2/config.h"
 
 #endif

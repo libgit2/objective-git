@@ -130,6 +130,12 @@ typedef struct git_treebuilder git_treebuilder;
 /** Memory representation of an index file. */
 typedef struct git_index git_index;
 
+/** Memory representation of a set of config files */
+typedef struct git_config git_config;
+
+/** Interface to access a configuration file */
+typedef struct git_config_file git_config_file;
+
 /** Time in a signature */
 typedef struct git_time {
 	git_time_t time; /** time in seconds from epoch */

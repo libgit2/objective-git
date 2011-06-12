@@ -133,6 +133,34 @@ GIT_EXTERN(int) git_repository_open3(git_repository **repository,
 		const char *git_work_tree);
 
 /**
+ * Look for a git repository and copy its path in the given buffer. The lookup start
+ * from base_path and walk across parent directories if nothing has been found. The
+ * lookup ends when the first repository is found, or when reaching a directory
+ * referenced in ceiling_dirs or when the filesystem changes (in case across_fs
+ * is true).
+ *
+ * The method will automatically detect if the repository is bare (if there is
+ * a repository).
+ *
+ * @param repository_path The user allocated buffer which will contain the found path.
+ *
+ * @param size repository_path size
+ *
+ * @param start_path The base path where the lookup starts.
+ *
+ * @param across_fs If true, then the lookup will not stop when a filesystem device change
+ * is detected while exploring parent directories.
+ *
+ * @param ceiling_dirs A colon separated of absolute symbolic link free paths. The lookup will
+ * stop when any of this paths is reached. Note that the lookup always performs on start_path
+ * no matter start_path appears in ceiling_dirs
+ * ceiling_dirs might be NULL (which is equivalent to an empty string)
+ *
+ * @return 0 on success; error code otherwise
+ */
+GIT_EXTERN(int) git_repository_discover(char *repository_path, size_t size, const char *start_path, int across_fs, const char *ceiling_dirs);
+
+/**
  * Get the object database behind a Git repository
  *
  * @param repo a repository object
@@ -141,10 +169,18 @@ GIT_EXTERN(int) git_repository_open3(git_repository **repository,
 GIT_EXTERN(git_odb *) git_repository_database(git_repository *repo);
 
 /**
- * Get the Index file of a Git repository
+ * Open the Index file of a Git repository
  *
- * This is a cheap operation; the index is only opened on the first call,
- * and subsequent calls only retrieve the previous pointer.
+ * This returns a new and unique `git_index` object representing the
+ * active index for the repository.
+ *
+ * This method may be called more than once (e.g. on different threads).
+ *
+ * Each returned `git_index` object is independent and suffers no race
+ * conditions: synchronization is done at the FS level.
+ *
+ * Each returned `git_index` object must be manually freed by the user,
+ * using `git_index_free`.
  *
  * @param index Pointer where to store the index
  * @param repo a repository object
@@ -195,22 +231,39 @@ GIT_EXTERN(int) git_repository_init(git_repository **repo_out, const char *path,
 GIT_EXTERN(int) git_repository_is_empty(git_repository *repo);
 
 /**
- * Get the normalized path to the git repository.
- *
- * @param repo a repository object
- * @return absolute path to the git directory
+ * Internal path identifiers for a repository
  */
-GIT_EXTERN(const char *) git_repository_path(git_repository *repo);
+typedef enum {
+	GIT_REPO_PATH,
+	GIT_REPO_PATH_INDEX,
+	GIT_REPO_PATH_ODB,
+	GIT_REPO_PATH_WORKDIR
+} git_repository_pathid;
 
 /**
- * Get the normalized path to the working directory of the repository.
+ * Get one of the paths to the repository
  *
- * If the repository is bare, there is no working directory and NULL we be returned.
+ * Possible values for `id`:
+ *
+ *	GIT_REPO_PATH: return the path to the repository
+ *	GIT_REPO_PATH_INDEX: return the path to the index
+ *	GIT_REPO_PATH_ODB: return the path to the ODB
+ *	GIT_REPO_PATH_WORKDIR: return the path to the working
+ *		directory
  *
  * @param repo a repository object
- * @return NULL if the repository is bare; absolute path to the working directory otherwise.
+ * @param id The ID of the path to return
+ * @return absolute path of the requested id
  */
-GIT_EXTERN(const char *) git_repository_workdir(git_repository *repo);
+GIT_EXTERN(const char *) git_repository_path(git_repository *repo, git_repository_pathid id);
+
+/**
+ * Check if a repository is bare
+ *
+ * @param repo Repo to test
+ * @return 1 if the repository is empty, 0 otherwise.
+ */
+GIT_EXTERN(int) git_repository_is_bare(git_repository *repo);
 
 /** @} */
 GIT_END_DECL
