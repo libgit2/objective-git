@@ -163,7 +163,7 @@
 	
 	static NSArray *unwantedRemoteBranches = nil;
 	if(unwantedRemoteBranches == nil) {
-		unwantedRemoteBranches = [NSArray arrayWithObjects:@"HEAD", nil];
+		unwantedRemoteBranches = [[NSArray arrayWithObjects:@"HEAD", nil] retain];
 	}
 	
 	NSArray *remoteBranches = [self branchesInRepository:repo withPrefix:[self remoteNamePrefix] error:error];
