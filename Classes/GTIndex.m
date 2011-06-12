@@ -57,7 +57,7 @@
 	if((self = [super init])) {
 		self.path = localFileUrl;
 		git_index *i;
-		int gitError = git_index_open_bare(&i, [[self.path path] UTF8String]);
+		int gitError = git_index_open(&i, [[self.path path] UTF8String]);
 		if(gitError < GIT_SUCCESS) {
 			if(error != NULL)
 				*error = [NSError git_errorFor:gitError withDescription:@"Failed to initialize index."];
