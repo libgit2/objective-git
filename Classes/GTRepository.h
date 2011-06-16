@@ -114,6 +114,6 @@
 // error(out) - will be filled if an error occurs
 //
 // returns the local commits, an empty array if there is no remote branch, or nil if an error occurred
-- (NSArray *)localCommitsWithError:(NSError **)error;
+- (NSArray *)localCommitsRelativeToRemoteBranch:(GTBranch *)remoteBranch error:(NSError **)error;
 	
 @end

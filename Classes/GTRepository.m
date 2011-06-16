@@ -313,7 +313,12 @@
 			[allBranches addObject:branch];
 		}
 		
-		localBranch.remoteBranch = branch;
+		NSMutableArray *branches = [NSMutableArray array];
+		if(localBranch.remoteBranches != nil) {
+			[branches addObjectsFromArray:localBranch.remoteBranches];
+		}
+		[branches addObject:branch];
+		localBranch.remoteBranches = branches;
 	}
 	
     return allBranches;
@@ -345,26 +350,27 @@
 	GTBranch *currentBranch = [GTBranch branchWithReference:head repository:self];
 	
 	NSArray *remoteBranches = [GTBranch remoteBranchesInRepository:self error:error];
+	NSMutableArray *matchedRemoteBranches = [NSMutableArray array];
 	for(GTBranch *branch in remoteBranches) {
 		if([branch.shortName isEqualToString:currentBranch.shortName]) {
-			currentBranch.remoteBranch = branch;
-			break;
+			[matchedRemoteBranches addObject:branch];
 		}
 	}
+	
+	currentBranch.remoteBranches = matchedRemoteBranches;
 	
 	return currentBranch;
 }
 
-- (NSArray *)localCommitsWithError:(NSError **)error {
+- (NSArray *)localCommitsRelativeToRemoteBranch:(GTBranch *)remoteBranch error:(NSError **)error {
+	
+	if(remoteBranch == nil) {
+		return [NSArray array];
+	}
 	
 	GTBranch *localBranch = [self currentBranchWithError:error];
 	if(localBranch == nil) {
 		return nil;
-	}
-	
-	GTBranch *remoteBranch = localBranch.remoteBranch;
-	if(remoteBranch == nil) {
-		return [NSArray array];
 	}
 	
 	GTEnumerator *localBranchEnumerator = [GTEnumerator enumeratorWithRepository:self error:error];

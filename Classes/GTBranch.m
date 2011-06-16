@@ -43,7 +43,7 @@
 - (void)dealloc {
 
     self.reference = nil;
-    self.remoteBranch = nil;
+    self.remoteBranches = nil;
 	[super dealloc];
 }
 
@@ -78,7 +78,7 @@
 
 @synthesize reference;
 @synthesize repository;
-@synthesize remoteBranch;
+@synthesize remoteBranches;
 
 - (id)initWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error {
 	
@@ -137,7 +137,7 @@
 - (NSString *)remoteName {
 	
 	if([self branchType] == GTBranchTypeLocal) {
-		return [self.remoteBranch remoteName];
+		return nil;
 	}
 	
 	NSArray *components = [self.name componentsSeparatedByString:@"/"];
@@ -207,12 +207,22 @@
     return GTBranchTypeLocal;
 }
 
-- (GTBranch *)remoteBranch {
+- (GTBranch *)remoteBranchForRemoteNamed:(NSString *)remote {
+	for(GTBranch *remoteBranch in self.remoteBranches) {
+		if([remoteBranch.remoteName isEqualToString:remote]) {
+			return remoteBranch;
+		}
+	}
 	
-	if(remoteBranch != nil) {
-		return remoteBranch;
-	} else if([self branchType] == GTBranchTypeRemote) {
-		return self;
+	return nil;
+}
+
+- (NSArray *)remoteBranches {
+	
+	if(remoteBranches != nil) {
+		return remoteBranches;
+	} else if(self.branchType == GTBranchTypeRemote) {
+		return [NSArray arrayWithObject:self];
 	}
 	
 	return nil;
