@@ -89,7 +89,7 @@
 - (void)setPath:(NSString *)thePath {
 	
 	if(self.entry->path != NULL)
-		free(self.entry->path);
+		free((void *)self.entry->path);
 	
 	entry->path = strdup([thePath UTF8String]);
 }
@@ -100,7 +100,7 @@
 }
 - (BOOL)setSha:(NSString *)theSha error:(NSError **)error {
 
-	int gitError = git_oid_mkstr(&entry->oid, [theSha UTF8String]);
+	int gitError = git_oid_fromstr(&entry->oid, [theSha UTF8String]);
 	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError git_errorForMkStr:gitError];

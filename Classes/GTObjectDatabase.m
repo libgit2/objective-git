@@ -80,7 +80,7 @@
 
 - (GTOdbObject *)objectWithSha:(NSString *)sha error:(NSError **)error {
 	git_oid oid;
-	int gitError = git_oid_mkstr(&oid, [sha UTF8String]);
+	int gitError = git_oid_fromstr(&oid, [sha UTF8String]);
 	if(gitError < GIT_SUCCESS) {
 		if (error != NULL)
 			*error = [NSError git_errorForMkStr:gitError];
@@ -122,7 +122,7 @@
 	
 	git_oid oid;
 	
-	int gitError = git_oid_mkstr(&oid, [sha UTF8String]);
+	int gitError = git_oid_fromstr(&oid, [sha UTF8String]);
 	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError git_errorForMkStr:gitError];

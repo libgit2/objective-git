@@ -80,7 +80,7 @@
 		int gitError;
 		
 		self.repository = theRepo;
-		if (git_oid_mkstr(&oid, [theTarget UTF8String]) == GIT_SUCCESS) {
+		if (git_oid_fromstr(&oid, [theTarget UTF8String]) == GIT_SUCCESS) {
 			gitError = git_reference_create_oid(&ref, 
 												self.repository.repo, 
 												[refName UTF8String], 
@@ -191,7 +191,7 @@
 	
 	if(git_reference_type(self.ref) == GIT_REF_OID) {
 		git_oid oid;
-		gitError = git_oid_mkstr(&oid, [newTarget UTF8String]);
+		gitError = git_oid_fromstr(&oid, [newTarget UTF8String]);
 		if(gitError < GIT_SUCCESS) {
 			if(error != NULL)
 				*error = [NSError git_errorForMkStr:gitError];
