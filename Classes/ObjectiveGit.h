@@ -25,22 +25,22 @@
 
 #import <git2.h>
 
-#import "GTRepository.h"
-#import "GTEnumerator.h"
-#import "GTCommit.h"
-#import "GTSignature.h"
-#import "GTTree.h"
-#import "GTBlob.h"
-#import "GTTag.h"
-#import "GTIndex.h"
-#import "GTIndexEntry.h"
-#import "GTReference.h"
-#import "GTBranch.h"
-#import "GTObject.h"
+#import <ObjectiveGit/GTRepository.h>
+#import <ObjectiveGit/GTEnumerator.h>
+#import <ObjectiveGit/GTCommit.h>
+#import <ObjectiveGit/GTSignature.h>
+#import <ObjectiveGit/GTTree.h>
+#import <ObjectiveGit/GTBlob.h>
+#import <ObjectiveGit/GTTag.h>
+#import <ObjectiveGit/GTIndex.h>
+#import <ObjectiveGit/GTIndexEntry.h>
+#import <ObjectiveGit/GTReference.h>
+#import <ObjectiveGit/GTBranch.h>
+#import <ObjectiveGit/GTObject.h>
 
-#import "GTObjectDatabase.h"
-#import "GTOdbObject.h"
+#import <ObjectiveGit/GTObjectDatabase.h>
+#import <ObjectiveGit/GTOdbObject.h>
 
-#import "NSError+Git.h"
-#import "NSData+Git.h"
-#import "NSString+Git.h"
+#import <ObjectiveGit/NSError+Git.h>
+#import <ObjectiveGit/NSData+Git.h>
+#import <ObjectiveGit/NSString+Git.h>
