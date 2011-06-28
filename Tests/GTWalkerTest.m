@@ -44,7 +44,7 @@
 	
 	NSMutableArray *shas = [NSMutableArray arrayWithCapacity:4];
 	for (int i=0; i < 4; i++) {
-		GTCommit *c = [repo.enumerator nextObject];
+		GTCommit *c = [repo.enumerator nextObjectWithError:&error];
 		[shas addObject:c.sha];
 		GHTestLog(@"%@", c.sha);
 	}
@@ -54,7 +54,7 @@
 	GHAssertEqualStrings([[shas objectAtIndex:2] substringToIndex:5], @"5b5b0", nil);
 	GHAssertEqualStrings([[shas objectAtIndex:3] substringToIndex:5], @"84960", nil);
 	
-	GHAssertNil([repo.enumerator nextObject], nil);
+	GHAssertNil([repo.enumerator nextObjectWithError:&error], nil);
 }
 
 - (void)testCanWalkFromHead {
@@ -94,8 +94,8 @@
 	BOOL success = [repo.enumerator push:sha error:&error];
 	GHAssertTrue(success, [error localizedDescription]);
 	
-	GHAssertEqualStrings([[repo.enumerator nextObject] sha], sha, nil);
-	GHAssertNil([repo.enumerator nextObject], nil);
+	GHAssertEqualStrings([[repo.enumerator nextObjectWithError:&error] sha], sha, nil);
+	GHAssertNil([repo.enumerator nextObjectWithError:&error], nil);
 }
 
 - (void)testCanHidePartOfAList {
@@ -108,10 +108,10 @@
 	GHAssertTrue(success, [error localizedDescription]);
 	
 	for(int i=0; i < 2; i++) {
-		GHAssertNotNil([repo.enumerator nextObject], nil);
+		GHAssertNotNil([repo.enumerator nextObjectWithError:&error], nil);
 	}
 	
-	GHAssertNil([repo.enumerator nextObject], nil);
+	GHAssertNil([repo.enumerator nextObjectWithError:&error], nil);
 }
 
 - (void)testCanResetAWalker {
@@ -121,14 +121,14 @@
 	NSString *sha = @"8496071c1b46c854b31185ea97743be6a8774479";
 	BOOL success = [repo.enumerator push:sha error:&error];
 	GHAssertTrue(success, nil);
-	GHAssertEqualStrings([[repo.enumerator nextObject] sha], sha, nil);
-	GHAssertNil([repo.enumerator nextObject], nil);
+	GHAssertEqualStrings([[repo.enumerator nextObjectWithError:&error] sha], sha, nil);
+	GHAssertNil([repo.enumerator nextObjectWithError:&error], nil);
 	
 	[repo.enumerator reset];
 	
 	success = [repo.enumerator push:sha error:&error];
 	GHAssertTrue(success, [error localizedDescription]);
-	GHAssertEqualStrings([[repo.enumerator nextObject] sha], sha, nil);
+	GHAssertEqualStrings([[repo.enumerator nextObjectWithError:&error] sha], sha, nil);
 }
 
 - (NSMutableArray *)revListWithSorting:(unsigned int)sortMode {
@@ -142,7 +142,7 @@
 	
 	NSMutableArray *commits = [[[NSMutableArray alloc] initWithCapacity:6] autorelease];
 	for(int i=0; i < 6; i++) {
-		[commits addObject:[repo.enumerator nextObject]];
+		[commits addObject:[repo.enumerator nextObjectWithError:&error]];
 	}
 	return commits;
 }
