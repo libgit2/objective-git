@@ -235,7 +235,7 @@
 	if(!success) return; 
 	
 	GTCommit *commit = nil;
-	while((commit = [self.enumerator nextObject]) != nil) {
+	while((commit = [self.enumerator nextObjectWithError:error]) != nil) {
 		BOOL stop = NO;
 		block(commit, &stop);
 		if(stop) break;
@@ -387,7 +387,7 @@
 	
 	NSString *remoteBranchTip = remoteBranch.sha;
 	NSMutableArray *commits = [NSMutableArray array];
-	GTCommit *currentCommit = [localBranchEnumerator nextObject];
+	GTCommit *currentCommit = [localBranchEnumerator nextObjectWithError:error];
 	while(currentCommit != nil) {
 		if([currentCommit.sha isEqualToString:remoteBranchTip]) {
 			break;
@@ -395,7 +395,7 @@
 		
 		[commits addObject:currentCommit];
 		
-		currentCommit = [localBranchEnumerator nextObject];
+		currentCommit = [localBranchEnumerator nextObjectWithError:error];
 	}
 	
 	return commits;

@@ -130,20 +130,30 @@
 
 - (id)nextObject {
 	
+	return [self nextObjectWithError:NULL];
+}
+
+- (id)nextObjectWithError:(NSError **)error {
+	
 	git_oid oid;
 	int gitError = git_revwalk_next(&oid, self.walk);
 	if(gitError == GIT_EREVWALKOVER)
 		return nil;
 	
 	// ignore error if we can't lookup object and just return nil
-	return [self.repository lookupObjectBySha:[NSString git_stringWithOid:&oid] objectType:GTObjectTypeCommit error:nil];
+	return [self.repository lookupObjectBySha:[NSString git_stringWithOid:&oid] objectType:GTObjectTypeCommit error:error];
 }
 
 - (NSArray *)allObjects {
+	
+	return [self allObjectsWithError:NULL];
+}
+
+- (NSArray *)allObjectsWithError:(NSError **)error {
 
     NSMutableArray *array = [NSMutableArray array];
     id object = nil;
-    while ((object = [self nextObject]) != nil) {
+    while ((object = [self nextObjectWithError:error]) != nil) {
         [array addObject:object];
     }
     return array;

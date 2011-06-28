@@ -64,4 +64,7 @@ typedef unsigned int GTEnumeratorOptions;
 - (void)reset;
 - (NSInteger)countFromSha:(NSString *)sha error:(NSError **)error;
 
+- (NSArray *)allObjectsWithError:(NSError **)error;
+- (id)nextObjectWithError:(NSError **)error;
+
 @end
