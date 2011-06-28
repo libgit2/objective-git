@@ -82,7 +82,7 @@
 	}
 	
 	git_oid oid;
-	int gitError = git_commit_create_o(
+	int gitError = git_commit_create(
 									   &oid, 
 									   theRepo.repo, 
 									   refName ? [refName UTF8String] : NULL, 

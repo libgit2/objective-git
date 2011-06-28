@@ -84,13 +84,15 @@
 			gitError = git_reference_create_oid(&ref, 
 												self.repository.repo, 
 												[refName UTF8String], 
-												&oid);
+												&oid,
+												0);
 		}
 		else {
 			gitError = git_reference_create_symbolic(&ref, 
 													 self.repository.repo, 
 													 [refName UTF8String], 
-													 [theTarget UTF8String]);
+													 [theTarget UTF8String],
+													 0);
 		}
 		
 		if(gitError < GIT_SUCCESS) {
