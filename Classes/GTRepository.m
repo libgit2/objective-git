@@ -215,24 +215,24 @@
 	return [self lookupObjectBySha:sha objectType:GTObjectTypeAny error:error];
 }
 
-- (void)enumerateCommitsBeginningAtSha:(NSString *)sha sortOptions:(GTEnumeratorOptions)options error:(NSError **)error usingBlock:(void (^)(GTCommit *, BOOL*))block {
+- (BOOL)enumerateCommitsBeginningAtSha:(NSString *)sha sortOptions:(GTEnumeratorOptions)options error:(NSError **)error usingBlock:(void (^)(GTCommit *, BOOL *))block {
     
 	if(block == nil) {
 		if(error != NULL)
 			*error = [NSError git_errorWithDescription:@"No block was provided to the method."];
-		return;
+		return NO;
 	}
     
 	if(sha == nil) {
 		GTReference *head = [self headReferenceWithError:error];
-		if(head == nil) return;
+		if(head == nil) return NO;
 		sha = head.target;
 	}
 	
 	[self.enumerator reset];
 	[self.enumerator setOptions:options];
 	BOOL success = [self.enumerator push:sha error:error];
-	if(!success) return; 
+	if(!success) return NO; 
 	
 	GTCommit *commit = nil;
 	while((commit = [self.enumerator nextObjectWithError:error]) != nil) {
@@ -240,11 +240,17 @@
 		block(commit, &stop);
 		if(stop) break;
 	}
+	
+	if(error == NULL) {
+		return YES;
+	}
+	
+	return *error == nil;
 }
 
-- (void)enumerateCommitsBeginningAtSha:(NSString *)sha error:(NSError **)error usingBlock:(void (^)(GTCommit *, BOOL*))block {
+- (BOOL)enumerateCommitsBeginningAtSha:(NSString *)sha error:(NSError **)error usingBlock:(void (^)(GTCommit *, BOOL *))block; {
     
-	[self enumerateCommitsBeginningAtSha:sha sortOptions:GTEnumeratorOptionsTimeSort error:error usingBlock:block];
+	return [self enumerateCommitsBeginningAtSha:sha sortOptions:GTEnumeratorOptionsTimeSort error:error usingBlock:block];
 }
 
 - (NSArray *)selectCommitsBeginningAtSha:(NSString *)sha error:(NSError **)error block:(BOOL (^)(GTCommit *commit, BOOL *stop))block {
