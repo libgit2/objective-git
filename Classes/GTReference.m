@@ -135,7 +135,7 @@
 }
 - (BOOL)setName:(NSString *)newName error:(NSError **)error {
 	
-	int gitError = git_reference_rename(self.ref, [newName UTF8String]);
+	int gitError = git_reference_rename(self.ref, [newName UTF8String], 0);
 	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError git_errorFor:gitError withDescription:@"Failed to rename reference."];
