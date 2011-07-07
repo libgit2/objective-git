@@ -131,7 +131,10 @@
 
 - (NSString *)name {
 	
-	return [NSString stringWithUTF8String:git_reference_name(self.ref)];
+	const char *refName = git_reference_name(self.ref);
+	if(refName == NULL) return nil;
+	
+	return [NSString stringWithUTF8String:refName];
 }
 - (BOOL)setName:(NSString *)newName error:(NSError **)error {
 	
