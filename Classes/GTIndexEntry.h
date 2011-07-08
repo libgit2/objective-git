@@ -27,6 +27,7 @@
 //  THE SOFTWARE.
 //
 
+#include "git2.h"
 
 @interface GTIndexEntry : NSObject {}
 
