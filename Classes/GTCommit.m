@@ -33,6 +33,7 @@
 #import "NSError+Git.h"
 #import "GTRepository.h"
 #import "NSString+Git.h"
+#import "GTLog.h"
 
 
 @implementation GTCommit
