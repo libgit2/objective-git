@@ -104,12 +104,14 @@
 - (NSString *)message {
 	
 	const char *s = git_commit_message(self.commit);
+	if(s == NULL) return nil;
 	return [NSString stringWithUTF8String:s];
 }
 
 - (NSString *)shortMessage {
 	
 	const char *s = git_commit_message_short(self.commit);
+	if(s == NULL) return nil;
 	return [NSString stringWithUTF8String:s];
 }
 
