@@ -948,7 +948,6 @@
 				MACH_O_TYPE = mh_dylib;
 				PRODUCT_NAME = ObjectiveGit;
 				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = dynamic;
-				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
@@ -981,7 +980,6 @@
 				MACH_O_TYPE = mh_dylib;
 				PRODUCT_NAME = ObjectiveGit;
 				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = dynamic;
-				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Release;
@@ -1000,7 +998,6 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 				SYMROOT = "$(PROJECT_DIR)/build";
-				VALID_ARCHS = x86_64;
 			};
 			name = Debug;
 		};
@@ -1016,7 +1013,6 @@
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				SDKROOT = macosx;
 				SYMROOT = "$(PROJECT_DIR)/build";
-				VALID_ARCHS = x86_64;
 			};
 			name = Release;
 		};
