@@ -149,7 +149,7 @@ GIT_EXTERN(const char *) git_tag_message(git_tag *tag);
 
 
 /**
- * Create a new tag in the repository from an OID
+ * Create a new tag in the repository from an object
  *
  * A new reference will also be created pointing to
  * this tag object. If `force` is true and a reference
@@ -157,13 +157,13 @@ GIT_EXTERN(const char *) git_tag_message(git_tag *tag);
  *
  * @param oid Pointer where to store the OID of the
  * newly created tag. If the tag already exists, this parameter
- * will be the oid of the existed tag, and the function will
+ * will be the oid of the existing tag, and the function will
  * return a GIT_EEXISTS error code.
  *
  * @param repo Repository where to store the tag
  *
  * @param tag_name Name for the tag; this name is validated
- * for consistency. It should also not conflict with an 
+ * for consistency. It should also not conflict with an
  * already existing tag name
  *
  * @param target Object to which this tag points. This object
@@ -174,7 +174,7 @@ GIT_EXTERN(const char *) git_tag_message(git_tag *tag);
  *
  * @param message Full message for this tag
  *
- * @param force Overwritte existing references
+ * @param force Overwrite existing references
  *
  * @return 0 on success; error code otherwise.
  *	A tag object is written to the ODB, and a proper reference
@@ -202,6 +202,40 @@ GIT_EXTERN(int) git_tag_create_frombuffer(
 		git_oid *oid,
 		git_repository *repo,
 		const char *buffer,
+		int force);
+
+/**
+ * Create a new lightweight tag pointing at a target object
+ *
+ * A new direct reference will be created pointing to
+ * this target object. If `force` is true and a reference
+ * already exists with the given name, it'll be replaced.
+ *
+ * @param oid Pointer where to store the OID of the provided
+ * target object. If the tag already exists, this parameter
+ * will be filled with the oid of the existing pointed object
+ * and the function will return a GIT_EEXISTS error code.
+ *
+ * @param repo Repository where to store the lightweight tag
+ *
+ * @param tag_name Name for the tag; this name is validated
+ * for consistency. It should also not conflict with an
+ * already existing tag name
+ *
+ * @param target Object to which this tag points. This object
+ * must belong to the given `repo`.
+ *
+ * @param force Overwrite existing references
+ *
+ * @return 0 on success; error code otherwise.
+ *	A proper reference is written in the /refs/tags folder,
+ *  pointing to the provided target object
+ */
+GIT_EXTERN(int) git_tag_create_lightweight(
+		git_oid *oid,
+		git_repository *repo,
+		const char *tag_name,
+		const git_object *target,
 		int force);
 
 /**
@@ -233,6 +267,29 @@ GIT_EXTERN(int) git_tag_delete(
  */
 GIT_EXTERN(int) git_tag_list(
 		git_strarray *tag_names,
+		git_repository *repo);
+
+/**
+ * Fill a list with all the tags in the Repository
+ * which name match a defined pattern
+ *
+ * If an empty pattern is provided, all the tags
+ * will be returned.
+ *
+ * The string array will be filled with the names of the
+ * matching tags; these values are owned by the user and
+ * should be free'd manually when no longer needed, using
+ * `git_strarray_free`.
+ *
+ * @param tag_names Pointer to a git_strarray structure where
+ *		the tag names will be stored
+ * @param pattern Standard fnmatch pattern
+ * @param repo Repository where to find the tags
+ * @return 0 on success; error code otherwise
+ */
+GIT_EXTERN(int) git_tag_list_match(
+		git_strarray *tag_names,
+		const char *pattern,
 		git_repository *repo);
 
 /** @} */

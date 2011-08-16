@@ -91,7 +91,7 @@ GIT_EXTERN(int) git_odb_add_backend(git_odb *odb, git_odb_backend *backend, int 
  * backend will work as an alternate.
  *
  * Alternate backends are always checked for objects *after*
- * all the main backends have been exhausted. 
+ * all the main backends have been exhausted.
  *
  * The backends are checked in relative ordering, based on the
  * value of the `priority` parameter.
@@ -220,12 +220,12 @@ GIT_EXTERN(int) git_odb_write(git_oid *oid, git_odb *odb, const void *data, size
  *
  * The returned stream will be of type `GIT_STREAM_WRONLY` and
  * will have the following methods:
- *	
+ *
  *		- stream->write: write `n` bytes into the stream
  *		- stream->finalize_write: close the stream and store the object in
  *			the odb
  *		- stream->free: free the stream
- * 
+ *
  * The streaming write won't be effective until `stream->finalize_write`
  * is called and returns without an error
  *
@@ -252,7 +252,7 @@ GIT_EXTERN(int) git_odb_open_wstream(git_odb_stream **stream, git_odb *db, size_
  *
  * The returned stream will be of type `GIT_STREAM_RDONLY` and
  * will have the following methods:
- *	
+ *
  *		- stream->read: read `n` bytes from the stream
  *		- stream->free: free the stream
  *
@@ -280,6 +280,19 @@ GIT_EXTERN(int) git_odb_open_rstream(git_odb_stream **stream, git_odb *db, const
  * @return 0 on success; error code otherwise
  */
 GIT_EXTERN(int) git_odb_hash(git_oid *id, const void *data, size_t len, git_otype type);
+
+/**
+ * Read a file from disk and fill a git_oid with the object id
+ * that the file would have if it were written to the Object
+ * Database as an object of the given type. Similar functionality
+ * to git.git's `git hash-object` without the `-w` flag.
+ *
+ * @param out oid structure the result is written into.
+ * @param path file to read and determine object id for
+ * @param type the type of the object that will be hashed
+ * @return GIT_SUCCESS if valid; error code otherwise
+ */
+GIT_EXTERN(int) git_odb_hashfile(git_oid *out, const char *path, git_otype type);
 
 /**
  * Close an ODB object
