@@ -55,7 +55,7 @@
 
 - (void)dealloc {
 	
-	git_repository_free(self.repo);
+	if(self.repo != NULL) git_repository_free(self.repo);
 	self.fileUrl = nil;
 	self.enumerator.repository = nil;
 	self.enumerator = nil;
@@ -66,7 +66,7 @@
 
 - (void)finalize {
 	
-	git_repository_free(self.repo);
+	if(self.repo != NULL) git_repository_free(self.repo);
 	[super finalize];
 }
 

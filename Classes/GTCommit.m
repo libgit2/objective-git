@@ -105,6 +105,7 @@
 - (NSString *)message {
 	
 	const char *s = git_commit_message(self.commit);
+	if(s == NULL) return nil;
 	return [NSString stringWithUTF8String:s];
 }
 
