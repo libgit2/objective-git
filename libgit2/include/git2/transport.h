@@ -22,44 +22,37 @@
  * the Free Software Foundation, 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
+#ifndef INCLUDE_git_transport_h__
+#define INCLUDE_git_transport_h__
 
-#ifndef INCLUDE_git_git_h__
-#define INCLUDE_git_git_h__
+#include "common.h"
+#include "types.h"
+#include "net.h"
 
-#define LIBGIT2_VERSION "0.14.0"
-#define LIBGIT2_VER_MAJOR 0
-#define LIBGIT2_VER_MINOR 14
-#define LIBGIT2_VER_REVISION 0
+/**
+ * @file git2/transport.h
+ * @brief Git protocol transport abstraction
+ * @defgroup git_transport Git protocol transport abstraction
+ * @ingroup Git
+ * @{
+ */
+GIT_BEGIN_DECL
 
-#include "git2/common.h"
-#include "git2/errors.h"
-#include "git2/zlib.h"
+/**
+ * Get the appropriate transport for an URL.
+ * @param tranport the transport for the url
+ * @param url the url of the repo
+ */
+GIT_EXTERN(int) git_transport_new(git_transport **transport, const char *url);
 
-#include "git2/types.h"
+GIT_EXTERN(int) git_transport_connect(git_transport *transport, int direction);
 
-#include "git2/oid.h"
-#include "git2/signature.h"
-#include "git2/odb.h"
+GIT_EXTERN(int) git_transport_ls(git_transport *transport, git_headarray *array);
+GIT_EXTERN(int) git_transport_close(git_transport *transport);
+GIT_EXTERN(void) git_transport_free(git_transport *transport);
 
-#include "git2/repository.h"
-#include "git2/revwalk.h"
-#include "git2/refs.h"
-#include "git2/reflog.h"
+GIT_EXTERN(int) git_transport_add(git_transport *transport, const char *prefix);
 
-#include "git2/object.h"
-#include "git2/blob.h"
-#include "git2/commit.h"
-#include "git2/tag.h"
-#include "git2/tree.h"
-
-#include "git2/index.h"
-#include "git2/config.h"
-#include "git2/remote.h"
-
-#include "git2/refspec.h"
-#include "git2/net.h"
-#include "git2/transport.h"
-#include "git2/status.h"
-#include "git2/indexer.h"
-
+/** @} */
+GIT_END_DECL
 #endif

@@ -98,14 +98,14 @@ typedef struct git_index_entry {
 	unsigned short flags;
 	unsigned short flags_extended;
 
-	const char *path;
+	char *path;
 } git_index_entry;
 
 /** Representation of an unmerged file entry in the index. */
 typedef struct git_index_entry_unmerged {
 	unsigned int mode[3];
 	git_oid oid[3];
-	const char *path;
+	char *path;
 } git_index_entry_unmerged;
 
 /**
@@ -171,6 +171,13 @@ GIT_EXTERN(int) git_index_write(git_index *index);
  * @return an index >= 0 if found, -1 otherwise
  */
 GIT_EXTERN(int) git_index_find(git_index *index, const char *path);
+
+/**
+ * Remove all entries with equal path except last added
+ *
+ * @param index an existing index object
+ */
+GIT_EXTERN(void) git_index_uniq(git_index *index);
 
 /**
  * Add or update an index entry from a file in disk

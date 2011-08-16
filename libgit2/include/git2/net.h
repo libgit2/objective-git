@@ -22,44 +22,48 @@
  * the Free Software Foundation, 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA.
  */
+#ifndef INCLUDE_net_h__
+#define INCLUDE_net_h__
 
-#ifndef INCLUDE_git_git_h__
-#define INCLUDE_git_git_h__
+#include "common.h"
+#include "oid.h"
+#include "types.h"
 
-#define LIBGIT2_VERSION "0.14.0"
-#define LIBGIT2_VER_MAJOR 0
-#define LIBGIT2_VER_MINOR 14
-#define LIBGIT2_VER_REVISION 0
+/**
+ * @file git2/net.h
+ * @brief Git networking declarations
+ * @ingroup Git
+ * @{
+ */
+GIT_BEGIN_DECL
 
-#include "git2/common.h"
-#include "git2/errors.h"
-#include "git2/zlib.h"
+#define GIT_DEFAULT_PORT "9418"
 
-#include "git2/types.h"
+/*
+ * We need this because we need to know whether we should call
+ * git-upload-pack or git-receive-pack on the remote end when get_refs
+ * gets called.
+ */
 
-#include "git2/oid.h"
-#include "git2/signature.h"
-#include "git2/odb.h"
+#define GIT_DIR_FETCH 0
+#define GIT_DIR_PUSH 1
 
-#include "git2/repository.h"
-#include "git2/revwalk.h"
-#include "git2/refs.h"
-#include "git2/reflog.h"
+/**
+ * Remote head description, given out on `ls` calls.
+ */
+struct git_remote_head {
+	git_oid oid;
+	char *name;
+};
 
-#include "git2/object.h"
-#include "git2/blob.h"
-#include "git2/commit.h"
-#include "git2/tag.h"
-#include "git2/tree.h"
+/**
+ * Array of remote heads
+ */
+struct git_headarray {
+	unsigned int len;
+	struct git_remote_head **heads;
+};
 
-#include "git2/index.h"
-#include "git2/config.h"
-#include "git2/remote.h"
-
-#include "git2/refspec.h"
-#include "git2/net.h"
-#include "git2/transport.h"
-#include "git2/status.h"
-#include "git2/indexer.h"
-
+/** @} */
+GIT_END_DECL
 #endif
