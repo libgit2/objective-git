@@ -39,7 +39,7 @@
 @implementation GTCommit
 
 - (NSString *)description {
-	return [NSString stringWithFormat:@"<%@: %p> author: %@, shortMessage: %@, message: %@", NSStringFromClass([self class]), self, self.author, [self shortMessage], [self message]];
+	return [NSString stringWithFormat:@"<%@: %p> author: %@, message: %@", NSStringFromClass([self class]), self, self.author, [self message]];
 }
 
 - (git_commit *)commit {
@@ -89,7 +89,8 @@
 									   refName ? [refName UTF8String] : NULL, 
 									   authorSig.sig, 
 									   committerSig.sig, 
-									   newMessage ? [newMessage UTF8String] : "", 
+									   newMessage ? [newMessage UTF8String] : "",
+									   NULL,
 									   theTree.tree, 
 									   (int)count, 
 									   parentCommits);
@@ -104,13 +105,6 @@
 - (NSString *)message {
 	
 	const char *s = git_commit_message(self.commit);
-	if(s == NULL) return nil;
-	return [NSString stringWithUTF8String:s];
-}
-
-- (NSString *)shortMessage {
-	
-	const char *s = git_commit_message_short(self.commit);
 	if(s == NULL) return nil;
 	return [NSString stringWithUTF8String:s];
 }
