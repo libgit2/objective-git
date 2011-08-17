@@ -126,6 +126,12 @@
 	return result;
 }
 
+- (NSString *)messageSummary {
+	
+	NSArray *messageComponents = [self.message componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+	return messageComponents.count > 0 ? [messageComponents objectAtIndex:0] : @"";
+}
+
 - (NSDate *)commitDate {
 	
 	time_t t = git_commit_time(self.commit);

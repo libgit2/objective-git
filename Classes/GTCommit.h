@@ -60,6 +60,7 @@
 
 - (NSString *)message;
 - (NSString *)messageDetails;
+- (NSString *)messageSummary;
 - (NSDate *)commitDate;
 - (GTTree *)tree;
 
