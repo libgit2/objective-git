@@ -120,10 +120,10 @@
 		[result appendFormat:@"%@\n", secondLine];
 	}
 	for(int i=2; i < lines.count; i++) {
-		[result appendFormat:@"%@\n", [lines objectAtIndex:i]];
+		[result appendFormat:@"%@\n", [[lines objectAtIndex:i] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
 	}
 	
-	return result;
+	return [result stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
 
 - (NSString *)messageSummary {
