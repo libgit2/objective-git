@@ -59,7 +59,6 @@
 	
 	GTCommit *commit = (GTCommit *)obj;
 	GHAssertEqualStrings(commit.message, @"testing\n", nil);
-	GHAssertEqualStrings(commit.shortMessage, @"testing", nil);
 	GHAssertEqualStrings(commit.messageDetails, @"", nil);
 	GHAssertEquals((int)[commit.commitDate timeIntervalSince1970], 1273360386, nil); 
 	
