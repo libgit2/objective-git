@@ -265,6 +265,20 @@
     return passingCommits;
 }
 
+- (NSArray *)selectCommitsBeginningAtSha:(NSString *)sha sortOptions:(GTEnumeratorOptions)options error:(NSError **)error block:(BOOL (^)(GTCommit *commit, BOOL *stop))block {
+	
+	NSMutableArray *passingCommits = [NSMutableArray array];
+    [self enumerateCommitsBeginningAtSha:sha sortOptions:options error:error usingBlock:^(GTCommit *commit, BOOL *stop) {
+		
+		BOOL passes = block(commit, stop);
+		if(passes) {
+			[passingCommits addObject:commit];
+		}
+    }];
+    return [[passingCommits copy] autorelease];
+	
+}
+
 - (BOOL)setupIndexWithError:(NSError **)error {
 	
 	git_index *i;
