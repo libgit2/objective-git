@@ -69,6 +69,8 @@
 - (BOOL)enumerateCommitsBeginningAtSha:(NSString *)sha error:(NSError **)error usingBlock:(void (^)(GTCommit *, BOOL *))block;
 
 - (NSArray *)selectCommitsBeginningAtSha:(NSString *)sha error:(NSError **)error block:(BOOL (^)(GTCommit *commit, BOOL *stop))block;
+- (NSArray *)selectCommitsBeginningAtSha:(NSString *)sha sortOptions:(GTEnumeratorOptions)options error:(NSError **)error block:(BOOL (^)(GTCommit *commit, BOOL *stop))block;
+
 
 - (BOOL)setupIndexWithError:(NSError **)error;
 
