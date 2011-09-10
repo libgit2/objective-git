@@ -24,7 +24,6 @@
 
 /* Begin PBXBuildFile section */
 		0450E32F133BE20F007234B5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDD9C3FB133BA604003708E7 /* CoreGraphics.framework */; };
-		0450E33A133BE25B007234B5 /* ObjectiveGit in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DB4645133AB57600D9C624 /* ObjectiveGit */; };
 		04DB464E133AB5E200D9C624 /* NSError+Git.h in Headers */ = {isa = PBXBuildFile; fileRef = BDE4C060130EFE2C00851650 /* NSError+Git.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		04DB464F133AB5E200D9C624 /* GTRepository.h in Headers */ = {isa = PBXBuildFile; fileRef = BDE4C062130EFE2C00851650 /* GTRepository.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		04DB4652133AB5E200D9C624 /* GTEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = BDD8AE6D13131B8800CB5D40 /* GTEnumerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -321,6 +320,7 @@
 		DD44E95A141B2494000B7FB8 /* git2 in Headers */ = {isa = PBXBuildFile; fileRef = DD44E955141B2446000B7FB8 /* git2 */; settings = {ATTRIBUTES = (Public, ); }; };
 		DD44E95E141B2839000B7FB8 /* libgit2-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DD44E817141B1D40000B7FB8 /* libgit2-ios.a */; };
 		DD44E9B6141B2C1D000B7FB8 /* GTObjectDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = 55C8054C13861F34004DCB0F /* GTObjectDatabase.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DD44E9E2141B2FDF000B7FB8 /* ObjectiveGit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD44E9E1141B2FDF000B7FB8 /* ObjectiveGit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -573,6 +573,7 @@
 		DD44E944141B201F000B7FB8 /* libgit2.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libgit2.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD44E955141B2446000B7FB8 /* git2 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = git2; path = libgit2/include/git2; sourceTree = "<group>"; };
 		DD44E956141B2446000B7FB8 /* git2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = git2.h; path = libgit2/include/git2.h; sourceTree = "<group>"; };
+		DD44E9E1141B2FDF000B7FB8 /* ObjectiveGit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjectiveGit.framework; path = "build/Debug-iphonesimulator/ObjectiveGit.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -608,8 +609,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0450E33A133BE25B007234B5 /* ObjectiveGit in Frameworks */,
 				0450E32F133BE20F007234B5 /* CoreGraphics.framework in Frameworks */,
+				DD44E9E2141B2FDF000B7FB8 /* ObjectiveGit.framework in Frameworks */,
 				BDD9C3DC133BA580003708E7 /* GHUnitIOS.framework in Frameworks */,
 				BDD9C3FE133BA604003708E7 /* Foundation.framework in Frameworks */,
 				BDD9C400133BA604003708E7 /* UIKit.framework in Frameworks */,
@@ -650,6 +651,7 @@
 		0867D691FE84028FC02AAC07 /* ObjectiveGitFramework */ = {
 			isa = PBXGroup;
 			children = (
+				DD44E9E1141B2FDF000B7FB8 /* ObjectiveGit.framework */,
 				BDD8AB01130F01AB00CB5D40 /* README.md */,
 				BDE4C05E130EFE2C00851650 /* Classes */,
 				BDD8AF27131332B000CB5D40 /* Tests */,
@@ -1643,7 +1645,6 @@
 		1DEB91B208733DA50010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_GC = supported;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1660,7 +1661,6 @@
 		1DEB91B308733DA50010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_GC = supported;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -1733,14 +1733,15 @@
 		BDD9C3D8133BA557003708E7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Frameworks\"",
+					"$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_GC = unsupported;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/UIKit.framework/Headers/UIKit.h";
@@ -1767,14 +1768,15 @@
 		BDD9C3D9133BA557003708E7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Frameworks\"",
+					"$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)",
 				);
+				GCC_ENABLE_OBJC_GC = unsupported;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/UIKit.framework/Headers/UIKit.h";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/libgit2/include\"";
@@ -1824,6 +1826,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				DSTROOT = /tmp/libgit2_ios.dst;
 				EXECUTABLE_PREFIX = "";
+				GCC_ENABLE_OBJC_GC = unsupported;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = include;
 				SDKROOT = iphoneos;
@@ -1837,6 +1840,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				DSTROOT = /tmp/libgit2_ios.dst;
 				EXECUTABLE_PREFIX = "";
+				GCC_ENABLE_OBJC_GC = unsupported;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = include;
 				SDKROOT = iphoneos;
