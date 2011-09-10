@@ -175,8 +175,6 @@
         }];
 		GHAssertNil(error, [error localizedDescription]);
 		GHAssertEquals(6, (int)count, nil);
-		
-		//[[NSGarbageCollector defaultCollector] collectExhaustively];
 	}
 }
 
@@ -199,6 +197,32 @@
 		GTCommit *commit = [commits objectAtIndex:i];
 		GHAssertEqualStrings([commit.sha substringToIndex:5], [expectedShas objectAtIndex:i], nil);
 	}
+}
+
+- (void)testCanSelectCommitsWithOrder {
+    NSError *error = nil;
+    GTRepository *aRepo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
+    NSString *sha = @"a4a7dce85cf63874e984719f4fdd239f5145052f";
+    
+    // Return last two commits with only one parent in topological order
+    __block NSInteger count = 0;
+    NSArray *commits = [aRepo selectCommitsBeginningAtSha:sha sortOptions:GTEnumeratorOptionsTopologicalSort error:&error block:^BOOL(GTCommit *commit, BOOL *stop){
+        if (count == 2) *stop = YES;
+        if ([[commit parents] count] == 1) {
+            count++;
+            if (count == 2) *stop = YES;
+            return YES;
+        } else {
+            return NO;
+        }
+    }];
+    
+	GHAssertNotNil(commits, nil);
+    NSArray *expectedCommits = [NSArray arrayWithObjects:@"9fd73", @"4a202", nil];
+    [commits enumerateObjectsUsingBlock:^(GTCommit *commit, NSUInteger idx, BOOL *stop){
+        NSString *commitShortSha = [commit.sha substringToIndex:5];
+        GHAssertTrue([[expectedCommits objectAtIndex:idx] isEqualToString:commitShortSha], @"Expected sha is %@, not %@", [expectedCommits objectAtIndex:idx], commitShortSha);
+    }];
 }
 
 - (void)testLookupHead {
