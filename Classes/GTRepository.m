@@ -41,10 +41,10 @@
 
 @interface GTRepository ()
 @property (nonatomic, assign) git_repository *repo;
-@property (nonatomic, retain) NSURL *fileUrl;
-@property (nonatomic, retain) GTEnumerator *enumerator;
-@property (nonatomic, retain) GTIndex *index;
-@property (nonatomic, retain) GTObjectDatabase *objectDatabase;
+@property (nonatomic, strong) NSURL *fileUrl;
+@property (nonatomic, strong) GTEnumerator *enumerator;
+@property (nonatomic, strong) GTIndex *index;
+@property (nonatomic, strong) GTObjectDatabase *objectDatabase;
 @end
 
 @implementation GTRepository
@@ -55,24 +55,12 @@
 
 - (void)dealloc {
 	
-	if(self.repo != NULL) git_repository_free(self.repo);
-	self.fileUrl = nil;
-	self.enumerator.repository = nil;
-	self.enumerator = nil;
-	self.index = nil;
-    self.objectDatabase = nil;
-	[super dealloc];
-}
-
-- (void)finalize {
-	
-	if(self.repo != NULL) git_repository_free(self.repo);
-	[super finalize];
+	if (self.repo != NULL) git_repository_free(self.repo);
 }
 
 + (BOOL)isAGitDirectory:(NSURL *)directory {
 	
-	NSFileManager *fm = [[[NSFileManager alloc] init] autorelease];
+	NSFileManager *fm = [[NSFileManager alloc] init];
 	BOOL isDir = NO;
 	NSURL *headFileURL = [directory URLByAppendingPathComponent:@"HEAD"];
 	
@@ -126,14 +114,13 @@
 
 + (id)repositoryWithURL:(NSURL *)localFileURL error:(NSError **)error {
 
-    return [[[self alloc] initWithURL:localFileURL error:error] autorelease];
+    return [[self alloc] initWithURL:localFileURL error:error];
 }
 
 - (id)initWithURL:(NSURL *)localFileURL error:(NSError **)error {
 
     localFileURL = [[self class] _gitURLForURL:localFileURL error:error];
     if (localFileURL == nil) {
-        [self release];
         return nil;
     }
     
@@ -146,14 +133,12 @@
             if (error != NULL) {
                 *error = [NSError git_errorFor:gitError withDescription:@"Failed to open repository."];
             }
-            [self release];
             return nil;
         }
         self.repo = r;
 		
-		self.enumerator = [[[GTEnumerator alloc] initWithRepository:self error:error] autorelease];
+		self.enumerator = [[GTEnumerator alloc] initWithRepository:self error:error];
 		if (self.enumerator == nil) {
-            [self release];
             return nil;
         }
 
@@ -275,7 +260,7 @@
 			[passingCommits addObject:commit];
 		}
     }];
-    return [[passingCommits copy] autorelease];
+    return [passingCommits copy];
 	
 }
 

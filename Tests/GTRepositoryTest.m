@@ -133,9 +133,7 @@
 - (void)testCanWalk {
 	
 	NSError *error = nil;
-	// alloc and init to verify memory management
 	GTRepository *aRepo = [[GTRepository alloc] initWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
-	GHTestLog(@"%d", [aRepo retainCount]);
 	NSString *sha = @"a4a7dce85cf63874e984719f4fdd239f5145052f";
 	NSMutableArray *commits = [NSMutableArray array];
     [aRepo enumerateCommitsBeginningAtSha:sha 
@@ -158,7 +156,6 @@
 		GHAssertEqualStrings([commit.sha substringToIndex:5], [expectedShas objectAtIndex:i], nil);
 	}
 	
-	GHAssertEquals(1, (int)[aRepo retainCount], nil);
 	[aRepo release];
 }
 

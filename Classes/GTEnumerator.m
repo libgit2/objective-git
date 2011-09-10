@@ -47,14 +47,6 @@
 - (void)dealloc {
 	
 	git_revwalk_free(self.walk);
-	self.repository = nil;
-	[super dealloc];
-}
-
-- (void)finalize {
-	
-	git_revwalk_free(self.walk);
-	[super finalize];
 }
 
 #pragma mark -
@@ -73,7 +65,6 @@
 		if(gitError < GIT_SUCCESS) {
 			if (error != NULL)
 				*error = [NSError git_errorFor:gitError withDescription:@"Failed to initialize rev walker."];
-            [self release];
 			return nil;
 		}
 		self.walk = w;
@@ -82,7 +73,7 @@
 }
 + (id)enumeratorWithRepository:(GTRepository *)theRepo error:(NSError **)error {
 	
-	return [[[self alloc] initWithRepository:theRepo error:error] autorelease];
+	return [[self alloc] initWithRepository:theRepo error:error];
 }
 
 - (BOOL)push:(NSString *)sha error:(NSError **)error {

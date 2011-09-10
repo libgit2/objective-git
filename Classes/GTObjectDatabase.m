@@ -30,7 +30,7 @@
 #import "NSString+Git.h"
 
 @interface GTObjectDatabase ()
-@property (nonatomic, assign) GTRepository *repository;
+@property (nonatomic, weak) GTRepository *repository;
 @end
 
 @implementation GTObjectDatabase
@@ -41,7 +41,6 @@
 
 - (void)dealloc {
     self.repository = nil;
-    [super dealloc];
 }
 
 #pragma mark -
@@ -50,7 +49,7 @@
 @synthesize repository;
 
 + (id)objectDatabaseWithRepository:(GTRepository *)repo {
-    return [[[self alloc] initWithRepository:repo] autorelease];
+    return [[self alloc] initWithRepository:repo];
 }
 
 - (id)initWithRepository:(GTRepository *)repo {

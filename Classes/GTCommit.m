@@ -141,7 +141,7 @@
 - (GTSignature *)author {
 	
 	if(author == nil) {
-		author = [[GTSignature signatureWithSig:(git_signature *)git_commit_author(self.commit)] retain];
+		author = [GTSignature signatureWithSig:(git_signature *)git_commit_author(self.commit)];
 	}
 	return author;
 }
@@ -149,7 +149,7 @@
 - (GTSignature *)committer {
 	
 	if(committer == nil) {
-		committer = [[GTSignature signatureWithSig:(git_signature *)git_commit_committer(self.commit)] retain];
+		committer = [GTSignature signatureWithSig:(git_signature *)git_commit_committer(self.commit)];
 	}
 	return committer;
 }
@@ -178,17 +178,10 @@
             [rents addObject:(GTCommit *)[GTObject objectWithObj:(git_object *)parent inRepository:self.repository]];
 		}
 		
-		parents = [[NSArray arrayWithArray:rents] retain];
+		parents = [NSArray arrayWithArray:rents];
 	}
 	return parents;
 }
 
-- (void)dealloc
-{
-    [parents release];
-    [committer release];
-    [author release];
-    [super dealloc];
-}
 
 @end

@@ -36,9 +36,9 @@
 @interface GTCommit : GTObject {}
 
 @property (nonatomic, readonly) git_commit *commit;
-@property (nonatomic, readonly) GTSignature *author;
-@property (nonatomic, readonly) GTSignature *committer;
-@property (nonatomic, readonly) NSArray *parents;
+@property (nonatomic, strong, readonly) GTSignature *author;
+@property (nonatomic, strong, readonly) GTSignature *committer;
+@property (nonatomic, strong, readonly) NSArray *parents;
 
 + (GTCommit *)commitInRepository:(GTRepository *)theRepo
                   updateRefNamed:(NSString *)refName

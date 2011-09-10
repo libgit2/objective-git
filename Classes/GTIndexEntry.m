@@ -40,7 +40,6 @@
 
 - (void)dealloc {
 	free(self.entry);
-	[super dealloc];
 }
 
 #pragma mark -
@@ -78,7 +77,7 @@
 }
 + (id)indexEntryWithEntry:(git_index_entry *)theEntry {
 	
-	return [[[self alloc] initWithEntry:theEntry] autorelease];
+	return [[self alloc] initWithEntry:theEntry];
 }
 
 - (NSString *)path {

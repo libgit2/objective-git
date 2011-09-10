@@ -48,17 +48,17 @@
 
 + (id)blobWithString:(NSString *)string inRepository:(GTRepository *)repository error:(NSError **)error {
     
-	return [[[self alloc] initWithString:string inRepository:repository error:error] autorelease];
+	return [[self alloc] initWithString:string inRepository:repository error:error];
 }
 
 + (id)blobWithData:(NSData *)data inRepository:(GTRepository *)repository error:(NSError **)error {
     
-	return [[[self alloc] initWithData:data inRepository:repository error:error] autorelease];
+	return [[self alloc] initWithData:data inRepository:repository error:error];
 }
 
 + (id)blobWithFile:(NSURL *)file inRepository:(GTRepository *)repository error:(NSError **)error {
     
-	return [[[self alloc] initWithFile:file inRepository:repository error:error] autorelease];
+	return [[self alloc] initWithFile:file inRepository:repository error:error];
 }
 
 - (id)initWithOid:(const git_oid *)oid inRepository:(GTRepository *)repository error:(NSError **)error {
@@ -69,7 +69,6 @@
         if (error != NULL) {
             *error = [NSError git_errorFor:gitError withDescription:@"Failed to lookup blob"];
         }
-        [self release];
         return nil;
     }
 	
@@ -90,7 +89,6 @@
 		if(error != NULL) {
 			*error = [NSError git_errorFor:gitError withDescription:@"Failed to create blob from NSData"];
         }
-        [self release];
 		return nil;
 	}
     
@@ -105,7 +103,6 @@
 		if(error != NULL) {
 			*error = [NSError git_errorFor:gitError withDescription:@"Failed to create blob from NSURL"];
         }
-        [self release];
 		return nil;
 	}
 	

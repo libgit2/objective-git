@@ -38,7 +38,6 @@
 - (void)dealloc {
 	
 	self.repository = nil;
-	[super dealloc];
 }
 
 - (const git_oid *)oid {
@@ -61,7 +60,6 @@
 		if(gitError < GIT_SUCCESS) {
 			if(error != NULL)
 				*error = [NSError git_errorFor:gitError withDescription:@"Failed to lookup reference."];
-            [self release];
 			return nil;
 		}
 	}
@@ -69,7 +67,7 @@
 }
 + (id)referenceByLookingUpReferencedNamed:(NSString *)refName inRepository:(GTRepository *)theRepo error:(NSError **)error {
 	
-	return [[[self alloc] initByLookingUpReferenceNamed:refName inRepository:theRepo error:error] autorelease];
+	return [[self alloc] initByLookingUpReferenceNamed:refName inRepository:theRepo error:error];
 }
 
 - (id)initByCreatingReferenceNamed:(NSString *)refName fromReferenceTarget:(NSString *)theTarget inRepository:(GTRepository *)theRepo error:(NSError **)error {
@@ -98,7 +96,6 @@
 		if(gitError < GIT_SUCCESS) {
 			if(error != NULL)
 				*error = [NSError git_errorFor:gitError withDescription:@"Failed to create symbolic reference."];
-            [self release];
 			return nil;
 		}
 	}
@@ -106,7 +103,7 @@
 }
 + (id)referenceByCreatingReferenceNamed:(NSString *)refName fromReferenceTarget:(NSString *)target inRepository:(GTRepository *)theRepo error:(NSError **)error {
 		
-	return [[[self alloc] initByCreatingReferenceNamed:refName fromReferenceTarget:target inRepository:theRepo error:error] autorelease];
+	return [[self alloc] initByCreatingReferenceNamed:refName fromReferenceTarget:target inRepository:theRepo error:error];
 }
 
 - (id)initByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error {
@@ -117,7 +114,6 @@
 		if(gitError < GIT_SUCCESS) {
 			if(error != NULL)
 				*error = [NSError git_errorFor:gitError withDescription:@"Failed to resolve reference."];
-            [self release];
 			return nil;
 		}
 		self.repository = symbolicRef.repository;
@@ -126,7 +122,7 @@
 }
 + (id)referenceByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error {
 	
-	return [[[self alloc] initByResolvingSymbolicReference:symbolicRef error:error] autorelease];
+	return [[self alloc] initByResolvingSymbolicReference:symbolicRef error:error];
 }
 
 - (NSString *)name {

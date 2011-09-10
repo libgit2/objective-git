@@ -48,15 +48,7 @@ static NSString * const GTTagClassName = @"GTTag";
 }
 
 - (void)dealloc {
-	
-	self.repository = nil;
 	git_object_close(self.obj);
-	[super dealloc];
-}
-
-- (void)finalize {
-	git_object_close(self.obj);
-	[super finalize];
 }
 
 - (NSUInteger)hash {
@@ -109,7 +101,7 @@ static NSString * const GTTagClassName = @"GTTag";
 			break;
 	}
 	
-    return [[[NSClassFromString(klass) alloc] initWithObj:theObject inRepository:theRepo] autorelease];
+    return [[NSClassFromString(klass) alloc] initWithObj:theObject inRepository:theRepo];
 }
 
 - (NSString *)type {

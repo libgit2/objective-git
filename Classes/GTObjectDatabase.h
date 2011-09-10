@@ -30,7 +30,7 @@
     git_odb *odb;
 }
 
-@property (nonatomic, assign, readonly) GTRepository *repository;
+@property (nonatomic, weak, readonly) GTRepository *repository;
 
 + (id)objectDatabaseWithRepository:(GTRepository *)repository;
 - (id)initWithRepository:(GTRepository *)repository;

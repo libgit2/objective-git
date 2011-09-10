@@ -34,7 +34,7 @@
 
 + (id)objectWithOdbObj:(git_odb_object *)object {
 	
-	return [[[self alloc] initWithOdbObj:object] autorelease];
+	return [[self alloc] initWithOdbObj:object];
 }
 
 - (NSString *)shaHash {

@@ -41,10 +41,10 @@
 @interface GTRepository : NSObject <GTObject> {}
 
 @property (nonatomic, assign, readonly) git_repository *repo;
-@property (nonatomic, retain, readonly) NSURL *fileUrl;
-@property (nonatomic, retain, readonly) GTEnumerator *enumerator; // should only be used on the main thread
-@property (nonatomic, retain, readonly) GTIndex *index;
-@property (nonatomic, retain, readonly) GTObjectDatabase *objectDatabase;
+@property (nonatomic, strong, readonly) NSURL *fileUrl;
+@property (nonatomic, strong, readonly) GTEnumerator *enumerator; // should only be used on the main thread
+@property (nonatomic, strong, readonly) GTIndex *index;
+@property (nonatomic, strong, readonly) GTObjectDatabase *objectDatabase;
 
 + (BOOL)initializeEmptyRepositoryAtURL:(NSURL *)localFileURL error:(NSError **)error;
 
