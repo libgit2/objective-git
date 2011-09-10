@@ -77,10 +77,13 @@
 						   error:(NSError **)error {
 	
 	NSUInteger count = theParents ? theParents.count : 0;
-	git_commit const *parentCommits[count];
-	for (NSUInteger i = 0; i < count; i++){
-		parentCommits[i] = ((GTCommit *)[theParents objectAtIndex:i]).commit;
-	}
+    git_commit const *parentCommits[0];
+    if (count) {
+        git_commit const *parentCommits[count];
+        for (NSUInteger i = 0; i < count; i++) {
+            parentCommits[i] = ((GTCommit *)[theParents objectAtIndex:i]).commit;
+        }
+    }
 	
 	git_oid oid;
 	int gitError = git_commit_create(
