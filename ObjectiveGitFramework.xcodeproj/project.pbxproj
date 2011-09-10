@@ -142,6 +142,95 @@
 		BDFAF9C9131C1868000508BC /* GTIndexEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = BDFAF9C7131C1868000508BC /* GTIndexEntry.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BDFAF9CA131C1868000508BC /* GTIndexEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = BDFAF9C8131C1868000508BC /* GTIndexEntry.m */; };
 		BDFAF9CE131C18FE000508BC /* GTIndexTest.m in Sources */ = {isa = PBXBuildFile; fileRef = BDFAF9CD131C18FE000508BC /* GTIndexTest.m */; };
+		DD44E881141B1DDF000B7FB8 /* blob.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E825141B1DDF000B7FB8 /* blob.c */; };
+		DD44E882141B1DDF000B7FB8 /* blob.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E826141B1DDF000B7FB8 /* blob.h */; };
+		DD44E883141B1DDF000B7FB8 /* bswap.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E827141B1DDF000B7FB8 /* bswap.h */; };
+		DD44E884141B1DDF000B7FB8 /* buffer.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E828141B1DDF000B7FB8 /* buffer.c */; };
+		DD44E885141B1DDF000B7FB8 /* buffer.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E829141B1DDF000B7FB8 /* buffer.h */; };
+		DD44E886141B1DDF000B7FB8 /* cache.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E82A141B1DDF000B7FB8 /* cache.c */; };
+		DD44E887141B1DDF000B7FB8 /* cache.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E82B141B1DDF000B7FB8 /* cache.h */; };
+		DD44E888141B1DDF000B7FB8 /* cc-compat.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E82C141B1DDF000B7FB8 /* cc-compat.h */; };
+		DD44E889141B1DDF000B7FB8 /* commit.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E82D141B1DDF000B7FB8 /* commit.c */; };
+		DD44E88A141B1DDF000B7FB8 /* commit.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E82E141B1DDF000B7FB8 /* commit.h */; };
+		DD44E88B141B1DDF000B7FB8 /* common.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E82F141B1DDF000B7FB8 /* common.h */; };
+		DD44E88C141B1DDF000B7FB8 /* config_file.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E830141B1DDF000B7FB8 /* config_file.c */; };
+		DD44E88D141B1DDF000B7FB8 /* config.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E831141B1DDF000B7FB8 /* config.c */; };
+		DD44E88E141B1DDF000B7FB8 /* config.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E832141B1DDF000B7FB8 /* config.h */; };
+		DD44E88F141B1DDF000B7FB8 /* delta-apply.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E833141B1DDF000B7FB8 /* delta-apply.c */; };
+		DD44E890141B1DDF000B7FB8 /* delta-apply.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E834141B1DDF000B7FB8 /* delta-apply.h */; };
+		DD44E891141B1DDF000B7FB8 /* dir.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E835141B1DDF000B7FB8 /* dir.h */; };
+		DD44E892141B1DDF000B7FB8 /* errors.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E836141B1DDF000B7FB8 /* errors.c */; };
+		DD44E893141B1DDF000B7FB8 /* fetch.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E837141B1DDF000B7FB8 /* fetch.c */; };
+		DD44E894141B1DDF000B7FB8 /* fetch.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E838141B1DDF000B7FB8 /* fetch.h */; };
+		DD44E895141B1DDF000B7FB8 /* filebuf.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E839141B1DDF000B7FB8 /* filebuf.c */; };
+		DD44E896141B1DDF000B7FB8 /* filebuf.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E83A141B1DDF000B7FB8 /* filebuf.h */; };
+		DD44E897141B1DDF000B7FB8 /* fileops.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E83B141B1DDF000B7FB8 /* fileops.c */; };
+		DD44E898141B1DDF000B7FB8 /* fileops.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E83C141B1DDF000B7FB8 /* fileops.h */; };
+		DD44E899141B1DDF000B7FB8 /* hash.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E83D141B1DDF000B7FB8 /* hash.c */; };
+		DD44E89A141B1DDF000B7FB8 /* hash.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E83E141B1DDF000B7FB8 /* hash.h */; };
+		DD44E89B141B1DDF000B7FB8 /* hashtable.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E83F141B1DDF000B7FB8 /* hashtable.c */; };
+		DD44E89C141B1DDF000B7FB8 /* hashtable.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E840141B1DDF000B7FB8 /* hashtable.h */; };
+		DD44E89D141B1DDF000B7FB8 /* index.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E841141B1DDF000B7FB8 /* index.c */; };
+		DD44E89E141B1DDF000B7FB8 /* index.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E842141B1DDF000B7FB8 /* index.h */; };
+		DD44E89F141B1DDF000B7FB8 /* indexer.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E843141B1DDF000B7FB8 /* indexer.c */; };
+		DD44E8A0141B1DDF000B7FB8 /* map.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E844141B1DDF000B7FB8 /* map.h */; };
+		DD44E8A1141B1DDF000B7FB8 /* mwindow.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E845141B1DDF000B7FB8 /* mwindow.c */; };
+		DD44E8A2141B1DDF000B7FB8 /* mwindow.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E846141B1DDF000B7FB8 /* mwindow.h */; };
+		DD44E8A3141B1DDF000B7FB8 /* netops.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E847141B1DDF000B7FB8 /* netops.c */; };
+		DD44E8A4141B1DDF000B7FB8 /* netops.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E848141B1DDF000B7FB8 /* netops.h */; };
+		DD44E8A5141B1DDF000B7FB8 /* object.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E849141B1DDF000B7FB8 /* object.c */; };
+		DD44E8A6141B1DDF000B7FB8 /* odb_loose.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E84A141B1DDF000B7FB8 /* odb_loose.c */; };
+		DD44E8A7141B1DDF000B7FB8 /* odb_pack.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E84B141B1DDF000B7FB8 /* odb_pack.c */; };
+		DD44E8A8141B1DDF000B7FB8 /* odb.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E84C141B1DDF000B7FB8 /* odb.c */; };
+		DD44E8A9141B1DDF000B7FB8 /* odb.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E84D141B1DDF000B7FB8 /* odb.h */; };
+		DD44E8AA141B1DDF000B7FB8 /* oid.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E84E141B1DDF000B7FB8 /* oid.c */; };
+		DD44E8AB141B1DDF000B7FB8 /* pack.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E84F141B1DDF000B7FB8 /* pack.c */; };
+		DD44E8AC141B1DDF000B7FB8 /* pack.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E850141B1DDF000B7FB8 /* pack.h */; };
+		DD44E8AD141B1DDF000B7FB8 /* path.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E851141B1DDF000B7FB8 /* path.c */; };
+		DD44E8AE141B1DDF000B7FB8 /* path.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E852141B1DDF000B7FB8 /* path.h */; };
+		DD44E8AF141B1DDF000B7FB8 /* pkt.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E853141B1DDF000B7FB8 /* pkt.c */; };
+		DD44E8B0141B1DDF000B7FB8 /* pkt.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E854141B1DDF000B7FB8 /* pkt.h */; };
+		DD44E8B1141B1DDF000B7FB8 /* posix.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E855141B1DDF000B7FB8 /* posix.c */; };
+		DD44E8B2141B1DDF000B7FB8 /* posix.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E856141B1DDF000B7FB8 /* posix.h */; };
+		DD44E8B6141B1DDF000B7FB8 /* pqueue.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E85B141B1DDF000B7FB8 /* pqueue.c */; };
+		DD44E8B7141B1DDF000B7FB8 /* pqueue.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E85C141B1DDF000B7FB8 /* pqueue.h */; };
+		DD44E8B8141B1DDF000B7FB8 /* reflog.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E85D141B1DDF000B7FB8 /* reflog.c */; };
+		DD44E8B9141B1DDF000B7FB8 /* reflog.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E85E141B1DDF000B7FB8 /* reflog.h */; };
+		DD44E8BA141B1DDF000B7FB8 /* refs.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E85F141B1DDF000B7FB8 /* refs.c */; };
+		DD44E8BB141B1DDF000B7FB8 /* refs.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E860141B1DDF000B7FB8 /* refs.h */; };
+		DD44E8BC141B1DDF000B7FB8 /* refspec.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E861141B1DDF000B7FB8 /* refspec.c */; };
+		DD44E8BD141B1DDF000B7FB8 /* refspec.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E862141B1DDF000B7FB8 /* refspec.h */; };
+		DD44E8BE141B1DDF000B7FB8 /* remote.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E863141B1DDF000B7FB8 /* remote.c */; };
+		DD44E8BF141B1DDF000B7FB8 /* remote.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E864141B1DDF000B7FB8 /* remote.h */; };
+		DD44E8C0141B1DDF000B7FB8 /* repository.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E865141B1DDF000B7FB8 /* repository.c */; };
+		DD44E8C1141B1DDF000B7FB8 /* repository.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E866141B1DDF000B7FB8 /* repository.h */; };
+		DD44E8C2141B1DDF000B7FB8 /* revwalk.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E867141B1DDF000B7FB8 /* revwalk.c */; };
+		DD44E8C3141B1DDF000B7FB8 /* sha1_lookup.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E868141B1DDF000B7FB8 /* sha1_lookup.c */; };
+		DD44E8C4141B1DDF000B7FB8 /* sha1_lookup.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E869141B1DDF000B7FB8 /* sha1_lookup.h */; };
+		DD44E8C5141B1DDF000B7FB8 /* sha1.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E86A141B1DDF000B7FB8 /* sha1.c */; };
+		DD44E8C6141B1DDF000B7FB8 /* sha1.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E86B141B1DDF000B7FB8 /* sha1.h */; };
+		DD44E8C7141B1DDF000B7FB8 /* signature.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E86C141B1DDF000B7FB8 /* signature.c */; };
+		DD44E8C8141B1DDF000B7FB8 /* signature.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E86D141B1DDF000B7FB8 /* signature.h */; };
+		DD44E8C9141B1DDF000B7FB8 /* status.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E86E141B1DDF000B7FB8 /* status.c */; };
+		DD44E8CA141B1DDF000B7FB8 /* tag.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E86F141B1DDF000B7FB8 /* tag.c */; };
+		DD44E8CB141B1DDF000B7FB8 /* tag.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E870141B1DDF000B7FB8 /* tag.h */; };
+		DD44E8CC141B1DDF000B7FB8 /* thread-utils.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E871141B1DDF000B7FB8 /* thread-utils.c */; };
+		DD44E8CD141B1DDF000B7FB8 /* thread-utils.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E872141B1DDF000B7FB8 /* thread-utils.h */; };
+		DD44E8CE141B1DDF000B7FB8 /* transport_git.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E873141B1DDF000B7FB8 /* transport_git.c */; };
+		DD44E8CF141B1DDF000B7FB8 /* transport_local.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E874141B1DDF000B7FB8 /* transport_local.c */; };
+		DD44E8D0141B1DDF000B7FB8 /* transport.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E875141B1DDF000B7FB8 /* transport.c */; };
+		DD44E8D1141B1DDF000B7FB8 /* transport.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E876141B1DDF000B7FB8 /* transport.h */; };
+		DD44E8D2141B1DDF000B7FB8 /* tree.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E877141B1DDF000B7FB8 /* tree.c */; };
+		DD44E8D3141B1DDF000B7FB8 /* tree.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E878141B1DDF000B7FB8 /* tree.h */; };
+		DD44E8D4141B1DDF000B7FB8 /* tsort.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E879141B1DDF000B7FB8 /* tsort.c */; };
+		DD44E8D5141B1DDF000B7FB8 /* map.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E87B141B1DDF000B7FB8 /* map.c */; };
+		DD44E8D6141B1DDF000B7FB8 /* posix.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E87C141B1DDF000B7FB8 /* posix.h */; };
+		DD44E8D7141B1DDF000B7FB8 /* util.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E87D141B1DDF000B7FB8 /* util.c */; };
+		DD44E8D8141B1DDF000B7FB8 /* util.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E87E141B1DDF000B7FB8 /* util.h */; };
+		DD44E8D9141B1DDF000B7FB8 /* vector.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E87F141B1DDF000B7FB8 /* vector.c */; };
+		DD44E8DA141B1DDF000B7FB8 /* vector.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E880141B1DDF000B7FB8 /* vector.h */; };
+		DD44E8DD141B1E9C000B7FB8 /* git2 in Headers */ = {isa = PBXBuildFile; fileRef = DD44E8DB141B1E9C000B7FB8 /* git2 */; settings = {ATTRIBUTES = (Public, ); }; };
+		DD44E8DE141B1E9C000B7FB8 /* git2.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E8DC141B1E9C000B7FB8 /* git2.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -291,6 +380,97 @@
 		BDFAF9C8131C1868000508BC /* GTIndexEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = GTIndexEntry.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		BDFAF9CD131C18FE000508BC /* GTIndexTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = GTIndexTest.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		D2F7E79907B2D74100F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+		DD44E817141B1D40000B7FB8 /* libgit2-ios.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libgit2-ios.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD44E819141B1D40000B7FB8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		DD44E825141B1DDF000B7FB8 /* blob.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = blob.c; path = libgit2/src/blob.c; sourceTree = SOURCE_ROOT; };
+		DD44E826141B1DDF000B7FB8 /* blob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = blob.h; path = libgit2/src/blob.h; sourceTree = SOURCE_ROOT; };
+		DD44E827141B1DDF000B7FB8 /* bswap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bswap.h; path = libgit2/src/bswap.h; sourceTree = SOURCE_ROOT; };
+		DD44E828141B1DDF000B7FB8 /* buffer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = buffer.c; path = libgit2/src/buffer.c; sourceTree = SOURCE_ROOT; };
+		DD44E829141B1DDF000B7FB8 /* buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = buffer.h; path = libgit2/src/buffer.h; sourceTree = SOURCE_ROOT; };
+		DD44E82A141B1DDF000B7FB8 /* cache.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = cache.c; path = libgit2/src/cache.c; sourceTree = SOURCE_ROOT; };
+		DD44E82B141B1DDF000B7FB8 /* cache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cache.h; path = libgit2/src/cache.h; sourceTree = SOURCE_ROOT; };
+		DD44E82C141B1DDF000B7FB8 /* cc-compat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "cc-compat.h"; path = "libgit2/src/cc-compat.h"; sourceTree = SOURCE_ROOT; };
+		DD44E82D141B1DDF000B7FB8 /* commit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = commit.c; path = libgit2/src/commit.c; sourceTree = SOURCE_ROOT; };
+		DD44E82E141B1DDF000B7FB8 /* commit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = commit.h; path = libgit2/src/commit.h; sourceTree = SOURCE_ROOT; };
+		DD44E82F141B1DDF000B7FB8 /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = common.h; path = libgit2/src/common.h; sourceTree = SOURCE_ROOT; };
+		DD44E830141B1DDF000B7FB8 /* config_file.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = config_file.c; path = libgit2/src/config_file.c; sourceTree = SOURCE_ROOT; };
+		DD44E831141B1DDF000B7FB8 /* config.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = config.c; path = libgit2/src/config.c; sourceTree = SOURCE_ROOT; };
+		DD44E832141B1DDF000B7FB8 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = config.h; path = libgit2/src/config.h; sourceTree = SOURCE_ROOT; };
+		DD44E833141B1DDF000B7FB8 /* delta-apply.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "delta-apply.c"; path = "libgit2/src/delta-apply.c"; sourceTree = SOURCE_ROOT; };
+		DD44E834141B1DDF000B7FB8 /* delta-apply.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "delta-apply.h"; path = "libgit2/src/delta-apply.h"; sourceTree = SOURCE_ROOT; };
+		DD44E835141B1DDF000B7FB8 /* dir.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dir.h; path = libgit2/src/dir.h; sourceTree = SOURCE_ROOT; };
+		DD44E836141B1DDF000B7FB8 /* errors.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = errors.c; path = libgit2/src/errors.c; sourceTree = SOURCE_ROOT; };
+		DD44E837141B1DDF000B7FB8 /* fetch.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = fetch.c; path = libgit2/src/fetch.c; sourceTree = SOURCE_ROOT; };
+		DD44E838141B1DDF000B7FB8 /* fetch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = fetch.h; path = libgit2/src/fetch.h; sourceTree = SOURCE_ROOT; };
+		DD44E839141B1DDF000B7FB8 /* filebuf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = filebuf.c; path = libgit2/src/filebuf.c; sourceTree = SOURCE_ROOT; };
+		DD44E83A141B1DDF000B7FB8 /* filebuf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = filebuf.h; path = libgit2/src/filebuf.h; sourceTree = SOURCE_ROOT; };
+		DD44E83B141B1DDF000B7FB8 /* fileops.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = fileops.c; path = libgit2/src/fileops.c; sourceTree = SOURCE_ROOT; };
+		DD44E83C141B1DDF000B7FB8 /* fileops.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = fileops.h; path = libgit2/src/fileops.h; sourceTree = SOURCE_ROOT; };
+		DD44E83D141B1DDF000B7FB8 /* hash.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = hash.c; path = libgit2/src/hash.c; sourceTree = SOURCE_ROOT; };
+		DD44E83E141B1DDF000B7FB8 /* hash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hash.h; path = libgit2/src/hash.h; sourceTree = SOURCE_ROOT; };
+		DD44E83F141B1DDF000B7FB8 /* hashtable.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = hashtable.c; path = libgit2/src/hashtable.c; sourceTree = SOURCE_ROOT; };
+		DD44E840141B1DDF000B7FB8 /* hashtable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hashtable.h; path = libgit2/src/hashtable.h; sourceTree = SOURCE_ROOT; };
+		DD44E841141B1DDF000B7FB8 /* index.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = index.c; path = libgit2/src/index.c; sourceTree = SOURCE_ROOT; };
+		DD44E842141B1DDF000B7FB8 /* index.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = index.h; path = libgit2/src/index.h; sourceTree = SOURCE_ROOT; };
+		DD44E843141B1DDF000B7FB8 /* indexer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = indexer.c; path = libgit2/src/indexer.c; sourceTree = SOURCE_ROOT; };
+		DD44E844141B1DDF000B7FB8 /* map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = map.h; path = libgit2/src/map.h; sourceTree = SOURCE_ROOT; };
+		DD44E845141B1DDF000B7FB8 /* mwindow.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = mwindow.c; path = libgit2/src/mwindow.c; sourceTree = SOURCE_ROOT; };
+		DD44E846141B1DDF000B7FB8 /* mwindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mwindow.h; path = libgit2/src/mwindow.h; sourceTree = SOURCE_ROOT; };
+		DD44E847141B1DDF000B7FB8 /* netops.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = netops.c; path = libgit2/src/netops.c; sourceTree = SOURCE_ROOT; };
+		DD44E848141B1DDF000B7FB8 /* netops.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = netops.h; path = libgit2/src/netops.h; sourceTree = SOURCE_ROOT; };
+		DD44E849141B1DDF000B7FB8 /* object.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = object.c; path = libgit2/src/object.c; sourceTree = SOURCE_ROOT; };
+		DD44E84A141B1DDF000B7FB8 /* odb_loose.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = odb_loose.c; path = libgit2/src/odb_loose.c; sourceTree = SOURCE_ROOT; };
+		DD44E84B141B1DDF000B7FB8 /* odb_pack.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = odb_pack.c; path = libgit2/src/odb_pack.c; sourceTree = SOURCE_ROOT; };
+		DD44E84C141B1DDF000B7FB8 /* odb.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = odb.c; path = libgit2/src/odb.c; sourceTree = SOURCE_ROOT; };
+		DD44E84D141B1DDF000B7FB8 /* odb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = odb.h; path = libgit2/src/odb.h; sourceTree = SOURCE_ROOT; };
+		DD44E84E141B1DDF000B7FB8 /* oid.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = oid.c; path = libgit2/src/oid.c; sourceTree = SOURCE_ROOT; };
+		DD44E84F141B1DDF000B7FB8 /* pack.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pack.c; path = libgit2/src/pack.c; sourceTree = SOURCE_ROOT; };
+		DD44E850141B1DDF000B7FB8 /* pack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pack.h; path = libgit2/src/pack.h; sourceTree = SOURCE_ROOT; };
+		DD44E851141B1DDF000B7FB8 /* path.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = path.c; path = libgit2/src/path.c; sourceTree = SOURCE_ROOT; };
+		DD44E852141B1DDF000B7FB8 /* path.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = path.h; path = libgit2/src/path.h; sourceTree = SOURCE_ROOT; };
+		DD44E853141B1DDF000B7FB8 /* pkt.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pkt.c; path = libgit2/src/pkt.c; sourceTree = SOURCE_ROOT; };
+		DD44E854141B1DDF000B7FB8 /* pkt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pkt.h; path = libgit2/src/pkt.h; sourceTree = SOURCE_ROOT; };
+		DD44E855141B1DDF000B7FB8 /* posix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = posix.c; path = libgit2/src/posix.c; sourceTree = SOURCE_ROOT; };
+		DD44E856141B1DDF000B7FB8 /* posix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = posix.h; path = libgit2/src/posix.h; sourceTree = SOURCE_ROOT; };
+		DD44E85B141B1DDF000B7FB8 /* pqueue.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pqueue.c; path = libgit2/src/pqueue.c; sourceTree = SOURCE_ROOT; };
+		DD44E85C141B1DDF000B7FB8 /* pqueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pqueue.h; path = libgit2/src/pqueue.h; sourceTree = SOURCE_ROOT; };
+		DD44E85D141B1DDF000B7FB8 /* reflog.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = reflog.c; path = libgit2/src/reflog.c; sourceTree = SOURCE_ROOT; };
+		DD44E85E141B1DDF000B7FB8 /* reflog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = reflog.h; path = libgit2/src/reflog.h; sourceTree = SOURCE_ROOT; };
+		DD44E85F141B1DDF000B7FB8 /* refs.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = refs.c; path = libgit2/src/refs.c; sourceTree = SOURCE_ROOT; };
+		DD44E860141B1DDF000B7FB8 /* refs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = refs.h; path = libgit2/src/refs.h; sourceTree = SOURCE_ROOT; };
+		DD44E861141B1DDF000B7FB8 /* refspec.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = refspec.c; path = libgit2/src/refspec.c; sourceTree = SOURCE_ROOT; };
+		DD44E862141B1DDF000B7FB8 /* refspec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = refspec.h; path = libgit2/src/refspec.h; sourceTree = SOURCE_ROOT; };
+		DD44E863141B1DDF000B7FB8 /* remote.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = remote.c; path = libgit2/src/remote.c; sourceTree = SOURCE_ROOT; };
+		DD44E864141B1DDF000B7FB8 /* remote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = remote.h; path = libgit2/src/remote.h; sourceTree = SOURCE_ROOT; };
+		DD44E865141B1DDF000B7FB8 /* repository.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = repository.c; path = libgit2/src/repository.c; sourceTree = SOURCE_ROOT; };
+		DD44E866141B1DDF000B7FB8 /* repository.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = repository.h; path = libgit2/src/repository.h; sourceTree = SOURCE_ROOT; };
+		DD44E867141B1DDF000B7FB8 /* revwalk.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = revwalk.c; path = libgit2/src/revwalk.c; sourceTree = SOURCE_ROOT; };
+		DD44E868141B1DDF000B7FB8 /* sha1_lookup.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sha1_lookup.c; path = libgit2/src/sha1_lookup.c; sourceTree = SOURCE_ROOT; };
+		DD44E869141B1DDF000B7FB8 /* sha1_lookup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sha1_lookup.h; path = libgit2/src/sha1_lookup.h; sourceTree = SOURCE_ROOT; };
+		DD44E86A141B1DDF000B7FB8 /* sha1.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sha1.c; path = libgit2/src/sha1.c; sourceTree = SOURCE_ROOT; };
+		DD44E86B141B1DDF000B7FB8 /* sha1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sha1.h; path = libgit2/src/sha1.h; sourceTree = SOURCE_ROOT; };
+		DD44E86C141B1DDF000B7FB8 /* signature.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = signature.c; path = libgit2/src/signature.c; sourceTree = SOURCE_ROOT; };
+		DD44E86D141B1DDF000B7FB8 /* signature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = signature.h; path = libgit2/src/signature.h; sourceTree = SOURCE_ROOT; };
+		DD44E86E141B1DDF000B7FB8 /* status.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = status.c; path = libgit2/src/status.c; sourceTree = SOURCE_ROOT; };
+		DD44E86F141B1DDF000B7FB8 /* tag.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = tag.c; path = libgit2/src/tag.c; sourceTree = SOURCE_ROOT; };
+		DD44E870141B1DDF000B7FB8 /* tag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tag.h; path = libgit2/src/tag.h; sourceTree = SOURCE_ROOT; };
+		DD44E871141B1DDF000B7FB8 /* thread-utils.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "thread-utils.c"; path = "libgit2/src/thread-utils.c"; sourceTree = SOURCE_ROOT; };
+		DD44E872141B1DDF000B7FB8 /* thread-utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "thread-utils.h"; path = "libgit2/src/thread-utils.h"; sourceTree = SOURCE_ROOT; };
+		DD44E873141B1DDF000B7FB8 /* transport_git.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = transport_git.c; path = libgit2/src/transport_git.c; sourceTree = SOURCE_ROOT; };
+		DD44E874141B1DDF000B7FB8 /* transport_local.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = transport_local.c; path = libgit2/src/transport_local.c; sourceTree = SOURCE_ROOT; };
+		DD44E875141B1DDF000B7FB8 /* transport.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = transport.c; path = libgit2/src/transport.c; sourceTree = SOURCE_ROOT; };
+		DD44E876141B1DDF000B7FB8 /* transport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = transport.h; path = libgit2/src/transport.h; sourceTree = SOURCE_ROOT; };
+		DD44E877141B1DDF000B7FB8 /* tree.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = tree.c; path = libgit2/src/tree.c; sourceTree = SOURCE_ROOT; };
+		DD44E878141B1DDF000B7FB8 /* tree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tree.h; path = libgit2/src/tree.h; sourceTree = SOURCE_ROOT; };
+		DD44E879141B1DDF000B7FB8 /* tsort.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = tsort.c; path = libgit2/src/tsort.c; sourceTree = SOURCE_ROOT; };
+		DD44E87B141B1DDF000B7FB8 /* map.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = map.c; sourceTree = "<group>"; };
+		DD44E87C141B1DDF000B7FB8 /* posix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = posix.h; sourceTree = "<group>"; };
+		DD44E87D141B1DDF000B7FB8 /* util.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = util.c; path = libgit2/src/util.c; sourceTree = SOURCE_ROOT; };
+		DD44E87E141B1DDF000B7FB8 /* util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = util.h; path = libgit2/src/util.h; sourceTree = SOURCE_ROOT; };
+		DD44E87F141B1DDF000B7FB8 /* vector.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = vector.c; path = libgit2/src/vector.c; sourceTree = SOURCE_ROOT; };
+		DD44E880141B1DDF000B7FB8 /* vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = vector.h; path = libgit2/src/vector.h; sourceTree = SOURCE_ROOT; };
+		DD44E8DB141B1E9C000B7FB8 /* git2 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = git2; path = libgit2/include/git2; sourceTree = "<group>"; };
+		DD44E8DC141B1E9C000B7FB8 /* git2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = git2.h; path = libgit2/include/git2.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -333,6 +513,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DD44E814141B1D40000B7FB8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -343,6 +530,7 @@
 				BDD8AEDF1313311100CB5D40 /* Tests.app */,
 				04DB4645133AB57600D9C624 /* libObjectiveGit-iOS.a */,
 				BDD9C3D5133BA556003708E7 /* Tests-iOS.app */,
+				DD44E817141B1D40000B7FB8 /* libgit2-ios.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -350,6 +538,8 @@
 		0867D691FE84028FC02AAC07 /* ObjectiveGitFramework */ = {
 			isa = PBXGroup;
 			children = (
+				DD44E8DB141B1E9C000B7FB8 /* git2 */,
+				DD44E8DC141B1E9C000B7FB8 /* git2.h */,
 				BDD8AB01130F01AB00CB5D40 /* README.md */,
 				BDE4C05E130EFE2C00851650 /* Classes */,
 				BDD8AF27131332B000CB5D40 /* Tests */,
@@ -357,6 +547,8 @@
 				089C1665FE841158C02AAC07 /* Resources */,
 				BDD9C2F2133BA3F7003708E7 /* External Frameworks and Libraries iOS */,
 				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
+				DD44E81B141B1D40000B7FB8 /* libgit2 */,
+				DD44E818141B1D40000B7FB8 /* Frameworks */,
 				034768DFFF38A50411DB9C8B /* Products */,
 				BDD8AEE11313311100CB5D40 /* Tests-Info.plist */,
 				BDD9C3D7133BA556003708E7 /* Tests-iOS-Info.plist */,
@@ -517,6 +709,118 @@
 			path = Categories;
 			sourceTree = "<group>";
 		};
+		DD44E818141B1D40000B7FB8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DD44E819141B1D40000B7FB8 /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DD44E81B141B1D40000B7FB8 /* libgit2 */ = {
+			isa = PBXGroup;
+			children = (
+				DD44E825141B1DDF000B7FB8 /* blob.c */,
+				DD44E826141B1DDF000B7FB8 /* blob.h */,
+				DD44E827141B1DDF000B7FB8 /* bswap.h */,
+				DD44E828141B1DDF000B7FB8 /* buffer.c */,
+				DD44E829141B1DDF000B7FB8 /* buffer.h */,
+				DD44E82A141B1DDF000B7FB8 /* cache.c */,
+				DD44E82B141B1DDF000B7FB8 /* cache.h */,
+				DD44E82C141B1DDF000B7FB8 /* cc-compat.h */,
+				DD44E82D141B1DDF000B7FB8 /* commit.c */,
+				DD44E82E141B1DDF000B7FB8 /* commit.h */,
+				DD44E82F141B1DDF000B7FB8 /* common.h */,
+				DD44E830141B1DDF000B7FB8 /* config_file.c */,
+				DD44E831141B1DDF000B7FB8 /* config.c */,
+				DD44E832141B1DDF000B7FB8 /* config.h */,
+				DD44E833141B1DDF000B7FB8 /* delta-apply.c */,
+				DD44E834141B1DDF000B7FB8 /* delta-apply.h */,
+				DD44E835141B1DDF000B7FB8 /* dir.h */,
+				DD44E836141B1DDF000B7FB8 /* errors.c */,
+				DD44E837141B1DDF000B7FB8 /* fetch.c */,
+				DD44E838141B1DDF000B7FB8 /* fetch.h */,
+				DD44E839141B1DDF000B7FB8 /* filebuf.c */,
+				DD44E83A141B1DDF000B7FB8 /* filebuf.h */,
+				DD44E83B141B1DDF000B7FB8 /* fileops.c */,
+				DD44E83C141B1DDF000B7FB8 /* fileops.h */,
+				DD44E83D141B1DDF000B7FB8 /* hash.c */,
+				DD44E83E141B1DDF000B7FB8 /* hash.h */,
+				DD44E83F141B1DDF000B7FB8 /* hashtable.c */,
+				DD44E840141B1DDF000B7FB8 /* hashtable.h */,
+				DD44E841141B1DDF000B7FB8 /* index.c */,
+				DD44E842141B1DDF000B7FB8 /* index.h */,
+				DD44E843141B1DDF000B7FB8 /* indexer.c */,
+				DD44E844141B1DDF000B7FB8 /* map.h */,
+				DD44E845141B1DDF000B7FB8 /* mwindow.c */,
+				DD44E846141B1DDF000B7FB8 /* mwindow.h */,
+				DD44E847141B1DDF000B7FB8 /* netops.c */,
+				DD44E848141B1DDF000B7FB8 /* netops.h */,
+				DD44E849141B1DDF000B7FB8 /* object.c */,
+				DD44E84A141B1DDF000B7FB8 /* odb_loose.c */,
+				DD44E84B141B1DDF000B7FB8 /* odb_pack.c */,
+				DD44E84C141B1DDF000B7FB8 /* odb.c */,
+				DD44E84D141B1DDF000B7FB8 /* odb.h */,
+				DD44E84E141B1DDF000B7FB8 /* oid.c */,
+				DD44E84F141B1DDF000B7FB8 /* pack.c */,
+				DD44E850141B1DDF000B7FB8 /* pack.h */,
+				DD44E851141B1DDF000B7FB8 /* path.c */,
+				DD44E852141B1DDF000B7FB8 /* path.h */,
+				DD44E853141B1DDF000B7FB8 /* pkt.c */,
+				DD44E854141B1DDF000B7FB8 /* pkt.h */,
+				DD44E855141B1DDF000B7FB8 /* posix.c */,
+				DD44E856141B1DDF000B7FB8 /* posix.h */,
+				DD44E85B141B1DDF000B7FB8 /* pqueue.c */,
+				DD44E85C141B1DDF000B7FB8 /* pqueue.h */,
+				DD44E85D141B1DDF000B7FB8 /* reflog.c */,
+				DD44E85E141B1DDF000B7FB8 /* reflog.h */,
+				DD44E85F141B1DDF000B7FB8 /* refs.c */,
+				DD44E860141B1DDF000B7FB8 /* refs.h */,
+				DD44E861141B1DDF000B7FB8 /* refspec.c */,
+				DD44E862141B1DDF000B7FB8 /* refspec.h */,
+				DD44E863141B1DDF000B7FB8 /* remote.c */,
+				DD44E864141B1DDF000B7FB8 /* remote.h */,
+				DD44E865141B1DDF000B7FB8 /* repository.c */,
+				DD44E866141B1DDF000B7FB8 /* repository.h */,
+				DD44E867141B1DDF000B7FB8 /* revwalk.c */,
+				DD44E868141B1DDF000B7FB8 /* sha1_lookup.c */,
+				DD44E869141B1DDF000B7FB8 /* sha1_lookup.h */,
+				DD44E86A141B1DDF000B7FB8 /* sha1.c */,
+				DD44E86B141B1DDF000B7FB8 /* sha1.h */,
+				DD44E86C141B1DDF000B7FB8 /* signature.c */,
+				DD44E86D141B1DDF000B7FB8 /* signature.h */,
+				DD44E86E141B1DDF000B7FB8 /* status.c */,
+				DD44E86F141B1DDF000B7FB8 /* tag.c */,
+				DD44E870141B1DDF000B7FB8 /* tag.h */,
+				DD44E871141B1DDF000B7FB8 /* thread-utils.c */,
+				DD44E872141B1DDF000B7FB8 /* thread-utils.h */,
+				DD44E873141B1DDF000B7FB8 /* transport_git.c */,
+				DD44E874141B1DDF000B7FB8 /* transport_local.c */,
+				DD44E875141B1DDF000B7FB8 /* transport.c */,
+				DD44E876141B1DDF000B7FB8 /* transport.h */,
+				DD44E877141B1DDF000B7FB8 /* tree.c */,
+				DD44E878141B1DDF000B7FB8 /* tree.h */,
+				DD44E879141B1DDF000B7FB8 /* tsort.c */,
+				DD44E87A141B1DDF000B7FB8 /* unix */,
+				DD44E87D141B1DDF000B7FB8 /* util.c */,
+				DD44E87E141B1DDF000B7FB8 /* util.h */,
+				DD44E87F141B1DDF000B7FB8 /* vector.c */,
+				DD44E880141B1DDF000B7FB8 /* vector.h */,
+			);
+			name = libgit2;
+			path = "libgit2-ios";
+			sourceTree = "<group>";
+		};
+		DD44E87A141B1DDF000B7FB8 /* unix */ = {
+			isa = PBXGroup;
+			children = (
+				DD44E87B141B1DDF000B7FB8 /* map.c */,
+				DD44E87C141B1DDF000B7FB8 /* posix.h */,
+			);
+			name = unix;
+			path = libgit2/src/unix;
+			sourceTree = SOURCE_ROOT;
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -569,6 +873,55 @@
 				55C8057D13875C11004DCB0F /* NSData+Git.h in Headers */,
 				55C8057E13875C1B004DCB0F /* NSString+Git.h in Headers */,
 				79262F8B13C69B1600A4B1EA /* git2.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD44E815141B1D40000B7FB8 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD44E8DD141B1E9C000B7FB8 /* git2 in Headers */,
+				DD44E8DE141B1E9C000B7FB8 /* git2.h in Headers */,
+				DD44E882141B1DDF000B7FB8 /* blob.h in Headers */,
+				DD44E883141B1DDF000B7FB8 /* bswap.h in Headers */,
+				DD44E885141B1DDF000B7FB8 /* buffer.h in Headers */,
+				DD44E887141B1DDF000B7FB8 /* cache.h in Headers */,
+				DD44E888141B1DDF000B7FB8 /* cc-compat.h in Headers */,
+				DD44E88A141B1DDF000B7FB8 /* commit.h in Headers */,
+				DD44E88B141B1DDF000B7FB8 /* common.h in Headers */,
+				DD44E88E141B1DDF000B7FB8 /* config.h in Headers */,
+				DD44E890141B1DDF000B7FB8 /* delta-apply.h in Headers */,
+				DD44E891141B1DDF000B7FB8 /* dir.h in Headers */,
+				DD44E894141B1DDF000B7FB8 /* fetch.h in Headers */,
+				DD44E896141B1DDF000B7FB8 /* filebuf.h in Headers */,
+				DD44E898141B1DDF000B7FB8 /* fileops.h in Headers */,
+				DD44E89A141B1DDF000B7FB8 /* hash.h in Headers */,
+				DD44E89C141B1DDF000B7FB8 /* hashtable.h in Headers */,
+				DD44E89E141B1DDF000B7FB8 /* index.h in Headers */,
+				DD44E8A0141B1DDF000B7FB8 /* map.h in Headers */,
+				DD44E8A2141B1DDF000B7FB8 /* mwindow.h in Headers */,
+				DD44E8A4141B1DDF000B7FB8 /* netops.h in Headers */,
+				DD44E8A9141B1DDF000B7FB8 /* odb.h in Headers */,
+				DD44E8AC141B1DDF000B7FB8 /* pack.h in Headers */,
+				DD44E8AE141B1DDF000B7FB8 /* path.h in Headers */,
+				DD44E8B0141B1DDF000B7FB8 /* pkt.h in Headers */,
+				DD44E8B2141B1DDF000B7FB8 /* posix.h in Headers */,
+				DD44E8B7141B1DDF000B7FB8 /* pqueue.h in Headers */,
+				DD44E8B9141B1DDF000B7FB8 /* reflog.h in Headers */,
+				DD44E8BB141B1DDF000B7FB8 /* refs.h in Headers */,
+				DD44E8BD141B1DDF000B7FB8 /* refspec.h in Headers */,
+				DD44E8BF141B1DDF000B7FB8 /* remote.h in Headers */,
+				DD44E8C1141B1DDF000B7FB8 /* repository.h in Headers */,
+				DD44E8C4141B1DDF000B7FB8 /* sha1_lookup.h in Headers */,
+				DD44E8C6141B1DDF000B7FB8 /* sha1.h in Headers */,
+				DD44E8C8141B1DDF000B7FB8 /* signature.h in Headers */,
+				DD44E8CB141B1DDF000B7FB8 /* tag.h in Headers */,
+				DD44E8CD141B1DDF000B7FB8 /* thread-utils.h in Headers */,
+				DD44E8D1141B1DDF000B7FB8 /* transport.h in Headers */,
+				DD44E8D3141B1DDF000B7FB8 /* tree.h in Headers */,
+				DD44E8D6141B1DDF000B7FB8 /* posix.h in Headers */,
+				DD44E8D8141B1DDF000B7FB8 /* util.h in Headers */,
+				DD44E8DA141B1DDF000B7FB8 /* vector.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -651,6 +1004,23 @@
 			productReference = BDD9C3D5133BA556003708E7 /* Tests-iOS.app */;
 			productType = "com.apple.product-type.application";
 		};
+		DD44E816141B1D40000B7FB8 /* libgit2-ios */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DD44E823141B1D40000B7FB8 /* Build configuration list for PBXNativeTarget "libgit2-ios" */;
+			buildPhases = (
+				DD44E815141B1D40000B7FB8 /* Headers */,
+				DD44E813141B1D40000B7FB8 /* Sources */,
+				DD44E814141B1D40000B7FB8 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "libgit2-ios";
+			productName = "libgit2-ios";
+			productReference = DD44E817141B1D40000B7FB8 /* libgit2-ios.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -680,6 +1050,7 @@
 				BDD8AEDE1313311100CB5D40 /* Tests */,
 				04DB4644133AB57600D9C624 /* ObjectiveGit-iOS */,
 				BDD9C3D4133BA556003708E7 /* Tests-iOS */,
+				DD44E816141B1D40000B7FB8 /* libgit2-ios */,
 			);
 		};
 /* End PBXProject section */
@@ -829,6 +1200,60 @@
 				04DB4B0F133BC1A000D9C624 /* GTIndexTest.m in Sources */,
 				04DB4B10133BC1A000D9C624 /* GTReferenceTest.m in Sources */,
 				04DB4B11133BC1A000D9C624 /* GTBranchTest.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD44E813141B1D40000B7FB8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD44E881141B1DDF000B7FB8 /* blob.c in Sources */,
+				DD44E884141B1DDF000B7FB8 /* buffer.c in Sources */,
+				DD44E886141B1DDF000B7FB8 /* cache.c in Sources */,
+				DD44E889141B1DDF000B7FB8 /* commit.c in Sources */,
+				DD44E88C141B1DDF000B7FB8 /* config_file.c in Sources */,
+				DD44E88D141B1DDF000B7FB8 /* config.c in Sources */,
+				DD44E88F141B1DDF000B7FB8 /* delta-apply.c in Sources */,
+				DD44E892141B1DDF000B7FB8 /* errors.c in Sources */,
+				DD44E893141B1DDF000B7FB8 /* fetch.c in Sources */,
+				DD44E895141B1DDF000B7FB8 /* filebuf.c in Sources */,
+				DD44E897141B1DDF000B7FB8 /* fileops.c in Sources */,
+				DD44E899141B1DDF000B7FB8 /* hash.c in Sources */,
+				DD44E89B141B1DDF000B7FB8 /* hashtable.c in Sources */,
+				DD44E89D141B1DDF000B7FB8 /* index.c in Sources */,
+				DD44E89F141B1DDF000B7FB8 /* indexer.c in Sources */,
+				DD44E8A1141B1DDF000B7FB8 /* mwindow.c in Sources */,
+				DD44E8A3141B1DDF000B7FB8 /* netops.c in Sources */,
+				DD44E8A5141B1DDF000B7FB8 /* object.c in Sources */,
+				DD44E8A6141B1DDF000B7FB8 /* odb_loose.c in Sources */,
+				DD44E8A7141B1DDF000B7FB8 /* odb_pack.c in Sources */,
+				DD44E8A8141B1DDF000B7FB8 /* odb.c in Sources */,
+				DD44E8AA141B1DDF000B7FB8 /* oid.c in Sources */,
+				DD44E8AB141B1DDF000B7FB8 /* pack.c in Sources */,
+				DD44E8AD141B1DDF000B7FB8 /* path.c in Sources */,
+				DD44E8AF141B1DDF000B7FB8 /* pkt.c in Sources */,
+				DD44E8B1141B1DDF000B7FB8 /* posix.c in Sources */,
+				DD44E8B6141B1DDF000B7FB8 /* pqueue.c in Sources */,
+				DD44E8B8141B1DDF000B7FB8 /* reflog.c in Sources */,
+				DD44E8BA141B1DDF000B7FB8 /* refs.c in Sources */,
+				DD44E8BC141B1DDF000B7FB8 /* refspec.c in Sources */,
+				DD44E8BE141B1DDF000B7FB8 /* remote.c in Sources */,
+				DD44E8C0141B1DDF000B7FB8 /* repository.c in Sources */,
+				DD44E8C2141B1DDF000B7FB8 /* revwalk.c in Sources */,
+				DD44E8C3141B1DDF000B7FB8 /* sha1_lookup.c in Sources */,
+				DD44E8C5141B1DDF000B7FB8 /* sha1.c in Sources */,
+				DD44E8C7141B1DDF000B7FB8 /* signature.c in Sources */,
+				DD44E8C9141B1DDF000B7FB8 /* status.c in Sources */,
+				DD44E8CA141B1DDF000B7FB8 /* tag.c in Sources */,
+				DD44E8CC141B1DDF000B7FB8 /* thread-utils.c in Sources */,
+				DD44E8CE141B1DDF000B7FB8 /* transport_git.c in Sources */,
+				DD44E8CF141B1DDF000B7FB8 /* transport_local.c in Sources */,
+				DD44E8D0141B1DDF000B7FB8 /* transport.c in Sources */,
+				DD44E8D2141B1DDF000B7FB8 /* tree.c in Sources */,
+				DD44E8D4141B1DDF000B7FB8 /* tsort.c in Sources */,
+				DD44E8D5141B1DDF000B7FB8 /* map.c in Sources */,
+				DD44E8D7141B1DDF000B7FB8 /* util.c in Sources */,
+				DD44E8D9141B1DDF000B7FB8 /* vector.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1154,6 +1579,32 @@
 			};
 			name = Release;
 		};
+		DD44E821141B1D40000B7FB8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				DSTROOT = /tmp/libgit2_ios.dst;
+				EXECUTABLE_PREFIX = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = include;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		DD44E822141B1D40000B7FB8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				DSTROOT = /tmp/libgit2_ios.dst;
+				EXECUTABLE_PREFIX = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = include;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1210,6 +1661,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		DD44E823141B1D40000B7FB8 /* Build configuration list for PBXNativeTarget "libgit2-ios" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DD44E821141B1D40000B7FB8 /* Debug */,
+				DD44E822141B1D40000B7FB8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
