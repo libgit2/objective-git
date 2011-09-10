@@ -77,8 +77,6 @@
 		55C8057E13875C1B004DCB0F /* NSString+Git.h in Headers */ = {isa = PBXBuildFile; fileRef = 55C8057213874CDF004DCB0F /* NSString+Git.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		55C8057F13875C62004DCB0F /* NSData+Git.h in Headers */ = {isa = PBXBuildFile; fileRef = BD6C2266131459E700992935 /* NSData+Git.h */; };
 		55C8058013875C6E004DCB0F /* NSString+Git.h in Headers */ = {isa = PBXBuildFile; fileRef = 55C8057213874CDF004DCB0F /* NSString+Git.h */; };
-		79262F1013C697C100A4B1EA /* git2 in Copy git2 Headers */ = {isa = PBXBuildFile; fileRef = 79262F0E13C697BE00A4B1EA /* git2 */; };
-		79262F8B13C69B1600A4B1EA /* git2.h in Headers */ = {isa = PBXBuildFile; fileRef = 79262F8A13C69B1600A4B1EA /* git2.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8803DA871313145700E6E818 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8803DA861313145700E6E818 /* libz.dylib */; };
 		88F50F59132054D800584FBE /* GTBranch.h in Headers */ = {isa = PBXBuildFile; fileRef = 88F50F56132054D800584FBE /* GTBranch.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88F50F5A132054D800584FBE /* GTBranch.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F50F57132054D800584FBE /* GTBranch.m */; };
@@ -229,8 +227,98 @@
 		DD44E8D8141B1DDF000B7FB8 /* util.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E87E141B1DDF000B7FB8 /* util.h */; };
 		DD44E8D9141B1DDF000B7FB8 /* vector.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E87F141B1DDF000B7FB8 /* vector.c */; };
 		DD44E8DA141B1DDF000B7FB8 /* vector.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E880141B1DDF000B7FB8 /* vector.h */; };
-		DD44E8DD141B1E9C000B7FB8 /* git2 in Headers */ = {isa = PBXBuildFile; fileRef = DD44E8DB141B1E9C000B7FB8 /* git2 */; settings = {ATTRIBUTES = (Public, ); }; };
-		DD44E8DE141B1E9C000B7FB8 /* git2.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E8DC141B1E9C000B7FB8 /* git2.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DD44E8E8141B201F000B7FB8 /* blob.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E826141B1DDF000B7FB8 /* blob.h */; };
+		DD44E8E9141B201F000B7FB8 /* bswap.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E827141B1DDF000B7FB8 /* bswap.h */; };
+		DD44E8EA141B201F000B7FB8 /* buffer.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E829141B1DDF000B7FB8 /* buffer.h */; };
+		DD44E8EB141B201F000B7FB8 /* cache.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E82B141B1DDF000B7FB8 /* cache.h */; };
+		DD44E8EC141B201F000B7FB8 /* cc-compat.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E82C141B1DDF000B7FB8 /* cc-compat.h */; };
+		DD44E8ED141B201F000B7FB8 /* commit.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E82E141B1DDF000B7FB8 /* commit.h */; };
+		DD44E8EE141B201F000B7FB8 /* common.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E82F141B1DDF000B7FB8 /* common.h */; };
+		DD44E8EF141B201F000B7FB8 /* config.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E832141B1DDF000B7FB8 /* config.h */; };
+		DD44E8F0141B201F000B7FB8 /* delta-apply.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E834141B1DDF000B7FB8 /* delta-apply.h */; };
+		DD44E8F1141B201F000B7FB8 /* dir.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E835141B1DDF000B7FB8 /* dir.h */; };
+		DD44E8F2141B201F000B7FB8 /* fetch.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E838141B1DDF000B7FB8 /* fetch.h */; };
+		DD44E8F3141B201F000B7FB8 /* filebuf.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E83A141B1DDF000B7FB8 /* filebuf.h */; };
+		DD44E8F4141B201F000B7FB8 /* fileops.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E83C141B1DDF000B7FB8 /* fileops.h */; };
+		DD44E8F5141B201F000B7FB8 /* hash.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E83E141B1DDF000B7FB8 /* hash.h */; };
+		DD44E8F6141B201F000B7FB8 /* hashtable.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E840141B1DDF000B7FB8 /* hashtable.h */; };
+		DD44E8F7141B201F000B7FB8 /* index.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E842141B1DDF000B7FB8 /* index.h */; };
+		DD44E8F8141B201F000B7FB8 /* map.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E844141B1DDF000B7FB8 /* map.h */; };
+		DD44E8F9141B201F000B7FB8 /* mwindow.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E846141B1DDF000B7FB8 /* mwindow.h */; };
+		DD44E8FA141B201F000B7FB8 /* netops.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E848141B1DDF000B7FB8 /* netops.h */; };
+		DD44E8FB141B201F000B7FB8 /* odb.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E84D141B1DDF000B7FB8 /* odb.h */; };
+		DD44E8FC141B201F000B7FB8 /* pack.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E850141B1DDF000B7FB8 /* pack.h */; };
+		DD44E8FD141B201F000B7FB8 /* path.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E852141B1DDF000B7FB8 /* path.h */; };
+		DD44E8FE141B201F000B7FB8 /* pkt.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E854141B1DDF000B7FB8 /* pkt.h */; };
+		DD44E8FF141B201F000B7FB8 /* posix.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E856141B1DDF000B7FB8 /* posix.h */; };
+		DD44E900141B201F000B7FB8 /* pqueue.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E85C141B1DDF000B7FB8 /* pqueue.h */; };
+		DD44E901141B201F000B7FB8 /* reflog.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E85E141B1DDF000B7FB8 /* reflog.h */; };
+		DD44E902141B201F000B7FB8 /* refs.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E860141B1DDF000B7FB8 /* refs.h */; };
+		DD44E903141B201F000B7FB8 /* refspec.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E862141B1DDF000B7FB8 /* refspec.h */; };
+		DD44E904141B201F000B7FB8 /* remote.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E864141B1DDF000B7FB8 /* remote.h */; };
+		DD44E905141B201F000B7FB8 /* repository.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E866141B1DDF000B7FB8 /* repository.h */; };
+		DD44E906141B201F000B7FB8 /* sha1_lookup.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E869141B1DDF000B7FB8 /* sha1_lookup.h */; };
+		DD44E907141B201F000B7FB8 /* sha1.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E86B141B1DDF000B7FB8 /* sha1.h */; };
+		DD44E908141B201F000B7FB8 /* signature.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E86D141B1DDF000B7FB8 /* signature.h */; };
+		DD44E909141B201F000B7FB8 /* tag.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E870141B1DDF000B7FB8 /* tag.h */; };
+		DD44E90A141B201F000B7FB8 /* thread-utils.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E872141B1DDF000B7FB8 /* thread-utils.h */; };
+		DD44E90B141B201F000B7FB8 /* transport.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E876141B1DDF000B7FB8 /* transport.h */; };
+		DD44E90C141B201F000B7FB8 /* tree.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E878141B1DDF000B7FB8 /* tree.h */; };
+		DD44E90D141B201F000B7FB8 /* posix.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E87C141B1DDF000B7FB8 /* posix.h */; };
+		DD44E90E141B201F000B7FB8 /* util.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E87E141B1DDF000B7FB8 /* util.h */; };
+		DD44E90F141B201F000B7FB8 /* vector.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E880141B1DDF000B7FB8 /* vector.h */; };
+		DD44E911141B201F000B7FB8 /* blob.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E825141B1DDF000B7FB8 /* blob.c */; };
+		DD44E912141B201F000B7FB8 /* buffer.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E828141B1DDF000B7FB8 /* buffer.c */; };
+		DD44E913141B201F000B7FB8 /* cache.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E82A141B1DDF000B7FB8 /* cache.c */; };
+		DD44E914141B201F000B7FB8 /* commit.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E82D141B1DDF000B7FB8 /* commit.c */; };
+		DD44E915141B201F000B7FB8 /* config_file.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E830141B1DDF000B7FB8 /* config_file.c */; };
+		DD44E916141B201F000B7FB8 /* config.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E831141B1DDF000B7FB8 /* config.c */; };
+		DD44E917141B201F000B7FB8 /* delta-apply.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E833141B1DDF000B7FB8 /* delta-apply.c */; };
+		DD44E918141B201F000B7FB8 /* errors.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E836141B1DDF000B7FB8 /* errors.c */; };
+		DD44E919141B201F000B7FB8 /* fetch.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E837141B1DDF000B7FB8 /* fetch.c */; };
+		DD44E91A141B201F000B7FB8 /* filebuf.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E839141B1DDF000B7FB8 /* filebuf.c */; };
+		DD44E91B141B201F000B7FB8 /* fileops.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E83B141B1DDF000B7FB8 /* fileops.c */; };
+		DD44E91C141B201F000B7FB8 /* hash.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E83D141B1DDF000B7FB8 /* hash.c */; };
+		DD44E91D141B201F000B7FB8 /* hashtable.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E83F141B1DDF000B7FB8 /* hashtable.c */; };
+		DD44E91E141B201F000B7FB8 /* index.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E841141B1DDF000B7FB8 /* index.c */; };
+		DD44E91F141B201F000B7FB8 /* indexer.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E843141B1DDF000B7FB8 /* indexer.c */; };
+		DD44E920141B201F000B7FB8 /* mwindow.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E845141B1DDF000B7FB8 /* mwindow.c */; };
+		DD44E921141B201F000B7FB8 /* netops.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E847141B1DDF000B7FB8 /* netops.c */; };
+		DD44E922141B201F000B7FB8 /* object.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E849141B1DDF000B7FB8 /* object.c */; };
+		DD44E923141B201F000B7FB8 /* odb_loose.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E84A141B1DDF000B7FB8 /* odb_loose.c */; };
+		DD44E924141B201F000B7FB8 /* odb_pack.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E84B141B1DDF000B7FB8 /* odb_pack.c */; };
+		DD44E925141B201F000B7FB8 /* odb.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E84C141B1DDF000B7FB8 /* odb.c */; };
+		DD44E926141B201F000B7FB8 /* oid.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E84E141B1DDF000B7FB8 /* oid.c */; };
+		DD44E927141B201F000B7FB8 /* pack.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E84F141B1DDF000B7FB8 /* pack.c */; };
+		DD44E928141B201F000B7FB8 /* path.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E851141B1DDF000B7FB8 /* path.c */; };
+		DD44E929141B201F000B7FB8 /* pkt.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E853141B1DDF000B7FB8 /* pkt.c */; };
+		DD44E92A141B201F000B7FB8 /* posix.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E855141B1DDF000B7FB8 /* posix.c */; };
+		DD44E92B141B201F000B7FB8 /* pqueue.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E85B141B1DDF000B7FB8 /* pqueue.c */; };
+		DD44E92C141B201F000B7FB8 /* reflog.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E85D141B1DDF000B7FB8 /* reflog.c */; };
+		DD44E92D141B201F000B7FB8 /* refs.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E85F141B1DDF000B7FB8 /* refs.c */; };
+		DD44E92E141B201F000B7FB8 /* refspec.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E861141B1DDF000B7FB8 /* refspec.c */; };
+		DD44E92F141B201F000B7FB8 /* remote.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E863141B1DDF000B7FB8 /* remote.c */; };
+		DD44E930141B201F000B7FB8 /* repository.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E865141B1DDF000B7FB8 /* repository.c */; };
+		DD44E931141B201F000B7FB8 /* revwalk.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E867141B1DDF000B7FB8 /* revwalk.c */; };
+		DD44E932141B201F000B7FB8 /* sha1_lookup.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E868141B1DDF000B7FB8 /* sha1_lookup.c */; };
+		DD44E933141B201F000B7FB8 /* sha1.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E86A141B1DDF000B7FB8 /* sha1.c */; };
+		DD44E934141B201F000B7FB8 /* signature.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E86C141B1DDF000B7FB8 /* signature.c */; };
+		DD44E935141B201F000B7FB8 /* status.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E86E141B1DDF000B7FB8 /* status.c */; };
+		DD44E936141B201F000B7FB8 /* tag.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E86F141B1DDF000B7FB8 /* tag.c */; };
+		DD44E937141B201F000B7FB8 /* thread-utils.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E871141B1DDF000B7FB8 /* thread-utils.c */; };
+		DD44E938141B201F000B7FB8 /* transport_git.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E873141B1DDF000B7FB8 /* transport_git.c */; };
+		DD44E939141B201F000B7FB8 /* transport_local.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E874141B1DDF000B7FB8 /* transport_local.c */; };
+		DD44E93A141B201F000B7FB8 /* transport.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E875141B1DDF000B7FB8 /* transport.c */; };
+		DD44E93B141B201F000B7FB8 /* tree.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E877141B1DDF000B7FB8 /* tree.c */; };
+		DD44E93C141B201F000B7FB8 /* tsort.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E879141B1DDF000B7FB8 /* tsort.c */; };
+		DD44E93D141B201F000B7FB8 /* map.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E87B141B1DDF000B7FB8 /* map.c */; };
+		DD44E93E141B201F000B7FB8 /* util.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E87D141B1DDF000B7FB8 /* util.c */; };
+		DD44E93F141B201F000B7FB8 /* vector.c in Sources */ = {isa = PBXBuildFile; fileRef = DD44E87F141B1DDF000B7FB8 /* vector.c */; };
+		DD44E94B141B2300000B7FB8 /* libgit2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DD44E944141B201F000B7FB8 /* libgit2.a */; };
+		DD44E957141B2446000B7FB8 /* git2 in Headers */ = {isa = PBXBuildFile; fileRef = DD44E955141B2446000B7FB8 /* git2 */; settings = {ATTRIBUTES = (Public, ); }; };
+		DD44E958141B2446000B7FB8 /* git2.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E956141B2446000B7FB8 /* git2.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DD44E959141B2494000B7FB8 /* git2.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E956141B2446000B7FB8 /* git2.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DD44E95A141B2494000B7FB8 /* git2 in Headers */ = {isa = PBXBuildFile; fileRef = DD44E955141B2446000B7FB8 /* git2 */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -255,6 +343,13 @@
 			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = ObjectiveGit;
 		};
+		DD44E94D141B236F000B7FB8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DD44E8E4141B201F000B7FB8;
+			remoteInfo = libgit2;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -264,7 +359,6 @@
 			dstPath = Headers;
 			dstSubfolderSpec = 1;
 			files = (
-				79262F1013C697C100A4B1EA /* git2 in Copy git2 Headers */,
 			);
 			name = "Copy git2 Headers";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -313,8 +407,6 @@
 		55C8054D13861F34004DCB0F /* GTObjectDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = GTObjectDatabase.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		55C8057213874CDF004DCB0F /* NSString+Git.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Git.h"; sourceTree = "<group>"; };
 		55C8057313874CDF004DCB0F /* NSString+Git.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Git.m"; sourceTree = "<group>"; };
-		79262F0E13C697BE00A4B1EA /* git2 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = git2; path = libgit2/include/git2; sourceTree = "<group>"; };
-		79262F8A13C69B1600A4B1EA /* git2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = git2.h; path = libgit2/include/git2.h; sourceTree = "<group>"; };
 		79762AC013C69129000EDD32 /* GTLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTLog.h; sourceTree = "<group>"; };
 		8803DA861313145700E6E818 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		88F50F56132054D800584FBE /* GTBranch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTBranch.h; sourceTree = "<group>"; };
@@ -469,8 +561,9 @@
 		DD44E87E141B1DDF000B7FB8 /* util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = util.h; path = libgit2/src/util.h; sourceTree = SOURCE_ROOT; };
 		DD44E87F141B1DDF000B7FB8 /* vector.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = vector.c; path = libgit2/src/vector.c; sourceTree = SOURCE_ROOT; };
 		DD44E880141B1DDF000B7FB8 /* vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = vector.h; path = libgit2/src/vector.h; sourceTree = SOURCE_ROOT; };
-		DD44E8DB141B1E9C000B7FB8 /* git2 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = git2; path = libgit2/include/git2; sourceTree = "<group>"; };
-		DD44E8DC141B1E9C000B7FB8 /* git2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = git2.h; path = libgit2/include/git2.h; sourceTree = "<group>"; };
+		DD44E944141B201F000B7FB8 /* libgit2.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libgit2.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD44E955141B2446000B7FB8 /* git2 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = git2; path = libgit2/include/git2; sourceTree = "<group>"; };
+		DD44E956141B2446000B7FB8 /* git2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = git2.h; path = libgit2/include/git2.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -486,6 +579,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD44E94B141B2300000B7FB8 /* libgit2.a in Frameworks */,
 				8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */,
 				8803DA871313145700E6E818 /* libz.dylib in Frameworks */,
 			);
@@ -520,6 +614,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DD44E940141B201F000B7FB8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -531,6 +632,7 @@
 				04DB4645133AB57600D9C624 /* libObjectiveGit-iOS.a */,
 				BDD9C3D5133BA556003708E7 /* Tests-iOS.app */,
 				DD44E817141B1D40000B7FB8 /* libgit2-ios.a */,
+				DD44E944141B201F000B7FB8 /* libgit2.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -538,8 +640,6 @@
 		0867D691FE84028FC02AAC07 /* ObjectiveGitFramework */ = {
 			isa = PBXGroup;
 			children = (
-				DD44E8DB141B1E9C000B7FB8 /* git2 */,
-				DD44E8DC141B1E9C000B7FB8 /* git2.h */,
 				BDD8AB01130F01AB00CB5D40 /* README.md */,
 				BDE4C05E130EFE2C00851650 /* Classes */,
 				BDD8AF27131332B000CB5D40 /* Tests */,
@@ -596,8 +696,8 @@
 		32C88DFF0371C24200C91783 /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				79262F8A13C69B1600A4B1EA /* git2.h */,
-				79262F0E13C697BE00A4B1EA /* git2 */,
+				DD44E956141B2446000B7FB8 /* git2.h */,
+				DD44E955141B2446000B7FB8 /* git2 */,
 				88F6D9D81320451F00CC0BA8 /* ObjectiveGit.h */,
 				BDD8AF18131331F800CB5D40 /* GHUnitTestMain.m */,
 				BDD9C486133BA73E003708E7 /* GHUnitIOSTestMain.m */,
@@ -872,7 +972,6 @@
 				BDE4C064130EFE2C00851650 /* NSError+Git.h in Headers */,
 				55C8057D13875C11004DCB0F /* NSData+Git.h in Headers */,
 				55C8057E13875C1B004DCB0F /* NSString+Git.h in Headers */,
-				79262F8B13C69B1600A4B1EA /* git2.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -880,8 +979,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD44E8DD141B1E9C000B7FB8 /* git2 in Headers */,
-				DD44E8DE141B1E9C000B7FB8 /* git2.h in Headers */,
+				DD44E957141B2446000B7FB8 /* git2 in Headers */,
+				DD44E958141B2446000B7FB8 /* git2.h in Headers */,
 				DD44E882141B1DDF000B7FB8 /* blob.h in Headers */,
 				DD44E883141B1DDF000B7FB8 /* bswap.h in Headers */,
 				DD44E885141B1DDF000B7FB8 /* buffer.h in Headers */,
@@ -925,6 +1024,55 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DD44E8E5141B201F000B7FB8 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD44E959141B2494000B7FB8 /* git2.h in Headers */,
+				DD44E95A141B2494000B7FB8 /* git2 in Headers */,
+				DD44E8E8141B201F000B7FB8 /* blob.h in Headers */,
+				DD44E8E9141B201F000B7FB8 /* bswap.h in Headers */,
+				DD44E8EA141B201F000B7FB8 /* buffer.h in Headers */,
+				DD44E8EB141B201F000B7FB8 /* cache.h in Headers */,
+				DD44E8EC141B201F000B7FB8 /* cc-compat.h in Headers */,
+				DD44E8ED141B201F000B7FB8 /* commit.h in Headers */,
+				DD44E8EE141B201F000B7FB8 /* common.h in Headers */,
+				DD44E8EF141B201F000B7FB8 /* config.h in Headers */,
+				DD44E8F0141B201F000B7FB8 /* delta-apply.h in Headers */,
+				DD44E8F1141B201F000B7FB8 /* dir.h in Headers */,
+				DD44E8F2141B201F000B7FB8 /* fetch.h in Headers */,
+				DD44E8F3141B201F000B7FB8 /* filebuf.h in Headers */,
+				DD44E8F4141B201F000B7FB8 /* fileops.h in Headers */,
+				DD44E8F5141B201F000B7FB8 /* hash.h in Headers */,
+				DD44E8F6141B201F000B7FB8 /* hashtable.h in Headers */,
+				DD44E8F7141B201F000B7FB8 /* index.h in Headers */,
+				DD44E8F8141B201F000B7FB8 /* map.h in Headers */,
+				DD44E8F9141B201F000B7FB8 /* mwindow.h in Headers */,
+				DD44E8FA141B201F000B7FB8 /* netops.h in Headers */,
+				DD44E8FB141B201F000B7FB8 /* odb.h in Headers */,
+				DD44E8FC141B201F000B7FB8 /* pack.h in Headers */,
+				DD44E8FD141B201F000B7FB8 /* path.h in Headers */,
+				DD44E8FE141B201F000B7FB8 /* pkt.h in Headers */,
+				DD44E8FF141B201F000B7FB8 /* posix.h in Headers */,
+				DD44E900141B201F000B7FB8 /* pqueue.h in Headers */,
+				DD44E901141B201F000B7FB8 /* reflog.h in Headers */,
+				DD44E902141B201F000B7FB8 /* refs.h in Headers */,
+				DD44E903141B201F000B7FB8 /* refspec.h in Headers */,
+				DD44E904141B201F000B7FB8 /* remote.h in Headers */,
+				DD44E905141B201F000B7FB8 /* repository.h in Headers */,
+				DD44E906141B201F000B7FB8 /* sha1_lookup.h in Headers */,
+				DD44E907141B201F000B7FB8 /* sha1.h in Headers */,
+				DD44E908141B201F000B7FB8 /* signature.h in Headers */,
+				DD44E909141B201F000B7FB8 /* tag.h in Headers */,
+				DD44E90A141B201F000B7FB8 /* thread-utils.h in Headers */,
+				DD44E90B141B201F000B7FB8 /* transport.h in Headers */,
+				DD44E90C141B201F000B7FB8 /* tree.h in Headers */,
+				DD44E90D141B201F000B7FB8 /* posix.h in Headers */,
+				DD44E90E141B201F000B7FB8 /* util.h in Headers */,
+				DD44E90F141B201F000B7FB8 /* vector.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -958,6 +1106,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				DD44E94E141B236F000B7FB8 /* PBXTargetDependency */,
 			);
 			name = ObjectiveGit;
 			productInstallPath = "$(HOME)/Library/Frameworks";
@@ -1021,6 +1170,23 @@
 			productReference = DD44E817141B1D40000B7FB8 /* libgit2-ios.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		DD44E8E4141B201F000B7FB8 /* libgit2 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DD44E941141B201F000B7FB8 /* Build configuration list for PBXNativeTarget "libgit2" */;
+			buildPhases = (
+				DD44E8E5141B201F000B7FB8 /* Headers */,
+				DD44E910141B201F000B7FB8 /* Sources */,
+				DD44E940141B201F000B7FB8 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = libgit2;
+			productName = "libgit2-ios";
+			productReference = DD44E944141B201F000B7FB8 /* libgit2.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1051,6 +1217,7 @@
 				04DB4644133AB57600D9C624 /* ObjectiveGit-iOS */,
 				BDD9C3D4133BA556003708E7 /* Tests-iOS */,
 				DD44E816141B1D40000B7FB8 /* libgit2-ios */,
+				DD44E8E4141B201F000B7FB8 /* libgit2 */,
 			);
 		};
 /* End PBXProject section */
@@ -1257,6 +1424,60 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DD44E910141B201F000B7FB8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD44E911141B201F000B7FB8 /* blob.c in Sources */,
+				DD44E912141B201F000B7FB8 /* buffer.c in Sources */,
+				DD44E913141B201F000B7FB8 /* cache.c in Sources */,
+				DD44E914141B201F000B7FB8 /* commit.c in Sources */,
+				DD44E915141B201F000B7FB8 /* config_file.c in Sources */,
+				DD44E916141B201F000B7FB8 /* config.c in Sources */,
+				DD44E917141B201F000B7FB8 /* delta-apply.c in Sources */,
+				DD44E918141B201F000B7FB8 /* errors.c in Sources */,
+				DD44E919141B201F000B7FB8 /* fetch.c in Sources */,
+				DD44E91A141B201F000B7FB8 /* filebuf.c in Sources */,
+				DD44E91B141B201F000B7FB8 /* fileops.c in Sources */,
+				DD44E91C141B201F000B7FB8 /* hash.c in Sources */,
+				DD44E91D141B201F000B7FB8 /* hashtable.c in Sources */,
+				DD44E91E141B201F000B7FB8 /* index.c in Sources */,
+				DD44E91F141B201F000B7FB8 /* indexer.c in Sources */,
+				DD44E920141B201F000B7FB8 /* mwindow.c in Sources */,
+				DD44E921141B201F000B7FB8 /* netops.c in Sources */,
+				DD44E922141B201F000B7FB8 /* object.c in Sources */,
+				DD44E923141B201F000B7FB8 /* odb_loose.c in Sources */,
+				DD44E924141B201F000B7FB8 /* odb_pack.c in Sources */,
+				DD44E925141B201F000B7FB8 /* odb.c in Sources */,
+				DD44E926141B201F000B7FB8 /* oid.c in Sources */,
+				DD44E927141B201F000B7FB8 /* pack.c in Sources */,
+				DD44E928141B201F000B7FB8 /* path.c in Sources */,
+				DD44E929141B201F000B7FB8 /* pkt.c in Sources */,
+				DD44E92A141B201F000B7FB8 /* posix.c in Sources */,
+				DD44E92B141B201F000B7FB8 /* pqueue.c in Sources */,
+				DD44E92C141B201F000B7FB8 /* reflog.c in Sources */,
+				DD44E92D141B201F000B7FB8 /* refs.c in Sources */,
+				DD44E92E141B201F000B7FB8 /* refspec.c in Sources */,
+				DD44E92F141B201F000B7FB8 /* remote.c in Sources */,
+				DD44E930141B201F000B7FB8 /* repository.c in Sources */,
+				DD44E931141B201F000B7FB8 /* revwalk.c in Sources */,
+				DD44E932141B201F000B7FB8 /* sha1_lookup.c in Sources */,
+				DD44E933141B201F000B7FB8 /* sha1.c in Sources */,
+				DD44E934141B201F000B7FB8 /* signature.c in Sources */,
+				DD44E935141B201F000B7FB8 /* status.c in Sources */,
+				DD44E936141B201F000B7FB8 /* tag.c in Sources */,
+				DD44E937141B201F000B7FB8 /* thread-utils.c in Sources */,
+				DD44E938141B201F000B7FB8 /* transport_git.c in Sources */,
+				DD44E939141B201F000B7FB8 /* transport_local.c in Sources */,
+				DD44E93A141B201F000B7FB8 /* transport.c in Sources */,
+				DD44E93B141B201F000B7FB8 /* tree.c in Sources */,
+				DD44E93C141B201F000B7FB8 /* tsort.c in Sources */,
+				DD44E93D141B201F000B7FB8 /* map.c in Sources */,
+				DD44E93E141B201F000B7FB8 /* util.c in Sources */,
+				DD44E93F141B201F000B7FB8 /* vector.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1274,6 +1495,11 @@
 			isa = PBXTargetDependency;
 			target = 8DC2EF4F0486A6940098B216 /* ObjectiveGit */;
 			targetProxy = BDE4BE47130EF84900851650 /* PBXContainerItemProxy */;
+		};
+		DD44E94E141B236F000B7FB8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DD44E8E4141B201F000B7FB8 /* libgit2 */;
+			targetProxy = DD44E94D141B236F000B7FB8 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1605,6 +1831,28 @@
 			};
 			name = Release;
 		};
+		DD44E942141B201F000B7FB8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/libgit2.dst;
+				EXECUTABLE_PREFIX = "";
+				PRODUCT_NAME = libgit2;
+				PUBLIC_HEADERS_FOLDER_PATH = include;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		DD44E943141B201F000B7FB8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/libgit2.dst;
+				EXECUTABLE_PREFIX = "";
+				PRODUCT_NAME = libgit2;
+				PUBLIC_HEADERS_FOLDER_PATH = include;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1669,6 +1917,16 @@
 				DD44E822141B1D40000B7FB8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DD44E941141B201F000B7FB8 /* Build configuration list for PBXNativeTarget "libgit2" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DD44E942141B201F000B7FB8 /* Debug */,
+				DD44E943141B201F000B7FB8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
