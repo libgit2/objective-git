@@ -77,10 +77,13 @@
 						   error:(NSError **)error {
 	
 	NSUInteger count = theParents ? theParents.count : 0;
-	git_commit const *parentCommits[count];
-	for (NSUInteger i = 0; i < count; i++){
-		parentCommits[i] = ((GTCommit *)[theParents objectAtIndex:i]).commit;
-	}
+    git_commit const *parentCommits[0];
+    if (count) {
+        git_commit const *parentCommits[count];
+        for (NSUInteger i = 0; i < count; i++) {
+            parentCommits[i] = ((GTCommit *)[theParents objectAtIndex:i]).commit;
+        }
+    }
 	
 	git_oid oid;
 	int gitError = git_commit_create(
@@ -141,7 +144,7 @@
 - (GTSignature *)author {
 	
 	if(author == nil) {
-		author = [[GTSignature signatureWithSig:(git_signature *)git_commit_author(self.commit)] retain];
+		author = [GTSignature signatureWithSig:(git_signature *)git_commit_author(self.commit)];
 	}
 	return author;
 }
@@ -149,7 +152,7 @@
 - (GTSignature *)committer {
 	
 	if(committer == nil) {
-		committer = [[GTSignature signatureWithSig:(git_signature *)git_commit_committer(self.commit)] retain];
+		committer = [GTSignature signatureWithSig:(git_signature *)git_commit_committer(self.commit)];
 	}
 	return committer;
 }
@@ -178,17 +181,10 @@
             [rents addObject:(GTCommit *)[GTObject objectWithObj:(git_object *)parent inRepository:self.repository]];
 		}
 		
-		parents = [[NSArray arrayWithArray:rents] retain];
+		parents = [NSArray arrayWithArray:rents];
 	}
 	return parents;
 }
 
-- (void)dealloc
-{
-    [parents release];
-    [committer release];
-    [author release];
-    [super dealloc];
-}
 
 @end

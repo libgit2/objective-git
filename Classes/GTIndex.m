@@ -38,12 +38,6 @@
   return [NSString stringWithFormat:@"<%@: %p> path: %@, entryCount: %i", NSStringFromClass([self class]), self, self.path, self.entryCount];
 }
 
-- (void)dealloc {
-	
-	//git_index_free(self.index);
-	self.path = nil;
-	[super dealloc];
-}
 
 #pragma mark -
 #pragma mark API
@@ -61,7 +55,6 @@
 		if(gitError < GIT_SUCCESS) {
 			if(error != NULL)
 				*error = [NSError git_errorFor:gitError withDescription:@"Failed to initialize index."];
-            [self release];
 			return nil;
 		}
 		self.index = i;
@@ -70,7 +63,7 @@
 }
 + (id)indexWithPath:(NSURL *)localFileUrl error:(NSError **)error {
 	
-	return [[[self alloc] initWithPath:localFileUrl error:error] autorelease];
+	return [[self alloc] initWithPath:localFileUrl error:error];
 }
 
 - (id)initWithGitIndex:(git_index *)theIndex; {
@@ -82,7 +75,7 @@
 }
 + (id)indexWithGitIndex:(git_index *)theIndex {
 	
-	return [[[self alloc] initWithGitIndex:theIndex] autorelease];
+	return [[self alloc] initWithGitIndex:theIndex];
 }
 
 - (NSInteger)entryCount {

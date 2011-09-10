@@ -37,7 +37,7 @@
 
 @interface GTTreeEntry()
 @property (nonatomic, assign) const git_tree_entry *entry;
-@property (nonatomic, assign) GTTree *tree;
+@property (nonatomic, weak) GTTree *tree;
 @end
 
 @implementation GTTreeEntry
@@ -49,7 +49,6 @@
 - (void)dealloc {
 	
 	self.tree = nil;
-	[super dealloc];
 }
 
 #pragma mark -
@@ -68,7 +67,7 @@
 
 + (id)entryWithEntry:(const git_tree_entry *)theEntry parentTree:(GTTree *)parent {
 	
-	return [[[self alloc] initWithEntry:theEntry parentTree:parent] autorelease];
+	return [[self alloc] initWithEntry:theEntry parentTree:parent];
 }
 
 - (NSString *)name {
@@ -99,7 +98,7 @@
 @implementation GTObject (GTTreeEntry)
 
 + (id)objectWithTreeEntry:(GTTreeEntry *)treeEntry error:(NSError **)error {
-    return [[[self alloc] initWithTreeEntry:treeEntry error:error] autorelease];
+    return [[self alloc] initWithTreeEntry:treeEntry error:error];
 }
 
 - (id)initWithTreeEntry:(GTTreeEntry *)treeEntry error:(NSError **)error {
@@ -109,7 +108,6 @@
         if (error != NULL) {
             *error = [NSError git_errorFor:gitError withDescription:@"Failed to get object for tree entry."];
         }
-        [self release];
         return nil;
     }
     

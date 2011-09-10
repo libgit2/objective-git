@@ -30,8 +30,8 @@
 
 
 @interface GTBranch ()
-@property (nonatomic, retain) GTReference *reference;
-@property (nonatomic, assign) GTRepository *repository;
+@property (nonatomic, strong) GTReference *reference;
+@property (nonatomic, weak) GTRepository *repository;
 @end
 
 @implementation GTBranch
@@ -40,12 +40,6 @@
   return [NSString stringWithFormat:@"<%@: %p> name: %@, shortName: %@, sha: %@, remoteName: %@, repository: %@", NSStringFromClass([self class]), self, self.name, self.shortName, self.sha, self.remoteName, self.repository];
 }
 
-- (void)dealloc {
-
-    self.reference = nil;
-    self.remoteBranches = nil;
-	[super dealloc];
-}
 
 + (NSString *)localNamePrefix {
 	
@@ -85,7 +79,6 @@
 	if((self = [super init])) {
 		self.reference = [GTReference referenceByLookingUpReferencedNamed:branchName inRepository:repo error:error];
 		if(self.reference == nil) {
-            [self release];
             return nil;
         }
 		
@@ -95,7 +88,7 @@
 }
 + (id)branchWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error {
 	
-	return [[[self alloc] initWithName:branchName repository:repo error:error] autorelease];
+	return [[self alloc] initWithName:branchName repository:repo error:error];
 }
 
 - (id)initWithReference:(GTReference *)ref repository:(GTRepository *)repo {
@@ -108,7 +101,7 @@
 }
 + (id)branchWithReference:(GTReference *)ref repository:(GTRepository *)repo {
 	
-	return [[[self alloc] initWithReference:ref repository:repo] autorelease];
+	return [[self alloc] initWithReference:ref repository:repo];
 }
 
 - (NSString *)name {
@@ -163,7 +156,7 @@
 	
 	static NSArray *unwantedRemoteBranches = nil;
 	if(unwantedRemoteBranches == nil) {
-		unwantedRemoteBranches = [[NSArray arrayWithObjects:@"HEAD", nil] retain];
+		unwantedRemoteBranches = [NSArray arrayWithObjects:@"HEAD", nil];
 	}
 	
 	NSArray *remoteBranches = [self branchesInRepository:repo withPrefix:[self remoteNamePrefix] error:error];
