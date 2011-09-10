@@ -319,6 +319,7 @@
 		DD44E958141B2446000B7FB8 /* git2.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E956141B2446000B7FB8 /* git2.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DD44E959141B2494000B7FB8 /* git2.h in Headers */ = {isa = PBXBuildFile; fileRef = DD44E956141B2446000B7FB8 /* git2.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DD44E95A141B2494000B7FB8 /* git2 in Headers */ = {isa = PBXBuildFile; fileRef = DD44E955141B2446000B7FB8 /* git2 */; settings = {ATTRIBUTES = (Public, ); }; };
+		DD44E95E141B2839000B7FB8 /* libgit2-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DD44E817141B1D40000B7FB8 /* libgit2-ios.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -349,6 +350,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = DD44E8E4141B201F000B7FB8;
 			remoteInfo = libgit2;
+		};
+		DD44E95B141B2819000B7FB8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DD44E816141B1D40000B7FB8;
+			remoteInfo = "libgit2-ios";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -571,6 +579,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD44E95E141B2839000B7FB8 /* libgit2-ios.a in Frameworks */,
 				04DB4672133AB5FE00D9C624 /* libz.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1087,6 +1096,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				DD44E95C141B2819000B7FB8 /* PBXTargetDependency */,
 			);
 			name = "ObjectiveGit-iOS";
 			productName = "ObjectiveGit-iOS";
@@ -1501,6 +1511,11 @@
 			target = DD44E8E4141B201F000B7FB8 /* libgit2 */;
 			targetProxy = DD44E94D141B236F000B7FB8 /* PBXContainerItemProxy */;
 		};
+		DD44E95C141B2819000B7FB8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DD44E816141B1D40000B7FB8 /* libgit2-ios */;
+			targetProxy = DD44E95B141B2819000B7FB8 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -1518,22 +1533,12 @@
 		04DB4646133AB57600D9C624 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Frameworks\"",
-				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREFIX_HEADER = ObjectiveGitFramework_Prefix.pch;
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/libgit2/include";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/libgit2/lib\"",
-				);
 				PRODUCT_NAME = "ObjectiveGit-iOS";
 				SDKROOT = iphoneos;
 			};
@@ -1542,21 +1547,11 @@
 		04DB4647133AB57600D9C624 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Frameworks\"",
-				);
 				GCC_PREFIX_HEADER = ObjectiveGitFramework_Prefix.pch;
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/libgit2/include";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/libgit2/lib\"",
-				);
 				PRODUCT_NAME = "ObjectiveGit-iOS";
 				SDKROOT = iphoneos;
 				ZERO_LINK = NO;
