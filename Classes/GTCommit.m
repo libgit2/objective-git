@@ -89,6 +89,7 @@
 									   refName ? [refName UTF8String] : NULL, 
 									   authorSig.sig, 
 									   committerSig.sig, 
+									   NULL,
 									   newMessage ? [newMessage UTF8String] : "", 
 									   theTree.tree, 
 									   (int)count, 
