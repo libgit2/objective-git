@@ -12,6 +12,7 @@
 //  appreciated but not required.
 //
 
+#import <Foundation/Foundation.h>
 #import <git2.h>
 
 void *git_NewBase64Decode(
