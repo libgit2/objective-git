@@ -412,4 +412,9 @@
 	return self;
 }
 
+- (BOOL) isBare
+{
+	return repo && git_repository_is_bare(repo);
+}
+
 @end
