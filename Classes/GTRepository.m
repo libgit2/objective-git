@@ -215,7 +215,7 @@
 	return [self lookupObjectBySha:sha objectType:GTObjectTypeAny error:error];
 }
 
-- (BOOL)enumerateCommitsBeginningAtSha:(NSString *)sha sortOptions:(GTEnumeratorOptions)options error:(NSError **)error usingBlock:(void (^)(GTCommit *, BOOL *))block {
+- (BOOL)enumerateCommitsBeginningAtSha:(NSString *)sha sortOptions:(GTEnumeratorOptions)options error:(NSError **)error usingBlock:(void (^)(GTCommit *commit, BOOL *stop))block {
     
 	if(block == nil) {
 		if(error != NULL)
@@ -248,7 +248,7 @@
 	return *error == nil;
 }
 
-- (BOOL)enumerateCommitsBeginningAtSha:(NSString *)sha error:(NSError **)error usingBlock:(void (^)(GTCommit *, BOOL *))block; {
+- (BOOL)enumerateCommitsBeginningAtSha:(NSString *)sha error:(NSError **)error usingBlock:(void (^)(GTCommit *commit, BOOL *stop))block; {
     
 	return [self enumerateCommitsBeginningAtSha:sha sortOptions:GTEnumeratorOptionsTimeSort error:error usingBlock:block];
 }
@@ -263,6 +263,20 @@
 		}
     }];
     return passingCommits;
+}
+
+- (NSArray *)selectCommitsBeginningAtSha:(NSString *)sha sortOptions:(GTEnumeratorOptions)options error:(NSError **)error block:(BOOL (^)(GTCommit *commit, BOOL *stop))block {
+	
+	NSMutableArray *passingCommits = [NSMutableArray array];
+    [self enumerateCommitsBeginningAtSha:sha sortOptions:options error:error usingBlock:^(GTCommit *commit, BOOL *stop) {
+		
+		BOOL passes = block(commit, stop);
+		if(passes) {
+			[passingCommits addObject:commit];
+		}
+    }];
+    return [[passingCommits copy] autorelease];
+	
 }
 
 - (BOOL)setupIndexWithError:(NSError **)error {
