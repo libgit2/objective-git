@@ -65,10 +65,14 @@
 - (GTObject *)lookupObjectBySha:(NSString *)sha objectType:(GTObjectType)type error:(NSError **)error;
 - (GTObject *)lookupObjectBySha:(NSString *)sha error:(NSError **)error;
 
-- (BOOL)enumerateCommitsBeginningAtSha:(NSString *)sha sortOptions:(GTEnumeratorOptions)options error:(NSError **)error usingBlock:(void (^)(GTCommit *, BOOL *))block;
-- (BOOL)enumerateCommitsBeginningAtSha:(NSString *)sha error:(NSError **)error usingBlock:(void (^)(GTCommit *, BOOL *))block;
+// Enumerate the commits in the repo with a default sortOption of GTEnumeratorOptionsTimeSort
+- (BOOL)enumerateCommitsBeginningAtSha:(NSString *)sha sortOptions:(GTEnumeratorOptions)options error:(NSError **)error usingBlock:(void (^)(GTCommit *commit, BOOL *stop))block;
+- (BOOL)enumerateCommitsBeginningAtSha:(NSString *)sha error:(NSError **)error usingBlock:(void (^)(GTCommit *commit, BOOL *stop))block;
 
+// filter enumerated commits in the repo with a default sort option of GTEnumeratorOptionsTimeSort
 - (NSArray *)selectCommitsBeginningAtSha:(NSString *)sha error:(NSError **)error block:(BOOL (^)(GTCommit *commit, BOOL *stop))block;
+- (NSArray *)selectCommitsBeginningAtSha:(NSString *)sha sortOptions:(GTEnumeratorOptions)options error:(NSError **)error block:(BOOL (^)(GTCommit *commit, BOOL *stop))block;
+
 
 - (BOOL)setupIndexWithError:(NSError **)error;
 
