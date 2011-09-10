@@ -109,9 +109,8 @@
 }
 
 - (NSString *)shortMessage {
-	
-	const char *s = git_commit_message_short(self.commit);
-	return [NSString stringWithUTF8String:s];
+    NSArray *lines = [[self message] componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+    return [lines objectAtIndex:0];
 }
 
 - (NSString *)messageDetails {
