@@ -117,7 +117,6 @@
 		BDD62921131C035500DE34D1 /* GTTagTest.m in Sources */ = {isa = PBXBuildFile; fileRef = BDD62920131C035500DE34D1 /* GTTagTest.m */; };
 		BDD62924131C03D600DE34D1 /* GTTag.h in Headers */ = {isa = PBXBuildFile; fileRef = BDD62922131C03D600DE34D1 /* GTTag.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BDD62925131C03D600DE34D1 /* GTTag.m in Sources */ = {isa = PBXBuildFile; fileRef = BDD62923131C03D600DE34D1 /* GTTag.m */; };
-		BDD8AD65131311ED00CB5D40 /* libgit2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BDD8AD64131311ED00CB5D40 /* libgit2.a */; };
 		BDD8AE6F13131B8800CB5D40 /* GTEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = BDD8AE6D13131B8800CB5D40 /* GTEnumerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BDD8AE7013131B8800CB5D40 /* GTEnumerator.m in Sources */ = {isa = PBXBuildFile; fileRef = BDD8AE6E13131B8800CB5D40 /* GTEnumerator.m */; };
 		BDD8AF19131331F800CB5D40 /* GHUnitTestMain.m in Sources */ = {isa = PBXBuildFile; fileRef = BDD8AF18131331F800CB5D40 /* GHUnitTestMain.m */; };
@@ -130,7 +129,6 @@
 		BDD9C3FE133BA604003708E7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDD9C3FD133BA604003708E7 /* Foundation.framework */; };
 		BDD9C400133BA604003708E7 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDD9C3FF133BA604003708E7 /* UIKit.framework */; };
 		BDD9C4EA133BB14E003708E7 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DB4671133AB5FE00D9C624 /* libz.dylib */; };
-		BDD9C4F1133BB1ED003708E7 /* libgit2-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BDD9C4F0133BB1ED003708E7 /* libgit2-iOS.a */; };
 		BDD9C51E133BB829003708E7 /* fixtures in Resources */ = {isa = PBXBuildFile; fileRef = BDAC76F4132FC18400B57507 /* fixtures */; };
 		BDE4BE60130EF8DC00851650 /* ObjectiveGit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* ObjectiveGit.framework */; };
 		BDE4BE61130EF8DF00851650 /* ObjectiveGit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* ObjectiveGit.framework */; };
@@ -267,7 +265,6 @@
 		BDD62922131C03D600DE34D1 /* GTTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTTag.h; sourceTree = "<group>"; };
 		BDD62923131C03D600DE34D1 /* GTTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = GTTag.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		BDD8AB01130F01AB00CB5D40 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
-		BDD8AD64131311ED00CB5D40 /* libgit2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgit2.a; path = libgit2/lib/libgit2.a; sourceTree = "<group>"; };
 		BDD8AE6D13131B8800CB5D40 /* GTEnumerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTEnumerator.h; sourceTree = "<group>"; };
 		BDD8AE6E13131B8800CB5D40 /* GTEnumerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = GTEnumerator.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		BDD8AEDF1313311100CB5D40 /* Tests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tests.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -283,7 +280,6 @@
 		BDD9C3FD133BA604003708E7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		BDD9C3FF133BA604003708E7 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		BDD9C486133BA73E003708E7 /* GHUnitIOSTestMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GHUnitIOSTestMain.m; sourceTree = "<group>"; };
-		BDD9C4F0133BB1ED003708E7 /* libgit2-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libgit2-iOS.a"; path = "libgit2/lib/libgit2-iOS.a"; sourceTree = "<group>"; };
 		BDE4C060130EFE2C00851650 /* NSError+Git.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+Git.h"; sourceTree = "<group>"; };
 		BDE4C061130EFE2C00851650 /* NSError+Git.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+Git.m"; sourceTree = "<group>"; };
 		BDE4C062130EFE2C00851650 /* GTRepository.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTRepository.h; sourceTree = "<group>"; };
@@ -303,7 +299,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				04DB4672133AB5FE00D9C624 /* libz.dylib in Frameworks */,
-				BDD9C4F1133BB1ED003708E7 /* libgit2-iOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -312,7 +307,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */,
-				BDD8AD65131311ED00CB5D40 /* libgit2.a in Frameworks */,
 				8803DA871313145700E6E818 /* libz.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -391,7 +385,6 @@
 		1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				BDD8AD64131311ED00CB5D40 /* libgit2.a */,
 				1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */,
 				8803DA861313145700E6E818 /* libz.dylib */,
 			);
@@ -457,7 +450,6 @@
 		BDD9C2F3133BA418003708E7 /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				BDD9C4F0133BB1ED003708E7 /* libgit2-iOS.a */,
 				04DB4671133AB5FE00D9C624 /* libz.dylib */,
 			);
 			name = "Linked Frameworks";
