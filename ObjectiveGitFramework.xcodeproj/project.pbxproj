@@ -24,22 +24,22 @@
 
 /* Begin PBXBuildFile section */
 		0450E32F133BE20F007234B5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDD9C3FB133BA604003708E7 /* CoreGraphics.framework */; };
-		0450E33A133BE25B007234B5 /* libObjectiveGit-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DB4645133AB57600D9C624 /* libObjectiveGit-iOS.a */; };
-		04DB464E133AB5E200D9C624 /* NSError+Git.h in Headers */ = {isa = PBXBuildFile; fileRef = BDE4C060130EFE2C00851650 /* NSError+Git.h */; };
-		04DB464F133AB5E200D9C624 /* GTRepository.h in Headers */ = {isa = PBXBuildFile; fileRef = BDE4C062130EFE2C00851650 /* GTRepository.h */; };
-		04DB4652133AB5E200D9C624 /* GTEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = BDD8AE6D13131B8800CB5D40 /* GTEnumerator.h */; };
-		04DB4653133AB5E200D9C624 /* GTTree.h in Headers */ = {isa = PBXBuildFile; fileRef = BD6B040F131496B8001909D0 /* GTTree.h */; };
-		04DB4654133AB5E200D9C624 /* GTTreeEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = BD6B0415131496CC001909D0 /* GTTreeEntry.h */; };
-		04DB4655133AB5E200D9C624 /* GTBlob.h in Headers */ = {isa = PBXBuildFile; fileRef = BDD627971318391200DE34D1 /* GTBlob.h */; };
-		04DB4656133AB5E200D9C624 /* GTTag.h in Headers */ = {isa = PBXBuildFile; fileRef = BDD62922131C03D600DE34D1 /* GTTag.h */; };
-		04DB4657133AB5E200D9C624 /* GTIndex.h in Headers */ = {isa = PBXBuildFile; fileRef = BDFAF9C1131C1845000508BC /* GTIndex.h */; };
-		04DB4658133AB5E200D9C624 /* GTIndexEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = BDFAF9C7131C1868000508BC /* GTIndexEntry.h */; };
-		04DB4659133AB5E200D9C624 /* GTReference.h in Headers */ = {isa = PBXBuildFile; fileRef = BD441E06131ED0C300187010 /* GTReference.h */; };
-		04DB465A133AB5E200D9C624 /* ObjectiveGit.h in Headers */ = {isa = PBXBuildFile; fileRef = 88F6D9D81320451F00CC0BA8 /* ObjectiveGit.h */; };
-		04DB465B133AB5E200D9C624 /* GTCommit.h in Headers */ = {isa = PBXBuildFile; fileRef = BD6C22A41314609A00992935 /* GTCommit.h */; };
-		04DB465C133AB5E200D9C624 /* GTObject.h in Headers */ = {isa = PBXBuildFile; fileRef = BD6C22A71314625800992935 /* GTObject.h */; };
-		04DB465D133AB5E200D9C624 /* GTSignature.h in Headers */ = {isa = PBXBuildFile; fileRef = BD6C254313148DC900992935 /* GTSignature.h */; };
-		04DB465E133AB5E200D9C624 /* GTBranch.h in Headers */ = {isa = PBXBuildFile; fileRef = 88F50F56132054D800584FBE /* GTBranch.h */; };
+		0450E33A133BE25B007234B5 /* ObjectiveGit in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DB4645133AB57600D9C624 /* ObjectiveGit */; };
+		04DB464E133AB5E200D9C624 /* NSError+Git.h in Headers */ = {isa = PBXBuildFile; fileRef = BDE4C060130EFE2C00851650 /* NSError+Git.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		04DB464F133AB5E200D9C624 /* GTRepository.h in Headers */ = {isa = PBXBuildFile; fileRef = BDE4C062130EFE2C00851650 /* GTRepository.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		04DB4652133AB5E200D9C624 /* GTEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = BDD8AE6D13131B8800CB5D40 /* GTEnumerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		04DB4653133AB5E200D9C624 /* GTTree.h in Headers */ = {isa = PBXBuildFile; fileRef = BD6B040F131496B8001909D0 /* GTTree.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		04DB4654133AB5E200D9C624 /* GTTreeEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = BD6B0415131496CC001909D0 /* GTTreeEntry.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		04DB4655133AB5E200D9C624 /* GTBlob.h in Headers */ = {isa = PBXBuildFile; fileRef = BDD627971318391200DE34D1 /* GTBlob.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		04DB4656133AB5E200D9C624 /* GTTag.h in Headers */ = {isa = PBXBuildFile; fileRef = BDD62922131C03D600DE34D1 /* GTTag.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		04DB4657133AB5E200D9C624 /* GTIndex.h in Headers */ = {isa = PBXBuildFile; fileRef = BDFAF9C1131C1845000508BC /* GTIndex.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		04DB4658133AB5E200D9C624 /* GTIndexEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = BDFAF9C7131C1868000508BC /* GTIndexEntry.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		04DB4659133AB5E200D9C624 /* GTReference.h in Headers */ = {isa = PBXBuildFile; fileRef = BD441E06131ED0C300187010 /* GTReference.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		04DB465A133AB5E200D9C624 /* ObjectiveGit.h in Headers */ = {isa = PBXBuildFile; fileRef = 88F6D9D81320451F00CC0BA8 /* ObjectiveGit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		04DB465B133AB5E200D9C624 /* GTCommit.h in Headers */ = {isa = PBXBuildFile; fileRef = BD6C22A41314609A00992935 /* GTCommit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		04DB465C133AB5E200D9C624 /* GTObject.h in Headers */ = {isa = PBXBuildFile; fileRef = BD6C22A71314625800992935 /* GTObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		04DB465D133AB5E200D9C624 /* GTSignature.h in Headers */ = {isa = PBXBuildFile; fileRef = BD6C254313148DC900992935 /* GTSignature.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		04DB465E133AB5E200D9C624 /* GTBranch.h in Headers */ = {isa = PBXBuildFile; fileRef = 88F50F56132054D800584FBE /* GTBranch.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		04DB4660133AB5EB00D9C624 /* NSError+Git.m in Sources */ = {isa = PBXBuildFile; fileRef = BDE4C061130EFE2C00851650 /* NSError+Git.m */; };
 		04DB4661133AB5EB00D9C624 /* GTRepository.m in Sources */ = {isa = PBXBuildFile; fileRef = BDE4C063130EFE2C00851650 /* GTRepository.m */; };
 		04DB4664133AB5EB00D9C624 /* GTEnumerator.m in Sources */ = {isa = PBXBuildFile; fileRef = BDD8AE6E13131B8800CB5D40 /* GTEnumerator.m */; };
@@ -75,8 +75,8 @@
 		55C8057C13875579004DCB0F /* NSString+Git.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C8057313874CDF004DCB0F /* NSString+Git.m */; };
 		55C8057D13875C11004DCB0F /* NSData+Git.h in Headers */ = {isa = PBXBuildFile; fileRef = BD6C2266131459E700992935 /* NSData+Git.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		55C8057E13875C1B004DCB0F /* NSString+Git.h in Headers */ = {isa = PBXBuildFile; fileRef = 55C8057213874CDF004DCB0F /* NSString+Git.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		55C8057F13875C62004DCB0F /* NSData+Git.h in Headers */ = {isa = PBXBuildFile; fileRef = BD6C2266131459E700992935 /* NSData+Git.h */; };
-		55C8058013875C6E004DCB0F /* NSString+Git.h in Headers */ = {isa = PBXBuildFile; fileRef = 55C8057213874CDF004DCB0F /* NSString+Git.h */; };
+		55C8057F13875C62004DCB0F /* NSData+Git.h in Headers */ = {isa = PBXBuildFile; fileRef = BD6C2266131459E700992935 /* NSData+Git.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		55C8058013875C6E004DCB0F /* NSString+Git.h in Headers */ = {isa = PBXBuildFile; fileRef = 55C8057213874CDF004DCB0F /* NSString+Git.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8803DA871313145700E6E818 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8803DA861313145700E6E818 /* libz.dylib */; };
 		88F50F59132054D800584FBE /* GTBranch.h in Headers */ = {isa = PBXBuildFile; fileRef = 88F50F56132054D800584FBE /* GTBranch.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88F50F5A132054D800584FBE /* GTBranch.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F50F57132054D800584FBE /* GTBranch.m */; };
@@ -87,7 +87,7 @@
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 		AA046112134F4D2000DF526B /* GTOdbObject.h in Headers */ = {isa = PBXBuildFile; fileRef = AA046110134F4D2000DF526B /* GTOdbObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA046113134F4D2000DF526B /* GTOdbObject.h in Headers */ = {isa = PBXBuildFile; fileRef = AA046110134F4D2000DF526B /* GTOdbObject.h */; };
+		AA046113134F4D2000DF526B /* GTOdbObject.h in Headers */ = {isa = PBXBuildFile; fileRef = AA046110134F4D2000DF526B /* GTOdbObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA046114134F4D2000DF526B /* GTOdbObject.m in Sources */ = {isa = PBXBuildFile; fileRef = AA046111134F4D2000DF526B /* GTOdbObject.m */; };
 		AA046115134F4D2000DF526B /* GTOdbObject.m in Sources */ = {isa = PBXBuildFile; fileRef = AA046111134F4D2000DF526B /* GTOdbObject.m */; };
 		BD441E08131ED0C300187010 /* GTReference.h in Headers */ = {isa = PBXBuildFile; fileRef = BD441E06131ED0C300187010 /* GTReference.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -140,6 +140,98 @@
 		BDFAF9C9131C1868000508BC /* GTIndexEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = BDFAF9C7131C1868000508BC /* GTIndexEntry.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BDFAF9CA131C1868000508BC /* GTIndexEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = BDFAF9C8131C1868000508BC /* GTIndexEntry.m */; };
 		BDFAF9CE131C18FE000508BC /* GTIndexTest.m in Sources */ = {isa = PBXBuildFile; fileRef = BDFAF9CD131C18FE000508BC /* GTIndexTest.m */; };
+		DD569585141C92EA00E1B1CA /* ObjectiveGit in CopyFiles */ = {isa = PBXBuildFile; fileRef = 04DB4645133AB57600D9C624 /* ObjectiveGit */; };
+		DDB97BAC141C90F60001F17A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDB97BAB141C90F60001F17A /* Foundation.framework */; };
+		DDB97C0F141C917D0001F17A /* blob.c in Sources */ = {isa = PBXBuildFile; fileRef = DDB97BB7141C917D0001F17A /* blob.c */; };
+		DDB97C10141C917D0001F17A /* blob.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB97BB8141C917D0001F17A /* blob.h */; };
+		DDB97C11141C917D0001F17A /* bswap.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB97BB9141C917D0001F17A /* bswap.h */; };
+		DDB97C12141C917D0001F17A /* buffer.c in Sources */ = {isa = PBXBuildFile; fileRef = DDB97BBA141C917D0001F17A /* buffer.c */; };
+		DDB97C13141C917D0001F17A /* buffer.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB97BBB141C917D0001F17A /* buffer.h */; };
+		DDB97C14141C917D0001F17A /* cache.c in Sources */ = {isa = PBXBuildFile; fileRef = DDB97BBC141C917D0001F17A /* cache.c */; };
+		DDB97C15141C917D0001F17A /* cache.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB97BBD141C917D0001F17A /* cache.h */; };
+		DDB97C16141C917D0001F17A /* cc-compat.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB97BBE141C917D0001F17A /* cc-compat.h */; };
+		DDB97C17141C917D0001F17A /* commit.c in Sources */ = {isa = PBXBuildFile; fileRef = DDB97BBF141C917D0001F17A /* commit.c */; };
+		DDB97C18141C917D0001F17A /* commit.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB97BC0141C917D0001F17A /* commit.h */; };
+		DDB97C19141C917D0001F17A /* common.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB97BC1141C917D0001F17A /* common.h */; };
+		DDB97C1A141C917D0001F17A /* config_file.c in Sources */ = {isa = PBXBuildFile; fileRef = DDB97BC2141C917D0001F17A /* config_file.c */; };
+		DDB97C1B141C917D0001F17A /* config.c in Sources */ = {isa = PBXBuildFile; fileRef = DDB97BC3141C917D0001F17A /* config.c */; };
+		DDB97C1C141C917D0001F17A /* config.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB97BC4141C917D0001F17A /* config.h */; };
+		DDB97C1D141C917D0001F17A /* delta-apply.c in Sources */ = {isa = PBXBuildFile; fileRef = DDB97BC5141C917D0001F17A /* delta-apply.c */; };
+		DDB97C1E141C917D0001F17A /* delta-apply.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB97BC6141C917D0001F17A /* delta-apply.h */; };
+		DDB97C1F141C917D0001F17A /* dir.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB97BC7141C917D0001F17A /* dir.h */; };
+		DDB97C20141C917D0001F17A /* errors.c in Sources */ = {isa = PBXBuildFile; fileRef = DDB97BC8141C917D0001F17A /* errors.c */; };
+		DDB97C21141C917D0001F17A /* fetch.c in Sources */ = {isa = PBXBuildFile; fileRef = DDB97BC9141C917D0001F17A /* fetch.c */; };
+		DDB97C22141C917D0001F17A /* fetch.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB97BCA141C917D0001F17A /* fetch.h */; };
+		DDB97C23141C917D0001F17A /* filebuf.c in Sources */ = {isa = PBXBuildFile; fileRef = DDB97BCB141C917D0001F17A /* filebuf.c */; };
+		DDB97C24141C917D0001F17A /* filebuf.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB97BCC141C917D0001F17A /* filebuf.h */; };
+		DDB97C25141C917D0001F17A /* fileops.c in Sources */ = {isa = PBXBuildFile; fileRef = DDB97BCD141C917D0001F17A /* fileops.c */; };
+		DDB97C26141C917D0001F17A /* fileops.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB97BCE141C917D0001F17A /* fileops.h */; };
+		DDB97C27141C917D0001F17A /* hash.c in Sources */ = {isa = PBXBuildFile; fileRef = DDB97BCF141C917D0001F17A /* hash.c */; };
+		DDB97C28141C917D0001F17A /* hash.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB97BD0141C917D0001F17A /* hash.h */; };
+		DDB97C29141C917D0001F17A /* hashtable.c in Sources */ = {isa = PBXBuildFile; fileRef = DDB97BD1141C917D0001F17A /* hashtable.c */; };
+		DDB97C2A141C917D0001F17A /* hashtable.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB97BD2141C917D0001F17A /* hashtable.h */; };
+		DDB97C2B141C917D0001F17A /* index.c in Sources */ = {isa = PBXBuildFile; fileRef = DDB97BD3141C917D0001F17A /* index.c */; };
+		DDB97C2C141C917D0001F17A /* index.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB97BD4141C917D0001F17A /* index.h */; };
+		DDB97C2D141C917D0001F17A /* indexer.c in Sources */ = {isa = PBXBuildFile; fileRef = DDB97BD5141C917D0001F17A /* indexer.c */; };
+		DDB97C2E141C917D0001F17A /* map.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB97BD6141C917D0001F17A /* map.h */; };
+		DDB97C2F141C917D0001F17A /* mwindow.c in Sources */ = {isa = PBXBuildFile; fileRef = DDB97BD7141C917D0001F17A /* mwindow.c */; };
+		DDB97C30141C917D0001F17A /* mwindow.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB97BD8141C917D0001F17A /* mwindow.h */; };
+		DDB97C31141C917D0001F17A /* netops.c in Sources */ = {isa = PBXBuildFile; fileRef = DDB97BD9141C917D0001F17A /* netops.c */; };
+		DDB97C32141C917D0001F17A /* netops.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB97BDA141C917D0001F17A /* netops.h */; };
+		DDB97C33141C917D0001F17A /* object.c in Sources */ = {isa = PBXBuildFile; fileRef = DDB97BDB141C917D0001F17A /* object.c */; };
+		DDB97C34141C917D0001F17A /* odb_loose.c in Sources */ = {isa = PBXBuildFile; fileRef = DDB97BDC141C917D0001F17A /* odb_loose.c */; };
+		DDB97C35141C917D0001F17A /* odb_pack.c in Sources */ = {isa = PBXBuildFile; fileRef = DDB97BDD141C917D0001F17A /* odb_pack.c */; };
+		DDB97C36141C917D0001F17A /* odb.c in Sources */ = {isa = PBXBuildFile; fileRef = DDB97BDE141C917D0001F17A /* odb.c */; };
+		DDB97C37141C917D0001F17A /* odb.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB97BDF141C917D0001F17A /* odb.h */; };
+		DDB97C38141C917D0001F17A /* oid.c in Sources */ = {isa = PBXBuildFile; fileRef = DDB97BE0141C917D0001F17A /* oid.c */; };
+		DDB97C39141C917D0001F17A /* pack.c in Sources */ = {isa = PBXBuildFile; fileRef = DDB97BE1141C917D0001F17A /* pack.c */; };
+		DDB97C3A141C917D0001F17A /* pack.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB97BE2141C917D0001F17A /* pack.h */; };
+		DDB97C3B141C917D0001F17A /* path.c in Sources */ = {isa = PBXBuildFile; fileRef = DDB97BE3141C917D0001F17A /* path.c */; };
+		DDB97C3C141C917D0001F17A /* path.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB97BE4141C917D0001F17A /* path.h */; };
+		DDB97C3D141C917D0001F17A /* pkt.c in Sources */ = {isa = PBXBuildFile; fileRef = DDB97BE5141C917D0001F17A /* pkt.c */; };
+		DDB97C3E141C917D0001F17A /* pkt.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB97BE6141C917D0001F17A /* pkt.h */; };
+		DDB97C3F141C917D0001F17A /* posix.c in Sources */ = {isa = PBXBuildFile; fileRef = DDB97BE7141C917D0001F17A /* posix.c */; };
+		DDB97C40141C917D0001F17A /* posix.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB97BE8141C917D0001F17A /* posix.h */; };
+		DDB97C41141C917D0001F17A /* pqueue.c in Sources */ = {isa = PBXBuildFile; fileRef = DDB97BE9141C917D0001F17A /* pqueue.c */; };
+		DDB97C42141C917D0001F17A /* pqueue.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB97BEA141C917D0001F17A /* pqueue.h */; };
+		DDB97C43141C917D0001F17A /* reflog.c in Sources */ = {isa = PBXBuildFile; fileRef = DDB97BEB141C917D0001F17A /* reflog.c */; };
+		DDB97C44141C917D0001F17A /* reflog.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB97BEC141C917D0001F17A /* reflog.h */; };
+		DDB97C45141C917D0001F17A /* refs.c in Sources */ = {isa = PBXBuildFile; fileRef = DDB97BED141C917D0001F17A /* refs.c */; };
+		DDB97C46141C917D0001F17A /* refs.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB97BEE141C917D0001F17A /* refs.h */; };
+		DDB97C47141C917D0001F17A /* refspec.c in Sources */ = {isa = PBXBuildFile; fileRef = DDB97BEF141C917D0001F17A /* refspec.c */; };
+		DDB97C48141C917D0001F17A /* refspec.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB97BF0141C917D0001F17A /* refspec.h */; };
+		DDB97C49141C917D0001F17A /* remote.c in Sources */ = {isa = PBXBuildFile; fileRef = DDB97BF1141C917D0001F17A /* remote.c */; };
+		DDB97C4A141C917D0001F17A /* remote.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB97BF2141C917D0001F17A /* remote.h */; };
+		DDB97C4B141C917D0001F17A /* repository.c in Sources */ = {isa = PBXBuildFile; fileRef = DDB97BF3141C917D0001F17A /* repository.c */; };
+		DDB97C4C141C917D0001F17A /* repository.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB97BF4141C917D0001F17A /* repository.h */; };
+		DDB97C4D141C917D0001F17A /* revwalk.c in Sources */ = {isa = PBXBuildFile; fileRef = DDB97BF5141C917D0001F17A /* revwalk.c */; };
+		DDB97C4E141C917D0001F17A /* sha1_lookup.c in Sources */ = {isa = PBXBuildFile; fileRef = DDB97BF6141C917D0001F17A /* sha1_lookup.c */; };
+		DDB97C4F141C917D0001F17A /* sha1_lookup.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB97BF7141C917D0001F17A /* sha1_lookup.h */; };
+		DDB97C50141C917D0001F17A /* sha1.c in Sources */ = {isa = PBXBuildFile; fileRef = DDB97BF8141C917D0001F17A /* sha1.c */; };
+		DDB97C51141C917D0001F17A /* sha1.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB97BF9141C917D0001F17A /* sha1.h */; };
+		DDB97C52141C917D0001F17A /* signature.c in Sources */ = {isa = PBXBuildFile; fileRef = DDB97BFA141C917D0001F17A /* signature.c */; };
+		DDB97C53141C917D0001F17A /* signature.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB97BFB141C917D0001F17A /* signature.h */; };
+		DDB97C54141C917D0001F17A /* status.c in Sources */ = {isa = PBXBuildFile; fileRef = DDB97BFC141C917D0001F17A /* status.c */; };
+		DDB97C55141C917D0001F17A /* tag.c in Sources */ = {isa = PBXBuildFile; fileRef = DDB97BFD141C917D0001F17A /* tag.c */; };
+		DDB97C56141C917D0001F17A /* tag.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB97BFE141C917D0001F17A /* tag.h */; };
+		DDB97C57141C917D0001F17A /* thread-utils.c in Sources */ = {isa = PBXBuildFile; fileRef = DDB97BFF141C917D0001F17A /* thread-utils.c */; };
+		DDB97C58141C917D0001F17A /* thread-utils.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB97C00141C917D0001F17A /* thread-utils.h */; };
+		DDB97C59141C917D0001F17A /* transport_git.c in Sources */ = {isa = PBXBuildFile; fileRef = DDB97C01141C917D0001F17A /* transport_git.c */; };
+		DDB97C5A141C917D0001F17A /* transport_local.c in Sources */ = {isa = PBXBuildFile; fileRef = DDB97C02141C917D0001F17A /* transport_local.c */; };
+		DDB97C5B141C917D0001F17A /* transport.c in Sources */ = {isa = PBXBuildFile; fileRef = DDB97C03141C917D0001F17A /* transport.c */; };
+		DDB97C5C141C917D0001F17A /* transport.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB97C04141C917D0001F17A /* transport.h */; };
+		DDB97C5D141C917D0001F17A /* tree.c in Sources */ = {isa = PBXBuildFile; fileRef = DDB97C05141C917D0001F17A /* tree.c */; };
+		DDB97C5E141C917D0001F17A /* tree.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB97C06141C917D0001F17A /* tree.h */; };
+		DDB97C5F141C917D0001F17A /* tsort.c in Sources */ = {isa = PBXBuildFile; fileRef = DDB97C07141C917D0001F17A /* tsort.c */; };
+		DDB97C60141C917D0001F17A /* map.c in Sources */ = {isa = PBXBuildFile; fileRef = DDB97C09141C917D0001F17A /* map.c */; };
+		DDB97C61141C917D0001F17A /* posix.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB97C0A141C917D0001F17A /* posix.h */; };
+		DDB97C62141C917D0001F17A /* util.c in Sources */ = {isa = PBXBuildFile; fileRef = DDB97C0B141C917D0001F17A /* util.c */; };
+		DDB97C63141C917D0001F17A /* util.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB97C0C141C917D0001F17A /* util.h */; };
+		DDB97C64141C917D0001F17A /* vector.c in Sources */ = {isa = PBXBuildFile; fileRef = DDB97C0D141C917D0001F17A /* vector.c */; };
+		DDB97C65141C917D0001F17A /* vector.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB97C0E141C917D0001F17A /* vector.h */; };
+		DDB97C68141C91980001F17A /* git2.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB97C67141C91980001F17A /* git2.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DDB97C69141C91A90001F17A /* git2 in Headers */ = {isa = PBXBuildFile; fileRef = DDB97C66141C91980001F17A /* git2 */; settings = {ATTRIBUTES = (Public, ); }; };
+		DDB97C6A141C920C0001F17A /* libgit2-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DDB97BA9141C90F60001F17A /* libgit2-ios.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -163,6 +255,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = ObjectiveGit;
+		};
+		DDB97C6B141C92120001F17A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DDB97BA8141C90F60001F17A;
+			remoteInfo = "libgit2-ios";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -207,10 +306,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DD569583141C92D500E1B1CA /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = ObjectiveGit.framework;
+			dstSubfolderSpec = 16;
+			files = (
+				DD569585141C92EA00E1B1CA /* ObjectiveGit in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		04DB4645133AB57600D9C624 /* libObjectiveGit-iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libObjectiveGit-iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		04DB4645133AB57600D9C624 /* ObjectiveGit */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = ObjectiveGit; sourceTree = BUILT_PRODUCTS_DIR; };
 		04DB4671133AB5FE00D9C624 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
@@ -286,6 +395,97 @@
 		BDFAF9C8131C1868000508BC /* GTIndexEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = GTIndexEntry.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		BDFAF9CD131C18FE000508BC /* GTIndexTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = GTIndexTest.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		D2F7E79907B2D74100F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+		DDB97BA9141C90F60001F17A /* libgit2-ios.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libgit2-ios.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDB97BAB141C90F60001F17A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		DDB97BB7141C917D0001F17A /* blob.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = blob.c; path = libgit2/src/blob.c; sourceTree = SOURCE_ROOT; };
+		DDB97BB8141C917D0001F17A /* blob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = blob.h; path = libgit2/src/blob.h; sourceTree = SOURCE_ROOT; };
+		DDB97BB9141C917D0001F17A /* bswap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bswap.h; path = libgit2/src/bswap.h; sourceTree = SOURCE_ROOT; };
+		DDB97BBA141C917D0001F17A /* buffer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = buffer.c; path = libgit2/src/buffer.c; sourceTree = SOURCE_ROOT; };
+		DDB97BBB141C917D0001F17A /* buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = buffer.h; path = libgit2/src/buffer.h; sourceTree = SOURCE_ROOT; };
+		DDB97BBC141C917D0001F17A /* cache.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = cache.c; path = libgit2/src/cache.c; sourceTree = SOURCE_ROOT; };
+		DDB97BBD141C917D0001F17A /* cache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cache.h; path = libgit2/src/cache.h; sourceTree = SOURCE_ROOT; };
+		DDB97BBE141C917D0001F17A /* cc-compat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "cc-compat.h"; path = "libgit2/src/cc-compat.h"; sourceTree = SOURCE_ROOT; };
+		DDB97BBF141C917D0001F17A /* commit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = commit.c; path = libgit2/src/commit.c; sourceTree = SOURCE_ROOT; };
+		DDB97BC0141C917D0001F17A /* commit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = commit.h; path = libgit2/src/commit.h; sourceTree = SOURCE_ROOT; };
+		DDB97BC1141C917D0001F17A /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = common.h; path = libgit2/src/common.h; sourceTree = SOURCE_ROOT; };
+		DDB97BC2141C917D0001F17A /* config_file.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = config_file.c; path = libgit2/src/config_file.c; sourceTree = SOURCE_ROOT; };
+		DDB97BC3141C917D0001F17A /* config.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = config.c; path = libgit2/src/config.c; sourceTree = SOURCE_ROOT; };
+		DDB97BC4141C917D0001F17A /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = config.h; path = libgit2/src/config.h; sourceTree = SOURCE_ROOT; };
+		DDB97BC5141C917D0001F17A /* delta-apply.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "delta-apply.c"; path = "libgit2/src/delta-apply.c"; sourceTree = SOURCE_ROOT; };
+		DDB97BC6141C917D0001F17A /* delta-apply.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "delta-apply.h"; path = "libgit2/src/delta-apply.h"; sourceTree = SOURCE_ROOT; };
+		DDB97BC7141C917D0001F17A /* dir.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dir.h; path = libgit2/src/dir.h; sourceTree = SOURCE_ROOT; };
+		DDB97BC8141C917D0001F17A /* errors.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = errors.c; path = libgit2/src/errors.c; sourceTree = SOURCE_ROOT; };
+		DDB97BC9141C917D0001F17A /* fetch.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = fetch.c; path = libgit2/src/fetch.c; sourceTree = SOURCE_ROOT; };
+		DDB97BCA141C917D0001F17A /* fetch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = fetch.h; path = libgit2/src/fetch.h; sourceTree = SOURCE_ROOT; };
+		DDB97BCB141C917D0001F17A /* filebuf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = filebuf.c; path = libgit2/src/filebuf.c; sourceTree = SOURCE_ROOT; };
+		DDB97BCC141C917D0001F17A /* filebuf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = filebuf.h; path = libgit2/src/filebuf.h; sourceTree = SOURCE_ROOT; };
+		DDB97BCD141C917D0001F17A /* fileops.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = fileops.c; path = libgit2/src/fileops.c; sourceTree = SOURCE_ROOT; };
+		DDB97BCE141C917D0001F17A /* fileops.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = fileops.h; path = libgit2/src/fileops.h; sourceTree = SOURCE_ROOT; };
+		DDB97BCF141C917D0001F17A /* hash.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = hash.c; path = libgit2/src/hash.c; sourceTree = SOURCE_ROOT; };
+		DDB97BD0141C917D0001F17A /* hash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hash.h; path = libgit2/src/hash.h; sourceTree = SOURCE_ROOT; };
+		DDB97BD1141C917D0001F17A /* hashtable.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = hashtable.c; path = libgit2/src/hashtable.c; sourceTree = SOURCE_ROOT; };
+		DDB97BD2141C917D0001F17A /* hashtable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hashtable.h; path = libgit2/src/hashtable.h; sourceTree = SOURCE_ROOT; };
+		DDB97BD3141C917D0001F17A /* index.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = index.c; path = libgit2/src/index.c; sourceTree = SOURCE_ROOT; };
+		DDB97BD4141C917D0001F17A /* index.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = index.h; path = libgit2/src/index.h; sourceTree = SOURCE_ROOT; };
+		DDB97BD5141C917D0001F17A /* indexer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = indexer.c; path = libgit2/src/indexer.c; sourceTree = SOURCE_ROOT; };
+		DDB97BD6141C917D0001F17A /* map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = map.h; path = libgit2/src/map.h; sourceTree = SOURCE_ROOT; };
+		DDB97BD7141C917D0001F17A /* mwindow.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = mwindow.c; path = libgit2/src/mwindow.c; sourceTree = SOURCE_ROOT; };
+		DDB97BD8141C917D0001F17A /* mwindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mwindow.h; path = libgit2/src/mwindow.h; sourceTree = SOURCE_ROOT; };
+		DDB97BD9141C917D0001F17A /* netops.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = netops.c; path = libgit2/src/netops.c; sourceTree = SOURCE_ROOT; };
+		DDB97BDA141C917D0001F17A /* netops.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = netops.h; path = libgit2/src/netops.h; sourceTree = SOURCE_ROOT; };
+		DDB97BDB141C917D0001F17A /* object.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = object.c; path = libgit2/src/object.c; sourceTree = SOURCE_ROOT; };
+		DDB97BDC141C917D0001F17A /* odb_loose.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = odb_loose.c; path = libgit2/src/odb_loose.c; sourceTree = SOURCE_ROOT; };
+		DDB97BDD141C917D0001F17A /* odb_pack.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = odb_pack.c; path = libgit2/src/odb_pack.c; sourceTree = SOURCE_ROOT; };
+		DDB97BDE141C917D0001F17A /* odb.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = odb.c; path = libgit2/src/odb.c; sourceTree = SOURCE_ROOT; };
+		DDB97BDF141C917D0001F17A /* odb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = odb.h; path = libgit2/src/odb.h; sourceTree = SOURCE_ROOT; };
+		DDB97BE0141C917D0001F17A /* oid.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = oid.c; path = libgit2/src/oid.c; sourceTree = SOURCE_ROOT; };
+		DDB97BE1141C917D0001F17A /* pack.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pack.c; path = libgit2/src/pack.c; sourceTree = SOURCE_ROOT; };
+		DDB97BE2141C917D0001F17A /* pack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pack.h; path = libgit2/src/pack.h; sourceTree = SOURCE_ROOT; };
+		DDB97BE3141C917D0001F17A /* path.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = path.c; path = libgit2/src/path.c; sourceTree = SOURCE_ROOT; };
+		DDB97BE4141C917D0001F17A /* path.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = path.h; path = libgit2/src/path.h; sourceTree = SOURCE_ROOT; };
+		DDB97BE5141C917D0001F17A /* pkt.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pkt.c; path = libgit2/src/pkt.c; sourceTree = SOURCE_ROOT; };
+		DDB97BE6141C917D0001F17A /* pkt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pkt.h; path = libgit2/src/pkt.h; sourceTree = SOURCE_ROOT; };
+		DDB97BE7141C917D0001F17A /* posix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = posix.c; path = libgit2/src/posix.c; sourceTree = SOURCE_ROOT; };
+		DDB97BE8141C917D0001F17A /* posix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = posix.h; path = libgit2/src/posix.h; sourceTree = SOURCE_ROOT; };
+		DDB97BE9141C917D0001F17A /* pqueue.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pqueue.c; path = libgit2/src/pqueue.c; sourceTree = SOURCE_ROOT; };
+		DDB97BEA141C917D0001F17A /* pqueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pqueue.h; path = libgit2/src/pqueue.h; sourceTree = SOURCE_ROOT; };
+		DDB97BEB141C917D0001F17A /* reflog.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = reflog.c; path = libgit2/src/reflog.c; sourceTree = SOURCE_ROOT; };
+		DDB97BEC141C917D0001F17A /* reflog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = reflog.h; path = libgit2/src/reflog.h; sourceTree = SOURCE_ROOT; };
+		DDB97BED141C917D0001F17A /* refs.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = refs.c; path = libgit2/src/refs.c; sourceTree = SOURCE_ROOT; };
+		DDB97BEE141C917D0001F17A /* refs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = refs.h; path = libgit2/src/refs.h; sourceTree = SOURCE_ROOT; };
+		DDB97BEF141C917D0001F17A /* refspec.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = refspec.c; path = libgit2/src/refspec.c; sourceTree = SOURCE_ROOT; };
+		DDB97BF0141C917D0001F17A /* refspec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = refspec.h; path = libgit2/src/refspec.h; sourceTree = SOURCE_ROOT; };
+		DDB97BF1141C917D0001F17A /* remote.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = remote.c; path = libgit2/src/remote.c; sourceTree = SOURCE_ROOT; };
+		DDB97BF2141C917D0001F17A /* remote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = remote.h; path = libgit2/src/remote.h; sourceTree = SOURCE_ROOT; };
+		DDB97BF3141C917D0001F17A /* repository.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = repository.c; path = libgit2/src/repository.c; sourceTree = SOURCE_ROOT; };
+		DDB97BF4141C917D0001F17A /* repository.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = repository.h; path = libgit2/src/repository.h; sourceTree = SOURCE_ROOT; };
+		DDB97BF5141C917D0001F17A /* revwalk.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = revwalk.c; path = libgit2/src/revwalk.c; sourceTree = SOURCE_ROOT; };
+		DDB97BF6141C917D0001F17A /* sha1_lookup.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sha1_lookup.c; path = libgit2/src/sha1_lookup.c; sourceTree = SOURCE_ROOT; };
+		DDB97BF7141C917D0001F17A /* sha1_lookup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sha1_lookup.h; path = libgit2/src/sha1_lookup.h; sourceTree = SOURCE_ROOT; };
+		DDB97BF8141C917D0001F17A /* sha1.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sha1.c; path = libgit2/src/sha1.c; sourceTree = SOURCE_ROOT; };
+		DDB97BF9141C917D0001F17A /* sha1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sha1.h; path = libgit2/src/sha1.h; sourceTree = SOURCE_ROOT; };
+		DDB97BFA141C917D0001F17A /* signature.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = signature.c; path = libgit2/src/signature.c; sourceTree = SOURCE_ROOT; };
+		DDB97BFB141C917D0001F17A /* signature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = signature.h; path = libgit2/src/signature.h; sourceTree = SOURCE_ROOT; };
+		DDB97BFC141C917D0001F17A /* status.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = status.c; path = libgit2/src/status.c; sourceTree = SOURCE_ROOT; };
+		DDB97BFD141C917D0001F17A /* tag.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = tag.c; path = libgit2/src/tag.c; sourceTree = SOURCE_ROOT; };
+		DDB97BFE141C917D0001F17A /* tag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tag.h; path = libgit2/src/tag.h; sourceTree = SOURCE_ROOT; };
+		DDB97BFF141C917D0001F17A /* thread-utils.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "thread-utils.c"; path = "libgit2/src/thread-utils.c"; sourceTree = SOURCE_ROOT; };
+		DDB97C00141C917D0001F17A /* thread-utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "thread-utils.h"; path = "libgit2/src/thread-utils.h"; sourceTree = SOURCE_ROOT; };
+		DDB97C01141C917D0001F17A /* transport_git.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = transport_git.c; path = libgit2/src/transport_git.c; sourceTree = SOURCE_ROOT; };
+		DDB97C02141C917D0001F17A /* transport_local.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = transport_local.c; path = libgit2/src/transport_local.c; sourceTree = SOURCE_ROOT; };
+		DDB97C03141C917D0001F17A /* transport.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = transport.c; path = libgit2/src/transport.c; sourceTree = SOURCE_ROOT; };
+		DDB97C04141C917D0001F17A /* transport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = transport.h; path = libgit2/src/transport.h; sourceTree = SOURCE_ROOT; };
+		DDB97C05141C917D0001F17A /* tree.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = tree.c; path = libgit2/src/tree.c; sourceTree = SOURCE_ROOT; };
+		DDB97C06141C917D0001F17A /* tree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tree.h; path = libgit2/src/tree.h; sourceTree = SOURCE_ROOT; };
+		DDB97C07141C917D0001F17A /* tsort.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = tsort.c; path = libgit2/src/tsort.c; sourceTree = SOURCE_ROOT; };
+		DDB97C09141C917D0001F17A /* map.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = map.c; sourceTree = "<group>"; };
+		DDB97C0A141C917D0001F17A /* posix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = posix.h; sourceTree = "<group>"; };
+		DDB97C0B141C917D0001F17A /* util.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = util.c; path = libgit2/src/util.c; sourceTree = SOURCE_ROOT; };
+		DDB97C0C141C917D0001F17A /* util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = util.h; path = libgit2/src/util.h; sourceTree = SOURCE_ROOT; };
+		DDB97C0D141C917D0001F17A /* vector.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = vector.c; path = libgit2/src/vector.c; sourceTree = SOURCE_ROOT; };
+		DDB97C0E141C917D0001F17A /* vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = vector.h; path = libgit2/src/vector.h; sourceTree = SOURCE_ROOT; };
+		DDB97C66141C91980001F17A /* git2 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = git2; path = libgit2/include/git2; sourceTree = SOURCE_ROOT; };
+		DDB97C67141C91980001F17A /* git2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = git2.h; path = libgit2/include/git2.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -293,6 +493,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DDB97C6A141C920C0001F17A /* libgit2-ios.a in Frameworks */,
 				04DB4672133AB5FE00D9C624 /* libz.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -319,12 +520,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0450E33A133BE25B007234B5 /* libObjectiveGit-iOS.a in Frameworks */,
+				0450E33A133BE25B007234B5 /* ObjectiveGit in Frameworks */,
 				0450E32F133BE20F007234B5 /* CoreGraphics.framework in Frameworks */,
 				BDD9C3DC133BA580003708E7 /* GHUnitIOS.framework in Frameworks */,
 				BDD9C3FE133BA604003708E7 /* Foundation.framework in Frameworks */,
 				BDD9C400133BA604003708E7 /* UIKit.framework in Frameworks */,
 				BDD9C4EA133BB14E003708E7 /* libz.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DDB97BA6141C90F60001F17A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDB97BAC141C90F60001F17A /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -336,8 +545,9 @@
 			children = (
 				8DC2EF5B0486A6940098B216 /* ObjectiveGit.framework */,
 				BDD8AEDF1313311100CB5D40 /* Tests.app */,
-				04DB4645133AB57600D9C624 /* libObjectiveGit-iOS.a */,
+				04DB4645133AB57600D9C624 /* ObjectiveGit */,
 				BDD9C3D5133BA556003708E7 /* Tests-iOS.app */,
+				DDB97BA9141C90F60001F17A /* libgit2-ios.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -352,6 +562,8 @@
 				089C1665FE841158C02AAC07 /* Resources */,
 				BDD9C2F2133BA3F7003708E7 /* External Frameworks and Libraries iOS */,
 				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
+				DDB97BAD141C90F60001F17A /* libgit2 */,
+				DDB97BAA141C90F60001F17A /* Frameworks */,
 				034768DFFF38A50411DB9C8B /* Products */,
 				BDD8AEE11313311100CB5D40 /* Tests-Info.plist */,
 				BDD9C3D7133BA556003708E7 /* Tests-iOS-Info.plist */,
@@ -510,6 +722,120 @@
 			path = Categories;
 			sourceTree = "<group>";
 		};
+		DDB97BAA141C90F60001F17A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DDB97BAB141C90F60001F17A /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DDB97BAD141C90F60001F17A /* libgit2 */ = {
+			isa = PBXGroup;
+			children = (
+				DDB97C66141C91980001F17A /* git2 */,
+				DDB97C67141C91980001F17A /* git2.h */,
+				DDB97BB7141C917D0001F17A /* blob.c */,
+				DDB97BB8141C917D0001F17A /* blob.h */,
+				DDB97BB9141C917D0001F17A /* bswap.h */,
+				DDB97BBA141C917D0001F17A /* buffer.c */,
+				DDB97BBB141C917D0001F17A /* buffer.h */,
+				DDB97BBC141C917D0001F17A /* cache.c */,
+				DDB97BBD141C917D0001F17A /* cache.h */,
+				DDB97BBE141C917D0001F17A /* cc-compat.h */,
+				DDB97BBF141C917D0001F17A /* commit.c */,
+				DDB97BC0141C917D0001F17A /* commit.h */,
+				DDB97BC1141C917D0001F17A /* common.h */,
+				DDB97BC2141C917D0001F17A /* config_file.c */,
+				DDB97BC3141C917D0001F17A /* config.c */,
+				DDB97BC4141C917D0001F17A /* config.h */,
+				DDB97BC5141C917D0001F17A /* delta-apply.c */,
+				DDB97BC6141C917D0001F17A /* delta-apply.h */,
+				DDB97BC7141C917D0001F17A /* dir.h */,
+				DDB97BC8141C917D0001F17A /* errors.c */,
+				DDB97BC9141C917D0001F17A /* fetch.c */,
+				DDB97BCA141C917D0001F17A /* fetch.h */,
+				DDB97BCB141C917D0001F17A /* filebuf.c */,
+				DDB97BCC141C917D0001F17A /* filebuf.h */,
+				DDB97BCD141C917D0001F17A /* fileops.c */,
+				DDB97BCE141C917D0001F17A /* fileops.h */,
+				DDB97BCF141C917D0001F17A /* hash.c */,
+				DDB97BD0141C917D0001F17A /* hash.h */,
+				DDB97BD1141C917D0001F17A /* hashtable.c */,
+				DDB97BD2141C917D0001F17A /* hashtable.h */,
+				DDB97BD3141C917D0001F17A /* index.c */,
+				DDB97BD4141C917D0001F17A /* index.h */,
+				DDB97BD5141C917D0001F17A /* indexer.c */,
+				DDB97BD6141C917D0001F17A /* map.h */,
+				DDB97BD7141C917D0001F17A /* mwindow.c */,
+				DDB97BD8141C917D0001F17A /* mwindow.h */,
+				DDB97BD9141C917D0001F17A /* netops.c */,
+				DDB97BDA141C917D0001F17A /* netops.h */,
+				DDB97BDB141C917D0001F17A /* object.c */,
+				DDB97BDC141C917D0001F17A /* odb_loose.c */,
+				DDB97BDD141C917D0001F17A /* odb_pack.c */,
+				DDB97BDE141C917D0001F17A /* odb.c */,
+				DDB97BDF141C917D0001F17A /* odb.h */,
+				DDB97BE0141C917D0001F17A /* oid.c */,
+				DDB97BE1141C917D0001F17A /* pack.c */,
+				DDB97BE2141C917D0001F17A /* pack.h */,
+				DDB97BE3141C917D0001F17A /* path.c */,
+				DDB97BE4141C917D0001F17A /* path.h */,
+				DDB97BE5141C917D0001F17A /* pkt.c */,
+				DDB97BE6141C917D0001F17A /* pkt.h */,
+				DDB97BE7141C917D0001F17A /* posix.c */,
+				DDB97BE8141C917D0001F17A /* posix.h */,
+				DDB97BE9141C917D0001F17A /* pqueue.c */,
+				DDB97BEA141C917D0001F17A /* pqueue.h */,
+				DDB97BEB141C917D0001F17A /* reflog.c */,
+				DDB97BEC141C917D0001F17A /* reflog.h */,
+				DDB97BED141C917D0001F17A /* refs.c */,
+				DDB97BEE141C917D0001F17A /* refs.h */,
+				DDB97BEF141C917D0001F17A /* refspec.c */,
+				DDB97BF0141C917D0001F17A /* refspec.h */,
+				DDB97BF1141C917D0001F17A /* remote.c */,
+				DDB97BF2141C917D0001F17A /* remote.h */,
+				DDB97BF3141C917D0001F17A /* repository.c */,
+				DDB97BF4141C917D0001F17A /* repository.h */,
+				DDB97BF5141C917D0001F17A /* revwalk.c */,
+				DDB97BF6141C917D0001F17A /* sha1_lookup.c */,
+				DDB97BF7141C917D0001F17A /* sha1_lookup.h */,
+				DDB97BF8141C917D0001F17A /* sha1.c */,
+				DDB97BF9141C917D0001F17A /* sha1.h */,
+				DDB97BFA141C917D0001F17A /* signature.c */,
+				DDB97BFB141C917D0001F17A /* signature.h */,
+				DDB97BFC141C917D0001F17A /* status.c */,
+				DDB97BFD141C917D0001F17A /* tag.c */,
+				DDB97BFE141C917D0001F17A /* tag.h */,
+				DDB97BFF141C917D0001F17A /* thread-utils.c */,
+				DDB97C00141C917D0001F17A /* thread-utils.h */,
+				DDB97C01141C917D0001F17A /* transport_git.c */,
+				DDB97C02141C917D0001F17A /* transport_local.c */,
+				DDB97C03141C917D0001F17A /* transport.c */,
+				DDB97C04141C917D0001F17A /* transport.h */,
+				DDB97C05141C917D0001F17A /* tree.c */,
+				DDB97C06141C917D0001F17A /* tree.h */,
+				DDB97C07141C917D0001F17A /* tsort.c */,
+				DDB97C08141C917D0001F17A /* unix */,
+				DDB97C0B141C917D0001F17A /* util.c */,
+				DDB97C0C141C917D0001F17A /* util.h */,
+				DDB97C0D141C917D0001F17A /* vector.c */,
+				DDB97C0E141C917D0001F17A /* vector.h */,
+			);
+			name = libgit2;
+			path = "libgit2-ios";
+			sourceTree = "<group>";
+		};
+		DDB97C08141C917D0001F17A /* unix */ = {
+			isa = PBXGroup;
+			children = (
+				DDB97C09141C917D0001F17A /* map.c */,
+				DDB97C0A141C917D0001F17A /* posix.h */,
+			);
+			name = unix;
+			path = libgit2/src/unix;
+			sourceTree = SOURCE_ROOT;
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -564,6 +890,55 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DDB97BA7141C90F60001F17A /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDB97C69141C91A90001F17A /* git2 in Headers */,
+				DDB97C68141C91980001F17A /* git2.h in Headers */,
+				DDB97C10141C917D0001F17A /* blob.h in Headers */,
+				DDB97C11141C917D0001F17A /* bswap.h in Headers */,
+				DDB97C13141C917D0001F17A /* buffer.h in Headers */,
+				DDB97C15141C917D0001F17A /* cache.h in Headers */,
+				DDB97C16141C917D0001F17A /* cc-compat.h in Headers */,
+				DDB97C18141C917D0001F17A /* commit.h in Headers */,
+				DDB97C19141C917D0001F17A /* common.h in Headers */,
+				DDB97C1C141C917D0001F17A /* config.h in Headers */,
+				DDB97C1E141C917D0001F17A /* delta-apply.h in Headers */,
+				DDB97C1F141C917D0001F17A /* dir.h in Headers */,
+				DDB97C22141C917D0001F17A /* fetch.h in Headers */,
+				DDB97C24141C917D0001F17A /* filebuf.h in Headers */,
+				DDB97C26141C917D0001F17A /* fileops.h in Headers */,
+				DDB97C28141C917D0001F17A /* hash.h in Headers */,
+				DDB97C2A141C917D0001F17A /* hashtable.h in Headers */,
+				DDB97C2C141C917D0001F17A /* index.h in Headers */,
+				DDB97C2E141C917D0001F17A /* map.h in Headers */,
+				DDB97C30141C917D0001F17A /* mwindow.h in Headers */,
+				DDB97C32141C917D0001F17A /* netops.h in Headers */,
+				DDB97C37141C917D0001F17A /* odb.h in Headers */,
+				DDB97C3A141C917D0001F17A /* pack.h in Headers */,
+				DDB97C3C141C917D0001F17A /* path.h in Headers */,
+				DDB97C3E141C917D0001F17A /* pkt.h in Headers */,
+				DDB97C40141C917D0001F17A /* posix.h in Headers */,
+				DDB97C42141C917D0001F17A /* pqueue.h in Headers */,
+				DDB97C44141C917D0001F17A /* reflog.h in Headers */,
+				DDB97C46141C917D0001F17A /* refs.h in Headers */,
+				DDB97C48141C917D0001F17A /* refspec.h in Headers */,
+				DDB97C4A141C917D0001F17A /* remote.h in Headers */,
+				DDB97C4C141C917D0001F17A /* repository.h in Headers */,
+				DDB97C4F141C917D0001F17A /* sha1_lookup.h in Headers */,
+				DDB97C51141C917D0001F17A /* sha1.h in Headers */,
+				DDB97C53141C917D0001F17A /* signature.h in Headers */,
+				DDB97C56141C917D0001F17A /* tag.h in Headers */,
+				DDB97C58141C917D0001F17A /* thread-utils.h in Headers */,
+				DDB97C5C141C917D0001F17A /* transport.h in Headers */,
+				DDB97C5E141C917D0001F17A /* tree.h in Headers */,
+				DDB97C61141C917D0001F17A /* posix.h in Headers */,
+				DDB97C63141C917D0001F17A /* util.h in Headers */,
+				DDB97C65141C917D0001F17A /* vector.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -574,14 +949,16 @@
 				04DB4641133AB57600D9C624 /* Headers */,
 				04DB4642133AB57600D9C624 /* Sources */,
 				04DB4643133AB57600D9C624 /* Frameworks */,
+				DD569583141C92D500E1B1CA /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				DDB97C6C141C92120001F17A /* PBXTargetDependency */,
 			);
 			name = "ObjectiveGit-iOS";
 			productName = "ObjectiveGit-iOS";
-			productReference = 04DB4645133AB57600D9C624 /* libObjectiveGit-iOS.a */;
+			productReference = 04DB4645133AB57600D9C624 /* ObjectiveGit */;
 			productType = "com.apple.product-type.library.static";
 		};
 		8DC2EF4F0486A6940098B216 /* ObjectiveGit */ = {
@@ -643,6 +1020,23 @@
 			productReference = BDD9C3D5133BA556003708E7 /* Tests-iOS.app */;
 			productType = "com.apple.product-type.application";
 		};
+		DDB97BA8141C90F60001F17A /* libgit2-ios */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DDB97BB5141C90F70001F17A /* Build configuration list for PBXNativeTarget "libgit2-ios" */;
+			buildPhases = (
+				DDB97BA7141C90F60001F17A /* Headers */,
+				DDB97BA5141C90F60001F17A /* Sources */,
+				DDB97BA6141C90F60001F17A /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "libgit2-ios";
+			productName = "libgit2-ios";
+			productReference = DDB97BA9141C90F60001F17A /* libgit2-ios.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -672,6 +1066,7 @@
 				BDD8AEDE1313311100CB5D40 /* Tests */,
 				04DB4644133AB57600D9C624 /* ObjectiveGit-iOS */,
 				BDD9C3D4133BA556003708E7 /* Tests-iOS */,
+				DDB97BA8141C90F60001F17A /* libgit2-ios */,
 			);
 		};
 /* End PBXProject section */
@@ -824,6 +1219,60 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DDB97BA5141C90F60001F17A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDB97C0F141C917D0001F17A /* blob.c in Sources */,
+				DDB97C12141C917D0001F17A /* buffer.c in Sources */,
+				DDB97C14141C917D0001F17A /* cache.c in Sources */,
+				DDB97C17141C917D0001F17A /* commit.c in Sources */,
+				DDB97C1A141C917D0001F17A /* config_file.c in Sources */,
+				DDB97C1B141C917D0001F17A /* config.c in Sources */,
+				DDB97C1D141C917D0001F17A /* delta-apply.c in Sources */,
+				DDB97C20141C917D0001F17A /* errors.c in Sources */,
+				DDB97C21141C917D0001F17A /* fetch.c in Sources */,
+				DDB97C23141C917D0001F17A /* filebuf.c in Sources */,
+				DDB97C25141C917D0001F17A /* fileops.c in Sources */,
+				DDB97C27141C917D0001F17A /* hash.c in Sources */,
+				DDB97C29141C917D0001F17A /* hashtable.c in Sources */,
+				DDB97C2B141C917D0001F17A /* index.c in Sources */,
+				DDB97C2D141C917D0001F17A /* indexer.c in Sources */,
+				DDB97C2F141C917D0001F17A /* mwindow.c in Sources */,
+				DDB97C31141C917D0001F17A /* netops.c in Sources */,
+				DDB97C33141C917D0001F17A /* object.c in Sources */,
+				DDB97C34141C917D0001F17A /* odb_loose.c in Sources */,
+				DDB97C35141C917D0001F17A /* odb_pack.c in Sources */,
+				DDB97C36141C917D0001F17A /* odb.c in Sources */,
+				DDB97C38141C917D0001F17A /* oid.c in Sources */,
+				DDB97C39141C917D0001F17A /* pack.c in Sources */,
+				DDB97C3B141C917D0001F17A /* path.c in Sources */,
+				DDB97C3D141C917D0001F17A /* pkt.c in Sources */,
+				DDB97C3F141C917D0001F17A /* posix.c in Sources */,
+				DDB97C41141C917D0001F17A /* pqueue.c in Sources */,
+				DDB97C43141C917D0001F17A /* reflog.c in Sources */,
+				DDB97C45141C917D0001F17A /* refs.c in Sources */,
+				DDB97C47141C917D0001F17A /* refspec.c in Sources */,
+				DDB97C49141C917D0001F17A /* remote.c in Sources */,
+				DDB97C4B141C917D0001F17A /* repository.c in Sources */,
+				DDB97C4D141C917D0001F17A /* revwalk.c in Sources */,
+				DDB97C4E141C917D0001F17A /* sha1_lookup.c in Sources */,
+				DDB97C50141C917D0001F17A /* sha1.c in Sources */,
+				DDB97C52141C917D0001F17A /* signature.c in Sources */,
+				DDB97C54141C917D0001F17A /* status.c in Sources */,
+				DDB97C55141C917D0001F17A /* tag.c in Sources */,
+				DDB97C57141C917D0001F17A /* thread-utils.c in Sources */,
+				DDB97C59141C917D0001F17A /* transport_git.c in Sources */,
+				DDB97C5A141C917D0001F17A /* transport_local.c in Sources */,
+				DDB97C5B141C917D0001F17A /* transport.c in Sources */,
+				DDB97C5D141C917D0001F17A /* tree.c in Sources */,
+				DDB97C5F141C917D0001F17A /* tsort.c in Sources */,
+				DDB97C60141C917D0001F17A /* map.c in Sources */,
+				DDB97C62141C917D0001F17A /* util.c in Sources */,
+				DDB97C64141C917D0001F17A /* vector.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -841,6 +1290,11 @@
 			isa = PBXTargetDependency;
 			target = 8DC2EF4F0486A6940098B216 /* ObjectiveGit */;
 			targetProxy = BDE4BE47130EF84900851650 /* PBXContainerItemProxy */;
+		};
+		DDB97C6C141C92120001F17A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DDB97BA8141C90F60001F17A /* libgit2-ios */;
+			targetProxy = DDB97C6B141C92120001F17A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -861,7 +1315,11 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				COPY_PHASE_STRIP = NO;
+				EXECUTABLE_EXTENSION = "";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Frameworks\"",
@@ -870,7 +1328,8 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREFIX_HEADER = ObjectiveGitFramework_Prefix.pch;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
-				PRODUCT_NAME = "ObjectiveGit-iOS";
+				PRODUCT_NAME = ObjectiveGit;
+				PUBLIC_HEADERS_FOLDER_PATH = ObjectiveGit.framework/Headers;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -880,15 +1339,20 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				EXECUTABLE_EXTENSION = "";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Frameworks\"",
 				);
 				GCC_PREFIX_HEADER = ObjectiveGitFramework_Prefix.pch;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
-				PRODUCT_NAME = "ObjectiveGit-iOS";
+				PRODUCT_NAME = ObjectiveGit;
+				PUBLIC_HEADERS_FOLDER_PATH = ObjectiveGit.framework/Headers;
 				SDKROOT = iphoneos;
 				ZERO_LINK = NO;
 			};
@@ -1115,6 +1579,34 @@
 			};
 			name = Release;
 		};
+		DDB97BB3141C90F70001F17A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = NO;
+				DSTROOT = /tmp/libgit2_ios.dst;
+				EXECUTABLE_PREFIX = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = include;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		DDB97BB4141C90F70001F17A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DSTROOT = /tmp/libgit2_ios.dst;
+				EXECUTABLE_PREFIX = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = include;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1168,6 +1660,15 @@
 			buildConfigurations = (
 				BDE4BE45130EF84000851650 /* Debug */,
 				BDE4BE46130EF84000851650 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DDB97BB5141C90F70001F17A /* Build configuration list for PBXNativeTarget "libgit2-ios" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DDB97BB3141C90F70001F17A /* Debug */,
+				DDB97BB4141C90F70001F17A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
