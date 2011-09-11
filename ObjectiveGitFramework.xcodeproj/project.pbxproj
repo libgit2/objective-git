@@ -1818,6 +1818,7 @@
 				COPY_PHASE_STRIP = NO;
 				DSTROOT = /tmp/libgit2.dst;
 				EXECUTABLE_PREFIX = "";
+				GCC_WARN_UNUSED_VALUE = NO;
 				PRODUCT_NAME = libgit2;
 				PUBLIC_HEADERS_FOLDER_PATH = include;
 				SKIP_INSTALL = YES;
@@ -1830,6 +1831,7 @@
 				COPY_PHASE_STRIP = YES;
 				DSTROOT = /tmp/libgit2.dst;
 				EXECUTABLE_PREFIX = "";
+				GCC_WARN_UNUSED_VALUE = NO;
 				PRODUCT_NAME = libgit2;
 				PUBLIC_HEADERS_FOLDER_PATH = include;
 				SKIP_INSTALL = YES;
@@ -1843,6 +1845,7 @@
 				COPY_PHASE_STRIP = NO;
 				DSTROOT = /tmp/libgit2_ios.dst;
 				EXECUTABLE_PREFIX = "";
+				GCC_WARN_UNUSED_VALUE = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = include;
 				SDKROOT = iphoneos;
@@ -1857,6 +1860,7 @@
 				COPY_PHASE_STRIP = YES;
 				DSTROOT = /tmp/libgit2_ios.dst;
 				EXECUTABLE_PREFIX = "";
+				GCC_WARN_UNUSED_VALUE = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = include;
 				SDKROOT = iphoneos;
