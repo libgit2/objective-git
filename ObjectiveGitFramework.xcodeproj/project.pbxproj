@@ -323,6 +323,7 @@
 		DDB97C68141C91980001F17A /* git2.h in Headers */ = {isa = PBXBuildFile; fileRef = DDB97C67141C91980001F17A /* git2.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DDB97C69141C91A90001F17A /* git2 in Headers */ = {isa = PBXBuildFile; fileRef = DDB97C66141C91980001F17A /* git2 */; settings = {ATTRIBUTES = (Public, ); }; };
 		DDB97C6A141C920C0001F17A /* libgit2-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DDB97BA9141C90F60001F17A /* libgit2-ios.a */; };
+		DDF65A3E141C947A00470D7F /* GTObjectDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = 55C8054C13861F34004DCB0F /* GTObjectDatabase.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -954,6 +955,7 @@
 				04DB4657133AB5E200D9C624 /* GTIndex.h in Headers */,
 				04DB4658133AB5E200D9C624 /* GTIndexEntry.h in Headers */,
 				04DB4659133AB5E200D9C624 /* GTReference.h in Headers */,
+				DDF65A3E141C947A00470D7F /* GTObjectDatabase.h in Headers */,
 				04DB465A133AB5E200D9C624 /* ObjectiveGit.h in Headers */,
 				04DB465B133AB5E200D9C624 /* GTCommit.h in Headers */,
 				04DB465C133AB5E200D9C624 /* GTObject.h in Headers */,
