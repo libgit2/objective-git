@@ -108,7 +108,7 @@
 	return [NSString stringWithUTF8String:s];
 }
 
-- (NSString *)shortMessage {
+- (NSString *)messageTitle {
 	NSArray *lines = [[self message] componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
 	if ([lines count] == 0) return nil;
 	

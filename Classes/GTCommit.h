@@ -59,7 +59,7 @@
                                         error:(NSError **)error;
 
 - (NSString *)message;
-- (NSString *)shortMessage;
+- (NSString *)messageTitle;
 - (NSString *)messageDetails;
 - (NSDate *)commitDate;
 - (GTTree *)tree;
