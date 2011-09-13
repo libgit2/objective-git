@@ -1,3 +1,0 @@
-cp ../../libgit2/include/git2.h ./libgit2/include
-cp -r ../../libgit2/include/git2/ ./libgit2/include/git2
-cp ../../libgit2/libgit2.a ./libgit2/lib
