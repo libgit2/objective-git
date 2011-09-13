@@ -108,6 +108,13 @@
 	return [NSString stringWithUTF8String:s];
 }
 
+- (NSString *)messageTitle {
+	NSArray *lines = [[self message] componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+	if ([lines count] == 0) return nil;
+	
+	return [lines objectAtIndex:0];
+}
+
 - (NSString *)messageDetails {
 	
 	NSArray *lines = [self.message componentsSeparatedByString:@"\n"];
