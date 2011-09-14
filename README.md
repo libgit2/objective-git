@@ -27,6 +27,19 @@ chances are that you will want to also grab its submodules, e.g. as follows:
 [libgit2]: https://github.com/libgit2/libgit2
 [submodule]: http://book.git-scm.com/5_submodules.html
 
+## Inclusion in Mac OS X projects
+
+It is simple enough to add the ObjectiveGit framework to a desktop application project. An example of this is the [CommitViewer] example on GitHub. In summary:
+
+1. Drag the ObjectiveGit.xcodeproj file into the project navigator
+2. Add the ObjectiveGit framework as a target dependency of your application
+3. Link your application with teh ObjectiveGit framework.
+4. Add a new Copy Files build phase, set the destination to Frameworks and and the ObjectiveGit framework to that - this will package the framework with your application as an embedded private framework.
+5. Don't forget to `#import <ObjectiveGit/ObjectiveGit.h>` as you would with any other framework.
+
+
+[CommitViewer]: https://github.com/Abizern/CommitViewer
+
 ## Inclusion in iOS projects
 
 Inclusion of Objective Git in iOS projects is somewhat cumbersome on account of iOS
