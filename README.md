@@ -18,7 +18,7 @@ and reopen the project to move from iOS testing back to mac testing.
 [ghunit]: https://github.com/gabriel/gh-unit
 
 ## libgit2
-[libgit2] is included as a [submodule] of Objective Git. After cloning Objective Git, 
+[libgit2] is included as a [submodule] of Objective Git. After cloning Objective Git,
 chances are that you will want to also grab its submodules, e.g. as follows:
 
     $ git submodule init
@@ -33,7 +33,7 @@ It is simple enough to add the ObjectiveGit framework to a desktop application p
 
 1. Drag the ObjectiveGit.xcodeproj file into the project navigator
 2. Add the ObjectiveGit framework as a target dependency of your application
-3. Link your application with teh ObjectiveGit framework.
+3. Link your application with the ObjectiveGit framework.
 4. Add a new Copy Files build phase, set the destination to Frameworks and and the ObjectiveGit framework to that - this will package the framework with your application as an embedded private framework.
 5. Don't forget to `#import <ObjectiveGit/ObjectiveGit.h>` as you would with any other framework.
 
