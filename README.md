@@ -11,18 +11,43 @@ as possible while trying to maintain a native objective-c feel.
 ## Unit Testing
 Unit testing in being done using [GHUnit][ghunit].
 We are using both the mac and iOS unit testing frameworks. The one minor
-inconvience to be aware of is that xcode doesn't like switching between
+inconvenience to be aware of is that xcode doesn't like switching between
 the mac test target and the iOS test target. You generally have to close
 and reopen the project to move from iOS testing back to mac testing.
 
 [ghunit]: https://github.com/gabriel/gh-unit
 
 ## libgit2
-We are bundling the [libgit2] binaries (static libraries) with
-objective-git right now. This includes binaries compiled for os x and both the
-iOS simulator and device.
+[libgit2] is included as a [submodule] of Objective Git. After cloning Objective Git,
+chances are that you will want to also grab its submodules, e.g. as follows:
+
+    $ git submodule init
+    $ git submodule update
 
 [libgit2]: https://github.com/libgit2/libgit2
+[submodule]: http://book.git-scm.com/5_submodules.html
+
+## Inclusion in Mac OS X projects
+
+It is simple enough to add the ObjectiveGit framework to a desktop application project. An example of this is the [CommitViewer] example on GitHub. In summary:
+
+1. Drag the ObjectiveGit.xcodeproj file into the project navigator
+2. Add the ObjectiveGit framework as a target dependency of your application
+3. Link your application with the ObjectiveGit framework.
+4. Add a new Copy Files build phase, set the destination to Frameworks and and the ObjectiveGit framework to that - this will package the framework with your application as an embedded private framework.
+5. Don't forget to `#import <ObjectiveGit/ObjectiveGit.h>` as you would with any other framework.
+
+
+[CommitViewer]: https://github.com/Abizern/CommitViewer
+
+## Inclusion in iOS projects
+
+Inclusion of Objective Git in iOS projects is somewhat cumbersome on account of iOS
+not allowing third-party dynamic frameworks. A work-around for this is as follows:
+
+1. Drag the ObjectiveGit.xcodeproj file into the Project Navigator.
+2. Add ObjectiveGit-iOS as a target dependency of your application.
+3. Link your application to `ObjectiveGit` (not `libgit2-ios` or `ObjectiveGit.framework`)
 
 ## Todo
 
