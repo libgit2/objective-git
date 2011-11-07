@@ -38,6 +38,7 @@
 - (void)dealloc {
 	
 	self.repository = nil;
+	if(self.ref != NULL) git_reference_free(self.ref);
 	[super dealloc];
 }
 
