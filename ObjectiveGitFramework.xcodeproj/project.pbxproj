@@ -893,6 +893,7 @@
 					"\"$(SRCROOT)\"",
 				);
 				MACH_O_TYPE = mh_dylib;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = ObjectiveGit;
 				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = dynamic;
 				VALID_ARCHS = x86_64;
@@ -921,6 +922,7 @@
 					"\"$(SRCROOT)\"",
 				);
 				MACH_O_TYPE = mh_dylib;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = ObjectiveGit;
 				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = dynamic;
 				VALID_ARCHS = x86_64;
