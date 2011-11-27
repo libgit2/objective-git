@@ -48,7 +48,11 @@
 
 + (BOOL)initializeEmptyRepositoryAtURL:(NSURL *)localFileURL error:(NSError **)error;
 
-+ (id)repositoryWithURL:(NSURL *)localFileURL error:(NSError **)error;
+/*!
+ @result
+ A `GTRepository` object if there's valid Git repository. Otherwise `nil`.
+ */
++ (GTRepository*)repositoryWithURL:(NSURL *)localFileURL error:(NSError **)error;
 - (id)initWithURL:(NSURL *)localFileURL error:(NSError **)error;
 
 // Helper for getting the sha1 has of a raw object

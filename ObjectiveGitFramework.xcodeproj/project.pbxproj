@@ -38,7 +38,6 @@
 		04DB466D133AB5EB00D9C624 /* GTIndexEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = BDFAF9C8131C1868000508BC /* GTIndexEntry.m */; };
 		04DB466E133AB5EB00D9C624 /* GTReference.m in Sources */ = {isa = PBXBuildFile; fileRef = BD441E07131ED0C300187010 /* GTReference.m */; };
 		04DB466F133AB5EB00D9C624 /* GTBranch.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F50F57132054D800584FBE /* GTBranch.m */; };
-		04DB4672133AB5FE00D9C624 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DB4671133AB5FE00D9C624 /* libz.dylib */; };
 		04DB4B05133BC1A000D9C624 /* GTRepositoryTest.m in Sources */ = {isa = PBXBuildFile; fileRef = BDD8AF28131332E400CB5D40 /* GTRepositoryTest.m */; };
 		04DB4B06133BC1A000D9C624 /* GTWalkerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = BD6C22401314453900992935 /* GTWalkerTest.m */; };
 		04DB4B07133BC1A000D9C624 /* GTLibTest.m in Sources */ = {isa = PBXBuildFile; fileRef = BD6C22421314481B00992935 /* GTLibTest.m */; };
@@ -239,7 +238,7 @@
 		BDD9C3FD133BA604003708E7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		BDD9C3FF133BA604003708E7 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		BDD9C486133BA73E003708E7 /* GHUnitIOSTestMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GHUnitIOSTestMain.m; sourceTree = "<group>"; };
-		BDD9C4F0133BB1ED003708E7 /* libgit2-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libgit2-iOS.a"; path = "libgit2/lib/libgit2-iOS.a"; sourceTree = "<group>"; };
+		BDD9C4F0133BB1ED003708E7 /* libgit2-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libgit2-iOS.a"; sourceTree = "<group>"; };
 		BDE4C060130EFE2C00851650 /* NSError+Git.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+Git.h"; sourceTree = "<group>"; };
 		BDE4C061130EFE2C00851650 /* NSError+Git.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+Git.m"; sourceTree = "<group>"; };
 		BDE4C062130EFE2C00851650 /* GTRepository.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTRepository.h; sourceTree = "<group>"; };
@@ -258,7 +257,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04DB4672133AB5FE00D9C624 /* libz.dylib in Frameworks */,
 				BDD9C4F1133BB1ED003708E7 /* libgit2-iOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -889,7 +887,6 @@
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/libgit2/build\"",
 					"\"$(SRCROOT)\"",
 				);
 				MACH_O_TYPE = mh_dylib;
@@ -918,7 +915,6 @@
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/libgit2/build\"",
 					"\"$(SRCROOT)\"",
 				);
 				MACH_O_TYPE = mh_dylib;
