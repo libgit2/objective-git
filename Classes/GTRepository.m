@@ -94,7 +94,8 @@
         return nil;
     }
     
-    if ([[url path] hasSuffix:@".git"] == NO || [GTRepository isAGitDirectory:url] == NO) {
+    if ([[url path] hasSuffix:@".git"] == NO && [GTRepository isAGitDirectory:url] == NO) 
+	{
         url = [url URLByAppendingPathComponent:@".git"];
     }
     return url;
@@ -124,7 +125,7 @@
     return (gitError == GIT_SUCCESS);
 }
 
-+ (id)repositoryWithURL:(NSURL *)localFileURL error:(NSError **)error {
++ (GTRepository*)repositoryWithURL:(NSURL *)localFileURL error:(NSError **)error {
 
     return [[[self alloc] initWithURL:localFileURL error:error] autorelease];
 }

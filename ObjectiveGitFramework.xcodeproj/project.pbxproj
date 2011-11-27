@@ -889,7 +889,6 @@
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/libgit2/build\"",
 					"\"$(SRCROOT)\"",
 				);
 				MACH_O_TYPE = mh_dylib;
@@ -918,7 +917,6 @@
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/libgit2/build\"",
 					"\"$(SRCROOT)\"",
 				);
 				MACH_O_TYPE = mh_dylib;
