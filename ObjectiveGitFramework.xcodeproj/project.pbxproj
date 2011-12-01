@@ -243,6 +243,20 @@
 			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = ObjectiveGit;
 		};
+		D3165BD114881EE900736833 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D37BD82F14881719006DF0CD;
+			remoteInfo = Git2Mac;
+		};
+		D3165BD414881EFE00736833 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D37BD84214881736006DF0CD;
+			remoteInfo = git2ios;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -1012,6 +1026,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				D3165BD514881EFE00736833 /* PBXTargetDependency */,
 			);
 			name = "ObjectiveGit-iOS";
 			productName = "ObjectiveGit-iOS";
@@ -1031,6 +1046,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				D3165BD214881EE900736833 /* PBXTargetDependency */,
 			);
 			name = ObjectiveGit;
 			productInstallPath = "$(HOME)/Library/Frameworks";
@@ -1428,6 +1444,16 @@
 			isa = PBXTargetDependency;
 			target = 8DC2EF4F0486A6940098B216 /* ObjectiveGit */;
 			targetProxy = BD6C221C1314428300992935 /* PBXContainerItemProxy */;
+		};
+		D3165BD214881EE900736833 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D37BD82F14881719006DF0CD /* Git2Mac */;
+			targetProxy = D3165BD114881EE900736833 /* PBXContainerItemProxy */;
+		};
+		D3165BD514881EFE00736833 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D37BD84214881736006DF0CD /* git2ios */;
+			targetProxy = D3165BD414881EFE00736833 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
