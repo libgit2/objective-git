@@ -226,6 +226,146 @@
 		D373537114881CC100CD9074 /* http_parser.c in Sources */ = {isa = PBXBuildFile; fileRef = D343146914881A8800EF596D /* http_parser.c */; };
 		D37BD83114881719006DF0CD /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D37BD80814881692006DF0CD /* Cocoa.framework */; };
 		D37BD84414881736006DF0CD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D37BD820148816F0006DF0CD /* Foundation.framework */; };
+		D3E6CA6B1488299600EEFA1F /* git2.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314A014881A8800EF596D /* git2.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA6C1488299600EEFA1F /* blob.h in Headers */ = {isa = PBXBuildFile; fileRef = D343148114881A8800EF596D /* blob.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA6D1488299600EEFA1F /* branch.h in Headers */ = {isa = PBXBuildFile; fileRef = D343148214881A8800EF596D /* branch.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA6E1488299600EEFA1F /* commit.h in Headers */ = {isa = PBXBuildFile; fileRef = D343148314881A8800EF596D /* commit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA6F1488299600EEFA1F /* common.h in Headers */ = {isa = PBXBuildFile; fileRef = D343148414881A8800EF596D /* common.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA701488299600EEFA1F /* config.h in Headers */ = {isa = PBXBuildFile; fileRef = D343148514881A8800EF596D /* config.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA711488299600EEFA1F /* errors.h in Headers */ = {isa = PBXBuildFile; fileRef = D343148614881A8800EF596D /* errors.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA721488299600EEFA1F /* index.h in Headers */ = {isa = PBXBuildFile; fileRef = D343148714881A8800EF596D /* index.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA731488299600EEFA1F /* indexer.h in Headers */ = {isa = PBXBuildFile; fileRef = D343148814881A8800EF596D /* indexer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA741488299600EEFA1F /* net.h in Headers */ = {isa = PBXBuildFile; fileRef = D343148A14881A8800EF596D /* net.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA751488299600EEFA1F /* object.h in Headers */ = {isa = PBXBuildFile; fileRef = D343148B14881A8800EF596D /* object.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA761488299600EEFA1F /* odb.h in Headers */ = {isa = PBXBuildFile; fileRef = D343148C14881A8800EF596D /* odb.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA771488299600EEFA1F /* odb_backend.h in Headers */ = {isa = PBXBuildFile; fileRef = D343148D14881A8800EF596D /* odb_backend.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA781488299600EEFA1F /* oid.h in Headers */ = {isa = PBXBuildFile; fileRef = D343148E14881A8800EF596D /* oid.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA791488299600EEFA1F /* reflog.h in Headers */ = {isa = PBXBuildFile; fileRef = D343148F14881A8800EF596D /* reflog.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA7A1488299600EEFA1F /* refs.h in Headers */ = {isa = PBXBuildFile; fileRef = D343149014881A8800EF596D /* refs.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA7B1488299600EEFA1F /* refspec.h in Headers */ = {isa = PBXBuildFile; fileRef = D343149114881A8800EF596D /* refspec.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA7C1488299600EEFA1F /* remote.h in Headers */ = {isa = PBXBuildFile; fileRef = D343149214881A8800EF596D /* remote.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA7D1488299600EEFA1F /* repository.h in Headers */ = {isa = PBXBuildFile; fileRef = D343149314881A8800EF596D /* repository.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA7E1488299600EEFA1F /* revwalk.h in Headers */ = {isa = PBXBuildFile; fileRef = D343149414881A8800EF596D /* revwalk.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA7F1488299600EEFA1F /* signature.h in Headers */ = {isa = PBXBuildFile; fileRef = D343149514881A8800EF596D /* signature.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA801488299600EEFA1F /* status.h in Headers */ = {isa = PBXBuildFile; fileRef = D343149614881A8800EF596D /* status.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA811488299600EEFA1F /* tag.h in Headers */ = {isa = PBXBuildFile; fileRef = D343149814881A8800EF596D /* tag.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA821488299600EEFA1F /* thread-utils.h in Headers */ = {isa = PBXBuildFile; fileRef = D343149914881A8800EF596D /* thread-utils.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA831488299600EEFA1F /* transport.h in Headers */ = {isa = PBXBuildFile; fileRef = D343149A14881A8800EF596D /* transport.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA841488299600EEFA1F /* tree.h in Headers */ = {isa = PBXBuildFile; fileRef = D343149B14881A8800EF596D /* tree.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA851488299600EEFA1F /* types.h in Headers */ = {isa = PBXBuildFile; fileRef = D343149C14881A8800EF596D /* types.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA861488299600EEFA1F /* version.h in Headers */ = {isa = PBXBuildFile; fileRef = D343149D14881A8800EF596D /* version.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA881488299900EEFA1F /* git2.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314A014881A8800EF596D /* git2.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA891488299900EEFA1F /* blob.h in Headers */ = {isa = PBXBuildFile; fileRef = D343148114881A8800EF596D /* blob.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA8A1488299900EEFA1F /* branch.h in Headers */ = {isa = PBXBuildFile; fileRef = D343148214881A8800EF596D /* branch.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA8B1488299900EEFA1F /* commit.h in Headers */ = {isa = PBXBuildFile; fileRef = D343148314881A8800EF596D /* commit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA8C1488299900EEFA1F /* common.h in Headers */ = {isa = PBXBuildFile; fileRef = D343148414881A8800EF596D /* common.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA8D1488299900EEFA1F /* config.h in Headers */ = {isa = PBXBuildFile; fileRef = D343148514881A8800EF596D /* config.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA8E1488299900EEFA1F /* errors.h in Headers */ = {isa = PBXBuildFile; fileRef = D343148614881A8800EF596D /* errors.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA8F1488299900EEFA1F /* index.h in Headers */ = {isa = PBXBuildFile; fileRef = D343148714881A8800EF596D /* index.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA901488299900EEFA1F /* indexer.h in Headers */ = {isa = PBXBuildFile; fileRef = D343148814881A8800EF596D /* indexer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA911488299900EEFA1F /* net.h in Headers */ = {isa = PBXBuildFile; fileRef = D343148A14881A8800EF596D /* net.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA921488299900EEFA1F /* object.h in Headers */ = {isa = PBXBuildFile; fileRef = D343148B14881A8800EF596D /* object.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA931488299900EEFA1F /* odb.h in Headers */ = {isa = PBXBuildFile; fileRef = D343148C14881A8800EF596D /* odb.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA941488299900EEFA1F /* odb_backend.h in Headers */ = {isa = PBXBuildFile; fileRef = D343148D14881A8800EF596D /* odb_backend.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA951488299900EEFA1F /* oid.h in Headers */ = {isa = PBXBuildFile; fileRef = D343148E14881A8800EF596D /* oid.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA961488299900EEFA1F /* reflog.h in Headers */ = {isa = PBXBuildFile; fileRef = D343148F14881A8800EF596D /* reflog.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA971488299900EEFA1F /* refs.h in Headers */ = {isa = PBXBuildFile; fileRef = D343149014881A8800EF596D /* refs.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA981488299900EEFA1F /* refspec.h in Headers */ = {isa = PBXBuildFile; fileRef = D343149114881A8800EF596D /* refspec.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA991488299900EEFA1F /* remote.h in Headers */ = {isa = PBXBuildFile; fileRef = D343149214881A8800EF596D /* remote.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA9A1488299900EEFA1F /* repository.h in Headers */ = {isa = PBXBuildFile; fileRef = D343149314881A8800EF596D /* repository.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA9B1488299900EEFA1F /* revwalk.h in Headers */ = {isa = PBXBuildFile; fileRef = D343149414881A8800EF596D /* revwalk.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA9C1488299900EEFA1F /* signature.h in Headers */ = {isa = PBXBuildFile; fileRef = D343149514881A8800EF596D /* signature.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA9D1488299900EEFA1F /* status.h in Headers */ = {isa = PBXBuildFile; fileRef = D343149614881A8800EF596D /* status.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA9E1488299900EEFA1F /* tag.h in Headers */ = {isa = PBXBuildFile; fileRef = D343149814881A8800EF596D /* tag.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CA9F1488299900EEFA1F /* thread-utils.h in Headers */ = {isa = PBXBuildFile; fileRef = D343149914881A8800EF596D /* thread-utils.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CAA01488299900EEFA1F /* transport.h in Headers */ = {isa = PBXBuildFile; fileRef = D343149A14881A8800EF596D /* transport.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CAA11488299900EEFA1F /* tree.h in Headers */ = {isa = PBXBuildFile; fileRef = D343149B14881A8800EF596D /* tree.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CAA21488299900EEFA1F /* types.h in Headers */ = {isa = PBXBuildFile; fileRef = D343149C14881A8800EF596D /* types.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CAA31488299900EEFA1F /* version.h in Headers */ = {isa = PBXBuildFile; fileRef = D343149D14881A8800EF596D /* version.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3E6CAA414882A5300EEFA1F /* http_parser.h in Headers */ = {isa = PBXBuildFile; fileRef = D343146A14881A8800EF596D /* http_parser.h */; };
+		D3E6CAA514882A5300EEFA1F /* blob.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314A314881A8800EF596D /* blob.h */; };
+		D3E6CAA614882A5300EEFA1F /* bswap.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314A414881A8800EF596D /* bswap.h */; };
+		D3E6CAA714882A5300EEFA1F /* buffer.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314A614881A8800EF596D /* buffer.h */; };
+		D3E6CAA814882A5300EEFA1F /* cache.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314A814881A8800EF596D /* cache.h */; };
+		D3E6CAA914882A5300EEFA1F /* cc-compat.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314A914881A8800EF596D /* cc-compat.h */; };
+		D3E6CAAA14882A5300EEFA1F /* commit.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314AB14881A8800EF596D /* commit.h */; };
+		D3E6CAAB14882A5300EEFA1F /* common.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314AC14881A8800EF596D /* common.h */; };
+		D3E6CAAC14882A5300EEFA1F /* config.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314AE14881A8800EF596D /* config.h */; };
+		D3E6CAAD14882A5300EEFA1F /* delta-apply.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314B114881A8800EF596D /* delta-apply.h */; };
+		D3E6CAAE14882A5300EEFA1F /* dir.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314B214881A8800EF596D /* dir.h */; };
+		D3E6CAAF14882A5300EEFA1F /* fetch.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314B514881A8800EF596D /* fetch.h */; };
+		D3E6CAB014882A5300EEFA1F /* filebuf.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314B714881A8800EF596D /* filebuf.h */; };
+		D3E6CAB114882A5300EEFA1F /* fileops.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314B914881A8800EF596D /* fileops.h */; };
+		D3E6CAB214882A5300EEFA1F /* hash.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314BB14881A8800EF596D /* hash.h */; };
+		D3E6CAB314882A5300EEFA1F /* hashtable.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314BD14881A8800EF596D /* hashtable.h */; };
+		D3E6CAB414882A5300EEFA1F /* index.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314BF14881A8800EF596D /* index.h */; };
+		D3E6CAB514882A5300EEFA1F /* map.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314C114881A8800EF596D /* map.h */; };
+		D3E6CAB614882A5300EEFA1F /* mwindow.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314C314881A8800EF596D /* mwindow.h */; };
+		D3E6CAB714882A5300EEFA1F /* netops.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314C514881A8800EF596D /* netops.h */; };
+		D3E6CAB814882A5300EEFA1F /* odb.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314C814881A8800EF596D /* odb.h */; };
+		D3E6CAB914882A5300EEFA1F /* pack.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314CD14881A8800EF596D /* pack.h */; };
+		D3E6CABA14882A5300EEFA1F /* path.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314CF14881A8800EF596D /* path.h */; };
+		D3E6CABB14882A5300EEFA1F /* pkt.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314D114881A8800EF596D /* pkt.h */; };
+		D3E6CABC14882A5300EEFA1F /* posix.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314D314881A8800EF596D /* posix.h */; };
+		D3E6CABD14882A5300EEFA1F /* pqueue.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314D914881A8800EF596D /* pqueue.h */; };
+		D3E6CABE14882A5300EEFA1F /* reflog.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314DB14881A8800EF596D /* reflog.h */; };
+		D3E6CABF14882A5300EEFA1F /* refs.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314DD14881A8800EF596D /* refs.h */; };
+		D3E6CAC014882A5300EEFA1F /* refspec.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314DF14881A8800EF596D /* refspec.h */; };
+		D3E6CAC114882A5300EEFA1F /* remote.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314E114881A8800EF596D /* remote.h */; };
+		D3E6CAC214882A5300EEFA1F /* repository.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314E314881A8800EF596D /* repository.h */; };
+		D3E6CAC314882A5300EEFA1F /* sha1.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314E614881A8800EF596D /* sha1.h */; };
+		D3E6CAC414882A5300EEFA1F /* sha1_lookup.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314E814881A8800EF596D /* sha1_lookup.h */; };
+		D3E6CAC514882A5300EEFA1F /* signature.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314EA14881A8800EF596D /* signature.h */; };
+		D3E6CAC614882A5300EEFA1F /* tag.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314ED14881A8800EF596D /* tag.h */; };
+		D3E6CAC714882A5300EEFA1F /* thread-utils.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314EF14881A8800EF596D /* thread-utils.h */; };
+		D3E6CAC814882A5300EEFA1F /* transport.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314F114881A8800EF596D /* transport.h */; };
+		D3E6CAC914882A5300EEFA1F /* tree-cache.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314F714881A8800EF596D /* tree-cache.h */; };
+		D3E6CACA14882A5300EEFA1F /* tree.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314F914881A8800EF596D /* tree.h */; };
+		D3E6CACB14882A5300EEFA1F /* util.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314FF14881A8800EF596D /* util.h */; };
+		D3E6CACC14882A5300EEFA1F /* vector.h in Headers */ = {isa = PBXBuildFile; fileRef = D343150114881A8800EF596D /* vector.h */; };
+		D3E6CACD14882A5300EEFA1F /* posix.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314FD14881A8800EF596D /* posix.h */; };
+		D3E6CACE14882A5E00EEFA1F /* http_parser.h in Headers */ = {isa = PBXBuildFile; fileRef = D343146A14881A8800EF596D /* http_parser.h */; };
+		D3E6CACF14882A5E00EEFA1F /* blob.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314A314881A8800EF596D /* blob.h */; };
+		D3E6CAD014882A5E00EEFA1F /* bswap.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314A414881A8800EF596D /* bswap.h */; };
+		D3E6CAD114882A5E00EEFA1F /* buffer.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314A614881A8800EF596D /* buffer.h */; };
+		D3E6CAD214882A5E00EEFA1F /* cache.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314A814881A8800EF596D /* cache.h */; };
+		D3E6CAD314882A5E00EEFA1F /* cc-compat.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314A914881A8800EF596D /* cc-compat.h */; };
+		D3E6CAD414882A5E00EEFA1F /* commit.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314AB14881A8800EF596D /* commit.h */; };
+		D3E6CAD514882A5E00EEFA1F /* common.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314AC14881A8800EF596D /* common.h */; };
+		D3E6CAD614882A5E00EEFA1F /* config.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314AE14881A8800EF596D /* config.h */; };
+		D3E6CAD714882A5E00EEFA1F /* delta-apply.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314B114881A8800EF596D /* delta-apply.h */; };
+		D3E6CAD814882A5E00EEFA1F /* dir.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314B214881A8800EF596D /* dir.h */; };
+		D3E6CAD914882A5E00EEFA1F /* fetch.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314B514881A8800EF596D /* fetch.h */; };
+		D3E6CADA14882A5E00EEFA1F /* filebuf.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314B714881A8800EF596D /* filebuf.h */; };
+		D3E6CADB14882A5E00EEFA1F /* fileops.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314B914881A8800EF596D /* fileops.h */; };
+		D3E6CADC14882A5E00EEFA1F /* hash.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314BB14881A8800EF596D /* hash.h */; };
+		D3E6CADD14882A5E00EEFA1F /* hashtable.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314BD14881A8800EF596D /* hashtable.h */; };
+		D3E6CADE14882A5E00EEFA1F /* index.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314BF14881A8800EF596D /* index.h */; };
+		D3E6CADF14882A5E00EEFA1F /* map.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314C114881A8800EF596D /* map.h */; };
+		D3E6CAE014882A5E00EEFA1F /* mwindow.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314C314881A8800EF596D /* mwindow.h */; };
+		D3E6CAE114882A5E00EEFA1F /* netops.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314C514881A8800EF596D /* netops.h */; };
+		D3E6CAE214882A5E00EEFA1F /* odb.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314C814881A8800EF596D /* odb.h */; };
+		D3E6CAE314882A5E00EEFA1F /* pack.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314CD14881A8800EF596D /* pack.h */; };
+		D3E6CAE414882A5E00EEFA1F /* path.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314CF14881A8800EF596D /* path.h */; };
+		D3E6CAE514882A5E00EEFA1F /* pkt.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314D114881A8800EF596D /* pkt.h */; };
+		D3E6CAE614882A5E00EEFA1F /* posix.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314D314881A8800EF596D /* posix.h */; };
+		D3E6CAE714882A5E00EEFA1F /* pqueue.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314D914881A8800EF596D /* pqueue.h */; };
+		D3E6CAE814882A5E00EEFA1F /* reflog.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314DB14881A8800EF596D /* reflog.h */; };
+		D3E6CAE914882A5E00EEFA1F /* refs.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314DD14881A8800EF596D /* refs.h */; };
+		D3E6CAEA14882A5E00EEFA1F /* refspec.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314DF14881A8800EF596D /* refspec.h */; };
+		D3E6CAEB14882A5E00EEFA1F /* remote.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314E114881A8800EF596D /* remote.h */; };
+		D3E6CAEC14882A5E00EEFA1F /* repository.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314E314881A8800EF596D /* repository.h */; };
+		D3E6CAED14882A5E00EEFA1F /* sha1.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314E614881A8800EF596D /* sha1.h */; };
+		D3E6CAEE14882A5E00EEFA1F /* sha1_lookup.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314E814881A8800EF596D /* sha1_lookup.h */; };
+		D3E6CAEF14882A5E00EEFA1F /* signature.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314EA14881A8800EF596D /* signature.h */; };
+		D3E6CAF014882A5E00EEFA1F /* tag.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314ED14881A8800EF596D /* tag.h */; };
+		D3E6CAF114882A5E00EEFA1F /* thread-utils.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314EF14881A8800EF596D /* thread-utils.h */; };
+		D3E6CAF214882A5E00EEFA1F /* transport.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314F114881A8800EF596D /* transport.h */; };
+		D3E6CAF314882A5E00EEFA1F /* tree-cache.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314F714881A8800EF596D /* tree-cache.h */; };
+		D3E6CAF414882A5E00EEFA1F /* tree.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314F914881A8800EF596D /* tree.h */; };
+		D3E6CAF514882A5E00EEFA1F /* util.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314FF14881A8800EF596D /* util.h */; };
+		D3E6CAF614882A5E00EEFA1F /* vector.h in Headers */ = {isa = PBXBuildFile; fileRef = D343150114881A8800EF596D /* vector.h */; };
+		D3E6CAF714882A5E00EEFA1F /* posix.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314FD14881A8800EF596D /* posix.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1002,6 +1142,76 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D3E6CA881488299900EEFA1F /* git2.h in Headers */,
+				D3E6CA891488299900EEFA1F /* blob.h in Headers */,
+				D3E6CA8A1488299900EEFA1F /* branch.h in Headers */,
+				D3E6CA8B1488299900EEFA1F /* commit.h in Headers */,
+				D3E6CA8C1488299900EEFA1F /* common.h in Headers */,
+				D3E6CA8D1488299900EEFA1F /* config.h in Headers */,
+				D3E6CA8E1488299900EEFA1F /* errors.h in Headers */,
+				D3E6CA8F1488299900EEFA1F /* index.h in Headers */,
+				D3E6CA901488299900EEFA1F /* indexer.h in Headers */,
+				D3E6CA911488299900EEFA1F /* net.h in Headers */,
+				D3E6CA921488299900EEFA1F /* object.h in Headers */,
+				D3E6CA931488299900EEFA1F /* odb.h in Headers */,
+				D3E6CA941488299900EEFA1F /* odb_backend.h in Headers */,
+				D3E6CA951488299900EEFA1F /* oid.h in Headers */,
+				D3E6CA961488299900EEFA1F /* reflog.h in Headers */,
+				D3E6CA971488299900EEFA1F /* refs.h in Headers */,
+				D3E6CA981488299900EEFA1F /* refspec.h in Headers */,
+				D3E6CA991488299900EEFA1F /* remote.h in Headers */,
+				D3E6CA9A1488299900EEFA1F /* repository.h in Headers */,
+				D3E6CA9B1488299900EEFA1F /* revwalk.h in Headers */,
+				D3E6CA9C1488299900EEFA1F /* signature.h in Headers */,
+				D3E6CA9D1488299900EEFA1F /* status.h in Headers */,
+				D3E6CA9E1488299900EEFA1F /* tag.h in Headers */,
+				D3E6CA9F1488299900EEFA1F /* thread-utils.h in Headers */,
+				D3E6CAA01488299900EEFA1F /* transport.h in Headers */,
+				D3E6CAA11488299900EEFA1F /* tree.h in Headers */,
+				D3E6CAA21488299900EEFA1F /* types.h in Headers */,
+				D3E6CAA31488299900EEFA1F /* version.h in Headers */,
+				D3E6CACE14882A5E00EEFA1F /* http_parser.h in Headers */,
+				D3E6CACF14882A5E00EEFA1F /* blob.h in Headers */,
+				D3E6CAD014882A5E00EEFA1F /* bswap.h in Headers */,
+				D3E6CAD114882A5E00EEFA1F /* buffer.h in Headers */,
+				D3E6CAD214882A5E00EEFA1F /* cache.h in Headers */,
+				D3E6CAD314882A5E00EEFA1F /* cc-compat.h in Headers */,
+				D3E6CAD414882A5E00EEFA1F /* commit.h in Headers */,
+				D3E6CAD514882A5E00EEFA1F /* common.h in Headers */,
+				D3E6CAD614882A5E00EEFA1F /* config.h in Headers */,
+				D3E6CAD714882A5E00EEFA1F /* delta-apply.h in Headers */,
+				D3E6CAD814882A5E00EEFA1F /* dir.h in Headers */,
+				D3E6CAD914882A5E00EEFA1F /* fetch.h in Headers */,
+				D3E6CADA14882A5E00EEFA1F /* filebuf.h in Headers */,
+				D3E6CADB14882A5E00EEFA1F /* fileops.h in Headers */,
+				D3E6CADC14882A5E00EEFA1F /* hash.h in Headers */,
+				D3E6CADD14882A5E00EEFA1F /* hashtable.h in Headers */,
+				D3E6CADE14882A5E00EEFA1F /* index.h in Headers */,
+				D3E6CADF14882A5E00EEFA1F /* map.h in Headers */,
+				D3E6CAE014882A5E00EEFA1F /* mwindow.h in Headers */,
+				D3E6CAE114882A5E00EEFA1F /* netops.h in Headers */,
+				D3E6CAE214882A5E00EEFA1F /* odb.h in Headers */,
+				D3E6CAE314882A5E00EEFA1F /* pack.h in Headers */,
+				D3E6CAE414882A5E00EEFA1F /* path.h in Headers */,
+				D3E6CAE514882A5E00EEFA1F /* pkt.h in Headers */,
+				D3E6CAE614882A5E00EEFA1F /* posix.h in Headers */,
+				D3E6CAE714882A5E00EEFA1F /* pqueue.h in Headers */,
+				D3E6CAE814882A5E00EEFA1F /* reflog.h in Headers */,
+				D3E6CAE914882A5E00EEFA1F /* refs.h in Headers */,
+				D3E6CAEA14882A5E00EEFA1F /* refspec.h in Headers */,
+				D3E6CAEB14882A5E00EEFA1F /* remote.h in Headers */,
+				D3E6CAEC14882A5E00EEFA1F /* repository.h in Headers */,
+				D3E6CAED14882A5E00EEFA1F /* sha1.h in Headers */,
+				D3E6CAEE14882A5E00EEFA1F /* sha1_lookup.h in Headers */,
+				D3E6CAEF14882A5E00EEFA1F /* signature.h in Headers */,
+				D3E6CAF014882A5E00EEFA1F /* tag.h in Headers */,
+				D3E6CAF114882A5E00EEFA1F /* thread-utils.h in Headers */,
+				D3E6CAF214882A5E00EEFA1F /* transport.h in Headers */,
+				D3E6CAF314882A5E00EEFA1F /* tree-cache.h in Headers */,
+				D3E6CAF414882A5E00EEFA1F /* tree.h in Headers */,
+				D3E6CAF514882A5E00EEFA1F /* util.h in Headers */,
+				D3E6CAF614882A5E00EEFA1F /* vector.h in Headers */,
+				D3E6CAF714882A5E00EEFA1F /* posix.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1009,6 +1219,76 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D3E6CA6B1488299600EEFA1F /* git2.h in Headers */,
+				D3E6CA6C1488299600EEFA1F /* blob.h in Headers */,
+				D3E6CA6D1488299600EEFA1F /* branch.h in Headers */,
+				D3E6CA6E1488299600EEFA1F /* commit.h in Headers */,
+				D3E6CA6F1488299600EEFA1F /* common.h in Headers */,
+				D3E6CA701488299600EEFA1F /* config.h in Headers */,
+				D3E6CA711488299600EEFA1F /* errors.h in Headers */,
+				D3E6CA721488299600EEFA1F /* index.h in Headers */,
+				D3E6CA731488299600EEFA1F /* indexer.h in Headers */,
+				D3E6CA741488299600EEFA1F /* net.h in Headers */,
+				D3E6CA751488299600EEFA1F /* object.h in Headers */,
+				D3E6CA761488299600EEFA1F /* odb.h in Headers */,
+				D3E6CA771488299600EEFA1F /* odb_backend.h in Headers */,
+				D3E6CA781488299600EEFA1F /* oid.h in Headers */,
+				D3E6CA791488299600EEFA1F /* reflog.h in Headers */,
+				D3E6CA7A1488299600EEFA1F /* refs.h in Headers */,
+				D3E6CA7B1488299600EEFA1F /* refspec.h in Headers */,
+				D3E6CA7C1488299600EEFA1F /* remote.h in Headers */,
+				D3E6CA7D1488299600EEFA1F /* repository.h in Headers */,
+				D3E6CA7E1488299600EEFA1F /* revwalk.h in Headers */,
+				D3E6CA7F1488299600EEFA1F /* signature.h in Headers */,
+				D3E6CA801488299600EEFA1F /* status.h in Headers */,
+				D3E6CA811488299600EEFA1F /* tag.h in Headers */,
+				D3E6CA821488299600EEFA1F /* thread-utils.h in Headers */,
+				D3E6CA831488299600EEFA1F /* transport.h in Headers */,
+				D3E6CA841488299600EEFA1F /* tree.h in Headers */,
+				D3E6CA851488299600EEFA1F /* types.h in Headers */,
+				D3E6CA861488299600EEFA1F /* version.h in Headers */,
+				D3E6CAA414882A5300EEFA1F /* http_parser.h in Headers */,
+				D3E6CAA514882A5300EEFA1F /* blob.h in Headers */,
+				D3E6CAA614882A5300EEFA1F /* bswap.h in Headers */,
+				D3E6CAA714882A5300EEFA1F /* buffer.h in Headers */,
+				D3E6CAA814882A5300EEFA1F /* cache.h in Headers */,
+				D3E6CAA914882A5300EEFA1F /* cc-compat.h in Headers */,
+				D3E6CAAA14882A5300EEFA1F /* commit.h in Headers */,
+				D3E6CAAB14882A5300EEFA1F /* common.h in Headers */,
+				D3E6CAAC14882A5300EEFA1F /* config.h in Headers */,
+				D3E6CAAD14882A5300EEFA1F /* delta-apply.h in Headers */,
+				D3E6CAAE14882A5300EEFA1F /* dir.h in Headers */,
+				D3E6CAAF14882A5300EEFA1F /* fetch.h in Headers */,
+				D3E6CAB014882A5300EEFA1F /* filebuf.h in Headers */,
+				D3E6CAB114882A5300EEFA1F /* fileops.h in Headers */,
+				D3E6CAB214882A5300EEFA1F /* hash.h in Headers */,
+				D3E6CAB314882A5300EEFA1F /* hashtable.h in Headers */,
+				D3E6CAB414882A5300EEFA1F /* index.h in Headers */,
+				D3E6CAB514882A5300EEFA1F /* map.h in Headers */,
+				D3E6CAB614882A5300EEFA1F /* mwindow.h in Headers */,
+				D3E6CAB714882A5300EEFA1F /* netops.h in Headers */,
+				D3E6CAB814882A5300EEFA1F /* odb.h in Headers */,
+				D3E6CAB914882A5300EEFA1F /* pack.h in Headers */,
+				D3E6CABA14882A5300EEFA1F /* path.h in Headers */,
+				D3E6CABB14882A5300EEFA1F /* pkt.h in Headers */,
+				D3E6CABC14882A5300EEFA1F /* posix.h in Headers */,
+				D3E6CABD14882A5300EEFA1F /* pqueue.h in Headers */,
+				D3E6CABE14882A5300EEFA1F /* reflog.h in Headers */,
+				D3E6CABF14882A5300EEFA1F /* refs.h in Headers */,
+				D3E6CAC014882A5300EEFA1F /* refspec.h in Headers */,
+				D3E6CAC114882A5300EEFA1F /* remote.h in Headers */,
+				D3E6CAC214882A5300EEFA1F /* repository.h in Headers */,
+				D3E6CAC314882A5300EEFA1F /* sha1.h in Headers */,
+				D3E6CAC414882A5300EEFA1F /* sha1_lookup.h in Headers */,
+				D3E6CAC514882A5300EEFA1F /* signature.h in Headers */,
+				D3E6CAC614882A5300EEFA1F /* tag.h in Headers */,
+				D3E6CAC714882A5300EEFA1F /* thread-utils.h in Headers */,
+				D3E6CAC814882A5300EEFA1F /* transport.h in Headers */,
+				D3E6CAC914882A5300EEFA1F /* tree-cache.h in Headers */,
+				D3E6CACA14882A5300EEFA1F /* tree.h in Headers */,
+				D3E6CACB14882A5300EEFA1F /* util.h in Headers */,
+				D3E6CACC14882A5300EEFA1F /* vector.h in Headers */,
+				D3E6CACD14882A5300EEFA1F /* posix.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
