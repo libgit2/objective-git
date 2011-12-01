@@ -126,6 +126,8 @@
 		BDFAF9C9131C1868000508BC /* GTIndexEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = BDFAF9C7131C1868000508BC /* GTIndexEntry.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BDFAF9CA131C1868000508BC /* GTIndexEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = BDFAF9C8131C1868000508BC /* GTIndexEntry.m */; };
 		BDFAF9CE131C18FE000508BC /* GTIndexTest.m in Sources */ = {isa = PBXBuildFile; fileRef = BDFAF9CD131C18FE000508BC /* GTIndexTest.m */; };
+		D37BD83114881719006DF0CD /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D37BD80814881692006DF0CD /* Cocoa.framework */; };
+		D37BD84414881736006DF0CD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D37BD820148816F0006DF0CD /* Foundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -250,6 +252,13 @@
 		BDFAF9C8131C1868000508BC /* GTIndexEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = GTIndexEntry.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		BDFAF9CD131C18FE000508BC /* GTIndexTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = GTIndexTest.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		D2F7E79907B2D74100F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+		D37BD80814881692006DF0CD /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		D37BD80B14881692006DF0CD /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		D37BD80C14881692006DF0CD /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		D37BD80D14881692006DF0CD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		D37BD820148816F0006DF0CD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		D37BD83014881719006DF0CD /* Git2Mac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Git2Mac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D37BD84314881736006DF0CD /* libgit2ios.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libgit2ios.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -294,6 +303,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D37BD82C14881719006DF0CD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D37BD83114881719006DF0CD /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D37BD84014881736006DF0CD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D37BD84414881736006DF0CD /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -304,6 +329,8 @@
 				BDD8AEDF1313311100CB5D40 /* Tests.app */,
 				04DB4645133AB57600D9C624 /* libObjectiveGit-iOS.a */,
 				BDD9C3D5133BA556003708E7 /* Tests-iOS.app */,
+				D37BD83014881719006DF0CD /* Git2Mac.framework */,
+				D37BD84314881736006DF0CD /* libgit2ios.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -318,6 +345,7 @@
 				089C1665FE841158C02AAC07 /* Resources */,
 				BDD9C2F2133BA3F7003708E7 /* External Frameworks and Libraries iOS */,
 				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
+				D37BD80714881692006DF0CD /* Frameworks */,
 				034768DFFF38A50411DB9C8B /* Products */,
 				BDD8AEE11313311100CB5D40 /* Tests-Info.plist */,
 				BDD9C3D7133BA556003708E7 /* Tests-iOS-Info.plist */,
@@ -480,6 +508,26 @@
 			path = Categories;
 			sourceTree = "<group>";
 		};
+		D37BD80714881692006DF0CD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D37BD80814881692006DF0CD /* Cocoa.framework */,
+				D37BD820148816F0006DF0CD /* Foundation.framework */,
+				D37BD80A14881692006DF0CD /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D37BD80A14881692006DF0CD /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D37BD80B14881692006DF0CD /* AppKit.framework */,
+				D37BD80C14881692006DF0CD /* CoreData.framework */,
+				D37BD80D14881692006DF0CD /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -532,6 +580,20 @@
 				55C8057D13875C11004DCB0F /* NSData+Git.h in Headers */,
 				55C8057E13875C1B004DCB0F /* NSString+Git.h in Headers */,
 				79262F8B13C69B1600A4B1EA /* git2.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D37BD82D14881719006DF0CD /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D37BD84114881736006DF0CD /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -614,13 +676,48 @@
 			productReference = BDD9C3D5133BA556003708E7 /* Tests-iOS.app */;
 			productType = "com.apple.product-type.application";
 		};
+		D37BD82F14881719006DF0CD /* Git2Mac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D37BD83C14881719006DF0CD /* Build configuration list for PBXNativeTarget "Git2Mac" */;
+			buildPhases = (
+				D37BD82B14881719006DF0CD /* Sources */,
+				D37BD82C14881719006DF0CD /* Frameworks */,
+				D37BD82D14881719006DF0CD /* Headers */,
+				D37BD82E14881719006DF0CD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Git2Mac;
+			productName = Git2Mac;
+			productReference = D37BD83014881719006DF0CD /* Git2Mac.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		D37BD84214881736006DF0CD /* git2ios */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D37BD84B14881736006DF0CD /* Build configuration list for PBXNativeTarget "git2ios" */;
+			buildPhases = (
+				D37BD83F14881736006DF0CD /* Sources */,
+				D37BD84014881736006DF0CD /* Frameworks */,
+				D37BD84114881736006DF0CD /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = git2ios;
+			productName = git2ios;
+			productReference = D37BD84314881736006DF0CD /* libgit2ios.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0430;
 				ORGANIZATIONNAME = "GitHub, Inc";
 			};
 			buildConfigurationList = 1DEB91B108733DA50010E9CD /* Build configuration list for PBXProject "ObjectiveGitFramework" */;
@@ -632,6 +729,7 @@
 				Japanese,
 				French,
 				German,
+				en,
 			);
 			mainGroup = 0867D691FE84028FC02AAC07 /* ObjectiveGitFramework */;
 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
@@ -639,8 +737,10 @@
 			projectRoot = "";
 			targets = (
 				8DC2EF4F0486A6940098B216 /* ObjectiveGit */,
+				D37BD82F14881719006DF0CD /* Git2Mac */,
 				BDD8AEDE1313311100CB5D40 /* Tests */,
 				04DB4644133AB57600D9C624 /* ObjectiveGit-iOS */,
+				D37BD84214881736006DF0CD /* git2ios */,
 				BDD9C3D4133BA556003708E7 /* Tests-iOS */,
 			);
 		};
@@ -669,6 +769,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				BDD9C51E133BB829003708E7 /* fixtures in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D37BD82E14881719006DF0CD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -791,6 +898,20 @@
 				04DB4B0F133BC1A000D9C624 /* GTIndexTest.m in Sources */,
 				04DB4B10133BC1A000D9C624 /* GTReferenceTest.m in Sources */,
 				04DB4B11133BC1A000D9C624 /* GTBranchTest.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D37BD82B14881719006DF0CD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D37BD83F14881736006DF0CD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1100,6 +1221,96 @@
 			};
 			name = Release;
 		};
+		D37BD83D14881719006DF0CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Git2Mac/Git2Mac-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				INFOPLIST_FILE = "Git2Mac/Git2Mac-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Debug;
+		};
+		D37BD83E14881719006DF0CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Git2Mac/Git2Mac-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				INFOPLIST_FILE = "Git2Mac/Git2Mac-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Release;
+		};
+		D37BD84C14881736006DF0CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = NO;
+				DSTROOT = /tmp/git2ios.dst;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "git2ios/git2ios-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		D37BD84D14881736006DF0CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DSTROOT = /tmp/git2ios.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "git2ios/git2ios-Prefix.pch";
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1147,6 +1358,22 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		D37BD83C14881719006DF0CD /* Build configuration list for PBXNativeTarget "Git2Mac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D37BD83D14881719006DF0CD /* Debug */,
+				D37BD83E14881719006DF0CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		D37BD84B14881736006DF0CD /* Build configuration list for PBXNativeTarget "git2ios" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D37BD84C14881736006DF0CD /* Debug */,
+				D37BD84D14881736006DF0CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
