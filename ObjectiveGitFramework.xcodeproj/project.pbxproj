@@ -124,6 +124,106 @@
 		BDFAF9C9131C1868000508BC /* GTIndexEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = BDFAF9C7131C1868000508BC /* GTIndexEntry.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BDFAF9CA131C1868000508BC /* GTIndexEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = BDFAF9C8131C1868000508BC /* GTIndexEntry.m */; };
 		BDFAF9CE131C18FE000508BC /* GTIndexTest.m in Sources */ = {isa = PBXBuildFile; fileRef = BDFAF9CD131C18FE000508BC /* GTIndexTest.m */; };
+		D373530D14881C8400CD9074 /* blob.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314A214881A8800EF596D /* blob.c */; };
+		D373530E14881C8400CD9074 /* buffer.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314A514881A8800EF596D /* buffer.c */; };
+		D373530F14881C8400CD9074 /* cache.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314A714881A8800EF596D /* cache.c */; };
+		D373531014881C8400CD9074 /* commit.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314AA14881A8800EF596D /* commit.c */; };
+		D373531114881C8400CD9074 /* config.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314AD14881A8800EF596D /* config.c */; };
+		D373531214881C8400CD9074 /* config_file.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314AF14881A8800EF596D /* config_file.c */; };
+		D373531314881C8400CD9074 /* delta-apply.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314B014881A8800EF596D /* delta-apply.c */; };
+		D373531414881C8400CD9074 /* errors.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314B314881A8800EF596D /* errors.c */; };
+		D373531514881C8400CD9074 /* fetch.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314B414881A8800EF596D /* fetch.c */; };
+		D373531614881C8400CD9074 /* filebuf.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314B614881A8800EF596D /* filebuf.c */; };
+		D373531714881C8400CD9074 /* fileops.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314B814881A8800EF596D /* fileops.c */; };
+		D373531814881C8400CD9074 /* hash.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314BA14881A8800EF596D /* hash.c */; };
+		D373531914881C8400CD9074 /* hashtable.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314BC14881A8800EF596D /* hashtable.c */; };
+		D373531A14881C8400CD9074 /* index.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314BE14881A8800EF596D /* index.c */; };
+		D373531B14881C8400CD9074 /* indexer.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314C014881A8800EF596D /* indexer.c */; };
+		D373531C14881C8400CD9074 /* mwindow.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314C214881A8800EF596D /* mwindow.c */; };
+		D373531D14881C8400CD9074 /* netops.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314C414881A8800EF596D /* netops.c */; };
+		D373531E14881C8400CD9074 /* object.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314C614881A8800EF596D /* object.c */; };
+		D373531F14881C8400CD9074 /* odb.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314C714881A8800EF596D /* odb.c */; };
+		D373532014881C8400CD9074 /* odb_loose.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314C914881A8800EF596D /* odb_loose.c */; };
+		D373532114881C8400CD9074 /* odb_pack.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314CA14881A8800EF596D /* odb_pack.c */; };
+		D373532214881C8400CD9074 /* oid.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314CB14881A8800EF596D /* oid.c */; };
+		D373532314881C8400CD9074 /* pack.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314CC14881A8800EF596D /* pack.c */; };
+		D373532414881C8400CD9074 /* path.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314CE14881A8800EF596D /* path.c */; };
+		D373532514881C8400CD9074 /* pkt.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314D014881A8800EF596D /* pkt.c */; };
+		D373532614881C8400CD9074 /* posix.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314D214881A8800EF596D /* posix.c */; };
+		D373532714881C8400CD9074 /* pqueue.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314D814881A8800EF596D /* pqueue.c */; };
+		D373532814881C8400CD9074 /* reflog.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314DA14881A8800EF596D /* reflog.c */; };
+		D373532914881C8400CD9074 /* refs.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314DC14881A8800EF596D /* refs.c */; };
+		D373532A14881C8400CD9074 /* refspec.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314DE14881A8800EF596D /* refspec.c */; };
+		D373532B14881C8400CD9074 /* remote.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314E014881A8800EF596D /* remote.c */; };
+		D373532C14881C8400CD9074 /* repository.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314E214881A8800EF596D /* repository.c */; };
+		D373532D14881C8400CD9074 /* revwalk.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314E414881A8800EF596D /* revwalk.c */; };
+		D373532E14881C8400CD9074 /* sha1.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314E514881A8800EF596D /* sha1.c */; };
+		D373532F14881C8400CD9074 /* sha1_lookup.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314E714881A8800EF596D /* sha1_lookup.c */; };
+		D373533014881C8400CD9074 /* signature.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314E914881A8800EF596D /* signature.c */; };
+		D373533114881C8400CD9074 /* status.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314EB14881A8800EF596D /* status.c */; };
+		D373533214881C8400CD9074 /* tag.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314EC14881A8800EF596D /* tag.c */; };
+		D373533314881C8400CD9074 /* thread-utils.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314EE14881A8800EF596D /* thread-utils.c */; };
+		D373533414881C8400CD9074 /* transport.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314F014881A8800EF596D /* transport.c */; };
+		D373533514881C8400CD9074 /* tree-cache.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314F614881A8800EF596D /* tree-cache.c */; };
+		D373533614881C8400CD9074 /* tree.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314F814881A8800EF596D /* tree.c */; };
+		D373533714881C8400CD9074 /* tsort.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314FA14881A8800EF596D /* tsort.c */; };
+		D373533814881C8400CD9074 /* util.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314FE14881A8800EF596D /* util.c */; };
+		D373533914881C8400CD9074 /* vector.c in Sources */ = {isa = PBXBuildFile; fileRef = D343150014881A8800EF596D /* vector.c */; };
+		D373533A14881C8400CD9074 /* git.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314F314881A8800EF596D /* git.c */; };
+		D373533B14881C8400CD9074 /* http.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314F414881A8800EF596D /* http.c */; };
+		D373533C14881C8400CD9074 /* local.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314F514881A8800EF596D /* local.c */; };
+		D373533D14881C8400CD9074 /* map.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314FC14881A8800EF596D /* map.c */; };
+		D373533F14881C8900CD9074 /* blob.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314A214881A8800EF596D /* blob.c */; };
+		D373534014881C8900CD9074 /* buffer.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314A514881A8800EF596D /* buffer.c */; };
+		D373534114881C8900CD9074 /* cache.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314A714881A8800EF596D /* cache.c */; };
+		D373534214881C8900CD9074 /* commit.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314AA14881A8800EF596D /* commit.c */; };
+		D373534314881C8900CD9074 /* config.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314AD14881A8800EF596D /* config.c */; };
+		D373534414881C8900CD9074 /* config_file.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314AF14881A8800EF596D /* config_file.c */; };
+		D373534514881C8900CD9074 /* delta-apply.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314B014881A8800EF596D /* delta-apply.c */; };
+		D373534614881C8900CD9074 /* errors.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314B314881A8800EF596D /* errors.c */; };
+		D373534714881C8900CD9074 /* fetch.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314B414881A8800EF596D /* fetch.c */; };
+		D373534814881C8900CD9074 /* filebuf.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314B614881A8800EF596D /* filebuf.c */; };
+		D373534914881C8900CD9074 /* fileops.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314B814881A8800EF596D /* fileops.c */; };
+		D373534A14881C8900CD9074 /* hash.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314BA14881A8800EF596D /* hash.c */; };
+		D373534B14881C8900CD9074 /* hashtable.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314BC14881A8800EF596D /* hashtable.c */; };
+		D373534C14881C8900CD9074 /* index.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314BE14881A8800EF596D /* index.c */; };
+		D373534D14881C8900CD9074 /* indexer.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314C014881A8800EF596D /* indexer.c */; };
+		D373534E14881C8900CD9074 /* mwindow.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314C214881A8800EF596D /* mwindow.c */; };
+		D373534F14881C8900CD9074 /* netops.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314C414881A8800EF596D /* netops.c */; };
+		D373535014881C8900CD9074 /* object.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314C614881A8800EF596D /* object.c */; };
+		D373535114881C8900CD9074 /* odb.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314C714881A8800EF596D /* odb.c */; };
+		D373535214881C8900CD9074 /* odb_loose.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314C914881A8800EF596D /* odb_loose.c */; };
+		D373535314881C8900CD9074 /* odb_pack.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314CA14881A8800EF596D /* odb_pack.c */; };
+		D373535414881C8900CD9074 /* oid.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314CB14881A8800EF596D /* oid.c */; };
+		D373535514881C8900CD9074 /* pack.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314CC14881A8800EF596D /* pack.c */; };
+		D373535614881C8900CD9074 /* path.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314CE14881A8800EF596D /* path.c */; };
+		D373535714881C8900CD9074 /* pkt.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314D014881A8800EF596D /* pkt.c */; };
+		D373535814881C8900CD9074 /* posix.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314D214881A8800EF596D /* posix.c */; };
+		D373535914881C8900CD9074 /* pqueue.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314D814881A8800EF596D /* pqueue.c */; };
+		D373535A14881C8900CD9074 /* reflog.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314DA14881A8800EF596D /* reflog.c */; };
+		D373535B14881C8900CD9074 /* refs.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314DC14881A8800EF596D /* refs.c */; };
+		D373535C14881C8900CD9074 /* refspec.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314DE14881A8800EF596D /* refspec.c */; };
+		D373535D14881C8900CD9074 /* remote.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314E014881A8800EF596D /* remote.c */; };
+		D373535E14881C8900CD9074 /* repository.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314E214881A8800EF596D /* repository.c */; };
+		D373535F14881C8900CD9074 /* revwalk.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314E414881A8800EF596D /* revwalk.c */; };
+		D373536014881C8900CD9074 /* sha1.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314E514881A8800EF596D /* sha1.c */; };
+		D373536114881C8900CD9074 /* sha1_lookup.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314E714881A8800EF596D /* sha1_lookup.c */; };
+		D373536214881C8900CD9074 /* signature.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314E914881A8800EF596D /* signature.c */; };
+		D373536314881C8900CD9074 /* status.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314EB14881A8800EF596D /* status.c */; };
+		D373536414881C8900CD9074 /* tag.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314EC14881A8800EF596D /* tag.c */; };
+		D373536514881C8900CD9074 /* thread-utils.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314EE14881A8800EF596D /* thread-utils.c */; };
+		D373536614881C8900CD9074 /* transport.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314F014881A8800EF596D /* transport.c */; };
+		D373536714881C8900CD9074 /* tree-cache.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314F614881A8800EF596D /* tree-cache.c */; };
+		D373536814881C8900CD9074 /* tree.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314F814881A8800EF596D /* tree.c */; };
+		D373536914881C8900CD9074 /* tsort.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314FA14881A8800EF596D /* tsort.c */; };
+		D373536A14881C8900CD9074 /* util.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314FE14881A8800EF596D /* util.c */; };
+		D373536B14881C8900CD9074 /* vector.c in Sources */ = {isa = PBXBuildFile; fileRef = D343150014881A8800EF596D /* vector.c */; };
+		D373536C14881C8900CD9074 /* git.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314F314881A8800EF596D /* git.c */; };
+		D373536D14881C8900CD9074 /* http.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314F414881A8800EF596D /* http.c */; };
+		D373536E14881C8900CD9074 /* local.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314F514881A8800EF596D /* local.c */; };
+		D373536F14881C8900CD9074 /* map.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314FC14881A8800EF596D /* map.c */; };
+		D373537014881CC000CD9074 /* http_parser.c in Sources */ = {isa = PBXBuildFile; fileRef = D343146914881A8800EF596D /* http_parser.c */; };
+		D373537114881CC100CD9074 /* http_parser.c in Sources */ = {isa = PBXBuildFile; fileRef = D343146914881A8800EF596D /* http_parser.c */; };
 		D37BD83114881719006DF0CD /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D37BD80814881692006DF0CD /* Cocoa.framework */; };
 		D37BD84414881736006DF0CD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D37BD820148816F0006DF0CD /* Foundation.framework */; };
 /* End PBXBuildFile section */
@@ -645,8 +745,8 @@
 		D343146814881A8800EF596D /* http-parser */ = {
 			isa = PBXGroup;
 			children = (
-				D343146914881A8800EF596D /* http_parser.c */,
 				D343146A14881A8800EF596D /* http_parser.h */,
+				D343146914881A8800EF596D /* http_parser.c */,
 				D343146B14881A8800EF596D /* LICENSE-MIT */,
 			);
 			path = "http-parser";
@@ -804,8 +904,8 @@
 		D34314FB14881A8800EF596D /* unix */ = {
 			isa = PBXGroup;
 			children = (
-				D34314FC14881A8800EF596D /* map.c */,
 				D34314FD14881A8800EF596D /* posix.h */,
+				D34314FC14881A8800EF596D /* map.c */,
 			);
 			path = unix;
 			sourceTree = "<group>";
@@ -1206,6 +1306,56 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D373533F14881C8900CD9074 /* blob.c in Sources */,
+				D373534014881C8900CD9074 /* buffer.c in Sources */,
+				D373534114881C8900CD9074 /* cache.c in Sources */,
+				D373534214881C8900CD9074 /* commit.c in Sources */,
+				D373534314881C8900CD9074 /* config.c in Sources */,
+				D373534414881C8900CD9074 /* config_file.c in Sources */,
+				D373534514881C8900CD9074 /* delta-apply.c in Sources */,
+				D373534614881C8900CD9074 /* errors.c in Sources */,
+				D373534714881C8900CD9074 /* fetch.c in Sources */,
+				D373534814881C8900CD9074 /* filebuf.c in Sources */,
+				D373534914881C8900CD9074 /* fileops.c in Sources */,
+				D373534A14881C8900CD9074 /* hash.c in Sources */,
+				D373534B14881C8900CD9074 /* hashtable.c in Sources */,
+				D373534C14881C8900CD9074 /* index.c in Sources */,
+				D373534D14881C8900CD9074 /* indexer.c in Sources */,
+				D373534E14881C8900CD9074 /* mwindow.c in Sources */,
+				D373534F14881C8900CD9074 /* netops.c in Sources */,
+				D373535014881C8900CD9074 /* object.c in Sources */,
+				D373535114881C8900CD9074 /* odb.c in Sources */,
+				D373535214881C8900CD9074 /* odb_loose.c in Sources */,
+				D373535314881C8900CD9074 /* odb_pack.c in Sources */,
+				D373535414881C8900CD9074 /* oid.c in Sources */,
+				D373535514881C8900CD9074 /* pack.c in Sources */,
+				D373535614881C8900CD9074 /* path.c in Sources */,
+				D373535714881C8900CD9074 /* pkt.c in Sources */,
+				D373535814881C8900CD9074 /* posix.c in Sources */,
+				D373535914881C8900CD9074 /* pqueue.c in Sources */,
+				D373535A14881C8900CD9074 /* reflog.c in Sources */,
+				D373535B14881C8900CD9074 /* refs.c in Sources */,
+				D373535C14881C8900CD9074 /* refspec.c in Sources */,
+				D373535D14881C8900CD9074 /* remote.c in Sources */,
+				D373535E14881C8900CD9074 /* repository.c in Sources */,
+				D373535F14881C8900CD9074 /* revwalk.c in Sources */,
+				D373536014881C8900CD9074 /* sha1.c in Sources */,
+				D373536114881C8900CD9074 /* sha1_lookup.c in Sources */,
+				D373536214881C8900CD9074 /* signature.c in Sources */,
+				D373536314881C8900CD9074 /* status.c in Sources */,
+				D373536414881C8900CD9074 /* tag.c in Sources */,
+				D373536514881C8900CD9074 /* thread-utils.c in Sources */,
+				D373536614881C8900CD9074 /* transport.c in Sources */,
+				D373536714881C8900CD9074 /* tree-cache.c in Sources */,
+				D373536814881C8900CD9074 /* tree.c in Sources */,
+				D373536914881C8900CD9074 /* tsort.c in Sources */,
+				D373536A14881C8900CD9074 /* util.c in Sources */,
+				D373536B14881C8900CD9074 /* vector.c in Sources */,
+				D373536C14881C8900CD9074 /* git.c in Sources */,
+				D373536D14881C8900CD9074 /* http.c in Sources */,
+				D373536E14881C8900CD9074 /* local.c in Sources */,
+				D373536F14881C8900CD9074 /* map.c in Sources */,
+				D373537014881CC000CD9074 /* http_parser.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1213,6 +1363,56 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D373530D14881C8400CD9074 /* blob.c in Sources */,
+				D373530E14881C8400CD9074 /* buffer.c in Sources */,
+				D373530F14881C8400CD9074 /* cache.c in Sources */,
+				D373531014881C8400CD9074 /* commit.c in Sources */,
+				D373531114881C8400CD9074 /* config.c in Sources */,
+				D373531214881C8400CD9074 /* config_file.c in Sources */,
+				D373531314881C8400CD9074 /* delta-apply.c in Sources */,
+				D373531414881C8400CD9074 /* errors.c in Sources */,
+				D373531514881C8400CD9074 /* fetch.c in Sources */,
+				D373531614881C8400CD9074 /* filebuf.c in Sources */,
+				D373531714881C8400CD9074 /* fileops.c in Sources */,
+				D373531814881C8400CD9074 /* hash.c in Sources */,
+				D373531914881C8400CD9074 /* hashtable.c in Sources */,
+				D373531A14881C8400CD9074 /* index.c in Sources */,
+				D373531B14881C8400CD9074 /* indexer.c in Sources */,
+				D373531C14881C8400CD9074 /* mwindow.c in Sources */,
+				D373531D14881C8400CD9074 /* netops.c in Sources */,
+				D373531E14881C8400CD9074 /* object.c in Sources */,
+				D373531F14881C8400CD9074 /* odb.c in Sources */,
+				D373532014881C8400CD9074 /* odb_loose.c in Sources */,
+				D373532114881C8400CD9074 /* odb_pack.c in Sources */,
+				D373532214881C8400CD9074 /* oid.c in Sources */,
+				D373532314881C8400CD9074 /* pack.c in Sources */,
+				D373532414881C8400CD9074 /* path.c in Sources */,
+				D373532514881C8400CD9074 /* pkt.c in Sources */,
+				D373532614881C8400CD9074 /* posix.c in Sources */,
+				D373532714881C8400CD9074 /* pqueue.c in Sources */,
+				D373532814881C8400CD9074 /* reflog.c in Sources */,
+				D373532914881C8400CD9074 /* refs.c in Sources */,
+				D373532A14881C8400CD9074 /* refspec.c in Sources */,
+				D373532B14881C8400CD9074 /* remote.c in Sources */,
+				D373532C14881C8400CD9074 /* repository.c in Sources */,
+				D373532D14881C8400CD9074 /* revwalk.c in Sources */,
+				D373532E14881C8400CD9074 /* sha1.c in Sources */,
+				D373532F14881C8400CD9074 /* sha1_lookup.c in Sources */,
+				D373533014881C8400CD9074 /* signature.c in Sources */,
+				D373533114881C8400CD9074 /* status.c in Sources */,
+				D373533214881C8400CD9074 /* tag.c in Sources */,
+				D373533314881C8400CD9074 /* thread-utils.c in Sources */,
+				D373533414881C8400CD9074 /* transport.c in Sources */,
+				D373533514881C8400CD9074 /* tree-cache.c in Sources */,
+				D373533614881C8400CD9074 /* tree.c in Sources */,
+				D373533714881C8400CD9074 /* tsort.c in Sources */,
+				D373533814881C8400CD9074 /* util.c in Sources */,
+				D373533914881C8400CD9074 /* vector.c in Sources */,
+				D373533A14881C8400CD9074 /* git.c in Sources */,
+				D373533B14881C8400CD9074 /* http.c in Sources */,
+				D373533C14881C8400CD9074 /* local.c in Sources */,
+				D373533D14881C8400CD9074 /* map.c in Sources */,
+				D373537114881CC100CD9074 /* http_parser.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
