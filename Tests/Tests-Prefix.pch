@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'Tests' target in the 'ObjectiveGitFramework' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif
