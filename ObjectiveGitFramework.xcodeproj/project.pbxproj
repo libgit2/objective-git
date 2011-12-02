@@ -1762,7 +1762,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREFIX_HEADER = ObjectiveGitFramework_Prefix.pch;
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/libgit2/include";
+				HEADER_SEARCH_PATHS = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1786,7 +1786,7 @@
 					"\"$(SRCROOT)/Frameworks\"",
 				);
 				GCC_PREFIX_HEADER = ObjectiveGitFramework_Prefix.pch;
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/libgit2/include";
+				HEADER_SEARCH_PATHS = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1868,7 +1868,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/libgit2/include\"";
+				HEADER_SEARCH_PATHS = "";
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -1885,7 +1885,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/libgit2/include\"";
+				HEADER_SEARCH_PATHS = "";
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				SDKROOT = macosx;
 				VALID_ARCHS = x86_64;
@@ -1907,7 +1907,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/libgit2/include\"";
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "Tests-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LD_RUNPATH_SEARCH_PATHS = "\"$(SRCROOT)/Frameworks\"";
@@ -1940,7 +1940,7 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/libgit2/include\"";
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "Tests-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LD_RUNPATH_SEARCH_PATHS = "\"$(SRCROOT)/Frameworks\"";
@@ -1974,7 +1974,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/UIKit.framework/Headers/UIKit.h";
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/libgit2/include\"";
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "Tests-iOS-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
@@ -2007,7 +2007,7 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/UIKit.framework/Headers/UIKit.h";
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/libgit2/include\"";
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "Tests-iOS-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
@@ -2049,9 +2049,15 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_UNUSED_VALUE = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"\"$(PROJECT_DIR)/libgit2/include\"",
+					"\"$(PROJECT_DIR)/libgit2/deps/http-parser\"",
+				);
 				INFOPLIST_FILE = "Git2Mac/Git2Mac-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = ". .. \"$(PROJECT_DIR)/libgit2/src\"";
+				USE_HEADERMAP = NO;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
@@ -2072,9 +2078,15 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_UNUSED_VALUE = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"\"$(PROJECT_DIR)/libgit2/include\"",
+					"\"$(PROJECT_DIR)/libgit2/deps/http-parser\"",
+				);
 				INFOPLIST_FILE = "Git2Mac/Git2Mac-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = ". .. \"$(PROJECT_DIR)/libgit2/src\"";
+				USE_HEADERMAP = NO;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Release;
@@ -2097,11 +2109,17 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_UNUSED_VALUE = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"\"$(PROJECT_DIR)/libgit2/include\"",
+					"\"$(PROJECT_DIR)/libgit2/deps/http-parser\"",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				USER_HEADER_SEARCH_PATHS = ". .. \"$(PROJECT_DIR)/libgit2/src\"";
+				USE_HEADERMAP = NO;
 			};
 			name = Debug;
 		};
@@ -2117,11 +2135,17 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_UNUSED_VALUE = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"\"$(PROJECT_DIR)/libgit2/include\"",
+					"\"$(PROJECT_DIR)/libgit2/deps/http-parser\"",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				USER_HEADER_SEARCH_PATHS = ". .. \"$(PROJECT_DIR)/libgit2/src\"";
+				USE_HEADERMAP = NO;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
