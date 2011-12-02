@@ -159,9 +159,6 @@
 		D373533714881C8400CD9074 /* tsort.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314FA14881A8800EF596D /* tsort.c */; };
 		D373533814881C8400CD9074 /* util.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314FE14881A8800EF596D /* util.c */; };
 		D373533914881C8400CD9074 /* vector.c in Sources */ = {isa = PBXBuildFile; fileRef = D343150014881A8800EF596D /* vector.c */; };
-		D373533A14881C8400CD9074 /* git.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314F314881A8800EF596D /* git.c */; };
-		D373533B14881C8400CD9074 /* http.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314F414881A8800EF596D /* http.c */; };
-		D373533C14881C8400CD9074 /* local.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314F514881A8800EF596D /* local.c */; };
 		D373533D14881C8400CD9074 /* map.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314FC14881A8800EF596D /* map.c */; };
 		D373533F14881C8900CD9074 /* blob.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314A214881A8800EF596D /* blob.c */; };
 		D373534014881C8900CD9074 /* buffer.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314A514881A8800EF596D /* buffer.c */; };
@@ -208,9 +205,6 @@
 		D373536914881C8900CD9074 /* tsort.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314FA14881A8800EF596D /* tsort.c */; };
 		D373536A14881C8900CD9074 /* util.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314FE14881A8800EF596D /* util.c */; };
 		D373536B14881C8900CD9074 /* vector.c in Sources */ = {isa = PBXBuildFile; fileRef = D343150014881A8800EF596D /* vector.c */; };
-		D373536C14881C8900CD9074 /* git.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314F314881A8800EF596D /* git.c */; };
-		D373536D14881C8900CD9074 /* http.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314F414881A8800EF596D /* http.c */; };
-		D373536E14881C8900CD9074 /* local.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314F514881A8800EF596D /* local.c */; };
 		D373536F14881C8900CD9074 /* map.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314FC14881A8800EF596D /* map.c */; };
 		D373537014881CC000CD9074 /* http_parser.c in Sources */ = {isa = PBXBuildFile; fileRef = D343146914881A8800EF596D /* http_parser.c */; };
 		D373537114881CC100CD9074 /* http_parser.c in Sources */ = {isa = PBXBuildFile; fileRef = D343146914881A8800EF596D /* http_parser.c */; };
@@ -224,6 +218,12 @@
 		D39BA83B14895035005D98F8 /* libgit2ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D37BD84314881736006DF0CD /* libgit2ios.a */; };
 		D39BA83D14895055005D98F8 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D39BA83C14895055005D98F8 /* libz.dylib */; };
 		D39BA83F14895068005D98F8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D39BA83E14895068005D98F8 /* Foundation.framework */; };
+		D3BD8E2714895C7A00487AE7 /* transport_git.c in Sources */ = {isa = PBXBuildFile; fileRef = D3BD8E2414895C7A00487AE7 /* transport_git.c */; };
+		D3BD8E2814895C7A00487AE7 /* transport_local.c in Sources */ = {isa = PBXBuildFile; fileRef = D3BD8E2514895C7A00487AE7 /* transport_local.c */; };
+		D3BD8E2914895C7A00487AE7 /* transport-http.c in Sources */ = {isa = PBXBuildFile; fileRef = D3BD8E2614895C7A00487AE7 /* transport-http.c */; };
+		D3BD8E2A14895CC100487AE7 /* transport_git.c in Sources */ = {isa = PBXBuildFile; fileRef = D3BD8E2414895C7A00487AE7 /* transport_git.c */; };
+		D3BD8E2B14895CC100487AE7 /* transport_local.c in Sources */ = {isa = PBXBuildFile; fileRef = D3BD8E2514895C7A00487AE7 /* transport_local.c */; };
+		D3BD8E2C14895CC100487AE7 /* transport-http.c in Sources */ = {isa = PBXBuildFile; fileRef = D3BD8E2614895C7A00487AE7 /* transport-http.c */; };
 		D3BED2801489581300409ED5 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D3BED27F1489581300409ED5 /* libz.dylib */; };
 		D3BED2811489585700409ED5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D37BD820148816F0006DF0CD /* Foundation.framework */; };
 		D3E6CA6B1488299600EEFA1F /* git2.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314A014881A8800EF596D /* git2.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -611,9 +611,6 @@
 		D34314EF14881A8800EF596D /* thread-utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "thread-utils.h"; sourceTree = "<group>"; };
 		D34314F014881A8800EF596D /* transport.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = transport.c; sourceTree = "<group>"; };
 		D34314F114881A8800EF596D /* transport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = transport.h; sourceTree = "<group>"; };
-		D34314F314881A8800EF596D /* git.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = git.c; sourceTree = "<group>"; };
-		D34314F414881A8800EF596D /* http.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = http.c; sourceTree = "<group>"; };
-		D34314F514881A8800EF596D /* local.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = local.c; sourceTree = "<group>"; };
 		D34314F614881A8800EF596D /* tree-cache.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = "tree-cache.c"; sourceTree = "<group>"; };
 		D34314F714881A8800EF596D /* tree-cache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "tree-cache.h"; sourceTree = "<group>"; };
 		D34314F814881A8800EF596D /* tree.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = tree.c; sourceTree = "<group>"; };
@@ -633,6 +630,9 @@
 		D39BA83714894DDE005D98F8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.1.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		D39BA83C14895055005D98F8 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.1.sdk/usr/lib/libz.dylib; sourceTree = DEVELOPER_DIR; };
 		D39BA83E14895068005D98F8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.1.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		D3BD8E2414895C7A00487AE7 /* transport_git.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = transport_git.c; sourceTree = "<group>"; };
+		D3BD8E2514895C7A00487AE7 /* transport_local.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = transport_local.c; sourceTree = "<group>"; };
+		D3BD8E2614895C7A00487AE7 /* transport-http.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "transport-http.c"; sourceTree = "<group>"; };
 		D3BED27F1489581300409ED5 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -999,26 +999,18 @@
 				D34314EC14881A8800EF596D /* tag.c */,
 				D34314EE14881A8800EF596D /* thread-utils.c */,
 				D34314F014881A8800EF596D /* transport.c */,
+				D3BD8E2414895C7A00487AE7 /* transport_git.c */,
+				D3BD8E2514895C7A00487AE7 /* transport_local.c */,
+				D3BD8E2614895C7A00487AE7 /* transport-http.c */,
 				D34314F614881A8800EF596D /* tree-cache.c */,
 				D34314F814881A8800EF596D /* tree.c */,
 				D34314FA14881A8800EF596D /* tsort.c */,
 				D34314FE14881A8800EF596D /* util.c */,
 				D343150014881A8800EF596D /* vector.c */,
-				D34314F214881A8800EF596D /* transports */,
 				D34314FB14881A8800EF596D /* unix */,
 			);
 			name = src;
 			path = libgit2/src;
-			sourceTree = "<group>";
-		};
-		D34314F214881A8800EF596D /* transports */ = {
-			isa = PBXGroup;
-			children = (
-				D34314F314881A8800EF596D /* git.c */,
-				D34314F414881A8800EF596D /* http.c */,
-				D34314F514881A8800EF596D /* local.c */,
-			);
-			path = transports;
 			sourceTree = "<group>";
 		};
 		D34314FB14881A8800EF596D /* unix */ = {
@@ -1605,11 +1597,11 @@
 				D373536914881C8900CD9074 /* tsort.c in Sources */,
 				D373536A14881C8900CD9074 /* util.c in Sources */,
 				D373536B14881C8900CD9074 /* vector.c in Sources */,
-				D373536C14881C8900CD9074 /* git.c in Sources */,
-				D373536D14881C8900CD9074 /* http.c in Sources */,
-				D373536E14881C8900CD9074 /* local.c in Sources */,
 				D373536F14881C8900CD9074 /* map.c in Sources */,
 				D373537014881CC000CD9074 /* http_parser.c in Sources */,
+				D3BD8E2714895C7A00487AE7 /* transport_git.c in Sources */,
+				D3BD8E2814895C7A00487AE7 /* transport_local.c in Sources */,
+				D3BD8E2914895C7A00487AE7 /* transport-http.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1662,11 +1654,11 @@
 				D373533714881C8400CD9074 /* tsort.c in Sources */,
 				D373533814881C8400CD9074 /* util.c in Sources */,
 				D373533914881C8400CD9074 /* vector.c in Sources */,
-				D373533A14881C8400CD9074 /* git.c in Sources */,
-				D373533B14881C8400CD9074 /* http.c in Sources */,
-				D373533C14881C8400CD9074 /* local.c in Sources */,
 				D373533D14881C8400CD9074 /* map.c in Sources */,
 				D373537114881CC100CD9074 /* http_parser.c in Sources */,
+				D3BD8E2A14895CC100487AE7 /* transport_git.c in Sources */,
+				D3BD8E2B14895CC100487AE7 /* transport_local.c in Sources */,
+				D3BD8E2C14895CC100487AE7 /* transport-http.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
