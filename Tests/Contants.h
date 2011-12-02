@@ -33,7 +33,7 @@
 #import <GHUnit/GHUnit.h>
 #endif
 
-#import <git2.h>
+#import "git2.h"
 
 #import "GTRepository.h"
 #import "GTObject.h"
