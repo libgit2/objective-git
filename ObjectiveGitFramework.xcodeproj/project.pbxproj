@@ -253,7 +253,6 @@
 		D3E6CA831488299600EEFA1F /* transport.h in Headers */ = {isa = PBXBuildFile; fileRef = D343149A14881A8800EF596D /* transport.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D3E6CA841488299600EEFA1F /* tree.h in Headers */ = {isa = PBXBuildFile; fileRef = D343149B14881A8800EF596D /* tree.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D3E6CA851488299600EEFA1F /* types.h in Headers */ = {isa = PBXBuildFile; fileRef = D343149C14881A8800EF596D /* types.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D3E6CA861488299600EEFA1F /* version.h in Headers */ = {isa = PBXBuildFile; fileRef = D343149D14881A8800EF596D /* version.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D3E6CA881488299900EEFA1F /* git2.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314A014881A8800EF596D /* git2.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D3E6CA891488299900EEFA1F /* blob.h in Headers */ = {isa = PBXBuildFile; fileRef = D343148114881A8800EF596D /* blob.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D3E6CA8A1488299900EEFA1F /* branch.h in Headers */ = {isa = PBXBuildFile; fileRef = D343148214881A8800EF596D /* branch.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -281,7 +280,6 @@
 		D3E6CAA01488299900EEFA1F /* transport.h in Headers */ = {isa = PBXBuildFile; fileRef = D343149A14881A8800EF596D /* transport.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D3E6CAA11488299900EEFA1F /* tree.h in Headers */ = {isa = PBXBuildFile; fileRef = D343149B14881A8800EF596D /* tree.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D3E6CAA21488299900EEFA1F /* types.h in Headers */ = {isa = PBXBuildFile; fileRef = D343149C14881A8800EF596D /* types.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D3E6CAA31488299900EEFA1F /* version.h in Headers */ = {isa = PBXBuildFile; fileRef = D343149D14881A8800EF596D /* version.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D3E6CAA414882A5300EEFA1F /* http_parser.h in Headers */ = {isa = PBXBuildFile; fileRef = D343146A14881A8800EF596D /* http_parser.h */; };
 		D3E6CAA514882A5300EEFA1F /* blob.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314A314881A8800EF596D /* blob.h */; };
 		D3E6CAA614882A5300EEFA1F /* bswap.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314A414881A8800EF596D /* bswap.h */; };
@@ -533,7 +531,6 @@
 		D343149A14881A8800EF596D /* transport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = transport.h; sourceTree = "<group>"; };
 		D343149B14881A8800EF596D /* tree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tree.h; sourceTree = "<group>"; };
 		D343149C14881A8800EF596D /* types.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = types.h; sourceTree = "<group>"; };
-		D343149D14881A8800EF596D /* version.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = version.h; sourceTree = "<group>"; };
 		D34314A014881A8800EF596D /* git2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = git2.h; sourceTree = "<group>"; };
 		D34314A214881A8800EF596D /* blob.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = blob.c; sourceTree = "<group>"; };
 		D34314A314881A8800EF596D /* blob.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = blob.h; sourceTree = "<group>"; };
@@ -911,7 +908,6 @@
 				D343149A14881A8800EF596D /* transport.h */,
 				D343149B14881A8800EF596D /* tree.h */,
 				D343149C14881A8800EF596D /* types.h */,
-				D343149D14881A8800EF596D /* version.h */,
 			);
 			path = git2;
 			sourceTree = "<group>";
@@ -1117,7 +1113,6 @@
 				D3E6CAA01488299900EEFA1F /* transport.h in Headers */,
 				D3E6CAA11488299900EEFA1F /* tree.h in Headers */,
 				D3E6CAA21488299900EEFA1F /* types.h in Headers */,
-				D3E6CAA31488299900EEFA1F /* version.h in Headers */,
 				D3E6CACE14882A5E00EEFA1F /* http_parser.h in Headers */,
 				D3E6CACF14882A5E00EEFA1F /* blob.h in Headers */,
 				D3E6CAD014882A5E00EEFA1F /* bswap.h in Headers */,
@@ -1194,7 +1189,6 @@
 				D3E6CA831488299600EEFA1F /* transport.h in Headers */,
 				D3E6CA841488299600EEFA1F /* tree.h in Headers */,
 				D3E6CA851488299600EEFA1F /* types.h in Headers */,
-				D3E6CA861488299600EEFA1F /* version.h in Headers */,
 				D3E6CAA414882A5300EEFA1F /* http_parser.h in Headers */,
 				D3E6CAA514882A5300EEFA1F /* blob.h in Headers */,
 				D3E6CAA614882A5300EEFA1F /* bswap.h in Headers */,
