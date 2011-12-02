@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0450E32F133BE20F007234B5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDD9C3FB133BA604003708E7 /* CoreGraphics.framework */; };
-		0450E33A133BE25B007234B5 /* libObjectiveGit-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DB4645133AB57600D9C624 /* libObjectiveGit-iOS.a */; };
 		04DB464E133AB5E200D9C624 /* NSError+Git.h in Headers */ = {isa = PBXBuildFile; fileRef = BDE4C060130EFE2C00851650 /* NSError+Git.h */; };
 		04DB464F133AB5E200D9C624 /* GTRepository.h in Headers */ = {isa = PBXBuildFile; fileRef = BDE4C062130EFE2C00851650 /* GTRepository.h */; };
 		04DB4652133AB5E200D9C624 /* GTEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = BDD8AE6D13131B8800CB5D40 /* GTEnumerator.h */; };
@@ -61,8 +59,6 @@
 		55C8057F13875C62004DCB0F /* NSData+Git.h in Headers */ = {isa = PBXBuildFile; fileRef = BD6C2266131459E700992935 /* NSData+Git.h */; };
 		55C8058013875C6E004DCB0F /* NSString+Git.h in Headers */ = {isa = PBXBuildFile; fileRef = 55C8057213874CDF004DCB0F /* NSString+Git.h */; };
 		8803DA871313145700E6E818 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8803DA861313145700E6E818 /* libz.dylib */; };
-		88383CFA1468982B009012D5 /* libgit2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 88383CF91468982B009012D5 /* libgit2.a */; };
-		88383CFB1468982B009012D5 /* libgit2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 88383CF91468982B009012D5 /* libgit2.a */; };
 		88F50F59132054D800584FBE /* GTBranch.h in Headers */ = {isa = PBXBuildFile; fileRef = 88F50F56132054D800584FBE /* GTBranch.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88F50F5A132054D800584FBE /* GTBranch.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F50F57132054D800584FBE /* GTBranch.m */; };
 		88F6D9D91320451F00CC0BA8 /* ObjectiveGit.h in Headers */ = {isa = PBXBuildFile; fileRef = 88F6D9D81320451F00CC0BA8 /* ObjectiveGit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -70,7 +66,6 @@
 		88F6D9FB1320467500CC0BA8 /* GTObject.h in Headers */ = {isa = PBXBuildFile; fileRef = BD6C22A71314625800992935 /* GTObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88F6D9FC1320467800CC0BA8 /* GTSignature.h in Headers */ = {isa = PBXBuildFile; fileRef = BD6C254313148DC900992935 /* GTSignature.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
-		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 		AA046112134F4D2000DF526B /* GTOdbObject.h in Headers */ = {isa = PBXBuildFile; fileRef = AA046110134F4D2000DF526B /* GTOdbObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA046113134F4D2000DF526B /* GTOdbObject.h in Headers */ = {isa = PBXBuildFile; fileRef = AA046110134F4D2000DF526B /* GTOdbObject.h */; };
 		AA046114134F4D2000DF526B /* GTOdbObject.m in Sources */ = {isa = PBXBuildFile; fileRef = AA046111134F4D2000DF526B /* GTOdbObject.m */; };
@@ -110,9 +105,7 @@
 		BDD8AFAB131337E500CB5D40 /* RunTests.sh in Resources */ = {isa = PBXBuildFile; fileRef = BDD8AFAA131337E500CB5D40 /* RunTests.sh */; };
 		BDD9C3DC133BA580003708E7 /* GHUnitIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDD9C3DB133BA580003708E7 /* GHUnitIOS.framework */; };
 		BDD9C3FE133BA604003708E7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDD9C3FD133BA604003708E7 /* Foundation.framework */; };
-		BDD9C400133BA604003708E7 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDD9C3FF133BA604003708E7 /* UIKit.framework */; };
 		BDD9C4EA133BB14E003708E7 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DB4671133AB5FE00D9C624 /* libz.dylib */; };
-		BDD9C4F1133BB1ED003708E7 /* libgit2-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BDD9C4F0133BB1ED003708E7 /* libgit2-iOS.a */; };
 		BDD9C51E133BB829003708E7 /* fixtures in Resources */ = {isa = PBXBuildFile; fileRef = BDAC76F4132FC18400B57507 /* fixtures */; };
 		BDE4C064130EFE2C00851650 /* NSError+Git.h in Headers */ = {isa = PBXBuildFile; fileRef = BDE4C060130EFE2C00851650 /* NSError+Git.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BDE4C065130EFE2C00851650 /* NSError+Git.m in Sources */ = {isa = PBXBuildFile; fileRef = BDE4C061130EFE2C00851650 /* NSError+Git.m */; };
@@ -224,8 +217,19 @@
 		D373536F14881C8900CD9074 /* map.c in Sources */ = {isa = PBXBuildFile; fileRef = D34314FC14881A8800EF596D /* map.c */; };
 		D373537014881CC000CD9074 /* http_parser.c in Sources */ = {isa = PBXBuildFile; fileRef = D343146914881A8800EF596D /* http_parser.c */; };
 		D373537114881CC100CD9074 /* http_parser.c in Sources */ = {isa = PBXBuildFile; fileRef = D343146914881A8800EF596D /* http_parser.c */; };
-		D37BD83114881719006DF0CD /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D37BD80814881692006DF0CD /* Cocoa.framework */; };
-		D37BD84414881736006DF0CD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D37BD820148816F0006DF0CD /* Foundation.framework */; };
+		D39BA80E14893570005D98F8 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8803DA861313145700E6E818 /* libz.dylib */; };
+		D39BA80F14893755005D98F8 /* Git2Mac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D37BD83014881719006DF0CD /* Git2Mac.framework */; };
+		D39BA81014893770005D98F8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D37BD80D14881692006DF0CD /* Foundation.framework */; };
+		D39BA812148937CD005D98F8 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8803DA861313145700E6E818 /* libz.dylib */; };
+		D39BA813148937FE005D98F8 /* Git2Mac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D37BD83014881719006DF0CD /* Git2Mac.framework */; };
+		D39BA81614893C3D005D98F8 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D37BD80814881692006DF0CD /* Cocoa.framework */; };
+		D39BA8361489428A005D98F8 /* Tests-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = D39BA8351489428A005D98F8 /* Tests-Prefix.pch */; };
+		D39BA83814894DDF005D98F8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D39BA83714894DDE005D98F8 /* UIKit.framework */; };
+		D39BA83914894E07005D98F8 /* libgit2ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D37BD84314881736006DF0CD /* libgit2ios.a */; };
+		D39BA83A14894E0D005D98F8 /* libObjectiveGit-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DB4645133AB57600D9C624 /* libObjectiveGit-iOS.a */; };
+		D39BA83B14895035005D98F8 /* libgit2ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D37BD84314881736006DF0CD /* libgit2ios.a */; };
+		D39BA83D14895055005D98F8 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D39BA83C14895055005D98F8 /* libz.dylib */; };
+		D39BA83F14895068005D98F8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D39BA83E14895068005D98F8 /* Foundation.framework */; };
 		D3E6CA6B1488299600EEFA1F /* git2.h in Headers */ = {isa = PBXBuildFile; fileRef = D34314A014881A8800EF596D /* git2.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D3E6CA6C1488299600EEFA1F /* blob.h in Headers */ = {isa = PBXBuildFile; fileRef = D343148114881A8800EF596D /* blob.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D3E6CA6D1488299600EEFA1F /* branch.h in Headers */ = {isa = PBXBuildFile; fileRef = D343148214881A8800EF596D /* branch.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -391,6 +395,20 @@
 			remoteInfo = Git2Mac;
 		};
 		D3165BD414881EFE00736833 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D37BD84214881736006DF0CD;
+			remoteInfo = git2ios;
+		};
+		D39BA81414893BA3005D98F8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D37BD82F14881719006DF0CD;
+			remoteInfo = Git2Mac;
+		};
+		D39BA81714893E49005D98F8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
 			proxyType = 1;
@@ -629,6 +647,18 @@
 		D37BD820148816F0006DF0CD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D37BD83014881719006DF0CD /* Git2Mac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Git2Mac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D37BD84314881736006DF0CD /* libgit2ios.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libgit2ios.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		D39BA82214893F1A005D98F8 /* BAAAAZZZZ-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BAAAAZZZZ-Info.plist"; sourceTree = "<group>"; };
+		D39BA82414893F1A005D98F8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D39BA82614893F1A005D98F8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		D39BA82814893F1A005D98F8 /* BAAAAZZZZ-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BAAAAZZZZ-Prefix.pch"; sourceTree = "<group>"; };
+		D39BA82A14893F1A005D98F8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		D39BA82C14893F1A005D98F8 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		D39BA82D14893F1A005D98F8 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		D39BA83014893F1A005D98F8 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		D39BA8351489428A005D98F8 /* Tests-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
+		D39BA83714894DDE005D98F8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.1.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		D39BA83C14895055005D98F8 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.1.sdk/usr/lib/libz.dylib; sourceTree = DEVELOPER_DIR; };
+		D39BA83E14895068005D98F8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.1.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -636,7 +666,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BDD9C4F1133BB1ED003708E7 /* libgit2-iOS.a in Frameworks */,
+				D39BA83B14895035005D98F8 /* libgit2ios.a in Frameworks */,
+				D39BA83D14895055005D98F8 /* libz.dylib in Frameworks */,
+				D39BA83F14895068005D98F8 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -644,9 +676,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */,
+				D39BA80F14893755005D98F8 /* Git2Mac.framework in Frameworks */,
 				8803DA871313145700E6E818 /* libz.dylib in Frameworks */,
-				88383CFA1468982B009012D5 /* libgit2.a in Frameworks */,
+				D39BA81014893770005D98F8 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -654,9 +686,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BDD8AF39131333EE00CB5D40 /* GHUnit.framework in Frameworks */,
+				D39BA813148937FE005D98F8 /* Git2Mac.framework in Frameworks */,
 				BDD8AF1A1313320E00CB5D40 /* ObjectiveGit.framework in Frameworks */,
-				88383CFB1468982B009012D5 /* libgit2.a in Frameworks */,
+				BDD8AF39131333EE00CB5D40 /* GHUnit.framework in Frameworks */,
+				D39BA812148937CD005D98F8 /* libz.dylib in Frameworks */,
+				D39BA81614893C3D005D98F8 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -664,12 +698,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0450E33A133BE25B007234B5 /* libObjectiveGit-iOS.a in Frameworks */,
-				0450E32F133BE20F007234B5 /* CoreGraphics.framework in Frameworks */,
+				D39BA83914894E07005D98F8 /* libgit2ios.a in Frameworks */,
+				D39BA83A14894E0D005D98F8 /* libObjectiveGit-iOS.a in Frameworks */,
 				BDD9C3DC133BA580003708E7 /* GHUnitIOS.framework in Frameworks */,
-				BDD9C3FE133BA604003708E7 /* Foundation.framework in Frameworks */,
-				BDD9C400133BA604003708E7 /* UIKit.framework in Frameworks */,
 				BDD9C4EA133BB14E003708E7 /* libz.dylib in Frameworks */,
+				BDD9C3FE133BA604003708E7 /* Foundation.framework in Frameworks */,
+				D39BA83814894DDF005D98F8 /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -677,7 +711,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D37BD83114881719006DF0CD /* Cocoa.framework in Frameworks */,
+				D39BA80E14893570005D98F8 /* libz.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -685,7 +719,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D37BD84414881736006DF0CD /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -708,6 +741,9 @@
 		0867D691FE84028FC02AAC07 /* ObjectiveGitFramework */ = {
 			isa = PBXGroup;
 			children = (
+				D39BA83E14895068005D98F8 /* Foundation.framework */,
+				D39BA83C14895055005D98F8 /* libz.dylib */,
+				D39BA83714894DDE005D98F8 /* UIKit.framework */,
 				BDD8AB01130F01AB00CB5D40 /* README.md */,
 				BDE4C05E130EFE2C00851650 /* Classes */,
 				BDD8AF27131332B000CB5D40 /* Tests */,
@@ -716,6 +752,7 @@
 				089C1665FE841158C02AAC07 /* Resources */,
 				BDD9C2F2133BA3F7003708E7 /* External Frameworks and Libraries iOS */,
 				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
+				D39BA82014893F1A005D98F8 /* BAAAAZZZZ */,
 				D37BD80714881692006DF0CD /* Frameworks */,
 				034768DFFF38A50411DB9C8B /* Products */,
 				BDD8AEE11313311100CB5D40 /* Tests-Info.plist */,
@@ -776,6 +813,7 @@
 		BDD8AF27131332B000CB5D40 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				D39BA8351489428A005D98F8 /* Tests-Prefix.pch */,
 				BDD8AFAA131337E500CB5D40 /* RunTests.sh */,
 				BDAC76F4132FC18400B57507 /* fixtures */,
 				BDD8AF38131333EE00CB5D40 /* GHUnit.framework */,
@@ -1084,6 +1122,29 @@
 			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
+		D39BA82014893F1A005D98F8 /* BAAAAZZZZ */ = {
+			isa = PBXGroup;
+			children = (
+				D39BA82C14893F1A005D98F8 /* AppDelegate.h */,
+				D39BA82D14893F1A005D98F8 /* AppDelegate.m */,
+				D39BA82F14893F1A005D98F8 /* MainMenu.xib */,
+				D39BA82114893F1A005D98F8 /* Supporting Files */,
+			);
+			path = BAAAAZZZZ;
+			sourceTree = "<group>";
+		};
+		D39BA82114893F1A005D98F8 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D39BA82214893F1A005D98F8 /* BAAAAZZZZ-Info.plist */,
+				D39BA82314893F1A005D98F8 /* InfoPlist.strings */,
+				D39BA82614893F1A005D98F8 /* main.m */,
+				D39BA82814893F1A005D98F8 /* BAAAAZZZZ-Prefix.pch */,
+				D39BA82914893F1A005D98F8 /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -1135,6 +1196,7 @@
 				BDE4C064130EFE2C00851650 /* NSError+Git.h in Headers */,
 				55C8057D13875C11004DCB0F /* NSData+Git.h in Headers */,
 				55C8057E13875C1B004DCB0F /* NSString+Git.h in Headers */,
+				D39BA8361489428A005D98F8 /* Tests-Prefix.pch in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1347,6 +1409,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				D39BA81514893BA3005D98F8 /* PBXTargetDependency */,
 				BD6C221D1314428300992935 /* PBXTargetDependency */,
 			);
 			name = Tests;
@@ -1366,6 +1429,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				D39BA81814893E49005D98F8 /* PBXTargetDependency */,
 				0450E30D133BE0F8007234B5 /* PBXTargetDependency */,
 			);
 			name = "Tests-iOS";
@@ -1433,11 +1497,11 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8DC2EF4F0486A6940098B216 /* ObjectiveGit */,
 				D37BD82F14881719006DF0CD /* Git2Mac */,
+				8DC2EF4F0486A6940098B216 /* ObjectiveGit */,
 				BDD8AEDE1313311100CB5D40 /* Tests */,
-				04DB4644133AB57600D9C624 /* ObjectiveGit-iOS */,
 				D37BD84214881736006DF0CD /* git2ios */,
+				04DB4644133AB57600D9C624 /* ObjectiveGit-iOS */,
 				BDD9C3D4133BA556003708E7 /* Tests-iOS */,
 			);
 		};
@@ -1735,6 +1799,16 @@
 			target = D37BD84214881736006DF0CD /* git2ios */;
 			targetProxy = D3165BD414881EFE00736833 /* PBXContainerItemProxy */;
 		};
+		D39BA81514893BA3005D98F8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D37BD82F14881719006DF0CD /* Git2Mac */;
+			targetProxy = D39BA81414893BA3005D98F8 /* PBXContainerItemProxy */;
+		};
+		D39BA81814893E49005D98F8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D37BD84214881736006DF0CD /* git2ios */;
+			targetProxy = D39BA81714893E49005D98F8 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -1746,6 +1820,30 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
+		D39BA82314893F1A005D98F8 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D39BA82414893F1A005D98F8 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		D39BA82914893F1A005D98F8 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D39BA82A14893F1A005D98F8 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		D39BA82F14893F1A005D98F8 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D39BA83014893F1A005D98F8 /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -1755,19 +1853,13 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Frameworks\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREFIX_HEADER = ObjectiveGitFramework_Prefix.pch;
 				HEADER_SEARCH_PATHS = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/libgit2/lib\"",
-				);
+				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_NAME = "ObjectiveGit-iOS";
 				SDKROOT = iphoneos;
 				VALID_ARCHS = "armv6 armv7";
@@ -1781,17 +1873,11 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Frameworks\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_PREFIX_HEADER = ObjectiveGitFramework_Prefix.pch;
 				HEADER_SEARCH_PATHS = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/libgit2/lib\"",
-				);
+				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_NAME = "ObjectiveGit-iOS";
 				SDKROOT = iphoneos;
 				VALID_ARCHS = "armv6 armv7";
@@ -1815,11 +1901,7 @@
 				GCC_PREFIX_HEADER = ObjectiveGitFramework_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/libgit2/build\"",
-					"\"$(SRCROOT)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MACH_O_TYPE = mh_dylib;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = ObjectiveGit;
@@ -1844,11 +1926,7 @@
 				GCC_PREFIX_HEADER = ObjectiveGitFramework_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/libgit2/build\"",
-					"\"$(SRCROOT)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MACH_O_TYPE = mh_dylib;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = ObjectiveGit;
@@ -1899,29 +1977,20 @@
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/Frameworks\"",
+					"\"$(PROJECT_DIR)/Frameworks\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_GC = unsupported;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_PREFIX_HEADER = "Tests/Tests-Prefix.pch";
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "Tests-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
-				LD_RUNPATH_SEARCH_PATHS = "\"$(SRCROOT)/Frameworks\"";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/libgit2/build\"",
-					"\"$(SRCROOT)\"",
-				);
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
+				LD_RUNPATH_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = Tests;
 			};
 			name = Debug;
@@ -1934,27 +2003,18 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/Frameworks\"",
+					"\"$(PROJECT_DIR)/Frameworks\"",
 				);
 				GCC_ENABLE_OBJC_GC = unsupported;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_PREFIX_HEADER = "Tests/Tests-Prefix.pch";
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "Tests-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
-				LD_RUNPATH_SEARCH_PATHS = "\"$(SRCROOT)/Frameworks\"";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/libgit2/build\"",
-					"\"$(SRCROOT)\"",
-				);
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
+				LD_RUNPATH_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = Tests;
 				ZERO_LINK = NO;
 			};
@@ -1968,7 +2028,7 @@
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/Frameworks\"",
+					"\"$(PROJECT_DIR)/Frameworks\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1978,10 +2038,7 @@
 				INFOPLIST_FILE = "Tests-iOS-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/libgit2/lib\"",
-				);
+				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-framework",
@@ -2003,7 +2060,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/Frameworks\"",
+					"\"$(PROJECT_DIR)/Frameworks\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/UIKit.framework/Headers/UIKit.h";
@@ -2011,10 +2068,7 @@
 				INFOPLIST_FILE = "Tests-iOS-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/libgit2/lib\"",
-				);
+				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-framework",
