@@ -45,8 +45,13 @@
 }
 
 - (void)dealloc {
-	
-	git_revwalk_free(self.walk);
+    // FIXME:
+	// Test case crashes unless the following line is commented out.
+    //
+	// git_revwalk_free(self.walk);
+    //
+    // Is this a double-free caused by git_refwalk_free() also being called in finalize()?
+    
 	self.repository = nil;
 	[super dealloc];
 }
