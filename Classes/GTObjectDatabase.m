@@ -56,8 +56,13 @@
 - (id)initWithRepository:(GTRepository *)repo {
     self = [super init];
     if (self) {
-        self.repository = repo;
-        odb = git_repository_database(self.repository.repo);
+        int error = git_repository_odb(&odb, repo.repo);
+        if (error < GIT_SUCCESS) {
+            [super dealloc];
+            self = nil;
+        } else {
+            self.repository = repo;
+        }
     }
     return self;
 }
@@ -73,7 +78,7 @@
 	}
 	
 	GTOdbObject *rawObj = [GTOdbObject objectWithOdbObj:obj];
-	git_odb_object_close(obj);
+	git_odb_object_free(obj);
 	
 	return rawObj;    
 }
