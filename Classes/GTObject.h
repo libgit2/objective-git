@@ -27,7 +27,7 @@
 //  THE SOFTWARE.
 //
 
-#include "git2.h"
+#include <git2/git2.h>
 
 typedef enum {
 	GTObjectTypeAny = GIT_OBJ_ANY,				/**< Object can be any of the following */
