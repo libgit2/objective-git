@@ -13,7 +13,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>${PRODUCT_NAME}</string>
+	<string>git2</string>
 	<key>CFBundlePackageType</key>
 	<string>FMWK</string>
 	<key>CFBundleShortVersionString</key>
@@ -22,8 +22,6 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
-	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2011 1157pm. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
 	<string></string>
 </dict>
