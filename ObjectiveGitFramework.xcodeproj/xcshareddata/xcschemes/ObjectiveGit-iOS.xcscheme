@@ -14,7 +14,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "04DB4644133AB57600D9C624"
-               BuildableName = "libObjectiveGit-iOS.a"
+               BuildableName = "libObjectiveGit.a"
                BlueprintName = "ObjectiveGit-iOS"
                ReferencedContainer = "container:ObjectiveGitFramework.xcodeproj">
             </BuildableReference>
@@ -35,7 +35,8 @@
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Debug"
-      debugDocumentVersioning = "YES">
+      debugDocumentVersioning = "YES"
+      allowLocationSimulation = "YES">
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
