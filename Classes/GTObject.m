@@ -50,12 +50,12 @@ static NSString * const GTTagClassName = @"GTTag";
 - (void)dealloc {
 	
 	self.repository = nil;
-	git_object_close(self.obj);
+	git_object_free(self.obj);
 	[super dealloc];
 }
 
 - (void)finalize {
-	git_object_close(self.obj);
+	git_object_free(self.obj);
 	[super finalize];
 }
 

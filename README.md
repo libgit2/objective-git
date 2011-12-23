@@ -47,7 +47,13 @@ not allowing third-party dynamic frameworks. A work-around for this is as follow
 
 1. Drag the ObjectiveGit.xcodeproj file into the Project Navigator.
 2. Add ObjectiveGit-iOS as a target dependency of your application.
-3. Link your application to `ObjectiveGit` (not `libgit2-ios` or `ObjectiveGit.framework`)
+3. Link your application to `libObjectiveGit-iOS.a` (not `libgit2-ios` or `ObjectiveGit.framework`)
+
+## Xcode 4 Workspaces
+
+In Xcode 4, a new feature called workspaces has appeared. Among other things, putting a project and a dependent sub-project into a workspace allows the build products of the sub-project to be readily found by the parent project. (In Xcode 3 this was enabled by setting a shared build products directory.) The most complete documentation for this aspect of [workspaces] is in the Xcode 4 transition guide.
+
+[workspaces]: http://developer.apple.com/library/mac/#documentation/IDEs/Conceptual/Xcode4TransitionGuide/ExistingProject/ExistingProject.html#//apple_ref/doc/uid/TP40009984-CH2-SW7
 
 ## Todo
 

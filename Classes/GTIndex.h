@@ -27,7 +27,7 @@
 //  THE SOFTWARE.
 //
 
-#include "git2.h"
+#include <git2/git2.h>
 
 @class GTIndexEntry;
 
