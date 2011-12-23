@@ -40,6 +40,7 @@
 
 @interface GTRepository : NSObject <GTObject> {}
 
+@property (readonly, getter=isBare) BOOL bare;
 @property (nonatomic, assign, readonly) git_repository *repo;
 @property (nonatomic, retain, readonly) NSURL *fileUrl;
 @property (nonatomic, retain, readonly) GTEnumerator *enumerator; // should only be used on the main thread
@@ -115,5 +116,7 @@
 //
 // returns the local commits, an empty array if there is no remote branch, or nil if an error occurred
 - (NSArray *)localCommitsRelativeToRemoteBranch:(GTBranch *)remoteBranch error:(NSError **)error;
-	
+
+// Is this a 'bare' repository?  i.e. created with git clone --bare
+- (BOOL)isBare;
 @end
