@@ -57,7 +57,7 @@
     self = [super init];
     if (self) {
         self.repository = repo;
-        odb = git_repository_database(self.repository.repo);
+        git_repository_odb(&odb, self.repository.repo);
     }
     return self;
 }
@@ -73,7 +73,7 @@
 	}
 	
 	GTOdbObject *rawObj = [GTOdbObject objectWithOdbObj:obj];
-	git_odb_object_close(obj);
+	git_odb_object_free(obj);
 	
 	return rawObj;    
 }

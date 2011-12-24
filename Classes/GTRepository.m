@@ -49,18 +49,24 @@
 
 @implementation GTRepository
 
+@synthesize enumerator;
+@synthesize objectDatabase;
+
 - (NSString *)description {
   return [NSString stringWithFormat:@"<%@: %p> fileURL: %@", NSStringFromClass([self class]), self, self.fileUrl];
 }
 
 - (void)dealloc {
 	
+	enumerator.repository = nil;
+	[enumerator release];
+	
 	if(self.repo != NULL) git_repository_free(self.repo);
 	self.fileUrl = nil;
-	self.enumerator.repository = nil;
-	self.enumerator = nil;
+	
+	[objectDatabase release];
+
 	self.index = nil;
-    self.objectDatabase = nil;
 	[super dealloc];
 }
 
@@ -105,9 +111,7 @@
 
 @synthesize repo;
 @synthesize fileUrl;
-@synthesize enumerator;
 @synthesize index;
-@synthesize objectDatabase;
 
 + (BOOL)initializeEmptyRepositoryAtURL:(NSURL *)localFileURL error:(NSError **)error {
 
@@ -150,15 +154,8 @@
             return nil;
         }
         self.repo = r;
-		
-		self.enumerator = [[[GTEnumerator alloc] initWithRepository:self error:error] autorelease];
-		if (self.enumerator == nil) {
-            [self release];
-            return nil;
-        }
 
 		self.fileUrl = localFileURL;
-        self.objectDatabase = [GTObjectDatabase objectDatabaseWithRepository:self];
     }
     return self;
 }
@@ -410,6 +407,22 @@
 - (GTRepository *)repository {
     
 	return self;
+}
+
+- (GTObjectDatabase *)objectDatabase {
+	if(objectDatabase == nil) {
+		self.objectDatabase = [GTObjectDatabase objectDatabaseWithRepository:self];
+	}
+	
+	return objectDatabase;
+}
+
+- (GTEnumerator *)enumerator {
+	if(enumerator == nil) {
+		self.enumerator = [[[GTEnumerator alloc] initWithRepository:self error:NULL] autorelease];
+	}
+	
+	return enumerator;
 }
 
 - (BOOL) isBare
