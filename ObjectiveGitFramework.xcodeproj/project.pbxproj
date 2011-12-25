@@ -739,7 +739,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "set -e\ncd \"${PROJECT_DIR}/libgit2\"\nif [ ! -d \"build\" ]; then\n\tmkdir build\nfi\ncd build\ncmake -DBUILD_SHARED_LIBS:BOOL=OFF ..\ncmake --build .\ncp libgit2.a \"${BUILT_PRODUCTS_DIR}/libgit2.a\"\n";
+			shellScript = "set -e\ncd \"${PROJECT_DIR}/libgit2\"\nif [ ! -d \"build\" ]; then\n\tmkdir build\nfi\ncd build\ncmake -DBUILD_SHARED_LIBS:BOOL=OFF ..\ncmake --build .\n\nproduct=\"libgit2.a\"\ntest_suite=\"./libgit2_test\"\ninstall_path=\"${BUILT_PRODUCTS_DIR}/${product}\"\nif [ \"${product}\" -nt \"${install_path}\" ]; then\n\techo \"Running \\\"${product}\\\" test suite \\\"${test_suite}\\\"...\"\n\t${test_suite}\n\tcp -v \"${product}\" \"${install_path}\"\nfi\n\n";
 		};
 		BDD8AFB1131337F800CB5D40 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
