@@ -44,8 +44,12 @@ NSString * const GTGitErrorDomain = @"GTGitErrorDomain";
 }
 
 + (NSError *)git_errorFor:(NSInteger)code withDescription:(NSString *)desc {
-	
-	NSString *gitErrorDesc = [NSString stringWithUTF8String:git_lasterror()];
+	const char* gitLastError = git_lasterror();
+	if (!gitLastError && code == GIT_EOSERR)
+	{
+		gitLastError = strerror(errno);
+	}
+	NSString *gitErrorDesc = [NSString stringWithUTF8String:gitLastError];
 	
 	return [NSError errorWithDomain:GTGitErrorDomain
 							   code:code
