@@ -30,6 +30,7 @@
 
 #import "GTObject.h"
 
+
 @interface GTBlob : GTObject {}
 
 @property (nonatomic, readonly) git_blob *blob;

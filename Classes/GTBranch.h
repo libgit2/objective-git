@@ -32,7 +32,8 @@
 typedef enum {
     GTBranchTypeLocal = 1,
     GTBranchTypeRemote
-} GTBranchType;
+} GTBranchType
+;
 
 @interface GTBranch : NSObject <GTObject> {}
 
@@ -41,9 +42,9 @@ typedef enum {
 @property (nonatomic, readonly) NSString *sha;
 @property (nonatomic, readonly) NSString *remoteName;
 @property (nonatomic, readonly) GTBranchType branchType;
-@property (nonatomic, readonly, assign) GTRepository *repository;
-@property (nonatomic, readonly, retain) GTReference *reference;
-@property (nonatomic, retain) NSArray *remoteBranches;
+@property (nonatomic, readonly) GTRepository *repository;
+@property (nonatomic, readonly, strong) GTReference *reference;
+@property (nonatomic, copy) NSArray *remoteBranches;
 
 + (NSString *)localNamePrefix;
 + (NSString *)remoteNamePrefix;

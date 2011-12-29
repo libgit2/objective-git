@@ -30,8 +30,9 @@
 #import "NSString+Git.h"
 
 @interface GTObjectDatabase ()
-@property (nonatomic, assign) GTRepository *repository;
+@property (nonatomic, unsafe_unretained) GTRepository *repository;
 @end
+
 
 @implementation GTObjectDatabase
 
@@ -41,16 +42,16 @@
 
 - (void)dealloc {
     self.repository = nil;
-    [super dealloc];
 }
 
-#pragma mark -
+
 #pragma mark API
 
+@synthesize odb;
 @synthesize repository;
 
 + (id)objectDatabaseWithRepository:(GTRepository *)repo {
-    return [[[self alloc] initWithRepository:repo] autorelease];
+    return [[self alloc] initWithRepository:repo];
 }
 
 - (id)initWithRepository:(GTRepository *)repo {
@@ -90,7 +91,6 @@
 }
 
 - (NSString *)shaByInsertingString:(NSString *)data objectType:(GTObjectType)type error:(NSError **)error {
-	
 	git_odb_stream *stream;
 	git_oid oid;
 	
@@ -119,7 +119,6 @@
 }
 
 - (BOOL)containsObjectWithSha:(NSString *)sha error:(NSError **)error {
-	
 	git_oid oid;
 	
 	int gitError = git_oid_fromstr(&oid, [sha UTF8String]);

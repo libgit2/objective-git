@@ -52,7 +52,7 @@
 - (void)testCreateRepositoryInDirectory {
 	
 	NSError *error = nil;
-	NSFileManager *fm = [[[NSFileManager alloc] init] autorelease];
+	NSFileManager *fm = [[NSFileManager alloc] init];
 	NSURL *newRepoURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"unit_test"]];
 	
 	if([fm fileExistsAtPath:[newRepoURL path]]) {
@@ -65,8 +65,8 @@
 	
 	GHAssertNil(error, [error localizedDescription]);
 	GHAssertNotNil(newRepo, nil);
-	GHAssertNotNil(newRepo.fileUrl, nil);
-	GHAssertNotNULL(newRepo.repository, nil);
+	GHAssertNotNil(newRepo.fileURL, nil);
+	GHAssertNotNil(newRepo.repository, nil);
 }
 
 - (void)testFailsToOpenNonExistentRepo {
@@ -135,7 +135,6 @@
 	NSError *error = nil;
 	// alloc and init to verify memory management
 	GTRepository *aRepo = [[GTRepository alloc] initWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
-	GHTestLog(@"%d", [aRepo retainCount]);
 	NSString *sha = @"a4a7dce85cf63874e984719f4fdd239f5145052f";
 	NSMutableArray *commits = [NSMutableArray array];
     [aRepo enumerateCommitsBeginningAtSha:sha 
@@ -158,8 +157,6 @@
 		GHAssertEqualStrings([commit.sha substringToIndex:5], [expectedShas objectAtIndex:i], nil);
 	}
 	
-	GHAssertEquals(1, (int)[aRepo retainCount], nil);
-	[aRepo release];
 }
 
 - (void)testCanWalkALot {

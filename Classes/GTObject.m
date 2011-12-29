@@ -33,13 +33,10 @@
 #import "NSError+Git.h"
 #import "GTRepository.h"
 #import "NSString+Git.h"
+#import "GTTree.h"
+#import "GTBlob.h"
+#import "GTTag.h"
 
-
-static NSString * const GTCommitClassName = @"GTCommit";
-static NSString * const GTTreeClassName = @"GTTree";
-static NSString * const GTBlobClassName = @"GTBlob";
-static NSString * const GTObjectClassName = @"GTObject";
-static NSString * const GTTagClassName = @"GTTag";
 
 @implementation GTObject
 
@@ -48,30 +45,21 @@ static NSString * const GTTagClassName = @"GTTag";
 }
 
 - (void)dealloc {
-	
 	self.repository = nil;
 	git_object_free(self.obj);
-	[super dealloc];
-}
-
-- (void)finalize {
-	git_object_free(self.obj);
-	[super finalize];
 }
 
 - (NSUInteger)hash {
-	
 	return [self.sha hash];
 }
 
 - (BOOL)isEqual:(id)otherObject {
-	
 	if(![otherObject isKindOfClass:[GTObject class]]) return NO;
 	
 	return 0 == git_oid_cmp(git_object_id(self.obj), git_object_id(((GTObject *)otherObject).obj)) ? YES : NO;
 }
 
-#pragma mark -
+
 #pragma mark API 
 
 @synthesize obj;
@@ -80,55 +68,50 @@ static NSString * const GTTagClassName = @"GTTag";
 @synthesize repository;
 
 - (id)initWithObj:(git_object *)theObject inRepository:(GTRepository *)theRepo {
-	
 	if((self = [super init])) {
 		self.repository = theRepo;
 		obj = theObject;
 	}
 	return self;
 }
-+ (id)objectWithObj:(git_object *)theObject inRepository:(GTRepository *)theRepo {
-	
-	NSString *klass;
+
++ (id)objectWithObj:(git_object *)theObject inRepository:(GTRepository *)theRepo {	
+	Class objectClass = nil;
 	git_otype t = git_object_type(theObject);
 	switch (t) {
 		case GIT_OBJ_COMMIT:
-			klass = GTCommitClassName;
+			objectClass = [GTCommit class];
 			break;
 		case GIT_OBJ_TREE:
-			klass = GTTreeClassName;
+			objectClass = [GTTree class];
 			break;
 		case GIT_OBJ_BLOB:
-			klass = GTBlobClassName;
+			objectClass = [GTBlob class];
 			break;
 		case GIT_OBJ_TAG:
-			klass = GTTagClassName;
+			objectClass = [GTTag class];
 			break;
 		default:
-			klass = GTObjectClassName;
+			objectClass = [GTObject class];
 			break;
 	}
 	
-    return [[[NSClassFromString(klass) alloc] initWithObj:theObject inRepository:theRepo] autorelease];
+    return [[objectClass alloc] initWithObj:theObject inRepository:theRepo];
 }
 
 - (NSString *)type {
-	
 	return [NSString stringWithUTF8String:git_object_type2string(git_object_type(self.obj))];
 }
 
 - (NSString *)sha {
-	
 	return [NSString git_stringWithOid:git_object_id(self.obj)];
 }
 
 - (NSString *)shortSha {
-	
 	return [self.sha git_shortUniqueShaString];
 }
 
 - (GTOdbObject *)odbObjectWithError:(NSError **)error {
-	
     return [self.repository.objectDatabase objectWithOid:git_object_id(self.obj) error:error];
 }
 

@@ -31,6 +31,7 @@
 
 @class GTIndexEntry;
 
+
 @interface GTIndex : NSObject {}
 
 @property (nonatomic, assign) git_index *index;

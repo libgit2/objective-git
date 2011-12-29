@@ -36,10 +36,11 @@ typedef enum {
 
 @class GTRepository;
 
+
 @interface GTReference : NSObject <GTObject> {}
 
 @property (nonatomic, assign) git_reference *ref;
-@property (nonatomic, assign) GTRepository *repository;
+@property (nonatomic, unsafe_unretained) GTRepository *repository;
 @property (nonatomic, readonly) NSString *type;
 @property (nonatomic, readonly) const git_oid *oid;
 

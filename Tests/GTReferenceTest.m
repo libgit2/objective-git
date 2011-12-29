@@ -84,50 +84,50 @@
 }
 
 - (void)testCanRenameRef {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	@autoreleasepool {
 	
-	NSError *error = nil;
-	GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
-	GHAssertNil(error, [error localizedDescription]);
-	GTReference *ref = [GTReference referenceByCreatingReferenceNamed:@"refs/heads/unit_test" fromReferenceTarget:@"36060c58702ed4c2a40832c51758d5344201d89a" inRepository:repo error:&error];
-	GHAssertNil(error, [error localizedDescription]);
-	GHAssertNotNil(ref, nil);
-	GHAssertEqualStrings(@"36060c58702ed4c2a40832c51758d5344201d89a", ref.target, nil);
-	GHAssertEqualStrings(@"commit", ref.type, nil);
-	GHAssertEqualStrings(@"refs/heads/unit_test", ref.name, nil);
+		NSError *error = nil;
+		GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
+		GHAssertNil(error, [error localizedDescription]);
+		GTReference *ref = [GTReference referenceByCreatingReferenceNamed:@"refs/heads/unit_test" fromReferenceTarget:@"36060c58702ed4c2a40832c51758d5344201d89a" inRepository:repo error:&error];
+		GHAssertNil(error, [error localizedDescription]);
+		GHAssertNotNil(ref, nil);
+		GHAssertEqualStrings(@"36060c58702ed4c2a40832c51758d5344201d89a", ref.target, nil);
+		GHAssertEqualStrings(@"commit", ref.type, nil);
+		GHAssertEqualStrings(@"refs/heads/unit_test", ref.name, nil);
+		
+		BOOL success = [ref setName:@"refs/heads/new_name" error:&error];
+		GHAssertTrue(success, [error localizedDescription]);
+		GHAssertEqualStrings(@"refs/heads/new_name", ref.name, nil);
+		
+		success = [ref deleteWithError:&error];
+		GHAssertTrue(success, [error localizedDescription]);
 	
-	BOOL success = [ref setName:@"refs/heads/new_name" error:&error];
-	GHAssertTrue(success, [error localizedDescription]);
-	GHAssertEqualStrings(@"refs/heads/new_name", ref.name, nil);
-	
-	success = [ref deleteWithError:&error];
-	GHAssertTrue(success, [error localizedDescription]);
-	
-	[pool drain];
+	}
 }
 
 - (void)testCanRenameRefAfterUsingWalker {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	@autoreleasepool {
 	
-	NSError *error = nil;
-	GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
-	GHAssertNil(error, [error localizedDescription]);
-	(void) repo.enumerator; // walker's created lazily, so force its creation
-	GTReference *ref = [GTReference referenceByCreatingReferenceNamed:@"refs/heads/unit_test" fromReferenceTarget:@"36060c58702ed4c2a40832c51758d5344201d89a" inRepository:repo error:&error];
-	GHAssertNil(error, [error localizedDescription]);
-	GHAssertNotNil(ref, nil);
-	GHAssertEqualStrings(@"36060c58702ed4c2a40832c51758d5344201d89a", ref.target, nil);
-	GHAssertEqualStrings(@"commit", ref.type, nil);
-	GHAssertEqualStrings(@"refs/heads/unit_test", ref.name, nil);
+		NSError *error = nil;
+		GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
+		GHAssertNil(error, [error localizedDescription]);
+		(void) repo.enumerator; // walker's created lazily, so force its creation
+		GTReference *ref = [GTReference referenceByCreatingReferenceNamed:@"refs/heads/unit_test" fromReferenceTarget:@"36060c58702ed4c2a40832c51758d5344201d89a" inRepository:repo error:&error];
+		GHAssertNil(error, [error localizedDescription]);
+		GHAssertNotNil(ref, nil);
+		GHAssertEqualStrings(@"36060c58702ed4c2a40832c51758d5344201d89a", ref.target, nil);
+		GHAssertEqualStrings(@"commit", ref.type, nil);
+		GHAssertEqualStrings(@"refs/heads/unit_test", ref.name, nil);
+		
+		BOOL success = [ref setName:@"refs/heads/new_name" error:&error];
+		GHAssertTrue(success, [error localizedDescription]);
+		GHAssertEqualStrings(@"refs/heads/new_name", ref.name, nil);
+		
+		success = [ref deleteWithError:&error];
+		GHAssertTrue(success, [error localizedDescription]);
 	
-	BOOL success = [ref setName:@"refs/heads/new_name" error:&error];
-	GHAssertTrue(success, [error localizedDescription]);
-	GHAssertEqualStrings(@"refs/heads/new_name", ref.name, nil);
-	
-	success = [ref deleteWithError:&error];
-	GHAssertTrue(success, [error localizedDescription]);
-	
-	[pool drain];
+	}
 }
 
 - (void)testCanSetTargetOnRef {

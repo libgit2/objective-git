@@ -40,10 +40,9 @@
 
 - (void)dealloc {
 	free(self.entry);
-	[super dealloc];
 }
 
-#pragma mark -
+
 #pragma mark API
 
 @synthesize entry;
@@ -60,8 +59,11 @@
 @synthesize stage;
 @synthesize isValid;
 
++ (id)indexEntryWithEntry:(git_index_entry *)theEntry {
+	return [[self alloc] initWithEntry:theEntry];
+}
+
 - (id)init {
-	
 	if((self = [super init])) {
 		self.entry = calloc(1, sizeof(git_index_entry));
 	}
@@ -69,25 +71,19 @@
 }
 
 - (id)initWithEntry:(git_index_entry *)theEntry {
-	
 	if((self = [self init])) {
         git_index_entry *thisEntry = self.entry;
         memcpy(thisEntry, theEntry, sizeof(git_index_entry));
 	}
 	return self;
 }
-+ (id)indexEntryWithEntry:(git_index_entry *)theEntry {
-	
-	return [[[self alloc] initWithEntry:theEntry] autorelease];
-}
 
 - (NSString *)path {
-	
-	if(self.entry->path == NULL)return nil;
+	if(self.entry->path == NULL) return nil;
 	return [NSString stringWithUTF8String:self.entry->path];
 }
+
 - (void)setPath:(NSString *)thePath {
-	
 	if(self.entry->path != NULL)
 		free((void *)self.entry->path);
 	
@@ -95,11 +91,10 @@
 }
 
 - (NSString *)sha {
-	
 	return [NSString git_stringWithOid:&entry->oid];
 }
-- (BOOL)setSha:(NSString *)theSha error:(NSError **)error {
 
+- (BOOL)setSha:(NSString *)theSha error:(NSError **)error {
 	int gitError = git_oid_fromstr(&entry->oid, [theSha UTF8String]);
 	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
@@ -109,25 +104,23 @@
 	return YES;
 }
 
-- (NSDate *)modificationDate {
-	
+- (NSDate *)modificationDate {	
 	double time = self.entry->mtime.seconds + (self.entry->mtime.nanoseconds/1000);
 	return [NSDate dateWithTimeIntervalSince1970:time];
 }
+
 - (void)setModificationDate:(NSDate *)time {
-	
 	NSTimeInterval t = [time timeIntervalSince1970];
 	self.entry->mtime.seconds = (int)t;
 	self.entry->mtime.nanoseconds = 1000 * (t - (int)t);
 }
 
 - (NSDate *)creationDate {
-	
 	double time = self.entry->ctime.seconds + (self.entry->ctime.nanoseconds/1000);
 	return [NSDate dateWithTimeIntervalSince1970:time];
 }
-- (void)setCreationDate:(NSDate *)time {
-	
+
+- (void)setCreationDate:(NSDate *)time {	
 	NSTimeInterval t = [time timeIntervalSince1970];
 	self.entry->ctime.seconds = (int)t;
 	self.entry->ctime.nanoseconds = 1000 * (t - (int)t);
@@ -152,26 +145,23 @@
 - (void)setGid:(NSUInteger)theGid { self.entry->gid = (unsigned int)theGid; }
 
 - (NSUInteger)flags {
-	
 	return (self.entry->flags & 0xFFFF) | (self.entry->flags_extended << 16); 
 }
-- (void)setFlags:(NSUInteger)theFlags {
-	
+
+- (void)setFlags:(NSUInteger)theFlags {	
 	self.entry->flags = (unsigned short)(theFlags & 0xFFFF);
 	self.entry->flags_extended = (unsigned short)((theFlags >> 16) & 0xFFFF);
 }
 
 - (BOOL)isValid {
-	
 	return (self.flags & GIT_IDXENTRY_VALID) != 0;
 }
 
-- (NSUInteger)stage {
-	
+- (NSUInteger)isStaged {
 	return (self.entry->flags & GIT_IDXENTRY_STAGEMASK) >> GIT_IDXENTRY_STAGESHIFT;
 }
-- (void)setStage:(NSUInteger)theStage {
-	
+
+- (void)setStage:(NSUInteger)theStage {	
 	NSParameterAssert(theStage >= 0 && theStage <= 3);
 	
 	self.entry->flags &= ~GIT_IDXENTRY_STAGEMASK;

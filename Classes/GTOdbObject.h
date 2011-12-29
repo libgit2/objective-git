@@ -9,6 +9,7 @@
 
 #import "GTObject.h"
 
+
 @interface GTOdbObject : NSObject {}
 
 @property (nonatomic, assign, readonly) git_odb_object *odbObject;

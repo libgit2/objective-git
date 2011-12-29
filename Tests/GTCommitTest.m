@@ -121,10 +121,10 @@
 	GHAssertNotNil(obj, nil);
 	GHAssertTrue([obj isKindOfClass:[GTTree class]], nil);
 	GTTree *tree = (GTTree *)obj;
-	GTSignature *person = [[[GTSignature alloc] 
+	GTSignature *person = [[GTSignature alloc] 
 						   initWithName:@"Tim" 
 						   email:@"tclem@github.com" 
-						   time:[NSDate date]] autorelease];
+						   time:[NSDate date]];
 	GTCommit *commit = [GTCommit commitInRepository:repo updateRefNamed:nil author:person committer:person message:@"new message" tree:tree parents:nil error:&error];
 	GHAssertNotNil(commit, [error localizedDescription]);
 	GHTestLog(@"wrote sha %@", commit.sha);
@@ -142,10 +142,10 @@
 	GHAssertNotNil(obj, nil);
 	GHAssertTrue([obj isKindOfClass:[GTTree class]], nil);
 	GTTree *tree = (GTTree *)obj;
-	GTSignature *person = [[[GTSignature alloc] 
+	GTSignature *person = [[GTSignature alloc] 
 							initWithName:@"Tim" 
 							email:@"tclem@github.com" 
-							time:[NSDate date]] autorelease];
+							time:[NSDate date]];
 	GTCommit *commit = [GTCommit commitInRepository:repo updateRefNamed:nil author:person committer:person message:nil tree:tree parents:nil error:&error];
 	GHAssertNotNil(commit, [error localizedDescription]);
 	GHTestLog(@"wrote sha %@", commit.sha);

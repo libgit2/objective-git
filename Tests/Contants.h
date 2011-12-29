@@ -97,7 +97,7 @@ static inline void CREATE_WRITABLE_FIXTURES(void) {
 static inline void rm_loose(NSString *sha) {
 	
 	NSError *error;
-	NSFileManager *m = [[[NSFileManager alloc] init] autorelease];
+	NSFileManager *m = [[NSFileManager alloc] init];
 	NSString *objDir = [NSString stringWithFormat:@"objects/%@", [sha substringToIndex:2]];
 	NSURL *basePath = [[NSURL fileURLWithPath:TEST_REPO_PATH()] URLByAppendingPathComponent:objDir];
 	NSURL *filePath = [basePath URLByAppendingPathComponent:[sha substringFromIndex:2]];

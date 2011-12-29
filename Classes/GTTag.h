@@ -33,6 +33,7 @@
 @class GTSignature;
 @class GTRepository;
 
+
 @interface GTTag : GTObject {}
 
 @property (nonatomic, readonly) git_tag *tag;

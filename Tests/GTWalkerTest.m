@@ -140,7 +140,7 @@
 	BOOL success = [repo.enumerator push:sha error:&error];
 	GHAssertTrue(success, [error localizedDescription]);
 	
-	NSMutableArray *commits = [[[NSMutableArray alloc] initWithCapacity:6] autorelease];
+	NSMutableArray *commits = [[NSMutableArray alloc] initWithCapacity:6];
 	for(int i=0; i < 6; i++) {
 		[commits addObject:[repo.enumerator nextObjectWithError:&error]];
 	}

@@ -87,7 +87,7 @@
 	
 	NSError *error = nil;
 	NSDate *now = [NSDate date];
-	GTIndexEntry *e = [[[GTIndexEntry alloc] init] autorelease];
+	GTIndexEntry *e = [[GTIndexEntry alloc] init];
 	e.path = @"new_path";
 	BOOL success = [e setSha:@"d385f264afb75a56a5bec74243be9b367ba4ca08" error:&error];
 	GHAssertTrue(success, [error localizedDescription]);
@@ -168,7 +168,7 @@
 - (void)createTempPath {
 	
     NSError *error = nil;
-    NSFileManager *m = [[[NSFileManager alloc] init] autorelease];
+    NSFileManager *m = [[NSFileManager alloc] init];
     tempPath = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"index"]];	
 	
     if([m fileExistsAtPath:[tempPath path]])

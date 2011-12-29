@@ -35,35 +35,30 @@
 @implementation GTTree
 
 - (NSString *)description {
-  return [NSString stringWithFormat:@"<%@: %p> numberOfEntries: %i", NSStringFromClass([self class]), self, [self numberOfEntries]];
+	return [NSString stringWithFormat:@"<%@: %p> numberOfEntries: %i", NSStringFromClass([self class]), self, [self numberOfEntries]];
 }
 
-- (git_tree *)tree {
-	
-	return (git_tree *)self.obj;
-}
 
-#pragma mark -
 #pragma mark API
 
 - (NSInteger)numberOfEntries {
-
 	return (NSInteger)git_tree_entrycount(self.tree);
 }
 
 - (GTTreeEntry *)createEntryWithEntry:(const git_tree_entry *)entry {
-	
 	return [GTTreeEntry entryWithEntry:entry parentTree:self];
 }
 
 - (GTTreeEntry *)entryAtIndex:(NSInteger)index {
-	
 	return [self createEntryWithEntry:git_tree_entry_byindex(self.tree, (int)index)];
 }
 
 - (GTTreeEntry *)entryWithName:(NSString *)name {
-	
 	return [self createEntryWithEntry:git_tree_entry_byname(self.tree, [name UTF8String])];
+}
+
+- (git_tree *)tree {
+	return (git_tree *)self.obj;
 }
 
 /*

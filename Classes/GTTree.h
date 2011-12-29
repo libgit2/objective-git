@@ -32,6 +32,7 @@
 
 @class GTTreeEntry;
 
+
 @interface GTTree : GTObject {}
 
 @property (nonatomic, readonly) git_tree *tree;

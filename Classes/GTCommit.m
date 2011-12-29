@@ -43,41 +43,24 @@
 }
 
 - (git_commit *)commit {
-	
 	return (git_commit *)self.obj;
 }
 
-#pragma mark -
+
 #pragma mark API
 
 @synthesize author;
 @synthesize committer;
 @synthesize parents;
 
-+ (GTCommit *)commitInRepository:(GTRepository *)theRepo
-			updateRefNamed:(NSString *)refName
-					author:(GTSignature *)authorSig
-				 committer:(GTSignature *)committerSig
-				   message:(NSString *)newMessage
-					  tree:(GTTree *)theTree 
-				   parents:(NSArray *)theParents 
-					 error:(NSError **)error {
-	
++ (GTCommit *)commitInRepository:(GTRepository *)theRepo updateRefNamed:(NSString *)refName author:(GTSignature *)authorSig committer:(GTSignature *)committerSig message:(NSString *)newMessage tree:(GTTree *)theTree parents:(NSArray *)theParents error:(NSError **)error {
 	NSString *sha = [GTCommit shaByCreatingCommitInRepository:theRepo updateRefNamed:refName author:authorSig committer:committerSig message:newMessage tree:theTree parents:theParents error:error];
 	return sha ? (GTCommit *)[theRepo lookupObjectBySha:sha objectType:GTObjectTypeCommit error:error] : nil;
 }
 
-+ (NSString *)shaByCreatingCommitInRepository:(GTRepository *)theRepo
-				  updateRefNamed:(NSString *)refName
-						  author:(GTSignature *)authorSig
-					   committer:(GTSignature *)committerSig
-						 message:(NSString *)newMessage
-							tree:(GTTree *)theTree 
-						 parents:(NSArray *)theParents 
-						   error:(NSError **)error {
-	
++ (NSString *)shaByCreatingCommitInRepository:(GTRepository *)theRepo updateRefNamed:(NSString *)refName author:(GTSignature *)authorSig committer:(GTSignature *)committerSig message:(NSString *)newMessage tree:(GTTree *)theTree parents:(NSArray *)theParents error:(NSError **)error {
 	NSUInteger count = theParents ? theParents.count : 0;
-	git_commit const *parentCommits[count];
+	const git_commit **parentCommits = calloc(count, sizeof(git_commit *));
 	for (NSUInteger i = 0; i < count; i++){
 		parentCommits[i] = ((GTCommit *)[theParents objectAtIndex:i]).commit;
 	}
@@ -95,15 +78,16 @@
 									   (int)count, 
 									   parentCommits);
 	if(gitError < GIT_SUCCESS) {
+		if(parentCommits != NULL) free(parentCommits);
 		if(error != NULL)
 			*error = [NSError git_errorFor:gitError withDescription:@"Failed to create commit in repository"];
 		return nil;
 	}
+	if(parentCommits != NULL) free(parentCommits);
 	return [NSString git_stringWithOid:&oid];
 }
 
 - (NSString *)message {
-	
 	const char *s = git_commit_message(self.commit);
 	if(s == NULL) return nil;
 	return [NSString stringWithUTF8String:s];
@@ -117,7 +101,6 @@
 }
 
 - (NSString *)messageDetails {
-	
 	NSArray *lines = [self.message componentsSeparatedByString:@"\n"];
 	if(lines.count < 2) return @"";
 	
@@ -134,35 +117,30 @@
 }
 
 - (NSString *)messageSummary {
-	
 	NSArray *messageComponents = [self.message componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
 	return messageComponents.count > 0 ? [messageComponents objectAtIndex:0] : @"";
 }
 
 - (NSDate *)commitDate {
-	
 	time_t t = git_commit_time(self.commit);
 	return [NSDate dateWithTimeIntervalSince1970:t];
 }
 
 - (GTSignature *)author {
-	
 	if(author == nil) {
-		author = [[GTSignature signatureWithSig:(git_signature *)git_commit_author(self.commit)] retain];
+		author = [GTSignature signatureWithSig:(git_signature *)git_commit_author(self.commit)];
 	}
 	return author;
 }
 
 - (GTSignature *)committer {
-	
 	if(committer == nil) {
-		committer = [[GTSignature signatureWithSig:(git_signature *)git_commit_committer(self.commit)] retain];
+		committer = [GTSignature signatureWithSig:(git_signature *)git_commit_committer(self.commit)];
 	}
 	return committer;
 }
 
 - (GTTree *)tree {
-	
 	git_tree *t;
 	
 	int gitError = git_commit_tree(&t, self.commit);
@@ -175,7 +153,6 @@
 }
 
 - (NSArray *)parents {
-	
 	if(parents == nil) {
 		NSMutableArray *rents = [NSMutableArray array];
 		
@@ -185,17 +162,9 @@
             [rents addObject:(GTCommit *)[GTObject objectWithObj:(git_object *)parent inRepository:self.repository]];
 		}
 		
-		parents = [[NSArray arrayWithArray:rents] retain];
+		parents = [NSArray arrayWithArray:rents];
 	}
 	return parents;
-}
-
-- (void)dealloc
-{
-    [parents release];
-    [committer release];
-    [author release];
-    [super dealloc];
 }
 
 @end

@@ -26,11 +26,11 @@
 
 #import "GTObject.h"
 
-@interface GTObjectDatabase : NSObject <GTObject> {
-    git_odb *odb;
-}
 
-@property (nonatomic, assign, readonly) GTRepository *repository;
+@interface GTObjectDatabase : NSObject <GTObject>
+
+@property (nonatomic, assign) git_odb *odb;
+@property (nonatomic, readonly, unsafe_unretained) GTRepository *repository;
 
 + (id)objectDatabaseWithRepository:(GTRepository *)repository;
 - (id)initWithRepository:(GTRepository *)repository;

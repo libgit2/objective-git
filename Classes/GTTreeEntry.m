@@ -34,25 +34,23 @@
 #import "NSError+Git.h"
 #import "NSString+Git.h"
 
-
 @interface GTTreeEntry()
 @property (nonatomic, assign) const git_tree_entry *entry;
-@property (nonatomic, assign) GTTree *tree;
+@property (nonatomic) GTTree *tree;
 @end
+
 
 @implementation GTTreeEntry
 
 - (NSString *)description {
-  return [NSString stringWithFormat:@"<%@: %p> name: %@, sha: %@ attributes: %i", NSStringFromClass([self class]), self, [self name], [self sha], [self attributes]];
+	return [NSString stringWithFormat:@"<%@: %p> name: %@, sha: %@ attributes: %i", NSStringFromClass([self class]), self, [self name], [self sha], [self attributes]];
 }
 
 - (void)dealloc {
-	
 	self.tree = nil;
-	[super dealloc];
 }
 
-#pragma mark -
+
 #pragma mark API
 
 @synthesize entry;
@@ -67,22 +65,18 @@
 }
 
 + (id)entryWithEntry:(const git_tree_entry *)theEntry parentTree:(GTTree *)parent {
-	
-	return [[[self alloc] initWithEntry:theEntry parentTree:parent] autorelease];
+	return [[self alloc] initWithEntry:theEntry parentTree:parent];
 }
 
 - (NSString *)name {
-	
 	return [NSString stringWithUTF8String:git_tree_entry_name(self.entry)];
 }
 
 - (NSInteger)attributes {
-	
 	return git_tree_entry_attributes(self.entry);
 }
 
 - (NSString *)sha {
-	
 	return [NSString git_stringWithOid:git_tree_entry_id(self.entry)];
 }
 
@@ -96,10 +90,11 @@
 
 @end
 
+
 @implementation GTObject (GTTreeEntry)
 
 + (id)objectWithTreeEntry:(GTTreeEntry *)treeEntry error:(NSError **)error {
-    return [[[self alloc] initWithTreeEntry:treeEntry error:error] autorelease];
+    return [[self alloc] initWithTreeEntry:treeEntry error:error];
 }
 
 - (id)initWithTreeEntry:(GTTreeEntry *)treeEntry error:(NSError **)error {
@@ -109,7 +104,6 @@
         if (error != NULL) {
             *error = [NSError git_errorFor:gitError withDescription:@"Failed to get object for tree entry."];
         }
-        [self release];
         return nil;
     }
     

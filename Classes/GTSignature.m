@@ -33,11 +33,10 @@
 @implementation GTSignature
 
 - (NSString *)description {
-	
 	return [NSString stringWithFormat:@"<%@: %p> name: %@, email: %@, time: %@", NSStringFromClass([self class]), self, self.name, self.email, self.time];
 }
 
-#pragma mark -
+
 #pragma mark API 
 
 @synthesize sig;
@@ -45,57 +44,52 @@
 @synthesize email;
 @synthesize time;
 
++ (id)signatureWithSig:(git_signature *)theSignature {
+	return [[self alloc] initWithSig:theSignature];
+}
+
++ (id)signatureWithName:(NSString *)theName email:(NSString *)theEmail time:(NSDate *)theTime {
+	return [[self alloc] initWithName:theName email:theEmail time:theTime];
+}
+
 - (id)initWithSig:(git_signature *)theSignature {
-	
 	if((self = [self init])) {
 		self.sig = theSignature;
 	}
 	return self;
 }
-+ (id)signatureWithSig:(git_signature *)theSignature {
-	
-	return [[[self alloc] initWithSig:theSignature] autorelease];
-}
 
 - (id)initWithName:(NSString *)theName email:(NSString *)theEmail time:(NSDate *)theTime {
-	
 	if((self = [super init])) {
 		git_signature_new(&sig, [theName UTF8String], [theEmail UTF8String], [theTime timeIntervalSince1970], 0);
 		// todo: figure out offset for NSDate
 	}
 	return self;
 }
-+ (id)signatureWithName:(NSString *)theName email:(NSString *)theEmail time:(NSDate *)theTime {
-	
-	return [[[self alloc] initWithName:theName email:theEmail time:theTime] autorelease];
-}
 
 - (NSString *)name {
-	
 	return [NSString stringWithUTF8String:self.sig->name];
 }
+
 - (void)setName:(NSString *)n {
-	
 	free(self.sig->name);
 	self.sig->name = strdup([n cStringUsingEncoding:NSUTF8StringEncoding]);
 }
 
 - (NSString *)email {
-	
 	return [NSString stringWithUTF8String:self.sig->email];
 }
-- (void)setEmail:(NSString *)e {
-	
+
+- (void)setEmail:(NSString *)e {	
 	free(self.sig->email);
 	self.sig->email = strdup([e cStringUsingEncoding:NSUTF8StringEncoding]);
 }
 
-- (NSDate *)time {
-	
+- (NSDate *)time {	
 	return [NSDate dateWithTimeIntervalSince1970:self.sig->when.time];
 }
+
 - (void)setTime:(NSDate *)d {
-	
 	self.sig->when.time = [d timeIntervalSince1970];
 }
 

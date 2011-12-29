@@ -29,12 +29,13 @@
 
 #include "git2.h"
 
+
 @interface GTIndexEntry : NSObject {}
 
 @property (nonatomic, assign) git_index_entry *entry;
-@property (nonatomic, assign) NSString *path;
-@property (nonatomic, assign) NSDate *modificationDate;
-@property (nonatomic, assign) NSDate *creationDate;
+@property (nonatomic, copy) NSString *path;
+@property (nonatomic, strong) NSDate *modificationDate;
+@property (nonatomic, strong) NSDate *creationDate;
 @property (nonatomic, assign) long long fileSize;
 @property (nonatomic, assign) NSUInteger dev;
 @property (nonatomic, assign) NSUInteger ino;
@@ -42,7 +43,7 @@
 @property (nonatomic, assign) NSUInteger uid;
 @property (nonatomic, assign) NSUInteger gid;
 @property (nonatomic, assign) NSUInteger flags;
-@property (nonatomic, assign) NSUInteger stage;
+@property (nonatomic, getter=isStaged, assign) NSUInteger stage;
 @property (nonatomic, readonly) BOOL isValid;
 
 // Convenience initializers

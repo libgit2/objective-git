@@ -38,14 +38,15 @@
 @class GTIndex;
 @class GTBranch;
 
+
 @interface GTRepository : NSObject <GTObject> {}
 
-@property (readonly, getter=isBare) BOOL bare;
 @property (nonatomic, assign, readonly) git_repository *repo;
-@property (nonatomic, retain, readonly) NSURL *fileUrl;
-@property (nonatomic, retain, readonly) GTEnumerator *enumerator; // should only be used on the main thread
-@property (nonatomic, retain, readonly) GTIndex *index;
-@property (nonatomic, retain, readonly) GTObjectDatabase *objectDatabase;
+@property (nonatomic, readonly, strong) NSURL *fileURL;
+@property (nonatomic, readonly, strong) GTEnumerator *enumerator; // should only be used on the main thread
+@property (nonatomic, readonly, strong) GTIndex *index;
+@property (nonatomic, readonly, strong) GTObjectDatabase *objectDatabase;
+@property (readonly, getter=isBare) BOOL bare; // Is this a 'bare' repository?  i.e. created with git clone --bare
 
 + (BOOL)initializeEmptyRepositoryAtURL:(NSURL *)localFileURL error:(NSError **)error;
 
@@ -117,6 +118,4 @@
 // returns the local commits, an empty array if there is no remote branch, or nil if an error occurred
 - (NSArray *)localCommitsRelativeToRemoteBranch:(GTBranch *)remoteBranch error:(NSError **)error;
 
-// Is this a 'bare' repository?  i.e. created with git clone --bare
-- (BOOL)isBare;
 @end

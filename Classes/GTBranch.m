@@ -30,8 +30,8 @@
 
 
 @interface GTBranch ()
-@property (nonatomic, retain) GTReference *reference;
-@property (nonatomic, assign) GTRepository *repository;
+@property (nonatomic, strong) GTReference *reference;
+@property (nonatomic, unsafe_unretained) GTRepository *repository;
 @end
 
 @implementation GTBranch
@@ -40,25 +40,7 @@
   return [NSString stringWithFormat:@"<%@: %p> name: %@, shortName: %@, sha: %@, remoteName: %@, repository: %@", NSStringFromClass([self class]), self, self.name, self.shortName, self.sha, self.remoteName, self.repository];
 }
 
-- (void)dealloc {
-
-    self.reference = nil;
-    self.remoteBranches = nil;
-	[super dealloc];
-}
-
-+ (NSString *)localNamePrefix {
-	
-	return @"refs/heads/";
-}
-
-+ (NSString *)remoteNamePrefix {
-	
-	return @"refs/remotes/";
-}
-
 - (BOOL)isEqual:(id)otherObject {
-	
 	if(![otherObject isKindOfClass:[GTBranch class]]) {
 		return NO;
 	}
@@ -69,23 +51,36 @@
 }
 
 - (NSUInteger)hash {
-	
 	return [self.name hash];
 }
 
-#pragma mark -
+
 #pragma mark API
 
 @synthesize reference;
 @synthesize repository;
 @synthesize remoteBranches;
 
++ (NSString *)localNamePrefix {
+	return @"refs/heads/";
+}
+
++ (NSString *)remoteNamePrefix {
+	return @"refs/remotes/";
+}
+
++ (id)branchWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error {	
+	return [[self alloc] initWithName:branchName repository:repo error:error];
+}
+
++ (id)branchWithReference:(GTReference *)ref repository:(GTRepository *)repo {
+	return [[self alloc] initWithReference:ref repository:repo];
+}
+
 - (id)initWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error {
-	
 	if((self = [super init])) {
 		self.reference = [GTReference referenceByLookingUpReferencedNamed:branchName inRepository:repo error:error];
 		if(self.reference == nil) {
-            [self release];
             return nil;
         }
 		
@@ -93,31 +88,20 @@
 	}
 	return self;
 }
-+ (id)branchWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error {
-	
-	return [[[self alloc] initWithName:branchName repository:repo error:error] autorelease];
-}
 
 - (id)initWithReference:(GTReference *)ref repository:(GTRepository *)repo {
-	
 	if((self = [super init])) {
 		self.reference = ref;
 		self.repository = repo;
 	}
 	return self;
 }
-+ (id)branchWithReference:(GTReference *)ref repository:(GTRepository *)repo {
-	
-	return [[[self alloc] initWithReference:ref repository:repo] autorelease];
-}
 
 - (NSString *)name {
-	
 	return self.reference.name;
 }
 
 - (NSString *)shortName {
-	
 	if([self branchType] == GTBranchTypeLocal) {
 		return [self.name stringByReplacingOccurrencesOfString:[[self class] localNamePrefix] withString:@""];
 	} else if([self branchType] == GTBranchTypeRemote) {
@@ -129,13 +113,11 @@
 	}
 }
 
-- (NSString *)sha {
-	
+- (NSString *)sha {	
 	return self.reference.target;
 }
 
 - (NSString *)remoteName {
-	
 	if([self branchType] == GTBranchTypeLocal) {
 		return nil;
 	}
@@ -150,20 +132,17 @@
 }
 
 - (GTCommit *)targetCommitAndReturnError:(NSError **)error {
-	
     return (GTCommit *)[self.repository lookupObjectBySha:self.sha error:error];
 }
 
 + (NSArray *)branchesInRepository:(GTRepository *)repo error:(NSError **)error {
-	
     return [self branchesInRepository:repo withPrefix:[self localNamePrefix] error:error];
 }
 
 + (NSArray *)remoteBranchesInRepository:(GTRepository *)repo error:(NSError **)error {
-	
 	static NSArray *unwantedRemoteBranches = nil;
 	if(unwantedRemoteBranches == nil) {
-		unwantedRemoteBranches = [[NSArray arrayWithObjects:@"HEAD", nil] retain];
+		unwantedRemoteBranches = [NSArray arrayWithObjects:@"HEAD", nil];
 	}
 	
 	NSArray *remoteBranches = [self branchesInRepository:repo withPrefix:[self remoteNamePrefix] error:error];
@@ -180,7 +159,6 @@
 }
 
 + (NSArray *)branchesInRepository:(GTRepository *)repo withPrefix:(NSString *)prefix error:(NSError **)error {
-	
 	NSArray *references = [GTReference referenceNamesInRepository:repo error:error];
     if(references == nil) return nil;
 	
@@ -196,7 +174,6 @@
 }
 
 - (NSInteger)numberOfCommitsWithError:(NSError **)error {
-	
 	return [self.repository.enumerator countFromSha:self.sha error:error];
 }
 
@@ -218,7 +195,6 @@
 }
 
 - (NSArray *)remoteBranches {
-	
 	if(remoteBranches != nil) {
 		return remoteBranches;
 	} else if(self.branchType == GTBranchTypeRemote) {

@@ -33,10 +33,10 @@
 #import "NSString+Git.h"
 #import "GTRepository.h"
 
-
 @interface GTEnumerator()
 @property (nonatomic, assign) git_revwalk *walk;
 @end
+
 
 @implementation GTEnumerator
 
@@ -45,19 +45,11 @@
 }
 
 - (void)dealloc {
-	
 	git_revwalk_free(self.walk);
 	self.repository = nil;
-	[super dealloc];
 }
 
-- (void)finalize {
-	
-	git_revwalk_free(self.walk);
-	[super finalize];
-}
 
-#pragma mark -
 #pragma mark API
 
 @synthesize repository;
@@ -65,7 +57,6 @@
 @synthesize options;
 
 - (id)initWithRepository:(GTRepository *)theRepo error:(NSError **)error {
-	
 	if((self = [super init])) {
 		self.repository = theRepo;
 		git_revwalk *w;
@@ -73,23 +64,21 @@
 		if(gitError < GIT_SUCCESS) {
 			if (error != NULL)
 				*error = [NSError git_errorFor:gitError withDescription:@"Failed to initialize rev walker."];
-            [self release];
 			return nil;
 		}
 		self.walk = w;
 	}
 	return self;
 }
+
 + (id)enumeratorWithRepository:(GTRepository *)theRepo error:(NSError **)error {
-	
-	return [[[self alloc] initWithRepository:theRepo error:error] autorelease];
+	return [[self alloc] initWithRepository:theRepo error:error];
 }
 
 - (BOOL)push:(NSString *)sha error:(NSError **)error {
-	
 	git_oid oid;
 	BOOL success = [sha git_getOid:&oid error:error];
-	if(!success)return NO;
+	if(!success) return NO;
 	
 	[self reset];
 	
@@ -104,10 +93,9 @@
 }
 
 - (BOOL)skipCommitWithHash:(NSString *)sha error:(NSError **)error {
-	
 	git_oid oid;
 	BOOL success = [sha git_getOid:&oid error:error];
-	if(!success)return NO;
+	if(!success) return NO;
 	
 	int gitError = git_revwalk_hide(self.walk, &oid);
 	if(gitError < GIT_SUCCESS) {
@@ -119,7 +107,6 @@
 }
 
 - (void)reset {
-	
 	git_revwalk_reset(self.walk);
 }
 
@@ -129,12 +116,10 @@
 }
 
 - (id)nextObject {
-	
 	return [self nextObjectWithError:NULL];
 }
 
 - (id)nextObjectWithError:(NSError **)error {
-	
 	git_oid oid;
 	int gitError = git_revwalk_next(&oid, self.walk);
 	if(gitError == GIT_EREVWALKOVER)
@@ -145,12 +130,10 @@
 }
 
 - (NSArray *)allObjects {
-	
 	return [self allObjectsWithError:NULL];
 }
 
 - (NSArray *)allObjectsWithError:(NSError **)error {
-
     NSMutableArray *array = [NSMutableArray array];
     id object = nil;
     while ((object = [self nextObjectWithError:error]) != nil) {
@@ -160,7 +143,6 @@
 }
 
 - (NSInteger)countFromSha:(NSString *)sha error:(NSError **)error {
-	
 	[self setOptions:GTEnumeratorOptionsNone];
 	
 	BOOL success = [self push:sha error:error];

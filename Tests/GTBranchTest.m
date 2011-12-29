@@ -70,7 +70,6 @@
 	GTBranch *current = [GTBranch branchWithReference:head repository:repo];
 	GHAssertNotNil(current, [error localizedDescription]);
 
-    [head release];
 
     GHAssertNotNil(current.reference, nil);
 }

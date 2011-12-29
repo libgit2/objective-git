@@ -33,6 +33,7 @@
 @class GTSignature;
 @class GTTree;
 
+
 @interface GTCommit : GTObject {}
 
 @property (nonatomic, readonly) git_commit *commit;
@@ -40,23 +41,9 @@
 @property (nonatomic, readonly) GTSignature *committer;
 @property (nonatomic, readonly) NSArray *parents;
 
-+ (GTCommit *)commitInRepository:(GTRepository *)theRepo
-                  updateRefNamed:(NSString *)refName
-                          author:(GTSignature *)authorSig
-                       committer:(GTSignature *)committerSig
-                         message:(NSString *)newMessage
-                            tree:(GTTree *)theTree 
-                         parents:(NSArray *)theParents 
-                           error:(NSError **)error;
++ (GTCommit *)commitInRepository:(GTRepository *)theRepo updateRefNamed:(NSString *)refName author:(GTSignature *)authorSig committer:(GTSignature *)committerSig message:(NSString *)newMessage tree:(GTTree *)theTree parents:(NSArray *)theParents error:(NSError **)error;
 
-+ (NSString *)shaByCreatingCommitInRepository:(GTRepository *)theRepo
-                               updateRefNamed:(NSString *)refName
-                                       author:(GTSignature *)authorSig
-                                    committer:(GTSignature *)committerSig
-                                      message:(NSString *)newMessage
-                                         tree:(GTTree *)theTree 
-                                      parents:(NSArray *)theParents 
-                                        error:(NSError **)error;
++ (NSString *)shaByCreatingCommitInRepository:(GTRepository *)theRepo updateRefNamed:(NSString *)refName author:(GTSignature *)authorSig committer:(GTSignature *)committerSig message:(NSString *)newMessage tree:(GTTree *)theTree parents:(NSArray *)theParents error:(NSError **)error;
 
 - (NSString *)message;
 - (NSString *)messageTitle;
