@@ -448,4 +448,8 @@
 	return repo && git_repository_is_bare(repo);
 }
 
+- (BOOL)isHeadDetached {
+	return (BOOL) git_repository_head_detached(self.repo);
+}
+
 @end

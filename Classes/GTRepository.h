@@ -48,6 +48,7 @@
 @property (nonatomic, readonly, strong) GTObjectDatabase *objectDatabase;
 @property (nonatomic, readonly, getter=isBare) BOOL bare; // Is this a 'bare' repository?  i.e. created with git clone --bare
 @property (nonatomic, readonly, getter=isEmpty) BOOL empty; // Is this repository empty? Will only be YES for a freshly `git init`'d repo.
+@property (nonatomic, readonly, getter=isHeadDetached) BOOL headDetached; // Is HEAD detached? i.e., not pointing to any permanent ref.
 
 + (BOOL)initializeEmptyRepositoryAtURL:(NSURL *)localFileURL error:(NSError **)error;
 
