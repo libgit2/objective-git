@@ -34,6 +34,10 @@
 #import "GTRepository.h"
 #import "NSString+Git.h"
 
+@interface GTTag ()
+@property (nonatomic, strong) GTSignature *tagger;
+@end
+
 
 @implementation GTTag
 

@@ -35,6 +35,12 @@
 #import "NSString+Git.h"
 #import "GTLog.h"
 
+@interface GTCommit ()
+@property (nonatomic, strong) GTSignature *author;
+@property (nonatomic, strong) GTSignature *committer;
+@property (nonatomic, copy) NSArray *parents;
+@end
+
 
 @implementation GTCommit
 

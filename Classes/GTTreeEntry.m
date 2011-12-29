@@ -36,7 +36,7 @@
 
 @interface GTTreeEntry()
 @property (nonatomic, assign) const git_tree_entry *entry;
-@property (nonatomic) GTTree *tree;
+@property (nonatomic, unsafe_unretained) GTTree *tree;
 @end
 
 

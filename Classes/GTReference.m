@@ -45,7 +45,6 @@
 
 @synthesize ref;
 @synthesize repository;
-@synthesize type;
 
 + (id)referenceByLookingUpReferencedNamed:(NSString *)refName inRepository:(GTRepository *)theRepo error:(NSError **)error {
 	return [[self alloc] initByLookingUpReferenceNamed:refName inRepository:theRepo error:error];

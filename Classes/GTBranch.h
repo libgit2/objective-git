@@ -42,7 +42,7 @@ typedef enum {
 @property (nonatomic, readonly) NSString *sha;
 @property (nonatomic, readonly) NSString *remoteName;
 @property (nonatomic, readonly) GTBranchType branchType;
-@property (nonatomic, readonly) GTRepository *repository;
+@property (nonatomic, readonly, unsafe_unretained) GTRepository *repository;
 @property (nonatomic, readonly, strong) GTReference *reference;
 @property (nonatomic, copy) NSArray *remoteBranches;
 

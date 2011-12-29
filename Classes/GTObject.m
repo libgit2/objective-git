@@ -63,8 +63,6 @@
 #pragma mark API 
 
 @synthesize obj;
-@synthesize type;
-@synthesize sha;
 @synthesize repository;
 
 - (id)initWithObj:(git_object *)theObject inRepository:(GTRepository *)theRepo {

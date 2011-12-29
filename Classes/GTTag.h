@@ -37,7 +37,7 @@
 @interface GTTag : GTObject {}
 
 @property (nonatomic, readonly) git_tag *tag;
-@property (nonatomic, readonly) GTSignature *tagger;
+@property (nonatomic, readonly, strong) GTSignature *tagger;
 
 + (GTTag *)tagInRepository:(GTRepository *)theRepo name:(NSString *)tagName target:(GTObject *)theTarget tagger:(GTSignature *)theTagger message:(NSString *)theMessage error:(NSError **)error;
 + (NSString *)shaByCreatingTagInRepository:(GTRepository *)theRepo name:(NSString *)tagName target:(GTObject *)theTarget tagger:(GTSignature *)theTagger message:(NSString *)theMessage error:(NSError **)error;
