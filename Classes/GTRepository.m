@@ -350,6 +350,8 @@
 	GTBranch *currentBranch = [GTBranch branchWithReference:head repository:self];
 	
 	NSArray *remoteBranches = [self remoteBranchesWithError:error];
+	if(remoteBranches == nil) return nil;
+	
 	NSMutableArray *matchedRemoteBranches = [NSMutableArray array];
 	for(GTBranch *branch in remoteBranches) {
 		if([branch.shortName isEqualToString:currentBranch.shortName]) {
