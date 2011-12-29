@@ -6,7 +6,9 @@
 //  Copyright 2009. All rights reserved.
 //
 
+#import <AppKit/AppKit.h>
 #import "GHTestViewModel.h"
+
 @class GHTestOutlineViewModel;
 
 

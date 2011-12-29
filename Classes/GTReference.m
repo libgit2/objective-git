@@ -23,6 +23,7 @@
 //  THE SOFTWARE.
 //
 
+#import "dct_weak.h"
 #import "GTReference.h"
 #import "GTRepository.h"
 #import "NSError+Git.h"

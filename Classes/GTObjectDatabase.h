@@ -23,14 +23,14 @@
 //  THE SOFTWARE.
 //
 
-
+#import "dct_weak.h"
 #import "GTObject.h"
 
 
 @interface GTObjectDatabase : NSObject <GTObject>
 
 @property (nonatomic, assign) git_odb *odb;
-@property (nonatomic, readonly, unsafe_unretained) GTRepository *repository;
+@property (nonatomic, readonly, dct_weak) GTRepository *repository;
 
 + (id)objectDatabaseWithRepository:(GTRepository *)repository;
 - (id)initWithRepository:(GTRepository *)repository;

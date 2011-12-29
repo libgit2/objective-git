@@ -23,6 +23,7 @@
 //  THE SOFTWARE.
 //
 
+#import "dct_weak.h"
 #import "GTBranch.h"
 #import "GTReference.h"
 #import "GTEnumerator.h"
@@ -31,7 +32,7 @@
 
 @interface GTBranch ()
 @property (nonatomic, strong) GTReference *reference;
-@property (nonatomic, unsafe_unretained) GTRepository *repository;
+@property (nonatomic, dct_weak) GTRepository *repository;
 @end
 
 @implementation GTBranch

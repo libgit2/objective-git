@@ -23,6 +23,7 @@
 //  THE SOFTWARE.
 //
 
+#import "dct_weak.h"
 #import "GTObjectDatabase.h"
 #import "GTRepository.h"
 #import "NSError+Git.h"
@@ -30,7 +31,7 @@
 #import "NSString+Git.h"
 
 @interface GTObjectDatabase ()
-@property (nonatomic, unsafe_unretained) GTRepository *repository;
+@property (nonatomic, dct_weak) GTRepository *repository;
 @end
 
 

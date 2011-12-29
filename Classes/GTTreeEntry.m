@@ -27,6 +27,7 @@
 //  THE SOFTWARE.
 //
 
+#import "dct_weak.h"
 #import "GTTreeEntry.h"
 #import "GTObject.h"
 #import "GTTree.h"
@@ -36,7 +37,7 @@
 
 @interface GTTreeEntry()
 @property (nonatomic, assign) const git_tree_entry *entry;
-@property (nonatomic, unsafe_unretained) GTTree *tree;
+@property (nonatomic, dct_weak) GTTree *tree;
 @end
 
 

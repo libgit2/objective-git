@@ -27,7 +27,7 @@
 //  THE SOFTWARE.
 //
 
-
+#import "dct_weak.h"
 #import "GTObject.h"
 
 @class GTTree;
@@ -36,7 +36,7 @@
 @interface GTTreeEntry : NSObject <GTObject> {}
 
 @property (nonatomic, assign, readonly) const git_tree_entry *entry;
-@property (nonatomic, readonly, unsafe_unretained) GTTree *tree;
+@property (nonatomic, readonly, dct_weak) GTTree *tree;
 
 - (id)initWithEntry:(const git_tree_entry *)theEntry parentTree:(GTTree *)parent;
 + (id)entryWithEntry:(const git_tree_entry *)theEntry parentTree:(GTTree *)parent;
