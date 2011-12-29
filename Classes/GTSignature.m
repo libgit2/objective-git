@@ -61,7 +61,7 @@
 
 - (id)initWithName:(NSString *)theName email:(NSString *)theEmail time:(NSDate *)theTime {
 	if((self = [super init])) {
-		git_signature_new(&sig, [theName UTF8String], [theEmail UTF8String], [theTime timeIntervalSince1970], 0);
+		git_signature_new(&sig, [theName UTF8String], [theEmail UTF8String], (git_time_t) [theTime timeIntervalSince1970], 0);
 		// todo: figure out offset for NSDate
 	}
 	return self;
@@ -90,7 +90,7 @@
 }
 
 - (void)setTime:(NSDate *)d {
-	self.sig->when.time = [d timeIntervalSince1970];
+	self.sig->when.time = (git_time_t) [d timeIntervalSince1970];
 }
 
 @end

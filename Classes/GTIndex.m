@@ -94,12 +94,12 @@
 }
 
 - (GTIndexEntry *)entryAtIndex:(NSInteger)theIndex {
-	return [GTIndexEntry indexEntryWithEntry:git_index_get(self.index, (int)theIndex)];
+	return [GTIndexEntry indexEntryWithEntry:git_index_get(self.index, (unsigned int)theIndex)];
 }
 
 - (GTIndexEntry *)entryWithName:(NSString *)name {
 	int i = git_index_find(self.index, [name UTF8String]);
-	return [GTIndexEntry indexEntryWithEntry:git_index_get(self.index, i)];
+	return [GTIndexEntry indexEntryWithEntry:git_index_get(self.index, (unsigned int) i)];
 }
 
 - (BOOL)addEntry:(GTIndexEntry *)entry error:(NSError **)error {

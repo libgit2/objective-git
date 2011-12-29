@@ -62,7 +62,7 @@ typedef unsigned int GTEnumeratorOptions;
 - (BOOL)skipCommitWithHash:(NSString *)sha error:(NSError **)error;
 
 - (void)reset;
-- (NSInteger)countFromSha:(NSString *)sha error:(NSError **)error;
+- (NSUInteger)countFromSha:(NSString *)sha error:(NSError **)error;
 
 - (NSArray *)allObjectsWithError:(NSError **)error;
 - (id)nextObjectWithError:(NSError **)error;

@@ -102,19 +102,19 @@
 	return (git_blob *)self.obj;
 }
 
-- (NSInteger)size {
+- (size_t)size {
 	return git_blob_rawsize(self.blob);
 }
 
 - (NSString *)content {
-	NSInteger s = [self size];
+	size_t s = [self size];
 	if(s == 0) return @"";
 	
 	return [NSString stringWithUTF8String:git_blob_rawcontent(self.blob)];
 }
 
 - (NSData *)data {
-	NSInteger s = [self size];
+	size_t s = [self size];
     if (s == 0) return [NSData data];
     
     return [NSData dataWithBytes:git_blob_rawcontent(self.blob) length:s];

@@ -115,7 +115,8 @@
 	if(secondLine.length != 0) {
 		[result appendFormat:@"%@\n", secondLine];
 	}
-	for(int i=2; i < lines.count; i++) {
+	
+	for(NSUInteger i = 2; i < lines.count; i++) {
 		[result appendFormat:@"%@\n", [[lines objectAtIndex:i] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
 	}
 	
@@ -164,7 +165,7 @@
 		
 		// todo: do we care if a call to git_commit_parent fails?
 		git_commit *parent;
-		for(int i=0; git_commit_parent(&parent, self.commit, i) == GIT_SUCCESS; i++) {
+		for(unsigned int i = 0; git_commit_parent(&parent, self.commit, i) == GIT_SUCCESS; i++) {
             [rents addObject:(GTCommit *)[GTObject objectWithObj:(git_object *)parent inRepository:self.repository]];
 		}
 		

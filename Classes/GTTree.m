@@ -50,7 +50,7 @@
 }
 
 - (GTTreeEntry *)entryAtIndex:(NSInteger)index {
-	return [self createEntryWithEntry:git_tree_entry_byindex(self.tree, (int)index)];
+	return [self createEntryWithEntry:git_tree_entry_byindex(self.tree, (unsigned int) index)];
 }
 
 - (GTTreeEntry *)entryWithName:(NSString *)name {

@@ -88,7 +88,7 @@
 // error(out) - will be filled if an error occurs
 //
 // returns number of commits in the current branch or NSNotFound if an error occurred
-- (NSInteger)numberOfCommitsInCurrentBranch:(NSError **)error;
+- (NSUInteger)numberOfCommitsInCurrentBranch:(NSError **)error;
 
 // Create a new branch with this name and based off this reference.
 //

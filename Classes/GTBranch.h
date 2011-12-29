@@ -90,7 +90,7 @@ typedef enum {
 // error(out) - will be filled if an error occurs
 //
 // returns number of commits in the branch or NSNotFound if an error occurred
-- (NSInteger)numberOfCommitsWithError:(NSError **)error;
+- (NSUInteger)numberOfCommitsWithError:(NSError **)error;
 
 // Find the remote branch for the passed in remote name.
 //

@@ -174,7 +174,7 @@
     return branches;
 }
 
-- (NSInteger)numberOfCommitsWithError:(NSError **)error {
+- (NSUInteger)numberOfCommitsWithError:(NSError **)error {
 	return [self.repository.enumerator countFromSha:self.sha error:error];
 }
 

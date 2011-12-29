@@ -297,7 +297,7 @@
     return allBranches;
 }
 
-- (NSInteger)numberOfCommitsInCurrentBranch:(NSError **)error {
+- (NSUInteger)numberOfCommitsInCurrentBranch:(NSError **)error {
 	GTReference *head = [self headReferenceWithError:error];
 	if(head == nil) return NSNotFound;
 	
@@ -310,7 +310,7 @@
 }
 
 - (BOOL)isEmpty {
-	return git_repository_is_empty(self.repo);
+	return (BOOL) git_repository_is_empty(self.repo);
 }
 
 - (GTBranch *)currentBranchWithError:(NSError **)error {

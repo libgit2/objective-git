@@ -112,7 +112,7 @@
 - (void)setModificationDate:(NSDate *)time {
 	NSTimeInterval t = [time timeIntervalSince1970];
 	self.entry->mtime.seconds = (int)t;
-	self.entry->mtime.nanoseconds = 1000 * (t - (int)t);
+	self.entry->mtime.nanoseconds = (unsigned int) (1000 * (t - (int)t));
 }
 
 - (NSDate *)creationDate {
@@ -123,7 +123,7 @@
 - (void)setCreationDate:(NSDate *)time {	
 	NSTimeInterval t = [time timeIntervalSince1970];
 	self.entry->ctime.seconds = (int)t;
-	self.entry->ctime.nanoseconds = 1000 * (t - (int)t);
+	self.entry->ctime.nanoseconds = (unsigned int) (1000 * (t - (int)t));
 }
 
 - (long long)fileSize { return self.entry->file_size; }
@@ -145,7 +145,7 @@
 - (void)setGid:(NSUInteger)theGid { self.entry->gid = (unsigned int)theGid; }
 
 - (NSUInteger)flags {
-	return (self.entry->flags & 0xFFFF) | (self.entry->flags_extended << 16); 
+	return (NSUInteger) ((self.entry->flags & 0xFFFF) | (self.entry->flags_extended << 16));
 }
 
 - (void)setFlags:(NSUInteger)theFlags {	

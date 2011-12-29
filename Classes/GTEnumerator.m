@@ -143,7 +143,7 @@
     return array;
 }
 
-- (NSInteger)countFromSha:(NSString *)sha error:(NSError **)error {
+- (NSUInteger)countFromSha:(NSString *)sha error:(NSError **)error {
 	[self setOptions:GTEnumeratorOptionsNone];
 	
 	BOOL success = [self push:sha error:error];
