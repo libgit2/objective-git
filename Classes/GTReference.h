@@ -54,27 +54,6 @@ typedef enum {
 + (id)referenceByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error;
 - (id)initByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error;
 
-// List references in a repository
-// 
-// repository - The GTRepository to list references in
-// types - One or more GTReferenceTypes
-// error(out) - will be filled if an error occurs
-// 
-// returns an array of NSStrings holding the names of the references
-// returns nil if an error occurred and fills the error parameter
-+ (NSArray *)referenceNamesInRepository:(GTRepository *)theRepo types:(GTReferenceTypes)types error:(NSError **)error;
-
-// List all references in a repository
-//
-// This is a convenience method for listReferencesInRepo: type:GTReferenceTypesListAll error:
-// 
-// repository - The GTRepository to list references in
-// error(out) - will be filled if an error occurs
-// 
-// returns an array of NSStrings holding the names of the references
-// returns nil if an error occurred and fills the error parameter
-+ (NSArray *)referenceNamesInRepository:(GTRepository *)theRepo error:(NSError **)error;
-
 - (NSString *)target;
 - (BOOL)setTarget:(NSString *)newTarget error:(NSError **)error;
 - (NSString *)name;

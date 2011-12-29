@@ -136,44 +136,6 @@
     return (GTCommit *)[self.repository lookupObjectBySha:self.sha error:error];
 }
 
-+ (NSArray *)branchesInRepository:(GTRepository *)repo error:(NSError **)error {
-    return [self branchesInRepository:repo withPrefix:[self localNamePrefix] error:error];
-}
-
-+ (NSArray *)remoteBranchesInRepository:(GTRepository *)repo error:(NSError **)error {
-	static NSArray *unwantedRemoteBranches = nil;
-	if(unwantedRemoteBranches == nil) {
-		unwantedRemoteBranches = [NSArray arrayWithObjects:@"HEAD", nil];
-	}
-	
-	NSArray *remoteBranches = [self branchesInRepository:repo withPrefix:[self remoteNamePrefix] error:error];
-	if(remoteBranches == nil) return nil;
-	
-	NSMutableArray *filteredList = [NSMutableArray arrayWithCapacity:remoteBranches.count];
-	for(GTBranch *branch in remoteBranches) {
-		if(![unwantedRemoteBranches containsObject:branch.shortName]) {
-			[filteredList addObject:branch];
-		}
-	}
-	
-	return filteredList;
-}
-
-+ (NSArray *)branchesInRepository:(GTRepository *)repo withPrefix:(NSString *)prefix error:(NSError **)error {
-	NSArray *references = [GTReference referenceNamesInRepository:repo error:error];
-    if(references == nil) return nil;
-	
-    NSMutableArray *branches = [NSMutableArray array];
-    for(NSString *ref in references) {
-        if([ref hasPrefix:prefix]) {
-            GTBranch *b = [GTBranch branchWithName:ref repository:repo error:error];
-            if(b != nil)
-                [branches addObject:b];
-        }
-    }
-    return branches;
-}
-
 - (NSUInteger)numberOfCommitsWithError:(NSError **)error {
 	return [self.repository.enumerator countFromSha:self.sha error:error];
 }

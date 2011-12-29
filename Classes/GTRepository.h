@@ -67,6 +67,26 @@
 - (GTObject *)lookupObjectBySha:(NSString *)sha objectType:(GTObjectType)type error:(NSError **)error;
 - (GTObject *)lookupObjectBySha:(NSString *)sha error:(NSError **)error;
 
+// List references in the repository
+// 
+// types - One or more GTReferenceTypes
+// error(out) - will be filled if an error occurs
+// 
+// returns an array of NSStrings holding the names of the references
+// returns nil if an error occurred and fills the error parameter
+- (NSArray *)referenceNamesWithTypes:(GTReferenceTypes)types error:(NSError **)error;
+
+// List all references in the repository
+//
+// This is a convenience method for listReferencesInRepo: type:GTReferenceTypesListAll error:
+// 
+// repository - The GTRepository to list references in
+// error(out) - will be filled if an error occurs
+// 
+// returns an array of NSStrings holding the names of the references
+// returns nil if an error occurred and fills the error parameter
+- (NSArray *)referenceNamesWithError:(NSError **)error;
+
 - (BOOL)enumerateCommitsBeginningAtSha:(NSString *)sha sortOptions:(GTEnumeratorOptions)options error:(NSError **)error usingBlock:(void (^)(GTCommit *, BOOL *))block;
 - (BOOL)enumerateCommitsBeginningAtSha:(NSString *)sha error:(NSError **)error usingBlock:(void (^)(GTCommit *, BOOL *))block;
 
@@ -76,12 +96,12 @@
 
 - (GTReference *)headReferenceWithError:(NSError **)error;
 
-// Convenience methods to return references in this repository (see GTReference.h)
-- (NSArray *)allReferenceNamesOfTypes:(GTReferenceTypes)types error:(NSError **)error;
-- (NSArray *)allReferenceNamesWithError:(NSError **)error;
-
 // Convenience methods to return branches in the repository
 - (NSArray *)allBranchesWithError:(NSError **)error;
+
+- (NSArray *)localBranchesWithError:(NSError **)error;
+- (NSArray *)remoteBranchesWithError:(NSError **)error;
+- (NSArray *)branchesWithPrefix:(NSString *)prefix error:(NSError **)error;
 
 // Count all commits in the current branch (HEAD)
 //

@@ -258,18 +258,48 @@
 	return [GTReference referenceByResolvingSymbolicReference:headSymRef error:error];
 }
 
-- (NSArray *)allReferenceNamesOfTypes:(GTReferenceTypes)types error:(NSError **)error {
-	return [GTReference referenceNamesInRepository:self types:types error:error];
+- (NSArray *)localBranchesWithError:(NSError **)error {
+    return [self branchesWithPrefix:[GTBranch localNamePrefix] error:error];
 }
 
-- (NSArray *)allReferenceNamesWithError:(NSError **)error {
-	return [GTReference referenceNamesInRepository:self error:error];
+- (NSArray *)remoteBranchesWithError:(NSError **)error {
+	static NSArray *unwantedRemoteBranches = nil;
+	if(unwantedRemoteBranches == nil) {
+		unwantedRemoteBranches = [NSArray arrayWithObjects:@"HEAD", nil];
+	}
+	
+	NSArray *remoteBranches = [self branchesWithPrefix:[GTBranch remoteNamePrefix] error:error];
+	if(remoteBranches == nil) return nil;
+	
+	NSMutableArray *filteredList = [NSMutableArray arrayWithCapacity:remoteBranches.count];
+	for(GTBranch *branch in remoteBranches) {
+		if(![unwantedRemoteBranches containsObject:branch.shortName]) {
+			[filteredList addObject:branch];
+		}
+	}
+	
+	return filteredList;
+}
+
+- (NSArray *)branchesWithPrefix:(NSString *)prefix error:(NSError **)error {
+	NSArray *references = [self referenceNamesWithError:error];
+    if(references == nil) return nil;
+	
+    NSMutableArray *branches = [NSMutableArray array];
+    for(NSString *ref in references) {
+        if([ref hasPrefix:prefix]) {
+            GTBranch *b = [GTBranch branchWithName:ref repository:self error:error];
+            if(b != nil)
+                [branches addObject:b];
+        }
+    }
+    return branches;
 }
 
 - (NSArray *)allBranchesWithError:(NSError **)error {
 	NSMutableArray *allBranches = [NSMutableArray array];
-	NSArray *localBranches = [GTBranch branchesInRepository:self error:error];
-	NSArray *remoteBranches = [GTBranch remoteBranchesInRepository:self error:error];
+	NSArray *localBranches = [self localBranchesWithError:error];
+	NSArray *remoteBranches = [self remoteBranchesWithError:error];
 	if(localBranches == nil || remoteBranches == nil) return nil;
 	
 	[allBranches addObjectsFromArray:localBranches];
@@ -319,7 +349,7 @@
 	
 	GTBranch *currentBranch = [GTBranch branchWithReference:head repository:self];
 	
-	NSArray *remoteBranches = [GTBranch remoteBranchesInRepository:self error:error];
+	NSArray *remoteBranches = [self remoteBranchesWithError:error];
 	NSMutableArray *matchedRemoteBranches = [NSMutableArray array];
 	for(GTBranch *branch in remoteBranches) {
 		if([branch.shortName isEqualToString:currentBranch.shortName]) {
@@ -368,6 +398,30 @@
 	}
 	
 	return commits;
+}
+
+- (NSArray *)referenceNamesWithTypes:(GTReferenceTypes)types error:(NSError **)error {
+	git_strarray array;
+	
+	int gitError = git_reference_listall(&array, self.repo, types);
+	if(gitError < GIT_SUCCESS) {
+		if(error != NULL)
+			*error = [NSError git_errorFor:gitError withDescription:@"Failed to list all references."];
+		return nil;
+	}
+	
+	NSMutableArray *references = [NSMutableArray arrayWithCapacity:array.count];
+	for(NSUInteger i = 0; i< array.count; i++) {
+		[references addObject:[NSString stringWithUTF8String:array.strings[i]]];
+	}
+	
+	git_strarray_free(&array);
+	
+	return references;
+}
+
+- (NSArray *)referenceNamesWithError:(NSError **)error {
+	return [self referenceNamesWithTypes:GTReferenceTypesListAll error:error];
 }
 
 - (GTRepository *)repository {

@@ -64,27 +64,6 @@ typedef enum {
 // returns a GTCommit object or nil if an error occurred
 - (GTCommit *)targetCommitAndReturnError:(NSError **)error;
 
-// List all local branches in a repository
-//
-// error(out) - will be filled if an error occurs
-//
-// returns an NSArray of GTBranch objects or nil if an error occurred
-+ (NSArray *)branchesInRepository:(GTRepository *)repo error:(NSError **)error;
-
-// List all remote branches in a repository
-//
-// error(out) - will be filled if an error occurs
-//
-// returns an NSArray of GTBranch objects or nil if an error occurred
-+ (NSArray *)remoteBranchesInRepository:(GTRepository *)repo error:(NSError **)error;
-
-// List all branches in a repository with the given prefix.
-//
-// error(out) - will be filled if an error occurs
-//
-// returns an NSArray of GTBranch objects or nil if an error occurred
-+ (NSArray *)branchesInRepository:(GTRepository *)repo withPrefix:(NSString *)prefix error:(NSError **)error;
-
 // Count all commits in this branch
 //
 // error(out) - will be filled if an error occurs

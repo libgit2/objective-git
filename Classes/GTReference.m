@@ -137,33 +137,6 @@
 	return [NSString stringWithUTF8String:git_object_type2string((git_otype)git_reference_type(self.ref))];
 }
 
-+ (NSArray *)referenceNamesInRepository:(GTRepository *)theRepo types:(GTReferenceTypes)types error:(NSError **)error {
-	NSParameterAssert(theRepo != nil);
-	NSParameterAssert(theRepo.repository != nil);
-	
-	git_strarray array;
-	
-	int gitError = git_reference_listall(&array, theRepo.repo, types);
-	if(gitError < GIT_SUCCESS) {
-		if(error != NULL)
-			*error = [NSError git_errorFor:gitError withDescription:@"Failed to list all references."];
-		return nil;
-	}
-	
-	NSMutableArray *references = [NSMutableArray arrayWithCapacity:array.count];
-	for(int i=0; i< array.count; i++) {
-		[references addObject:[NSString stringWithUTF8String:array.strings[i]]];
-	}
-	
-	git_strarray_free(&array);
-	
-	return references;
-}
-
-+ (NSArray *)referenceNamesInRepository:(GTRepository *)theRepo error:(NSError **)error {
-	return [self referenceNamesInRepository:theRepo types:GTReferenceTypesListAll error:error];
-}
-
 - (NSString *)target {
 	if(git_reference_type(self.ref) == GIT_REF_OID) {
 		return [NSString git_stringWithOid:git_reference_oid(self.ref)];
