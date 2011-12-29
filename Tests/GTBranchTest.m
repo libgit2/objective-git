@@ -33,7 +33,7 @@
 - (void)testCanListLocalBranchesInRepo {
 	
     NSError *error = nil;
-	NSArray *branches = [GTBranch branchesInRepository:repo error:&error];
+	NSArray *branches = [repo localBranchesWithError:&error];
 	GHAssertNotNil(branches, [error localizedDescription], nil);
 	GHAssertEquals(2, (int)branches.count, nil);
 }
@@ -41,7 +41,7 @@
 - (void)testCanListRemoteBranchesInRepo {
 	
     NSError *error = nil;
-	NSArray *branches = [GTBranch remoteBranchesInRepository:repo error:&error];
+	NSArray *branches = [repo remoteBranchesWithError:&error];
 	GHAssertNotNil(branches, [error localizedDescription], nil);
 	GHAssertEquals(0, (int)branches.count, nil);
 }

@@ -157,7 +157,7 @@
 	GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
 	GHAssertNil(error, [error localizedDescription]);
 	
-	NSArray *refs = [GTReference referenceNamesInRepository:repo error:&error];
+	NSArray *refs = [repo referenceNamesWithError:&error];
 	GHAssertNil(error, [error localizedDescription]);
 	GHAssertEquals(4, (int)refs.count, nil);
 	
@@ -173,7 +173,7 @@
 	GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
 	GHAssertNil(error, [error localizedDescription]);
 	
-	NSArray *refs = [GTReference referenceNamesInRepository:repo types:GTReferenceTypesOid error:&error];
+	NSArray *refs = [repo referenceNamesWithTypes:GTReferenceTypesOid error:&error];
 	GHAssertNil(error, [error localizedDescription]);
 	GHAssertEquals(3, (int)refs.count, nil);
 	
@@ -194,7 +194,7 @@
 	
 	@try {
 		
-		NSArray *refs = [GTReference referenceNamesInRepository:repo types:GTReferenceTypesSymoblic error:&error];
+		NSArray *refs = [repo referenceNamesWithTypes:GTReferenceTypesSymoblic error:&error];
 		GHAssertNil(error, [error localizedDescription]);
 		GHAssertEquals(1, (int)refs.count, nil);	
 		GHAssertEqualStrings(@"refs/heads/unit_test", [refs objectAtIndex:0], nil);
@@ -212,7 +212,7 @@
 	GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH()] error:&error];
 	GHAssertNil(error, [error localizedDescription]);
 	
-	NSArray *refs = [GTReference referenceNamesInRepository:repo types:GTReferenceTypesPacked error:&error];
+	NSArray *refs = [repo referenceNamesWithTypes:GTReferenceTypesPacked error:&error];
 	GHAssertNil(error, [error localizedDescription]);
 	GHAssertEquals(1, (int)refs.count, nil);
 	
