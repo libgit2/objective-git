@@ -147,7 +147,7 @@
     return GTBranchTypeLocal;
 }
 
-- (GTBranch *)remoteBranchForRemoteNamed:(NSString *)remote {
+- (GTBranch *)remoteBranchForRemoteName:(NSString *)remote {
 	for(GTBranch *remoteBranch in self.remoteBranches) {
 		if([remoteBranch.remoteName isEqualToString:remote]) {
 			return remoteBranch;

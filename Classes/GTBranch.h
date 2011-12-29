@@ -73,6 +73,6 @@ typedef enum {
 // Find the remote branch for the passed in remote name.
 //
 // returns the matched remote branch or nil if no match was found.
-- (GTBranch *)remoteBranchForRemoteNamed:(NSString *)remote;
+- (GTBranch *)remoteBranchForRemoteName:(NSString *)remote;
 
 @end
