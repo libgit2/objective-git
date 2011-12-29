@@ -47,6 +47,7 @@
 @property (nonatomic, readonly, strong) GTIndex *index;
 @property (nonatomic, readonly, strong) GTObjectDatabase *objectDatabase;
 @property (readonly, getter=isBare) BOOL bare; // Is this a 'bare' repository?  i.e. created with git clone --bare
+@property (nonatomic, readonly, getter=isEmpty) BOOL empty; // Is this repository empty? Will only be YES for a freshly `git init`'d repo.
 
 + (BOOL)initializeEmptyRepositoryAtURL:(NSURL *)localFileURL error:(NSError **)error;
 
@@ -125,11 +126,6 @@
 //
 // returns the current branch or nil if an error occurred.
 - (GTBranch *)currentBranchWithError:(NSError **)error;
-
-// Is this repository empty? This will only be the case in a freshly `git init`'d repository.
-//
-// returns whether this repository is empty
-- (BOOL)isEmpty;
 
 // Find the commits that are on our local branch but not on the remote branch.
 //
