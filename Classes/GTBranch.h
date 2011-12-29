@@ -33,8 +33,7 @@
 typedef enum {
     GTBranchTypeLocal = 1,
     GTBranchTypeRemote
-} GTBranchType
-;
+} GTBranchType;
 
 @interface GTBranch : NSObject <GTObject> {}
 

@@ -12,15 +12,14 @@
 
 @interface GTOdbObject : NSObject {}
 
-@property (nonatomic, assign, readonly) git_odb_object *odbObject;
+@property (nonatomic, assign, readonly) git_odb_object *git_odb_object;
 
 - (id)initWithOdbObj:(git_odb_object *)object;
 + (id)objectWithOdbObj:(git_odb_object *)object;
 
 - (NSString *)shaHash;
 - (GTObjectType)type;
-- (NSUInteger)length;
+- (size_t)length;
 - (NSData *)data;
-- (NSString *)dataAsUTF8String;
 	
 @end

@@ -39,7 +39,7 @@
 #import "NSString+Git.h"
 
 @interface GTRepository ()
-@property (nonatomic, assign) git_repository *repo;
+@property (nonatomic, assign) git_repository *git_repository;
 @property (nonatomic, strong) NSURL *fileURL;
 @property (nonatomic, strong) GTEnumerator *enumerator;
 @property (nonatomic, strong) GTIndex *index;
@@ -62,7 +62,7 @@
 		self.enumerator = nil;
 	}
 	
-	if(self.repo != NULL) git_repository_free(self.repo);
+	if(self.git_repository != NULL) git_repository_free(self.git_repository);
 }
 
 
@@ -114,7 +114,7 @@
     return [[self alloc] initWithURL:localFileURL error:error];
 }
 
-@synthesize repo;
+@synthesize git_repository;
 @synthesize fileURL;
 @synthesize index;
 @synthesize objectDatabase;
@@ -136,7 +136,7 @@
             }
             return nil;
         }
-        self.repo = r;
+        self.git_repository = r;
 
 		self.fileURL = localFileURL;
     }
@@ -159,7 +159,7 @@
 - (GTObject *)lookupObjectByOid:(git_oid *)oid objectType:(GTObjectType)type error:(NSError **)error {
 	git_object *obj;
 	
-	int gitError = git_object_lookup(&obj, self.repo, oid, (git_otype) type);
+	int gitError = git_object_lookup(&obj, self.git_repository, oid, (git_otype) type);
 	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError git_errorFor:gitError withDescription:@"Failed to lookup object in repository."];
@@ -239,7 +239,7 @@
 
 - (BOOL)setupIndexWithError:(NSError **)error {
 	git_index *i;
-	int gitError = git_repository_index(&i, self.repo);
+	int gitError = git_repository_index(&i, self.git_repository);
 	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError git_errorFor:gitError withDescription:@"Failed to get index for repository."];
@@ -340,7 +340,7 @@
 }
 
 - (BOOL)isEmpty {
-	return (BOOL) git_repository_is_empty(self.repo);
+	return (BOOL) git_repository_is_empty(self.git_repository);
 }
 
 - (GTBranch *)currentBranchWithError:(NSError **)error {
@@ -403,7 +403,7 @@
 - (NSArray *)referenceNamesWithTypes:(GTReferenceTypes)types error:(NSError **)error {
 	git_strarray array;
 	
-	int gitError = git_reference_listall(&array, self.repo, types);
+	int gitError = git_reference_listall(&array, self.git_repository, types);
 	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError git_errorFor:gitError withDescription:@"Failed to list all references."];
@@ -445,11 +445,11 @@
 }
 
 - (BOOL)isBare {
-	return repo && git_repository_is_bare(repo);
+	return self.git_repository && git_repository_is_bare(self.git_repository);
 }
 
 - (BOOL)isHeadDetached {
-	return (BOOL) git_repository_head_detached(self.repo);
+	return (BOOL) git_repository_head_detached(self.git_repository);
 }
 
 @end

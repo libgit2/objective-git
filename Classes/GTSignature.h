@@ -33,14 +33,14 @@
 
 @interface GTSignature : NSObject {}
 
-@property (nonatomic, assign) git_signature *sig;
+@property (nonatomic, assign) git_signature *git_signature;
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *email;
 @property (nonatomic, strong) NSDate *time;
 
 // Convenience initializers
-- (id)initWithSig:(git_signature *)theSignature;
-+ (id)signatureWithSig:(git_signature *)theSignature;
+- (id)initWithSignature:(git_signature *)theSignature;
++ (id)signatureWithSignature:(git_signature *)theSignature;
 
 - (id)initWithName:(NSString *)theName email:(NSString *)theEmail time:(NSDate *)theTime;
 + (id)signatureWithName:(NSString *)theName email:(NSString *)theEmail time:(NSDate *)theTime;

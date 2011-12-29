@@ -61,7 +61,7 @@
 	if((self = [super init])) {
 		self.repository = theRepo;
 		git_revwalk *w;
-		int gitError = git_revwalk_new(&w, self.repository.repo);
+		int gitError = git_revwalk_new(&w, self.repository.git_repository);
 		if(gitError < GIT_SUCCESS) {
 			if (error != NULL)
 				*error = [NSError git_errorFor:gitError withDescription:@"Failed to initialize rev walker."];

@@ -10,7 +10,7 @@
 #import "NSString+Git.h"
 
 @interface GTOdbObject()
-@property (nonatomic, assign) git_odb_object *odbObject;
+@property (nonatomic, assign) git_odb_object *git_odb_object;
 @end
 
 
@@ -23,11 +23,11 @@
 
 #pragma mark API
 
-@synthesize odbObject;
+@synthesize git_odb_object;
 
 - (id)initWithOdbObj:(git_odb_object *)object {
 	if((self = [super init])) {
-		self.odbObject = object;
+		self.git_odb_object = object;
 	}
 	return self;
 }
@@ -37,26 +37,19 @@
 }
 
 - (NSString *)shaHash {
-	return [NSString git_stringWithOid:git_odb_object_id(self.odbObject)];
+	return [NSString git_stringWithOid:git_odb_object_id(self.git_odb_object)];
 }
 
 - (GTObjectType)type {
-	return (GTObjectType) git_odb_object_type(self.odbObject);
+	return (GTObjectType) git_odb_object_type(self.git_odb_object);
 }
 
-- (NSUInteger)length {
-	return git_odb_object_size(self.odbObject);
+- (size_t)length {
+	return git_odb_object_size(self.git_odb_object);
 }
 
 - (NSData *)data {
-	return [NSData dataWithBytes:git_odb_object_data(self.odbObject) length:[self length]]; 
-}
-
-- (NSString *)dataAsUTF8String {
-	NSData *data = [self data];
-	if(!data) return nil;
-	
-	return [NSString stringWithUTF8String:[data bytes]];
+	return [NSData dataWithBytes:git_odb_object_data(self.git_odb_object) length:[self length]]; 
 }
 
 @end

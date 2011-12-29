@@ -95,7 +95,9 @@
 	
 	GHAssertNil(error, [error localizedDescription]);
 	GHAssertNotNil(rawObj, nil);
-	GHAssertEqualStrings(@"tree 181037049a54a1eb5fab404658a3a250b44335d7", [[rawObj dataAsUTF8String] substringToIndex:45], nil);
+	
+	NSString *string = [[NSString alloc] initWithData:[rawObj data] encoding:NSUTF8StringEncoding];
+	GHAssertEqualStrings(@"tree 181037049a54a1eb5fab404658a3a250b44335d7", [string substringToIndex:45], nil);
 	GHAssertEquals((int)[rawObj.data length], 172, nil);
 	GHAssertEquals(rawObj.type, GTObjectTypeCommit, nil);
 }

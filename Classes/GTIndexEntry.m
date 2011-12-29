@@ -39,13 +39,13 @@
 }
 
 - (void)dealloc {
-	free(self.entry);
+	free(self.git_index_entry);
 }
 
 
 #pragma mark API
 
-@synthesize entry;
+@synthesize git_index_entry;
 @synthesize path;
 @synthesize modificationDate;
 @synthesize creationDate;
@@ -65,37 +65,37 @@
 
 - (id)init {
 	if((self = [super init])) {
-		self.entry = calloc(1, sizeof(git_index_entry));
+		self.git_index_entry = calloc(1, sizeof(git_index_entry));
 	}
 	return self;
 }
 
 - (id)initWithEntry:(git_index_entry *)theEntry {
 	if((self = [self init])) {
-        git_index_entry *thisEntry = self.entry;
+        git_index_entry *thisEntry = self.git_index_entry;
         memcpy(thisEntry, theEntry, sizeof(git_index_entry));
 	}
 	return self;
 }
 
 - (NSString *)path {
-	if(self.entry->path == NULL) return nil;
-	return [NSString stringWithUTF8String:self.entry->path];
+	if(self.git_index_entry->path == NULL) return nil;
+	return [NSString stringWithUTF8String:self.git_index_entry->path];
 }
 
 - (void)setPath:(NSString *)thePath {
-	if(self.entry->path != NULL)
-		free((void *)self.entry->path);
+	if(self.git_index_entry->path != NULL)
+		free((void *)self.git_index_entry->path);
 	
-	entry->path = strdup([thePath UTF8String]);
+	self.git_index_entry->path = strdup([thePath UTF8String]);
 }
 
 - (NSString *)sha {
-	return [NSString git_stringWithOid:&entry->oid];
+	return [NSString git_stringWithOid:&git_index_entry->oid];
 }
 
 - (BOOL)setSha:(NSString *)theSha error:(NSError **)error {
-	int gitError = git_oid_fromstr(&entry->oid, [theSha UTF8String]);
+	int gitError = git_oid_fromstr(&git_index_entry->oid, [theSha UTF8String]);
 	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError git_errorForMkStr:gitError];
@@ -105,52 +105,52 @@
 }
 
 - (NSDate *)modificationDate {	
-	double time = self.entry->mtime.seconds + (self.entry->mtime.nanoseconds/1000);
+	double time = self.git_index_entry->mtime.seconds + (self.git_index_entry->mtime.nanoseconds/1000);
 	return [NSDate dateWithTimeIntervalSince1970:time];
 }
 
 - (void)setModificationDate:(NSDate *)time {
 	NSTimeInterval t = [time timeIntervalSince1970];
-	self.entry->mtime.seconds = (int)t;
-	self.entry->mtime.nanoseconds = (unsigned int) (1000 * (t - (int)t));
+	self.git_index_entry->mtime.seconds = (int)t;
+	self.git_index_entry->mtime.nanoseconds = (unsigned int) (1000 * (t - (int)t));
 }
 
 - (NSDate *)creationDate {
-	double time = self.entry->ctime.seconds + (self.entry->ctime.nanoseconds/1000);
+	double time = self.git_index_entry->ctime.seconds + (self.git_index_entry->ctime.nanoseconds/1000);
 	return [NSDate dateWithTimeIntervalSince1970:time];
 }
 
 - (void)setCreationDate:(NSDate *)time {	
 	NSTimeInterval t = [time timeIntervalSince1970];
-	self.entry->ctime.seconds = (int)t;
-	self.entry->ctime.nanoseconds = (unsigned int) (1000 * (t - (int)t));
+	self.git_index_entry->ctime.seconds = (int)t;
+	self.git_index_entry->ctime.nanoseconds = (unsigned int) (1000 * (t - (int)t));
 }
 
-- (long long)fileSize { return self.entry->file_size; }
-- (void)setFileSize:(long long) size { self.entry->file_size = (git_off_t)size; }
+- (long long)fileSize { return self.git_index_entry->file_size; }
+- (void)setFileSize:(long long) size { self.git_index_entry->file_size = (git_off_t)size; }
 
-- (NSUInteger)dev { return self.entry->dev; }
-- (void)setDev:(NSUInteger)theDev { self.entry->dev = (unsigned int)theDev; }
+- (NSUInteger)dev { return self.git_index_entry->dev; }
+- (void)setDev:(NSUInteger)theDev { self.git_index_entry->dev = (unsigned int)theDev; }
 
-- (NSUInteger)ino { return self.entry->ino; }
-- (void)setIno:(NSUInteger)theIno { self.entry->ino = (unsigned int)theIno; }
+- (NSUInteger)ino { return self.git_index_entry->ino; }
+- (void)setIno:(NSUInteger)theIno { self.git_index_entry->ino = (unsigned int)theIno; }
 
-- (NSUInteger)mode { return self.entry->mode; }
-- (void)setMode:(NSUInteger)theMode { self.entry->mode = (unsigned int)theMode; }
+- (NSUInteger)mode { return self.git_index_entry->mode; }
+- (void)setMode:(NSUInteger)theMode { self.git_index_entry->mode = (unsigned int)theMode; }
 
-- (NSUInteger)uid { return self.entry->uid; }
-- (void)setUid:(NSUInteger)theUid { self.entry->uid = (unsigned int)theUid; }
+- (NSUInteger)uid { return self.git_index_entry->uid; }
+- (void)setUid:(NSUInteger)theUid { self.git_index_entry->uid = (unsigned int)theUid; }
 
-- (NSUInteger)gid { return self.entry->gid; }
-- (void)setGid:(NSUInteger)theGid { self.entry->gid = (unsigned int)theGid; }
+- (NSUInteger)gid { return self.git_index_entry->gid; }
+- (void)setGid:(NSUInteger)theGid { self.git_index_entry->gid = (unsigned int)theGid; }
 
 - (NSUInteger)flags {
-	return (NSUInteger) ((self.entry->flags & 0xFFFF) | (self.entry->flags_extended << 16));
+	return (NSUInteger) ((self.git_index_entry->flags & 0xFFFF) | (self.git_index_entry->flags_extended << 16));
 }
 
 - (void)setFlags:(NSUInteger)theFlags {	
-	self.entry->flags = (unsigned short)(theFlags & 0xFFFF);
-	self.entry->flags_extended = (unsigned short)((theFlags >> 16) & 0xFFFF);
+	self.git_index_entry->flags = (unsigned short)(theFlags & 0xFFFF);
+	self.git_index_entry->flags_extended = (unsigned short)((theFlags >> 16) & 0xFFFF);
 }
 
 - (BOOL)isValid {
@@ -158,14 +158,14 @@
 }
 
 - (NSUInteger)isStaged {
-	return (self.entry->flags & GIT_IDXENTRY_STAGEMASK) >> GIT_IDXENTRY_STAGESHIFT;
+	return (self.git_index_entry->flags & GIT_IDXENTRY_STAGEMASK) >> GIT_IDXENTRY_STAGESHIFT;
 }
 
 - (void)setStage:(NSUInteger)theStage {	
 	NSParameterAssert(theStage >= 0 && theStage <= 3);
 	
-	self.entry->flags &= ~GIT_IDXENTRY_STAGEMASK;
-	self.entry->flags |= (theStage << GIT_IDXENTRY_STAGESHIFT);
+	self.git_index_entry->flags &= ~GIT_IDXENTRY_STAGEMASK;
+	self.git_index_entry->flags |= (theStage << GIT_IDXENTRY_STAGESHIFT);
 }
 
 @end

@@ -33,7 +33,7 @@
 
 @interface GTBlob : GTObject {}
 
-@property (nonatomic, readonly) git_blob *blob;
+@property (nonatomic, readonly) git_blob *git_blob;
 
 + (id)blobWithString:(NSString *)string inRepository:(GTRepository *)repository error:(NSError **)error;
 + (id)blobWithData:(NSData *)data inRepository:(GTRepository *)repository error:(NSError **)error;

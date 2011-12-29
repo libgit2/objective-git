@@ -55,7 +55,7 @@ typedef enum {
 
 @interface GTObject : NSObject <GTObject> {}
 
-@property (nonatomic, readonly) git_object *obj;
+@property (nonatomic, readonly) git_object *git_object;
 @property (nonatomic, readonly) NSString *type;
 @property (nonatomic, readonly) NSString *sha;
 @property (nonatomic, readonly) NSString *shortSha;

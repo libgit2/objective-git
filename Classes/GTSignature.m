@@ -39,58 +39,58 @@
 
 #pragma mark API 
 
-@synthesize sig;
+@synthesize git_signature;
 @synthesize name;
 @synthesize email;
 @synthesize time;
 
-+ (id)signatureWithSig:(git_signature *)theSignature {
-	return [[self alloc] initWithSig:theSignature];
++ (id)signatureWithSignature:(git_signature *)theSignature {
+	return [[self alloc] initWithSignature:theSignature];
 }
 
 + (id)signatureWithName:(NSString *)theName email:(NSString *)theEmail time:(NSDate *)theTime {
 	return [[self alloc] initWithName:theName email:theEmail time:theTime];
 }
 
-- (id)initWithSig:(git_signature *)theSignature {
+- (id)initWithSignature:(git_signature *)theSignature {
 	if((self = [self init])) {
-		self.sig = theSignature;
+		self.git_signature = theSignature;
 	}
 	return self;
 }
 
 - (id)initWithName:(NSString *)theName email:(NSString *)theEmail time:(NSDate *)theTime {
 	if((self = [super init])) {
-		git_signature_new(&sig, [theName UTF8String], [theEmail UTF8String], (git_time_t) [theTime timeIntervalSince1970], 0);
+		git_signature_new(&git_signature, [theName UTF8String], [theEmail UTF8String], (git_time_t) [theTime timeIntervalSince1970], 0);
 		// todo: figure out offset for NSDate
 	}
 	return self;
 }
 
 - (NSString *)name {
-	return [NSString stringWithUTF8String:self.sig->name];
+	return [NSString stringWithUTF8String:self.git_signature->name];
 }
 
 - (void)setName:(NSString *)n {
-	free(self.sig->name);
-	self.sig->name = strdup([n cStringUsingEncoding:NSUTF8StringEncoding]);
+	free(self.git_signature->name);
+	self.git_signature->name = strdup([n cStringUsingEncoding:NSUTF8StringEncoding]);
 }
 
 - (NSString *)email {
-	return [NSString stringWithUTF8String:self.sig->email];
+	return [NSString stringWithUTF8String:self.git_signature->email];
 }
 
 - (void)setEmail:(NSString *)e {	
-	free(self.sig->email);
-	self.sig->email = strdup([e cStringUsingEncoding:NSUTF8StringEncoding]);
+	free(self.git_signature->email);
+	self.git_signature->email = strdup([e cStringUsingEncoding:NSUTF8StringEncoding]);
 }
 
 - (NSDate *)time {	
-	return [NSDate dateWithTimeIntervalSince1970:self.sig->when.time];
+	return [NSDate dateWithTimeIntervalSince1970:self.git_signature->when.time];
 }
 
 - (void)setTime:(NSDate *)d {
-	self.sig->when.time = (git_time_t) [d timeIntervalSince1970];
+	self.git_signature->when.time = (git_time_t) [d timeIntervalSince1970];
 }
 
 @end

@@ -36,7 +36,7 @@
 
 @interface GTCommit : GTObject {}
 
-@property (nonatomic, readonly) git_commit *commit;
+@property (nonatomic, readonly) git_commit *git_commit;
 @property (nonatomic, readonly, strong) GTSignature *author;
 @property (nonatomic, readonly, strong) GTSignature *committer;
 @property (nonatomic, readonly, copy) NSArray *parents;

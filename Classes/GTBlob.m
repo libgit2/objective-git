@@ -56,7 +56,7 @@
 
 - (id)initWithOid:(const git_oid *)oid inRepository:(GTRepository *)repository error:(NSError **)error {
 	git_object *obj;
-    int gitError = git_object_lookup(&obj, repository.repo, oid, (git_otype) GTObjectTypeBlob);
+    int gitError = git_object_lookup(&obj, repository.git_repository, oid, (git_otype) GTObjectTypeBlob);
     if (gitError < GIT_SUCCESS) {
         if (error != NULL) {
             *error = [NSError git_errorFor:gitError withDescription:@"Failed to lookup blob"];
@@ -74,7 +74,7 @@
 
 - (id)initWithData:(NSData *)data inRepository:(GTRepository *)repository error:(NSError **)error {
 	git_oid oid;
-	int gitError = git_blob_create_frombuffer(&oid, repository.repo, [data bytes], data.length);
+	int gitError = git_blob_create_frombuffer(&oid, repository.git_repository, [data bytes], data.length);
 	if(gitError < GIT_SUCCESS) {
 		if(error != NULL) {
 			*error = [NSError git_errorFor:gitError withDescription:@"Failed to create blob from NSData"];
@@ -87,7 +87,7 @@
 
 - (id)initWithFile:(NSURL *)file inRepository:(GTRepository *)repository error:(NSError **)error {
 	git_oid oid;
-	int gitError = git_blob_create_fromfile(&oid, repository.repo, [[file path] UTF8String]);
+	int gitError = git_blob_create_fromfile(&oid, repository.git_repository, [[file path] UTF8String]);
 	if(gitError < GIT_SUCCESS) {
 		if(error != NULL) {
 			*error = [NSError git_errorFor:gitError withDescription:@"Failed to create blob from NSURL"];
@@ -98,26 +98,26 @@
     return [self initWithOid:&oid inRepository:repository error:error];
 }
 
-- (git_blob *)blob {	
-	return (git_blob *)self.obj;
+- (git_blob *)git_blob {	
+	return (git_blob *) self.git_object;
 }
 
 - (size_t)size {
-	return git_blob_rawsize(self.blob);
+	return git_blob_rawsize(self.git_blob);
 }
 
 - (NSString *)content {
 	size_t s = [self size];
 	if(s == 0) return @"";
 	
-	return [NSString stringWithUTF8String:git_blob_rawcontent(self.blob)];
+	return [NSString stringWithUTF8String:git_blob_rawcontent(self.git_blob)];
 }
 
 - (NSData *)data {
 	size_t s = [self size];
     if (s == 0) return [NSData data];
     
-    return [NSData dataWithBytes:git_blob_rawcontent(self.blob) length:s];
+    return [NSData dataWithBytes:git_blob_rawcontent(self.git_blob) length:s];
 }
 
 @end

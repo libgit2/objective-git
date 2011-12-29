@@ -35,19 +35,19 @@
 
 @interface GTTree : GTObject {}
 
-@property (nonatomic, readonly) git_tree *tree;
+@property (nonatomic, readonly) git_tree *git_tree;
 
 // Get the number of entries
 //
 // returns the number of entries in this tree
-- (NSInteger)numberOfEntries;
+- (NSUInteger)numberOfEntries;
 
 // Get a entry at the specified index
 //
 // index - index to retreive entry from
 //
 // returns a GTTreeEntry or nil if there is nothing at the index
-- (GTTreeEntry *)entryAtIndex:(NSInteger)index;
+- (GTTreeEntry *)entryAtIndex:(NSUInteger)index;
 
 // Get a entry by name
 //

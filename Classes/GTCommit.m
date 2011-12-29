@@ -33,7 +33,6 @@
 #import "NSError+Git.h"
 #import "GTRepository.h"
 #import "NSString+Git.h"
-#import "GTLog.h"
 
 @interface GTCommit ()
 @property (nonatomic, strong) GTSignature *author;
@@ -48,8 +47,8 @@
 	return [NSString stringWithFormat:@"<%@: %p> author: %@, message: %@", NSStringFromClass([self class]), self, self.author, [self message]];
 }
 
-- (git_commit *)commit {
-	return (git_commit *)self.obj;
+- (git_commit *)git_commit {
+	return (git_commit *) self.git_object;
 }
 
 
@@ -68,19 +67,19 @@
 	NSUInteger count = theParents ? theParents.count : 0;
 	const git_commit **parentCommits = calloc(count, sizeof(git_commit *));
 	for (NSUInteger i = 0; i < count; i++){
-		parentCommits[i] = ((GTCommit *)[theParents objectAtIndex:i]).commit;
+		parentCommits[i] = ((GTCommit *)[theParents objectAtIndex:i]).git_commit;
 	}
 	
 	git_oid oid;
 	int gitError = git_commit_create(
 									   &oid, 
-									   theRepo.repo, 
+									   theRepo.git_repository, 
 									   refName ? [refName UTF8String] : NULL, 
-									   authorSig.sig, 
-									   committerSig.sig, 
+									   authorSig.git_signature, 
+									   committerSig.git_signature, 
 									   NULL,
                                        newMessage ? [newMessage UTF8String] : "",
-									   theTree.tree, 
+									   theTree.git_tree, 
 									   (int)count, 
 									   parentCommits);
 	if(gitError < GIT_SUCCESS) {
@@ -94,7 +93,7 @@
 }
 
 - (NSString *)message {
-	const char *s = git_commit_message(self.commit);
+	const char *s = git_commit_message(self.git_commit);
 	if(s == NULL) return nil;
 	return [NSString stringWithUTF8String:s];
 }
@@ -129,20 +128,20 @@
 }
 
 - (NSDate *)commitDate {
-	time_t t = git_commit_time(self.commit);
+	time_t t = git_commit_time(self.git_commit);
 	return [NSDate dateWithTimeIntervalSince1970:t];
 }
 
 - (GTSignature *)author {
 	if(author == nil) {
-		author = [GTSignature signatureWithSig:(git_signature *)git_commit_author(self.commit)];
+		author = [GTSignature signatureWithSignature:(git_signature *)git_commit_author(self.git_commit)];
 	}
 	return author;
 }
 
 - (GTSignature *)committer {
 	if(committer == nil) {
-		committer = [GTSignature signatureWithSig:(git_signature *)git_commit_committer(self.commit)];
+		committer = [GTSignature signatureWithSignature:(git_signature *)git_commit_committer(self.git_commit)];
 	}
 	return committer;
 }
@@ -150,7 +149,7 @@
 - (GTTree *)tree {
 	git_tree *t;
 	
-	int gitError = git_commit_tree(&t, self.commit);
+	int gitError = git_commit_tree(&t, self.git_commit);
 	if(gitError < GIT_SUCCESS) {
 		// todo: might want to return this error (and change method signature)
 		GTLog("Failed to get tree with error code: %d", gitError);
@@ -165,7 +164,7 @@
 		
 		// todo: do we care if a call to git_commit_parent fails?
 		git_commit *parent;
-		for(unsigned int i = 0; git_commit_parent(&parent, self.commit, i) == GIT_SUCCESS; i++) {
+		for(unsigned int i = 0; git_commit_parent(&parent, self.git_commit, i) == GIT_SUCCESS; i++) {
             [rents addObject:(GTCommit *)[GTObject objectWithObj:(git_object *)parent inRepository:self.repository]];
 		}
 		

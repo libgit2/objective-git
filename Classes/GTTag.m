@@ -57,7 +57,7 @@
 
 + (NSString *)shaByCreatingTagInRepository:(GTRepository *)theRepo name:(NSString *)tagName target:(GTObject *)theTarget tagger:(GTSignature *)theTagger message:(NSString *)theMessage error:(NSError **)error {
 	git_oid oid;
-	int gitError = git_tag_create(&oid, theRepo.repo, [tagName UTF8String], theTarget.obj, theTagger.sig, [theMessage UTF8String], 0);
+	int gitError = git_tag_create(&oid, theRepo.git_repository, [tagName UTF8String], theTarget.git_object, theTagger.git_signature, [theMessage UTF8String], 0);
 	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError git_errorFor:gitError withDescription:@"Failed to create tag in repository"];
@@ -68,34 +68,34 @@
 }
 
 - (NSString *)message {
-	return [NSString stringWithUTF8String:git_tag_message(self.tag)];
+	return [NSString stringWithUTF8String:git_tag_message(self.git_tag)];
 }
 
 - (NSString *)name {
-	return [NSString stringWithUTF8String:git_tag_name(self.tag)];
+	return [NSString stringWithUTF8String:git_tag_name(self.git_tag)];
 }
 
 - (GTObject *)target {
 	git_object *t;
 	// todo: might want to actually return an error here
-	int gitError = git_tag_target(&t, self.tag);
+	int gitError = git_tag_target(&t, self.git_tag);
 	if(gitError < GIT_SUCCESS) return nil;
     return [GTObject objectWithObj:(git_object *)t inRepository:self.repository];
 }
 
 - (NSString *)targetType {
-	return [NSString stringWithUTF8String:git_object_type2string(git_tag_type(self.tag))];
+	return [NSString stringWithUTF8String:git_object_type2string(git_tag_type(self.git_tag))];
 }
 
 - (GTSignature *)tagger {
 	if(tagger == nil) {
-		tagger = [GTSignature signatureWithSig:(git_signature *)git_tag_tagger(self.tag)];
+		tagger = [GTSignature signatureWithSignature:(git_signature *)git_tag_tagger(self.git_tag)];
 	}
 	return tagger;
 }
 
-- (git_tag *)tag {
-	return (git_tag *)self.obj;
+- (git_tag *)git_tag {
+	return (git_tag *) self.git_object;
 }
 
 @end

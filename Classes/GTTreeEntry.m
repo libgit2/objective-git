@@ -36,7 +36,7 @@
 #import "NSString+Git.h"
 
 @interface GTTreeEntry()
-@property (nonatomic, assign) const git_tree_entry *entry;
+@property (nonatomic, assign) const git_tree_entry *git_tree_entry;
 @property (nonatomic, dct_weak) GTTree *tree;
 @end
 
@@ -48,18 +48,18 @@
 }
 
 - (void)dealloc {
-	self.tree = nil;
+	self.git_tree_entry = nil;
 }
 
 
 #pragma mark API
 
-@synthesize entry;
+@synthesize git_tree_entry;
 @synthesize tree;
 
 - (id)initWithEntry:(const git_tree_entry *)theEntry parentTree:(GTTree *)parent {
 	if((self = [super init])) {
-		self.entry = theEntry;
+		self.git_tree_entry = theEntry;
 		self.tree = parent;
 	}
 	return self;
@@ -70,15 +70,15 @@
 }
 
 - (NSString *)name {
-	return [NSString stringWithUTF8String:git_tree_entry_name(self.entry)];
+	return [NSString stringWithUTF8String:git_tree_entry_name(self.git_tree_entry)];
 }
 
 - (NSInteger)attributes {
-	return git_tree_entry_attributes(self.entry);
+	return git_tree_entry_attributes(self.git_tree_entry);
 }
 
 - (NSString *)sha {
-	return [NSString git_stringWithOid:git_tree_entry_id(self.entry)];
+	return [NSString git_stringWithOid:git_tree_entry_id(self.git_tree_entry)];
 }
 
 - (GTRepository *)repository {
@@ -100,7 +100,7 @@
 
 - (id)initWithTreeEntry:(GTTreeEntry *)treeEntry error:(NSError **)error {
     git_object *obj;
-    int gitError = git_tree_entry_2object(&obj, treeEntry.repository.repo, treeEntry.entry);
+    int gitError = git_tree_entry_2object(&obj, treeEntry.repository.git_repository, treeEntry.git_tree_entry);
     if (gitError < GIT_SUCCESS) {
         if (error != NULL) {
             *error = [NSError git_errorFor:gitError withDescription:@"Failed to get object for tree entry."];

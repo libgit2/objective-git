@@ -185,7 +185,6 @@
 		55C8057313874CDF004DCB0F /* NSString+Git.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Git.m"; sourceTree = "<group>"; };
 		79262F0E13C697BE00A4B1EA /* git2 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = git2; path = libgit2/include/git2; sourceTree = "<group>"; };
 		79262F8A13C69B1600A4B1EA /* git2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = git2.h; path = libgit2/include/git2.h; sourceTree = "<group>"; };
-		79762AC013C69129000EDD32 /* GTLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTLog.h; sourceTree = "<group>"; };
 		8803DA861313145700E6E818 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		883014ED14AC3E6E0040153F /* dct_weak.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dct_weak.h; sourceTree = "<group>"; };
 		88383CF91468982B009012D5 /* libgit2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libgit2.a; sourceTree = "<group>"; };
@@ -467,7 +466,6 @@
 				55C8054D13861F34004DCB0F /* GTObjectDatabase.m */,
 				AA046110134F4D2000DF526B /* GTOdbObject.h */,
 				AA046111134F4D2000DF526B /* GTOdbObject.m */,
-				79762AC013C69129000EDD32 /* GTLog.h */,
 			);
 			path = Classes;
 			sourceTree = "<group>";

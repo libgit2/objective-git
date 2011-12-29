@@ -42,13 +42,14 @@
 }
 
 - (void)dealloc {
+	git_odb_free(self.git_odb);
     self.repository = nil;
 }
 
 
 #pragma mark API
 
-@synthesize odb;
+@synthesize git_odb;
 @synthesize repository;
 
 + (id)objectDatabaseWithRepository:(GTRepository *)repo {
@@ -59,7 +60,7 @@
     self = [super init];
     if (self) {
         self.repository = repo;
-        git_repository_odb(&odb, self.repository.repo);
+        git_repository_odb(&git_odb, self.repository.git_repository);
     }
     return self;
 }
@@ -67,7 +68,7 @@
 - (GTOdbObject *)objectWithOid:(const git_oid *)oid error:(NSError **)error {
 	git_odb_object *obj;
 	
-	int gitError = git_odb_read(&obj, odb, oid);
+	int gitError = git_odb_read(&obj, self.git_odb, oid);
 	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError git_errorFor:gitError withDescription:@"Failed to read raw object."];
@@ -95,7 +96,7 @@
 	git_odb_stream *stream;
 	git_oid oid;
 	
-	int gitError = git_odb_open_wstream(&stream, odb, data.length, (git_otype) type);
+	int gitError = git_odb_open_wstream(&stream, self.git_odb, data.length, (git_otype) type);
 	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError git_errorFor:gitError withDescription:@"Failed to open write stream on odb."];
@@ -129,7 +130,7 @@
 		return NO;
 	}
 	
-	return git_odb_exists(odb, &oid) ? YES : NO;
+	return git_odb_exists(self.git_odb, &oid) ? YES : NO;
 }
 
 @end

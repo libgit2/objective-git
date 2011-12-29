@@ -34,13 +34,13 @@
 
 @interface GTIndex : NSObject {}
 
-@property (nonatomic, assign) git_index *index;
-@property (nonatomic, copy) NSURL *path;
-@property (nonatomic, assign) NSInteger entryCount;
+@property (nonatomic, assign) git_index *git_index;
+@property (nonatomic, copy) NSURL *fileURL;
+@property (nonatomic, readonly) NSUInteger entryCount;
 
 // Convenience initializers
-- (id)initWithPath:(NSURL *)localFileUrl error:(NSError **)error;
-+ (id)indexWithPath:(NSURL *)localFileUrl error:(NSError **)error;
+- (id)initWithFileURL:(NSURL *)localFileUrl error:(NSError **)error;
++ (id)indexWithFileURL:(NSURL *)localFileUrl error:(NSError **)error;
 
 - (id)initWithGitIndex:(git_index *)theIndex;
 + (id)indexWithGitIndex:(git_index *)theIndex;
@@ -57,7 +57,7 @@
 - (void)clear;
 
 // Get entries from the index
-- (GTIndexEntry *)entryAtIndex:(NSInteger)theIndex;
+- (GTIndexEntry *)entryAtIndex:(NSUInteger)theIndex;
 - (GTIndexEntry *)entryWithName:(NSString *)name;
 
 // Add entries to the index

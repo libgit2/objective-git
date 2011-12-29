@@ -37,6 +37,10 @@
 #import "GTBlob.h"
 #import "GTTag.h"
 
+@interface GTObject ()
+@property (nonatomic, assign) git_object *git_object;
+@end
+
 
 @implementation GTObject
 
@@ -46,7 +50,7 @@
 
 - (void)dealloc {
 	self.repository = nil;
-	git_object_free(self.obj);
+	git_object_free(self.git_object);
 }
 
 - (NSUInteger)hash {
@@ -56,19 +60,19 @@
 - (BOOL)isEqual:(id)otherObject {
 	if(![otherObject isKindOfClass:[GTObject class]]) return NO;
 	
-	return 0 == git_oid_cmp(git_object_id(self.obj), git_object_id(((GTObject *)otherObject).obj)) ? YES : NO;
+	return 0 == git_oid_cmp(git_object_id(self.git_object), git_object_id(((GTObject *)otherObject).git_object)) ? YES : NO;
 }
 
 
 #pragma mark API 
 
-@synthesize obj;
+@synthesize git_object;
 @synthesize repository;
 
 - (id)initWithObj:(git_object *)theObject inRepository:(GTRepository *)theRepo {
 	if((self = [super init])) {
 		self.repository = theRepo;
-		obj = theObject;
+		self.git_object = theObject;
 	}
 	return self;
 }
@@ -98,11 +102,11 @@
 }
 
 - (NSString *)type {
-	return [NSString stringWithUTF8String:git_object_type2string(git_object_type(self.obj))];
+	return [NSString stringWithUTF8String:git_object_type2string(git_object_type(self.git_object))];
 }
 
 - (NSString *)sha {
-	return [NSString git_stringWithOid:git_object_id(self.obj)];
+	return [NSString git_stringWithOid:git_object_id(self.git_object)];
 }
 
 - (NSString *)shortSha {
@@ -110,7 +114,7 @@
 }
 
 - (GTOdbObject *)odbObjectWithError:(NSError **)error {
-    return [self.repository.objectDatabase objectWithOid:git_object_id(self.obj) error:error];
+    return [self.repository.objectDatabase objectWithOid:git_object_id(self.git_object) error:error];
 }
 
 @end

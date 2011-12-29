@@ -43,7 +43,7 @@
 - (void)setUp {
 	
 	NSError *error = nil;
-	index = [GTIndex indexWithPath:[NSURL fileURLWithPath:TEST_INDEX_PATH()] error:&error];
+	index = [GTIndex indexWithFileURL:[NSURL fileURLWithPath:TEST_INDEX_PATH()] error:&error];
 	BOOL success = [index refreshWithError:&error];
 	GHAssertTrue(success, [error localizedDescription]);
 }
@@ -177,7 +177,7 @@
 	[m copyItemAtURL:[NSURL fileURLWithPath:TEST_INDEX_PATH()] toURL:tempPath error:&error];
     GHAssertNil(error, [error localizedDescription]);
 	
-	wIndex = [GTIndex indexWithPath:tempPath error:&error];
+	wIndex = [GTIndex indexWithFileURL:tempPath error:&error];
 	GHAssertNil(error, [error localizedDescription]);
 	BOOL success = [wIndex refreshWithError:&error];
 	GHAssertTrue(success, [error localizedDescription]);
@@ -197,7 +197,7 @@
 	success = [wIndex writeWithError:&error];
 	GHAssertTrue(success, [error localizedDescription]);
 	
-	GTIndex *index2 = [GTIndex indexWithPath:tempPath error:&error];
+	GTIndex *index2 = [GTIndex indexWithFileURL:tempPath error:&error];
 	GHAssertNil(error, [error localizedDescription]);
 	success = [index2 refreshWithError:&error];
 	GHAssertTrue(success, [error localizedDescription]);

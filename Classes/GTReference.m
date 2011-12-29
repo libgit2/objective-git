@@ -38,13 +38,13 @@
 
 - (void)dealloc {
 	self.repository = nil;
-	if(self.ref != NULL) git_reference_free(self.ref);
+	if(self.git_reference != NULL) git_reference_free(self.git_reference);
 }
 
 
 #pragma mark API
 
-@synthesize ref;
+@synthesize git_reference;
 @synthesize repository;
 
 + (id)referenceByLookingUpReferencedNamed:(NSString *)refName inRepository:(GTRepository *)theRepo error:(NSError **)error {
@@ -62,7 +62,7 @@
 - (id)initByLookingUpReferenceNamed:(NSString *)refName inRepository:(GTRepository *)theRepo error:(NSError **)error {
 	if((self = [super init])) {
 		self.repository = theRepo;
-		int gitError = git_reference_lookup(&ref, self.repository.repo, [refName UTF8String]);
+		int gitError = git_reference_lookup(&git_reference, self.repository.git_repository, [refName UTF8String]);
 		if(gitError < GIT_SUCCESS) {
 			if(error != NULL)
 				*error = [NSError git_errorFor:gitError withDescription:@"Failed to lookup reference."];
@@ -74,21 +74,20 @@
 
 - (id)initByCreatingReferenceNamed:(NSString *)refName fromReferenceTarget:(NSString *)theTarget inRepository:(GTRepository *)theRepo error:(NSError **)error {
 	if((self = [super init])) {
-		
 		git_oid oid;
 		int gitError;
 		
 		self.repository = theRepo;
 		if (git_oid_fromstr(&oid, [theTarget UTF8String]) == GIT_SUCCESS) {
-			gitError = git_reference_create_oid(&ref, 
-												self.repository.repo, 
+			gitError = git_reference_create_oid(&git_reference, 
+												self.repository.git_repository, 
 												[refName UTF8String], 
 												&oid,
 												0);
 		}
 		else {
-			gitError = git_reference_create_symbolic(&ref, 
-													 self.repository.repo, 
+			gitError = git_reference_create_symbolic(&git_reference, 
+													 self.repository.git_repository, 
 													 [refName UTF8String], 
 													 [theTarget UTF8String],
 													 0);
@@ -105,8 +104,7 @@
 
 - (id)initByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error {
 	if((self = [super init])) {
-		
-		int gitError = git_reference_resolve(&ref, symbolicRef.ref);
+		int gitError = git_reference_resolve(&git_reference, symbolicRef.git_reference);
 		if(gitError < GIT_SUCCESS) {
 			if(error != NULL)
 				*error = [NSError git_errorFor:gitError withDescription:@"Failed to resolve reference."];
@@ -118,13 +116,13 @@
 }
 
 - (NSString *)name {
-	const char *refName = git_reference_name(self.ref);
+	const char *refName = git_reference_name(self.git_reference);
 	if(refName == NULL) return nil;
 	
 	return [NSString stringWithUTF8String:refName];
 }
 - (BOOL)setName:(NSString *)newName error:(NSError **)error {
-	int gitError = git_reference_rename(self.ref, [newName UTF8String], 0);
+	int gitError = git_reference_rename(self.git_reference, [newName UTF8String], 0);
 	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError git_errorFor:gitError withDescription:@"Failed to rename reference."];
@@ -134,22 +132,22 @@
 }
 
 - (NSString *)type {
-	return [NSString stringWithUTF8String:git_object_type2string((git_otype)git_reference_type(self.ref))];
+	return [NSString stringWithUTF8String:git_object_type2string((git_otype)git_reference_type(self.git_reference))];
 }
 
 - (NSString *)target {
-	if(git_reference_type(self.ref) == GIT_REF_OID) {
-		return [NSString git_stringWithOid:git_reference_oid(self.ref)];
+	if(git_reference_type(self.git_reference) == GIT_REF_OID) {
+		return [NSString git_stringWithOid:git_reference_oid(self.git_reference)];
 	}
 	else {
-		return [NSString stringWithUTF8String:git_reference_target(self.ref)];
+		return [NSString stringWithUTF8String:git_reference_target(self.git_reference)];
 	}
 }
 
 - (BOOL)setTarget:(NSString *)newTarget error:(NSError **)error {	
 	int gitError;
 	
-	if(git_reference_type(self.ref) == GIT_REF_OID) {
+	if(git_reference_type(self.git_reference) == GIT_REF_OID) {
 		git_oid oid;
 		gitError = git_oid_fromstr(&oid, [newTarget UTF8String]);
 		if(gitError < GIT_SUCCESS) {
@@ -158,10 +156,10 @@
 			return NO;
 		}
 		
-		gitError = git_reference_set_oid(self.ref, &oid);
+		gitError = git_reference_set_oid(self.git_reference, &oid);
 	}
 	else {
-		gitError = git_reference_set_target(self.ref, [newTarget UTF8String]);
+		gitError = git_reference_set_target(self.git_reference, [newTarget UTF8String]);
 	}
 
 	if(gitError < GIT_SUCCESS) {
@@ -173,7 +171,7 @@
 }
 
 - (BOOL)packAllWithError:(NSError **)error {
-	int gitError = git_reference_packall(self.repository.repo);
+	int gitError = git_reference_packall(self.repository.git_repository);
 	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError git_errorFor:gitError withDescription:@"Failed to pack all references in repo."];
@@ -183,13 +181,13 @@
 }
 
 - (BOOL)deleteWithError:(NSError **)error {
-	int gitError = git_reference_delete(self.ref);
+	int gitError = git_reference_delete(self.git_reference);
 	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError git_errorFor:gitError withDescription:@"Failed to delete reference."];
 		return NO;
 	}
-	self.ref = NULL; /* this has been free'd */
+	self.git_reference = NULL; /* this has been free'd */
 	return YES;
 }
 
@@ -198,7 +196,7 @@
 }
 
 - (const git_oid *)oid {
-	return git_reference_oid(self.ref);
+	return git_reference_oid(self.git_reference);
 }
 
 @end

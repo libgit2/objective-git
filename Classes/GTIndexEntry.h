@@ -32,7 +32,7 @@
 
 @interface GTIndexEntry : NSObject {}
 
-@property (nonatomic, assign) git_index_entry *entry;
+@property (nonatomic, assign) git_index_entry *git_index_entry;
 @property (nonatomic, copy) NSString *path;
 @property (nonatomic, strong) NSDate *modificationDate;
 @property (nonatomic, strong) NSDate *creationDate;
