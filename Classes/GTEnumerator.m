@@ -33,6 +33,7 @@
 #import "NSError+Git.h"
 #import "NSString+Git.h"
 #import "GTRepository.h"
+#import "GTRepository+Private.h"
 
 @interface GTEnumerator()
 @property (nonatomic, assign) git_revwalk *walk;
@@ -46,8 +47,7 @@
 }
 
 - (void)dealloc {
-	git_revwalk_free(self.walk);
-	self.repository = nil;
+	[self cleanup];
 }
 
 
@@ -74,6 +74,16 @@
 
 + (id)enumeratorWithRepository:(GTRepository *)theRepo error:(NSError **)error {
 	return [[self alloc] initWithRepository:theRepo error:error];
+}
+
+- (void)cleanup {
+	[self.repository removeEnumerator:self];
+	
+	if(self.walk != NULL) {
+		git_revwalk_free(self.walk);
+		self.walk = NULL;
+	}
+	self.repository = nil;
 }
 
 - (BOOL)push:(NSString *)sha error:(NSError **)error {
@@ -155,6 +165,18 @@
 		count++;
 	}
 	return count;
+}
+
+- (void)setRepository:(GTRepository *)r {
+	if(r == repository) return;
+	
+	repository = r;
+	
+	if(self.repository == nil) {
+		[self cleanup];
+	} else {
+		[self.repository addEnumerator:self];
+	}
 }
 
 @end

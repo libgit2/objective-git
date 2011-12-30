@@ -44,6 +44,7 @@
 @property (nonatomic, strong) GTEnumerator *enumerator;
 @property (nonatomic, strong) GTIndex *index;
 @property (nonatomic, strong) GTObjectDatabase *objectDatabase;
+@property (nonatomic, strong) NSMutableSet *weakEnumerators;
 @end
 
 
@@ -56,10 +57,8 @@
 }
 
 - (void)dealloc {
-	// we need to make sure the enumerator gets released before the repository is freed
-	if(enumerator != nil) {
-		enumerator.repository = nil;
-		self.enumerator = nil;
+	for(NSValue *weakValue in self.weakEnumerators) {
+		[[weakValue nonretainedObjectValue] setRepository:nil];
 	}
 	
 	if(self.git_repository != NULL) git_repository_free(self.git_repository);
@@ -118,6 +117,7 @@
 @synthesize fileURL;
 @synthesize index;
 @synthesize objectDatabase;
+@synthesize weakEnumerators;
 
 - (id)initWithURL:(NSURL *)localFileURL error:(NSError **)error {
     localFileURL = [[self class] _gitURLForURL:localFileURL error:error];
@@ -452,6 +452,27 @@
 
 - (BOOL)isHeadDetached {
 	return (BOOL) git_repository_head_detached(self.git_repository);
+}
+
+- (NSMutableSet *)weakEnumerators {
+	if(weakEnumerators == nil) {
+		self.weakEnumerators = [NSMutableSet set];
+	}
+	
+	return weakEnumerators;
+}
+
+@end
+
+
+@implementation GTRepository (Private)
+
+- (void)addEnumerator:(GTEnumerator *)e {
+	[self.weakEnumerators addObject:[NSValue valueWithNonretainedObject:e]];
+}
+
+- (void)removeEnumerator:(GTEnumerator *)e {
+	[self.weakEnumerators removeObject:[NSValue valueWithNonretainedObject:e]];
 }
 
 @end
