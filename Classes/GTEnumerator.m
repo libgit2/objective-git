@@ -78,12 +78,12 @@
 
 - (void)cleanup {
 	[self.repository removeEnumerator:self];
+	self.repository = nil;
 	
 	if(self.walk != NULL) {
 		git_revwalk_free(self.walk);
 		self.walk = NULL;
 	}
-	self.repository = nil;
 }
 
 - (BOOL)push:(NSString *)sha error:(NSError **)error {
