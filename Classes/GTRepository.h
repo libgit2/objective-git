@@ -37,6 +37,7 @@
 @class GTCommit;
 @class GTIndex;
 @class GTBranch;
+@class GTConfiguration;
 
 
 @interface GTRepository : NSObject <GTObject> {}
@@ -46,6 +47,7 @@
 @property (nonatomic, readonly, strong) GTEnumerator *enumerator; // should only be used on the main thread
 @property (nonatomic, readonly, strong) GTIndex *index;
 @property (nonatomic, readonly, strong) GTObjectDatabase *objectDatabase;
+@property (nonatomic, readonly, strong) GTConfiguration *configuration;
 @property (nonatomic, readonly, getter=isBare) BOOL bare; // Is this a 'bare' repository?  i.e. created with git clone --bare
 @property (nonatomic, readonly, getter=isEmpty) BOOL empty; // Is this repository empty? Will only be YES for a freshly `git init`'d repo.
 @property (nonatomic, readonly, getter=isHeadDetached) BOOL headDetached; // Is HEAD detached? i.e., not pointing to any permanent ref.

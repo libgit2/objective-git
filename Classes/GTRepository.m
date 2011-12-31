@@ -37,6 +37,7 @@
 #import "GTTag.h"
 #import "NSError+Git.h"
 #import "NSString+Git.h"
+#import "GTConfiguration.h"
 
 @interface GTRepository ()
 @property (nonatomic, assign) git_repository *git_repository;
@@ -45,6 +46,7 @@
 @property (nonatomic, strong) GTIndex *index;
 @property (nonatomic, strong) GTObjectDatabase *objectDatabase;
 @property (nonatomic, strong) NSMutableSet *weakEnumerators;
+@property (nonatomic, strong) GTConfiguration *configuration;
 @end
 
 
@@ -119,6 +121,7 @@
 @synthesize index;
 @synthesize objectDatabase;
 @synthesize weakEnumerators;
+@synthesize configuration;
 
 - (id)initWithURL:(NSURL *)localFileURL error:(NSError **)error {
     localFileURL = [[self class] _gitURLForURL:localFileURL error:error];
@@ -461,6 +464,20 @@
 	}
 	
 	return weakEnumerators;
+}
+
+- (GTConfiguration *)configuration {
+	if(configuration == nil) {
+		git_config *config = NULL;
+		int error = git_repository_config(&config, self.git_repository);
+		if(error < GIT_SUCCESS) {
+			
+		}
+		
+		self.configuration = [GTConfiguration configurationWithConfiguration:config];
+	}
+	
+	return configuration;
 }
 
 @end
