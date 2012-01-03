@@ -37,6 +37,8 @@
 
 @interface GTEnumerator()
 @property (nonatomic, assign) git_revwalk *walk;
+
+- (void)cleanup;
 @end
 
 
