@@ -27,7 +27,6 @@
 //  THE SOFTWARE.
 //
 
-#import "dct_weak.h"
 #import "GTEnumerator.h"
 #import "GTCommit.h"
 #import "NSError+Git.h"

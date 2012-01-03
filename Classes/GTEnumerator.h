@@ -27,7 +27,6 @@
 //  THE SOFTWARE.
 //
 
-#import "dct_weak.h"
 #import "GTObject.h"
 
 // Options to specify enumeration order when enumerating through a repository.

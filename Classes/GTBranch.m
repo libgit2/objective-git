@@ -23,7 +23,6 @@
 //  THE SOFTWARE.
 //
 
-#import "dct_weak.h"
 #import "GTBranch.h"
 #import "GTReference.h"
 #import "GTEnumerator.h"

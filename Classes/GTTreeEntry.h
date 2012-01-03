@@ -27,7 +27,6 @@
 //  THE SOFTWARE.
 //
 
-#import "dct_weak.h"
 #import "GTObject.h"
 
 @class GTTree;
