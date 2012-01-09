@@ -480,6 +480,18 @@
 	return configuration;
 }
 
+- (GTIndex *)index {
+	if(index == nil) {
+		NSError *error = nil;
+		BOOL success = [self setupIndexWithError:&error];
+		if(!success) {
+			GTLog(@"Error setting up index: %@", error);
+		}
+	}
+	
+	return index;
+}
+
 @end
 
 

@@ -131,4 +131,13 @@
 	return YES;
 }
 
+- (NSArray *)entries {
+	NSMutableArray *entries = [NSMutableArray arrayWithCapacity:self.entryCount];
+	for(NSUInteger i = 0; i < self.entryCount; i++) {
+		[entries addObject:[self entryAtIndex:i]];
+	}
+	
+	return [entries copy];
+}
+
 @end

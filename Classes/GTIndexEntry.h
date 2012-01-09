@@ -28,9 +28,17 @@
 //
 
 #include "git2.h"
+#import "GTObject.h"
+
+typedef enum {
+	GTIndexEntryStatusUpdated = 0,
+	GTIndexEntryStatusRemoved,
+	GTIndexEntryStatusNew,
+	GTIndexEntryStatusUnchanged,
+} GTIndexEntryStatus;
 
 
-@interface GTIndexEntry : NSObject {}
+@interface GTIndexEntry : NSObject <GTObject> {}
 
 @property (nonatomic, assign) git_index_entry *git_index_entry;
 @property (nonatomic, copy) NSString *path;
@@ -43,8 +51,10 @@
 @property (nonatomic, assign) NSUInteger uid;
 @property (nonatomic, assign) NSUInteger gid;
 @property (nonatomic, assign) NSUInteger flags;
-@property (nonatomic, getter=isStaged, assign) NSUInteger stage;
-@property (nonatomic, readonly) BOOL isValid;
+@property (nonatomic, getter=isStaged, readonly) NSUInteger staged;
+@property (nonatomic, getter=isValid, readonly) BOOL valid;
+@property (nonatomic, readonly) GTIndexEntryStatus status;
+@property (nonatomic, dct_weak) GTRepository *repository;
 
 // Convenience initializers
 - (id)initWithEntry:(git_index_entry *)theEntry;

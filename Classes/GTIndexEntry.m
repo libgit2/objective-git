@@ -35,7 +35,7 @@
 @implementation GTIndexEntry
 
 - (NSString *)description {
-  return [NSString stringWithFormat:@"<%@: %p> path: %@, modificationDate: %@, creationDate: %@, fileSize: %@ KB", NSStringFromClass([self class]), self, self.path, self.modificationDate, self.creationDate, [NSNumber numberWithLongLong:self.fileSize]];
+  return [NSString stringWithFormat:@"<%@: %p> path: %@, modificationDate: %@, creationDate: %@, fileSize: %ll KB, flags: %d", NSStringFromClass([self class]), self, self.path, self.modificationDate, self.creationDate, self.fileSize, self.flags];
 }
 
 - (void)dealloc {
@@ -56,8 +56,9 @@
 @synthesize uid;
 @synthesize gid;
 @synthesize flags;
-@synthesize stage;
-@synthesize isValid;
+@synthesize staged;
+@synthesize valid;
+@synthesize repository;
 
 + (id)indexEntryWithEntry:(git_index_entry *)theEntry {
 	return [[self alloc] initWithEntry:theEntry];
@@ -161,11 +162,14 @@
 	return (self.git_index_entry->flags & GIT_IDXENTRY_STAGEMASK) >> GIT_IDXENTRY_STAGESHIFT;
 }
 
-- (void)setStage:(NSUInteger)theStage {	
-	NSParameterAssert(theStage >= 0 && theStage <= 3);
+- (GTIndexEntryStatus)status {
+	if((self.flags & GIT_IDXENTRY_UPDATE) != 0) {
+		return GTIndexEntryStatusUpdated;
+	} else if((self.flags & GIT_IDXENTRY_UPTODATE) != 0) {
+		return GTIndexEntryStatusUnchanged;
+	}
 	
-	self.git_index_entry->flags &= ~GIT_IDXENTRY_STAGEMASK;
-	self.git_index_entry->flags |= (theStage << GIT_IDXENTRY_STAGESHIFT);
+	return GTIndexEntryStatusUnchanged;
 }
 
 @end

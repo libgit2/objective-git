@@ -37,6 +37,7 @@
 @property (nonatomic, assign) git_index *git_index;
 @property (nonatomic, copy) NSURL *fileURL;
 @property (nonatomic, readonly) NSUInteger entryCount;
+@property (nonatomic, readonly) NSArray *entries;
 
 // Convenience initializers
 - (id)initWithFileURL:(NSURL *)localFileUrl error:(NSError **)error;
