@@ -30,7 +30,7 @@ typedef enum {
 	GTReferenceTypesSymoblic = GIT_REF_SYMBOLIC,	/** A reference which points at another reference */
 	GTReferenceTypesPacked = GIT_REF_PACKED,
 	GTReferenceTypesHasPeel = GIT_REF_HAS_PEEL,
-	GTReferenceTypesListAll = GTReferenceTypesOid|GTReferenceTypesSymoblic|GTReferenceTypesPacked,
+	GTReferenceTypesListAll = GIT_REF_LISTALL,
 } GTReferenceTypes;
 
 @class GTRepository;
