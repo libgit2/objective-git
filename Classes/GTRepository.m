@@ -417,7 +417,7 @@
 	}
 	
 	NSMutableArray *references = [NSMutableArray arrayWithCapacity:array.count];
-	for(NSUInteger i = 0; i< array.count; i++) {
+	for(NSUInteger i = 0; i < array.count; i++) {
 		[references addObject:[NSString stringWithUTF8String:array.strings[i]]];
 	}
 	
