@@ -29,17 +29,24 @@
 
 extern NSString * const GTGitErrorDomain;
 
+
 @interface NSError (Git)
 
-/* Error helper for general errors (non libgit2 related) */
-+ (NSError *)git_errorWithDescription:(NSString *)desc;
-
-/* Error helpers for libgit2 error codes */
-+ (NSError *)git_errorFor:(NSInteger)code withDescription:(NSString *)desc;
+// Creates an error for the given libgit2 error code. The returned error's NSLocalizedDescriptionKey is filled with `git_lasterror` or `strerror` if an OS error occurs.
+//
+// code - the libgit2 error code
+//
+// returns the created error object
 + (NSError *)git_errorFor:(NSInteger)code;
+
+// Creates an error for the given libgit2 error code. The returned error's NSLocalizedDescriptionKey is filled the given description with `git_lasterror` or `strerror` if an OS error occurs appended on the end.
+//
+// code - the libgit2 error code
+//
+// returns the created error object
++ (NSError *)git_errorFor:(NSInteger)code withAdditionalDescription:(NSString *)desc;
 
 /* Error helpers for common libgit2 errors */
 + (NSError *)git_errorForMkStr: (NSInteger)code;
-+ (NSError *)git_errorForAddEntryToIndex: (NSInteger)code;
 
 @end

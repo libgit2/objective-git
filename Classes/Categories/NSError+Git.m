@@ -32,49 +32,32 @@
 
 NSString * const GTGitErrorDomain = @"GTGitErrorDomain";
 
+@interface NSError ()
++ (NSString *)gitLastErrorDescriptionWithCode:(NSInteger)code;
+@end
+
+
 @implementation NSError (Git)
 
-+ (NSError *)git_errorWithDescription:(NSString *)desc {
-	
-	return [NSError errorWithDomain:GTGitErrorDomain
-							   code:-1
-						   userInfo:
-			[NSDictionary dictionaryWithObject:desc
-										forKey:NSLocalizedDescriptionKey]];
-}
-
-+ (NSError *)git_errorFor:(NSInteger)code withDescription:(NSString *)desc {
-	const char* gitLastError = git_lasterror();
-	if (!gitLastError && code == GIT_EOSERR)
-	{
-		gitLastError = strerror(errno);
-	}
-	NSString *gitErrorDesc = [NSString stringWithUTF8String:gitLastError];
-	
-	return [NSError errorWithDomain:GTGitErrorDomain
-							   code:code
-						   userInfo:
-			[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%@ %@", desc, gitErrorDesc]
-										forKey:NSLocalizedDescriptionKey]];
++ (NSError *)git_errorFor:(NSInteger)code withAdditionalDescription:(NSString *)desc {
+	return [NSError errorWithDomain:GTGitErrorDomain code:code userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%@ %@", desc, [self gitLastErrorDescriptionWithCode:code]] forKey:NSLocalizedDescriptionKey]];
 }
 
 + (NSError *)git_errorFor:(NSInteger)code {
-	
-	return [NSError errorWithDomain:GTGitErrorDomain
-							   code:code
-						   userInfo:
-			[NSDictionary dictionaryWithObject:[NSString stringWithUTF8String:git_lasterror()]
-										forKey:NSLocalizedDescriptionKey]];
+	return [NSError errorWithDomain:GTGitErrorDomain code:code userInfo:[NSDictionary dictionaryWithObject:[self gitLastErrorDescriptionWithCode:code] forKey:NSLocalizedDescriptionKey]];
 }
 
-+ (NSError *)git_errorForMkStr: (NSInteger)code {
-	
-	return [NSError git_errorFor:code withDescription:@"Failed to create object id from sha1."];
++ (NSError *)git_errorForMkStr: (NSInteger)code {	
+	return [NSError git_errorFor:code withAdditionalDescription:@"Failed to create object id from sha1."];
 }
 
-+ (NSError *)git_errorForAddEntryToIndex: (NSInteger)code {
++ (NSString *)gitLastErrorDescriptionWithCode:(NSInteger)code {
+	const char *gitLastError = git_lasterror();
+	if(gitLastError == NULL && code == GIT_EOSERR) {
+		gitLastError = strerror(errno);
+	}
 	
-	return [NSError git_errorFor:code withDescription:@"Failed to add entry to index."];
+	return [NSString stringWithUTF8String:gitLastError];
 }
 
 @end
