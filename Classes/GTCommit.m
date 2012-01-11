@@ -85,7 +85,7 @@
 	if(gitError < GIT_SUCCESS) {
 		if(parentCommits != NULL) free(parentCommits);
 		if(error != NULL)
-			*error = [NSError git_errorFor:gitError withDescription:@"Failed to create commit in repository"];
+			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to create commit in repository"];
 		return nil;
 	}
 	if(parentCommits != NULL) free(parentCommits);

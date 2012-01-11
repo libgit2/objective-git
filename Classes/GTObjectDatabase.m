@@ -70,7 +70,7 @@
 	int gitError = git_odb_read(&obj, self.git_odb, oid);
 	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
-			*error = [NSError git_errorFor:gitError withDescription:@"Failed to read raw object."];
+			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to read raw object."];
 		return nil;
 	}
 	
@@ -98,21 +98,21 @@
 	int gitError = git_odb_open_wstream(&stream, self.git_odb, data.length, (git_otype) type);
 	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
-			*error = [NSError git_errorFor:gitError withDescription:@"Failed to open write stream on odb."];
+			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to open write stream on odb."];
 		return nil;
 	}
 	
 	gitError = stream->write(stream, [data UTF8String], data.length);
 	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
-			*error = [NSError git_errorFor:gitError withDescription:@"Failed to write to stream on odb."];
+			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to write to stream on odb."];
 		return nil;
 	}
 	
 	gitError = stream->finalize_write(&oid, stream);
 	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
-			*error = [NSError git_errorFor:gitError withDescription:@"Failed to finalize write on odb."];
+			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to finalize write on odb."];
 		return nil;
 	}
     

@@ -105,7 +105,7 @@
     int gitError = git_repository_init(&r, path, 0);
     if (gitError < GIT_SUCCESS) {
         if (error != NULL) {
-            *error = [NSError git_errorFor:gitError withDescription:@"Failed to initialize repository."];
+            *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to initialize repository."];
         }
     }
     
@@ -136,7 +136,7 @@
         
         if (gitError < GIT_SUCCESS) {
             if (error != NULL) {
-                *error = [NSError git_errorFor:gitError withDescription:@"Failed to open repository."];
+                *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to open repository."];
             }
             return nil;
         }
@@ -153,7 +153,7 @@
 	int gitError = git_odb_hash(&oid, [data UTF8String], [data length], (git_otype) type);
 	if(gitError < GIT_SUCCESS) {
 		if (error != NULL)
-			*error = [NSError git_errorFor:gitError withDescription:@"Failed to get hash for object."];
+			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to get hash for object."];
 		return nil;
 	}
 	
@@ -166,7 +166,7 @@
 	int gitError = git_object_lookup(&obj, self.git_repository, oid, (git_otype) type);
 	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
-			*error = [NSError git_errorFor:gitError withDescription:@"Failed to lookup object in repository."];
+			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to lookup object in repository."];
 		return nil;
 	}
 	
@@ -242,7 +242,7 @@
 	int gitError = git_repository_index(&i, self.git_repository);
 	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
-			*error = [NSError git_errorFor:gitError withDescription:@"Failed to get index for repository."];
+			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to get index for repository."];
 		return NO;
 	}
 	else {
@@ -408,7 +408,7 @@
 	int gitError = git_reference_listall(&array, self.git_repository, types);
 	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
-			*error = [NSError git_errorFor:gitError withDescription:@"Failed to list all references."];
+			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to list all references."];
 		return nil;
 	}
 	

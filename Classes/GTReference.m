@@ -64,7 +64,7 @@
 		int gitError = git_reference_lookup(&git_reference, self.repository.git_repository, [refName UTF8String]);
 		if(gitError < GIT_SUCCESS) {
 			if(error != NULL)
-				*error = [NSError git_errorFor:gitError withDescription:@"Failed to lookup reference."];
+				*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to lookup reference."];
 			return nil;
 		}
 	}
@@ -94,7 +94,7 @@
 		
 		if(gitError < GIT_SUCCESS) {
 			if(error != NULL)
-				*error = [NSError git_errorFor:gitError withDescription:@"Failed to create symbolic reference."];
+				*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to create symbolic reference."];
 			return nil;
 		}
 	}
@@ -106,7 +106,7 @@
 		int gitError = git_reference_resolve(&git_reference, symbolicRef.git_reference);
 		if(gitError < GIT_SUCCESS) {
 			if(error != NULL)
-				*error = [NSError git_errorFor:gitError withDescription:@"Failed to resolve reference."];
+				*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to resolve reference."];
 			return nil;
 		}
 		self.repository = symbolicRef.repository;
@@ -124,7 +124,7 @@
 	int gitError = git_reference_rename(self.git_reference, [newName UTF8String], 0);
 	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
-			*error = [NSError git_errorFor:gitError withDescription:@"Failed to rename reference."];
+			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to rename reference."];
 		return NO;
 	}
 	return YES;
@@ -163,7 +163,7 @@
 
 	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
-			*error = [NSError git_errorFor:gitError withDescription:@"Failed to set reference target."];
+			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to set reference target."];
 		return NO;
 	}
 	return YES;
@@ -173,7 +173,7 @@
 	int gitError = git_reference_packall(self.repository.git_repository);
 	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
-			*error = [NSError git_errorFor:gitError withDescription:@"Failed to pack all references in repo."];
+			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to pack all references in repo."];
 		return NO;
 	}
 	return YES;
@@ -183,7 +183,7 @@
 	int gitError = git_reference_delete(self.git_reference);
 	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
-			*error = [NSError git_errorFor:gitError withDescription:@"Failed to delete reference."];
+			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to delete reference."];
 		return NO;
 	}
 	self.git_reference = NULL; /* this has been free'd */

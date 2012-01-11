@@ -65,7 +65,7 @@
 		int gitError = git_revwalk_new(&w, self.repository.git_repository);
 		if(gitError < GIT_SUCCESS) {
 			if (error != NULL)
-				*error = [NSError git_errorFor:gitError withDescription:@"Failed to initialize rev walker."];
+				*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to initialize rev walker."];
 			return nil;
 		}
 		self.walk = w;
@@ -97,7 +97,7 @@
 	int gitError = git_revwalk_push(self.walk, &oid);
 	if(gitError < GIT_SUCCESS) {
 		if (error != NULL)
-			*error = [NSError git_errorFor:gitError withDescription:@"Failed to push sha onto rev walker."];
+			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to push sha onto rev walker."];
 		return NO;
 	}
 	
@@ -112,7 +112,7 @@
 	int gitError = git_revwalk_hide(self.walk, &oid);
 	if(gitError < GIT_SUCCESS) {
 		if (error != NULL)
-			*error = [NSError git_errorFor:gitError withDescription:@"Failed to hide sha on rev walker."];
+			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to hide sha on rev walker."];
 		return NO;
 	}
 	return YES;

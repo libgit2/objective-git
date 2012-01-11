@@ -59,7 +59,7 @@
 		int gitError = git_index_open(&i, [[self.fileURL path] UTF8String]);
 		if(gitError < GIT_SUCCESS) {
 			if(error != NULL)
-				*error = [NSError git_errorFor:gitError withDescription:@"Failed to initialize index."];
+				*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to initialize index."];
 			return nil;
 		}
 		self.git_index = i;
@@ -82,7 +82,7 @@
 	int gitError = git_index_read(self.git_index);
 	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
-			*error = [NSError git_errorFor:gitError withDescription:@"Failed to refresh index."];
+			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to refresh index."];
 		return NO;
 	}
 	return YES;
@@ -105,7 +105,7 @@
 	int gitError = git_index_add2(self.git_index, entry.git_index_entry);
 	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
-			*error = [NSError git_errorForAddEntryToIndex:gitError];
+			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to add entry to index."];
 		return NO;
 	}
 	return YES;
@@ -115,7 +115,7 @@
 	int gitError = git_index_add(self.git_index, [file UTF8String], 0);
 	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
-			*error = [NSError git_errorForAddEntryToIndex:gitError];
+			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to add entry to index."];
 		return NO;
 	}
 	return YES;
@@ -125,7 +125,7 @@
 	int gitError = git_index_write(self.git_index);
 	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
-			*error = [NSError git_errorFor:gitError withDescription:@"Failed to write index."];
+			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to write index."];
 		return NO;
 	}
 	return YES;
