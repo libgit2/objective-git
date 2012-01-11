@@ -195,11 +195,7 @@
 }
 
 - (BOOL)enumerateCommitsBeginningAtSha:(NSString *)sha sortOptions:(GTEnumeratorOptions)options error:(NSError **)error usingBlock:(void (^)(GTCommit *, BOOL *))block {
-	if(block == nil) {
-		if(error != NULL)
-			*error = [NSError git_errorWithDescription:@"No block was provided to the method."];
-		return NO;
-	}
+	NSParameterAssert(block != NULL);
     
 	if(sha == nil) {
 		GTReference *head = [self headReferenceWithError:error];
