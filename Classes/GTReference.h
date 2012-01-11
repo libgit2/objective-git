@@ -42,6 +42,7 @@ typedef enum {
 @property (nonatomic, dct_weak) GTRepository *repository;
 @property (nonatomic, readonly) NSString *type;
 @property (nonatomic, readonly) const git_oid *oid;
+@property (nonatomic, readonly, getter=isValid) BOOL valid;
 
 // Convenience initializers
 + (id)referenceByLookingUpReferencedNamed:(NSString *)refName inRepository:(GTRepository *)theRepo error:(NSError **)error;
@@ -78,5 +79,12 @@ typedef enum {
 //
 // returns the peeled GTReference or nil if an error occurred.
 - (GTReference *)resolvedReferenceWithError:(NSError **)error;
+
+// Reload the reference from disk. Note that if reloading fails, the underlying `git_reference` will be invalidated and NULL'd.
+//
+// error(out) - will be filled if an error occurs
+//
+// returns YES if the reload was successful, NO otherwise.
+- (BOOL)reloadWithError:(NSError **)error;
 
 @end

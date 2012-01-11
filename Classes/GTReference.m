@@ -198,4 +198,23 @@
 	return git_reference_oid(self.git_reference);
 }
 
+- (BOOL)reloadWithError:(NSError **)error {
+	int errorCode = git_reference_reload(self.git_reference);
+	if(errorCode < GIT_SUCCESS) {
+		if(error != NULL) {
+			*error = [NSError git_errorFor:errorCode withAdditionalDescription:@"Failed to reload reference."];
+		}
+		
+		self.git_reference = NULL;
+		
+		return NO;
+	}
+	
+	return YES;
+}
+
+- (BOOL)isValid {
+	return self.git_reference != NULL;
+}
+
 @end
