@@ -335,6 +335,10 @@
 }
 
 - (GTBranch *)createBranchNamed:(NSString *)name fromReference:(GTReference *)ref error:(NSError **)error {
+	// make sure the ref is up to date before we branch off it, otherwise we could branch off an older sha
+	BOOL success = [ref reloadWithError:error];
+	if(!success) return nil;
+	
 	GTReference *newRef = [GTReference referenceByCreatingReferenceNamed:[NSString stringWithFormat:@"%@%@", [GTBranch localNamePrefix], name] fromReferenceTarget:[ref target] inRepository:self error:error];
 	return [GTBranch branchWithReference:newRef repository:self];
 }
