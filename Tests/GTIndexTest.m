@@ -76,7 +76,7 @@
 	GHAssertEquals((NSUInteger)0, e.gid, nil);
 	GHAssertEquals((NSUInteger)6, e.flags, nil);
 	GHAssertFalse(e.isValid, nil);
-	GHAssertEquals((NSUInteger)0, e.stage, nil);
+	GHAssertEquals((NSUInteger)0, e.staged, nil);
 	
 	e = [index entryAtIndex:1];
 	GHAssertEqualStrings(@"new.txt", e.path, nil);
@@ -99,24 +99,8 @@
 	e.mode = 33199;
 	e.uid = 502;
 	e.gid = 502;
-	e.stage = 3;
 	
 	return e;
-}
-
-- (void)testCanSetFlags {
-	
-	GTIndexEntry *e = [self createNewIndexEntry];
-	e.flags = 0;
-	GHAssertEquals((NSUInteger)0, e.flags, nil);
-	
-	NSError *error = nil;
-	e.stage = 3;
-	GHAssertNil(error, [error localizedDescription]);
-	GHAssertEquals((NSUInteger)12288, e.flags, nil);
-	
-	e.flags = e.flags | GIT_IDXENTRY_VALID;
-	GHAssertTrue([e isValid], nil);
 }
 
 - (void)testCanUpdateEntries {
