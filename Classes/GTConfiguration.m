@@ -88,29 +88,20 @@
     //
     // for now, this implementation wraps away the lack of a lower level API
 
-    [
-        self setString: [NSString stringWithFormat: @"+refs/heads/*:refs/remotes/%@/*", remoteName] 
-                forKey: [NSString stringWithFormat: @"remote \"%@\".fetch", remoteName]
-    ];
+    [self setString: [NSString stringWithFormat: @"+refs/heads/*:refs/remotes/%@/*", remoteName] forKey: [NSString stringWithFormat: @"remote \"%@\".fetch", remoteName]];
     
     
-    [ 
-        self setString: [cloneURL absoluteString] 
-                forKey: [NSString stringWithFormat: @"remote \"%@\".url", remoteName] 
-    ];
+    [self setString: [cloneURL absoluteString] forKey: [NSString stringWithFormat: @"remote \"%@\".url", remoteName]];
     
 }
 
 - (void) addBranch:(NSString *)branchName trackingRemoteName:(NSString *)remoteName {
     
-    [
-        self setString: [NSString stringWithFormat:@"refs/heads/%@", branchName] 
-                forKey: [NSString stringWithFormat:@"branch \"%@\".merge", branchName] 
-    ];
+    [self setString: [NSString stringWithFormat:@"refs/heads/%@", branchName] 
+                forKey: [NSString stringWithFormat:@"branch \"%@\".merge", branchName]];
     
-    if (remoteName) {
+    if (remoteName)
         [ self setString: remoteName forKey:[NSString stringWithFormat:@"branch \"%@\".remote", branchName] ];
-    }
     
 }
 
