@@ -41,4 +41,45 @@
 	GHAssertTrue(success, [error localizedDescription]);
 }
 
+- (void) testCanAddRemote {
+    GTConfiguration *configuration = repo.configuration;
+    GHAssertNotNil((id)(configuration), @"Couldn't get the configuration");
+    
+    [configuration addRemote: @"github" withCloneURL: [NSURL URLWithString: @"git://github.com/libgit2/objective-git.git"] ];
+    
+    // stringWithContentsOfFile:(NSString *)path usedEncoding:(NSStringEncoding *)enc error:(NSError **)error
+    NSError* theErr = nil;
+    
+    NSURL* configFileURL = [NSURL fileURLWithPath: 
+                            [TEST_REPO_PATH() stringByAppendingPathComponent: @"/config"]
+                           ];
+    
+    NSString* contentsOfGitConfig = [NSString stringWithContentsOfURL:configFileURL encoding: [NSString defaultCStringEncoding] error: &theErr];
+    
+    GHAssertNil(theErr, [NSString stringWithFormat: @"NSError was returned by stringWithContentsOfURL: %@", [theErr localizedDescription]]);
+    BOOL success = [contentsOfGitConfig rangeOfString: @"remote \"github\""].location != NSNotFound;
+    
+    GHAssertTrue(success, @"properly formatted remote name not found");
+    
+}
+
+- (void) testCanAddBranch {
+    GTConfiguration *configuration = repo.configuration;
+    GHAssertNotNil((id)(configuration), @"Couldn't get the configuration");
+    
+    [configuration addBranch:@"cocoa_love" trackingRemoteName: nil];
+    NSError* theErr = nil;
+    
+    NSURL* configFileURL = [NSURL fileURLWithPath: 
+                            [TEST_REPO_PATH() stringByAppendingPathComponent: @"/config"]
+                            ];
+    
+    NSString* contentsOfGitConfig = [NSString stringWithContentsOfURL:configFileURL encoding: [NSString defaultCStringEncoding] error: &theErr];
+    
+    GHAssertNil(theErr, [NSString stringWithFormat: @"NSError was returned by stringWithContentsOfURL: %@", [theErr localizedDescription]]);
+    BOOL success = [contentsOfGitConfig rangeOfString: @"branch \"cocoa_love\""].location != NSNotFound;
+    
+    GHAssertTrue(success, @"properly formatted branch name not found");
+
+}
 @end
