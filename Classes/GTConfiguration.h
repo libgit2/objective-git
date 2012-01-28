@@ -29,7 +29,7 @@
 
 - (BOOL)deleteValueForKey:(NSString *)key error:(NSError **)error;
 
-- (void) addRemote: (NSString*) remoteName withCloneURL: (NSURL*) cloneURL;
-- (void) addBranch: (NSString*) branchName trackingRemoteName: (NSString*) remoteName;
+- (void)addRemote:(NSString *)remoteName withCloneURL:(NSURL *)cloneURL;
+- (void)addBranch:(NSString *)branchName trackingRemoteName:(NSString *)remoteName;
 
 @end

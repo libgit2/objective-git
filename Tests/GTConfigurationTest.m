@@ -43,43 +43,36 @@
 
 - (void) testCanAddRemote {
     GTConfiguration *configuration = repo.configuration;
-    GHAssertNotNil((id)(configuration), @"Couldn't get the configuration");
+    GHAssertNotNil(configuration, @"Couldn't get the configuration");
     
-    [configuration addRemote: @"github" withCloneURL: [NSURL URLWithString: @"git://github.com/libgit2/objective-git.git"] ];
+    [configuration addRemote:@"github" withCloneURL:[NSURL URLWithString:@"git://github.com/libgit2/objective-git.git"]];
+
+    NSURL *configFileURL = [NSURL fileURLWithPath:[TEST_REPO_PATH() stringByAppendingPathComponent:@"/config"]];
     
-    // stringWithContentsOfFile:(NSString *)path usedEncoding:(NSStringEncoding *)enc error:(NSError **)error
-    NSError* theErr = nil;
+	NSError *error = nil;
+    NSString *contentsOfGitConfig = [NSString stringWithContentsOfURL:configFileURL encoding:[NSString defaultCStringEncoding] error:&error];
     
-    NSURL* configFileURL = [NSURL fileURLWithPath: 
-                            [TEST_REPO_PATH() stringByAppendingPathComponent: @"/config"]
-                           ];
-    
-    NSString* contentsOfGitConfig = [NSString stringWithContentsOfURL:configFileURL encoding: [NSString defaultCStringEncoding] error: &theErr];
-    
-    GHAssertNil(theErr, [NSString stringWithFormat: @"NSError was returned by stringWithContentsOfURL: %@", [theErr localizedDescription]]);
-    BOOL success = [contentsOfGitConfig rangeOfString: @"remote \"github\""].location != NSNotFound;
+    GHAssertNotNil(contentsOfGitConfig, [NSString stringWithFormat:@"NSError was returned by stringWithContentsOfURL: %@", [error localizedDescription]]);
+    BOOL success = [contentsOfGitConfig rangeOfString:@"remote \"github\""].location != NSNotFound;
     
     GHAssertTrue(success, @"properly formatted remote name not found");
-    
 }
 
-- (void) testCanAddBranch {
+- (void)testCanAddBranch {
     GTConfiguration *configuration = repo.configuration;
-    GHAssertNotNil((id)(configuration), @"Couldn't get the configuration");
+    GHAssertNotNil(configuration, @"Couldn't get the configuration");
     
-    [configuration addBranch:@"cocoa_love" trackingRemoteName: nil];
-    NSError* theErr = nil;
+    [configuration addBranch:@"cocoa_love" trackingRemoteName:nil];
+	
+    NSURL *configFileURL = [NSURL fileURLWithPath:[TEST_REPO_PATH() stringByAppendingPathComponent:@"/config"]];
     
-    NSURL* configFileURL = [NSURL fileURLWithPath: 
-                            [TEST_REPO_PATH() stringByAppendingPathComponent: @"/config"]
-                            ];
+	NSError *error = nil;
+    NSString *contentsOfGitConfig = [NSString stringWithContentsOfURL:configFileURL encoding:[NSString defaultCStringEncoding] error:&error];
     
-    NSString* contentsOfGitConfig = [NSString stringWithContentsOfURL:configFileURL encoding: [NSString defaultCStringEncoding] error: &theErr];
-    
-    GHAssertNil(theErr, [NSString stringWithFormat: @"NSError was returned by stringWithContentsOfURL: %@", [theErr localizedDescription]]);
-    BOOL success = [contentsOfGitConfig rangeOfString: @"branch \"cocoa_love\""].location != NSNotFound;
+    GHAssertNotNil(contentsOfGitConfig, [NSString stringWithFormat:@"NSError was returned by stringWithContentsOfURL: %@", [error localizedDescription]]);
+    BOOL success = [contentsOfGitConfig rangeOfString:@"branch \"cocoa_love\""].location != NSNotFound;
     
     GHAssertTrue(success, @"properly formatted branch name not found");
-
 }
+
 @end
