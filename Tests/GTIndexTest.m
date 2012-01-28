@@ -103,6 +103,16 @@
 	return e;
 }
 
+- (void)testCanSetFlags {
+	
+	GTIndexEntry *e = [self createNewIndexEntry];
+	e.flags = 0;
+	GHAssertEquals((NSUInteger)0, e.flags, nil);
+	
+	e.flags = e.flags | GIT_IDXENTRY_VALID;
+	GHAssertTrue([e isValid], nil);
+}
+
 - (void)testCanUpdateEntries {
 	
 	NSError *error = nil;
