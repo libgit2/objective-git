@@ -80,4 +80,29 @@
 	return YES;
 }
 
+- (void) addRemote: (NSString*) remoteName withCloneURL: (NSURL*) cloneURL {
+    // TODO: implement something useful to the libgit2 project to make these remote / branch
+    // names easier to construct. See:
+    // <https://github.com/libgit2/libgit2/issues/161>
+    // <https://github.com/libgit2/libgit2/issues/160>
+    //
+    // for now, this implementation wraps away the lack of a lower level API
+
+    [self setString: [NSString stringWithFormat: @"+refs/heads/*:refs/remotes/%@/*", remoteName] forKey: [NSString stringWithFormat: @"remote \"%@\".fetch", remoteName]];
+    
+    
+    [self setString: [cloneURL absoluteString] forKey: [NSString stringWithFormat: @"remote \"%@\".url", remoteName]];
+    
+}
+
+- (void) addBranch:(NSString *)branchName trackingRemoteName:(NSString *)remoteName {
+    
+    [self setString: [NSString stringWithFormat:@"refs/heads/%@", branchName] 
+                forKey: [NSString stringWithFormat:@"branch \"%@\".merge", branchName]];
+    
+    if (remoteName)
+        [ self setString: remoteName forKey:[NSString stringWithFormat:@"branch \"%@\".remote", branchName] ];
+    
+}
+
 @end
