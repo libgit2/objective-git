@@ -100,4 +100,20 @@
 	}
 }
 
+int configCallback(const char* name, const char* value, void* payload);
+int configCallback(const char* name, const char* value, void* payload) {
+    NSMutableArray* configurationKeysArray = (__bridge NSMutableArray*)(payload);
+
+    [configurationKeysArray addObject: [NSString stringWithCString: name encoding: [NSString defaultCStringEncoding]]];
+
+    return 0;
+}
+
+- (NSArray*) configurationKeys {
+    NSMutableArray* output = [NSMutableArray array];
+
+    git_config_foreach(self.git_config, configCallback, (__bridge void*)(output));
+    return (output);
+
+}
 @end
