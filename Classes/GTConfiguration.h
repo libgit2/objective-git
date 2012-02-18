@@ -32,4 +32,5 @@
 - (void)addRemote:(NSString *)remoteName withCloneURL:(NSURL *)cloneURL;
 - (void)addBranch:(NSString *)branchName trackingRemoteName:(NSString *)remoteName;
 
+- (NSArray*) configurationKeys;
 @end

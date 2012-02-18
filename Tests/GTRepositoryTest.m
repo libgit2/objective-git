@@ -213,6 +213,14 @@
 	GHAssertFalse([repo isEmpty], nil);
 }
 
+- (void) testCanGetRemotes {
+    NSArray* remotesArray = [repo remoteNames];
+    
+    GHAssertTrue( [remotesArray containsObject: @"github"], @"remotes name did not contain expected remote" );
+    GHAssertTrue( [repo hasRemoteNamed: @"github"], @"remotes name was not found by query function" );
+    
+}
+
 // This messes other tests up b/c it writes a new HEAD, but doesn't set it back again
 /*
 - (void)testLookupHeadThenCommitAndThenLookupHeadAgain {
