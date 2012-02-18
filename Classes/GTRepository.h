@@ -137,4 +137,6 @@
 // returns the local commits, an empty array if there is no remote branch, or nil if an error occurred
 - (NSArray *)localCommitsRelativeToRemoteBranch:(GTBranch *)remoteBranch error:(NSError **)error;
 
+- (NSArray*) remoteNames;
+- (BOOL) hasRemoteNamed: (NSString*) potentialRemoteName;
 @end

@@ -160,6 +160,29 @@
 	return [NSString git_stringWithOid:&oid];
 }
 
+- (NSArray*) remoteNames {
+    NSMutableArray* arrayOfRemotes = [NSMutableArray array];
+
+	[[[self configuration] configurationKeys] enumerateObjectsUsingBlock: ^void (NSString* configKey, NSUInteger ind, BOOL* stop) {
+		if ([configKey hasPrefix: @"remote."]) {
+			NSArray* arrayByString = [configKey componentsSeparatedByString: @"."];
+			NSString* remoteName = [arrayByString objectAtIndex: 1];
+
+			if (![arrayOfRemotes containsObject: remoteName]) {
+				//only add the object if we haven't seen it yet.
+				// we'll see a lot of keys like remote.NAME.fetch and remote.NAME.merge
+				// but we only want to add one instance of the remote in this array
+				[arrayOfRemotes addObject: remoteName];
+			}
+		}
+	}];
+
+    return arrayOfRemotes;
+}
+
+- (BOOL) hasRemoteNamed: (NSString*) potentialRemoteName {
+	return [[self remoteNames] containsObject: potentialRemoteName];
+}
 - (GTObject *)lookupObjectByOid:(git_oid *)oid objectType:(GTObjectType)type error:(NSError **)error {
 	git_object *obj;
 	
