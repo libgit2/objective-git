@@ -32,10 +32,6 @@
 
 NSString * const GTGitErrorDomain = @"GTGitErrorDomain";
 
-@interface NSError ()
-+ (NSString *)gitLastErrorDescriptionWithCode:(NSInteger)code;
-@end
-
 
 @implementation NSError (Git)
 
