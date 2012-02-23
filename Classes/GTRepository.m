@@ -260,6 +260,60 @@
     return passingCommits;
 }
 
+struct gitPayload {
+    __unsafe_unretained GTRepository* repository;
+    __unsafe_unretained GitStatusCallback block;
+};
+
+
+int file_status_callback(const char*, unsigned int, void *);
+int file_status_callback(const char* relativeFilePath, unsigned int gitStatus, void* rawPayload) {
+    struct gitPayload* payload = (struct gitPayload*)(rawPayload);
+
+    NSURL* filePath = [[payload->repository repositoryURL] URLByAppendingPathComponent:
+    		[NSString stringWithCString: relativeFilePath encoding: [NSString defaultCStringEncoding]]];
+
+    BOOL returnCode = payload->block(filePath, gitStatus);
+
+    return (returnCode ? GIT_SUCCESS : GIT_ERROR);
+}
+
+- (BOOL) enumerateFileStatusUsingBlock: (GitStatusCallback) block{
+    // we want to pass several things into the C callback function:
+    // ourselves and the user's supplied block. Throw it into a struct
+    // and pass a pointer to the struct to the C callback function
+
+    struct gitPayload fileStatusPayload;
+
+    fileStatusPayload.repository = self;
+    fileStatusPayload.block = block;
+
+    int gitError = git_status_foreach(self.git_repository, file_status_callback, &fileStatusPayload);
+    return gitError == GIT_SUCCESS;
+}
+
+- (BOOL) isWorkingDirectoryClean {
+    __block BOOL clean = YES;
+    [self enumerateFileStatusUsingBlock:^BOOL(NSURL* file, unsigned int gitStatus) {
+        // first, have items been deleted?
+        // (not sure why we would get WT_DELETED AND INDEX_NEW in this situation, but that's what I got experimentally. WD-rpw, 02-23-2012        
+        if ( (gitStatus == (GIT_STATUS_WT_DELETED) || (gitStatus == (GIT_STATUS_WT_DELETED | GIT_STATUS_INDEX_NEW))))
+            clean = NO;
+        
+        // any untracked files?
+        if (gitStatus == GIT_STATUS_WT_NEW)
+            clean = NO;
+        
+        // next, have items been modified?
+        if ((gitStatus == GIT_STATUS_INDEX_MODIFIED) || (gitStatus == GIT_STATUS_WT_MODIFIED))
+            clean = NO;
+        
+        return YES; // keep iteration going
+    }];
+ 
+    return clean;
+}
+
 - (BOOL)setupIndexWithError:(NSError **)error {
 	git_index *i;
 	int gitError = git_repository_index(&i, self.git_repository);
