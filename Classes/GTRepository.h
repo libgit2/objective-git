@@ -139,4 +139,11 @@
 
 - (NSArray*) remoteNames;
 - (BOOL) hasRemoteNamed: (NSString*) potentialRemoteName;
+
+// Returns a NSURL to the git working directory
+// NOTE: the fileURL property of GTRepository points to the .git folder
+// this repository.
+//
+// Returns the working directory (also know as: "the directory you passed into repositoryWithURL:"
+- (NSURL*) repositoryURL;
 @end

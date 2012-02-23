@@ -457,11 +457,17 @@
 	return self;
 }
 
+- (NSURL*) repositoryURL {
+	const char* cPath = git_repository_path(self.git_repository);
+
+	return [[NSURL fileURLWithPath: [NSString stringWithCString: cPath encoding: [NSString defaultCStringEncoding]] isDirectory: YES] URLByDeletingLastPathComponent];
+}
+
 - (GTObjectDatabase *)objectDatabase {
 	if(objectDatabase == nil) {
 		self.objectDatabase = [GTObjectDatabase objectDatabaseWithRepository:self];
 	}
-	
+
 	return objectDatabase;
 }
 
