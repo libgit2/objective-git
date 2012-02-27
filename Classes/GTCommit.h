@@ -40,15 +40,14 @@
 @property (nonatomic, readonly, strong) GTSignature *author;
 @property (nonatomic, readonly, strong) GTSignature *committer;
 @property (nonatomic, readonly, copy) NSArray *parents;
+@property (nonatomic, readonly) NSString *message;
+@property (nonatomic, readonly) NSString *messageDetails;
+@property (nonatomic, readonly) NSString *messageSummary;
+@property (nonatomic, readonly) NSDate *commitDate;
+@property (nonatomic, readonly) GTTree *tree;
 
 + (GTCommit *)commitInRepository:(GTRepository *)theRepo updateRefNamed:(NSString *)refName author:(GTSignature *)authorSig committer:(GTSignature *)committerSig message:(NSString *)newMessage tree:(GTTree *)theTree parents:(NSArray *)theParents error:(NSError **)error;
 
 + (NSString *)shaByCreatingCommitInRepository:(GTRepository *)theRepo updateRefNamed:(NSString *)refName author:(GTSignature *)authorSig committer:(GTSignature *)committerSig message:(NSString *)newMessage tree:(GTTree *)theTree parents:(NSArray *)theParents error:(NSError **)error;
-
-- (NSString *)message;
-- (NSString *)messageDetails;
-- (NSString *)messageSummary;
-- (NSDate *)commitDate;
-- (GTTree *)tree;
 
 @end
