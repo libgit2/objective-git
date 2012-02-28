@@ -297,15 +297,15 @@ int file_status_callback(const char* relativeFilePath, unsigned int gitStatus, v
     [self enumerateFileStatusUsingBlock:^BOOL(NSURL* file, unsigned int gitStatus) {
         // first, have items been deleted?
         // (not sure why we would get WT_DELETED AND INDEX_NEW in this situation, but that's what I got experimentally. WD-rpw, 02-23-2012        
-        if ( (gitStatus == (GIT_STATUS_WT_DELETED) || (gitStatus == (GIT_STATUS_WT_DELETED | GIT_STATUS_INDEX_NEW))))
+        if ( (gitStatus == (GTFileStatusWorkingTreeDeleted) || (gitStatus == (GTFileStatusWorkingTreeDeleted | GTFileStatusIndexNew))))
             clean = NO;
         
         // any untracked files?
-        if (gitStatus == GIT_STATUS_WT_NEW)
+        if (gitStatus == GTFileStatusWorkingTreeNew)
             clean = NO;
         
         // next, have items been modified?
-        if ((gitStatus == GIT_STATUS_INDEX_MODIFIED) || (gitStatus == GIT_STATUS_WT_MODIFIED))
+        if ((gitStatus == GTFileStatusIndexMod) || (gitStatus == GTFileStatusWorkingTreeMod))
             clean = NO;
         
         return YES; // keep iteration going

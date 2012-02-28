@@ -39,7 +39,25 @@
 @class GTBranch;
 @class GTConfiguration;
 
+
+// Options returned from the enumerateFileStatusUsingBlock: function
+enum {
+	GTFileStatusIndexNew     = GIT_STATUS_INDEX_NEW,
+	GTFileStatusIndexMod     = GIT_STATUS_INDEX_MODIFIED,
+	GTFileStatusIndexDeleted = GIT_STATUS_INDEX_DELETED,
+
+	GTFileStatusWorkingTreeNew = GIT_STATUS_WT_NEW,
+	GTFileStatusWorkingTreeMod = GIT_STATUS_WT_MODIFIED,
+	GTFileStatusWorkingTreeDeleted = GIT_STATUS_WT_DELETED,
+
+	GTFileStatusIgnored = GIT_STATUS_IGNORED
+
+};
+
+
 typedef BOOL (^GitStatusCallback)(NSURL*, unsigned int);
+
+
 
 @interface GTRepository : NSObject <GTObject> {}
 
