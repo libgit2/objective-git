@@ -173,6 +173,6 @@ typedef BOOL (^GitStatusCallback)(NSURL*, unsigned int);
 // NOTE: the fileURL property of GTRepository points to the .git folder
 // this repository.
 //
-// Returns the working directory (also know as: "the directory you passed into repositoryWithURL:"
+// Returns a path to the git working directory
 - (NSURL*) repositoryURL;
 @end
