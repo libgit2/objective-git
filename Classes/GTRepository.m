@@ -63,7 +63,7 @@
 	for(NSValue *weakWrappedValue in self.weakEnumerators) {
 		[[weakWrappedValue nonretainedObjectValue] setRepository:nil];
 	}
-	
+
 	if(self.git_repository != NULL) git_repository_free(self.git_repository);
 }
 
@@ -74,7 +74,7 @@
 	NSFileManager *fm = [[NSFileManager alloc] init];
 	BOOL isDir = NO;
 	NSURL *headFileURL = [directory URLByAppendingPathComponent:@"HEAD"];
-	
+
 	if([fm fileExistsAtPath:[headFileURL path] isDirectory:&isDir] && !isDir) {
 		NSURL *objectsDir = [directory URLByAppendingPathComponent:@"objects"];
 		if([fm fileExistsAtPath:[objectsDir path] isDirectory:&isDir] && isDir) {
@@ -91,7 +91,7 @@
         }
         return nil;
     }
-    
+
     if ([[url path] hasSuffix:@".git"] == NO || [GTRepository isAGitDirectory:url] == NO) {
         url = [url URLByAppendingPathComponent:@".git"];
     }
@@ -100,7 +100,7 @@
 
 + (BOOL)initializeEmptyRepositoryAtURL:(NSURL *)localFileURL error:(NSError **)error {
     const char *path = [[localFileURL path] UTF8String];
-    
+
     git_repository *r;
     int gitError = git_repository_init(&r, path, 0);
     if (gitError < GIT_SUCCESS) {
@@ -108,7 +108,7 @@
             *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to initialize repository."];
         }
     }
-    
+
     return (gitError == GIT_SUCCESS);
 }
 
@@ -128,12 +128,12 @@
     if (localFileURL == nil) {
         return nil;
     }
-    
+
     self = [super init];
     if (self) {
         git_repository *r;
         int gitError = git_repository_open(&r, [[localFileURL path] UTF8String]);
-        
+
         if (gitError < GIT_SUCCESS) {
             if (error != NULL) {
                 *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to open repository."];
@@ -156,7 +156,7 @@
 			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to get hash for object."];
 		return nil;
 	}
-	
+
 	return [NSString git_stringWithOid:&oid];
 }
 
@@ -202,14 +202,14 @@
 
 - (GTObject *)lookupObjectBySha:(NSString *)sha objectType:(GTObjectType)type error:(NSError **)error {
 	git_oid oid;
-	
+
 	int gitError = git_oid_fromstr(&oid, [sha UTF8String]);
 	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError git_errorForMkStr:gitError];
 		return nil;
 	}
-	
+
 	return [self lookupObjectByOid:&oid objectType:type error:error];
 }
 
@@ -260,6 +260,60 @@
     return passingCommits;
 }
 
+struct gitPayload {
+    __unsafe_unretained GTRepository* repository;
+    __unsafe_unretained GitStatusCallback block;
+};
+
+
+int file_status_callback(const char*, unsigned int, void *);
+int file_status_callback(const char* relativeFilePath, unsigned int gitStatus, void* rawPayload) {
+    struct gitPayload* payload = (struct gitPayload*)(rawPayload);
+
+    NSURL* filePath = [[payload->repository repositoryURL] URLByAppendingPathComponent:
+    		[NSString stringWithCString: relativeFilePath encoding: [NSString defaultCStringEncoding]]];
+
+    BOOL returnCode = payload->block(filePath, gitStatus);
+
+    return (returnCode ? GIT_SUCCESS : GIT_ERROR);
+}
+
+- (BOOL) enumerateFileStatusUsingBlock: (GitStatusCallback) block{
+    // we want to pass several things into the C callback function:
+    // ourselves and the user's supplied block. Throw it into a struct
+    // and pass a pointer to the struct to the C callback function
+
+    struct gitPayload fileStatusPayload;
+
+    fileStatusPayload.repository = self;
+    fileStatusPayload.block = block;
+
+    int gitError = git_status_foreach(self.git_repository, file_status_callback, &fileStatusPayload);
+    return gitError == GIT_SUCCESS;
+}
+
+- (BOOL) isWorkingDirectoryClean {
+    __block BOOL clean = YES;
+    [self enumerateFileStatusUsingBlock:^BOOL(NSURL* file, unsigned int gitStatus) {
+        // first, have items been deleted?
+        // (not sure why we would get WT_DELETED AND INDEX_NEW in this situation, but that's what I got experimentally. WD-rpw, 02-23-2012        
+        if ( (gitStatus == (GTFileStatusWorkingTreeDeleted) || (gitStatus == (GTFileStatusWorkingTreeDeleted | GTFileStatusIndexNew))))
+            clean = NO;
+        
+        // any untracked files?
+        if (gitStatus == GTFileStatusWorkingTreeNew)
+            clean = NO;
+        
+        // next, have items been modified?
+        if ((gitStatus == GTFileStatusIndexMod) || (gitStatus == GTFileStatusWorkingTreeMod))
+            clean = NO;
+        
+        return YES; // keep iteration going
+    }];
+ 
+    return clean;
+}
+
 - (BOOL)setupIndexWithError:(NSError **)error {
 	git_index *i;
 	int gitError = git_repository_index(&i, self.git_repository);
@@ -277,7 +331,7 @@
 - (GTReference *)headReferenceWithError:(NSError **)error {
 	GTReference *headSymRef = [GTReference referenceByLookingUpReferencedNamed:@"HEAD" inRepository:self error:error];
 	if(headSymRef == nil) return nil;
-	
+
 	return [GTReference referenceByResolvingSymbolicReference:headSymRef error:error];
 }
 
@@ -290,24 +344,24 @@
 	if(unwantedRemoteBranches == nil) {
 		unwantedRemoteBranches = [NSArray arrayWithObjects:@"HEAD", nil];
 	}
-	
+
 	NSArray *remoteBranches = [self branchesWithPrefix:[GTBranch remoteNamePrefix] error:error];
 	if(remoteBranches == nil) return nil;
-	
+
 	NSMutableArray *filteredList = [NSMutableArray arrayWithCapacity:remoteBranches.count];
 	for(GTBranch *branch in remoteBranches) {
 		if(![unwantedRemoteBranches containsObject:branch.shortName]) {
 			[filteredList addObject:branch];
 		}
 	}
-	
+
 	return filteredList;
 }
 
 - (NSArray *)branchesWithPrefix:(NSString *)prefix error:(NSError **)error {
 	NSArray *references = [self referenceNamesWithError:error];
     if(references == nil) return nil;
-	
+
     NSMutableArray *branches = [NSMutableArray array];
     for(NSString *ref in references) {
         if([ref hasPrefix:prefix]) {
@@ -324,21 +378,21 @@
 	NSArray *localBranches = [self localBranchesWithError:error];
 	NSArray *remoteBranches = [self remoteBranchesWithError:error];
 	if(localBranches == nil || remoteBranches == nil) return nil;
-	
+
 	[allBranches addObjectsFromArray:localBranches];
-	
+
 	// we want to add the remote branches that we don't already have as a local branch
 	NSMutableDictionary *shortNamesToBranches = [NSMutableDictionary dictionary];
 	for(GTBranch *branch in localBranches) {
 		[shortNamesToBranches setObject:branch forKey:branch.shortName];
 	}
-	
+
 	for(GTBranch *branch in remoteBranches) {
 		GTBranch *localBranch = [shortNamesToBranches objectForKey:branch.shortName];
 		if(localBranch == nil) {
 			[allBranches addObject:branch];
 		}
-		
+
 		NSMutableArray *branches = [NSMutableArray array];
 		if(localBranch.remoteBranches != nil) {
 			[branches addObjectsFromArray:localBranch.remoteBranches];
@@ -346,14 +400,14 @@
 		[branches addObject:branch];
 		localBranch.remoteBranches = branches;
 	}
-	
+
     return allBranches;
 }
 
 - (NSUInteger)numberOfCommitsInCurrentBranch:(NSError **)error {
 	GTReference *head = [self headReferenceWithError:error];
 	if(head == nil) return NSNotFound;
-	
+
 	return [self.enumerator countFromSha:head.target error:error];
 }
 
@@ -361,7 +415,7 @@
 	// make sure the ref is up to date before we branch off it, otherwise we could branch off an older sha
 	BOOL success = [ref reloadWithError:error];
 	if(!success) return nil;
-	
+
 	GTReference *newRef = [GTReference referenceByCreatingReferenceNamed:[NSString stringWithFormat:@"%@%@", [GTBranch localNamePrefix], name] fromReferenceTarget:[ref target] inRepository:self error:error];
 	return [GTBranch branchWithReference:newRef repository:self];
 }
@@ -373,21 +427,21 @@
 - (GTBranch *)currentBranchWithError:(NSError **)error {
 	GTReference *head = [self headReferenceWithError:error];
 	if (head == nil) return nil;
-	
+
 	GTBranch *currentBranch = [GTBranch branchWithReference:head repository:self];
-	
+
 	NSArray *remoteBranches = [self remoteBranchesWithError:error];
 	if(remoteBranches == nil) return nil;
-	
+
 	NSMutableArray *matchedRemoteBranches = [NSMutableArray array];
 	for(GTBranch *branch in remoteBranches) {
 		if([branch.shortName isEqualToString:currentBranch.shortName]) {
 			[matchedRemoteBranches addObject:branch];
 		}
 	}
-	
+
 	currentBranch.remoteBranches = matchedRemoteBranches;
-	
+
 	return currentBranch;
 }
 
@@ -395,24 +449,24 @@
 	if(remoteBranch == nil) {
 		return [NSArray array];
 	}
-	
+
 	GTBranch *localBranch = [self currentBranchWithError:error];
 	if(localBranch == nil) {
 		return nil;
 	}
-	
+
 	GTEnumerator *localBranchEnumerator = [GTEnumerator enumeratorWithRepository:self error:error];
 	if(localBranchEnumerator == nil) {
 		return nil;
 	}
-	
+
 	[localBranchEnumerator setOptions:GTEnumeratorOptionsTopologicalSort];
-	
+
 	BOOL success = [localBranchEnumerator push:localBranch.sha error:error];
 	if(!success) {
 		return nil;
 	}
-	
+
 	NSString *remoteBranchTip = remoteBranch.sha;
 	NSMutableArray *commits = [NSMutableArray array];
 	GTCommit *currentCommit = [localBranchEnumerator nextObjectWithError:error];
@@ -420,32 +474,32 @@
 		if([currentCommit.sha isEqualToString:remoteBranchTip]) {
 			break;
 		}
-		
+
 		[commits addObject:currentCommit];
-		
+
 		currentCommit = [localBranchEnumerator nextObjectWithError:error];
 	}
-	
+
 	return commits;
 }
 
 - (NSArray *)referenceNamesWithTypes:(GTReferenceTypes)types error:(NSError **)error {
 	git_strarray array;
-	
+
 	int gitError = git_reference_listall(&array, self.git_repository, types);
 	if(gitError < GIT_SUCCESS) {
 		if(error != NULL)
 			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to list all references."];
 		return nil;
 	}
-	
+
 	NSMutableArray *references = [NSMutableArray arrayWithCapacity:array.count];
 	for(NSUInteger i = 0; i < array.count; i++) {
 		[references addObject:[NSString stringWithUTF8String:array.strings[i]]];
 	}
-	
+
 	git_strarray_free(&array);
-	
+
 	return references;
 }
 
@@ -457,11 +511,17 @@
 	return self;
 }
 
+- (NSURL*) repositoryURL {
+	const char* cPath = git_repository_path(self.git_repository);
+
+	return [[NSURL fileURLWithPath: [NSString stringWithCString: cPath encoding: [NSString defaultCStringEncoding]] isDirectory: YES] URLByDeletingLastPathComponent];
+}
+
 - (GTObjectDatabase *)objectDatabase {
 	if(objectDatabase == nil) {
 		self.objectDatabase = [GTObjectDatabase objectDatabaseWithRepository:self];
 	}
-	
+
 	return objectDatabase;
 }
 
@@ -469,7 +529,7 @@
 	if(enumerator == nil) {
 		self.enumerator = [[GTEnumerator alloc] initWithRepository:self error:NULL];
 	}
-	
+
 	return enumerator;
 }
 
@@ -485,7 +545,7 @@
 	if(weakEnumerators == nil) {
 		self.weakEnumerators = [NSMutableSet set];
 	}
-	
+
 	return weakEnumerators;
 }
 
@@ -511,7 +571,7 @@
 			GTLog(@"Error setting up index: %@", error);
 		}
 	}
-	
+
 	return index;
 }
 

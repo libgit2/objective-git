@@ -40,6 +40,25 @@
 @class GTConfiguration;
 
 
+// Options returned from the enumerateFileStatusUsingBlock: function
+enum {
+	GTFileStatusIndexNew     = GIT_STATUS_INDEX_NEW,
+	GTFileStatusIndexMod     = GIT_STATUS_INDEX_MODIFIED,
+	GTFileStatusIndexDeleted = GIT_STATUS_INDEX_DELETED,
+
+	GTFileStatusWorkingTreeNew = GIT_STATUS_WT_NEW,
+	GTFileStatusWorkingTreeMod = GIT_STATUS_WT_MODIFIED,
+	GTFileStatusWorkingTreeDeleted = GIT_STATUS_WT_DELETED,
+
+	GTFileStatusIgnored = GIT_STATUS_IGNORED
+
+};
+
+
+typedef BOOL (^GitStatusCallback)(NSURL*, unsigned int);
+
+
+
 @interface GTRepository : NSObject <GTObject> {}
 
 @property (nonatomic, assign, readonly) git_repository *git_repository;
@@ -72,10 +91,10 @@
 - (GTObject *)lookupObjectBySha:(NSString *)sha error:(NSError **)error;
 
 // List references in the repository
-// 
+//
 // types - One or more GTReferenceTypes
 // error(out) - will be filled if an error occurs
-// 
+//
 // returns an array of NSStrings holding the names of the references
 // returns nil if an error occurred and fills the error parameter
 - (NSArray *)referenceNamesWithTypes:(GTReferenceTypes)types error:(NSError **)error;
@@ -83,10 +102,10 @@
 // List all references in the repository
 //
 // This is a convenience method for listReferencesInRepo: type:GTReferenceTypesListAll error:
-// 
+//
 // repository - The GTRepository to list references in
 // error(out) - will be filled if an error occurs
-// 
+//
 // returns an array of NSStrings holding the names of the references
 // returns nil if an error occurred and fills the error parameter
 - (NSArray *)referenceNamesWithError:(NSError **)error;
@@ -95,6 +114,16 @@
 - (BOOL)enumerateCommitsBeginningAtSha:(NSString *)sha error:(NSError **)error usingBlock:(void (^)(GTCommit *, BOOL *))block;
 
 - (NSArray *)selectCommitsBeginningAtSha:(NSString *)sha error:(NSError **)error block:(BOOL (^)(GTCommit *commit, BOOL *stop))block;
+
+// For each file in the repository calls your block with the URL of the file and the status of that file in the repository
+// If your callback block wants to abort the status enumeration, return NO from the block
+//
+// Your callback recieves two parameters: an NSURL* pointing to the file in question, and a integer containing the status
+// codes for the file. This is an ORed value of status codes from the libgit2 API. See status.h for possible values.
+- (BOOL) enumerateFileStatusUsingBlock: (GitStatusCallback) block;
+
+// Return YES if the working directory is clean (no modified, new, or deleted files in index)
+- (BOOL) isWorkingDirectoryClean;
 
 - (BOOL)setupIndexWithError:(NSError **)error;
 
@@ -139,4 +168,11 @@
 
 - (NSArray*) remoteNames;
 - (BOOL) hasRemoteNamed: (NSString*) potentialRemoteName;
+
+// Returns a NSURL to the git working directory
+// NOTE: the fileURL property of GTRepository points to the .git folder
+// this repository.
+//
+// Returns a path to the git working directory
+- (NSURL*) repositoryURL;
 @end

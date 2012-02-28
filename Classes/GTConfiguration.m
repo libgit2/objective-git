@@ -38,7 +38,7 @@
 	const char *string = NULL;
 	git_config_get_string(self.git_config, [key UTF8String], &string);
 	if(string == NULL) return nil;
-	
+
 	return [NSString stringWithUTF8String:string];
 }
 
@@ -59,7 +59,7 @@
 - (int32_t)int32ForKey:(NSString *)key {
 	int32_t i = 0;
 	git_config_get_int32(self.git_config, [key UTF8String], &i);
-	
+
 	return i;
 }
 
@@ -70,7 +70,7 @@
 - (int64_t)int64ForKey:(NSString *)key {
 	int64_t i = 0;
 	git_config_get_int64(self.git_config, [key UTF8String], &i);
-	
+
 	return i;
 }
 
@@ -94,7 +94,7 @@
 
 - (void)addBranch:(NSString *)branchName trackingRemoteName:(NSString *)remoteName {
     [self setString:[NSString stringWithFormat:@"refs/heads/%@", branchName] forKey:[NSString stringWithFormat:@"branch \"%@\".merge", branchName]];
-    
+
     if(remoteName != nil) {
         [self setString:remoteName forKey:[NSString stringWithFormat:@"branch \"%@\".remote", branchName]];
 	}
