@@ -261,24 +261,26 @@
 }
 
 struct gitPayload {
-    __unsafe_unretained GTRepository* repository;
-    __unsafe_unretained GitStatusCallback block;
+    __unsafe_unretained GTRepository *repository;
+    __unsafe_unretained GTRepositoryStatusBlock block;
 };
 
 
 int file_status_callback(const char*, unsigned int, void *);
 int file_status_callback(const char* relativeFilePath, unsigned int gitStatus, void* rawPayload) {
-    struct gitPayload* payload = (struct gitPayload*)(rawPayload);
+    struct gitPayload *payload = (struct gitPayload *)(rawPayload);
 
-    NSURL* filePath = [[payload->repository repositoryURL] URLByAppendingPathComponent:
-    		[NSString stringWithCString: relativeFilePath encoding: [NSString defaultCStringEncoding]]];
+    NSURL *fileURL = [[payload->repository repositoryURL] URLByAppendingPathComponent:[NSString stringWithCString:relativeFilePath encoding:[NSString defaultCStringEncoding]]];
 
-    BOOL returnCode = payload->block(filePath, gitStatus);
+	BOOL stop = NO;
+    payload->block(fileURL, gitStatus, &stop);
 
-    return (returnCode ? GIT_SUCCESS : GIT_ERROR);
+    return (stop ? GIT_ERROR : GIT_SUCCESS);
 }
 
-- (BOOL) enumerateFileStatusUsingBlock: (GitStatusCallback) block{
+- (void)enumerateFileStatusUsingBlock:(GTRepositoryStatusBlock)block {
+	NSParameterAssert(block != NULL);
+	
     // we want to pass several things into the C callback function:
     // ourselves and the user's supplied block. Throw it into a struct
     // and pass a pointer to the struct to the C callback function
@@ -288,28 +290,31 @@ int file_status_callback(const char* relativeFilePath, unsigned int gitStatus, v
     fileStatusPayload.repository = self;
     fileStatusPayload.block = block;
 
-    int gitError = git_status_foreach(self.git_repository, file_status_callback, &fileStatusPayload);
-    return gitError == GIT_SUCCESS;
+    git_status_foreach(self.git_repository, file_status_callback, &fileStatusPayload);
 }
 
-- (BOOL) isWorkingDirectoryClean {
+- (BOOL)isWorkingDirectoryClean {
     __block BOOL clean = YES;
-    [self enumerateFileStatusUsingBlock:^BOOL(NSURL* file, unsigned int gitStatus) {
+    [self enumerateFileStatusUsingBlock:^(NSURL *fileURL, GTRepositoryFileStatus fileStatus, BOOL *stop) {
         // first, have items been deleted?
         // (not sure why we would get WT_DELETED AND INDEX_NEW in this situation, but that's what I got experimentally. WD-rpw, 02-23-2012        
-        if ( (gitStatus == (GTFileStatusWorkingTreeDeleted) || (gitStatus == (GTFileStatusWorkingTreeDeleted | GTFileStatusIndexNew))))
-            clean = NO;
+        if((fileStatus == (GTRepositoryFileStatusWorkingTreeDeleted) || (fileStatus == (GTRepositoryFileStatusWorkingTreeDeleted | GTRepositoryFileStatusIndexNew)))) {
+			clean = NO;
+			*stop = YES;
+		}
         
         // any untracked files?
-        if (gitStatus == GTFileStatusWorkingTreeNew)
+        if(fileStatus == GTRepositoryFileStatusWorkingTreeNew) {
             clean = NO;
+			*stop = YES;
+		}
         
         // next, have items been modified?
-        if ((gitStatus == GTFileStatusIndexMod) || (gitStatus == GTFileStatusWorkingTreeMod))
+        if((fileStatus == GTRepositoryFileStatusIndexModified) || (fileStatus == GTRepositoryFileStatusWorkingTreeModified)) {
             clean = NO;
-        
-        return YES; // keep iteration going
-    }];
+			*stop = YES;
+		}
+	}];
  
     return clean;
 }

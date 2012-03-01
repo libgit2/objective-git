@@ -42,21 +42,20 @@
 
 // Options returned from the enumerateFileStatusUsingBlock: function
 enum {
-	GTFileStatusIndexNew     = GIT_STATUS_INDEX_NEW,
-	GTFileStatusIndexMod     = GIT_STATUS_INDEX_MODIFIED,
-	GTFileStatusIndexDeleted = GIT_STATUS_INDEX_DELETED,
+	GTRepositoryFileStatusIndexNew = GIT_STATUS_INDEX_NEW,
+	GTRepositoryFileStatusIndexModified = GIT_STATUS_INDEX_MODIFIED,
+	GTRepositoryFileStatusIndexDeleted = GIT_STATUS_INDEX_DELETED,
 
-	GTFileStatusWorkingTreeNew = GIT_STATUS_WT_NEW,
-	GTFileStatusWorkingTreeMod = GIT_STATUS_WT_MODIFIED,
-	GTFileStatusWorkingTreeDeleted = GIT_STATUS_WT_DELETED,
+	GTRepositoryFileStatusWorkingTreeNew = GIT_STATUS_WT_NEW,
+	GTRepositoryFileStatusWorkingTreeModified = GIT_STATUS_WT_MODIFIED,
+	GTRepositoryFileStatusWorkingTreeDeleted = GIT_STATUS_WT_DELETED,
 
-	GTFileStatusIgnored = GIT_STATUS_IGNORED
-
+	GTRepositoryFileStatusIgnored = GIT_STATUS_IGNORED
 };
 
+typedef unsigned int GTRepositoryFileStatus;
 
-typedef BOOL (^GitStatusCallback)(NSURL*, unsigned int);
-
+typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus status, BOOL *stop);
 
 
 @interface GTRepository : NSObject <GTObject> {}
@@ -115,15 +114,13 @@ typedef BOOL (^GitStatusCallback)(NSURL*, unsigned int);
 
 - (NSArray *)selectCommitsBeginningAtSha:(NSString *)sha error:(NSError **)error block:(BOOL (^)(GTCommit *commit, BOOL *stop))block;
 
-// For each file in the repository calls your block with the URL of the file and the status of that file in the repository
-// If your callback block wants to abort the status enumeration, return NO from the block
+// For each file in the repository calls your block with the URL of the file and the status of that file in the repository,
 //
-// Your callback recieves two parameters: an NSURL* pointing to the file in question, and a integer containing the status
-// codes for the file. This is an ORed value of status codes from the libgit2 API. See status.h for possible values.
-- (BOOL) enumerateFileStatusUsingBlock: (GitStatusCallback) block;
+// block - the block that gets called for each file
+- (void)enumerateFileStatusUsingBlock:(GTRepositoryStatusBlock)block;
 
 // Return YES if the working directory is clean (no modified, new, or deleted files in index)
-- (BOOL) isWorkingDirectoryClean;
+- (BOOL)isWorkingDirectoryClean;
 
 - (BOOL)setupIndexWithError:(NSError **)error;
 
