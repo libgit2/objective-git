@@ -1040,7 +1040,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "\"$(SRCROOT)/Frameworks\"";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/libgit2/build\"",
 					"\"$(SRCROOT)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1074,7 +1073,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "\"$(SRCROOT)/Frameworks\"";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/libgit2/build\"",
 					"\"$(SRCROOT)\"",
 				);
 				OTHER_LDFLAGS = (
