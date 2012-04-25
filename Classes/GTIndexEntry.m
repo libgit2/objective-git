@@ -61,6 +61,9 @@
 @synthesize repository;
 
 + (id)indexEntryWithEntry:(git_index_entry *)theEntry {
+	if (theEntry == NULL)
+		return nil;
+
 	return [[self alloc] initWithEntry:theEntry];
 }
 
