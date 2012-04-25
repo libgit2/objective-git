@@ -76,8 +76,11 @@
 
 - (id)initWithEntry:(git_index_entry *)theEntry {
 	if((self = [self init])) {
-        git_index_entry *thisEntry = self.git_index_entry;
-        memcpy(thisEntry, theEntry, sizeof(git_index_entry));
+		if (theEntry)
+		{
+			git_index_entry *thisEntry = self.git_index_entry;
+			memcpy(thisEntry, theEntry, sizeof(git_index_entry));
+		}
 	}
 	return self;
 }
