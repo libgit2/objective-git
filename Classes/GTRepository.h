@@ -172,4 +172,12 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 //
 // Returns a path to the git working directory
 - (NSURL*) repositoryURL;
+
+// Pack all references in the repository.
+//
+// error(out) - will be filled if an error occurs
+//
+// returns YES if the pack was successful
+- (BOOL)packAllWithError:(NSError **)error;
+
 @end

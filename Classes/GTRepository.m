@@ -546,6 +546,16 @@ int file_status_callback(const char* relativeFilePath, unsigned int gitStatus, v
 	return (BOOL) git_repository_head_detached(self.git_repository);
 }
 
+- (BOOL)packAllWithError:(NSError **)error {
+	int gitError = git_reference_packall(self.git_repository);
+	if(gitError < GIT_SUCCESS) {
+		if(error != NULL)
+			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to pack all references in repo."];
+		return NO;
+	}
+	return YES;
+}
+
 - (NSMutableSet *)weakEnumerators {
 	if(weakEnumerators == nil) {
 		self.weakEnumerators = [NSMutableSet set];

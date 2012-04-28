@@ -26,6 +26,10 @@
 #import "GTObject.h"
 
 typedef enum {
+	GTReferenceErrorCodeInvalidReference = -4,
+} GTReferenceErrorCode;
+
+typedef enum {
 	GTReferenceTypesOid = GIT_REF_OID,				/** A reference which points at an object id */
 	GTReferenceTypesSymoblic = GIT_REF_SYMBOLIC,	/** A reference which points at another reference */
 	GTReferenceTypesPacked = GIT_REF_PACKED,
@@ -58,13 +62,6 @@ typedef enum {
 - (BOOL)setTarget:(NSString *)newTarget error:(NSError **)error;
 - (NSString *)name;
 - (BOOL)setName:(NSString *)newName error:(NSError **)error;
-
-// Pack this reference
-//
-// error(out) - will be filled if an error occurs
-//
-// returns YES if the pack was successful
-- (BOOL)packAllWithError:(NSError **)error;
 
 // Delete this reference
 //
