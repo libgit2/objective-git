@@ -516,10 +516,10 @@ int file_status_callback(const char* relativeFilePath, unsigned int gitStatus, v
 	return self;
 }
 
-- (NSURL*) repositoryURL {
-	const char* cPath = git_repository_path(self.git_repository);
+- (NSURL *)repositoryURL {
+	const char *cPath = git_repository_path(self.git_repository);
 
-	return [[NSURL fileURLWithPath: [NSString stringWithCString: cPath encoding: [NSString defaultCStringEncoding]] isDirectory: YES] URLByDeletingLastPathComponent];
+	return [[NSURL fileURLWithPath: [NSString stringWithCString:cPath encoding:[NSString defaultCStringEncoding]] isDirectory:YES] URLByDeletingLastPathComponent];
 }
 
 - (GTObjectDatabase *)objectDatabase {
