@@ -103,7 +103,7 @@
 
 - (BOOL)setSha:(NSString *)theSha error:(NSError **)error {
 	int gitError = git_oid_fromstr(&git_index_entry->oid, [theSha UTF8String]);
-	if(gitError < GIT_SUCCESS) {
+	if(gitError < GIT_OK) {
 		if(error != NULL)
 			*error = [NSError git_errorForMkStr:gitError];
 		return NO;

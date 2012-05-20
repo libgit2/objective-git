@@ -82,7 +82,7 @@
 									   theTree.git_tree, 
 									   (int)count, 
 									   parentCommits);
-	if(gitError < GIT_SUCCESS) {
+	if(gitError < GIT_OK) {
 		if(parentCommits != NULL) free(parentCommits);
 		if(error != NULL)
 			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to create commit in repository"];
@@ -143,7 +143,7 @@
 	git_tree *t;
 	
 	int gitError = git_commit_tree(&t, self.git_commit);
-	if(gitError < GIT_SUCCESS) {
+	if(gitError < GIT_OK) {
 		// todo: might want to return this error (and change method signature)
 		GTLog("Failed to get tree with error code: %d", gitError);
 		return nil;
@@ -157,7 +157,7 @@
 		
 		// todo: do we care if a call to git_commit_parent fails?
 		git_commit *parent;
-		for(unsigned int i = 0; git_commit_parent(&parent, self.git_commit, i) == GIT_SUCCESS; i++) {
+		for(unsigned int i = 0; git_commit_parent(&parent, self.git_commit, i) == GIT_OK; i++) {
             [rents addObject:(GTCommit *)[GTObject objectWithObj:(git_object *)parent inRepository:self.repository]];
 		}
 		

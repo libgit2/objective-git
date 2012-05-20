@@ -63,7 +63,7 @@
 		self.repository = theRepo;
 		git_revwalk *w;
 		int gitError = git_revwalk_new(&w, self.repository.git_repository);
-		if(gitError < GIT_SUCCESS) {
+		if(gitError < GIT_OK) {
 			if (error != NULL)
 				*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to initialize rev walker."];
 			return nil;
@@ -95,7 +95,7 @@
 	[self reset];
 	
 	int gitError = git_revwalk_push(self.walk, &oid);
-	if(gitError < GIT_SUCCESS) {
+	if(gitError < GIT_OK) {
 		if (error != NULL)
 			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to push sha onto rev walker."];
 		return NO;
@@ -110,7 +110,7 @@
 	if(!success) return NO;
 	
 	int gitError = git_revwalk_hide(self.walk, &oid);
-	if(gitError < GIT_SUCCESS) {
+	if(gitError < GIT_OK) {
 		if (error != NULL)
 			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to hide sha on rev walker."];
 		return NO;
@@ -134,7 +134,7 @@
 - (id)nextObjectWithError:(NSError **)error {
 	git_oid oid;
 	int gitError = git_revwalk_next(&oid, self.walk);
-	if(gitError == GIT_EREVWALKOVER)
+	if(gitError == GIT_REVWALKOVER)
 		return nil;
 	
 	// ignore error if we can't lookup object and just return nil
@@ -162,7 +162,7 @@
 	
 	git_oid oid;
 	NSUInteger count = 0;
-	while(git_revwalk_next(&oid, self.walk) == GIT_SUCCESS) {
+	while(git_revwalk_next(&oid, self.walk) == GIT_OK) {
 		count++;
 	}
 	return count;

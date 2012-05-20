@@ -62,7 +62,7 @@
 	if((self = [super init])) {
 		self.repository = theRepo;
 		int gitError = git_reference_lookup(&git_reference, self.repository.git_repository, [refName UTF8String]);
-		if(gitError < GIT_SUCCESS) {
+		if(gitError < GIT_OK) {
 			if(error != NULL)
 				*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to lookup reference."];
 			return nil;
@@ -77,7 +77,7 @@
 		int gitError;
 		
 		self.repository = theRepo;
-		if (git_oid_fromstr(&oid, [theTarget UTF8String]) == GIT_SUCCESS) {
+		if (git_oid_fromstr(&oid, [theTarget UTF8String]) == GIT_OK) {
 			gitError = git_reference_create_oid(&git_reference, 
 												self.repository.git_repository, 
 												[refName UTF8String], 
@@ -92,7 +92,7 @@
 													 0);
 		}
 		
-		if(gitError < GIT_SUCCESS) {
+		if(gitError < GIT_OK) {
 			if(error != NULL)
 				*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to create symbolic reference."];
 			return nil;
@@ -104,7 +104,7 @@
 - (id)initByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error {
 	if((self = [super init])) {
 		int gitError = git_reference_resolve(&git_reference, symbolicRef.git_reference);
-		if(gitError < GIT_SUCCESS) {
+		if(gitError < GIT_OK) {
 			if(error != NULL)
 				*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to resolve reference."];
 			return nil;
@@ -132,7 +132,7 @@
 	}
 	
 	int gitError = git_reference_rename(self.git_reference, [newName UTF8String], 0);
-	if(gitError < GIT_SUCCESS) {
+	if(gitError < GIT_OK) {
 		if(error != NULL)
 			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to rename reference."];
 		return NO;
@@ -170,7 +170,7 @@
 	if(git_reference_type(self.git_reference) == GIT_REF_OID) {
 		git_oid oid;
 		gitError = git_oid_fromstr(&oid, [newTarget UTF8String]);
-		if(gitError < GIT_SUCCESS) {
+		if(gitError < GIT_OK) {
 			if(error != NULL)
 				*error = [NSError git_errorForMkStr:gitError];
 			return NO;
@@ -181,7 +181,7 @@
 		gitError = git_reference_set_target(self.git_reference, [newTarget UTF8String]);
 	}
 
-	if(gitError < GIT_SUCCESS) {
+	if(gitError < GIT_OK) {
 		if(error != NULL)
 			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to set reference target."];
 		return NO;
@@ -199,7 +199,7 @@
 	}
 	
 	int gitError = git_reference_delete(self.git_reference);
-	if(gitError < GIT_SUCCESS) {
+	if(gitError < GIT_OK) {
 		if(error != NULL)
 			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to delete reference."];
 		return NO;
@@ -228,7 +228,7 @@
 	}
 	
 	int errorCode = git_reference_reload(self.git_reference);
-	if(errorCode < GIT_SUCCESS) {
+	if(errorCode < GIT_OK) {
 		if(error != NULL) {
 			*error = [NSError git_errorFor:errorCode withAdditionalDescription:@"Failed to reload reference."];
 		}
