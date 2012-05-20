@@ -51,6 +51,7 @@
 - (void)dealloc {
 	self.repository = nil;
 	git_object_free(self.git_object);
+    [super dealloc];
 }
 
 - (NSUInteger)hash {
