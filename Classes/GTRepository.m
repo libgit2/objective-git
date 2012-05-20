@@ -103,13 +103,13 @@
 
     git_repository *r;
     int gitError = git_repository_init(&r, path, 0);
-    if (gitError < GIT_SUCCESS) {
+    if (gitError < GIT_OK) {
         if (error != NULL) {
             *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to initialize repository."];
         }
     }
 
-    return (gitError == GIT_SUCCESS);
+    return (gitError == GIT_OK);
 }
 
 + (id)repositoryWithURL:(NSURL *)localFileURL error:(NSError **)error {
@@ -134,7 +134,7 @@
         git_repository *r;
         int gitError = git_repository_open(&r, [[localFileURL path] UTF8String]);
 
-        if (gitError < GIT_SUCCESS) {
+        if (gitError < GIT_OK) {
             if (error != NULL) {
                 *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to open repository."];
             }
@@ -151,7 +151,7 @@
 	git_oid oid;
 
 	int gitError = git_odb_hash(&oid, [data UTF8String], [data length], (git_otype) type);
-	if(gitError < GIT_SUCCESS) {
+	if(gitError < GIT_OK) {
 		if (error != NULL)
 			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to get hash for object."];
 		return nil;
@@ -188,7 +188,7 @@
 	git_object *obj;
 	
 	int gitError = git_object_lookup(&obj, self.git_repository, oid, (git_otype) type);
-	if(gitError < GIT_SUCCESS) {
+	if(gitError < GIT_OK) {
 		if(error != NULL)
 			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to lookup object in repository."];
 		return nil;
@@ -205,7 +205,7 @@
 	git_oid oid;
 
 	int gitError = git_oid_fromstr(&oid, [sha UTF8String]);
-	if(gitError < GIT_SUCCESS) {
+	if(gitError < GIT_OK) {
 		if(error != NULL)
 			*error = [NSError git_errorForMkStr:gitError];
 		return nil;
@@ -276,7 +276,7 @@ int file_status_callback(const char* relativeFilePath, unsigned int gitStatus, v
 	BOOL stop = NO;
     payload->block(fileURL, gitStatus, &stop);
 
-    return (stop ? GIT_ERROR : GIT_SUCCESS);
+    return (stop ? GIT_ERROR : GIT_OK);
 }
 
 - (void)enumerateFileStatusUsingBlock:(GTRepositoryStatusBlock)block {
@@ -323,7 +323,7 @@ int file_status_callback(const char* relativeFilePath, unsigned int gitStatus, v
 - (BOOL)setupIndexWithError:(NSError **)error {
 	git_index *i;
 	int gitError = git_repository_index(&i, self.git_repository);
-	if(gitError < GIT_SUCCESS) {
+	if(gitError < GIT_OK) {
 		if(error != NULL)
 			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to get index for repository."];
 		return NO;
@@ -491,9 +491,8 @@ int file_status_callback(const char* relativeFilePath, unsigned int gitStatus, v
 
 - (NSArray *)referenceNamesWithTypes:(GTReferenceTypes)types error:(NSError **)error {
 	git_strarray array;
-
-	int gitError = git_reference_listall(&array, self.git_repository, types);
-	if(gitError < GIT_SUCCESS) {
+	int gitError = git_reference_list(&array, self.git_repository, types);
+	if(gitError < GIT_OK) {
 		if(error != NULL)
 			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to list all references."];
 		return nil;
@@ -549,7 +548,7 @@ int file_status_callback(const char* relativeFilePath, unsigned int gitStatus, v
 
 - (BOOL)packAllWithError:(NSError **)error {
 	int gitError = git_reference_packall(self.git_repository);
-	if(gitError < GIT_SUCCESS) {
+	if(gitError < GIT_OK) {
 		if(error != NULL)
 			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to pack all references in repo."];
 		return NO;
@@ -569,7 +568,7 @@ int file_status_callback(const char* relativeFilePath, unsigned int gitStatus, v
 	if(configuration == nil) {
 		git_config *config = NULL;
 		int error = git_repository_config(&config, self.git_repository);
-		if(error < GIT_SUCCESS) {
+		if(error < GIT_OK) {
 			
 		}
 		

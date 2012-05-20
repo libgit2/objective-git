@@ -36,7 +36,7 @@
 
 - (NSString *)stringForKey:(NSString *)key {
 	const char *string = NULL;
-	git_config_get_string(self.git_config, [key UTF8String], &string);
+	git_config_get_string(&string, self.git_config, [key UTF8String]);
 	if(string == NULL) return nil;
 
 	return [NSString stringWithUTF8String:string];
@@ -48,7 +48,7 @@
 
 - (BOOL)boolForKey:(NSString *)key {
 	int b = 0;
-	git_config_get_bool(self.git_config, [key UTF8String], &b);
+	git_config_get_bool(&b, self.git_config, [key UTF8String]);
 	return (BOOL) b;
 }
 
@@ -58,7 +58,7 @@
 
 - (int32_t)int32ForKey:(NSString *)key {
 	int32_t i = 0;
-	git_config_get_int32(self.git_config, [key UTF8String], &i);
+	git_config_get_int32(&i, self.git_config, [key UTF8String]);
 
 	return i;
 }
@@ -69,7 +69,7 @@
 
 - (int64_t)int64ForKey:(NSString *)key {
 	int64_t i = 0;
-	git_config_get_int64(self.git_config, [key UTF8String], &i);
+	git_config_get_int64(&i, self.git_config, [key UTF8String]);
 
 	return i;
 }

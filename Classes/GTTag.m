@@ -58,7 +58,7 @@
 + (NSString *)shaByCreatingTagInRepository:(GTRepository *)theRepo name:(NSString *)tagName target:(GTObject *)theTarget tagger:(GTSignature *)theTagger message:(NSString *)theMessage error:(NSError **)error {
 	git_oid oid;
 	int gitError = git_tag_create(&oid, theRepo.git_repository, [tagName UTF8String], theTarget.git_object, theTagger.git_signature, [theMessage UTF8String], 0);
-	if(gitError < GIT_SUCCESS) {
+	if(gitError < GIT_OK) {
 		if(error != NULL)
 			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to create tag in repository"];
 		return nil;
@@ -79,7 +79,7 @@
 	git_object *t;
 	// todo: might want to actually return an error here
 	int gitError = git_tag_target(&t, self.git_tag);
-	if(gitError < GIT_SUCCESS) return nil;
+	if(gitError < GIT_OK) return nil;
     return [GTObject objectWithObj:(git_object *)t inRepository:self.repository];
 }
 
