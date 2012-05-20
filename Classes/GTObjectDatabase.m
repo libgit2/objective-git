@@ -43,6 +43,7 @@
 - (void)dealloc {
 	git_odb_free(self.git_odb);
     self.repository = nil;
+    [super dealloc];
 }
 
 

@@ -65,6 +65,7 @@
 	}
 
 	if(self.git_repository != NULL) git_repository_free(self.git_repository);
+    [super dealloc];
 }
 
 

@@ -48,6 +48,7 @@
 
 - (void)dealloc {
 	self.git_tree_entry = nil;
+    [super dealloc];
 }
 
 

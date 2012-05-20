@@ -40,6 +40,7 @@
 
 - (void)dealloc {
 	free(self.git_index_entry);
+    [super dealloc];
 }
 
 

@@ -14,9 +14,9 @@
 
 #import <Availability.h>
 
-#define dct_arc_MIN_IOS_SDK                40300
-#define dct_arc_MIN_IOS_TARGET            40300
-#define dct_arc_MIN_IOS_WEAK_TARGET        50000
+#define dct_arc_MIN_IOS_SDK          __IPHONE_4_3
+#define dct_arc_MIN_IOS_TARGET       __IPHONE_4_3
+#define dct_arc_MIN_IOS_WEAK_TARGET  __IPHONE_5_0
 
 #define dct_arc_MIN_OS_X_SDK            1060
 #define dct_arc_MIN_OS_X_TARGET            1060
@@ -35,6 +35,8 @@
 #        define dct_weak unsafe_unretained
 #        define __dct_weak __unsafe_unretained
 #        define dct_nil(x)    x = nil
+#    else
+#        define dct_weak unsafe_unretained
 #    endif
 
 // OS X equivalent

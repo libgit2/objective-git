@@ -49,6 +49,7 @@
 
 - (void)dealloc {
 	[self cleanup];
+    [super dealloc];
 }
 
 
