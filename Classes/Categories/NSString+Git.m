@@ -65,7 +65,7 @@
     if ([self git_isHexString] == NO) {
         if (error != NULL) {
             *error = [NSError errorWithDomain:GTGitErrorDomain 
-                                         code:GIT_EINVALIDARGS 
+                                         code:GITERR_INVALID
                                      userInfo:
                       [NSDictionary dictionaryWithObject:@"unabled to create oid from non-sha string" 
                                                   forKey:NSLocalizedDescriptionKey]];
@@ -74,7 +74,7 @@
     }
     
 	int gitError = git_oid_fromstr(oid, [self UTF8String]);
-	if(gitError < GIT_SUCCESS) {
+	if(gitError < GIT_OK) {
 		if(error != NULL) {
 			*error = [NSError git_errorForMkStr:gitError];
         }
