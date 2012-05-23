@@ -30,7 +30,7 @@
 #import "NSString+Git.h"
 
 @interface GTObjectDatabase ()
-@property (nonatomic, dct_weak) GTRepository *repository;
+@property (nonatomic, unsafe_unretained) GTRepository *repository;
 @end
 
 

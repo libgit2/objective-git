@@ -27,11 +27,12 @@
 #import "GTReference.h"
 #import "GTEnumerator.h"
 #import "GTRepository.h"
+#import "GTCommit.h"
 
 
 @interface GTBranch ()
 @property (nonatomic, strong) GTReference *reference;
-@property (nonatomic, dct_weak) GTRepository *repository;
+@property (nonatomic, unsafe_unretained) GTRepository *repository;
 @end
 
 @implementation GTBranch
@@ -164,6 +165,33 @@
 	}
 	
 	return nil;
+}
+
+- (NSArray *)uniqueCommitsRelativeToBranch:(GTBranch *)otherBranch error:(NSError **)error {
+	if(otherBranch == nil) return [NSArray array];
+	
+	GTEnumerator *enumerator = [GTEnumerator enumeratorWithRepository:self.repository error:error];
+	if(enumerator == nil) return nil;
+	
+	[enumerator setOptions:GTEnumeratorOptionsTopologicalSort];
+	
+	BOOL success = [enumerator push:self.sha error:error];
+	if(!success) return nil;
+	
+	NSString *otherBranchTip = otherBranch.sha;
+	NSMutableArray *commits = [NSMutableArray array];
+	GTCommit *currentCommit = [enumerator nextObjectWithError:error];
+	while(currentCommit != nil) {
+		if([currentCommit.sha isEqualToString:otherBranchTip]) {
+			break;
+		}
+		
+		[commits addObject:currentCommit];
+		
+		currentCommit = [enumerator nextObjectWithError:error];
+	}
+	
+	return commits;
 }
 
 @end

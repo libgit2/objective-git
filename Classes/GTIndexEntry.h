@@ -54,7 +54,7 @@ typedef enum {
 @property (nonatomic, getter=isStaged, readonly) NSUInteger staged;
 @property (nonatomic, getter=isValid, readonly) BOOL valid;
 @property (nonatomic, readonly) GTIndexEntryStatus status;
-@property (nonatomic, dct_weak) GTRepository *repository;
+@property (nonatomic, unsafe_unretained) GTRepository *repository;
 
 // Convenience initializers
 - (id)initWithEntry:(git_index_entry *)theEntry;

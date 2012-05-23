@@ -41,7 +41,7 @@ typedef enum {
 @property (nonatomic, readonly) NSString *sha;
 @property (nonatomic, readonly) NSString *remoteName;
 @property (nonatomic, readonly) GTBranchType branchType;
-@property (nonatomic, readonly, dct_weak) GTRepository *repository;
+@property (nonatomic, readonly, unsafe_unretained) GTRepository *repository;
 @property (nonatomic, readonly, strong) GTReference *reference;
 @property (nonatomic, copy) NSArray *remoteBranches;
 
@@ -73,5 +73,7 @@ typedef enum {
 //
 // returns the matched remote branch or nil if no match was found.
 - (GTBranch *)remoteBranchForRemoteName:(NSString *)remote;
+
+- (NSArray *)uniqueCommitsRelativeToBranch:(GTBranch *)otherBranch error:(NSError **)error;
 
 @end

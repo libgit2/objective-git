@@ -305,7 +305,7 @@ char *git_NewBase64Encode(
     if ([self length] != sizeof(git_oid)) {
         if (error != NULL) {
             *error = [NSError errorWithDomain:GTGitErrorDomain 
-                                         code:GIT_EINVALIDARGS 
+                                         code:GITERR_INVALID 
                                      userInfo:
                       [NSDictionary dictionaryWithObject:@"can't extract oid from data of incorrect length" 
                                                   forKey:NSLocalizedDescriptionKey]];

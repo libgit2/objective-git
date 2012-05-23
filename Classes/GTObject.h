@@ -28,7 +28,6 @@
 //
 
 #include "git2.h"
-#import "dct_weak.h"
 
 typedef enum {
 	GTObjectTypeAny = GIT_OBJ_ANY,				/**< Object can be any of the following */
@@ -59,7 +58,7 @@ typedef enum {
 @property (nonatomic, readonly) NSString *type;
 @property (nonatomic, readonly) NSString *sha;
 @property (nonatomic, readonly) NSString *shortSha;
-@property (nonatomic, dct_weak) GTRepository *repository;
+@property (nonatomic, unsafe_unretained) GTRepository *repository;
 
 // Convenience initializers
 - (id)initWithObj:(git_object *)theObject inRepository:(GTRepository *)theRepo;

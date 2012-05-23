@@ -452,41 +452,12 @@ int file_status_callback(const char* relativeFilePath, unsigned int gitStatus, v
 }
 
 - (NSArray *)localCommitsRelativeToRemoteBranch:(GTBranch *)remoteBranch error:(NSError **)error {
-	if(remoteBranch == nil) {
-		return [NSArray array];
-	}
-
 	GTBranch *localBranch = [self currentBranchWithError:error];
 	if(localBranch == nil) {
 		return nil;
 	}
-
-	GTEnumerator *localBranchEnumerator = [GTEnumerator enumeratorWithRepository:self error:error];
-	if(localBranchEnumerator == nil) {
-		return nil;
-	}
-
-	[localBranchEnumerator setOptions:GTEnumeratorOptionsTopologicalSort];
-
-	BOOL success = [localBranchEnumerator push:localBranch.sha error:error];
-	if(!success) {
-		return nil;
-	}
-
-	NSString *remoteBranchTip = remoteBranch.sha;
-	NSMutableArray *commits = [NSMutableArray array];
-	GTCommit *currentCommit = [localBranchEnumerator nextObjectWithError:error];
-	while(currentCommit != nil) {
-		if([currentCommit.sha isEqualToString:remoteBranchTip]) {
-			break;
-		}
-
-		[commits addObject:currentCommit];
-
-		currentCommit = [localBranchEnumerator nextObjectWithError:error];
-	}
-
-	return commits;
+	
+	return [localBranch uniqueCommitsRelativeToBranch:remoteBranch error:error];
 }
 
 - (NSArray *)referenceNamesWithTypes:(GTReferenceTypes)types error:(NSError **)error {
