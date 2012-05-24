@@ -48,6 +48,8 @@ typedef enum {
 + (NSString *)localNamePrefix;
 + (NSString *)remoteNamePrefix;
 
++ (GTCommit *)mergeBaseOf:(GTBranch *)branch1 andBranch:(GTBranch *)branch2 error:(NSError **)error;
+
 // Convenience initializers
 - (id)initWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error;
 + (id)branchWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error;

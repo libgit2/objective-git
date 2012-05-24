@@ -28,6 +28,7 @@
 #import "GTEnumerator.h"
 #import "GTRepository.h"
 #import "GTCommit.h"
+#import "NSError+Git.h"
 
 
 @interface GTBranch ()
@@ -167,31 +168,53 @@
 	return nil;
 }
 
++ (GTCommit *)mergeBaseOf:(GTBranch *)branch1 andBranch:(GTBranch *)branch2 error:(NSError **)error {
+	NSAssert2([branch1.repository isEqual:branch2.repository], @"Both branches must be in the same repository: %@ vs. %@", branch1.repository, branch2.repository);
+	
+	git_oid mergeBase;
+	int errorCode = git_merge_base(&mergeBase, branch1.repository.git_repository, (git_oid *) branch1.reference.oid, (git_oid *) branch2.reference.oid);
+	if(errorCode < GIT_OK) {
+		if(error != NULL) {
+			*error = [NSError git_errorFor:errorCode withAdditionalDescription:NSLocalizedString(@"", @"")];
+		}
+		
+		return nil;
+	}
+	
+	return (GTCommit *) [branch1.repository lookupObjectByOid:&mergeBase objectType:GTObjectTypeCommit error:error];
+}
+
 - (NSArray *)uniqueCommitsRelativeToBranch:(GTBranch *)otherBranch error:(NSError **)error {
 	if(otherBranch == nil) return [NSArray array];
 	
-	GTEnumerator *enumerator = [GTEnumerator enumeratorWithRepository:self.repository error:error];
+	GTCommit *mergeBase = [[self class] mergeBaseOf:self andBranch:otherBranch error:error];
+	if(mergeBase == nil) return nil;
+	
+	GTEnumerator *enumerator = self.repository.enumerator;
 	if(enumerator == nil) return nil;
 	
-	[enumerator setOptions:GTEnumeratorOptionsTopologicalSort];
-	
-	BOOL success = [enumerator push:self.sha error:error];
-	if(!success) return nil;
-	
-	NSString *otherBranchTip = otherBranch.sha;
-	NSMutableArray *commits = [NSMutableArray array];
-	GTCommit *currentCommit = [enumerator nextObjectWithError:error];
-	while(currentCommit != nil) {
-		if([currentCommit.sha isEqualToString:otherBranchTip]) {
-			break;
+	NSArray * (^allCommitsFromSha)(NSString *, NSError **) = ^NSArray *(NSString *sha, NSError **localError) {
+		[enumerator reset];
+		[enumerator setOptions:GTEnumeratorOptionsTopologicalSort];
+		
+		BOOL success = [enumerator push:sha error:localError];
+		if(!success) return nil;
+		
+		NSMutableArray *commits = [NSMutableArray array];
+		GTCommit *currentCommit = [enumerator nextObjectWithError:localError];
+		while(currentCommit != nil && ![currentCommit.sha isEqualToString:mergeBase.sha]) {
+			[commits addObject:currentCommit];
+			currentCommit = [enumerator nextObjectWithError:localError];
 		}
 		
-		[commits addObject:currentCommit];
-		
-		currentCommit = [enumerator nextObjectWithError:error];
-	}
+		return commits;
+	};
 	
-	return commits;
+	NSArray *localCommits = allCommitsFromSha(self.sha, error);
+	NSArray *otherCommits = allCommitsFromSha(otherBranch.sha, error);
+	NSMutableArray *uniqueCommits = [localCommits mutableCopy];
+	[uniqueCommits removeObjectsInArray:otherCommits];
+	return uniqueCommits;
 }
 
 @end
