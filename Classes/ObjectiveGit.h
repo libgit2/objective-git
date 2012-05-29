@@ -25,8 +25,6 @@
 
 #import <git2.h>
 
-#import <ObjectiveGit/dct_weak.h>
-
 #import <ObjectiveGit/GTRepository.h>
 #import <ObjectiveGit/GTEnumerator.h>
 #import <ObjectiveGit/GTCommit.h>
