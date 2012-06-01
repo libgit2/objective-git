@@ -14,7 +14,7 @@ fi
 mkdir build
 cd build
 
-cmake -DBUILD_SHARED_LIBS:BOOL=OFF -DBUILD_TESTS:BOOL=OFF ..
+cmake -DBUILD_SHARED_LIBS:BOOL=OFF -DBUILD_TESTS:BOOL=OFF -DTHREADSAFE:BOOL=ON ..
 cmake --build .
 
 product="libgit2.a"
