@@ -44,3 +44,11 @@
 #import <ObjectiveGit/NSError+Git.h>
 #import <ObjectiveGit/NSData+Git.h>
 #import <ObjectiveGit/NSString+Git.h>
+
+// If you use ObjectiveGit in multiple threads, you must call this before doing
+// and ObjectiveGit work.
+extern void GTSetupThreads(void);
+
+// If you called GTSetupThreads, you must call this after all your ObjectiveGit 
+// work is done before your app quits.
+extern void GTShutdownThreads(void);
