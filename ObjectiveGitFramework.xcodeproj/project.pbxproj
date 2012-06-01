@@ -133,6 +133,8 @@
 		BDFAF9C9131C1868000508BC /* GTIndexEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = BDFAF9C7131C1868000508BC /* GTIndexEntry.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BDFAF9CA131C1868000508BC /* GTIndexEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = BDFAF9C8131C1868000508BC /* GTIndexEntry.m */; };
 		BDFAF9CE131C18FE000508BC /* GTIndexTest.m in Sources */ = {isa = PBXBuildFile; fileRef = BDFAF9CD131C18FE000508BC /* GTIndexTest.m */; };
+		E9FFC6BF1577CC8300A9E736 /* GTConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 88EB7E4C14AEBA600046FEA4 /* GTConfiguration.m */; };
+		E9FFC6C01577CC8A00A9E736 /* GTConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 88EB7E4B14AEBA600046FEA4 /* GTConfiguration.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -521,6 +523,7 @@
 				04DB465D133AB5E200D9C624 /* GTSignature.h in Headers */,
 				04DB465E133AB5E200D9C624 /* GTBranch.h in Headers */,
 				AA046113134F4D2000DF526B /* GTOdbObject.h in Headers */,
+				E9FFC6C01577CC8A00A9E736 /* GTConfiguration.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -744,6 +747,7 @@
 				55C8054F13861FE7004DCB0F /* GTObjectDatabase.m in Sources */,
 				55C8057C13875579004DCB0F /* NSString+Git.m in Sources */,
 				8871709B1579145A009B41D5 /* ObjectiveGit.m in Sources */,
+				E9FFC6BF1577CC8300A9E736 /* GTConfiguration.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -848,22 +852,22 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Frameworks\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_GC = unsupported;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREFIX_HEADER = ObjectiveGitFramework_Prefix.pch;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/libgit2/include";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/libgit2/lib\"",
+					"\"$(SRCROOT)\"",
 				);
 				PRODUCT_NAME = "ObjectiveGit-iOS";
 				SDKROOT = iphoneos;
+				VALID_ARCHS = "i386 armv7";
 			};
 			name = Debug;
 		};
@@ -872,21 +876,21 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Frameworks\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				GCC_ENABLE_OBJC_GC = unsupported;
 				GCC_PREFIX_HEADER = ObjectiveGitFramework_Prefix.pch;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/libgit2/include";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/libgit2/lib\"",
+					"\"$(SRCROOT)\"",
 				);
 				PRODUCT_NAME = "ObjectiveGit-iOS";
 				SDKROOT = iphoneos;
+				VALID_ARCHS = "i386 armv7";
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -1092,6 +1096,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1099,13 +1104,14 @@
 					"\"$(SRCROOT)/Frameworks\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_GC = unsupported;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/UIKit.framework/Headers/UIKit.h";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/libgit2/include\"";
 				INFOPLIST_FILE = "Tests-iOS-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/libgit2/lib\"",
@@ -1119,6 +1125,7 @@
 				);
 				PRODUCT_NAME = "Tests-iOS";
 				SDKROOT = iphoneos;
+				VALID_ARCHS = "i386 armv7";
 			};
 			name = Debug;
 		};
@@ -1126,6 +1133,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -1133,12 +1141,13 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Frameworks\"",
 				);
+				GCC_ENABLE_OBJC_GC = unsupported;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/UIKit.framework/Headers/UIKit.h";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/libgit2/include\"";
 				INFOPLIST_FILE = "Tests-iOS-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/libgit2/lib\"",
@@ -1152,6 +1161,7 @@
 				);
 				PRODUCT_NAME = "Tests-iOS";
 				SDKROOT = iphoneos;
+				VALID_ARCHS = "i386 armv7";
 				ZERO_LINK = NO;
 			};
 			name = Release;
