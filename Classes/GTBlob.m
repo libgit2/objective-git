@@ -36,7 +36,7 @@
 @implementation GTBlob
 
 - (NSString *)description {
-  return [NSString stringWithFormat:@"<%@: %p> size: %i, content: %@, data = %@", NSStringFromClass([self class]), self, [self size], [self content], [self data]];
+  return [NSString stringWithFormat:@"<%@: %p> size: %zi, content: %@, data = %@", NSStringFromClass([self class]), self, [self size], [self content], [self data]];
 }
 
 

@@ -35,7 +35,7 @@
 @implementation GTTree
 
 - (NSString *)description {
-	return [NSString stringWithFormat:@"<%@: %p> numberOfEntries: %i", NSStringFromClass([self class]), self, [self numberOfEntries]];
+	return [NSString stringWithFormat:@"<%@: %p> numberOfEntries: %li", NSStringFromClass([self class]), self, [self numberOfEntries]];
 }
 
 

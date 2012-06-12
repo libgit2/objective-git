@@ -17,7 +17,7 @@
 @implementation GTOdbObject
 
 - (NSString *)description {
-  return [NSString stringWithFormat:@"<%@: %p> shaHash: %@, length: %i, data: %@", NSStringFromClass([self class]), self, [self shaHash], [self length], [self data]];
+  return [NSString stringWithFormat:@"<%@: %p> shaHash: %@, length: %zi, data: %@", NSStringFromClass([self class]), self, [self shaHash], [self length], [self data]];
 }
 
 

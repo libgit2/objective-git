@@ -108,7 +108,7 @@
 		return [self.name stringByReplacingOccurrencesOfString:[[self class] localNamePrefix] withString:@""];
 	} else if([self branchType] == GTBranchTypeRemote) {
 		// remote repos also have their remote in their name
-		NSString *remotePath = [[[self class] remoteNamePrefix] stringByAppendingFormat:[NSString stringWithFormat:@"%@/", [self remoteName]]];
+		NSString *remotePath = [[[self class] remoteNamePrefix] stringByAppendingFormat:@"%@/", [self remoteName]];
 		return [self.name stringByReplacingOccurrencesOfString:remotePath withString:@""];
 	} else {
 		return self.name;
