@@ -65,23 +65,26 @@
 
 + (NSString *)shaByCreatingCommitInRepository:(GTRepository *)theRepo updateRefNamed:(NSString *)refName author:(GTSignature *)authorSig committer:(GTSignature *)committerSig message:(NSString *)newMessage tree:(GTTree *)theTree parents:(NSArray *)theParents error:(NSError **)error {
 	NSUInteger count = theParents ? theParents.count : 0;
-	const git_commit **parentCommits = calloc(count, sizeof(git_commit *));
-	for (NSUInteger i = 0; i < count; i++){
-		parentCommits[i] = ((GTCommit *)[theParents objectAtIndex:i]).git_commit;
+	const git_commit **parentCommits = NULL;
+	if(count > 0) {
+		parentCommits = calloc(count, sizeof(git_commit *));
+		for (NSUInteger i = 0; i < count; i++){
+			parentCommits[i] = ((GTCommit *)[theParents objectAtIndex:i]).git_commit;
+		}
 	}
 	
 	git_oid oid;
 	int gitError = git_commit_create(
-									   &oid, 
-									   theRepo.git_repository, 
-									   refName ? [refName UTF8String] : NULL, 
-									   authorSig.git_signature, 
-									   committerSig.git_signature, 
-									   NULL,
-                                       newMessage ? [newMessage UTF8String] : "",
-									   theTree.git_tree, 
-									   (int)count, 
-									   parentCommits);
+									 &oid, 
+									 theRepo.git_repository, 
+									 refName ? [refName UTF8String] : NULL, 
+									 authorSig.git_signature, 
+									 committerSig.git_signature, 
+									 NULL,
+									 newMessage ? [newMessage UTF8String] : "",
+									 theTree.git_tree, 
+									 (int)count, 
+									 parentCommits);
 	if(gitError < GIT_OK) {
 		if(parentCommits != NULL) free(parentCommits);
 		if(error != NULL)
@@ -89,6 +92,7 @@
 		return nil;
 	}
 	if(parentCommits != NULL) free(parentCommits);
+	
 	return [NSString git_stringWithOid:&oid];
 }
 
