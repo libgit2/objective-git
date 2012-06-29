@@ -868,6 +868,7 @@
 					"\"$(SRCROOT)\"",
 				);
 				PRODUCT_NAME = "ObjectiveGit-iOS";
+				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/ObjectiveGit;
 				SDKROOT = iphoneos;
 				VALID_ARCHS = "i386 armv7";
 			};
@@ -891,6 +892,7 @@
 					"\"$(SRCROOT)\"",
 				);
 				PRODUCT_NAME = "ObjectiveGit-iOS";
+				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/ObjectiveGit;
 				SDKROOT = iphoneos;
 				VALID_ARCHS = "i386 armv7";
 				ZERO_LINK = NO;
