@@ -45,9 +45,13 @@ It is simple enough to add the ObjectiveGit framework to a desktop application p
 Inclusion of Objective Git in iOS projects is somewhat cumbersome on account of iOS
 not allowing third-party dynamic frameworks. A work-around for this is as follows:
 
-1. Drag the ObjectiveGit.xcodeproj file into the Project Navigator.
+1. Drag the ObjectiveGitFramework.xcodeproj file into the Project Navigator.
 2. Add ObjectiveGit-iOS as a target dependency of your application.
-3. Link your application to `ObjectiveGit` (not `libgit2-ios` or `ObjectiveGit.framework`)
+3. Link your application to `libObjectiveGit-iOS.a` library
+4. Build Settings - Always Search User Paths - set to YES
+5. Build Settings - User Header Search Paths
+5.1. Add $(BUILT_PRODUCTS_DIR)/usr/local/include
+5.2. Add $(SRCROOT)../Libs/objective-git/libgit2/include
 
 ## Todo
 

@@ -35,7 +35,7 @@
 @implementation GTIndexEntry
 
 - (NSString *)description {
-  return [NSString stringWithFormat:@"<%@: %p> path: %@, modificationDate: %@, creationDate: %@, fileSize: %lld KB, flags: %ld", NSStringFromClass([self class]), self, self.path, self.modificationDate, self.creationDate, self.fileSize, self.flags];
+  return [NSString stringWithFormat:@"<%@: %p> path: %@, modificationDate: %@, creationDate: %@, fileSize: %lld KB, flags: %lu", NSStringFromClass([self class]), self, self.path, self.modificationDate, self.creationDate, self.fileSize, (unsigned long)self.flags];
 }
 
 - (void)dealloc {
