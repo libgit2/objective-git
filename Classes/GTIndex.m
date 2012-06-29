@@ -35,7 +35,7 @@
 @implementation GTIndex
 
 - (NSString *)description {
-  return [NSString stringWithFormat:@"<%@: %p> fileURL: %@, entryCount: %li", NSStringFromClass([self class]), self, self.fileURL, self.entryCount];
+  return [NSString stringWithFormat:@"<%@: %p> fileURL: %@, entryCount: %lu", NSStringFromClass([self class]), self, self.fileURL, (unsigned long)self.entryCount];
 }
 
 

@@ -43,7 +43,7 @@
 @implementation GTTreeEntry
 
 - (NSString *)description {
-	return [NSString stringWithFormat:@"<%@: %p> name: %@, sha: %@ attributes: %li", NSStringFromClass([self class]), self, [self name], [self sha], [self attributes]];
+	return [NSString stringWithFormat:@"<%@: %p> name: %@, sha: %@ attributes: %lu", NSStringFromClass([self class]), self, [self name], [self sha], (unsigned long)[self attributes]];
 }
 
 - (void)dealloc {
