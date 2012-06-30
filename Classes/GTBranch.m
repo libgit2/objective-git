@@ -115,7 +115,7 @@
 	}
 }
 
-- (NSString *)sha {	
+- (NSString *)sha {
 	return self.reference.target;
 }
 
@@ -215,6 +215,15 @@
 	NSMutableArray *uniqueCommits = [localCommits mutableCopy];
 	[uniqueCommits removeObjectsInArray:otherCommits];
 	return uniqueCommits;
+}
+
+- (BOOL)deleteWithError:(NSError **)error {
+	BOOL success = [self.reference deleteWithError:error];
+	if(success) {
+		self.reference = nil;
+	}
+	
+	return success;
 }
 
 @end

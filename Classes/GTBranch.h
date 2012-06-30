@@ -78,4 +78,6 @@ typedef enum {
 
 - (NSArray *)uniqueCommitsRelativeToBranch:(GTBranch *)otherBranch error:(NSError **)error;
 
+- (BOOL)deleteWithError:(NSError **)error;
+
 @end
