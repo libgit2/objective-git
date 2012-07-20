@@ -64,7 +64,7 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 // The file URL for the repository's working directory.
 @property (nonatomic, readonly, strong) NSURL *fileURL;
 // The file URL for the repository's .git directory.
-@property (nonatomic, readonly) NSURL *gitDirectoryURL;
+@property (nonatomic, readonly, strong) NSURL *gitDirectoryURL;
 @property (nonatomic, readonly, strong) GTEnumerator *enumerator; // should only be used on the main thread
 @property (nonatomic, readonly, strong) GTIndex *index;
 @property (nonatomic, readonly, strong) GTObjectDatabase *objectDatabase;
