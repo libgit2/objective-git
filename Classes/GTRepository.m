@@ -271,7 +271,7 @@ int file_status_callback(const char*, unsigned int, void *);
 int file_status_callback(const char* relativeFilePath, unsigned int gitStatus, void* rawPayload) {
     struct gitPayload *payload = (struct gitPayload *)(rawPayload);
 
-    NSURL *fileURL = [[payload->repository repositoryURL] URLByAppendingPathComponent:[NSString stringWithCString:relativeFilePath encoding:[NSString defaultCStringEncoding]]];
+    NSURL *fileURL = [[payload->repository fileURL] URLByAppendingPathComponent:[NSString stringWithCString:relativeFilePath encoding:[NSString defaultCStringEncoding]]];
 
 	BOOL stop = NO;
     payload->block(fileURL, gitStatus, &stop);
@@ -487,10 +487,9 @@ int file_status_callback(const char* relativeFilePath, unsigned int gitStatus, v
 	return self;
 }
 
-- (NSURL *)repositoryURL {
+- (NSURL *)gitDirectoryURL {
 	const char *cPath = git_repository_path(self.git_repository);
-
-	return [[NSURL fileURLWithPath: [NSString stringWithCString:cPath encoding:[NSString defaultCStringEncoding]] isDirectory:YES] URLByDeletingLastPathComponent];
+	return [NSURL fileURLWithPath:[NSString stringWithCString:cPath encoding:[NSString defaultCStringEncoding]] isDirectory:YES];
 }
 
 - (GTObjectDatabase *)objectDatabase {
