@@ -33,7 +33,7 @@
 
 @interface GTBranch ()
 @property (nonatomic, strong) GTReference *reference;
-@property (nonatomic, unsafe_unretained) GTRepository *repository;
+@property (nonatomic, strong) GTRepository *repository;
 @end
 
 @implementation GTBranch
