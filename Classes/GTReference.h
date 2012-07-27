@@ -43,7 +43,7 @@ typedef enum {
 @interface GTReference : NSObject <GTObject> {}
 
 @property (nonatomic, assign) git_reference *git_reference;
-@property (nonatomic, unsafe_unretained) GTRepository *repository;
+@property (nonatomic, strong) GTRepository *repository;
 @property (nonatomic, readonly) NSString *type;
 @property (nonatomic, readonly) const git_oid *oid;
 @property (nonatomic, readonly, getter=isValid) BOOL valid;
