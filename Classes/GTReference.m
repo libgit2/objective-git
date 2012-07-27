@@ -28,6 +28,9 @@
 #import "NSError+Git.h"
 #import "NSString+Git.h"
 
+@interface GTReference ()
+@property (nonatomic, readwrite) git_reference *git_reference;
+@end
 
 @implementation GTReference
 
@@ -37,7 +40,11 @@
 
 - (void)dealloc {
 	self.repository = nil;
-	if(self.git_reference != NULL) git_reference_free(self.git_reference);
+
+	if(self.git_reference != NULL) {
+		git_reference_free(self.git_reference);
+		self.git_reference = NULL;
+	}
 }
 
 
