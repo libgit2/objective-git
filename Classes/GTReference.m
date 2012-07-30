@@ -206,12 +206,14 @@
 	}
 	
 	int gitError = git_reference_delete(self.git_reference);
+	self.git_reference = NULL; /* this has been free'd */
+
 	if(gitError < GIT_OK) {
 		if(error != NULL)
 			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to delete reference."];
 		return NO;
 	}
-	self.git_reference = NULL; /* this has been free'd */
+
 	return YES;
 }
 
