@@ -142,6 +142,10 @@
 	if(gitError < GIT_OK) {
 		if(error != NULL)
 			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to rename reference."];
+
+		// Our reference might have been deleted (which implies being freed), so
+		// we should invalidate it.
+		self.git_reference = NULL;
 		return NO;
 	}
 	return YES;
@@ -206,12 +210,14 @@
 	}
 	
 	int gitError = git_reference_delete(self.git_reference);
+	self.git_reference = NULL; /* this has been free'd */
+
 	if(gitError < GIT_OK) {
 		if(error != NULL)
 			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to delete reference."];
 		return NO;
 	}
-	self.git_reference = NULL; /* this has been free'd */
+
 	return YES;
 }
 
@@ -241,7 +247,6 @@
 		}
 		
 		self.git_reference = NULL;
-		
 		return NO;
 	}
 	
