@@ -39,7 +39,7 @@ extern NSString * const GTGitErrorDomain;
 // returns the created error object
 + (NSError *)git_errorFor:(NSInteger)code;
 
-// Creates an error for the given libgit2 error code. The returned error's NSLocalizedDescriptionKey is filled the given description with `git_lasterror` or `strerror` if an OS error occurs appended on the end.
+// Creates an error for the given libgit2 error code. The returned error's NSLocalizedDescriptionKey is the given description and the NSLocalizedFailureReasonErrorKey is libgit2's description of the last error.
 //
 // code - the libgit2 error code
 //
@@ -47,6 +47,6 @@ extern NSString * const GTGitErrorDomain;
 + (NSError *)git_errorFor:(NSInteger)code withAdditionalDescription:(NSString *)desc;
 
 /* Error helpers for common libgit2 errors */
-+ (NSError *)git_errorForMkStr: (NSInteger)code;
++ (NSError *)git_errorForMkStr:(NSInteger)code;
 
 @end
