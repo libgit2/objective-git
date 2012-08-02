@@ -218,12 +218,15 @@
 }
 
 - (BOOL)deleteWithError:(NSError **)error {
-	BOOL success = [self.reference deleteWithError:error];
-	if(success) {
-		self.reference = nil;
+	int gitError = git_branch_delete(self.repository.git_repository, [self.name UTF8String], GIT_BRANCH_LOCAL);
+	if(gitError != GIT_OK) {
+		if(error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to delete branch."];
+		return NO;
 	}
 	
-	return success;
+	self.reference = nil;
+	
+	return YES;
 }
 
 @end

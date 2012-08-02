@@ -78,6 +78,7 @@ typedef enum {
 
 - (NSArray *)uniqueCommitsRelativeToBranch:(GTBranch *)otherBranch error:(NSError **)error;
 
+// Deletes the local branch and nils out the reference.
 - (BOOL)deleteWithError:(NSError **)error;
 
 @end
