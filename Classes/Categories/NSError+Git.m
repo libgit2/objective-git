@@ -36,7 +36,7 @@ NSString * const GTGitErrorDomain = @"GTGitErrorDomain";
 @implementation NSError (Git)
 
 + (NSError *)git_errorFor:(NSInteger)code withAdditionalDescription:(NSString *)desc {
-	return [NSError errorWithDomain:GTGitErrorDomain code:code userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%@ %@", desc, [self gitLastErrorDescriptionWithCode:code]] forKey:NSLocalizedDescriptionKey]];
+	return [NSError errorWithDomain:GTGitErrorDomain code:code userInfo:[NSDictionary dictionaryWithObjectsAndKeys:desc, NSLocalizedDescriptionKey, [self gitLastErrorDescriptionWithCode:code], NSLocalizedFailureReasonErrorKey, nil]];
 }
 
 + (NSError *)git_errorFor:(NSInteger)code {
