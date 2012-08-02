@@ -70,6 +70,8 @@
 		8849C6A214AD81FF003890AF /* GTRepository+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 8849C6A114AD81FF003890AF /* GTRepository+Private.h */; };
 		8871709A1579145A009B41D5 /* ObjectiveGit.m in Sources */ = {isa = PBXBuildFile; fileRef = 887170971579145A009B41D5 /* ObjectiveGit.m */; };
 		8871709B1579145A009B41D5 /* ObjectiveGit.m in Sources */ = {isa = PBXBuildFile; fileRef = 887170971579145A009B41D5 /* ObjectiveGit.m */; };
+		887DAFFC15CB1CBD00F30D0D /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 887DAFFB15CB1CBD00F30D0D /* libcrypto.dylib */; };
+		887DAFFD15CB1CE200F30D0D /* libssl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 887DAFF915CB1C9F00F30D0D /* libssl.dylib */; };
 		88EB7E4D14AEBA600046FEA4 /* GTConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 88EB7E4B14AEBA600046FEA4 /* GTConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88EB7E4E14AEBA600046FEA4 /* GTConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 88EB7E4C14AEBA600046FEA4 /* GTConfiguration.m */; };
 		88EB7E5214AEC7460046FEA4 /* GTConfigurationTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 88EB7E5114AEC7460046FEA4 /* GTConfigurationTest.m */; };
@@ -197,6 +199,9 @@
 		88383CF91468982B009012D5 /* libgit2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libgit2.a; sourceTree = "<group>"; };
 		8849C6A114AD81FF003890AF /* GTRepository+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTRepository+Private.h"; sourceTree = "<group>"; };
 		887170971579145A009B41D5 /* ObjectiveGit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjectiveGit.m; sourceTree = "<group>"; };
+		887DAFF615CB1C8000F30D0D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		887DAFF915CB1C9F00F30D0D /* libssl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libssl.dylib; path = usr/lib/libssl.dylib; sourceTree = SDKROOT; };
+		887DAFFB15CB1CBD00F30D0D /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = usr/lib/libcrypto.dylib; sourceTree = SDKROOT; };
 		88EB7E4B14AEBA600046FEA4 /* GTConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTConfiguration.h; sourceTree = "<group>"; };
 		88EB7E4C14AEBA600046FEA4 /* GTConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTConfiguration.m; sourceTree = "<group>"; };
 		88EB7E5114AEC7460046FEA4 /* GTConfigurationTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTConfigurationTest.m; sourceTree = "<group>"; };
@@ -280,6 +285,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				887DAFFD15CB1CE200F30D0D /* libssl.dylib in Frameworks */,
+				887DAFFC15CB1CBD00F30D0D /* libcrypto.dylib in Frameworks */,
 				8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */,
 				8803DA871313145700E6E818 /* libz.dylib in Frameworks */,
 				88383CFA1468982B009012D5 /* libgit2.a in Frameworks */,
@@ -326,6 +333,9 @@
 		0867D691FE84028FC02AAC07 /* ObjectiveGitFramework */ = {
 			isa = PBXGroup;
 			children = (
+				887DAFFB15CB1CBD00F30D0D /* libcrypto.dylib */,
+				887DAFF915CB1C9F00F30D0D /* libssl.dylib */,
+				887DAFF615CB1C8000F30D0D /* Security.framework */,
 				BDD8AB01130F01AB00CB5D40 /* README.md */,
 				BDE4C05E130EFE2C00851650 /* Classes */,
 				BDD8AF27131332B000CB5D40 /* Tests */,
