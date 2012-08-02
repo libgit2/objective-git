@@ -47,6 +47,6 @@ extern NSString * const GTGitErrorDomain;
 + (NSError *)git_errorFor:(NSInteger)code withAdditionalDescription:(NSString *)desc;
 
 /* Error helpers for common libgit2 errors */
-+ (NSError *)git_errorForMkStr: (NSInteger)code;
++ (NSError *)git_errorForMkStr:(NSInteger)code;
 
 @end
