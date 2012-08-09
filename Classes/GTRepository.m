@@ -346,17 +346,12 @@ int file_status_callback(const char* relativeFilePath, unsigned int gitStatus, v
 }
 
 - (NSArray *)remoteBranchesWithError:(NSError **)error {
-	static NSArray *unwantedRemoteBranches = nil;
-	if(unwantedRemoteBranches == nil) {
-		unwantedRemoteBranches = [NSArray arrayWithObjects:@"HEAD", nil];
-	}
-
 	NSArray *remoteBranches = [self branchesWithPrefix:[GTBranch remoteNamePrefix] error:error];
 	if(remoteBranches == nil) return nil;
 
 	NSMutableArray *filteredList = [NSMutableArray arrayWithCapacity:remoteBranches.count];
 	for(GTBranch *branch in remoteBranches) {
-		if(![unwantedRemoteBranches containsObject:branch.shortName]) {
+		if(![branch.shortName isEqualToString:@"HEAD"]) {
 			[filteredList addObject:branch];
 		}
 	}
