@@ -121,6 +121,16 @@
 	return self;
 }
 
+- (id)initWithGitReference:(git_reference *)ref repository:(GTRepository *)repo {
+	self = [super init];
+	if (self == nil) return nil;
+
+	self.git_reference = ref;
+	self.repository = repo;
+
+	return self;
+}
+
 - (NSString *)name {
 	if(![self isValid]) return nil;
 	
@@ -129,6 +139,7 @@
 	
 	return [NSString stringWithUTF8String:refName];
 }
+
 - (BOOL)setName:(NSString *)newName error:(NSError **)error {
 	if(![self isValid]) {
 		if(error != NULL) {
