@@ -12,7 +12,7 @@
 //  appreciated but not required.
 //
 
-#import <git2.h>
+#import "git2.h"
 
 void *git_NewBase64Decode(
 	const char *inputBuffer,
