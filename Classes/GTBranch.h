@@ -81,4 +81,9 @@ typedef enum {
 // Deletes the local branch and nils out the reference.
 - (BOOL)deleteWithError:(NSError **)error;
 
+// If the receiver is a local branch, looks up and returns its tracking branch.
+// If the receiver is a remote branch, returns self. If no tracking branch was
+// found, returns nil and sets `success` to YES.
+- (GTBranch *)trackingBranchWithError:(NSError **)error success:(BOOL *)success;
+
 @end
