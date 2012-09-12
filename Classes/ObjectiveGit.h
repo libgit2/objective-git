@@ -37,6 +37,8 @@
 #import <ObjectiveGit/GTReference.h>
 #import <ObjectiveGit/GTBranch.h>
 #import <ObjectiveGit/GTObject.h>
+#import <ObjectiveGit/GTRemote.h>
+#import <ObjectiveGit/GTConfiguration.h>
 
 #import <ObjectiveGit/GTObjectDatabase.h>
 #import <ObjectiveGit/GTOdbObject.h>
