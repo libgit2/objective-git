@@ -77,40 +77,23 @@
 	return YES;
 }
 
-- (void)addRemote:(NSString *)remoteName withCloneURL:(NSURL *)cloneURL {
-    // TODO: implement something useful to the libgit2 project to make these remote / branch
-    // names easier to construct. See:
-    // <https://github.com/libgit2/libgit2/issues/161>
-    // <https://github.com/libgit2/libgit2/issues/160>
-    //
-    // for now, this implementation wraps away the lack of a lower level API
+int configCallback(const char *name, const char *value, void *payload);
+int configCallback(const char *name, const char *value, void *payload) {
+    NSMutableArray *configurationKeysArray = (__bridge NSMutableArray *) payload;
 
-    [self setString:[NSString stringWithFormat:@"+refs/heads/*:refs/remotes/%@/*", remoteName] forKey:[NSString stringWithFormat:@"remote \"%@\".fetch", remoteName]];
-    [self setString:[cloneURL absoluteString] forKey:[NSString stringWithFormat:@"remote \"%@\".url", remoteName]];
-}
-
-- (void)addBranch:(NSString *)branchName trackingRemoteName:(NSString *)remoteName {
-    [self setString:[NSString stringWithFormat:@"refs/heads/%@", branchName] forKey:[NSString stringWithFormat:@"branch \"%@\".merge", branchName]];
-
-    if(remoteName != nil) {
-        [self setString:remoteName forKey:[NSString stringWithFormat:@"branch \"%@\".remote", branchName]];
-	}
-}
-
-int configCallback(const char* name, const char* value, void* payload);
-int configCallback(const char* name, const char* value, void* payload) {
-    NSMutableArray* configurationKeysArray = (__bridge NSMutableArray*)(payload);
-
-    [configurationKeysArray addObject: [NSString stringWithCString: name encoding: [NSString defaultCStringEncoding]]];
+    [configurationKeysArray addObject:[[NSString alloc] initWithUTF8String:name]];
 
     return 0;
 }
 
-- (NSArray*) configurationKeys {
-    NSMutableArray* output = [NSMutableArray array];
+- (NSArray *)configurationKeys {
+    NSMutableArray *output = [NSMutableArray array];
 
-    git_config_foreach(self.git_config, configCallback, (__bridge void*)(output));
-    return (output);
+    git_config_foreach(self.git_config, configCallback, (__bridge void *) output);
+
+    return output;
+}
+
 
 }
 @end
