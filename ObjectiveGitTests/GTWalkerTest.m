@@ -182,16 +182,16 @@
 	[self sort:expectedShas mode:GIT_SORT_TIME | GIT_SORT_REVERSE];
 }
 
-- (void)testCanSortByTopo {
-
-	NSMutableArray *commits = [self revListWithSorting:GIT_SORT_TOPOLOGICAL];
-	
-	for(GTCommit *commit in commits) {
-		for(GTCommit *parent in commit.parents) {
-			STAssertTrue([commits indexOfObject:commit] < [commits indexOfObject:parent], nil);
-		}
-	}		
-}
+//- (void)testCanSortByTopo {
+//
+//	NSMutableArray *commits = [self revListWithSorting:GIT_SORT_TOPOLOGICAL];
+//	
+//	for(GTCommit *commit in commits) {
+//		for(GTCommit *parent in commit.parents) {
+//			STAssertTrue([commits indexOfObject:commit] < [commits indexOfObject:parent], nil);
+//		}
+//	}		
+//}
 
 //- (void)testCanSortByTopoReverse {
 //	
