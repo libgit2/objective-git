@@ -8,12 +8,18 @@
 
 #include "git2.h"
 
+@class GTRepository;
 
 @interface GTConfiguration : NSObject
 
 @property (nonatomic, readonly, assign) git_config *git_config;
+@property (nonatomic, readonly, unsafe_unretained) GTRepository *repository;
+@property (nonatomic, readonly, copy) NSArray *configurationKeys;
 
-+ (GTConfiguration *)configurationWithConfiguration:(git_config *)config;
+// The GTRemotes in the config.
+@property (nonatomic, readonly, copy) NSArray *remotes;
+
+- (id)initWithGitConfig:(git_config *)config repository:(GTRepository *)repository;
 
 - (void)setString:(NSString *)s forKey:(NSString *)key;
 - (NSString *)stringForKey:(NSString *)key;
@@ -29,8 +35,4 @@
 
 - (BOOL)deleteValueForKey:(NSString *)key error:(NSError **)error;
 
-- (void)addRemote:(NSString *)remoteName withCloneURL:(NSURL *)cloneURL;
-- (void)addBranch:(NSString *)branchName trackingRemoteName:(NSString *)remoteName;
-
-- (NSArray*) configurationKeys;
 @end
