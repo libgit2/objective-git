@@ -848,6 +848,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = ObjectiveGit;
 				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = dynamic;
+				TEST_AFTER_BUILD = YES;
 				WARNING_CFLAGS = (
 					"-Wall",
 					"-Werror",
@@ -895,6 +896,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = ObjectiveGit;
 				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = dynamic;
+				TEST_AFTER_BUILD = YES;
 				WARNING_CFLAGS = (
 					"-Wall",
 					"-Werror",
