@@ -10,12 +10,11 @@
 
 @implementation GTRemote
 
-- (BOOL)isEqual:(id)object {
+- (BOOL)isEqual:(GTRemote *)object {
 	if (object == self) return YES;
 	if (![object isKindOfClass:[self class]]) return NO;
 
-	GTRemote *otherRemote = (GTRemote *) object;
-	return [otherRemote.name isEqual:self.name] && [otherRemote.URLString isEqual:self.URLString];
+	return [object.name isEqual:self.name] && [object.URLString isEqual:self.URLString];
 }
 
 - (NSUInteger)hash {
@@ -37,14 +36,14 @@
 	const char *name = git_remote_name(self.git_remote);
 	if (name == NULL) return nil;
 
-	return [[NSString alloc] initWithUTF8String:name];
+	return @(name);
 }
 
 - (NSString *)URLString {
 	const char *URLString = git_remote_url(self.git_remote);
 	if (URLString == NULL) return nil;
 
-	return [[NSString alloc] initWithUTF8String:URLString];
+	return @(URLString);
 }
 
 @end

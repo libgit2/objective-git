@@ -78,21 +78,20 @@
 	return YES;
 }
 
-int configCallback(const char *name, const char *value, void *payload);
-int configCallback(const char *name, const char *value, void *payload) {
-    NSMutableArray *configurationKeysArray = (__bridge NSMutableArray *) payload;
+static int configCallback(const char *name, const char *value, void *payload) {
+	NSMutableArray *configurationKeysArray = (__bridge NSMutableArray *) payload;
 
-    [configurationKeysArray addObject:[[NSString alloc] initWithUTF8String:name]];
+	[configurationKeysArray addObject:@(name)];
 
-    return 0;
+	return 0;
 }
 
 - (NSArray *)configurationKeys {
-    NSMutableArray *output = [NSMutableArray array];
+	NSMutableArray *output = [NSMutableArray array];
 
-    git_config_foreach(self.git_config, configCallback, (__bridge void *) output);
+	git_config_foreach(self.git_config, configCallback, (__bridge void *) output);
 
-    return output;
+	return output;
 }
 
 - (NSArray *)remotes {
@@ -100,7 +99,7 @@ int configCallback(const char *name, const char *value, void *payload) {
 	git_remote_list(&names, self.repository.git_repository);
 	NSMutableArray *remotes = [NSMutableArray arrayWithCapacity:names.count];
 	for (size_t i = 0; i < names.count; i++) {
-		char *name = names.strings[i];
+		const char *name = names.strings[i];
 		git_remote *remote = NULL;
 		git_remote_load(&remote, self.repository.git_repository, name);
 		[remotes addObject:[[GTRemote alloc] initWithGitRemote:remote]];
