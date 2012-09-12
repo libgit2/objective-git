@@ -106,6 +106,8 @@ int configCallback(const char *name, const char *value, void *payload) {
 		[remotes addObject:[[GTRemote alloc] initWithGitRemote:remote]];
 	}
 
+	git_strarray_free(&names);
+
 	return remotes;
 }
 
