@@ -8,6 +8,7 @@
 
 #import "GTConfiguration.h"
 #import "GTRepository.h"
+#import "GTRemote.h"
 
 @implementation GTConfiguration
 
@@ -94,6 +95,18 @@ int configCallback(const char *name, const char *value, void *payload) {
     return output;
 }
 
+- (NSArray *)remotes {
+	git_strarray names;
+	git_remote_list(&names, self.repository.git_repository);
+	NSMutableArray *remotes = [NSMutableArray arrayWithCapacity:names.count];
+	for (size_t i = 0; i < names.count; i++) {
+		char *name = names.strings[i];
+		git_remote *remote = NULL;
+		git_remote_load(&remote, self.repository.git_repository, name);
+		[remotes addObject:[[GTRemote alloc] initWithGitRemote:remote]];
+	}
 
+	return remotes;
 }
+
 @end
