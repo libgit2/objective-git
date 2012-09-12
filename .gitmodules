@@ -1,3 +1,9 @@
 [submodule "libgit2"]
 	path = libgit2
 	url = git://github.com/libgit2/libgit2.git
+[submodule "ObjectiveGitTests/specta"]
+	path = ObjectiveGitTests/specta
+	url = git://github.com/petejkim/specta.git
+[submodule "ObjectiveGitTests/expecta"]
+	path = ObjectiveGitTests/expecta
+	url = git://github.com/petejkim/expecta.git
