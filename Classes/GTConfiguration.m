@@ -28,51 +28,51 @@
 }
 
 - (void)setString:(NSString *)s forKey:(NSString *)key {
-	git_config_set_string(self.git_config, [key UTF8String], [s UTF8String]);
+	git_config_set_string(self.git_config, key.UTF8String, s.UTF8String);
 }
 
 - (NSString *)stringForKey:(NSString *)key {
 	const char *string = NULL;
-	git_config_get_string(&string, self.git_config, [key UTF8String]);
-	if(string == NULL) return nil;
+	git_config_get_string(&string, self.git_config, key.UTF8String);
+	if (string == NULL) return nil;
 
 	return [NSString stringWithUTF8String:string];
 }
 
 - (void)setBoolForKey:(BOOL)b forKey:(NSString *)key {
-	git_config_set_bool(self.git_config, [key UTF8String], b);
+	git_config_set_bool(self.git_config, key.UTF8String, b);
 }
 
 - (BOOL)boolForKey:(NSString *)key {
 	int b = 0;
-	git_config_get_bool(&b, self.git_config, [key UTF8String]);
+	git_config_get_bool(&b, self.git_config, key.UTF8String);
 	return (BOOL) b;
 }
 
 - (void)setInt32:(int32_t)i forKey:(NSString *)key {
-	git_config_set_int32(self.git_config, [key UTF8String], i);
+	git_config_set_int32(self.git_config, key.UTF8String, i);
 }
 
 - (int32_t)int32ForKey:(NSString *)key {
 	int32_t i = 0;
-	git_config_get_int32(&i, self.git_config, [key UTF8String]);
+	git_config_get_int32(&i, self.git_config, key.UTF8String);
 
 	return i;
 }
 
 - (void)setInt64:(int64_t)i forKey:(NSString *)key {
-	git_config_set_int64(self.git_config, [key UTF8String], i);
+	git_config_set_int64(self.git_config, key.UTF8String, i);
 }
 
 - (int64_t)int64ForKey:(NSString *)key {
 	int64_t i = 0;
-	git_config_get_int64(&i, self.git_config, [key UTF8String]);
+	git_config_get_int64(&i, self.git_config, key.UTF8String);
 
 	return i;
 }
 
 - (BOOL)deleteValueForKey:(NSString *)key error:(NSError **)error {
-	git_config_delete(self.git_config, [key UTF8String]);
+	git_config_delete(self.git_config, key.UTF8String);
 
 	return YES;
 }
