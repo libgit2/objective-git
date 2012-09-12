@@ -7,11 +7,7 @@
 //
 
 #import "GTConfiguration.h"
-
-@interface GTConfiguration ()
-@property (nonatomic, assign) git_config *git_config;
-@end
-
+#import "GTRepository.h"
 
 @implementation GTConfiguration
 
@@ -19,15 +15,16 @@
 	git_config_free(self.git_config);
 }
 
-
 #pragma mark API
 
-@synthesize git_config;
+- (id)initWithGitConfig:(git_config *)config repository:(GTRepository *)repository {
+	self = [super init];
+	if (self == nil) return nil;
 
-+ (GTConfiguration *)configurationWithConfiguration:(git_config *)config {
-	GTConfiguration *configuration = [[self alloc] init];
-	configuration.git_config = config;
-	return configuration;
+	_git_config = config;
+	_repository = repository;
+
+	return self;
 }
 
 - (void)setString:(NSString *)s forKey:(NSString *)key {
