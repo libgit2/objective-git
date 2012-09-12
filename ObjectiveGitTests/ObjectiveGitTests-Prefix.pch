@@ -1,0 +1,9 @@
+//
+// Prefix header for all source files of the 'ObjectiveGitTests' target in the 'ObjectiveGitTests' project
+//
+
+#ifdef __OBJC__
+	#import <Cocoa/Cocoa.h>
+	#import <SenTestingKit/SenTestingKit.h>
+	#import <ObjectiveGit/ObjectiveGit.h>
+#endif
