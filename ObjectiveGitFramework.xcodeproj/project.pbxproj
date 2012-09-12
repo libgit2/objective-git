@@ -67,6 +67,8 @@
 		8803DA871313145700E6E818 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8803DA861313145700E6E818 /* libz.dylib */; };
 		88383CFA1468982B009012D5 /* libgit2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 88383CF91468982B009012D5 /* libgit2.a */; };
 		88383CFB1468982B009012D5 /* libgit2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 88383CF91468982B009012D5 /* libgit2.a */; };
+		883CD6AB1600EBC600F57354 /* GTRemote.h in Headers */ = {isa = PBXBuildFile; fileRef = 883CD6A91600EBC600F57354 /* GTRemote.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		883CD6AC1600EBC600F57354 /* GTRemote.m in Sources */ = {isa = PBXBuildFile; fileRef = 883CD6AA1600EBC600F57354 /* GTRemote.m */; };
 		8849C6A214AD81FF003890AF /* GTRepository+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 8849C6A114AD81FF003890AF /* GTRepository+Private.h */; };
 		8871709A1579145A009B41D5 /* ObjectiveGit.m in Sources */ = {isa = PBXBuildFile; fileRef = 887170971579145A009B41D5 /* ObjectiveGit.m */; };
 		8871709B1579145A009B41D5 /* ObjectiveGit.m in Sources */ = {isa = PBXBuildFile; fileRef = 887170971579145A009B41D5 /* ObjectiveGit.m */; };
@@ -197,6 +199,9 @@
 		79262F8A13C69B1600A4B1EA /* git2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = git2.h; path = libgit2/include/git2.h; sourceTree = "<group>"; };
 		8803DA861313145700E6E818 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		88383CF91468982B009012D5 /* libgit2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libgit2.a; sourceTree = "<group>"; };
+		883CD6A91600EBC600F57354 /* GTRemote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTRemote.h; sourceTree = "<group>"; };
+		883CD6AA1600EBC600F57354 /* GTRemote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTRemote.m; sourceTree = "<group>"; };
+		883CD6AE1600F01000F57354 /* GTConfiguration+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GTConfiguration+Private.h"; sourceTree = "<group>"; };
 		8849C6A114AD81FF003890AF /* GTRepository+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTRepository+Private.h"; sourceTree = "<group>"; };
 		887170971579145A009B41D5 /* ObjectiveGit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjectiveGit.m; sourceTree = "<group>"; };
 		887DAFF615CB1C8000F30D0D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -491,7 +496,10 @@
 				AA046110134F4D2000DF526B /* GTOdbObject.h */,
 				AA046111134F4D2000DF526B /* GTOdbObject.m */,
 				88EB7E4B14AEBA600046FEA4 /* GTConfiguration.h */,
+				883CD6AE1600F01000F57354 /* GTConfiguration+Private.h */,
 				88EB7E4C14AEBA600046FEA4 /* GTConfiguration.m */,
+				883CD6A91600EBC600F57354 /* GTRemote.h */,
+				883CD6AA1600EBC600F57354 /* GTRemote.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -563,6 +571,7 @@
 				88EB7E4D14AEBA600046FEA4 /* GTConfiguration.h in Headers */,
 				BDE4C064130EFE2C00851650 /* NSError+Git.h in Headers */,
 				55C8057D13875C11004DCB0F /* NSData+Git.h in Headers */,
+				883CD6AB1600EBC600F57354 /* GTRemote.h in Headers */,
 				55C8057E13875C1B004DCB0F /* NSString+Git.h in Headers */,
 				8849C6A214AD81FF003890AF /* GTRepository+Private.h in Headers */,
 			);
@@ -786,6 +795,7 @@
 				55C8057A13875578004DCB0F /* NSString+Git.m in Sources */,
 				88EB7E4E14AEBA600046FEA4 /* GTConfiguration.m in Sources */,
 				8871709A1579145A009B41D5 /* ObjectiveGit.m in Sources */,
+				883CD6AC1600EBC600F57354 /* GTRemote.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
