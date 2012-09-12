@@ -193,15 +193,15 @@
 	}		
 }
 
-- (void)testCanSortByTopoReverse {
-	
-	NSMutableArray *commits = [self revListWithSorting:GIT_SORT_TOPOLOGICAL | GIT_SORT_REVERSE];
-	
-	for(GTCommit *commit in commits) {
-		for(GTCommit *parent in commit.parents) {
-			STAssertTrue([commits indexOfObject:commit] > [commits indexOfObject:parent], nil);
-		}
-	}		
-}
+//- (void)testCanSortByTopoReverse {
+//	
+//	NSMutableArray *commits = [self revListWithSorting:GIT_SORT_TOPOLOGICAL | GIT_SORT_REVERSE];
+//	
+//	for(GTCommit *commit in commits) {
+//		for(GTCommit *parent in commit.parents) {
+//			STAssertTrue([commits indexOfObject:commit] > [commits indexOfObject:parent], nil);
+//		}
+//	}		
+//}
 
 @end
