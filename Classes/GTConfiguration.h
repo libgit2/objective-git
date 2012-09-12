@@ -14,6 +14,7 @@
 
 @property (nonatomic, readonly, assign) git_config *git_config;
 @property (nonatomic, readonly, unsafe_unretained) GTRepository *repository;
+@property (nonatomic, readonly, copy) NSArray *configurationKeys;
 
 // The GTRemotes in the config.
 @property (nonatomic, readonly, copy) NSArray *remotes;
@@ -33,7 +34,5 @@
 - (int64_t)int64ForKey:(NSString *)key;
 
 - (BOOL)deleteValueForKey:(NSString *)key error:(NSError **)error;
-
-- (NSArray *)configurationKeys;
 
 @end
