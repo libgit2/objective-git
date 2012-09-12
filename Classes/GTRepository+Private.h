@@ -10,8 +10,7 @@
 
 @class GTEnumerator;
 
-
-@interface GTRepository (Private)
+@interface GTRepository ()
 
 - (void)addEnumerator:(GTEnumerator *)enumerator;
 - (void)removeEnumerator:(GTEnumerator *)enumerator;

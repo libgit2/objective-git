@@ -39,7 +39,6 @@
 @class GTBranch;
 @class GTConfiguration;
 
-
 // Options returned from the enumerateFileStatusUsingBlock: function
 enum {
 	GTRepositoryFileStatusIndexNew = GIT_STATUS_INDEX_NEW,
@@ -57,8 +56,7 @@ typedef unsigned int GTRepositoryFileStatus;
 
 typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus status, BOOL *stop);
 
-
-@interface GTRepository : NSObject <GTObject> {}
+@interface GTRepository : NSObject <GTObject>
 
 @property (nonatomic, assign, readonly) git_repository *git_repository;
 // The file URL for the repository's working directory.
@@ -165,9 +163,6 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 //
 // returns the local commits, an empty array if there is no remote branch, or nil if an error occurred
 - (NSArray *)localCommitsRelativeToRemoteBranch:(GTBranch *)remoteBranch error:(NSError **)error;
-
-- (NSArray *)remoteNames;
-- (BOOL)hasRemoteNamed:(NSString *)potentialRemoteName;
 
 // Pack all references in the repository.
 //
