@@ -1117,8 +1117,8 @@
 				);
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/libgit2/include\"",
-					"\"$(SRCROOT)/ObjectiveGitTests/specta/src\"",
-					"\"$(SRCROOT)/ObjectiveGitTests/expecta/src\"/**",
+					ObjectiveGitTests/specta/src,
+					"ObjectiveGitTests/expecta/src/**",
 				);
 				INFOPLIST_FILE = "ObjectiveGitTests/ObjectiveGitTests-Info.plist";
 				OTHER_LDFLAGS = "-all_load";
@@ -1135,8 +1135,8 @@
 				GCC_PREFIX_HEADER = "ObjectiveGitTests/ObjectiveGitTests-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/libgit2/include\"",
-					"\"$(SRCROOT)/ObjectiveGitTests/specta/src\"",
-					"\"$(SRCROOT)/ObjectiveGitTests/expecta/src\"/**",
+					ObjectiveGitTests/specta/src,
+					"ObjectiveGitTests/expecta/src/**",
 				);
 				INFOPLIST_FILE = "ObjectiveGitTests/ObjectiveGitTests-Info.plist";
 				OTHER_LDFLAGS = "-all_load";
