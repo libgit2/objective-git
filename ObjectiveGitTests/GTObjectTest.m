@@ -43,10 +43,6 @@
     repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&error];
 }
 
-- (void)testFailure {
-	STAssertTrue(NO, nil);
-}
-
 - (void)testCanLookupEmptyStringFails {
 	
 	NSError *error = nil;
