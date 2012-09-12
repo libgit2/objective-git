@@ -82,44 +82,44 @@
 			return YES;
 		}
 	}
-	
+
 	return NO;
 }
 
 + (NSURL *)_gitURLForURL:(NSURL *)url error:(NSError **)error {
-    if (!url.isFileURL) {
-        if (error != NULL) *error = [NSError errorWithDomain:NSCocoaErrorDomain code:kCFURLErrorUnsupportedURL userInfo:[NSDictionary dictionaryWithObject:@"not a local file URL" forKey:NSLocalizedDescriptionKey]];
-        return nil;
-    }
+	if (![url isFileURL]) {
+		if (error != NULL) *error = [NSError errorWithDomain:NSCocoaErrorDomain code:kCFURLErrorUnsupportedURL userInfo:[NSDictionary dictionaryWithObject:@"not a local file URL" forKey:NSLocalizedDescriptionKey]];
+		return nil;
+	}
 
-    if (![url.path hasSuffix:@".git"] || ![GTRepository isAGitDirectory:url]) {
-        url = [url URLByAppendingPathComponent:@".git"];
-    }
-	
-    return url;
+	if (![url.path hasSuffix:@".git"] || ![GTRepository isAGitDirectory:url]) {
+		url = [url URLByAppendingPathComponent:@".git"];
+	}
+
+	return url;
 }
 
 + (BOOL)initializeEmptyRepositoryAtURL:(NSURL *)localFileURL error:(NSError **)error {
-    const char *path = localFileURL.path.UTF8String;
+	const char *path = localFileURL.path.UTF8String;
 
-    git_repository *r;
-    int gitError = git_repository_init(&r, path, 0);
-    if (gitError < GIT_OK) {
-        if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to initialize repository."];
-    }
+	git_repository *r;
+	int gitError = git_repository_init(&r, path, 0);
+	if (gitError < GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to initialize repository."];
+	}
 
-    return gitError == GIT_OK;
+	return gitError == GIT_OK;
 }
 
 + (id)repositoryWithURL:(NSURL *)localFileURL error:(NSError **)error {
-    return [[self alloc] initWithURL:localFileURL error:error];
+	return [[self alloc] initWithURL:localFileURL error:error];
 }
 
 - (id)initWithURL:(NSURL *)localFileURL error:(NSError **)error {
-    localFileURL = [self.class _gitURLForURL:localFileURL error:error];
-    if (localFileURL == nil) return nil;
+	localFileURL = [self.class _gitURLForURL:localFileURL error:error];
+	if (localFileURL == nil) return nil;
 
-    self = [super init];
+	self = [super init];
 	if (self == nil) return nil;
 
 	git_repository *r;
@@ -132,8 +132,8 @@
 
 	self.git_repository = r;
 	self.fileURL = localFileURL;
-    
-    return self;
+
+	return self;
 }
 
 + (NSString *)hash:(NSString *)data objectType:(GTObjectType)type error:(NSError **)error {
@@ -150,13 +150,13 @@
 
 - (GTObject *)lookupObjectByOid:(git_oid *)oid objectType:(GTObjectType)type error:(NSError **)error {
 	git_object *obj;
-	
+
 	int gitError = git_object_lookup(&obj, self.git_repository, oid, (git_otype) type);
 	if (gitError < GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to lookup object in repository."];
 		return nil;
 	}
-	
+
     return [GTObject objectWithObj:obj inRepository:self];
 }
 
@@ -182,29 +182,29 @@
 
 - (BOOL)enumerateCommitsBeginningAtSha:(NSString *)sha sortOptions:(GTEnumeratorOptions)options error:(NSError **)error usingBlock:(void (^)(GTCommit *, BOOL *))block {
 	NSParameterAssert(block != NULL);
-    
+
 	if (sha == nil) {
 		GTReference *head = [self headReferenceWithError:error];
 		if (head == nil) return NO;
 		sha = head.target;
 	}
-	
+
 	[self.enumerator reset];
 	[self.enumerator setOptions:options];
 	BOOL success = [self.enumerator push:sha error:error];
-	if (!success) return NO; 
-	
+	if (!success) return NO;
+
 	GTCommit *commit = nil;
 	while ((commit = [self.enumerator nextObjectWithError:error]) != nil) {
 		BOOL stop = NO;
 		block(commit, &stop);
 		if (stop) break;
 	}
-	
+
 	if (error == NULL) {
 		return YES;
 	}
-	
+
 	return *error == nil;
 }
 
@@ -224,62 +224,60 @@
 }
 
 struct gitPayload {
-    __unsafe_unretained GTRepository *repository;
-    __unsafe_unretained GTRepositoryStatusBlock block;
+	__unsafe_unretained GTRepository *repository;
+	__unsafe_unretained GTRepositoryStatusBlock block;
 };
 
+static int file_status_callback(const char *relativeFilePath, unsigned int gitStatus, void *rawPayload) {
+	struct gitPayload *payload = rawPayload;
 
-int file_status_callback(const char *, unsigned int, void *);
-int file_status_callback(const char *relativeFilePath, unsigned int gitStatus, void *rawPayload) {
-    struct gitPayload *payload = (struct gitPayload *) rawPayload;
-
-    NSURL *fileURL = [payload->repository.fileURL URLByAppendingPathComponent:[[NSString alloc] initWithUTF8String:relativeFilePath]];
+	NSURL *fileURL = [payload->repository.fileURL URLByAppendingPathComponent:@(relativeFilePath)];
 
 	BOOL stop = NO;
-    payload->block(fileURL, gitStatus, &stop);
+	payload->block(fileURL, gitStatus, &stop);
 
-    return stop ? GIT_ERROR : GIT_OK;
+	return stop ? GIT_ERROR : GIT_OK;
 }
 
 - (void)enumerateFileStatusUsingBlock:(GTRepositoryStatusBlock)block {
 	NSParameterAssert(block != NULL);
-	
-    // we want to pass several things into the C callback function:
-    // ourselves and the user's supplied block. Throw it into a struct
-    // and pass a pointer to the struct to the C callback function
 
-    struct gitPayload fileStatusPayload;
+	// we want to pass several things into the C callback function:
+	// ourselves and the user's supplied block. Throw it into a struct
+	// and pass a pointer to the struct to the C callback function
 
-    fileStatusPayload.repository = self;
-    fileStatusPayload.block = block;
+	struct gitPayload fileStatusPayload;
 
-    git_status_foreach(self.git_repository, file_status_callback, &fileStatusPayload);
+	fileStatusPayload.repository = self;
+	fileStatusPayload.block = block;
+
+	git_status_foreach(self.git_repository, file_status_callback, &fileStatusPayload);
 }
 
 - (BOOL)isWorkingDirectoryClean {
-    __block BOOL clean = YES;
-    [self enumerateFileStatusUsingBlock:^(NSURL *fileURL, GTRepositoryFileStatus fileStatus, BOOL *stop) {
-        // first, have items been deleted?
-        // (not sure why we would get WT_DELETED AND INDEX_NEW in this situation, but that's what I got experimentally. WD-rpw, 02-23-2012        
-        if ((fileStatus == (GTRepositoryFileStatusWorkingTreeDeleted) || (fileStatus == (GTRepositoryFileStatusWorkingTreeDeleted | GTRepositoryFileStatusIndexNew)))) {
+	__block BOOL clean = YES;
+	[self enumerateFileStatusUsingBlock:^(NSURL *fileURL, GTRepositoryFileStatus fileStatus, BOOL *stop) {
+		// first, have items been deleted?
+		// (not sure why we would get WT_DELETED AND INDEX_NEW in this situation, but that's what I got experimentally. WD-rpw, 02-23-2012
+		if ((fileStatus == (GTRepositoryFileStatusWorkingTreeDeleted) || (fileStatus == (GTRepositoryFileStatusWorkingTreeDeleted | GTRepositoryFileStatusIndexNew)))) {
 			clean = NO;
 			*stop = YES;
 		}
-        
-        // any untracked files?
-        if (fileStatus == GTRepositoryFileStatusWorkingTreeNew) {
-            clean = NO;
+
+		// any untracked files?
+		if (fileStatus == GTRepositoryFileStatusWorkingTreeNew) {
+			clean = NO;
 			*stop = YES;
 		}
-        
-        // next, have items been modified?
-        if ((fileStatus == GTRepositoryFileStatusIndexModified) || (fileStatus == GTRepositoryFileStatusWorkingTreeModified)) {
-            clean = NO;
+
+		// next, have items been modified?
+		if ((fileStatus == GTRepositoryFileStatusIndexModified) || (fileStatus == GTRepositoryFileStatusWorkingTreeModified)) {
+			clean = NO;
 			*stop = YES;
 		}
 	}];
- 
-    return clean;
+
+	return clean;
 }
 
 - (BOOL)setupIndexWithError:(NSError **)error {
@@ -302,7 +300,7 @@ int file_status_callback(const char *relativeFilePath, unsigned int gitStatus, v
 }
 
 - (NSArray *)localBranchesWithError:(NSError **)error {
-    return [self branchesWithPrefix:[GTBranch localNamePrefix] error:error];
+	return [self branchesWithPrefix:[GTBranch localNamePrefix] error:error];
 }
 
 - (NSArray *)remoteBranchesWithError:(NSError **)error {
@@ -321,17 +319,17 @@ int file_status_callback(const char *relativeFilePath, unsigned int gitStatus, v
 
 - (NSArray *)branchesWithPrefix:(NSString *)prefix error:(NSError **)error {
 	NSArray *references = [self referenceNamesWithError:error];
-    if (references == nil) return nil;
+	if (references == nil) return nil;
 
-    NSMutableArray *branches = [NSMutableArray array];
-    for (NSString *ref in references) {
-        if ([ref hasPrefix:prefix]) {
-            GTBranch *b = [GTBranch branchWithName:ref repository:self error:error];
-            if (b != nil) [branches addObject:b];
-        }
-    }
-	
-    return branches;
+	NSMutableArray *branches = [NSMutableArray array];
+	for (NSString *ref in references) {
+		if ([ref hasPrefix:prefix]) {
+			GTBranch *b = [GTBranch branchWithName:ref repository:self error:error];
+			if (b != nil) [branches addObject:b];
+		}
+	}
+
+	return branches;
 }
 
 - (NSArray *)allBranchesWithError:(NSError **)error {
@@ -358,7 +356,7 @@ int file_status_callback(const char *relativeFilePath, unsigned int gitStatus, v
 		if (localBranch.remoteBranches != nil) {
 			[branches addObjectsFromArray:localBranch.remoteBranches];
 		}
-		
+
 		[branches addObject:branch];
 		localBranch.remoteBranches = branches;
 	}
@@ -410,7 +408,7 @@ int file_status_callback(const char *relativeFilePath, unsigned int gitStatus, v
 - (NSArray *)localCommitsRelativeToRemoteBranch:(GTBranch *)remoteBranch error:(NSError **)error {
 	GTBranch *localBranch = [self currentBranchWithError:error];
 	if (localBranch == nil) return nil;
-	
+
 	return [localBranch uniqueCommitsRelativeToBranch:remoteBranch error:error];
 }
 
@@ -444,7 +442,7 @@ int file_status_callback(const char *relativeFilePath, unsigned int gitStatus, v
 	const char *path = git_repository_path(self.git_repository);
 	if (path == NULL) return nil;
 
-	return [NSURL fileURLWithPath:[[NSString alloc] initWithUTF8String:path] isDirectory:YES];
+	return [NSURL fileURLWithPath:@(path) isDirectory:YES];
 }
 
 - (GTObjectDatabase *)objectDatabase {
@@ -495,10 +493,10 @@ int file_status_callback(const char *relativeFilePath, unsigned int gitStatus, v
 		if (error < GIT_OK) {
 			return nil;
 		}
-		
+
 		self.configuration = [[GTConfiguration alloc] initWithGitConfig:config repository:self];
 	}
-	
+
 	return _configuration;
 }
 
