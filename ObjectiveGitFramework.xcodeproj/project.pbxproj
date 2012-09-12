@@ -848,7 +848,6 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = ObjectiveGit;
 				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = dynamic;
-				TEST_AFTER_BUILD = YES;
 				WARNING_CFLAGS = (
 					"-Wall",
 					"-Werror",
@@ -896,7 +895,6 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = ObjectiveGit;
 				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = dynamic;
-				TEST_AFTER_BUILD = YES;
 				WARNING_CFLAGS = (
 					"-Wall",
 					"-Werror",
@@ -918,6 +916,7 @@
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				TEST_AFTER_BUILD = YES;
 				VALID_ARCHS = x86_64;
 			};
 			name = Debug;
@@ -933,6 +932,7 @@
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/libgit2/include\"";
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				SDKROOT = macosx;
+				TEST_AFTER_BUILD = YES;
 				VALID_ARCHS = x86_64;
 			};
 			name = Release;
