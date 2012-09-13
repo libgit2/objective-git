@@ -115,7 +115,7 @@
 	STAssertNil(error, [error localizedDescription]);
 	NSLog(@"original content = %@", [obj data]);
 	NSLog(@"lookup content   = %@", [newObj data]);
-	STAssertTrue([newObj.data isEqualToData:obj.data], nil);
+	STAssertEqualObjects(newObj.data, obj.data, nil);
 	rm_loose(newSha);*/
 }
 
