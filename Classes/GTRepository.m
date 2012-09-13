@@ -115,7 +115,7 @@
 }
 
 - (id)initWithURL:(NSURL *)localFileURL error:(NSError **)error {
-	NSURL* gitDirForLocalURL = [self.class _gitURLForURL:localFileURL error:error];
+	NSURL *gitDirForLocalURL = [self.class _gitURLForURL:localFileURL error:error];
 	if (gitDirForLocalURL == nil) return nil;
 
 	self = [super init];
@@ -437,7 +437,7 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 }
 
 - (NSURL *)fileURL {
-	const char* path = git_repository_workdir(self.git_repository);
+	const char *path = git_repository_workdir(self.git_repository);
 	// bare repository, you may be looking for gitDirectoryURL
 	if (path == NULL) return nil;
 
