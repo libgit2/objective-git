@@ -2,11 +2,6 @@ set -e
 
 cd "libgit2"
 
-LIBGIT2_BRANCH="development"
-
-git checkout "${LIBGIT2_BRANCH}"
-git pull
-
 if [ -d "build" ]; then
     rm -rf "build"
 fi
