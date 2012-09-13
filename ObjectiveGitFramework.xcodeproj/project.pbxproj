@@ -1028,6 +1028,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 				);
+				OTHER_LDFLAGS = "-lgit2-iOS";
 				PRODUCT_NAME = "ObjectiveGit-iOS";
 				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/ObjectiveGit;
 				SDKROOT = iphoneos;
@@ -1052,6 +1053,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 				);
+				OTHER_LDFLAGS = "-lgit2-iOS";
 				PRODUCT_NAME = "ObjectiveGit-iOS";
 				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/ObjectiveGit;
 				SDKROOT = iphoneos;
@@ -1089,6 +1091,7 @@
 					"\"$(SRCROOT)\"",
 				);
 				MACH_O_TYPE = mh_dylib;
+				OTHER_LDFLAGS = "-lgit2";
 				PRODUCT_NAME = ObjectiveGit;
 				WARNING_CFLAGS = (
 					"-Wall",
@@ -1127,6 +1130,7 @@
 					"\"$(SRCROOT)\"",
 				);
 				MACH_O_TYPE = mh_dylib;
+				OTHER_LDFLAGS = "-lgit2";
 				PRODUCT_NAME = ObjectiveGit;
 				WARNING_CFLAGS = (
 					"-Wall",
@@ -1149,6 +1153,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/libgit2/include\"";
 				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = .;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -1169,6 +1174,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/libgit2/include\"";
 				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = .;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				SDKROOT = macosx;
 				TEST_AFTER_BUILD = YES;
@@ -1233,14 +1239,20 @@
 		D0A330F416027F3700A616FA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				VALID_ARCHS = "i386 armv7";
 			};
 			name = Debug;
 		};
 		D0A330F516027F3700A616FA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				VALID_ARCHS = "i386 armv7";
 			};
 			name = Release;
 		};
@@ -1290,6 +1302,7 @@
 				D0A330F016027F1E00A616FA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D0A330F316027F3700A616FA /* Build configuration list for PBXAggregateTarget "libgit2-iOS" */ = {
 			isa = XCConfigurationList;
@@ -1298,6 +1311,7 @@
 				D0A330F516027F3700A616FA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
