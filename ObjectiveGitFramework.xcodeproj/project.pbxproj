@@ -1182,6 +1182,7 @@
 				88F05A8116011E5400B7AD1D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

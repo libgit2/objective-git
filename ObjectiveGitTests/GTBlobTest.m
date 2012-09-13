@@ -62,13 +62,13 @@
 	NSError *error = nil;
 	GTBlob *blob = (GTBlob *)[repo lookupBySha:sha error:&error];
 	blob.content = @"my new content";
-	STAssertEquals(sha, blob.sha, nil);
+	STAssertEqualObjects(sha, blob.sha, nil);
 	
 	NSString *newSha = [blob writeAndReturnError:&error];
 	
 	STAssertNil(error, [error localizedDescription]);
-	STAssertEquals(@"2dd916ea1ff086d61fbc1c286079305ffad4e92e", blob.sha, nil);
-	STAssertEquals(@"2dd916ea1ff086d61fbc1c286079305ffad4e92e", newSha, nil);
+	STAssertEqualObjects(@"2dd916ea1ff086d61fbc1c286079305ffad4e92e", blob.sha, nil);
+	STAssertEqualObjects(@"2dd916ea1ff086d61fbc1c286079305ffad4e92e", newSha, nil);
 	rm_loose(blob.sha);
 }
 */

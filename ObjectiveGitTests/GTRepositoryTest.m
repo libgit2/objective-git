@@ -228,8 +228,8 @@
 	NSError *error = nil;
 	GTReference *head = [repo headAndReturnError:&error];
 	STAssertNil(error, [error localizedDescription]);
-	STAssertEquals(head.target, @"36060c58702ed4c2a40832c51758d5344201d89a", nil);
-	STAssertEquals(head.type, @"commit", nil);
+	STAssertEqualObjects(head.target, @"36060c58702ed4c2a40832c51758d5344201d89a", nil);
+	STAssertEqualObjects(head.type, @"commit", nil);
 	
 	NSString *tsha = @"c4dc1555e4d4fa0e0c9c3fc46734c7c35b3ce90b";
 	GTObject *aObj = [repo lookupBySha:tsha error:&error];
@@ -248,7 +248,7 @@
 	head = [repo headAndReturnError:&error];
 	STAssertNotNil(head, [error localizedDescription]);
 	
-	STAssertEquals(head.target, commit.sha, nil);
+	STAssertEqualObjects(head.target, commit.sha, nil);
 	
 	rm_loose(commit.sha);
 }

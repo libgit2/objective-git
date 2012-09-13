@@ -89,11 +89,11 @@
 	NSString *originalBranchName = firstBranch.name;
 	BOOL success = [firstBranch.reference setName:newBranchName error:&error];
 	STAssertTrue(success, [error localizedDescription]);
-	STAssertEquals(firstBranch.name, newBranchName, nil);
+	STAssertEqualObjects(firstBranch.name, newBranchName, nil);
 	
 	success = [firstBranch.reference setName:originalBranchName error:&error];
 	STAssertTrue(success, [error localizedDescription]);
-	STAssertEquals(firstBranch.name, originalBranchName, nil);
+	STAssertEqualObjects(firstBranch.name, originalBranchName, nil);
 }
  */
 

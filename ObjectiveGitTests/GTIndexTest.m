@@ -236,7 +236,7 @@
 	success = [index2 refreshAndReturnError:&error];
 	STAssertTrue(success, [error localizedDescription]);
 	
-	STAssertEquals([index2 entryAtIndex:0].path, @"test.txt", nil);
+	STAssertEqualObjects([index2 entryAtIndex:0].path, @"test.txt", nil);
 #endif
 }
 
