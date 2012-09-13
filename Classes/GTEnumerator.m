@@ -134,7 +134,7 @@
 - (id)nextObjectWithError:(NSError **)error {
 	git_oid oid;
 	int gitError = git_revwalk_next(&oid, self.walk);
-	if(gitError == GIT_REVWALKOVER)
+	if(gitError == GIT_ITEROVER)
 		return nil;
 	
 	// ignore error if we can't lookup object and just return nil
