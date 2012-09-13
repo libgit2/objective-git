@@ -4,11 +4,6 @@ ios_version="5.1";
 
 cd "libgit2"
 
-LIBGIT2_BRANCH="development"
-
-git checkout "${LIBGIT2_BRANCH}"
-git pull
-
 # armv7 build
 
 if [ -d "build" ]; then
