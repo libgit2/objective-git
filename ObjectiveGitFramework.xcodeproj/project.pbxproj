@@ -6,6 +6,31 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		D0A330ED16027F1E00A616FA /* libgit2 */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = D0A330EE16027F1E00A616FA /* Build configuration list for PBXAggregateTarget "libgit2" */;
+			buildPhases = (
+				D0A330F116027F2300A616FA /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = libgit2;
+			productName = libgit2;
+		};
+		D0A330F216027F3600A616FA /* libgit2-iOS */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = D0A330F316027F3700A616FA /* Build configuration list for PBXAggregateTarget "libgit2-iOS" */;
+			buildPhases = (
+				D0A330F616027F3B00A616FA /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = "libgit2-iOS";
+			productName = "libgit2-iOS";
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		04DB464E133AB5E200D9C624 /* NSError+Git.h in Headers */ = {isa = PBXBuildFile; fileRef = BDE4C060130EFE2C00851650 /* NSError+Git.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		04DB464F133AB5E200D9C624 /* GTRepository.h in Headers */ = {isa = PBXBuildFile; fileRef = BDE4C062130EFE2C00851650 /* GTRepository.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -197,6 +222,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = E9ACDF0B13B2DD520010F4D7;
 			remoteInfo = Expecta;
+		};
+		D0A330F716027F4900A616FA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D0A330ED16027F1E00A616FA;
+			remoteInfo = libgit2;
+		};
+		D0A330F916027F4D00A616FA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D0A330F216027F3600A616FA;
+			remoteInfo = "libgit2-iOS";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -640,6 +679,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				D0A330FA16027F4D00A616FA /* PBXTargetDependency */,
 			);
 			name = "ObjectiveGit-iOS";
 			productName = "ObjectiveGit-iOS";
@@ -680,6 +720,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				D0A330F816027F4900A616FA /* PBXTargetDependency */,
 			);
 			name = ObjectiveGit;
 			productInstallPath = "$(HOME)/Library/Frameworks";
@@ -725,6 +766,8 @@
 				8DC2EF4F0486A6940098B216 /* ObjectiveGit */,
 				04DB4644133AB57600D9C624 /* ObjectiveGit-iOS */,
 				88F05A6A16011E5400B7AD1D /* ObjectiveGitTests */,
+				D0A330ED16027F1E00A616FA /* libgit2 */,
+				D0A330F216027F3600A616FA /* libgit2-iOS */,
 			);
 		};
 /* End PBXProject section */
@@ -822,6 +865,32 @@
 			shellPath = /bin/sh;
 			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
 		};
+		D0A330F116027F2300A616FA /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = scripts/update_libgit2.sh;
+		};
+		D0A330F616027F3B00A616FA /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = scripts/update_libgit2_ios.sh;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -916,6 +985,16 @@
 			isa = PBXTargetDependency;
 			name = Expecta;
 			targetProxy = 88F05AEF1601338400B7AD1D /* PBXContainerItemProxy */;
+		};
+		D0A330F816027F4900A616FA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D0A330ED16027F1E00A616FA /* libgit2 */;
+			targetProxy = D0A330F716027F4900A616FA /* PBXContainerItemProxy */;
+		};
+		D0A330FA16027F4D00A616FA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D0A330F216027F3600A616FA /* libgit2-iOS */;
+			targetProxy = D0A330F916027F4D00A616FA /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1145,6 +1224,34 @@
 			};
 			name = Release;
 		};
+		D0A330EF16027F1E00A616FA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		D0A330F016027F1E00A616FA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		D0A330F416027F3700A616FA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		D0A330F516027F3700A616FA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1183,6 +1290,22 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		D0A330EE16027F1E00A616FA /* Build configuration list for PBXAggregateTarget "libgit2" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D0A330EF16027F1E00A616FA /* Debug */,
+				D0A330F016027F1E00A616FA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		D0A330F316027F3700A616FA /* Build configuration list for PBXAggregateTarget "libgit2-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D0A330F416027F3700A616FA /* Debug */,
+				D0A330F516027F3700A616FA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
