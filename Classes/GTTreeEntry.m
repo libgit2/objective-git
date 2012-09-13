@@ -73,7 +73,7 @@
 }
 
 - (NSInteger)attributes {
-	return git_tree_entry_attributes(self.git_tree_entry);
+	return git_tree_entry_filemode(self.git_tree_entry);
 }
 
 - (NSString *)sha {
