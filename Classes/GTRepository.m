@@ -42,7 +42,6 @@
 
 @interface GTRepository ()
 @property (nonatomic, assign) git_repository *git_repository;
-@property (nonatomic, strong) NSURL *fileURL;
 @property (nonatomic, strong) GTEnumerator *enumerator;
 @property (nonatomic, strong) GTIndex *index;
 @property (nonatomic, strong) GTObjectDatabase *objectDatabase;
@@ -116,14 +115,14 @@
 }
 
 - (id)initWithURL:(NSURL *)localFileURL error:(NSError **)error {
-	localFileURL = [self.class _gitURLForURL:localFileURL error:error];
-	if (localFileURL == nil) return nil;
+	NSURL *gitDirForLocalURL = [self.class _gitURLForURL:localFileURL error:error];
+	if (gitDirForLocalURL == nil) return nil;
 
 	self = [super init];
 	if (self == nil) return nil;
 
 	git_repository *r;
-	int gitError = git_repository_open(&r, localFileURL.path.UTF8String);
+	int gitError = git_repository_open(&r, gitDirForLocalURL.path.UTF8String);
 
 	if (gitError < GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to open repository."];
@@ -131,7 +130,6 @@
 	}
 
 	self.git_repository = r;
-	self.fileURL = localFileURL;
 
 	return self;
 }
@@ -436,6 +434,14 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 
 - (GTRepository *)repository {
 	return self;
+}
+
+- (NSURL *)fileURL {
+	const char *path = git_repository_workdir(self.git_repository);
+	// bare repository, you may be looking for gitDirectoryURL
+	if (path == NULL) return nil;
+
+	return [NSURL fileURLWithPath:@(path) isDirectory:YES];
 }
 
 - (NSURL *)gitDirectoryURL {
