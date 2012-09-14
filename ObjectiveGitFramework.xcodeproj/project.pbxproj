@@ -1016,7 +1016,6 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_GC = unsupported;
@@ -1042,7 +1041,6 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_ENABLE_OBJC_GC = unsupported;
@@ -1146,6 +1144,7 @@
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1168,6 +1167,7 @@
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -1222,6 +1222,126 @@
 			};
 			name = Release;
 		};
+		D03FC3D71602E97F00BCFA73 /* Profile */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/libgit2/include\"";
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = .;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				SDKROOT = macosx;
+				TEST_AFTER_BUILD = YES;
+				VALID_ARCHS = x86_64;
+			};
+			name = Profile;
+		};
+		D03FC3D81602E97F00BCFA73 /* Profile */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_IMPLICIT_SIGN_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_ATOMIC_PROPERTIES = YES;
+				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ObjectiveGitFramework_Prefix.pch;
+				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = YES;
+				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_STRICT_SELECTOR_MATCH = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = Info.plist;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
+				MACH_O_TYPE = mh_dylib;
+				OTHER_LDFLAGS = "-lgit2";
+				PRODUCT_NAME = ObjectiveGit;
+				WARNING_CFLAGS = (
+					"-Wall",
+					"-Werror",
+				);
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Profile;
+		};
+		D03FC3D91602E97F00BCFA73 /* Profile */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				GCC_ENABLE_OBJC_GC = unsupported;
+				GCC_PREFIX_HEADER = ObjectiveGitFramework_Prefix.pch;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/libgit2/include";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
+				OTHER_LDFLAGS = "-lgit2-iOS";
+				PRODUCT_NAME = "ObjectiveGit-iOS";
+				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/ObjectiveGit;
+				SDKROOT = iphoneos;
+				VALID_ARCHS = "i386 armv7";
+				ZERO_LINK = NO;
+			};
+			name = Profile;
+		};
+		D03FC3DA1602E97F00BCFA73 /* Profile */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ObjectiveGitTests/ObjectiveGitTests-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/libgit2/include\"",
+					ObjectiveGitTests/specta/src,
+					"ObjectiveGitTests/expecta/src/**",
+				);
+				INFOPLIST_FILE = "ObjectiveGitTests/ObjectiveGitTests-Info.plist";
+				OTHER_LDFLAGS = "-all_load";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Profile;
+		};
+		D03FC3DB1602E97F00BCFA73 /* Profile */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Profile;
+		};
+		D03FC3DC1602E97F00BCFA73 /* Profile */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				VALID_ARCHS = "i386 armv7";
+			};
+			name = Profile;
+		};
 		D0A330EF16027F1E00A616FA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1264,6 +1384,7 @@
 			buildConfigurations = (
 				04DB4646133AB57600D9C624 /* Debug */,
 				04DB4647133AB57600D9C624 /* Release */,
+				D03FC3D91602E97F00BCFA73 /* Profile */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1273,6 +1394,7 @@
 			buildConfigurations = (
 				1DEB91AE08733DA50010E9CD /* Debug */,
 				1DEB91AF08733DA50010E9CD /* Release */,
+				D03FC3D81602E97F00BCFA73 /* Profile */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1282,6 +1404,7 @@
 			buildConfigurations = (
 				1DEB91B208733DA50010E9CD /* Debug */,
 				1DEB91B308733DA50010E9CD /* Release */,
+				D03FC3D71602E97F00BCFA73 /* Profile */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1291,6 +1414,7 @@
 			buildConfigurations = (
 				88F05A8016011E5400B7AD1D /* Debug */,
 				88F05A8116011E5400B7AD1D /* Release */,
+				D03FC3DA1602E97F00BCFA73 /* Profile */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1300,6 +1424,7 @@
 			buildConfigurations = (
 				D0A330EF16027F1E00A616FA /* Debug */,
 				D0A330F016027F1E00A616FA /* Release */,
+				D03FC3DB1602E97F00BCFA73 /* Profile */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1309,6 +1434,7 @@
 			buildConfigurations = (
 				D0A330F416027F3700A616FA /* Debug */,
 				D0A330F516027F3700A616FA /* Release */,
+				D03FC3DC1602E97F00BCFA73 /* Profile */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
