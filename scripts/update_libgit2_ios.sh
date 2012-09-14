@@ -1,5 +1,11 @@
 set -e
 
+if [ "libgit2-ios.a" -nt "libgit2" ]
+then
+    echo "No update needed."
+    exit 0
+fi
+
 ios_version="5.1";
 
 cd "libgit2"

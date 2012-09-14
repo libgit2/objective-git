@@ -1,5 +1,11 @@
 set -e
 
+if [ "libgit2.a" -nt "libgit2" ]
+then
+    echo "No update needed."
+    exit 0
+fi
+
 cd "libgit2"
 
 if [ -d "build" ]; then
