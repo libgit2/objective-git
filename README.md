@@ -59,6 +59,8 @@ not allowing third-party dynamic frameworks. A work-around for this is as follow
 Fork libgit2/objective-git on GitHub, make it awesomer (preferably in a branch named
 for the topic), send a pull request.
 
+All contributions should match GitHub's [Objective-C coding conventions](https://github.com/github/objective-c-conventions).
+
 ## Contributers
 You can see all the amazing people contributing to this project
 [here](https://github.com/libgit2/objective-git/contributors).
