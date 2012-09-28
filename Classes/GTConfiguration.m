@@ -7,6 +7,7 @@
 //
 
 #import "GTConfiguration.h"
+#import "GTConfiguration+Private.h"
 #import "GTRepository.h"
 #import "GTRemote.h"
 
