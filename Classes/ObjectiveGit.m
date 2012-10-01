@@ -16,3 +16,13 @@ void GTSetupThreads(void) {
 extern void GTShutdownThreads(void) {
 	git_threads_shutdown();
 }
+
+__attribute__((constructor))
+static void initializer(void) {
+	GTSetupThreads();
+}
+
+__attribute__((destructor))
+static void finalizer(void) {
+	GTShutdownThreads();
+}
