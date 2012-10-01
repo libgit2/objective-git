@@ -47,8 +47,10 @@
 #import <ObjectiveGit/NSData+Git.h>
 #import <ObjectiveGit/NSString+Git.h>
 
-// If you use ObjectiveGit in multiple threads, you must call this before doing
-// and ObjectiveGit work.
+// This must be called before doing any ObjectiveGit work.  Under normal
+// circumstances, it will automatically be called on your behalf.
+// If you've linked ObjectiveGit as a static library but haven't set
+// the -all_load linker flag, you'll have to call this manually.
 extern void GTSetupThreads(void);
 
 // If you called GTSetupThreads, you must call this after all your ObjectiveGit 
