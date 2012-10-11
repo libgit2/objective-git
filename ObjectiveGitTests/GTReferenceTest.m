@@ -194,7 +194,7 @@
 	
 	@try {
 		
-		NSArray *refs = [repo referenceNamesWithTypes:GTReferenceTypesSymoblic error:&error];
+		NSArray *refs = [repo referenceNamesWithTypes:GTReferenceTypesSymbolic error:&error];
 		STAssertNil(error, [error localizedDescription]);
 		STAssertEquals(1, (int)refs.count, nil);	
 		STAssertEqualObjects(@"refs/heads/unit_test", [refs objectAtIndex:0], nil);
