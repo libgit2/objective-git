@@ -31,7 +31,7 @@ typedef enum {
 
 typedef enum {
 	GTReferenceTypesOid = GIT_REF_OID,				/** A reference which points at an object id */
-	GTReferenceTypesSymoblic = GIT_REF_SYMBOLIC,	/** A reference which points at another reference */
+	GTReferenceTypesSymbolic = GIT_REF_SYMBOLIC,	/** A reference which points at another reference */
 	GTReferenceTypesPacked = GIT_REF_PACKED,
 	GTReferenceTypesHasPeel = GIT_REF_HAS_PEEL,
 	GTReferenceTypesListAll = GIT_REF_LISTALL,
