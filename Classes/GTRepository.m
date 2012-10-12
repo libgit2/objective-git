@@ -420,7 +420,7 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 
 	NSMutableArray *references = [NSMutableArray arrayWithCapacity:array.count];
 	for (NSUInteger i = 0; i < array.count; i++) {
-		NSString *refName = [NSString stringWithUTF8String:array.strings[i]];
+		NSString *refName = @(array.strings[i]);
 		if (refName == nil) continue;
 		
 		[references addObject:refName];
