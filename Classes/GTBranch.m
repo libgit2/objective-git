@@ -230,7 +230,10 @@
 }
 
 - (GTBranch *)trackingBranchWithError:(NSError **)error success:(BOOL *)success {
-	if (self.branchType == GTBranchTypeRemote) return self;
+	if (self.branchType == GTBranchTypeRemote) {
+		if (success != NULL) *success = YES;
+		return self;
+	}
 
 	git_reference *trackingRef = NULL;
 	int gitError = git_branch_tracking(&trackingRef, self.reference.git_reference);
