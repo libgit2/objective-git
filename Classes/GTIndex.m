@@ -93,16 +93,16 @@
 }
 
 - (GTIndexEntry *)entryAtIndex:(NSUInteger)theIndex {
-	return [GTIndexEntry indexEntryWithEntry:git_index_get(self.git_index, (unsigned int) theIndex)];
+	return [GTIndexEntry indexEntryWithEntry:git_index_get_byindex(self.git_index, (unsigned int) theIndex)];
 }
 
 - (GTIndexEntry *)entryWithName:(NSString *)name {
 	int i = git_index_find(self.git_index, [name UTF8String]);
-	return [GTIndexEntry indexEntryWithEntry:git_index_get(self.git_index, (unsigned int) i)];
+	return [GTIndexEntry indexEntryWithEntry:git_index_get_byindex(self.git_index, (unsigned int) i)];
 }
 
 - (BOOL)addEntry:(GTIndexEntry *)entry error:(NSError **)error {
-	int gitError = git_index_add2(self.git_index, entry.git_index_entry);
+	int gitError = git_index_add(self.git_index, entry.git_index_entry);
 	if(gitError < GIT_OK) {
 		if(error != NULL)
 			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to add entry to index."];
@@ -112,7 +112,7 @@
 }
 
 - (BOOL)addFile:(NSString *)file error:(NSError **)error {
-	int gitError = git_index_add(self.git_index, [file UTF8String], 0);
+	int gitError = git_index_add_from_workdir(self.git_index, file.UTF8String);
 	if(gitError < GIT_OK) {
 		if(error != NULL)
 			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to add entry to index."];
