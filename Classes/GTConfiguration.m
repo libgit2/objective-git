@@ -10,6 +10,7 @@
 #import "GTConfiguration+Private.h"
 #import "GTRepository.h"
 #import "GTRemote.h"
+#import "NSError+Git.h"
 
 @implementation GTConfiguration
 
