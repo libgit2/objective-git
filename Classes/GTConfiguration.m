@@ -117,7 +117,7 @@ static int configCallback(const git_config_entry *entry, void *payload) {
 - (BOOL)refresh:(NSError **)error {
 	int success = git_config_refresh(self.git_config);
 	if (success != 0) {
-		if (error != NULL) *error = [NSError git_errorFor:success withAdditionalDescription:@"Couldn't refresh the configuration."];
+		if (error != NULL) *error = [NSError git_errorFor:success withAdditionalDescription:@"Couldn't reload the repository configuration from disk."];
 
 		return NO;
 	}
