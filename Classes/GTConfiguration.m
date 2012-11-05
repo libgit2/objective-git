@@ -102,8 +102,10 @@ static int configCallback(const git_config_entry *entry, void *payload) {
 	for (size_t i = 0; i < names.count; i++) {
 		const char *name = names.strings[i];
 		git_remote *remote = NULL;
-		git_remote_load(&remote, self.repository.git_repository, name);
-		[remotes addObject:[[GTRemote alloc] initWithGitRemote:remote]];
+
+		if (git_remote_load(&remote, self.repository.git_repository, name) == 0) {
+			[remotes addObject:[[GTRemote alloc] initWithGitRemote:remote]];
+		}
 	}
 
 	git_strarray_free(&names);
