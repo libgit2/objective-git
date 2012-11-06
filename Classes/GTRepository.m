@@ -92,7 +92,7 @@
 	}
 	NSURL *filePathURL = [url filePathURL];
 	if (filePathURL == nil) {
-		if (error != NULL) *error = [NSError errorWithDomain:NSCocoaErrorDomain code:kCFURLErrorUnsupportedURL userInfo:[NSDictionary dictionaryWithObject:@"not a value file Path URL" forKey:NSLocalizedDescriptionKey]];
+		if (error != NULL) *error = [NSError errorWithDomain:NSCocoaErrorDomain code:kCFURLErrorUnsupportedURL userInfo:[NSDictionary dictionaryWithObject:@"not a valid file path URL" forKey:NSLocalizedDescriptionKey]];
 		return nil;
 	}
 
