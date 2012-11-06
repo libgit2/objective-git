@@ -90,12 +90,17 @@
 		if (error != NULL) *error = [NSError errorWithDomain:NSCocoaErrorDomain code:kCFURLErrorUnsupportedURL userInfo:[NSDictionary dictionaryWithObject:@"not a local file URL" forKey:NSLocalizedDescriptionKey]];
 		return nil;
 	}
-
-	if (![url.path hasSuffix:@".git"] || ![GTRepository isAGitDirectory:url]) {
-		url = [url URLByAppendingPathComponent:@".git"];
+	NSURL *filePathURL = [url filePathURL];
+	if (filePathURL == nil) {
+		if (error != NULL) *error = [NSError errorWithDomain:NSCocoaErrorDomain code:kCFURLErrorUnsupportedURL userInfo:[NSDictionary dictionaryWithObject:@"not a value file Path URL" forKey:NSLocalizedDescriptionKey]];
+		return nil;
 	}
 
-	return url;
+	if (![filePathURL.path hasSuffix:@".git"] || ![GTRepository isAGitDirectory:filePathURL]) {
+		filePathURL = [filePathURL URLByAppendingPathComponent:@".git"];
+	}
+
+	return filePathURL;
 }
 
 + (BOOL)initializeEmptyRepositoryAtURL:(NSURL *)localFileURL error:(NSError **)error {
