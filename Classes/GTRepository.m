@@ -86,13 +86,13 @@
 }
 
 + (NSURL *)_gitURLForURL:(NSURL *)url error:(NSError **)error {
-	if (![url isFileURL]) {
-		if (error != NULL) *error = [NSError errorWithDomain:NSCocoaErrorDomain code:kCFURLErrorUnsupportedURL userInfo:[NSDictionary dictionaryWithObject:@"not a local file URL" forKey:NSLocalizedDescriptionKey]];
+	if (!url.isFileURL) {
+		if (error != NULL) *error = [NSError errorWithDomain:NSCocoaErrorDomain code:kCFURLErrorUnsupportedURL userInfo:@{ NSLocalizedDescriptionKey: @"not a local file URL" }];
 		return nil;
 	}
-	NSURL *filePathURL = [url filePathURL];
+	NSURL *filePathURL = url.filePathURL;
 	if (filePathURL == nil) {
-		if (error != NULL) *error = [NSError errorWithDomain:NSCocoaErrorDomain code:kCFURLErrorUnsupportedURL userInfo:[NSDictionary dictionaryWithObject:@"not a valid file path URL" forKey:NSLocalizedDescriptionKey]];
+		if (error != NULL) *error = [NSError errorWithDomain:NSCocoaErrorDomain code:kCFURLErrorUnsupportedURL userInfo:@{ NSLocalizedDescriptionKey: @"not a valid file path URL" }];
 		return nil;
 	}
 
