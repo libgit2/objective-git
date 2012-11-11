@@ -42,18 +42,15 @@
   return [NSString stringWithFormat:@"<%@: %p> name: %@, shortName: %@, sha: %@, remoteName: %@, repository: %@", NSStringFromClass([self class]), self, self.name, self.shortName, self.sha, self.remoteName, self.repository];
 }
 
-- (BOOL)isEqual:(id)otherObject {
-	if(![otherObject isKindOfClass:[GTBranch class]]) {
-		return NO;
-	}
-	
-	GTBranch *otherBranch = otherObject;
-	
-	return [self.name isEqualToString:otherBranch.name];
+- (BOOL)isEqual:(GTBranch *)otherBranch {
+	if (otherBranch == self) return YES;
+	if (![otherBranch isKindOfClass:self.class]) return NO;
+
+	return [self.name isEqual:otherBranch.name] && [self.sha isEqual:otherBranch.sha];
 }
 
 - (NSUInteger)hash {
-	return [self.name hash];
+	return self.name.hash ^ self.sha.hash;
 }
 
 
