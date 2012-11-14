@@ -171,4 +171,12 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 // returns YES if the pack was successful
 - (BOOL)packAllWithError:(NSError **)error;
 
+// Reset the repository's HEAD to the given commit.
+//
+// commit - the commit the HEAD is to be reset to
+// error(out) - in the event of an error this may be set
+//
+// Returns `YES` if successful, `NO` if not.
+- (BOOL)resetToCommit:(GTCommit *)commit withError:(NSError **)error;
+
 @end
