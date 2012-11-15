@@ -54,6 +54,12 @@ enum {
 
 typedef unsigned int GTRepositoryFileStatus;
 
+typedef enum : git_reset_type {
+    GTRepositoryResetTypeSoft = GIT_RESET_SOFT,
+    GTRepositoryResetTypeMixed = GIT_RESET_MIXED,
+    GTRepositoryResetTypeHard = GIT_RESET_HARD
+} GTRepositoryResetType;
+
 typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus status, BOOL *stop);
 
 @interface GTRepository : NSObject <GTObject>
@@ -170,5 +176,14 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 //
 // returns YES if the pack was successful
 - (BOOL)packAllWithError:(NSError **)error;
+
+// Reset the repository's HEAD to the given commit.
+//
+// commit - the commit the HEAD is to be reset to. Must not be nil.
+// resetType - The type of reset to be used.
+// error(out) - in the event of an error this may be set.
+//
+// Returns `YES` if successful, `NO` if not.
+- (BOOL)resetToCommit:(GTCommit *)commit withResetType:(GTRepositoryResetType)resetType error:(NSError **)error;
 
 @end
