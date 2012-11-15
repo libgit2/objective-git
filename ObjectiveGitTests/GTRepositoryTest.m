@@ -215,7 +215,7 @@
 
 - (void)testCanReset {
     NSError *err = nil;
-    GTRepository *aRepo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.claas)] error:&err];
+    GTRepository *aRepo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&err];
     STAssertNotNil(aRepo, @"Repository failed to initialise");
     NSString *resetTargetSha = @"8496071c1b46c854b31185ea97743be6a8774479";
     NSArray *commits = [aRepo selectCommitsBeginningAtSha:resetTargetSha error:&err block:^ BOOL (GTCommit *commit, BOOL *stop) {
