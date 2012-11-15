@@ -534,4 +534,16 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 	[self.weakEnumerators removeObject:[NSValue valueWithNonretainedObject:e]];
 }
 
+- (BOOL)resetToCommit:(GTCommit *)commit withResetType:(GTRepositoryResetType)resetType error:(NSError **)error {
+    NSParameterAssert(commit != nil);
+    
+    git_object *targetCommit = commit.git_object;
+    int result = git_reset(self.git_repository, targetCommit, (git_reset_type)resetType);
+    if (result == GIT_OK) return YES;
+    
+    if (error != NULL) *error = [NSError git_errorFor:result withAdditionalDescription:@"Failed to reset repository."];
+    
+    return NO;
+}
+
 @end
