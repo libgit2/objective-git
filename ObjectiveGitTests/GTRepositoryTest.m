@@ -217,6 +217,7 @@
     NSError *err = nil;
     GTRepository *aRepo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&err];
     STAssertNotNil(aRepo, @"Repository failed to initialise");
+    GTReference *originalHead = [aRepo headReferenceWithError:NULL];
     NSString *resetTargetSha = @"8496071c1b46c854b31185ea97743be6a8774479";
     NSArray *commits = [aRepo selectCommitsBeginningAtSha:resetTargetSha error:&err block:^ BOOL (GTCommit *commit, BOOL *stop) {
         if ([commit.sha isEqualToString:resetTargetSha]) {
@@ -227,11 +228,18 @@
         return NO;
     }];
     
-    GTCommit *commit = [commits objectAtIndex:0];
-    BOOL success = [aRepo resetToCommit:commit withResetType:GTRepositoryResetTypeHard error:&err];
+    GTCommit *commit = commits[0];
+    BOOL success = [aRepo resetToCommit:commit withResetType:GTRepositoryResetTypeSoft error:&err];
     STAssertTrue(success, [NSString stringWithFormat:@"Failed to reset, error given: %@", err]);
     GTReference *head = [aRepo headReferenceWithError:&err];
     STAssertEqualObjects(head.target, resetTargetSha, @"Reset failed to move head to given commit");
+    
+    NSArray *originalHeadCommits = [aRepo selectCommitsBeginningAtSha:originalHead.target error:NULL block: ^ BOOL (GTCommit *commit, BOOL *stop) {
+        *stop = YES;
+        return YES;
+    }];
+    GTCommit *originalHeadCommit = originalHeadCommits[0];
+    [aRepo resetToCommit:originalHeadCommit withResetType:GTRepositoryResetTypeSoft error:NULL];
 }
 
 //- (void) testCanGetRemotes {
