@@ -230,7 +230,7 @@
     
     GTCommit *commit = commits[0];
     BOOL success = [aRepo resetToCommit:commit withResetType:GTRepositoryResetTypeSoft error:&err];
-    STAssertTrue(success, [NSString stringWithFormat:@"Failed to reset, error given: %@", err]);
+    STAssertTrue(success, @"Failed to reset, error given: %@", err);
     GTReference *head = [aRepo headReferenceWithError:&err];
     STAssertEqualObjects(head.target, resetTargetSha, @"Reset failed to move head to given commit");
     
