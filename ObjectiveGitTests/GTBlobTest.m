@@ -92,32 +92,32 @@
 	rm_loose(self.class, blob.sha);
 }
 
-- (void)testCanGetCompleteContentWithNulls {
-	
-	NSError *error = nil;
-	char bytes[] = "100644 example_helper.rb\00\xD3\xD5\xED\x9D A4_\x00 40000 examples";
-	NSData *content = [NSData dataWithBytes:bytes length:sizeof(bytes)];
-	
-	GTBlob *blob = [GTBlob blobWithData:content inRepository:repo error:&error];
-    NSString *newSha = [blob sha];
-	STAssertNotNil(newSha, [error localizedDescription]);
-	
-	rm_loose(self.class, newSha);
-	
-	//todo
-	/*GTRawObject *obj = [GTRawObject rawObjectWithType:GTObjectTypeBlob data:content];
-	NSString *newSha = [repo write:obj error:&error];
-	
-	STAssertNil(error, [error localizedDescription]);
-	STAssertNotNil(newSha, nil);
-	GTBlob *blob = (GTBlob *)[repo lookupBySha:newSha error:&error];
-	GTRawObject *newObj = [blob readRawAndReturnError:&error];
-	STAssertNil(error, [error localizedDescription]);
-	NSLog(@"original content = %@", [obj data]);
-	NSLog(@"lookup content   = %@", [newObj data]);
-	STAssertEqualObjects(newObj.data, obj.data, nil);
-	rm_loose(newSha);*/
-}
+//- (void)testCanGetCompleteContentWithNulls {
+//	
+//	NSError *error = nil;
+//	char bytes[] = "100644 example_helper.rb\00\xD3\xD5\xED\x9D A4_\x00 40000 examples";
+//	NSData *content = [NSData dataWithBytes:bytes length:sizeof(bytes)];
+//	
+//	GTBlob *blob = [GTBlob blobWithData:content inRepository:repo error:&error];
+//    NSString *newSha = [blob sha];
+//	STAssertNotNil(newSha, [error localizedDescription]);
+//	
+//	rm_loose(self.class, newSha);
+//	
+//	//todo
+//	/*GTRawObject *obj = [GTRawObject rawObjectWithType:GTObjectTypeBlob data:content];
+//	NSString *newSha = [repo write:obj error:&error];
+//	
+//	STAssertNil(error, [error localizedDescription]);
+//	STAssertNotNil(newSha, nil);
+//	GTBlob *blob = (GTBlob *)[repo lookupBySha:newSha error:&error];
+//	GTRawObject *newObj = [blob readRawAndReturnError:&error];
+//	STAssertNil(error, [error localizedDescription]);
+//	NSLog(@"original content = %@", [obj data]);
+//	NSLog(@"lookup content   = %@", [newObj data]);
+//	STAssertEqualObjects(newObj.data, obj.data, nil);
+//	rm_loose(newSha);*/
+//}
 
 // todo
 //- (void)testCanCreateBlobFromFile {
