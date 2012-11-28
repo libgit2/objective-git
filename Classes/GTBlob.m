@@ -117,7 +117,7 @@
 	git_off_t s = [self size];
     if (s <= 0) return [NSData data];
     
-    return [NSData dataWithBytes:git_blob_rawcontent(self.git_blob) length:(size_t)s];
+    return [NSData dataWithBytes:git_blob_rawcontent(self.git_blob) length:(NSUInteger)s];
 }
 
 @end

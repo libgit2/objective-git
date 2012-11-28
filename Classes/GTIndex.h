@@ -58,8 +58,8 @@
 - (void)clear;
 
 // Get entries from the index
-- (const GTIndexEntry *)entryAtIndex:(NSUInteger)theIndex;
-- (const GTIndexEntry *)entryWithName:(NSString *)name;
+- (GTIndexEntry *)entryAtIndex:(NSUInteger)theIndex;
+- (GTIndexEntry *)entryWithName:(NSString *)name;
 
 // Add entries to the index
 - (BOOL)addEntry:(const GTIndexEntry *)entry error:(NSError **)error;
