@@ -62,7 +62,7 @@
 - (GTIndexEntry *)entryWithName:(NSString *)name;
 
 // Add entries to the index
-- (BOOL)addEntry:(const GTIndexEntry *)entry error:(NSError **)error;
+- (BOOL)addEntry:(GTIndexEntry *)entry error:(NSError **)error;
 - (BOOL)addFile:(NSString *)file error:(NSError **)error;
 
 // Write the index to the datastore
