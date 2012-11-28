@@ -58,11 +58,11 @@
 - (void)clear;
 
 // Get entries from the index
-- (GTIndexEntry *)entryAtIndex:(NSUInteger)theIndex;
-- (GTIndexEntry *)entryWithName:(NSString *)name;
+- (const GTIndexEntry *)entryAtIndex:(NSUInteger)theIndex;
+- (const GTIndexEntry *)entryWithName:(NSString *)name;
 
 // Add entries to the index
-- (BOOL)addEntry:(GTIndexEntry *)entry error:(NSError **)error;
+- (BOOL)addEntry:(const GTIndexEntry *)entry error:(NSError **)error;
 - (BOOL)addFile:(NSString *)file error:(NSError **)error;
 
 // Write the index to the datastore

@@ -92,16 +92,16 @@
 	git_index_clear(self.git_index);
 }
 
-- (GTIndexEntry *)entryAtIndex:(NSUInteger)theIndex {
+- (const GTIndexEntry *)entryAtIndex:(NSUInteger)theIndex {
 	return [GTIndexEntry indexEntryWithEntry:git_index_get_byindex(self.git_index, (unsigned int)theIndex)];
 }
 
-- (GTIndexEntry *)entryWithName:(NSString *)name {
+- (const GTIndexEntry *)entryWithName:(NSString *)name {
 	int i = git_index_find(self.git_index, [name UTF8String]);
 	return [GTIndexEntry indexEntryWithEntry:git_index_get_byindex(self.git_index, (unsigned int)i)];
 }
 
-- (BOOL)addEntry:(GTIndexEntry *)entry error:(NSError **)error {
+- (BOOL)addEntry:(const GTIndexEntry *)entry error:(NSError **)error {
 	int gitError = git_index_add(self.git_index, entry.git_index_entry);
 	if(gitError < GIT_OK) {
 		if(error != NULL)

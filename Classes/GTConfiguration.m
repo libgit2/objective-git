@@ -75,7 +75,7 @@
 }
 
 - (BOOL)deleteValueForKey:(NSString *)key error:(NSError **)error {
-	git_config_delete(self.git_config, key.UTF8String);
+	git_config_delete_entry(self.git_config, key.UTF8String);
 
 	return YES;
 }

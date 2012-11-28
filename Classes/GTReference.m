@@ -85,14 +85,14 @@
 		
 		self.repository = theRepo;
 		if (git_oid_fromstr(&oid, [theTarget UTF8String]) == GIT_OK) {
-			gitError = git_reference_create_oid(&git_reference, 
-												self.repository.git_repository, 
-												[refName UTF8String], 
-												&oid,
-												0);
+			gitError = git_reference_create(&git_reference,
+											self.repository.git_repository,
+											[refName UTF8String],
+											&oid,
+											0);
 		}
 		else {
-			gitError = git_reference_create_symbolic(&git_reference, 
+			gitError = git_reference_symbolic_create(&git_reference,
 													 self.repository.git_repository, 
 													 [refName UTF8String], 
 													 [theTarget UTF8String],
@@ -172,9 +172,9 @@
 	if(![self isValid]) return nil;
 	
 	if(git_reference_type(self.git_reference) == GIT_REF_OID) {
-		return [NSString git_stringWithOid:git_reference_oid(self.git_reference)];
+		return [NSString git_stringWithOid:git_reference_target(self.git_reference)];
 	} else {
-		return [NSString stringWithUTF8String:git_reference_target(self.git_reference)];
+		return [NSString stringWithUTF8String:git_reference_symbolic_target(self.git_reference)];
 	}
 }
 
@@ -198,9 +198,9 @@
 			return NO;
 		}
 		
-		gitError = git_reference_set_oid(self.git_reference, &oid);
+		gitError = git_reference_set_target(self.git_reference, &oid);
 	} else {
-		gitError = git_reference_set_target(self.git_reference, [newTarget UTF8String]);
+		gitError = git_reference_symbolic_set_target(self.git_reference, [newTarget UTF8String]);
 	}
 
 	if(gitError < GIT_OK) {
@@ -239,7 +239,7 @@
 - (const git_oid *)oid {
 	if(![self isValid]) return NULL;
 	
-	return git_reference_oid(self.git_reference);
+	return git_reference_target(self.git_reference);
 }
 
 - (BOOL)reloadWithError:(NSError **)error {
