@@ -84,7 +84,7 @@
 }
 
 - (NSString *)targetType {
-	return [NSString stringWithUTF8String:git_object_type2string(git_tag_type(self.git_tag))];
+	return [NSString stringWithUTF8String:git_object_type2string(git_tag_target_type(self.git_tag))];
 }
 
 - (GTSignature *)tagger {

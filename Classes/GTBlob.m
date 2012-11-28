@@ -87,7 +87,7 @@
 
 - (id)initWithFile:(NSURL *)file inRepository:(GTRepository *)repository error:(NSError **)error {
 	git_oid oid;
-	int gitError = git_blob_create_fromfile(&oid, repository.git_repository, [[file path] UTF8String]);
+	int gitError = git_blob_create_fromworkdir(&oid, repository.git_repository, [[file path] UTF8String]);
 	if(gitError < GIT_OK) {
 		if(error != NULL) {
 			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to create blob from NSURL"];
@@ -102,22 +102,22 @@
 	return (git_blob *) self.git_object;
 }
 
-- (size_t)size {
+- (git_off_t)size {
 	return git_blob_rawsize(self.git_blob);
 }
 
 - (NSString *)content {
-	size_t s = [self size];
-	if(s == 0) return @"";
+	git_off_t s = [self size];
+	if(s <= 0) return @"";
 	
 	return [NSString stringWithUTF8String:git_blob_rawcontent(self.git_blob)];
 }
 
 - (NSData *)data {
-	size_t s = [self size];
-    if (s == 0) return [NSData data];
+	git_off_t s = [self size];
+    if (s <= 0) return [NSData data];
     
-    return [NSData dataWithBytes:git_blob_rawcontent(self.git_blob) length:s];
+    return [NSData dataWithBytes:git_blob_rawcontent(self.git_blob) length:(NSUInteger)s];
 }
 
 @end
