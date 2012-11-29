@@ -60,7 +60,7 @@
 @synthesize valid;
 @synthesize repository;
 
-+ (id)indexEntryWithEntry:(git_index_entry *)theEntry {
++ (id)indexEntryWithEntry:(const git_index_entry *)theEntry {
 	if (theEntry == NULL)
 		return nil;
 
@@ -74,7 +74,7 @@
 	return self;
 }
 
-- (id)initWithEntry:(git_index_entry *)theEntry {
+- (id)initWithEntry:(const git_index_entry *)theEntry {
 	if((self = [self init])) {
 		if (theEntry)
 		{

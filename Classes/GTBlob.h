@@ -43,7 +43,7 @@
 - (id)initWithData:(NSData *)data inRepository:(GTRepository *)repository error:(NSError **)error;
 - (id)initWithFile:(NSURL *)file inRepository:(GTRepository *)repository error:(NSError **)error;
 
-- (size_t)size;
+- (git_off_t)size;
 - (NSString *)content;
 - (NSData *)data;
 
