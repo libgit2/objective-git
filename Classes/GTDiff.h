@@ -8,7 +8,6 @@
 
 #import "git2.h"
 
-@class GTDiffFile;
 @class GTTree;
 
 @interface GTDiff : NSObject
