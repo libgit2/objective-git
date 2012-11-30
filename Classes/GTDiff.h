@@ -33,4 +33,6 @@ typedef enum : git_delta_t {
 + (GTDiff *)diffWorkingDirectoryToIndexWithOptions:(NSUInteger)options;
 + (GTDiff *)diffWorkingDirectoryToTree:(GTTree *)tree withOptions:(NSUInteger)options;
 
+- (id)initWithGitDiffList:(git_diff_list *)diffList;
+
 @end
