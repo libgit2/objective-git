@@ -20,7 +20,7 @@ typedef enum : git_delta_t {
 	GTDiffFileDeltaIgnored = GIT_DELTA_IGNORED,
 	GTDiffFileDeltaUntracked = GIT_DELTA_UNTRACKED,
 	GTDiffFileDeltaTypeChange = GIT_DELTA_TYPECHANGE,
-} GTDiffFileDelta;
+} GTDiffDeltaType;
 
 @class GTDiffFile;
 
@@ -32,7 +32,7 @@ typedef enum : git_delta_t {
 @property (nonatomic, readonly, getter = isBinary) BOOL binary;
 @property (nonatomic, readonly, strong) GTDiffFile *oldFile;
 @property (nonatomic, readonly, strong) GTDiffFile *newFile;
-@property (nonatomic, readonly) GTDiffFileDelta status;
+@property (nonatomic, readonly) GTDiffDeltaType status;
 
 - (id)initWithGitDelta:(git_diff_delta *)delta;
 
