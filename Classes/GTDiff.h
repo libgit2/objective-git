@@ -21,6 +21,28 @@ extern NSString *const GTDiffOptionsOldPrefixKey;
 extern NSString *const GTDiffOptionsNewPrefixKey;
 extern NSString *const GTDiffOptionsMaxSizeKey;
 
+typedef enum : git_diff_option_t {
+	GTDiffOptionsFlagsNormal = GIT_DIFF_NORMAL,
+	GTDiffOptionsFlagsReverse = GIT_DIFF_REVERSE,
+	GTDiffOptionsFlagsForceText = GIT_DIFF_FORCE_TEXT,
+	GTDiffOptionsFlagsIgnoreWhitespace = GIT_DIFF_IGNORE_WHITESPACE,
+	GTDiffOptionsFlagsIgnoreWhitespaceChange = GIT_DIFF_IGNORE_WHITESPACE_CHANGE,
+	GTDiffOptionsFlagsIgnoreWhitespaceEOL = GIT_DIFF_IGNORE_WHITESPACE_EOL,
+	GTDiffOptionsFlagsIgnoreSubmodules = GIT_DIFF_IGNORE_SUBMODULES,
+	GTDiffOptionsFlagsPatience = GIT_DIFF_PATIENCE,
+	GTDiffOptionsFlagsIncludeIgnored = GIT_DIFF_INCLUDE_IGNORED,
+	GTDiffOptionsFlagsIncludeUntracked = GIT_DIFF_INCLUDE_UNTRACKED,
+	GTDiffOptionsFlagsIncludeUnmodified = GIT_DIFF_INCLUDE_UNMODIFIED,
+	GTDiffOptionsFlagsRecurseUntrackedDirs = GIT_DIFF_RECURSE_UNTRACKED_DIRS,
+	GTDiffOptionsFlagsDisablePathspecMatch = GIT_DIFF_DISABLE_PATHSPEC_MATCH,
+	GTDiffOptionsFlagsDeltasAreICase = GIT_DIFF_DELTAS_ARE_ICASE,
+	GTDiffOptionsFlagsIncludeUntrackedContent = GIT_DIFF_INCLUDE_UNTRACKED_CONTENT,
+	GTDiffOptionsFlagsSkipBinaryCheck = GIT_DIFF_SKIP_BINARY_CHECK,
+	GTDiffOptionsFlagsIncludeTypeChange = GIT_DIFF_INCLUDE_TYPECHANGE,
+	GTDiffOptionsFlagsIncludeTypeChangeTrees = GIT_DIFF_INCLUDE_TYPECHANGE_TREES,
+	GTDiffOptionsFlagsIgnoreFileMode = GIT_DIFF_IGNORE_FILEMODE,
+} GTDiffOptionsFlags;
+
 typedef BOOL(^GTDiffDeltaProcessingBlock)(GTDiffDelta *delta);
 
 @interface GTDiff : NSObject
