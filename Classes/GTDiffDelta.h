@@ -8,7 +8,7 @@
 
 #import "git2.h"
 
-#import "GTDiff.h"
+@class GTDiffHunk;
 
 typedef enum : git_delta_t {
 	GTDiffFileDeltaUnmodified = GIT_DELTA_UNMODIFIED,
@@ -22,6 +22,8 @@ typedef enum : git_delta_t {
 	GTDiffFileDeltaTypeChange = GIT_DELTA_TYPECHANGE,
 } GTDiffDeltaType;
 
+typedef BOOL(^GTDiffDeltaHunkProcessingBlock)(GTDiffHunk *hunk);
+
 @class GTDiffFile;
 
 @interface GTDiffDelta : NSObject
@@ -29,12 +31,13 @@ typedef enum : git_delta_t {
 @property (nonatomic, readonly) git_diff_delta *git_diff_delta;
 @property (nonatomic, readonly) git_diff_patch *git_diff_patch;
 
-@property (nonatomic, readonly, strong) NSArray *hunks;
 @property (nonatomic, readonly, getter = isBinary) BOOL binary;
 @property (nonatomic, readonly, strong) GTDiffFile *oldFile;
 @property (nonatomic, readonly, strong) GTDiffFile *newFile;
 @property (nonatomic, readonly) GTDiffDeltaType status;
+@property (nonatomic, readonly) NSUInteger hunkCount;
 
 - (instancetype)initWithGitPatch:(git_diff_patch *)patch;
+- (void)enumerateHunksWithBlock:(GTDiffDeltaHunkProcessingBlock)block;
 
 @end
