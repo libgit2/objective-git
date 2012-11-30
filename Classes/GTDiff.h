@@ -18,6 +18,8 @@
 @property (nonatomic, readonly, assign) git_diff_list *git_diff_list;
 @property (nonatomic, readonly, strong) NSArray *deltas;
 
+//TODO: Need to settle on a method for sending in the options struct
+
 + (GTDiff *)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree forRepository:(GTRepository *)repository withOptions:(NSUInteger)options;
 + (GTDiff *)diffIndexToOldTree:(GTTree *)oldTree forRepository:(GTRepository *)repository withOptions:(NSUInteger)options;
 + (GTDiff *)diffWorkingDirectoryToIndexForRepository:(GTRepository *)repository withOptions:(NSUInteger)options;
