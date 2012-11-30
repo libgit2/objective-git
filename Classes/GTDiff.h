@@ -14,6 +14,13 @@
 @class GTRepository;
 @class GTTree;
 
+extern NSString *const GTDiffOptionsFlagsKey;
+extern NSString *const GTDiffOptionsContextLinesKey;
+extern NSString *const GTDiffOptionsInterHunkLinesKey;
+extern NSString *const GTDiffOptionsOldPrefixKey;
+extern NSString *const GTDiffOptionsNewPrefixKey;
+extern NSString *const GTDiffOptionsMaxSizeKey;
+
 typedef BOOL(^GTDiffDeltaProcessingBlock)(GTDiffDelta *delta);
 
 @interface GTDiff : NSObject
