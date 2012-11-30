@@ -10,14 +10,16 @@
 
 #import "GTDiffDelta.h"
 
+@class GTDiffDelta;
 @class GTRepository;
 @class GTTree;
+
+typedef BOOL(^GTDiffDeltaProcessingBlock)(GTDiffDelta *delta);
 
 @interface GTDiff : NSObject
 
 @property (nonatomic, readonly) git_diff_list *git_diff_list;
 @property (nonatomic, readonly) NSUInteger deltaCount;
-@property (nonatomic, readonly, strong) NSArray *deltas;
 
 //TODO: Need to settle on a method for sending in the options struct
 
@@ -28,5 +30,6 @@
 
 - (instancetype)initWithGitDiffList:(git_diff_list *)diffList;
 - (NSUInteger)numberOfDeltasWithType:(GTDiffDeltaType)deltaType;
+- (void)enumerateDeltasWithBlock:(GTDiffDeltaProcessingBlock)block;
 
 @end

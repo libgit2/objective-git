@@ -12,12 +12,6 @@
 #import "GTRepository.h"
 #import "GTTree.h"
 
-@interface GTDiff ()
-
-@property (nonatomic, strong) NSMutableArray *deltasInternalArray;
-
-@end
-
 @implementation GTDiff
 
 + (GTDiff *)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree forRepository:(GTRepository *)repository withOptions:(NSUInteger)options {
@@ -72,18 +66,14 @@
 
 #pragma mark - Properties
 
-- (NSArray *)deltas {
-	if (self.deltasInternalArray != nil) {
-		for (NSUInteger idx = 0; idx < self.deltaCount; idx ++) {
-			git_diff_patch *patch;
-			int result = git_diff_get_patch(&patch, NULL, self.git_diff_list, idx);
-			if (result != GIT_OK) continue;
-			GTDiffDelta *delta = [[GTDiffDelta alloc] initWithGitPatch:patch];
-			if (delta != nil) [self.deltasInternalArray addObject:delta];
-		}
+- (void)enumerateDeltasWithBlock:(GTDiffDeltaProcessingBlock)block {
+	for (NSUInteger idx = 0; idx < self.deltaCount; idx ++) {
+		git_diff_patch *patch;
+		int result = git_diff_get_patch(&patch, NULL, self.git_diff_list, idx);
+		if (result != GIT_OK) continue;
+		GTDiffDelta *delta = [[GTDiffDelta alloc] initWithGitPatch:patch];
+		if (!block(delta)) return;
 	}
-	
-	return [NSArray arrayWithArray:self.deltasInternalArray];
 }
 
 - (NSUInteger)deltaCount {
