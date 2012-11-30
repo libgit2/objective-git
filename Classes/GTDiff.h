@@ -23,10 +23,10 @@ typedef enum : git_delta_t {
 	GTDiffFileDeltaTypeChange = GIT_DELTA_TYPECHANGE,
 } GTDiffFileDelta;
 
-typedef BOOL(^GTDiffFileProcessingBlock)(GTDiffFile *oldFile, GTDiffFile *newFile, GTDiffFileDelta status, NSUInteger similarity, BOOL isBinary);
 @interface GTDiff : NSObject
 
 @property (nonatomic, readonly, assign) git_diff_list *git_diff_list;
+@property (nonatomic, readonly, strong) NSArray *files;
 
 + (GTDiff *)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree options:(NSUInteger)options;
 + (GTDiff *)diffIndexToOldTree:(GTTree *)oldTree withOptions:(NSUInteger)options;
