@@ -14,7 +14,7 @@
 
 @implementation GTDiff
 
-+ (GTDiff *)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree forRepository:(GTRepository *)repository withOptions:(NSUInteger)options {
++ (GTDiff *)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree forRepository:(GTRepository *)repository withOptions:(NSDictionary *)options {
 	git_diff_list *diffList;
 	int returnValue = git_diff_tree_to_tree(&diffList, repository.git_repository, oldTree.git_tree, newTree.git_tree, NULL);
 	if (returnValue != GIT_OK) return nil;
@@ -23,7 +23,7 @@
 	return newDiff;
 }
 
-+ (GTDiff *)diffIndexToOldTree:(GTTree *)oldTree forRepository:(GTRepository *)repository withOptions:(NSUInteger)options {
++ (GTDiff *)diffIndexToOldTree:(GTTree *)oldTree forRepository:(GTRepository *)repository withOptions:(NSDictionary *)options {
 	git_diff_list *diffList;
 	int returnValue = git_diff_index_to_tree(&diffList, repository.git_repository, oldTree.git_tree, NULL, NULL);
 	if (returnValue != GIT_OK) return nil;
@@ -32,7 +32,7 @@
 	return newDiff;
 }
 
-+ (GTDiff *)diffWorkingDirectoryToIndexForRepository:(GTRepository *)repository withOptions:(NSUInteger)options {
++ (GTDiff *)diffWorkingDirectoryToIndexForRepository:(GTRepository *)repository withOptions:(NSDictionary *)options {
 	git_diff_list *diffList;
 	int returnValue = git_diff_workdir_to_index(&diffList, repository.git_repository, NULL, NULL);
 	if (returnValue != GIT_OK) return nil;
@@ -41,7 +41,7 @@
 	return newDiff;
 }
 
-+ (GTDiff *)diffWorkingDirectoryToTree:(GTTree *)tree forRepository:(GTRepository *)repository withOptions:(NSUInteger)options {
++ (GTDiff *)diffWorkingDirectoryToTree:(GTTree *)tree forRepository:(GTRepository *)repository withOptions:(NSDictionary *)options {
 	git_diff_list *diffList;
 	int returnValue = git_diff_workdir_to_tree(&diffList, repository.git_repository, tree.git_tree, NULL);
 	if (returnValue != GIT_OK) return nil;
