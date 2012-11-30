@@ -10,4 +10,16 @@
 
 @implementation GTDiffFile
 
+- (instancetype)initWithGitDiffFile:(git_diff_file)file {
+	self = [super init];
+	if (self == nil) return nil;
+	
+	_size = (NSUInteger)file.size;
+	_flags = file.flags;
+	_mode = file.mode;
+	_path = [NSString stringWithUTF8String:file.path];
+	
+	return self;
+}
+
 @end
