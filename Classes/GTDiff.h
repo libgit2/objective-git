@@ -10,6 +10,7 @@
 
 #import "GTDiffDelta.h"
 
+@class GTRepository;
 @class GTTree;
 
 @interface GTDiff : NSObject
@@ -17,10 +18,10 @@
 @property (nonatomic, readonly, assign) git_diff_list *git_diff_list;
 @property (nonatomic, readonly, strong) NSArray *deltas;
 
-+ (GTDiff *)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree options:(NSUInteger)options;
-+ (GTDiff *)diffIndexToOldTree:(GTTree *)oldTree withOptions:(NSUInteger)options;
-+ (GTDiff *)diffWorkingDirectoryToIndexWithOptions:(NSUInteger)options;
-+ (GTDiff *)diffWorkingDirectoryToTree:(GTTree *)tree withOptions:(NSUInteger)options;
++ (GTDiff *)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree forRepository:(GTRepository *)repository withOptions:(NSUInteger)options;
++ (GTDiff *)diffIndexToOldTree:(GTTree *)oldTree forRepository:(GTRepository *)repository withOptions:(NSUInteger)options;
++ (GTDiff *)diffWorkingDirectoryToIndexForRepository:(GTRepository *)repository withOptions:(NSUInteger)options;
++ (GTDiff *)diffWorkingDirectoryToTree:(GTTree *)tree forRepository:(GTRepository *)repository withOptions:(NSUInteger)options;
 
 - (instancetype)initWithGitDiffList:(git_diff_list *)diffList;
 - (NSUInteger)numberOfDeltasWithType:(GTDiffDeltaType)deltaType;
