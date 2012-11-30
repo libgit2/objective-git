@@ -60,7 +60,7 @@
 	if (_hunks == nil) {
 		NSMutableArray *newHunksArray = [NSMutableArray arrayWithCapacity:hunkCount];
 		for (NSUInteger idx = 0; idx < self.hunkCount; idx ++) {
-			GTDiffHunk *hunk = [[GTDiffHunk alloc] initWithPatch:self.git_diff_patch hunkIndex:idx];
+			GTDiffHunk *hunk = [[GTDiffHunk alloc] initWithDelta:self hunkIndex:idx];
 			if (hunk != nil) [newHunksArray addObject:hunk];
 		}
 		
