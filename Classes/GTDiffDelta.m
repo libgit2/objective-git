@@ -47,4 +47,8 @@
 	return (GTDiffDeltaType)self.git_diff_delta->status;
 }
 
+- (NSUInteger)hunkCount {
+	return git_diff_patch_num_hunks(self.git_diff_patch);
+}
+
 @end
