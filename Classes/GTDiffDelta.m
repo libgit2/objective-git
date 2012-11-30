@@ -24,4 +24,10 @@
 	git_diff_patch_free(self.git_diff_patch);
 }
 
+#pragma mark - Properties
+
+- (git_diff_delta *)git_diff_delta {
+	return (git_diff_delta *)git_diff_patch_delta(self.git_diff_patch);
+}
+
 @end
