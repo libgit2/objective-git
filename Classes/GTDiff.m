@@ -10,4 +10,18 @@
 
 @implementation GTDiff
 
+- (instancetype)initWithGitDiffList:(git_diff_list *)diffList {
+	self = [super init];
+	if (self == nil) return nil;
+	
+	_git_diff_list = diffList;
+	
+	return self;
+}
+
+- (void)dealloc
+{
+	git_diff_list_free(self.git_diff_list);
+}
+
 @end
