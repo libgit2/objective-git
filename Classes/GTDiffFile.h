@@ -15,4 +15,6 @@
 @property (nonatomic, readonly, strong) NSString *path;
 @property (nonatomic, readonly) NSUInteger size;
 
+- (instancetype)initWithGitDiffFile:(git_diff_file *)file;
+
 @end
