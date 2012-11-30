@@ -12,11 +12,9 @@
 #import "GTRepository.h"
 #import "GTTree.h"
 
-int GTDiffFilesCallback(void *data, const git_diff_delta *delta, float progress);
-
 @interface GTDiff ()
 
-@property (nonatomic, strong) NSMutableArray *deltasBuilderArray;
+@property (nonatomic, strong) NSMutableArray *deltasInternalArray;
 
 @end
 
@@ -75,13 +73,21 @@ int GTDiffFilesCallback(void *data, const git_diff_delta *delta, float progress)
 #pragma mark - Properties
 
 - (NSArray *)deltas {
-	if (self.deltasBuilderArray != nil) {
-		size_t count = git_diff_num_deltas(self.git_diff_list);
-		self.deltasBuilderArray = [NSMutableArray arrayWithCapacity:count];
-		git_diff_foreach(self.git_diff_list, (__bridge void *)(self.deltasBuilderArray), GTDiffFilesCallback, nil, nil);
+	if (self.deltasInternalArray != nil) {
+		for (NSUInteger idx = 0; idx < self.deltaCount; idx ++) {
+			git_diff_patch *patch;
+			int result = git_diff_get_patch(&patch, NULL, self.git_diff_list, idx);
+			if (result != GIT_OK) continue;
+			GTDiffDelta *delta = [[GTDiffDelta alloc] initWithGitPatch:patch];
+			if (delta != nil) [self.deltasInternalArray addObject:delta];
+		}
 	}
 	
-	return [NSArray arrayWithArray:self.deltasBuilderArray];
+	return [NSArray arrayWithArray:self.deltasInternalArray];
+}
+
+- (NSUInteger)deltaCount {
+	return git_diff_num_deltas(self.git_diff_list);
 }
 
 - (NSUInteger)numberOfDeltasWithType:(GTDiffDeltaType)deltaType {
@@ -89,10 +95,3 @@ int GTDiffFilesCallback(void *data, const git_diff_delta *delta, float progress)
 }
 
 @end
-
-int GTDiffFilesCallback(void *data, const git_diff_delta *delta, float progress) {
-	GTDiffDelta *gtDelta = [[GTDiffDelta alloc] initWithGitDelta:(git_diff_delta *)delta];
-	NSMutableArray *passedArray = (__bridge NSMutableArray *)data;
-	if (passedArray != nil)[passedArray addObject:gtDelta];
-	return 0;
-}

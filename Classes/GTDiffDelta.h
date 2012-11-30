@@ -26,7 +26,8 @@ typedef enum : git_delta_t {
 
 @interface GTDiffDelta : NSObject
 
-@property (nonatomic, readonly) git_diff_delta git_diff_delta;
+@property (nonatomic, readonly) git_diff_delta *git_diff_delta;
+@property (nonatomic, readonly) git_diff_patch *git_diff_patch;
 
 @property (nonatomic, readonly, strong) NSArray *hunks;
 @property (nonatomic, readonly, getter = isBinary) BOOL binary;
@@ -34,6 +35,6 @@ typedef enum : git_delta_t {
 @property (nonatomic, readonly, strong) GTDiffFile *newFile;
 @property (nonatomic, readonly) GTDiffDeltaType status;
 
-- (id)initWithGitDelta:(git_diff_delta *)delta;
+- (instancetype)initWithGitPatch:(git_diff_patch *)patch;
 
 @end

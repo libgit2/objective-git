@@ -15,7 +15,8 @@
 
 @interface GTDiff : NSObject
 
-@property (nonatomic, readonly, assign) git_diff_list *git_diff_list;
+@property (nonatomic, readonly) git_diff_list *git_diff_list;
+@property (nonatomic, readonly) NSUInteger deltaCount;
 @property (nonatomic, readonly, strong) NSArray *deltas;
 
 //TODO: Need to settle on a method for sending in the options struct
