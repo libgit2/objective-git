@@ -8,6 +8,7 @@
 
 #import "GTDiffDelta.h"
 
+#import "GTDiffFile.h"
 @implementation GTDiffDelta
 
 - (instancetype)initWithGitPatch:(git_diff_patch *)patch {
@@ -32,6 +33,14 @@
 
 - (BOOL)isBinary {
 	return (BOOL)self.git_diff_delta->binary;
+}
+
+- (GTDiffFile *)oldFile {
+	return [[GTDiffFile alloc] initWithGitDiffFile:self.git_diff_delta->old_file];
+}
+
+- (GTDiffFile *)newFile {
+	return [[GTDiffFile alloc] initWithGitDiffFile:self.git_diff_delta->new_file];
 }
 
 @end
