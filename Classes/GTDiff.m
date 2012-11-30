@@ -21,6 +21,30 @@ NSString *const GTDiffOptionsMaxSizeKey = @"GTDiffOptionsMaxSizeKey";
 
 @implementation GTDiff
 
++ (git_diff_options)optionsStructFromDictionary:(NSDictionary *)dictionary {
+	git_diff_options newOptions;
+	
+	NSNumber *flagsNumber = dictionary[GTDiffOptionsFlagsKey];
+	if (flagsNumber != nil) newOptions.flags = (uint32)flagsNumber.unsignedIntegerValue;
+	
+	NSNumber *contextLinesNumber = dictionary[GTDiffOptionsContextLinesKey];
+	if (contextLinesNumber != nil) newOptions.context_lines = (uint16_t)contextLinesNumber.unsignedIntegerValue;
+	
+	NSNumber *interHunkLinesNumber = dictionary[GTDiffOptionsInterHunkLinesKey];
+	if (interHunkLinesNumber != nil) newOptions.interhunk_lines = (uint16_t)interHunkLinesNumber.unsignedIntegerValue;
+	
+	NSString *oldPrefix = dictionary[GTDiffOptionsOldPrefixKey];
+	if (oldPrefix != nil) newOptions.old_prefix = (char *)oldPrefix.UTF8String;
+	
+	NSString *newPrefix = dictionary[GTDiffOptionsNewPrefixKey];
+	if (newPrefix != nil) newOptions.new_prefix = (char *)newPrefix.UTF8String;
+	
+	NSNumber *maxSizeNumber = dictionary[GTDiffOptionsMaxSizeKey];
+	if (maxSizeNumber != nil) newOptions.max_size = (uint16_t)maxSizeNumber.unsignedIntegerValue;
+	
+	return newOptions;
+}
+
 + (GTDiff *)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree forRepository:(GTRepository *)repository withOptions:(NSDictionary *)options {
 	git_diff_list *diffList;
 	int returnValue = git_diff_tree_to_tree(&diffList, repository.git_repository, oldTree.git_tree, newTree.git_tree, NULL);
