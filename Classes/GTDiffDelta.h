@@ -36,8 +36,8 @@ typedef BOOL(^GTDiffDeltaHunkProcessingBlock)(GTDiffHunk *hunk);
 @property (nonatomic, readonly, strong) GTDiffFile *newFile;
 @property (nonatomic, readonly) GTDiffDeltaType status;
 @property (nonatomic, readonly) NSUInteger hunkCount;
+@property (nonatomic, readonly, strong) NSArray *hunks;
 
 - (instancetype)initWithGitPatch:(git_diff_patch *)patch;
-- (void)enumerateHunksWithBlock:(GTDiffDeltaHunkProcessingBlock)block;
 
 @end

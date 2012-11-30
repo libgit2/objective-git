@@ -9,7 +9,11 @@
 #import "GTDiffDelta.h"
 
 #import "GTDiffFile.h"
+#import "GTDiffHunk.h"
+
 @implementation GTDiffDelta
+
+@synthesize hunks = _hunks;
 
 - (instancetype)initWithGitPatch:(git_diff_patch *)patch {
 	self = [super init];
@@ -49,6 +53,21 @@
 
 - (NSUInteger)hunkCount {
 	return git_diff_patch_num_hunks(self.git_diff_patch);
+}
+
+- (NSArray *)hunks {
+	NSUInteger hunkCount = self.hunkCount;
+	if (_hunks == nil) {
+		NSMutableArray *newHunksArray = [NSMutableArray arrayWithCapacity:hunkCount];
+		for (NSUInteger idx = 0; idx < self.hunkCount; idx ++) {
+			GTDiffHunk *hunk = [[GTDiffHunk alloc] initWithPatch:self.git_diff_patch hunkIndex:idx];
+			if (hunk != nil) [newHunksArray addObject:hunk];
+		}
+		
+		_hunks = [NSArray arrayWithArray:newHunksArray];
+	}
+	
+	return _hunks;
 }
 
 @end
