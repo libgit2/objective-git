@@ -10,4 +10,18 @@
 
 @implementation GTDiffDelta
 
+- (instancetype)initWithGitPatch:(git_diff_patch *)patch {
+	self = [super init];
+	if (self == nil) return nil;
+	
+	_git_diff_patch = patch;
+	
+	return self;
+}
+
+- (void)dealloc
+{
+	git_diff_patch_free(self.git_diff_patch);
+}
+
 @end
