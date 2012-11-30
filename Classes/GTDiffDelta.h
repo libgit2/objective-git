@@ -22,4 +22,6 @@
 @property (nonatomic, readonly, strong) GTDiffFile *newFile;
 @property (nonatomic, readonly) GTDiffFileDelta status;
 
+- (id)initWithGitDelta:(git_diff_delta *)delta;
+
 @end
