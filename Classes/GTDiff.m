@@ -37,9 +37,12 @@ int GTDiffFilesCallback(void *data, const git_diff_delta *delta, float progress)
 #pragma mark - Properties
 
 - (NSArray *)deltas {
-	size_t count = git_diff_num_deltas(self.git_diff_list);
-	self.deltasBuilderArray = [NSMutableArray arrayWithCapacity:count];
-	git_diff_foreach(self.git_diff_list, (__bridge void *)(self.deltasBuilderArray), GTDiffFilesCallback, nil, nil);
+	if (self.deltasBuilderArray != nil) {
+		size_t count = git_diff_num_deltas(self.git_diff_list);
+		self.deltasBuilderArray = [NSMutableArray arrayWithCapacity:count];
+		git_diff_foreach(self.git_diff_list, (__bridge void *)(self.deltasBuilderArray), GTDiffFilesCallback, nil, nil);
+	}
+	
 	return [NSArray arrayWithArray:self.deltasBuilderArray];
 }
 
