@@ -62,6 +62,18 @@
 		04DB466E133AB5EB00D9C624 /* GTReference.m in Sources */ = {isa = PBXBuildFile; fileRef = BD441E07131ED0C300187010 /* GTReference.m */; };
 		04DB466F133AB5EB00D9C624 /* GTBranch.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F50F57132054D800584FBE /* GTBranch.m */; };
 		04DB4672133AB5FE00D9C624 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DB4671133AB5FE00D9C624 /* libz.dylib */; };
+		3011D86B1668E48500CE3409 /* GTDiffFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 3011D8691668E48500CE3409 /* GTDiffFile.h */; };
+		3011D86C1668E48500CE3409 /* GTDiffFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 3011D8691668E48500CE3409 /* GTDiffFile.h */; };
+		3011D86D1668E48500CE3409 /* GTDiffFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 3011D86A1668E48500CE3409 /* GTDiffFile.m */; };
+		3011D86E1668E48500CE3409 /* GTDiffFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 3011D86A1668E48500CE3409 /* GTDiffFile.m */; };
+		3011D8711668E78500CE3409 /* GTDiffHunk.h in Headers */ = {isa = PBXBuildFile; fileRef = 3011D86F1668E78500CE3409 /* GTDiffHunk.h */; };
+		3011D8721668E78500CE3409 /* GTDiffHunk.h in Headers */ = {isa = PBXBuildFile; fileRef = 3011D86F1668E78500CE3409 /* GTDiffHunk.h */; };
+		3011D8731668E78500CE3409 /* GTDiffHunk.m in Sources */ = {isa = PBXBuildFile; fileRef = 3011D8701668E78500CE3409 /* GTDiffHunk.m */; };
+		3011D8741668E78500CE3409 /* GTDiffHunk.m in Sources */ = {isa = PBXBuildFile; fileRef = 3011D8701668E78500CE3409 /* GTDiffHunk.m */; };
+		3011D8771668F29600CE3409 /* GTDiffDelta.h in Headers */ = {isa = PBXBuildFile; fileRef = 3011D8751668F29600CE3409 /* GTDiffDelta.h */; };
+		3011D8781668F29600CE3409 /* GTDiffDelta.h in Headers */ = {isa = PBXBuildFile; fileRef = 3011D8751668F29600CE3409 /* GTDiffDelta.h */; };
+		3011D8791668F29600CE3409 /* GTDiffDelta.m in Sources */ = {isa = PBXBuildFile; fileRef = 3011D8761668F29600CE3409 /* GTDiffDelta.m */; };
+		3011D87A1668F29600CE3409 /* GTDiffDelta.m in Sources */ = {isa = PBXBuildFile; fileRef = 3011D8761668F29600CE3409 /* GTDiffDelta.m */; };
 		30A3D6541667F11C00C49A39 /* GTDiff.h in Headers */ = {isa = PBXBuildFile; fileRef = 30A3D6521667F11C00C49A39 /* GTDiff.h */; };
 		30A3D6551667F11C00C49A39 /* GTDiff.h in Headers */ = {isa = PBXBuildFile; fileRef = 30A3D6521667F11C00C49A39 /* GTDiff.h */; };
 		30A3D6561667F11C00C49A39 /* GTDiff.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A3D6531667F11C00C49A39 /* GTDiff.m */; };
@@ -262,6 +274,12 @@
 		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		3011D8691668E48500CE3409 /* GTDiffFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTDiffFile.h; sourceTree = "<group>"; };
+		3011D86A1668E48500CE3409 /* GTDiffFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTDiffFile.m; sourceTree = "<group>"; };
+		3011D86F1668E78500CE3409 /* GTDiffHunk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTDiffHunk.h; sourceTree = "<group>"; };
+		3011D8701668E78500CE3409 /* GTDiffHunk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTDiffHunk.m; sourceTree = "<group>"; };
+		3011D8751668F29600CE3409 /* GTDiffDelta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTDiffDelta.h; sourceTree = "<group>"; };
+		3011D8761668F29600CE3409 /* GTDiffDelta.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTDiffDelta.m; sourceTree = "<group>"; };
 		30A3D6521667F11C00C49A39 /* GTDiff.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTDiff.h; sourceTree = "<group>"; };
 		30A3D6531667F11C00C49A39 /* GTDiff.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTDiff.m; sourceTree = "<group>"; };
 		32DBCF5E0370ADEE00C91783 /* ObjectiveGitFramework_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectiveGitFramework_Prefix.pch; sourceTree = "<group>"; };
@@ -588,6 +606,12 @@
 				883CD6AA1600EBC600F57354 /* GTRemote.m */,
 				30A3D6521667F11C00C49A39 /* GTDiff.h */,
 				30A3D6531667F11C00C49A39 /* GTDiff.m */,
+				3011D8691668E48500CE3409 /* GTDiffFile.h */,
+				3011D86A1668E48500CE3409 /* GTDiffFile.m */,
+				3011D86F1668E78500CE3409 /* GTDiffHunk.h */,
+				3011D8701668E78500CE3409 /* GTDiffHunk.m */,
+				3011D8751668F29600CE3409 /* GTDiffDelta.h */,
+				3011D8761668F29600CE3409 /* GTDiffDelta.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -633,6 +657,9 @@
 				AA046113134F4D2000DF526B /* GTOdbObject.h in Headers */,
 				E9FFC6C01577CC8A00A9E736 /* GTConfiguration.h in Headers */,
 				30A3D6551667F11C00C49A39 /* GTDiff.h in Headers */,
+				3011D86C1668E48500CE3409 /* GTDiffFile.h in Headers */,
+				3011D8721668E78500CE3409 /* GTDiffHunk.h in Headers */,
+				3011D8781668F29600CE3409 /* GTDiffDelta.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -664,6 +691,9 @@
 				55C8057E13875C1B004DCB0F /* NSString+Git.h in Headers */,
 				8849C6A214AD81FF003890AF /* GTRepository+Private.h in Headers */,
 				30A3D6541667F11C00C49A39 /* GTDiff.h in Headers */,
+				3011D86B1668E48500CE3409 /* GTDiffFile.h in Headers */,
+				3011D8711668E78500CE3409 /* GTDiffHunk.h in Headers */,
+				3011D8771668F29600CE3409 /* GTDiffDelta.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -919,6 +949,9 @@
 				55C8057C13875579004DCB0F /* NSString+Git.m in Sources */,
 				E9FFC6BF1577CC8300A9E736 /* GTConfiguration.m in Sources */,
 				30A3D6571667F11C00C49A39 /* GTDiff.m in Sources */,
+				3011D86E1668E48500CE3409 /* GTDiffFile.m in Sources */,
+				3011D8741668E78500CE3409 /* GTDiffHunk.m in Sources */,
+				3011D87A1668F29600CE3409 /* GTDiffDelta.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -969,6 +1002,9 @@
 				883CD6AC1600EBC600F57354 /* GTRemote.m in Sources */,
 				88F05AC61601209A00B7AD1D /* ObjectiveGit.m in Sources */,
 				30A3D6561667F11C00C49A39 /* GTDiff.m in Sources */,
+				3011D86D1668E48500CE3409 /* GTDiffFile.m in Sources */,
+				3011D8731668E78500CE3409 /* GTDiffHunk.m in Sources */,
+				3011D8791668F29600CE3409 /* GTDiffDelta.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
