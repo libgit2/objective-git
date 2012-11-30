@@ -49,6 +49,15 @@ int GTDiffFilesCallback(void *data, const git_diff_delta *delta, float progress)
 	return newDiff;
 }
 
++ (GTDiff *)diffWorkingDirectoryToTree:(GTTree *)tree forRepository:(GTRepository *)repository withOptions:(NSUInteger)options {
+	git_diff_list *diffList;
+	int returnValue = git_diff_workdir_to_tree(repository.git_repository, nil, tree.git_tree, &diffList);
+	if (returnValue != GIT_OK) return nil;
+	
+	GTDiff *newDiff = [[GTDiff alloc] initWithGitDiffList:diffList];
+	return newDiff;
+}
+
 - (instancetype)initWithGitDiffList:(git_diff_list *)diffList {
 	self = [super init];
 	if (self == nil) return nil;
