@@ -10,6 +10,18 @@
 
 #import "GTDiff.h"
 
+typedef enum : git_delta_t {
+	GTDiffFileDeltaUnmodified = GIT_DELTA_UNMODIFIED,
+	GTDiffFileDeltaAdded = GIT_DELTA_ADDED,
+	GTDiffFileDeltaDeleted = GIT_DELTA_DELETED,
+	GTDiffFileDeltaModified = GIT_DELTA_MODIFIED,
+	GTDiffFileDeltaRenamed = GIT_DELTA_RENAMED,
+	GTDiffFileDeltaCopied = GIT_DELTA_COPIED,
+	GTDiffFileDeltaIgnored = GIT_DELTA_IGNORED,
+	GTDiffFileDeltaUntracked = GIT_DELTA_UNTRACKED,
+	GTDiffFileDeltaTypeChange = GIT_DELTA_TYPECHANGE,
+} GTDiffFileDelta;
+
 @class GTDiffFile;
 
 @interface GTDiffDelta : NSObject
