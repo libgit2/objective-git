@@ -24,7 +24,6 @@ typedef BOOL(^GTDiffHunkLineProcessingBlock)(NSString *lineContent, NSUInteger o
 @property (nonatomic, readonly) NSUInteger lineCount;
 
 - (id)initWithPatch:(git_diff_patch *)patch hunkIndex:(size_t)hunkIndex;
-
 - (void)enumerateLinesInHunkWithBlock:(GTDiffHunkLineProcessingBlock)block;
 
 @end
