@@ -10,11 +10,11 @@
 
 @interface GTDiffFile : NSObject
 
-@property (nonatomic, readonly) git_diff_file *git_diff_file;
+@property (nonatomic, readonly) git_diff_file git_diff_file;
 
 @property (nonatomic, readonly, strong) NSString *path;
 @property (nonatomic, readonly) NSUInteger size;
 
-- (instancetype)initWithGitDiffFile:(git_diff_file *)file;
+- (instancetype)initWithGitDiffFile:(git_diff_file)file;
 
 @end

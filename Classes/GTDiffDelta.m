@@ -30,4 +30,8 @@
 	return (git_diff_delta *)git_diff_patch_delta(self.git_diff_patch);
 }
 
+- (BOOL)isBinary {
+	return (BOOL)self.git_diff_delta->binary;
+}
+
 @end
