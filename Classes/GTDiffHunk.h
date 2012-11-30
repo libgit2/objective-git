@@ -8,6 +8,8 @@
 
 #import "git2.h"
 
+@class GTDiffDelta;
+
 typedef enum : git_diff_line_t {
 	GTDiffHunkLineOriginContext = GIT_DIFF_LINE_CONTEXT,
 	GTDiffHunkLineOriginAddition = GIT_DIFF_LINE_ADDITION,
@@ -23,7 +25,7 @@ typedef BOOL(^GTDiffHunkLineProcessingBlock)(NSString *lineContent, NSUInteger o
 @property (nonatomic, readonly, strong) NSString *header;
 @property (nonatomic, readonly) NSUInteger lineCount;
 
-- (id)initWithPatch:(git_diff_patch *)patch hunkIndex:(size_t)hunkIndex;
+- (instancetype)initWithDelta:(GTDiffDelta *)delta hunkIndex:(NSUInteger)hunkIndex;
 - (void)enumerateLinesInHunkWithBlock:(GTDiffHunkLineProcessingBlock)block;
 
 @end
