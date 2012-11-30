@@ -12,6 +12,13 @@
 #import "GTRepository.h"
 #import "GTTree.h"
 
+NSString *const GTDiffOptionsFlagsKey = @"GTDiffOptionsFlagsKey";
+NSString *const GTDiffOptionsContextLinesKey = @"GTDiffOptionsContextLinesKey";
+NSString *const GTDiffOptionsInterHunkLinesKey = @"GTDiffOptionsInterHunkLinesKey";
+NSString *const GTDiffOptionsOldPrefixKey = @"GTDiffOptionsOldPrefixKey";
+NSString *const GTDiffOptionsNewPrefixKey = @"GTDiffOptionsNewPrefixKey";
+NSString *const GTDiffOptionsMaxSizeKey = @"GTDiffOptionsMaxSizeKey";
+
 @implementation GTDiff
 
 + (GTDiff *)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree forRepository:(GTRepository *)repository withOptions:(NSDictionary *)options {
