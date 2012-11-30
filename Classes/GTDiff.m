@@ -9,6 +9,8 @@
 #import "GTDiff.h"
 
 #import "GTDiffDelta.h"
+#import "GTRepository.h"
+#import "GTTree.h"
 
 int GTDiffFilesCallback(void *data, const git_diff_delta *delta, float progress);
 
@@ -19,6 +21,15 @@ int GTDiffFilesCallback(void *data, const git_diff_delta *delta, float progress)
 @end
 
 @implementation GTDiff
+
++ (GTDiff *)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree forRepository:(GTRepository *)repository withOptions:(NSUInteger)options {
+	git_diff_list *diffList;
+	int returnValue = git_diff_tree_to_tree(repository.git_repository, nil, oldTree.git_tree, newTree.git_tree, &diffList);
+	if (returnValue != GIT_OK) return nil;
+	
+	GTDiff *newDiff = [[GTDiff alloc] initWithGitDiffList:diffList];
+	return newDiff;
+}
 
 - (instancetype)initWithGitDiffList:(git_diff_list *)diffList {
 	self = [super init];
