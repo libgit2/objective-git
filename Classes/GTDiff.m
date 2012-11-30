@@ -22,6 +22,8 @@ NSString *const GTDiffOptionsMaxSizeKey = @"GTDiffOptionsMaxSizeKey";
 @implementation GTDiff
 
 + (git_diff_options)optionsStructFromDictionary:(NSDictionary *)dictionary {
+	if (dictionary == nil) return NULL;
+	
 	git_diff_options newOptions;
 	
 	NSNumber *flagsNumber = dictionary[GTDiffOptionsFlagsKey];
