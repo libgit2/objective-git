@@ -38,4 +38,19 @@
 	return self;
 }
 
+- (void)enumerateLinesInHunkWithBlock:(GTDiffHunkLineProcessingBlock)block {
+	for (NSUInteger idx = 0; idx < self.lineCount; idx ++) {
+		char lineOrigin;
+		const char *content;
+		size_t contentLength;
+		int oldLineNumber;
+		int newLineNumber;
+		int result = git_diff_patch_get_line_in_hunk(&lineOrigin, &content, &contentLength, &oldLineNumber, &newLineNumber, self.delta.git_diff_patch, self.hunkIndex, idx);
+		if (result != GIT_OK) continue;
+		
+		NSString *lineString = [NSString stringWithCharacters:(const unichar *)content length:contentLength];
+		if (!block(lineString, (NSUInteger)oldLineNumber, (NSUInteger)newLineNumber, lineOrigin)) return;
+	}
+}
+
 @end
