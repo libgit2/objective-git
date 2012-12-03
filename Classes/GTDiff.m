@@ -107,7 +107,7 @@ NSString *const GTDiffOptionsMaxSizeKey = @"GTDiffOptionsMaxSizeKey";
 
 #pragma mark - Properties
 
-- (void)enumerateDeltasWithBlock:(GTDiffDeltaProcessingBlock)block {
+- (void)enumerateDeltasUsingBlock:(BOOL(^)(GTDiffDelta *delta))block {
 	for (NSUInteger idx = 0; idx < self.deltaCount; idx ++) {
 		git_diff_patch *patch;
 		int result = git_diff_get_patch(&patch, NULL, self.git_diff_list, idx);

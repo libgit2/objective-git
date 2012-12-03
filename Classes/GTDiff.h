@@ -43,8 +43,6 @@ typedef enum : git_diff_option_t {
 	GTDiffOptionsFlagsIgnoreFileMode = GIT_DIFF_IGNORE_FILEMODE,
 } GTDiffOptionsFlags;
 
-typedef BOOL(^GTDiffDeltaProcessingBlock)(GTDiffDelta *delta);
-
 @interface GTDiff : NSObject
 
 @property (nonatomic, readonly) git_diff_list *git_diff_list;
@@ -59,6 +57,6 @@ typedef BOOL(^GTDiffDeltaProcessingBlock)(GTDiffDelta *delta);
 
 - (instancetype)initWithGitDiffList:(git_diff_list *)diffList;
 - (NSUInteger)numberOfDeltasWithType:(GTDiffDeltaType)deltaType;
-- (void)enumerateDeltasWithBlock:(GTDiffDeltaProcessingBlock)block;
+- (void)enumerateDeltasUsingBlock:(BOOL(^)(GTDiffDelta *delta))block;
 
 @end
