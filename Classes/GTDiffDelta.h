@@ -35,6 +35,11 @@ typedef enum : git_delta_t {
 	GTDiffFileDeltaTypeChange = GIT_DELTA_TYPECHANGE,
 } GTDiffDeltaType;
 
+// A class representing a single change within a diff.
+//
+// The change may not be simply a change of text within a given file, it could
+// be that the file was renamed, or added to the index. See `GTDiffDeltaType`
+// for the types of change represented.
 @interface GTDiffDelta : NSObject
 
 @property (nonatomic, readonly) git_diff_delta *git_diff_delta;
