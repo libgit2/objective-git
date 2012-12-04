@@ -27,7 +27,7 @@ NSString *const GTDiffOptionsMaxSizeKey = @"GTDiffOptionsMaxSizeKey";
 	git_diff_options *newOptions = malloc(sizeof(git_diff_options));
 	
 	NSNumber *flagsNumber = dictionary[GTDiffOptionsFlagsKey];
-	if (flagsNumber != nil) newOptions->flags = (uint32)flagsNumber.unsignedIntegerValue;
+	if (flagsNumber != nil) newOptions->flags = (uint32_t)flagsNumber.unsignedIntegerValue;
 	
 	NSNumber *contextLinesNumber = dictionary[GTDiffOptionsContextLinesKey];
 	if (contextLinesNumber != nil) newOptions->context_lines = (uint16_t)contextLinesNumber.unsignedIntegerValue;
