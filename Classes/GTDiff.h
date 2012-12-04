@@ -80,8 +80,9 @@ typedef enum : git_diff_option_t {
 
 // The libgit2 diff list object.
 @property (nonatomic, readonly) git_diff_list *git_diff_list;
-@property (nonatomic, readonly) NSUInteger deltaCount;
 
+// The number of deltas represented by the diff object.
+@property (nonatomic, readonly) NSUInteger deltaCount;
 
 + (GTDiff *)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree withOptions:(NSDictionary *)options;
 + (GTDiff *)diffIndexToTree:(GTTree *)oldTree withOptions:(NSDictionary *)options;
