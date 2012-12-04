@@ -92,6 +92,8 @@ NSString *const GTDiffOptionsMaxSizeKey = @"GTDiffOptionsMaxSizeKey";
 }
 
 - (instancetype)initWithGitDiffList:(git_diff_list *)diffList {
+	NSParameterAssert(diffList != NULL);
+	
 	self = [super init];
 	if (self == nil) return nil;
 	
