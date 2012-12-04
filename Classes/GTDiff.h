@@ -72,6 +72,10 @@ typedef enum : git_diff_option_t {
 	GTDiffOptionsFlagsIgnoreFileMode = GIT_DIFF_IGNORE_FILEMODE,
 } GTDiffOptionsFlags;
 
+// A class representing a single "diff".
+//
+// Analagous to `git_diff_list` in libgit2, this object represents a list of
+// changes or "deltas", which are represented by `GTDiffDelta` objects.
 @interface GTDiff : NSObject
 
 @property (nonatomic, readonly) git_diff_list *git_diff_list;
