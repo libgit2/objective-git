@@ -242,6 +242,30 @@
     [aRepo resetToCommit:originalHeadCommit withResetType:GTRepositoryResetTypeSoft error:NULL];
 }
 
+- (void) revparseSpecVsExpected: (NSString*)spec expected:(NSString*)expectedOid {
+   NSError *err = nil;
+   GTObject *obj = [repo lookupObjectByRevparse:spec error:&err];
+
+   if (expectedOid != nil) {
+      STAssertEquals((NSInteger)GIT_OK, [err code], @"git_revparse_single didn't return 0: %d", [err code]);
+      STAssertNotNil(obj, @"Couldn't find object for %@", spec);
+      STAssertEqualObjects(expectedOid, [obj sha], @"Revparse %@: expected %@, got %@", spec, expectedOid, [obj sha]);
+   } else {
+      STAssertTrue([err code] != (NSInteger)GIT_OK, @"Expected error code, got 0");
+      STAssertNil(obj, @"Got object when expected none for %@", spec);
+      [err code];
+   }
+}
+
+- (void) testCanRevparse {
+   [self revparseSpecVsExpected:@"master"     expected:@"36060c58702ed4c2a40832c51758d5344201d89a"];
+   [self revparseSpecVsExpected:@"master~"    expected:@"5b5b025afb0b4c913b4c338a42934a3863bf3644"];
+   [self revparseSpecVsExpected:@"master@{2}" expected:@"8496071c1b46c854b31185ea97743be6a8774479"];
+   [self revparseSpecVsExpected:@"master^2"   expected:nil];
+   [self revparseSpecVsExpected:@""           expected:nil];
+   [self revparseSpecVsExpected:@"v1.0"       expected:@"0c37a5391bbff43c37f0d0371823a5509eed5b1d"];
+}
+
 //- (void) testCanGetRemotes {
 //    NSArray* remotesArray = [repo remoteNames];
 //    

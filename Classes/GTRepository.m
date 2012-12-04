@@ -183,6 +183,16 @@
 	return [self lookupObjectBySha:sha objectType:GTObjectTypeAny error:error];
 }
 
+- (GTObject *)lookupObjectByRevparse:(NSString *)spec error:(NSError **)error {
+   git_object *obj;
+   int gitError = git_revparse_single(&obj, self.git_repository, [spec UTF8String]);
+   if (gitError < GIT_OK) {
+      if (error != NULL) *error = [NSError git_errorForMkStr:gitError];
+      return nil;
+   }
+   return [GTObject objectWithObj:obj inRepository:self];
+}
+
 - (BOOL)enumerateCommitsBeginningAtSha:(NSString *)sha sortOptions:(GTEnumeratorOptions)options error:(NSError **)error usingBlock:(void (^)(GTCommit *, BOOL *))block {
 	NSParameterAssert(block != NULL);
 
