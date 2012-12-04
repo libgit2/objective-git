@@ -47,10 +47,12 @@ NSString *const GTDiffOptionsMaxSizeKey = @"GTDiffOptionsMaxSizeKey";
 	return newOptions;
 }
 
-+ (GTDiff *)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree inRepository:(GTRepository *)repository withOptions:(NSDictionary *)options {
++ (GTDiff *)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree withOptions:(NSDictionary *)options {
+	NSParameterAssert([oldTree.repository isEqualTo:newTree.repository]);
+	
 	git_diff_options *optionsStruct = [self optionsStructFromDictionary:options];
 	git_diff_list *diffList;
-	int returnValue = git_diff_tree_to_tree(&diffList, repository.git_repository, oldTree.git_tree, newTree.git_tree, optionsStruct);
+	int returnValue = git_diff_tree_to_tree(&diffList, oldTree.repository.git_repository, oldTree.git_tree, newTree.git_tree, optionsStruct);
 	free(optionsStruct);
 	if (returnValue != GIT_OK) return nil;
 	
@@ -58,10 +60,10 @@ NSString *const GTDiffOptionsMaxSizeKey = @"GTDiffOptionsMaxSizeKey";
 	return newDiff;
 }
 
-+ (GTDiff *)diffIndexToTree:(GTTree *)tree inRepository:(GTRepository *)repository withOptions:(NSDictionary *)options {
++ (GTDiff *)diffIndexToTree:(GTTree *)tree withOptions:(NSDictionary *)options {
 	git_diff_options *optionsStruct = [self optionsStructFromDictionary:options];
 	git_diff_list *diffList;
-	int returnValue = git_diff_index_to_tree(&diffList, repository.git_repository, tree.git_tree, NULL, optionsStruct);
+	int returnValue = git_diff_index_to_tree(&diffList, tree.repository.git_repository, tree.git_tree, NULL, optionsStruct);
 	free(optionsStruct);
 	if (returnValue != GIT_OK) return nil;
 	
@@ -80,10 +82,10 @@ NSString *const GTDiffOptionsMaxSizeKey = @"GTDiffOptionsMaxSizeKey";
 	return newDiff;
 }
 
-+ (GTDiff *)diffWorkingDirectoryToTree:(GTTree *)tree inRepository:(GTRepository *)repository withOptions:(NSDictionary *)options {
++ (GTDiff *)diffWorkingDirectoryToTree:(GTTree *)tree withOptions:(NSDictionary *)options {
 	git_diff_options *optionsStruct = [self optionsStructFromDictionary:options];
 	git_diff_list *diffList;
-	int returnValue = git_diff_workdir_to_tree(&diffList, repository.git_repository, tree.git_tree, optionsStruct);
+	int returnValue = git_diff_workdir_to_tree(&diffList, tree.repository.git_repository, tree.git_tree, optionsStruct);
 	free(optionsStruct);
 	if (returnValue != GIT_OK) return nil;
 	

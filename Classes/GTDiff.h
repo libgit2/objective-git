@@ -50,10 +50,10 @@ typedef enum : git_diff_option_t {
 
 //TODO: Need to settle on a method for sending in the options struct
 
-+ (GTDiff *)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree inRepository:(GTRepository *)repository withOptions:(NSDictionary *)options;
-+ (GTDiff *)diffIndexToTree:(GTTree *)oldTree inRepository:(GTRepository *)repository withOptions:(NSDictionary *)options;
++ (GTDiff *)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree withOptions:(NSDictionary *)options;
++ (GTDiff *)diffIndexToTree:(GTTree *)oldTree withOptions:(NSDictionary *)options;
 + (GTDiff *)diffWorkingDirectoryToIndexInRepository:(GTRepository *)repository withOptions:(NSDictionary *)options;
-+ (GTDiff *)diffWorkingDirectoryToTree:(GTTree *)tree inRepository:(GTRepository *)repository withOptions:(NSDictionary *)options;
++ (GTDiff *)diffWorkingDirectoryToTree:(GTTree *)tree withOptions:(NSDictionary *)options;
 
 - (instancetype)initWithGitDiffList:(git_diff_list *)diffList;
 - (NSUInteger)numberOfDeltasWithType:(GTDiffDeltaType)deltaType;
