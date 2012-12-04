@@ -26,8 +26,7 @@
 	return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
 	git_diff_patch_free(self.git_diff_patch);
 }
 
