@@ -264,6 +264,9 @@
    [self revparseSpecVsExpected:@"master^2"   expected:nil];
    [self revparseSpecVsExpected:@""           expected:nil];
    [self revparseSpecVsExpected:@"v1.0"       expected:@"0c37a5391bbff43c37f0d0371823a5509eed5b1d"];
+
+   GTObject *obj = [repo lookupObjectByRevparse:@"master" error:nil];
+   STAssertNotNil(obj, @"Call with nil error should still work");
 }
 
 //- (void) testCanGetRemotes {
