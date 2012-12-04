@@ -65,6 +65,11 @@ typedef enum : git_delta_t {
 
 // The number of hunks represented by this delta.
 @property (nonatomic, readonly) NSUInteger hunkCount;
+
+// The hunks represented.
+//
+// Note that you should consider the hunks' lifetime tied to this delta object.
+// Once the parent delta object is cleaned up, their behaviour is undefined.
 @property (nonatomic, readonly, strong) NSArray *hunks;
 
 - (instancetype)initWithGitPatch:(git_diff_patch *)patch;
