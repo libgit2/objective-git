@@ -16,6 +16,8 @@
 @synthesize hunks = _hunks;
 
 - (instancetype)initWithGitPatch:(git_diff_patch *)patch {
+	NSParameterAssert(patch != NULL);
+	
 	self = [super init];
 	if (self == nil) return nil;
 	
