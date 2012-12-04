@@ -8,6 +8,9 @@
 
 #import "git2.h"
 
+// Flags which may be set on the file.
+//
+// See diff.h for individual documentation.
 typedef enum : git_diff_file_flag_t {
 	GTDiffFileFlagValidOID = GIT_DIFF_FILE_VALID_OID,
 	GTDiffFileFlagFreePath = GIT_DIFF_FILE_FREE_PATH,
@@ -18,13 +21,22 @@ typedef enum : git_diff_file_flag_t {
 	GTDiffFileFlagNoData = GIT_DIFF_FILE_NO_DATA,
 } GTDiffFileFlag;
 
+// A class representing a file on one side of a diff.
 @interface GTDiffFile : NSObject
 
+// The location within the working directory of the file.
 @property (nonatomic, readonly, strong) NSString *path;
+
+// The size (in bytes) of the file.
 @property (nonatomic, readonly) NSUInteger size;
+
+// Any flags set on the file (see `GTDiffFileFlag` for more info).
 @property (nonatomic, readonly) NSUInteger flags;
 
+// The mode of the file.
 @property (nonatomic, readonly) mode_t mode;
+
+// Designated initialiser.
 - (instancetype)initWithGitDiffFile:(git_diff_file)file;
 
 @end
