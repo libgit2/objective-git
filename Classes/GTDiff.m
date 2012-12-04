@@ -100,8 +100,7 @@ NSString *const GTDiffOptionsMaxSizeKey = @"GTDiffOptionsMaxSizeKey";
 	return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
 	git_diff_list_free(self.git_diff_list);
 }
 
