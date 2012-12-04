@@ -11,6 +11,18 @@
 @class GTDiffFile;
 @class GTDiffHunk;
 
+// The type of change that this delta represents.
+//
+// GTDiffFileDeltaUnmodified - No Change.
+// GTDiffFileDeltaAdded      - The file was added to the index.
+// GTDiffFileDeltaDeleted    - The file was removed from the working directory.
+// GTDiffFileDeltaModified   - The file was modified.
+// GTDiffFileDeltaRenamed    - The file has been renamed.
+// GTDiffFileDeltaCopied     - The file was duplicated.
+// GTDiffFileDeltaIgnored    - The file was ignored by git.
+// GTDiffFileDeltaUntracked  - The file has been added to the working directory
+//                             and is therefore currently untracked.
+// GTDiffFileDeltaTypeChange - LOL NO IDEA
 typedef enum : git_delta_t {
 	GTDiffFileDeltaUnmodified = GIT_DELTA_UNMODIFIED,
 	GTDiffFileDeltaAdded = GIT_DELTA_ADDED,
