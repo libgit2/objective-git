@@ -78,6 +78,7 @@ typedef enum : git_diff_option_t {
 // changes or "deltas", which are represented by `GTDiffDelta` objects.
 @interface GTDiff : NSObject
 
+// The libgit2 diff list object.
 @property (nonatomic, readonly) git_diff_list *git_diff_list;
 @property (nonatomic, readonly) NSUInteger deltaCount;
 
