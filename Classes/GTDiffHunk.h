@@ -10,6 +10,9 @@
 
 @class GTDiffDelta;
 
+// A character representing the origin of a given line.
+//
+// See diff.h for individual documentation.
 typedef enum : git_diff_line_t {
 	GTDiffHunkLineOriginContext = GIT_DIFF_LINE_CONTEXT,
 	GTDiffHunkLineOriginAddition = GIT_DIFF_LINE_ADDITION,
@@ -18,12 +21,25 @@ typedef enum : git_diff_line_t {
 	GTDiffHunkLineOriginDeleteEOFNewLine = GIT_DIFF_LINE_DEL_EOFNL,
 } GTDiffHunkLineOrigin;
 
+// A class representing a hunk within a diff delta.
 @interface GTDiffHunk : NSObject
 
+// The header of the hunk.
 @property (nonatomic, readonly, strong) NSString *header;
+
+// The number of lines represented in the hunk.
 @property (nonatomic, readonly) NSUInteger lineCount;
 
+// Designated initialiser.
+//
+// The contents of a hunk are lazily loaded, therefore we initialise the object
+// simply with the delta it originates from and which hunk index it represents.
 - (instancetype)initWithDelta:(GTDiffDelta *)delta hunkIndex:(NSUInteger)hunkIndex;
+
+// Perfoms the given block on each ine in the hunk.
+//
+// block - A block to execute on each line. Returning `YES` immediately stops
+//         the enumeration.
 - (void)enumerateLinesInHunkUsingBlock:(BOOL(^)(NSString *lineContent, NSUInteger oldLineNumber, NSUInteger newLineNumber, GTDiffHunkLineOrigin lineOrigin))block;
 
 @end
