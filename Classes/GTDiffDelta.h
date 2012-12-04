@@ -9,7 +9,6 @@
 #import "git2.h"
 
 @class GTDiffFile;
-@class GTDiffHunk;
 
 // The type of change that this delta represents.
 //
