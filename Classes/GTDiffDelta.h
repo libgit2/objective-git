@@ -8,6 +8,7 @@
 
 #import "git2.h"
 
+@class GTDiffFile;
 @class GTDiffHunk;
 
 typedef enum : git_delta_t {
@@ -21,8 +22,6 @@ typedef enum : git_delta_t {
 	GTDiffFileDeltaUntracked = GIT_DELTA_UNTRACKED,
 	GTDiffFileDeltaTypeChange = GIT_DELTA_TYPECHANGE,
 } GTDiffDeltaType;
-
-@class GTDiffFile;
 
 @interface GTDiffDelta : NSObject
 
