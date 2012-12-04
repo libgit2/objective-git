@@ -72,6 +72,7 @@ typedef enum : git_delta_t {
 // Once the parent delta object is cleaned up, their behaviour is undefined.
 @property (nonatomic, readonly, strong) NSArray *hunks;
 
+// Designated initialiser.
 - (instancetype)initWithGitPatch:(git_diff_patch *)patch;
 
 @end
