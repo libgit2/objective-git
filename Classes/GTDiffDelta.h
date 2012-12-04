@@ -42,7 +42,11 @@ typedef enum : git_delta_t {
 // for the types of change represented.
 @interface GTDiffDelta : NSObject
 
+// A convenience accessor to fetch the `git_diff_delta` represented by the
+// object.
 @property (nonatomic, readonly) git_diff_delta *git_diff_delta;
+
+// The backing libgit2 `git_diff_patch` object.
 @property (nonatomic, readonly) git_diff_patch *git_diff_patch;
 
 @property (nonatomic, readonly, getter = isBinary) BOOL binary;
