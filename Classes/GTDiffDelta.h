@@ -22,8 +22,6 @@ typedef enum : git_delta_t {
 	GTDiffFileDeltaTypeChange = GIT_DELTA_TYPECHANGE,
 } GTDiffDeltaType;
 
-typedef BOOL(^GTDiffDeltaHunkProcessingBlock)(GTDiffHunk *hunk);
-
 @class GTDiffFile;
 
 @interface GTDiffDelta : NSObject
