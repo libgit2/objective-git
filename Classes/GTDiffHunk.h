@@ -18,14 +18,12 @@ typedef enum : git_diff_line_t {
 	GTDiffHunkLineOriginDeleteEOFNewLine = GIT_DIFF_LINE_DEL_EOFNL,
 } GTDiffHunkLineOrigin;
 
-typedef BOOL(^GTDiffHunkLineProcessingBlock)(NSString *lineContent, NSUInteger oldLineNumber, NSUInteger newLineNumber, GTDiffHunkLineOrigin lineOrigin);
-
 @interface GTDiffHunk : NSObject
 
 @property (nonatomic, readonly, strong) NSString *header;
 @property (nonatomic, readonly) NSUInteger lineCount;
 
 - (instancetype)initWithDelta:(GTDiffDelta *)delta hunkIndex:(NSUInteger)hunkIndex;
-- (void)enumerateLinesInHunkWithBlock:(GTDiffHunkLineProcessingBlock)block;
+- (void)enumerateLinesInHunkUsingBlock:(BOOL(^)(NSString *lineContent, NSUInteger oldLineNumber, NSUInteger newLineNumber, GTDiffHunkLineOrigin lineOrigin))block;
 
 @end
