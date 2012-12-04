@@ -129,6 +129,16 @@ typedef enum : git_diff_option_t {
 // The number of deltas represented by the diff object which are changes of a
 // given type.
 - (NSUInteger)numberOfDeltasWithType:(GTDiffDeltaType)deltaType;
+
+// Enumerate the deltas in a diff.
+//
+// It is worth noting that the `git_diff_patch` objects backing each delta
+// contain the entire contents in memory. It is therefore recommend you
+// do not store the `delta` object given here, but instead perform any work
+// necessary within the provided block.
+//
+// block - A block to be executed for each delta, return NO from a block to
+//         immediately stop the enumeration.
 - (void)enumerateDeltasUsingBlock:(BOOL(^)(GTDiffDelta *delta))block;
 
 @end
