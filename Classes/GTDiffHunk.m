@@ -32,7 +32,7 @@
 	int result = git_diff_patch_get_hunk(NULL, &headerCString, &headerLength, &lineCount, delta.git_diff_patch, hunkIndex);
 	if (result != GIT_OK) return nil;
 	
-	_header = [NSString stringWithCharacters:(const unichar *)headerCString length:headerLength];
+	_header = [[NSString alloc] initWithBytes:headerCString length:headerLength encoding:NSUTF8StringEncoding];
 	_lineCount = lineCount;
 
 	return self;
@@ -48,7 +48,7 @@
 		int result = git_diff_patch_get_line_in_hunk(&lineOrigin, &content, &contentLength, &oldLineNumber, &newLineNumber, self.delta.git_diff_patch, self.hunkIndex, idx);
 		if (result != GIT_OK) continue;
 		
-		NSString *lineString = [NSString stringWithCharacters:(const unichar *)content length:contentLength];
+		NSString *lineString = [[NSString alloc] initWithBytes:content length:contentLength encoding:NSUTF8StringEncoding];
 		if (!block(lineString, (NSUInteger)oldLineNumber, (NSUInteger)newLineNumber, lineOrigin)) return;
 	}
 }
