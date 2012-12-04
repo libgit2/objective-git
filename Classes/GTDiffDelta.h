@@ -49,10 +49,21 @@ typedef enum : git_delta_t {
 // The backing libgit2 `git_diff_patch` object.
 @property (nonatomic, readonly) git_diff_patch *git_diff_patch;
 
+// Whether the file(s) are to be treated as binary.
 @property (nonatomic, readonly, getter = isBinary) BOOL binary;
+
+// The file to the "left" of the diff.
 @property (nonatomic, readonly, strong) GTDiffFile *oldFile;
+
+// The file to the "right" of the diff.
 @property (nonatomic, readonly, strong) GTDiffFile *newFile;
+
+// The type of change that this delta represents.
+//
+// Think "status" as in `git status`.
 @property (nonatomic, readonly) GTDiffDeltaType status;
+
+// The number of hunks represented by this delta.
 @property (nonatomic, readonly) NSUInteger hunkCount;
 @property (nonatomic, readonly, strong) NSArray *hunks;
 
