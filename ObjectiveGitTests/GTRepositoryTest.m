@@ -244,7 +244,7 @@
 
 - (void) revparseSpecVsExpected: (NSString*)spec expected:(NSString*)expectedOid {
    NSError *err = nil;
-   GTObject *obj = [repo lookupObjectByRevparse:spec error:&err];
+   GTObject *obj = [repo lookupObjectByRefspec:spec error:&err];
 
    if (expectedOid != nil) {
       STAssertEquals((NSInteger)GIT_OK, [err code], @"git_revparse_single didn't return 0: %d", [err code]);
@@ -265,7 +265,7 @@
    [self revparseSpecVsExpected:@""           expected:nil];
    [self revparseSpecVsExpected:@"v1.0"       expected:@"0c37a5391bbff43c37f0d0371823a5509eed5b1d"];
 
-   GTObject *obj = [repo lookupObjectByRevparse:@"master" error:nil];
+   GTObject *obj = [repo lookupObjectByRefspec:@"master" error:nil];
    STAssertNotNil(obj, @"Call with nil error should still work");
 }
 

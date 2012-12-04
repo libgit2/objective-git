@@ -183,11 +183,11 @@
 	return [self lookupObjectBySha:sha objectType:GTObjectTypeAny error:error];
 }
 
-- (GTObject *)lookupObjectByRevparse:(NSString *)spec error:(NSError **)error {
+- (GTObject *)lookupObjectByRefspec:(NSString *)spec error:(NSError **)error {
    git_object *obj;
    int gitError = git_revparse_single(&obj, self.git_repository, [spec UTF8String]);
    if (gitError < GIT_OK) {
-      if (error != NULL) *error = [NSError git_errorForMkStr:gitError];
+      if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to lookup object by refspec."];
       return nil;
    }
    return [GTObject objectWithObj:obj inRepository:self];

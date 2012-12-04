@@ -97,7 +97,7 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 - (GTObject *)lookupObjectBySha:(NSString *)sha error:(NSError **)error;
 
 // Lookup an object in the repo using a revparse spec
-- (GTObject *)lookupObjectByRevparse:(NSString *)spec error:(NSError **)error;
+- (GTObject *)lookupObjectByRefspec:(NSString *)spec error:(NSError **)error;
 
 // List references in the repository
 //
