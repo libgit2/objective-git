@@ -23,8 +23,8 @@ typedef enum : git_diff_file_flag_t {
 @property (nonatomic, readonly, strong) NSString *path;
 @property (nonatomic, readonly) NSUInteger size;
 @property (nonatomic, readonly) NSUInteger flags;
-@property (nonatomic, readonly) NSUInteger mode;
 
+@property (nonatomic, readonly) mode_t mode;
 - (instancetype)initWithGitDiffFile:(git_diff_file)file;
 
 @end
