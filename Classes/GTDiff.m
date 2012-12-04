@@ -47,7 +47,7 @@ NSString *const GTDiffOptionsMaxSizeKey = @"GTDiffOptionsMaxSizeKey";
 	return newOptions;
 }
 
-+ (GTDiff *)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree forRepository:(GTRepository *)repository withOptions:(NSDictionary *)options {
++ (GTDiff *)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree inRepository:(GTRepository *)repository withOptions:(NSDictionary *)options {
 	git_diff_options *optionsStruct = [self optionsStructFromDictionary:options];
 	git_diff_list *diffList;
 	int returnValue = git_diff_tree_to_tree(&diffList, repository.git_repository, oldTree.git_tree, newTree.git_tree, optionsStruct);
@@ -58,7 +58,7 @@ NSString *const GTDiffOptionsMaxSizeKey = @"GTDiffOptionsMaxSizeKey";
 	return newDiff;
 }
 
-+ (GTDiff *)diffIndexToTree:(GTTree *)tree forRepository:(GTRepository *)repository withOptions:(NSDictionary *)options {
++ (GTDiff *)diffIndexToTree:(GTTree *)tree inRepository:(GTRepository *)repository withOptions:(NSDictionary *)options {
 	git_diff_options *optionsStruct = [self optionsStructFromDictionary:options];
 	git_diff_list *diffList;
 	int returnValue = git_diff_index_to_tree(&diffList, repository.git_repository, tree.git_tree, NULL, optionsStruct);
@@ -69,7 +69,7 @@ NSString *const GTDiffOptionsMaxSizeKey = @"GTDiffOptionsMaxSizeKey";
 	return newDiff;
 }
 
-+ (GTDiff *)diffWorkingDirectoryToIndexForRepository:(GTRepository *)repository withOptions:(NSDictionary *)options {
++ (GTDiff *)diffWorkingDirectoryToIndexInRepository:(GTRepository *)repository withOptions:(NSDictionary *)options {
 	git_diff_options *optionsStruct = [self optionsStructFromDictionary:options];
 	git_diff_list *diffList;
 	int returnValue = git_diff_workdir_to_index(&diffList, repository.git_repository, NULL, optionsStruct);
@@ -80,7 +80,7 @@ NSString *const GTDiffOptionsMaxSizeKey = @"GTDiffOptionsMaxSizeKey";
 	return newDiff;
 }
 
-+ (GTDiff *)diffWorkingDirectoryToTree:(GTTree *)tree forRepository:(GTRepository *)repository withOptions:(NSDictionary *)options {
++ (GTDiff *)diffWorkingDirectoryToTree:(GTTree *)tree inRepository:(GTRepository *)repository withOptions:(NSDictionary *)options {
 	git_diff_options *optionsStruct = [self optionsStructFromDictionary:options];
 	git_diff_list *diffList;
 	int returnValue = git_diff_workdir_to_tree(&diffList, repository.git_repository, tree.git_tree, optionsStruct);
