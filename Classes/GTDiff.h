@@ -84,11 +84,46 @@ typedef enum : git_diff_option_t {
 // The number of deltas represented by the diff object.
 @property (nonatomic, readonly) NSUInteger deltaCount;
 
+// Create a diff between 2 `GTTree`s.
+//
+// The 2 trees must be from the same repository, or an exception will be thrown.
+//
+// oldTree - The "left" side of the diff.
+// newTree - The "right" side of the diff.
+// options - A dictionary containing any of the above options key constants, or
+//           nil to use the defaults.
+//
+// Returns a newly created `GTDiff` object or nil on error.
 + (GTDiff *)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree withOptions:(NSDictionary *)options;
-+ (GTDiff *)diffIndexToTree:(GTTree *)oldTree withOptions:(NSDictionary *)options;
+
+// Create a diff between a tree and it's repository's current index.
+//
+// tree    - The tree to be diffed.
+// options - A dictionary containing any of the above options key constants, or
+//           nil to use the defaults.
+//
+// Returns a newly created `GTDiff` object or nil on error.
++ (GTDiff *)diffIndexToTree:(GTTree *)tree withOptions:(NSDictionary *)options;
+
+// Create a diff between the working directory and index in a given repository.
+//
+// repository - The repository to be used for the diff.
+// options - A dictionary containing any of the above options key constants, or
+//           nil to use the defaults.
+//
+// Returns a newly created `GTDiff` object or nil on error.
 + (GTDiff *)diffWorkingDirectoryToIndexInRepository:(GTRepository *)repository withOptions:(NSDictionary *)options;
+
+// Create a diff between a tree and it's repository's working directory.
+//
+// tree    - The tree to be diffed.
+// options - A dictionary containing any of the above options key constants, or
+//           nil to use the defaults.
+//
+// Returns a newly created `GTDiff` object or nil on error.
 + (GTDiff *)diffWorkingDirectoryToTree:(GTTree *)tree withOptions:(NSDictionary *)options;
 
+// Designated initialiser.
 - (instancetype)initWithGitDiffList:(git_diff_list *)diffList;
 - (NSUInteger)numberOfDeltasWithType:(GTDiffDeltaType)deltaType;
 - (void)enumerateDeltasUsingBlock:(BOOL(^)(GTDiffDelta *delta))block;
