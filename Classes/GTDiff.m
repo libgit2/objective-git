@@ -58,10 +58,10 @@ NSString *const GTDiffOptionsMaxSizeKey = @"GTDiffOptionsMaxSizeKey";
 	return newDiff;
 }
 
-+ (GTDiff *)diffIndexToOldTree:(GTTree *)oldTree forRepository:(GTRepository *)repository withOptions:(NSDictionary *)options {
++ (GTDiff *)diffIndexToTree:(GTTree *)tree forRepository:(GTRepository *)repository withOptions:(NSDictionary *)options {
 	git_diff_options *optionsStruct = [self optionsStructFromDictionary:options];
 	git_diff_list *diffList;
-	int returnValue = git_diff_index_to_tree(&diffList, repository.git_repository, oldTree.git_tree, NULL, optionsStruct);
+	int returnValue = git_diff_index_to_tree(&diffList, repository.git_repository, tree.git_tree, NULL, optionsStruct);
 	free(optionsStruct);
 	if (returnValue != GIT_OK) return nil;
 	
