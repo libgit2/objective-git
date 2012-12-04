@@ -46,6 +46,10 @@ extern NSString *const GTDiffOptionsNewPrefixKey;
 // Defaults to 512Mb.
 extern NSString *const GTDiffOptionsMaxSizeKey;
 
+// Enum for use as documented in the options dictionary with the
+// `GTDiffOptionsFlagsKey` key.
+//
+// See diff.h for documentation of each individual flag. 
 typedef enum : git_diff_option_t {
 	GTDiffOptionsFlagsNormal = GIT_DIFF_NORMAL,
 	GTDiffOptionsFlagsReverse = GIT_DIFF_REVERSE,
