@@ -65,7 +65,7 @@
 			if (hunk != nil) [newHunksArray addObject:hunk];
 		}
 		
-		_hunks = [NSArray arrayWithArray:newHunksArray];
+		_hunks = [newHunksArray copy];
 	}
 	
 	return _hunks;
