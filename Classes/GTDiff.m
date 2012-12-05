@@ -47,7 +47,7 @@ NSString *const GTDiffOptionsMaxSizeKey = @"GTDiffOptionsMaxSizeKey";
 	return newOptions;
 }
 
-+ (GTDiff *)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree withOptions:(NSDictionary *)options {
++ (GTDiff *)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree options:(NSDictionary *)options {
 	NSParameterAssert([oldTree.repository isEqualTo:newTree.repository]);
 	
 	git_diff_options *optionsStruct = [self optionsStructFromDictionary:options];
@@ -60,7 +60,7 @@ NSString *const GTDiffOptionsMaxSizeKey = @"GTDiffOptionsMaxSizeKey";
 	return newDiff;
 }
 
-+ (GTDiff *)diffIndexToTree:(GTTree *)tree withOptions:(NSDictionary *)options {
++ (GTDiff *)diffIndexToTree:(GTTree *)tree options:(NSDictionary *)options {
 	git_diff_options *optionsStruct = [self optionsStructFromDictionary:options];
 	git_diff_list *diffList;
 	int returnValue = git_diff_index_to_tree(&diffList, tree.repository.git_repository, tree.git_tree, NULL, optionsStruct);
@@ -71,7 +71,7 @@ NSString *const GTDiffOptionsMaxSizeKey = @"GTDiffOptionsMaxSizeKey";
 	return newDiff;
 }
 
-+ (GTDiff *)diffWorkingDirectoryToIndexInRepository:(GTRepository *)repository withOptions:(NSDictionary *)options {
++ (GTDiff *)diffWorkingDirectoryToIndexInRepository:(GTRepository *)repository options:(NSDictionary *)options {
 	git_diff_options *optionsStruct = [self optionsStructFromDictionary:options];
 	git_diff_list *diffList;
 	int returnValue = git_diff_workdir_to_index(&diffList, repository.git_repository, NULL, optionsStruct);
@@ -82,7 +82,7 @@ NSString *const GTDiffOptionsMaxSizeKey = @"GTDiffOptionsMaxSizeKey";
 	return newDiff;
 }
 
-+ (GTDiff *)diffWorkingDirectoryToTree:(GTTree *)tree withOptions:(NSDictionary *)options {
++ (GTDiff *)diffWorkingDirectoryToTree:(GTTree *)tree options:(NSDictionary *)options {
 	git_diff_options *optionsStruct = [self optionsStructFromDictionary:options];
 	git_diff_list *diffList;
 	int returnValue = git_diff_workdir_to_tree(&diffList, tree.repository.git_repository, tree.git_tree, optionsStruct);
