@@ -139,14 +139,8 @@
 	return self;
 }
 
-+ (id)cloneFromURL:(NSURL *)originURL
-         toWorkdir:(NSURL *)workdirURL
-            barely:(BOOL)bare
-      withCheckout:(BOOL)checkout
- withTransferBlock:(void (^)(git_transfer_progress *))transferBlock
- withCheckoutBlock:(void (^)(NSString *path, int completedSteps, int totalSteps))checkoutBlock
-             error:(NSError **)error {
-   return nil;
++ (id)cloneFromURL:(NSURL *)originURL toWorkdingDirectory:(NSURL *)workdirURL barely:(BOOL)barely withCheckout:(BOOL)withCheckout transferProgressBlock:(void (^)(git_transfer_progress *))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, int completedSteps, int totalSteps))checkoutProgressBlock error:(NSError **)error {
+  return nil;
 }
 
 

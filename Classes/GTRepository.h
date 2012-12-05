@@ -84,19 +84,16 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 
 // Clone a repository
 //
-// barely - create a bare clone if true
+// originURL - URL to clone from
+// workdirURL - URL to (local) working directory
+// barely - If true, create a bare clone
 // withCheckout - if false, don't checkout the remote HEAD
-// withTransferBlock - this block is called with network transfer updates
-// withCheckoutBlock - this block is called with checkout updates (if withCheckout:true)
+// transferProgressBlock - this block is called with network transfer updates
+// checkoutProgressBlock - this block is called with checkout updates (if withCheckout:true)
 //
-// returns a GTRepository object if successful, otherwise nil (and error is set)
-+ (id)cloneFromURL:(NSURL *)originURL
-         toWorkdir:(NSURL *)workdirURL
-            barely:(BOOL)bare
-      withCheckout:(BOOL)checkout
- withTransferBlock:(void (^)(git_transfer_progress *))transferBlock
- withCheckoutBlock:(void (^)(NSString *path, int completedSteps, int totalSteps))checkoutBlock
-             error:(NSError **)error;
+// returns a GTRepository object if successful.
+// returns nil if an error occurred, and fills the error parameter.
++ (id)cloneFromURL:(NSURL *)originURL toWorkdingDirectory:(NSURL *)workdirURL barely:(BOOL)barely withCheckout:(BOOL)withCheckout transferProgressBlock:(void (^)(git_transfer_progress *))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, int completedSteps, int totalSteps))checkoutProgressBlock error:(NSError **)error;
 
 // Helper for getting the sha1 has of a raw object
 //
