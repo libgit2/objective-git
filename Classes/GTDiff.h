@@ -126,8 +126,7 @@ typedef enum : git_diff_option_t {
 // Designated initialiser.
 - (instancetype)initWithGitDiffList:(git_diff_list *)diffList;
 
-// The number of deltas represented by the diff object which are changes of a
-// given type.
+// The number of deltas of the given type that are contained in the diff.
 - (NSUInteger)numberOfDeltasWithType:(GTDiffDeltaType)deltaType;
 
 // Enumerate the deltas in a diff.
