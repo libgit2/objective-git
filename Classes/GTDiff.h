@@ -94,7 +94,7 @@ typedef enum : git_diff_option_t {
 //           nil to use the defaults.
 //
 // Returns a newly created `GTDiff` object or nil on error.
-+ (GTDiff *)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree withOptions:(NSDictionary *)options;
++ (GTDiff *)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree options:(NSDictionary *)options;
 
 // Create a diff between a tree and it's repository's current index.
 //
@@ -103,7 +103,7 @@ typedef enum : git_diff_option_t {
 //           nil to use the defaults.
 //
 // Returns a newly created `GTDiff` object or nil on error.
-+ (GTDiff *)diffIndexToTree:(GTTree *)tree withOptions:(NSDictionary *)options;
++ (GTDiff *)diffIndexToTree:(GTTree *)tree options:(NSDictionary *)options;
 
 // Create a diff between the working directory and index in a given repository.
 //
@@ -112,7 +112,7 @@ typedef enum : git_diff_option_t {
 //           nil to use the defaults.
 //
 // Returns a newly created `GTDiff` object or nil on error.
-+ (GTDiff *)diffWorkingDirectoryToIndexInRepository:(GTRepository *)repository withOptions:(NSDictionary *)options;
++ (GTDiff *)diffWorkingDirectoryToIndexInRepository:(GTRepository *)repository options:(NSDictionary *)options;
 
 // Create a diff between a tree and it's repository's working directory.
 //
@@ -121,7 +121,7 @@ typedef enum : git_diff_option_t {
 //           nil to use the defaults.
 //
 // Returns a newly created `GTDiff` object or nil on error.
-+ (GTDiff *)diffWorkingDirectoryToTree:(GTTree *)tree withOptions:(NSDictionary *)options;
++ (GTDiff *)diffWorkingDirectoryToTree:(GTTree *)tree options:(NSDictionary *)options;
 
 // Designated initialiser.
 - (instancetype)initWithGitDiffList:(git_diff_list *)diffList;
