@@ -132,7 +132,7 @@ typedef enum : git_diff_option_t {
 // Enumerate the deltas in a diff.
 //
 // It is worth noting that the `git_diff_patch` objects backing each delta
-// contain the entire contents in memory. It is therefore recommend you
+// contain the entire contents in memory. It is therefore recommended you
 // do not store the `delta` object given here, but instead perform any work
 // necessary within the provided block.
 //
