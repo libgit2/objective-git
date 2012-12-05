@@ -139,6 +139,17 @@
 	return self;
 }
 
++ (id)cloneFromURL:(NSURL *)originURL
+         toWorkdir:(NSURL *)workdirURL
+            barely:(BOOL)bare
+      withCheckout:(BOOL)checkout
+ withTransferBlock:(void (^)(git_transfer_progress *))transferBlock
+ withCheckoutBlock:(void (^)(NSString *path, int completedSteps, int totalSteps))checkoutBlock
+             error:(NSError **)error {
+   return nil;
+}
+
+
 + (NSString *)hash:(NSString *)data objectType:(GTObjectType)type error:(NSError **)error {
 	git_oid oid;
 
