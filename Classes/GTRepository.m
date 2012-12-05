@@ -185,7 +185,7 @@
 
 - (GTObject *)lookupObjectByRefspec:(NSString *)spec error:(NSError **)error {
    git_object *obj;
-   int gitError = git_revparse_single(&obj, self.git_repository, [spec UTF8String]);
+   int gitError = git_revparse_single(&obj, self.git_repository, spec.UTF8String);
    if (gitError < GIT_OK) {
       if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to lookup object by refspec."];
       return nil;
