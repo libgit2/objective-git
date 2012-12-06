@@ -49,16 +49,21 @@
 	testContentType = GTObjectTypeBlob;
 }
 
+- (void)removeDirectoryAtURL:(NSURL *)url {
+	NSFileManager *fm = [[NSFileManager alloc] init];
+	NSError *error = nil;
+	
+	if([fm fileExistsAtPath:url.path]) {
+		STAssertTrue([fm removeItemAtPath:url.path error:&error], [error localizedDescription]);
+	}
+}
+
 - (void)testCreateRepositoryInDirectory {
 	
 	NSError *error = nil;
-	NSFileManager *fm = [[NSFileManager alloc] init];
 	NSURL *newRepoURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"unit_test"]];
-	
-	if([fm fileExistsAtPath:[newRepoURL path]]) {
-		[fm removeItemAtPath:[newRepoURL path] error:&error];
-		STAssertNil(error, [error localizedDescription]);
-	}
+
+	[self removeDirectoryAtURL:newRepoURL];
 	
     STAssertTrue([GTRepository initializeEmptyRepositoryAtURL:newRepoURL error:&error], nil);
 	GTRepository *newRepo = [GTRepository repositoryWithURL:newRepoURL error:&error];
@@ -266,6 +271,63 @@
 
 	GTObject *obj = [repo lookupObjectByRefspec:@"master" error:nil];
 	STAssertNotNil(obj, @"Call with nil error should still work");
+}
+
+
+- (void)testCanClone {
+	__block BOOL transferProgressCalled = NO;
+	__block BOOL checkoutProgressCalled = NO;
+	void (^transferProgressBlock)(const git_transfer_progress *) = ^(const git_transfer_progress *progress) {
+		transferProgressCalled = YES;
+	};
+	void (^checkoutProgressBlock)(NSString *, NSUInteger, NSUInteger) = ^(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps) {
+		checkoutProgressCalled = YES;
+	};
+	NSURL *originURL = [NSURL fileURLWithPath:TEST_REPO_PATH(self.class)]; //[NSURL URLWithString: @"https://github.com/libgit2/TestGitRepository"];
+	NSURL *workdirURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"unit_test"]];
+	NSError *err;
+
+	[self removeDirectoryAtURL:workdirURL];
+
+	repo = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL barely:NO withCheckout:YES error:&err transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
+
+	STAssertNotNil(repo, err.localizedDescription);
+	STAssertFalse([repo isBare], @"Standard repo should not be bare");
+	STAssertTrue(transferProgressCalled, @"Transfer progress handler never called");
+	STAssertTrue(checkoutProgressCalled, @"checkout progress handler never called");
+
+	GTReference *head = [repo headReferenceWithError:&err];
+	STAssertNotNil(head, err.localizedDescription);
+	STAssertEqualObjects(head.target, @"36060c58702ed4c2a40832c51758d5344201d89a", nil);
+	STAssertEqualObjects(head.type, @"commit", nil);
+}
+
+- (void)testCanCloneBarely {
+	__block BOOL transferProgressCalled = NO;
+	__block BOOL checkoutProgressCalled = NO;
+	void (^transferProgressBlock)(const git_transfer_progress *) = ^(const git_transfer_progress *progress) {
+		transferProgressCalled = YES;
+	};
+	void (^checkoutProgressBlock)(NSString *, NSUInteger, NSUInteger) = ^(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps) {
+		checkoutProgressCalled = YES;
+	};
+	NSURL *originURL = [NSURL fileURLWithPath:TEST_REPO_PATH(self.class)]; //[NSURL URLWithString: @"https://github.com/libgit2/TestGitRepository"];
+	NSURL *workdirURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"unit_test"]];
+	NSError *err;
+
+	[self removeDirectoryAtURL:workdirURL];
+
+	repo = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL barely:YES withCheckout:YES error:&err transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
+
+	STAssertNotNil(repo, err.localizedDescription);
+	STAssertTrue([repo isBare], @"Bare repo should be bare");
+	STAssertTrue(transferProgressCalled, @"Transfer progress handler never called");
+	STAssertFalse(checkoutProgressCalled, @"Checkout progress handler was called for bare repo");
+
+	GTReference *head = [repo headReferenceWithError:&err];
+	STAssertNotNil(head, err.localizedDescription);
+	STAssertEqualObjects(head.target, @"36060c58702ed4c2a40832c51758d5344201d89a", nil);
+	STAssertEqualObjects(head.type, @"commit", nil);
 }
 
 //- (void) testCanGetRemotes {
