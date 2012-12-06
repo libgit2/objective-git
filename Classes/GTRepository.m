@@ -119,6 +119,14 @@
 	return [[self alloc] initWithURL:localFileURL error:error];
 }
 
+- (id)initWithGitRepository:(git_repository *)repository {
+	self = [super init];
+	if (self == nil) return nil;
+	
+	self.git_repository = repository;
+	return self;
+}
+
 - (id)initWithURL:(NSURL *)localFileURL error:(NSError **)error {
 	NSURL *gitDirForLocalURL = [self.class _gitURLForURL:localFileURL error:error];
 	if (gitDirForLocalURL == nil) return nil;
@@ -138,6 +146,44 @@
 
 	return self;
 }
+
+static void checkoutProgressCallback(const char *path, size_t completedSteps, size_t totalSteps, void *payload) {
+	if (payload == NULL) return;
+	void (^block)(NSString *, NSUInteger, NSUInteger) = (__bridge id)payload;
+	NSString *nsPath = (path != NULL ? [NSString stringWithUTF8String:path] : nil);
+	block(nsPath, completedSteps, totalSteps);
+}
+
+static void transferProgressCallback(const git_transfer_progress *progress, void *payload) {
+	if (payload == NULL) return;
+	void (^block)(const git_transfer_progress *) = (__bridge id)payload;
+	block(progress);
+}
+
++ (id)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL barely:(BOOL)barely withCheckout:(BOOL)withCheckout error:(NSError **)error transferProgressBlock:(void (^)(const git_transfer_progress *))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))checkoutProgressBlock {
+	const char *cOriginURL = originURL.absoluteString.UTF8String;
+	const char *cWorkdirURL = workdirURL.path.UTF8String;
+
+	git_repository *r;
+	int gitError;
+	if (barely) {
+		gitError = git_clone_bare(&r, cOriginURL, cWorkdirURL, transferProgressCallback, (__bridge void *)transferProgressBlock);
+	} else {
+		git_checkout_opts opts = GIT_CHECKOUT_OPTS_INIT;
+		opts.checkout_strategy = GIT_CHECKOUT_SAFE;
+		opts.progress_cb = checkoutProgressCallback;
+		opts.progress_payload = (__bridge void *)checkoutProgressBlock;
+		gitError = git_clone(&r, cOriginURL, cWorkdirURL, (withCheckout ? &opts : NULL), transferProgressCallback, (__bridge void *)transferProgressBlock);
+	}
+	
+	if (gitError < GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to clone repository."];
+		return nil;
+	}
+
+	return [[self alloc] initWithGitRepository:r];
+}
+
 
 + (NSString *)hash:(NSString *)data objectType:(GTObjectType)type error:(NSError **)error {
 	git_oid oid;
