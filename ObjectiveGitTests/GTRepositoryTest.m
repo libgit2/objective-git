@@ -49,13 +49,12 @@
 	testContentType = GTObjectTypeBlob;
 }
 
-- (void)removeDirectoryAtUrl:(NSURL *)url {
+- (void)removeDirectoryAtURL:(NSURL *)url {
 	NSFileManager *fm = [[NSFileManager alloc] init];
 	NSError *error = nil;
 	
 	if([fm fileExistsAtPath:url.path]) {
-		[fm removeItemAtPath:url.path error:&error];
-		STAssertNil(error, [error localizedDescription]);
+		STAssertTrue([fm removeItemAtPath:url.path error:&error], [error localizedDescription]);
 	}
 }
 
@@ -64,7 +63,7 @@
 	NSError *error = nil;
 	NSURL *newRepoURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"unit_test"]];
 
-	[self removeDirectoryAtUrl:newRepoURL];
+	[self removeDirectoryAtURL:newRepoURL];
 	
     STAssertTrue([GTRepository initializeEmptyRepositoryAtURL:newRepoURL error:&error], nil);
 	GTRepository *newRepo = [GTRepository repositoryWithURL:newRepoURL error:&error];
@@ -276,45 +275,59 @@
 
 
 - (void)testCanClone {
-	// Standard clone
-	__block bool transferProgressCalled = false;
-	__block bool checkoutProgressCalled = false;
+	__block BOOL transferProgressCalled = NO;
+	__block BOOL checkoutProgressCalled = NO;
+	void (^transferProgressBlock)(const git_transfer_progress *) = ^(const git_transfer_progress *progress) {
+		transferProgressCalled = YES;
+	};
+	void (^checkoutProgressBlock)(NSString *, NSUInteger, NSUInteger) = ^(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps) {
+		checkoutProgressCalled = YES;
+	};
 	NSURL *originURL = [NSURL fileURLWithPath:TEST_REPO_PATH(self.class)]; //[NSURL URLWithString: @"https://github.com/libgit2/TestGitRepository"];
 	NSURL *workdirURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"unit_test"]];
 	NSError *err;
 
-	[self removeDirectoryAtUrl:workdirURL];
+	[self removeDirectoryAtURL:workdirURL];
 
-	repo = [GTRepository cloneFromURL:originURL toWorkdingDirectory:workdirURL barely:FALSE withCheckout:TRUE transferProgressBlock:^ (const git_transfer_progress *prog) { transferProgressCalled = true; } checkoutProgressBlock:^ (NSString *path, int curObj, int totalObjs) { checkoutProgressCalled = true; } error: &err];
-	STAssertNil(err, err.localizedDescription);
+	repo = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL barely:FALSE withCheckout:TRUE error: &err transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
 
-	STAssertFalse(repo.isBare, @"Standard repo should not be bare");
-	STAssertNotNil(repo, @"Failed to clone repository");
+	STAssertNotNil(repo, err.localizedDescription);
+	STAssertFalse([repo isBare], @"Standard repo should not be bare");
 	STAssertTrue(transferProgressCalled, @"Transfer progress handler never called");
 	STAssertTrue(checkoutProgressCalled, @"checkout progress handler never called");
 
 	GTReference *head = [repo headReferenceWithError:&err];
-	STAssertNil(err, err.localizedDescription);
+	STAssertNotNil(head, err.localizedDescription);
 	STAssertEqualObjects(head.target, @"36060c58702ed4c2a40832c51758d5344201d89a", nil);
 	STAssertEqualObjects(head.type, @"commit", nil);
+}
 
+- (void)testCanCloneBarely {
+	__block BOOL transferProgressCalled = NO;
+	__block BOOL checkoutProgressCalled = NO;
+	void (^transferProgressBlock)(const git_transfer_progress *) = ^(const git_transfer_progress *progress) {
+		transferProgressCalled = YES;
+	};
+	void (^checkoutProgressBlock)(NSString *, NSUInteger, NSUInteger) = ^(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps) {
+		checkoutProgressCalled = YES;
+	};
+	NSURL *originURL = [NSURL fileURLWithPath:TEST_REPO_PATH(self.class)]; //[NSURL URLWithString: @"https://github.com/libgit2/TestGitRepository"];
+	NSURL *workdirURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"unit_test"]];
+	NSError *err;
 
-	
 	// Bare clone
-	[self removeDirectoryAtUrl:workdirURL];
-	transferProgressCalled = checkoutProgressCalled = false;
+	[self removeDirectoryAtURL:workdirURL];
+	transferProgressCalled = checkoutProgressCalled = NO;
 
-	repo = [GTRepository cloneFromURL:originURL toWorkdingDirectory:workdirURL barely:TRUE withCheckout:TRUE transferProgressBlock:^(const git_transfer_progress *prog) { transferProgressCalled = true; } checkoutProgressBlock:^(NSString *path, int curObj, int totalObjs) { checkoutProgressCalled = true; } error: &err];
-	STAssertNil(err, err.localizedDescription);
+	repo = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL barely:TRUE withCheckout:TRUE error: &err transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
 
-	STAssertNotNil(repo, @"Failed to clone repository");
+	STAssertNotNil(repo, err.localizedDescription);
+	STAssertTrue([repo isBare], @"Bare repo should be bare");
 	STAssertTrue(transferProgressCalled, @"Transfer progress handler never called");
-	STAssertFalse(checkoutProgressCalled, @"checkout progress handler was called for bare repo");
+	STAssertFalse(checkoutProgressCalled, @"Checkout progress handler was called for bare repo");
 
-	STAssertTrue(repo.isBare, @"Bare repo should be bare");
-
-	head = [repo headReferenceWithError:&err];
-	STAssertNil(err, err.localizedDescription);
+	GTReference *head = [repo headReferenceWithError:&err];
+	STAssertNotNil(head, err.localizedDescription);
 	STAssertEqualObjects(head.target, @"36060c58702ed4c2a40832c51758d5344201d89a", nil);
 	STAssertEqualObjects(head.type, @"commit", nil);
 }

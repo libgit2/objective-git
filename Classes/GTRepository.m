@@ -119,6 +119,12 @@
 	return [[self alloc] initWithURL:localFileURL error:error];
 }
 
+- (id)initWithNativeRepository:(git_repository *)repository {
+	self = [super init];
+	self.git_repository = repository;
+	return self;
+}
+
 - (id)initWithURL:(NSURL *)localFileURL error:(NSError **)error {
 	NSURL *gitDirForLocalURL = [self.class _gitURLForURL:localFileURL error:error];
 	if (gitDirForLocalURL == nil) return nil;
@@ -139,37 +145,34 @@
 	return self;
 }
 
-static void c_checkout_progress(const char *path, size_t completedSteps, size_t totalSteps, void *payload) {
-	void (^block)(NSString*, int, int) = (__bridge id)payload;
-	NSString *nsPath = path ? [NSString stringWithUTF8String:path] : nil;
-	if (block) block(nsPath, (int)completedSteps, (int)totalSteps);
+static void checkoutProgressCallback(const char *path, size_t completedSteps, size_t totalSteps, void *payload) {
+	if (payload == NULL) return;
+	void (^block)(NSString *, NSUInteger, NSUInteger) = (__bridge id)payload;
+	NSString *nsPath = (path != NULL ? [NSString stringWithUTF8String:path] : nil);
+	block(nsPath, completedSteps, totalSteps);
 }
 
-static void c_transfer_progress(const git_transfer_progress *prog, void *payload) {
-	void (^block)(const git_transfer_progress*) = (__bridge id) payload;
-	if (block) block(prog);
+static void transferProgressCallback(const git_transfer_progress *progress, void *payload) {
+	if (payload == NULL) return;
+	void (^block)(const git_transfer_progress *) = (__bridge id)payload;
+	block(progress);
 }
 
-+ (id)cloneFromURL:(NSURL *)originURL toWorkdingDirectory:(NSURL *)workdirURL barely:(BOOL)barely withCheckout:(BOOL)withCheckout transferProgressBlock:(void (^)(const git_transfer_progress *))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, int completedSteps, int totalSteps))checkoutProgressBlock error:(NSError **)error {
++ (id)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL barely:(BOOL)barely withCheckout:(BOOL)withCheckout error:(NSError **)error transferProgressBlock:(void (^)(const git_transfer_progress *))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))checkoutProgressBlock {
 
-	git_checkout_opts *opts = nil;
-	if (withCheckout) {
-		opts = calloc(1, sizeof(git_checkout_opts));
-		opts->version = GIT_CHECKOUT_OPTS_VERSION;
-		opts->checkout_strategy = GIT_CHECKOUT_SAFE;
-		opts->progress_cb = c_checkout_progress;
-		opts->progress_payload = (__bridge void *)(checkoutProgressBlock);
-	}
-
-	const char *cOriginURL = originURL ? originURL.absoluteString.UTF8String : nil;
-	const char *cWorkdirURL = workdirURL ? workdirURL.path.UTF8String : nil;
+	const char *cOriginURL = originURL.absoluteString.UTF8String;
+	const char *cWorkdirURL = workdirURL.path.UTF8String;
 
 	git_repository *r;
 	int gitError;
 	if (barely) {
-		gitError = git_clone_bare(&r, cOriginURL, cWorkdirURL, c_transfer_progress, (__bridge void*)transferProgressBlock);
+		gitError = git_clone_bare(&r, cOriginURL, cWorkdirURL, transferProgressCallback, (__bridge void *)transferProgressBlock);
 	} else {
-		gitError = git_clone(&r, cOriginURL, cWorkdirURL, opts, c_transfer_progress, (__bridge void*)transferProgressBlock);
+		git_checkout_opts opts = GIT_CHECKOUT_OPTS_INIT;
+		opts.checkout_strategy = GIT_CHECKOUT_SAFE;
+		opts.progress_cb = checkoutProgressCallback;
+		opts.progress_payload = (__bridge void *)checkoutProgressBlock;
+		gitError = git_clone(&r, cOriginURL, cWorkdirURL, (withCheckout ? &opts : NULL), transferProgressCallback, (__bridge void *)transferProgressBlock);
 	}
 	
 	if (gitError < GIT_OK) {
@@ -177,9 +180,7 @@ static void c_transfer_progress(const git_transfer_progress *prog, void *payload
 		return nil;
 	}
 
-	GTRepository *repo = [self alloc];
-	repo.git_repository = r;
-	return repo;
+	return [[self alloc] initWithNativeRepository:r];
 }
 
 
