@@ -139,8 +139,47 @@
 	return self;
 }
 
-+ (id)cloneFromURL:(NSURL *)originURL toWorkdingDirectory:(NSURL *)workdirURL barely:(BOOL)barely withCheckout:(BOOL)withCheckout transferProgressBlock:(void (^)(git_transfer_progress *))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, int completedSteps, int totalSteps))checkoutProgressBlock error:(NSError **)error {
-  return nil;
+static void c_checkout_progress(const char *path, size_t completedSteps, size_t totalSteps, void *payload) {
+	void (^block)(NSString*, int, int) = (__bridge id)payload;
+	NSString *nsPath = path ? [NSString stringWithUTF8String:path] : nil;
+	if (block) block(nsPath, (int)completedSteps, (int)totalSteps);
+}
+
+static void c_transfer_progress(const git_transfer_progress *prog, void *payload) {
+	void (^block)(const git_transfer_progress*) = (__bridge id) payload;
+	if (block) block(prog);
+}
+
++ (id)cloneFromURL:(NSURL *)originURL toWorkdingDirectory:(NSURL *)workdirURL barely:(BOOL)barely withCheckout:(BOOL)withCheckout transferProgressBlock:(void (^)(const git_transfer_progress *))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, int completedSteps, int totalSteps))checkoutProgressBlock error:(NSError **)error {
+
+	git_checkout_opts *opts = nil;
+	if (withCheckout) {
+		opts = calloc(1, sizeof(git_checkout_opts));
+		opts->version = GIT_CHECKOUT_OPTS_VERSION;
+		opts->checkout_strategy = GIT_CHECKOUT_SAFE;
+		opts->progress_cb = c_checkout_progress;
+		opts->progress_payload = (__bridge void *)(checkoutProgressBlock);
+	}
+
+	const char *cOriginURL = originURL ? originURL.absoluteString.UTF8String : nil;
+	const char *cWorkdirURL = workdirURL ? workdirURL.path.UTF8String : nil;
+
+	git_repository *r;
+	int gitError;
+	if (barely) {
+		gitError = git_clone_bare(&r, cOriginURL, cWorkdirURL, c_transfer_progress, (__bridge void*)transferProgressBlock);
+	} else {
+		gitError = git_clone(&r, cOriginURL, cWorkdirURL, opts, c_transfer_progress, (__bridge void*)transferProgressBlock);
+	}
+	
+	if (gitError < GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to clone repository."];
+		return nil;
+	}
+
+	GTRepository *repo = [self alloc];
+	repo.git_repository = r;
+	return repo;
 }
 
 
