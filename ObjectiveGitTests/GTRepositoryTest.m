@@ -289,7 +289,7 @@
 
 	[self removeDirectoryAtURL:workdirURL];
 
-	repo = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL barely:FALSE withCheckout:TRUE error: &err transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
+	repo = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL barely:NO withCheckout:YES error:&err transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
 
 	STAssertNotNil(repo, err.localizedDescription);
 	STAssertFalse([repo isBare], @"Standard repo should not be bare");
@@ -315,11 +315,9 @@
 	NSURL *workdirURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"unit_test"]];
 	NSError *err;
 
-	// Bare clone
 	[self removeDirectoryAtURL:workdirURL];
-	transferProgressCalled = checkoutProgressCalled = NO;
 
-	repo = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL barely:TRUE withCheckout:TRUE error: &err transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
+	repo = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL barely:YES withCheckout:YES error:&err transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
 
 	STAssertNotNil(repo, err.localizedDescription);
 	STAssertTrue([repo isBare], @"Bare repo should be bare");

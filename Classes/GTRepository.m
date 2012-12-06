@@ -119,8 +119,10 @@
 	return [[self alloc] initWithURL:localFileURL error:error];
 }
 
-- (id)initWithNativeRepository:(git_repository *)repository {
+- (id)initWithGitRepository:(git_repository *)repository {
 	self = [super init];
+	if (self == nil) return nil;
+	
 	self.git_repository = repository;
 	return self;
 }
@@ -159,7 +161,6 @@ static void transferProgressCallback(const git_transfer_progress *progress, void
 }
 
 + (id)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL barely:(BOOL)barely withCheckout:(BOOL)withCheckout error:(NSError **)error transferProgressBlock:(void (^)(const git_transfer_progress *))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))checkoutProgressBlock {
-
 	const char *cOriginURL = originURL.absoluteString.UTF8String;
 	const char *cWorkdirURL = workdirURL.path.UTF8String;
 
@@ -180,7 +181,7 @@ static void transferProgressCallback(const git_transfer_progress *progress, void
 		return nil;
 	}
 
-	return [[self alloc] initWithNativeRepository:r];
+	return [[self alloc] initWithGitRepository:r];
 }
 
 
