@@ -279,7 +279,7 @@
 	// Standard clone
 	__block bool transferProgressCalled = false;
 	__block bool checkoutProgressCalled = false;
-	NSURL *originURL = [NSURL URLWithString: @"https://github.com/libgit2/TestGitRepository"];
+	NSURL *originURL = [NSURL fileURLWithPath:TEST_REPO_PATH(self.class)]; //[NSURL URLWithString: @"https://github.com/libgit2/TestGitRepository"];
 	NSURL *workdirURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"unit_test"]];
 	NSError *err;
 
@@ -295,7 +295,7 @@
 
 	GTReference *head = [repo headReferenceWithError:&err];
 	STAssertNil(err, err.localizedDescription);
-	STAssertEqualObjects(head.target, @"49322bb17d3acc9146f98c97d078513228bbf3c0", nil);
+	STAssertEqualObjects(head.target, @"36060c58702ed4c2a40832c51758d5344201d89a", nil);
 	STAssertEqualObjects(head.type, @"commit", nil);
 
 
@@ -315,7 +315,7 @@
 
 	head = [repo headReferenceWithError:&err];
 	STAssertNil(err, err.localizedDescription);
-	STAssertEqualObjects(head.target, @"49322bb17d3acc9146f98c97d078513228bbf3c0", nil);
+	STAssertEqualObjects(head.target, @"36060c58702ed4c2a40832c51758d5344201d89a", nil);
 	STAssertEqualObjects(head.type, @"commit", nil);
 }
 
