@@ -38,7 +38,7 @@
 	return self;
 }
 
-- (void)enumerateLinesInHunkUsingBlock:(BOOL(^)(NSString *lineContent, NSUInteger oldLineNumber, NSUInteger newLineNumber, GTDiffHunkLineOrigin lineOrigin))block {
+- (void)enumerateLinesInHunkUsingBlock:(void(^)(NSString *lineContent, NSUInteger oldLineNumber, NSUInteger newLineNumber, GTDiffHunkLineOrigin lineOrigin, BOOL *stop))block {
 	for (NSUInteger idx = 0; idx < self.lineCount; idx ++) {
 		char lineOrigin;
 		const char *content;
@@ -49,7 +49,9 @@
 		if (result != GIT_OK) continue;
 		
 		NSString *lineString = [[NSString alloc] initWithBytes:content length:contentLength encoding:NSUTF8StringEncoding];
-		if (!block(lineString, (NSUInteger)oldLineNumber, (NSUInteger)newLineNumber, lineOrigin)) return;
+		BOOL stop = NO;
+		block(lineString, (NSUInteger)oldLineNumber, (NSUInteger)newLineNumber, lineOrigin, &stop);
+		if (stop) return;
 	}
 }
 

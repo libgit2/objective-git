@@ -38,8 +38,10 @@ typedef enum : git_diff_line_t {
 
 // Perfoms the given block on each ine in the hunk.
 //
-// block - A block to execute on each line. Returning `YES` immediately stops
-//         the enumeration.
-- (void)enumerateLinesInHunkUsingBlock:(BOOL(^)(NSString *lineContent, NSUInteger oldLineNumber, NSUInteger newLineNumber, GTDiffHunkLineOrigin lineOrigin))block;
+// Note that this method blocks during the enumeration.
+//
+// block - A block to execute on each line. Setting `stop` to `NO` will
+//         immediately stop the enumeration and return from the method.
+- (void)enumerateLinesInHunkUsingBlock:(void(^)(NSString *lineContent, NSUInteger oldLineNumber, NSUInteger newLineNumber, GTDiffHunkLineOrigin lineOrigin, BOOL *stop))block;
 
 @end

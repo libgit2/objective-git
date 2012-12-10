@@ -136,8 +136,10 @@ typedef enum : git_diff_option_t {
 // do not store the `delta` object given here, but instead perform any work
 // necessary within the provided block.
 //
-// block - A block to be executed for each delta, return NO from a block to
-//         immediately stop the enumeration.
-- (void)enumerateDeltasUsingBlock:(BOOL(^)(GTDiffDelta *delta))block;
+// Also note that this method blocks during the enumeration.
+//
+// block - A block to be executed for each delta. Setting `stop` to `YES`
+//         immediately stops the enumeration.
+- (void)enumerateDeltasUsingBlock:(void(^)(GTDiffDelta *delta, BOOL *stop))block;
 
 @end
