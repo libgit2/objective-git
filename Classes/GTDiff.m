@@ -35,6 +35,9 @@ NSString *const GTDiffOptionsMaxSizeKey = @"GTDiffOptionsMaxSizeKey";
 	NSNumber *interHunkLinesNumber = dictionary[GTDiffOptionsInterHunkLinesKey];
 	if (interHunkLinesNumber != nil) newOptions.interhunk_lines = (uint16_t)interHunkLinesNumber.unsignedIntegerValue;
 	
+	// We cast to char* below to work around a current bug in libgit2, which is
+	// fixed in https://github.com/libgit2/libgit2/pull/1118
+	
 	NSString *oldPrefix = dictionary[GTDiffOptionsOldPrefixKey];
 	if (oldPrefix != nil) newOptions.old_prefix = (char *)oldPrefix.UTF8String;
 	
