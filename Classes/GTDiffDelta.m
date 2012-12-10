@@ -62,7 +62,8 @@
 		NSMutableArray *newHunksArray = [NSMutableArray arrayWithCapacity:hunkCount];
 		for (NSUInteger idx = 0; idx < self.hunkCount; idx ++) {
 			GTDiffHunk *hunk = [[GTDiffHunk alloc] initWithDelta:self hunkIndex:idx];
-			if (hunk != nil) [newHunksArray addObject:hunk];
+			if (hunk == nil) return nil;
+			[newHunksArray addObject:hunk];
 		}
 		
 		_hunks = [newHunksArray copy];
