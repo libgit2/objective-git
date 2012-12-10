@@ -25,7 +25,7 @@ typedef enum : git_diff_line_t {
 @interface GTDiffHunk : NSObject
 
 // The header of the hunk.
-@property (nonatomic, readonly, strong) NSString *header;
+@property (nonatomic, readonly, copy) NSString *header;
 
 // The number of lines represented in the hunk.
 @property (nonatomic, readonly) NSUInteger lineCount;

@@ -25,7 +25,7 @@ typedef enum : git_diff_file_flag_t {
 @interface GTDiffFile : NSObject
 
 // The location within the working directory of the file.
-@property (nonatomic, readonly, strong) NSString *path;
+@property (nonatomic, readonly, copy) NSString *path;
 
 // The size (in bytes) of the file.
 @property (nonatomic, readonly) NSUInteger size;

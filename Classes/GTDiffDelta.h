@@ -53,10 +53,10 @@ typedef enum : git_delta_t {
 @property (nonatomic, readonly, getter = isBinary) BOOL binary;
 
 // The file to the "left" of the diff.
-@property (nonatomic, readonly, strong) GTDiffFile *oldFile;
+@property (nonatomic, readonly, copy) GTDiffFile *oldFile;
 
 // The file to the "right" of the diff.
-@property (nonatomic, readonly, strong) GTDiffFile *newFile;
+@property (nonatomic, readonly, copy) GTDiffFile *newFile;
 
 // The type of change that this delta represents.
 //
@@ -70,7 +70,7 @@ typedef enum : git_delta_t {
 //
 // Note that you should consider the hunks' lifetime tied to this delta object.
 // Once the parent delta object is cleaned up, their behaviour is undefined.
-@property (nonatomic, readonly, strong) NSArray *hunks;
+@property (nonatomic, readonly, copy) NSArray *hunks;
 
 // Designated initialiser.
 - (instancetype)initWithGitPatch:(git_diff_patch *)patch;
