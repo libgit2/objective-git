@@ -18,14 +18,14 @@
 // pass into the initialisation.
 extern NSString *const GTDiffOptionsFlagsKey;
 
-// An `NSNumber` wrapped `NSUInteger` dictating how many context lines above and
-// below each individual hunk.
+// An `NSNumber` wrapped `NSUInteger` dictating the number of unchanged lines
+// that define the boundary of a hunk (and to display around it).
 //
 // Defaults to 3.
 extern NSString *const GTDiffOptionsContextLinesKey;
 
-// An `NSNumber` wrapped `NSUInteger` dictating the minimum number of lines
-// between diff hunks to merge them into one hunk.
+// An `NSNumber` wrapped `NSUInteger` dictating the maximum number of unchanged
+// lines between hunk boundaries before the hunks will be merged.
 //
 // Defaults to 0.
 extern NSString *const GTDiffOptionsInterHunkLinesKey;
