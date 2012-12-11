@@ -9,10 +9,13 @@
 #import "Contants.h"
 
 #import "GTDiff.h"
+#import "GTDiffHunk.h"
 
 @interface GTDiffTest : SenTestCase
 
 @property (nonatomic, strong) GTRepository *repository;
+@property (nonatomic, strong) GTCommit *firstCommit;
+@property (nonatomic, strong) GTCommit *secondCommit;
 
 @end
 
@@ -25,16 +28,16 @@
 - (void)setUp {
 	self.repository = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:NULL];
 	STAssertNotNil(self.repository, @"Failed to initialise repository.");
+	
+	self.firstCommit = [self findCommitWithSHA:@"5b5b025afb0b4c913b4c338a42934a3863bf3644"];
+	self.secondCommit = [self findCommitWithSHA:@"36060c58702ed4c2a40832c51758d5344201d89a"];
+	STAssertNotNil(self.firstCommit, @"Could not find first commit to diff against");
+	STAssertNotNil(self.secondCommit, @"Could not find second commit to diff against");
 }
 
 - (void)testInitialisation {
-	GTCommit *firstCommit = [self findCommitWithSHA:@"5b5b025afb0b4c913b4c338a42934a3863bf3644"];
-	GTCommit *secondCommit = [self findCommitWithSHA:@"36060c58702ed4c2a40832c51758d5344201d89a"];
-	STAssertNotNil(firstCommit, @"Could not find first commit to diff against");
-	STAssertNotNil(secondCommit, @"Could not find second commit to diff against");
-	
-	GTTree *firstTree = firstCommit.tree;
-	GTTree *secondTree = secondCommit.tree;
+	GTTree *firstTree = self.firstCommit.tree;
+	GTTree *secondTree = self.secondCommit.tree;
 	GTDiff *treeDiff = [GTDiff diffOldTree:firstTree withNewTree:secondTree options:nil];
 	STAssertNotNil(treeDiff, @"Unable to create a diff object with 2 trees.");
 	
