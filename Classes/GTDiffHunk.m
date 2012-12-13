@@ -32,7 +32,7 @@
 	int result = git_diff_patch_get_hunk(NULL, &headerCString, &headerLength, &lineCount, delta.git_diff_patch, hunkIndex);
 	if (result != GIT_OK) return nil;
 	
-	_header = [[NSString alloc] initWithBytes:headerCString length:headerLength encoding:NSUTF8StringEncoding];
+	_header = [[[NSString alloc] initWithBytes:headerCString length:headerLength encoding:NSUTF8StringEncoding] stringByTrimmingCharactersInSet:NSCharacterSet.newlineCharacterSet];
 	_lineCount = lineCount;
 
 	return self;
