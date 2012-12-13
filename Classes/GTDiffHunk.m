@@ -48,7 +48,7 @@
 		int result = git_diff_patch_get_line_in_hunk(&lineOrigin, &content, &contentLength, &oldLineNumber, &newLineNumber, self.delta.git_diff_patch, self.hunkIndex, idx);
 		if (result != GIT_OK) continue;
 		
-		NSString *lineString = [[NSString alloc] initWithBytes:content length:contentLength encoding:NSUTF8StringEncoding];
+		NSString *lineString = [[[NSString alloc] initWithBytes:content length:contentLength encoding:NSUTF8StringEncoding] stringByTrimmingCharactersInSet:NSCharacterSet.newlineCharacterSet];
 		BOOL stop = NO;
 		block(lineString, (NSUInteger)oldLineNumber, (NSUInteger)newLineNumber, lineOrigin, &stop);
 		if (stop) return;
