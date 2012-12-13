@@ -51,4 +51,26 @@
 	STAssertNotNil(workingDirectoryToTreeDiff, @"Unable to create a diff with the working directory and a tree.");
 }
 
+- (void)testDeltaCreation {
+	GTDiff *treeDiff = [GTDiff diffOldTree:self.firstCommit.tree withNewTree:self.secondCommit.tree options:nil];
+	STAssertEquals(treeDiff.deltaCount, (NSUInteger)4, @"Incorrect delta count in diff.");
+	STAssertEquals([treeDiff numberOfDeltasWithType:GTDiffFileDeltaAdded], (NSUInteger)4, @"Not correctly filtering delta typs.");
+	
+	
+	NSArray *expectedChangeStrings = @[ @"hey", @"new file", @"hey", @"new file" ];
+	__block NSUInteger index = 0;
+	[treeDiff enumerateDeltasUsingBlock:^(GTDiffDelta *delta, BOOL *stop) {
+		STAssertEquals(delta.status, (GTDiffDeltaType)GTDiffFileDeltaAdded, @"Incorrect delta type,");
+		for (GTDiffHunk *hunk in delta.hunks) {
+			STAssertEquals(hunk.lineCount, (NSUInteger)1, @"Incorrect line count");
+			STAssertEqualObjects(hunk.header, @"@@ -0,0 +1 @@", @"Incorrect hunk header");
+			[hunk enumerateLinesInHunkUsingBlock:^(NSString *lineContent, NSUInteger oldLineNumber, NSUInteger newLineNumber, GTDiffHunkLineOrigin lineOrigin, BOOL *stop) {
+				STAssertEqualObjects(lineContent, expectedChangeStrings[index], @"Incorrect diff line change content");
+			}];
+		}
+		
+		index ++; //:trollface:
+	}];
+}
+
 @end
