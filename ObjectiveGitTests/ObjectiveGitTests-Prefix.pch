@@ -11,4 +11,6 @@
 
 	#define EXP_SHORTHAND
 	#import "Expecta.h"
+
+	#import "Contants.h"
 #endif

@@ -101,6 +101,22 @@
     return [[objectClass alloc] initWithObj:theObject inRepository:theRepo];
 }
 
++ (id)objectWithRevisionString:(NSString *)revisionString repository:(GTRepository *)repository error:(NSError **)error {
+	NSParameterAssert(revisionString != nil);
+	NSParameterAssert(repository != nil);
+
+	git_object *object = NULL;
+	int result = git_revparse_single(&object, repository.git_repository, revisionString.UTF8String);
+	if (result != GIT_OK) {
+		if(error != NULL) *error = [NSError git_errorFor:result withAdditionalDescription:[NSString stringWithFormat:@"Failed to find object matching revision string: %@", revisionString]];
+		return nil;
+	}
+
+	if (object == NULL) return nil;
+
+	return [self objectWithObj:object inRepository:repository];
+}
+
 - (NSString *)type {
 	return [NSString stringWithUTF8String:git_object_type2string(git_object_type(self.git_object))];
 }
