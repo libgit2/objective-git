@@ -20,12 +20,12 @@ describe(@"+objectWithRevisionString:repository:", ^{
 	});
 
 	it(@"should return the object represented by the string", ^{
-		GTObject *object = [GTObject objectWithRevisionString:@"HEAD^" repository:repository];
+		GTObject *object = [GTObject objectWithRevisionString:@"HEAD^" repository:repository error:NULL];
 		expect(object.sha).to.equal(@"5b5b025afb0b4c913b4c338a42934a3863bf3644");
 	});
 
 	it(@"should return nil if there are no matches", ^{
-		GTObject *object = [GTObject objectWithRevisionString:@"yourMom^" repository:repository];
+		GTObject *object = [GTObject objectWithRevisionString:@"yourMom^" repository:repository error:NULL];
 		expect(object).to.beNil();
 	});
 });

@@ -68,9 +68,10 @@ typedef enum {
 //
 // revisionString - The revision string to parse to an object. Cannot be nil.
 // repository     - The repository in which to search. Cannot be nil.
+// error          - The error if one occurred.
 //
 // Returns the first object found or nil if there are no matches.
-+ (id)objectWithRevisionString:(NSString *)revisionString repository:(GTRepository *)repository;
++ (id)objectWithRevisionString:(NSString *)revisionString repository:(GTRepository *)repository error:(NSError **)error;
 
 // Read the raw object from the datastore
 //
