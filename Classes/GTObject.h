@@ -64,6 +64,14 @@ typedef enum {
 - (id)initWithObj:(git_object *)theObject inRepository:(GTRepository *)theRepo;
 + (id)objectWithObj:(git_object *)theObject inRepository:(GTRepository *)theRepo;
 
+// Find the object represented by the revision string.
+//
+// revisionString - The revision string to parse to an object. Cannot be nil.
+// repository     - The repository in which to search. Cannot be nil.
+//
+// Returns the first object found or nil if there are no matches.
++ (id)objectWithRevisionString:(NSString *)revisionString repository:(GTRepository *)repository;
+
 // Read the raw object from the datastore
 //
 // error(out) - will be filled if an error occurs

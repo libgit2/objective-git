@@ -101,6 +101,17 @@
     return [[objectClass alloc] initWithObj:theObject inRepository:theRepo];
 }
 
++ (id)objectWithRevisionString:(NSString *)revisionString repository:(GTRepository *)repository {
+	NSParameterAssert(revisionString != nil);
+	NSParameterAssert(repository != nil);
+
+	git_object *object = NULL;
+	git_revparse_single(&object, repository.git_repository, revisionString.UTF8String);
+	if (object == NULL) return nil;
+
+	return [self objectWithObj:object inRepository:repository];
+}
+
 - (NSString *)type {
 	return [NSString stringWithUTF8String:git_object_type2string(git_object_type(self.git_object))];
 }
