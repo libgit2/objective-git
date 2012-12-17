@@ -72,7 +72,7 @@ describe(@"GTDiff diffing", ^{
 			expect(delta.isBinary).to.beFalsy();
 			expect((NSUInteger)delta.status).to.equal(GTDiffFileDeltaModified);
 			
-			for (GTDiffHunk *hunk in delta.hunks) {
+			[delta enumerateHunksWithBlock:^(GTDiffHunk *hunk, BOOL *stop) {
 				expect(hunk.header).to.equal(@"@@ -4,7 +4,7 @@");
 				expect(hunk.lineCount).to.equal(8);
 				
@@ -100,7 +100,7 @@ describe(@"GTDiff diffing", ^{
 					
 					lineIndex ++;
 				}];
-			}
+			}];
 			
 		 // just in case we have failed an above test, don't add a whole bunch
 		 // more false failures by iterating again.
