@@ -39,6 +39,8 @@
 }
 
 - (void)enumerateLinesInHunkUsingBlock:(void(^)(NSString *lineContent, NSUInteger oldLineNumber, NSUInteger newLineNumber, GTDiffHunkLineOrigin lineOrigin, BOOL *stop))block {
+	NSParameterAssert(block != nil);
+	
 	for (NSUInteger idx = 0; idx < self.lineCount; idx ++) {
 		char lineOrigin;
 		const char *content;
