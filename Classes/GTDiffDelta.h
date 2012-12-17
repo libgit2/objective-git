@@ -22,7 +22,7 @@
 // GTDiffFileDeltaUntracked  - The file has been added to the working directory
 //                             and is therefore currently untracked.
 // GTDiffFileDeltaTypeChange - The file has changed from a blob to either a
-//                             submodule, symlink or directory.
+//                             submodule, symlink or directory. Or vice versa.
 typedef enum : git_delta_t {
 	GTDiffFileDeltaUnmodified = GIT_DELTA_UNMODIFIED,
 	GTDiffFileDeltaAdded = GIT_DELTA_ADDED,
