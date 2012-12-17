@@ -140,6 +140,6 @@ typedef enum : git_diff_option_t {
 //
 // block - A block to be executed for each delta. Setting `stop` to `YES`
 //         immediately stops the enumeration.
-- (void)enumerateDeltasUsingBlock:(void(^)(GTDiffDelta *delta, BOOL *stop))block;
+- (void)enumerateDeltasUsingBlock:(void (^)(GTDiffDelta *delta, BOOL *stop))block;
 
 @end
