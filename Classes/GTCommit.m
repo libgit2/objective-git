@@ -161,7 +161,7 @@
 			int parentResult = git_commit_parent(&parent, self.git_commit, i);
 			if (parentResult != GIT_OK) continue;
 
-            [parents addObject:(GTCommit *)[GTObject objectWithObj:(git_object *)parent inRepository:self.repository]];
+			[parents addObject:(GTCommit *)[GTObject objectWithObj:(git_object *)parent inRepository:self.repository]];
 		}
 		
 		_parents = [parents copy];
