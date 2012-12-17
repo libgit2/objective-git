@@ -96,9 +96,13 @@ typedef enum : git_diff_option_t {
 // Returns a newly created `GTDiff` object or nil on error.
 + (GTDiff *)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree options:(NSDictionary *)options;
 
-// Create a diff between a tree and it's repository's current index.
+// Create a diff between a repository's current index and a tree.
 //
-// tree    - The tree to be diffed.
+// This is equivalent to `git diff --cached <treeish>` or if you pass the HEAD
+// tree, then `git diff --cached`.
+//
+// tree    - The tree to be diffed. The index will be taken from this tree's
+//           repository.
 // options - A dictionary containing any of the above options key constants, or
 //           nil to use the defaults.
 //
@@ -106,6 +110,8 @@ typedef enum : git_diff_option_t {
 + (GTDiff *)diffIndexToTree:(GTTree *)tree options:(NSDictionary *)options;
 
 // Create a diff between the working directory and index in a given repository.
+//
+// This matches the `git diff` command.
 //
 // repository - The repository to be used for the diff.
 // options - A dictionary containing any of the above options key constants, or
@@ -116,7 +122,7 @@ typedef enum : git_diff_option_t {
 
 // Create a diff between a tree and its repository's working directory.
 //
-// tree    - The tree to be diffed. The tree will be the right side of the diff.
+// tree    - The tree to be diffed. The tree will be the left side of the diff.
 // options - A dictionary containing any of the above options key constants, or
 //           nil to use the defaults.
 //
