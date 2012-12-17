@@ -215,6 +215,11 @@
 }
 
 - (BOOL)deleteWithError:(NSError **)error {
+	if (!self.reference.valid) {
+		if (error != NULL) *error = GTReference.invalidReferenceError;
+		return NO;
+	}
+
 	int gitError = git_branch_delete(self.reference.git_reference);
 	if(gitError != GIT_OK) {
 		if(error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to delete branch."];
@@ -230,6 +235,12 @@
 	if (self.branchType == GTBranchTypeRemote) {
 		if (success != NULL) *success = YES;
 		return self;
+	}
+
+	if (!self.reference.valid) {
+		if (success != NULL) *success = NO;
+		if (error != NULL) *error = GTReference.invalidReferenceError;
+		return NO;
 	}
 
 	git_reference *trackingRef = NULL;
