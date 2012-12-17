@@ -70,6 +70,12 @@ typedef enum : git_delta_t {
 // Designated initialiser.
 - (instancetype)initWithGitPatch:(git_diff_patch *)patch;
 
+// Enumerate the hunks contained in the delta.
+//
+// Blocks during enumeration.hm
+//
+// block - A block to be executed for each hunk. Setting `stop` to `YES`
+//         immediately stops the enumeration.
 - (void)enumerateHunksWithBlock:(void (^)(GTDiffHunk *hunk, BOOL *stop))block;
 
 @end
