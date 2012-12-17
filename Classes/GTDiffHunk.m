@@ -12,7 +12,7 @@
 
 @interface GTDiffHunk ()
 
-@property (nonatomic, unsafe_unretained, readonly) GTDiffDelta *delta; //No weak support in this deployment target? Boo!
+@property (nonatomic, strong, readonly) GTDiffDelta *delta;
 @property (nonatomic, readonly) NSUInteger hunkIndex;
 
 @end
