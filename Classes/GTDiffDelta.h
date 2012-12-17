@@ -9,6 +9,7 @@
 #import "git2.h"
 
 @class GTDiffFile;
+@class GTDiffHunk;
 
 // The type of change that this delta represents.
 //
@@ -66,13 +67,9 @@ typedef enum : git_delta_t {
 // The number of hunks represented by this delta.
 @property (nonatomic, readonly) NSUInteger hunkCount;
 
-// The hunks represented.
-//
-// Note that you should consider the hunks' lifetime tied to this delta object.
-// Once the parent delta object is cleaned up, their behaviour is undefined.
-@property (nonatomic, readonly, copy) NSArray *hunks;
-
 // Designated initialiser.
 - (instancetype)initWithGitPatch:(git_diff_patch *)patch;
+
+- (void)enumerateHunksWithBlock:(void (^)(GTDiffHunk *hunk, BOOL *stop))block;
 
 @end

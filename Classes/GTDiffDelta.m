@@ -13,8 +13,6 @@
 
 @implementation GTDiffDelta
 
-@synthesize hunks = _hunks;
-
 - (instancetype)initWithGitPatch:(git_diff_patch *)patch {
 	NSParameterAssert(patch != NULL);
 	
@@ -56,20 +54,16 @@
 	return git_diff_patch_num_hunks(self.git_diff_patch);
 }
 
-- (NSArray *)hunks {
-	NSUInteger hunkCount = self.hunkCount;
-	if (_hunks == nil) {
-		NSMutableArray *newHunksArray = [NSMutableArray arrayWithCapacity:hunkCount];
-		for (NSUInteger idx = 0; idx < self.hunkCount; idx ++) {
-			GTDiffHunk *hunk = [[GTDiffHunk alloc] initWithDelta:self hunkIndex:idx];
-			if (hunk == nil) return nil;
-			[newHunksArray addObject:hunk];
-		}
-		
-		_hunks = [newHunksArray copy];
-	}
+- (void)enumerateHunksWithBlock:(void (^)(GTDiffHunk *hunk, BOOL *stop))block {
+	NSParameterAssert(block != nil);
 	
-	return _hunks;
+	for (NSUInteger idx = 0; idx < self.hunkCount; idx ++) {
+		GTDiffHunk *hunk = [[GTDiffHunk alloc] initWithDelta:self hunkIndex:idx];
+		if (hunk == nil) return;
+		BOOL shouldStop = NO;
+		block(hunk, &shouldStop);
+		if (shouldStop) return;
+	}
 }
 
 @end
