@@ -79,7 +79,6 @@
 		30A3D6551667F11C00C49A39 /* GTDiff.h in Headers */ = {isa = PBXBuildFile; fileRef = 30A3D6521667F11C00C49A39 /* GTDiff.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		30A3D6561667F11C00C49A39 /* GTDiff.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A3D6531667F11C00C49A39 /* GTDiff.m */; };
 		30A3D6571667F11C00C49A39 /* GTDiff.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A3D6531667F11C00C49A39 /* GTDiff.m */; };
-		30B0FF8A166E8F8C00F2A2B4 /* GTDiffTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 30B0FF89166E8F8C00F2A2B4 /* GTDiffTest.m */; };
 		3E0A23E5159E0FDB00A6068F /* GTObjectDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = 55C8054C13861F34004DCB0F /* GTObjectDatabase.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		55C8054F13861FE7004DCB0F /* GTObjectDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C8054D13861F34004DCB0F /* GTObjectDatabase.m */; };
 		55C8055013861FE7004DCB0F /* GTObjectDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C8054D13861F34004DCB0F /* GTObjectDatabase.m */; };
@@ -285,7 +284,6 @@
 		30865A90167F503400B1AB6E /* GTDiffSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTDiffSpec.m; sourceTree = "<group>"; };
 		30A3D6521667F11C00C49A39 /* GTDiff.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTDiff.h; sourceTree = "<group>"; };
 		30A3D6531667F11C00C49A39 /* GTDiff.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTDiff.m; sourceTree = "<group>"; };
-		30B0FF89166E8F8C00F2A2B4 /* GTDiffTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTDiffTest.m; sourceTree = "<group>"; };
 		32DBCF5E0370ADEE00C91783 /* ObjectiveGitFramework_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectiveGitFramework_Prefix.pch; sourceTree = "<group>"; };
 		55C8054C13861F34004DCB0F /* GTObjectDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTObjectDatabase.h; sourceTree = "<group>"; };
 		55C8054D13861F34004DCB0F /* GTObjectDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = GTObjectDatabase.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -498,7 +496,6 @@
 				88F05AAC16011FFD00B7AD1D /* GTTagTest.m */,
 				88F05AAD16011FFD00B7AD1D /* GTTreeTest.m */,
 				88F05AAE16011FFD00B7AD1D /* GTWalkerTest.m */,
-				30B0FF89166E8F8C00F2A2B4 /* GTDiffTest.m */,
 				30865A90167F503400B1AB6E /* GTDiffSpec.m */,
 				88F05AAF16011FFD00B7AD1D /* ObjectiveGitTests-Info.plist */,
 				88F05AB016011FFD00B7AD1D /* ObjectiveGitTests-Prefix.pch */,
@@ -966,7 +963,6 @@
 				88F05ABD16011FFD00B7AD1D /* GTTagTest.m in Sources */,
 				88F05ABE16011FFD00B7AD1D /* GTTreeTest.m in Sources */,
 				88F05ABF16011FFD00B7AD1D /* GTWalkerTest.m in Sources */,
-				30B0FF8A166E8F8C00F2A2B4 /* GTDiffTest.m in Sources */,
 				30865A91167F503400B1AB6E /* GTDiffSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
