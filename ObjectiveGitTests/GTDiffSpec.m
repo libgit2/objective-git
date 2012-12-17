@@ -118,7 +118,13 @@ describe(@"GTDiff diffing", ^{
 		}];
 	});
 	
-		
+	it(@"should recognise deleted files", ^{
+		setupDiffFromCommitSHAs(@"6317779b4731d9c837dcc6972b964bdf4211eeef", @"9f90c6e24629fae3ef51101bb6448342b44098ef");
+		expect(diff.deltaCount).to.equal(1);
+		[diff enumerateDeltasUsingBlock:^(GTDiffDelta *delta, BOOL *stop) {
+			expect((NSUInteger)delta.status).to.equal(GTDiffFileDeltaDeleted);
+			*stop = YES;
+		}];
 	});
 	
 	it(@"should recognise binary files", ^{
