@@ -56,6 +56,7 @@ describe(@"GTDiff diffing", ^{
 		expect(secondCommit).toNot.beNil();
 		
 		GTDiff *diff = [GTDiff diffOldTree:firstCommit.tree withNewTree:secondCommit.tree options:nil];
+		expect(diff).toNot.beNil();
 		expect(diff.deltaCount).to.equal(1);
 		expect([diff numberOfDeltasWithType:GTDiffFileDeltaModified]).to.equal(1);
 		
