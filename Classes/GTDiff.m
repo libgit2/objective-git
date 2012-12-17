@@ -87,7 +87,7 @@ NSString *const GTDiffOptionsMaxSizeKey = @"GTDiffOptionsMaxSizeKey";
 	return newDiff;
 }
 
-+ (GTDiff *)diffWorkingDirectoryToTree:(GTTree *)tree options:(NSDictionary *)options {
++ (GTDiff *)diffWorkingDirectoryFromTree:(GTTree *)tree options:(NSDictionary *)options {
 	NSParameterAssert(tree != nil);
 	
 	git_diff_options optionsStruct;
