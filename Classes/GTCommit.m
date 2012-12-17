@@ -51,12 +51,7 @@
 	return (git_commit *) self.git_object;
 }
 
-
 #pragma mark API
-
-@synthesize author;
-@synthesize committer;
-@synthesize parents;
 
 + (GTCommit *)commitInRepository:(GTRepository *)theRepo updateRefNamed:(NSString *)refName author:(GTSignature *)authorSig committer:(GTSignature *)committerSig message:(NSString *)newMessage tree:(GTTree *)theTree parents:(NSArray *)theParents error:(NSError **)error {
 	NSString *sha = [GTCommit shaByCreatingCommitInRepository:theRepo updateRefNamed:refName author:authorSig committer:committerSig message:newMessage tree:theTree parents:theParents error:error];
@@ -130,44 +125,49 @@
 }
 
 - (GTSignature *)author {
-	if(author == nil) {
-		author = [GTSignature signatureWithSignature:(git_signature *)git_commit_author(self.git_commit)];
+	if (_author == nil) {
+		_author = [GTSignature signatureWithSignature:(git_signature *)git_commit_author(self.git_commit)];
 	}
-	return author;
+	
+	return _author;
 }
 
 - (GTSignature *)committer {
-	if(committer == nil) {
-		committer = [GTSignature signatureWithSignature:(git_signature *)git_commit_committer(self.git_commit)];
+	if (_committer == nil) {
+		_committer = [GTSignature signatureWithSignature:(git_signature *)git_commit_committer(self.git_commit)];
 	}
-	return committer;
+	return _committer;
 }
 
 - (GTTree *)tree {
-	git_tree *t;
-	
-	int gitError = git_commit_tree(&t, self.git_commit);
-	if(gitError < GIT_OK) {
+	git_tree *tree = NULL;
+	int gitError = git_commit_tree(&tree, self.git_commit);
+	if (gitError < GIT_OK) {
 		// todo: might want to return this error (and change method signature)
 		GTLog("Failed to get tree with error code: %d", gitError);
 		return nil;
 	}
-	return (GTTree *)[GTObject objectWithObj:(git_object *)t inRepository:self.repository];
+	
+	return (GTTree *)[GTObject objectWithObj:(git_object *)tree inRepository:self.repository];
 }
 
 - (NSArray *)parents {
-	if(parents == nil) {
-		NSMutableArray *rents = [NSMutableArray array];
+	if(_parents == nil) {
+		unsigned int numberOfParents = git_commit_parentcount(self.git_commit);
+		NSMutableArray *parents = [NSMutableArray arrayWithCapacity:numberOfParents];
 		
-		// todo: do we care if a call to git_commit_parent fails?
-		git_commit *parent;
-		for(unsigned int i = 0; git_commit_parent(&parent, self.git_commit, i) == GIT_OK; i++) {
-            [rents addObject:(GTCommit *)[GTObject objectWithObj:(git_object *)parent inRepository:self.repository]];
+		for (unsigned int i = 0; i < numberOfParents; i++) {
+			git_commit *parent = NULL;
+			int parentResult = git_commit_parent(&parent, self.git_commit, i);
+			if (parentResult != GIT_OK) continue;
+
+			[parents addObject:(GTCommit *)[GTObject objectWithObj:(git_object *)parent inRepository:self.repository]];
 		}
 		
-		parents = [NSArray arrayWithArray:rents];
+		_parents = [parents copy];
 	}
-	return parents;
+	
+	return _parents;
 }
 
 @end
