@@ -13,6 +13,7 @@ SpecBegin(GTDiff)
 __block GTRepository *repository = nil;
 __block GTCommit *firstCommit = nil;
 __block GTCommit *secondCommit = nil;
+__block GTDiff *diff = nil;
 
 describe(@"GTDiff initialisation", ^{
 	beforeEach(^{
@@ -49,14 +50,18 @@ describe(@"GTDiff diffing", ^{
 		expect(repository).toNot.beNil();
 	});
 	
-	it(@"should be able to diff simple file changes", ^{
-		GTCommit *firstCommit = (GTCommit *)[repository lookupObjectBySha:@"be0f001ff517a00b5b8e3c29ee6561e70f994e17" objectType:GTObjectTypeCommit error:NULL];
+	void (^setupDiffFromCommitSHAs)(NSString *, NSString *) = ^(NSString *firstCommitSHA, NSString *secondCommitSHA) {
+		firstCommit = (GTCommit *)[repository lookupObjectBySha:firstCommitSHA objectType:GTObjectTypeCommit error:NULL];
 		expect(firstCommit).toNot.beNil();
-		GTCommit *secondCommit = (GTCommit *)[repository lookupObjectBySha:@"fe89ea0a8e70961b8a6344d9660c326d3f2eb0fe" objectType:GTObjectTypeCommit error:NULL];
+		secondCommit = (GTCommit *)[repository lookupObjectBySha:secondCommitSHA objectType:GTObjectTypeCommit error:NULL];
 		expect(secondCommit).toNot.beNil();
 		
-		GTDiff *diff = [GTDiff diffOldTree:firstCommit.tree withNewTree:secondCommit.tree options:nil];
+		diff = [GTDiff diffOldTree:firstCommit.tree withNewTree:secondCommit.tree options:nil];
 		expect(diff).toNot.beNil();
+	};
+	
+	it(@"should be able to diff simple file changes", ^{
+		setupDiffFromCommitSHAs(@"be0f001ff517a00b5b8e3c29ee6561e70f994e17", @"fe89ea0a8e70961b8a6344d9660c326d3f2eb0fe");
 		expect(diff.deltaCount).to.equal(1);
 		expect([diff numberOfDeltasWithType:GTDiffFileDeltaModified]).to.equal(1);
 		
@@ -104,14 +109,7 @@ describe(@"GTDiff diffing", ^{
 	});
 	
 	it(@"should recognised added files", ^{
-		GTCommit *firstCommit = (GTCommit *)[repository lookupObjectBySha:@"4d5a6cc7a4d810be71bd47331c947b22580a5997" objectType:GTObjectTypeCommit error:NULL];
-		expect(firstCommit).toNot.beNil();
-		
-		GTCommit *secondCommit = (GTCommit *)[repository lookupObjectBySha:@"38f1e536cfc2ee41e07d55b38baec00149b2b0d1" objectType:GTObjectTypeCommit error:NULL];
-		expect(secondCommit).toNot.beNil();
-		
-		GTDiff *diff = [GTDiff diffOldTree:firstCommit.tree withNewTree:secondCommit.tree options:nil];
-		expect(diff).toNot.beNil();
+		setupDiffFromCommitSHAs(@"4d5a6cc7a4d810be71bd47331c947b22580a5997", @"38f1e536cfc2ee41e07d55b38baec00149b2b0d1");
 		expect(diff.deltaCount).to.equal(1);
 		[diff enumerateDeltasUsingBlock:^(GTDiffDelta *delta, BOOL *stop) {
 			expect(delta.newFile.path).to.equal(@"REAME"); //loltypo
@@ -120,15 +118,11 @@ describe(@"GTDiff diffing", ^{
 		}];
 	});
 	
+		
+	});
+	
 	it(@"should recognise binary files", ^{
-		GTCommit *firstCommit = (GTCommit *)[repository lookupObjectBySha:@"2ba9cdca982ac35a8db29f51c635251374008229" objectType:GTObjectTypeCommit error:NULL];
-		expect(firstCommit).toNot.beNil();
-		
-		GTCommit *secondCommit = (GTCommit *)[repository lookupObjectBySha:@"524500582248889ef2243931aa7fc48aa21dd12f" objectType:GTObjectTypeCommit error:NULL];
-		expect(secondCommit).toNot.beNil();
-		
-		GTDiff *diff = [GTDiff diffOldTree:firstCommit.tree withNewTree:secondCommit.tree options:nil];
-		expect(diff).toNot.beNil();
+		setupDiffFromCommitSHAs(@"2ba9cdca982ac35a8db29f51c635251374008229", @"524500582248889ef2243931aa7fc48aa21dd12f");
 		expect(diff.deltaCount).to.equal(1);
 		[diff enumerateDeltasUsingBlock:^(GTDiffDelta *delta, BOOL *stop) {
 			expect(delta.binary).to.beTruthy();
