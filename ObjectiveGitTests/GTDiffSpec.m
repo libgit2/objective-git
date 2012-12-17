@@ -120,6 +120,22 @@ describe(@"GTDiff diffing", ^{
 		}];
 	});
 	
+	it(@"should recognise binary files", ^{
+		GTCommit *firstCommit = (GTCommit *)[repository lookupObjectBySha:@"2ba9cdca982ac35a8db29f51c635251374008229" objectType:GTObjectTypeCommit error:NULL];
+		expect(firstCommit).toNot.beNil();
+		
+		GTCommit *secondCommit = (GTCommit *)[repository lookupObjectBySha:@"524500582248889ef2243931aa7fc48aa21dd12f" objectType:GTObjectTypeCommit error:NULL];
+		expect(secondCommit).toNot.beNil();
+		
+		GTDiff *diff = [GTDiff diffOldTree:firstCommit.tree withNewTree:secondCommit.tree options:nil];
+		expect(diff).toNot.beNil();
+		expect(diff.deltaCount).to.equal(1);
+		[diff enumerateDeltasUsingBlock:^(GTDiffDelta *delta, BOOL *stop) {
+			expect(delta.binary).to.beTruthy();
+			*stop = YES;
+		}];
+		
+	});
 });
 
 SpecEnd
