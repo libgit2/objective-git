@@ -102,6 +102,24 @@ describe(@"GTDiff diffing", ^{
 		 *stop = YES;
 		}];
 	});
+	
+	it(@"should recognised added files", ^{
+		GTCommit *firstCommit = (GTCommit *)[repository lookupObjectBySha:@"4d5a6cc7a4d810be71bd47331c947b22580a5997" objectType:GTObjectTypeCommit error:NULL];
+		expect(firstCommit).toNot.beNil();
+		
+		GTCommit *secondCommit = (GTCommit *)[repository lookupObjectBySha:@"38f1e536cfc2ee41e07d55b38baec00149b2b0d1" objectType:GTObjectTypeCommit error:NULL];
+		expect(secondCommit).toNot.beNil();
+		
+		GTDiff *diff = [GTDiff diffOldTree:firstCommit.tree withNewTree:secondCommit.tree options:nil];
+		expect(diff).toNot.beNil();
+		expect(diff.deltaCount).to.equal(1);
+		[diff enumerateDeltasUsingBlock:^(GTDiffDelta *delta, BOOL *stop) {
+			expect(delta.newFile.path).to.equal(@"REAME"); //loltypo
+			expect((NSUInteger)delta.status).to.equal(GTDiffFileDeltaAdded);
+			*stop = YES;
+		}];
+	});
+	
 });
 
 SpecEnd
