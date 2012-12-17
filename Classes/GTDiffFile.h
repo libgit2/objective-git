@@ -31,7 +31,7 @@ typedef enum : git_diff_file_flag_t {
 @property (nonatomic, readonly) NSUInteger size;
 
 // Any flags set on the file (see `GTDiffFileFlag` for more info).
-@property (nonatomic, readonly) NSUInteger flags;
+@property (nonatomic, readonly) GTDiffFileFlag flags;
 
 // The mode of the file.
 @property (nonatomic, readonly) mode_t mode;
