@@ -46,7 +46,7 @@
 	return [[GTDiffFile alloc] initWithGitDiffFile:self.git_diff_delta->new_file];
 }
 
-- (GTDiffDeltaType)status {
+- (GTDiffDeltaType)type {
 	return (GTDiffDeltaType)self.git_diff_delta->status;
 }
 

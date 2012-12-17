@@ -62,7 +62,7 @@ typedef enum : git_delta_t {
 // The type of change that this delta represents.
 //
 // Think "status" as in `git status`.
-@property (nonatomic, readonly) GTDiffDeltaType status;
+@property (nonatomic, readonly) GTDiffDeltaType type;
 
 // The number of hunks represented by this delta.
 @property (nonatomic, readonly) NSUInteger hunkCount;

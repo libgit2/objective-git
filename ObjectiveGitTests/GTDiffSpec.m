@@ -70,7 +70,7 @@ describe(@"GTDiff diffing", ^{
 			expect(delta.oldFile.path).to.equal(delta.newFile.path);
 			expect(delta.hunkCount).to.equal(1);
 			expect(delta.isBinary).to.beFalsy();
-			expect((NSUInteger)delta.status).to.equal(GTDiffFileDeltaModified);
+			expect((NSUInteger)delta.type).to.equal(GTDiffFileDeltaModified);
 			
 			[delta enumerateHunksWithBlock:^(GTDiffHunk *hunk, BOOL *stop) {
 				expect(hunk.header).to.equal(@"@@ -4,7 +4,7 @@");
@@ -113,7 +113,7 @@ describe(@"GTDiff diffing", ^{
 		expect(diff.deltaCount).to.equal(1);
 		[diff enumerateDeltasUsingBlock:^(GTDiffDelta *delta, BOOL *stop) {
 			expect(delta.newFile.path).to.equal(@"REAME"); //loltypo
-			expect((NSUInteger)delta.status).to.equal(GTDiffFileDeltaAdded);
+			expect((NSUInteger)delta.type).to.equal(GTDiffFileDeltaAdded);
 			*stop = YES;
 		}];
 	});
@@ -122,7 +122,7 @@ describe(@"GTDiff diffing", ^{
 		setupDiffFromCommitSHAs(@"6317779b4731d9c837dcc6972b964bdf4211eeef", @"9f90c6e24629fae3ef51101bb6448342b44098ef");
 		expect(diff.deltaCount).to.equal(1);
 		[diff enumerateDeltasUsingBlock:^(GTDiffDelta *delta, BOOL *stop) {
-			expect((NSUInteger)delta.status).to.equal(GTDiffFileDeltaDeleted);
+			expect((NSUInteger)delta.type).to.equal(GTDiffFileDeltaDeleted);
 			*stop = YES;
 		}];
 	});
