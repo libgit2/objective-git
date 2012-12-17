@@ -45,7 +45,6 @@
 #import "GTReference.h"
 #import "GTBranch.h"
 
-
 static inline NSString *TEST_REPO_PATH(Class cls) {
 #if TARGET_OS_IPHONE
     return [NSTemporaryDirectory() stringByAppendingFormat:@"fixtures/testrepo.git"];
@@ -62,29 +61,29 @@ static inline NSString *TEST_INDEX_PATH(Class cls) {
 #endif
 }
 
+static inline NSString *TEST_APP_REPO_PATH(Class cls) {
+	NSString *subpath = @"fixtures/Test_App/.git";
+#if TARGET_OS_IPHONE
+    return [NSTemporaryDirectory() stringByAppendingFormat:subpath];
+#else
+	return [[[NSBundle bundleForClass:cls] resourcePath] stringByAppendingPathComponent:subpath];
+#endif
+}
+
 static inline void CREATE_WRITABLE_FIXTURES(void) {
 #if TARGET_OS_IPHONE
     NSFileManager *fm = [NSFileManager defaultManager];
+	NSString *fixturesPath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"fixtures"];
 	
-    if([fm fileExistsAtPath:TEST_REPO_PATH()])
-		[fm removeItemAtPath:TEST_REPO_PATH() error:nil];
-    
-    NSString *repoInBundle = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"fixtures/testrepo.git"];
-    
-    NSString *fixturesDir = [TEST_REPO_PATH() stringByDeletingPathExtension];
-    NSError *error = nil;
-    [fm createDirectoryAtPath:fixturesDir withIntermediateDirectories:YES attributes:nil error:&error];
-    if (error) {
-        NSLog(@"%@", [error localizedDescription]);
-        [NSException raise:@"Fixture Setup Error:" format:[error localizedDescription]];
-    }
-    
-    [fm copyItemAtPath:repoInBundle toPath:TEST_REPO_PATH() error:&error];
-    if (error) {
-        NSLog(@"%@", [error localizedDescription]);
-        [NSException raise:@"Fixture Setup Error:" format:[error localizedDescription]];
-    }
-    
+    if([fm fileExistsAtPath:fixturesPath])
+		[fm removeItemAtPath:fixturesPath error:nil];
+	
+	NSError *err = nil;
+	if (![fm copyItemAtPath:[NSBundle.mainBundle.resourcePath stringByAppendingPathComponent:@"fixtures"] toPath:fixturesPath error:&err]) {
+		NSLog(@"Failed to copy fixtures: %@", err.localizedDescription);
+        [NSException raise:@"Fixture Setup Error:" format:err.localizedDescription, nil];
+	}
+	
 #endif
 }
 
