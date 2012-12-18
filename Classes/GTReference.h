@@ -86,4 +86,7 @@ typedef enum {
 // returns YES if the reload was successful, NO otherwise.
 - (BOOL)reloadWithError:(NSError **)error;
 
+// An error indicating that the git_reference is no longer valid.
++ (NSError *)invalidReferenceError;
+
 @end
