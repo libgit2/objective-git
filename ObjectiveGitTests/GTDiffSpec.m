@@ -48,22 +48,23 @@ describe(@"GTDiff diffing", ^{
 	__block GTCommit *firstCommit = nil;
 	__block GTCommit *secondCommit = nil;
 	__block GTDiff *diff = nil;
+	__block void (^setupDiffFromCommitSHAsAndOptions)(NSString *, NSString *, NSDictionary *) = nil;
 	
 	beforeEach(^{
 		repository = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_APP_REPO_PATH(self.class)] error:NULL];
 		expect(repository).toNot.beNil();
-	});
-	
-	void (^setupDiffFromCommitSHAsAndOptions)(NSString *, NSString *, NSDictionary *) = [^(NSString *firstCommitSHA, NSString *secondCommitSHA, NSDictionary *options) {
-		firstCommit = (GTCommit *)[repository lookupObjectBySha:firstCommitSHA objectType:GTObjectTypeCommit error:NULL];
-		expect(firstCommit).toNot.beNil();
-		secondCommit = (GTCommit *)[repository lookupObjectBySha:secondCommitSHA objectType:GTObjectTypeCommit error:NULL];
-		expect(secondCommit).toNot.beNil();
 		
-		diff = [GTDiff diffOldTree:firstCommit.tree withNewTree:secondCommit.tree options:options];
-		expect(diff).toNot.beNil();
-	} copy];
-	
+		setupDiffFromCommitSHAsAndOptions = [^(NSString *firstCommitSHA, NSString *secondCommitSHA, NSDictionary *options) {
+			firstCommit = (GTCommit *)[repository lookupObjectBySha:firstCommitSHA objectType:GTObjectTypeCommit error:NULL];
+			expect(firstCommit).toNot.beNil();
+			secondCommit = (GTCommit *)[repository lookupObjectBySha:secondCommitSHA objectType:GTObjectTypeCommit error:NULL];
+			expect(secondCommit).toNot.beNil();
+			
+			diff = [GTDiff diffOldTree:firstCommit.tree withNewTree:secondCommit.tree options:options];
+			expect(diff).toNot.beNil();
+		} copy];
+	});
+		
 	it(@"should be able to diff simple file changes", ^{
 		setupDiffFromCommitSHAsAndOptions(@"be0f001ff517a00b5b8e3c29ee6561e70f994e17", @"fe89ea0a8e70961b8a6344d9660c326d3f2eb0fe", nil);
 		expect(diff.deltaCount).to.equal(1);
