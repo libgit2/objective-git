@@ -146,7 +146,7 @@ NSString *const GTDiffFindOptionsTargetLimitKey = @"GTDiffFindOptionsTargetLimit
 
 - (BOOL)findOptionsStructWithDictionary:(NSDictionary *)dictionary optionsStruct:(git_diff_find_options *)newOptions {
 	if (dictionary == nil || dictionary.count < 1) return NO;
-	
+		
 	NSNumber *flagsNumber = dictionary[GTDiffFindOptionsFlagsKey];
 	if (flagsNumber != nil) newOptions->flags = (uint32_t)flagsNumber.unsignedIntegerValue;
 	
@@ -169,7 +169,7 @@ NSString *const GTDiffFindOptionsTargetLimitKey = @"GTDiffFindOptionsTargetLimit
 }
 
 - (void)findSimilarWithOptions:(NSDictionary *)options {
-	git_diff_find_options findOptions;
+	git_diff_find_options findOptions = GIT_DIFF_FIND_OPTIONS_INIT;
 	BOOL findOptionsCreated = [self findOptionsStructWithDictionary:options optionsStruct:&findOptions];
 	git_diff_find_similar(self.git_diff_list, (findOptionsCreated ? &findOptions : NULL));
 }
