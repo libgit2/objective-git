@@ -180,7 +180,7 @@ static void transferProgressCallback(const git_transfer_progress *progress, void
 	
 	git_remote *remote;
 	const char *remoteURL = originURL.absoluteString.UTF8String;
-	int gitError = git_remote_new(&remote, NULL, "origin", remoteURL, NULL);
+	int gitError = git_remote_new(&remote, NULL, "origin", remoteURL, GIT_REMOTE_DEFAULT_FETCH);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to create remote to clone repository."];
 		return nil;
