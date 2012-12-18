@@ -72,7 +72,7 @@ typedef enum : git_delta_t {
 
 // Enumerate the hunks contained in the delta.
 //
-// Blocks during enumeration.hm
+// Blocks during enumeration.
 //
 // block - A block to be executed for each hunk. Setting `stop` to `YES`
 //         immediately stops the enumeration.
