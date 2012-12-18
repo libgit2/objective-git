@@ -140,6 +140,18 @@ describe(@"GTDiff diffing", ^{
 		}];
 		
 	});
+	
+	it(@"should recognise renames", ^{
+		setupDiffFromCommitSHAs(@"f7ecd8f4404d3a388efbff6711f1bdf28ffd16a0", @"6b0c1c8b8816416089c534e474f4c692a76ac14f");
+		[diff findSimilarWithOptions:nil];
+		expect(diff.deltaCount).to.equal(1);
+		[diff enumerateDeltasUsingBlock:^(GTDiffDelta *delta, BOOL *stop) {
+			expect((NSUInteger)delta.type).to.equal(GTDiffFileDeltaRenamed);
+			expect(delta.oldFile.path).to.equal(@"README");
+			expect(delta.newFile.path).to.equal(@"README_renamed");
+			*stop = YES;
+		}];
+	});
 });
 
 SpecEnd
