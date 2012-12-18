@@ -19,6 +19,13 @@ NSString *const GTDiffOptionsOldPrefixKey = @"GTDiffOptionsOldPrefixKey";
 NSString *const GTDiffOptionsNewPrefixKey = @"GTDiffOptionsNewPrefixKey";
 NSString *const GTDiffOptionsMaxSizeKey = @"GTDiffOptionsMaxSizeKey";
 
+NSString *const GTDiffFindOptionsFlagsKey = @"GTDiffFindOptionsFlagsKey";
+NSString *const GTDiffFindOptionsRenameThresholdKey = @"GTDiffFindOptionsRenameThresholdKey";
+NSString *const GTDiffFindOptionsRenameFromRewriteThresholdKey = @"GTDiffFindOptionsRenameFromRewriteThresholdKey";
+NSString *const GTDiffFindOptionsCopyThresholdKey = @"GTDiffFindOptionsCopyThresholdKey";
+NSString *const GTDiffFindOptionsBreakRewriteThresholdKey = @"GTDiffFindOptionsBreakRewriteThresholdKey";
+NSString *const GTDiffFindOptionsTargetLimitKey = @"GTDiffFindOptionsTargetLimitKey";
+
 @implementation GTDiff
 
 + (BOOL)optionsStructFromDictionary:(NSDictionary *)dictionary optionsStruct:(git_diff_options *)newOptions {	
@@ -115,8 +122,6 @@ NSString *const GTDiffOptionsMaxSizeKey = @"GTDiffOptionsMaxSizeKey";
 	git_diff_list_free(self.git_diff_list);
 }
 
-#pragma mark - Properties
-
 - (void)enumerateDeltasUsingBlock:(void (^)(GTDiffDelta *delta, BOOL *stop))block {
 	NSParameterAssert(block != nil);
 	
@@ -137,6 +142,36 @@ NSString *const GTDiffOptionsMaxSizeKey = @"GTDiffOptionsMaxSizeKey";
 
 - (NSUInteger)numberOfDeltasWithType:(GTDiffDeltaType)deltaType {
 	return git_diff_num_deltas_of_type(self.git_diff_list, (git_delta_t)deltaType);
+}
+
+- (BOOL)findOptionsStructWithDictionary:(NSDictionary *)dictionary optionsStruct:(git_diff_find_options *)newOptions {
+	if (dictionary == nil || dictionary.count < 1) return NO;
+	
+	NSNumber *flagsNumber = dictionary[GTDiffFindOptionsFlagsKey];
+	if (flagsNumber != nil) newOptions->flags = (uint32_t)flagsNumber.unsignedIntegerValue;
+	
+	NSNumber *renameThresholdNumber = dictionary[GTDiffFindOptionsRenameThresholdKey];
+	if (renameThresholdNumber != nil) newOptions->rename_threshold = renameThresholdNumber.unsignedIntValue;
+	
+	NSNumber *renameFromRewriteThresholdNumber = dictionary[GTDiffFindOptionsRenameFromRewriteThresholdKey];
+	if (renameFromRewriteThresholdNumber != nil) newOptions->rename_from_rewrite_threshold = renameFromRewriteThresholdNumber.unsignedIntValue;
+	
+	NSNumber *copyThresholdNumber = dictionary[GTDiffFindOptionsCopyThresholdKey];
+	if (copyThresholdNumber != nil) newOptions->copy_threshold = copyThresholdNumber.unsignedIntValue;
+	
+	NSNumber *breakRewriteThresholdNumber = dictionary[GTDiffFindOptionsBreakRewriteThresholdKey];
+	if (renameThresholdNumber != nil) newOptions->break_rewrite_threshold = breakRewriteThresholdNumber.unsignedIntValue;
+	
+	NSNumber *targetLimitNumber = dictionary[GTDiffFindOptionsTargetLimitKey];
+	if (targetLimitNumber != nil) newOptions->target_limit = targetLimitNumber.unsignedIntValue;
+	
+	return YES;
+}
+
+- (void)findSimilarWithOptions:(NSDictionary *)options {
+	git_diff_find_options findOptions;
+	BOOL findOptionsCreated = [self findOptionsStructWithDictionary:options optionsStruct:&findOptions];
+	git_diff_find_similar(self.git_diff_list, (findOptionsCreated ? &findOptions : NULL));
 }
 
 @end

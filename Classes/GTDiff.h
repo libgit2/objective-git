@@ -72,6 +72,41 @@ typedef enum : git_diff_option_t {
 	GTDiffOptionsFlagsIgnoreFileMode = GIT_DIFF_IGNORE_FILEMODE,
 } GTDiffOptionsFlags;
 
+// An `NSNumber` wrapped `GTDiffOptionsFlags` bitmask containing any of the
+// flags documented below.
+//
+// Defualts to `GTDiffFindOptionsFlagsFindRenames`.
+extern NSString *const GTDiffFindOptionsFlagsKey;
+
+// An `NSNumber` wrapped `NSUInteger` dictating the similarity between file
+// names to be considered a rename.
+//
+// Defaults to 50.
+extern NSString *const GTDiffFindOptionsRenameThresholdKey;
+
+// An `NSNumber` wrapped `NSUInteger` 
+extern NSString *const GTDiffFindOptionsRenameFromRewriteThresholdKey;
+
+// An `NSNumber` wrapped `NSUInteger`
+extern NSString *const GTDiffFindOptionsCopyThresholdKey;
+
+// An `NSNumber` wrapped `NSUInteger`
+extern NSString *const GTDiffFindOptionsBreakRewriteThresholdKey;
+
+// An `NSNumber` wrapped `NSUInteger`
+extern NSString *const GTDiffFindOptionsTargetLimitKey;
+
+// Enum for options passed into `-findSimilar`.
+//
+// For individual case documentation see `diff.h`.
+typedef enum : git_diff_find_t {
+	GTDiffFindOptionsFlagsFindRenames = GIT_DIFF_FIND_RENAMES,
+	GTDiffFindOptionsFlagsFindRenamesFromRewrites = GIT_DIFF_FIND_RENAMES_FROM_REWRITES,
+	GTDiffFindOptionsFlagsFindCopies = GIT_DIFF_FIND_COPIES,
+	GTDiffFindOptionsFlagsFindCopiesFromUnmodified = GIT_DIFF_FIND_COPIES_FROM_UNMODIFIED,
+	GTDiffFindOptionsFlagsFindAndBreakRewrites = GIT_DIFF_FIND_AND_BREAK_REWRITES,
+} GTDiffFindOptionsFlags;
+
 // A class representing a single "diff".
 //
 // Analagous to `git_diff_list` in libgit2, this object represents a list of
@@ -147,5 +182,11 @@ typedef enum : git_diff_option_t {
 // block - A block to be executed for each delta. Setting `stop` to `YES`
 //         immediately stops the enumeration.
 - (void)enumerateDeltasUsingBlock:(void (^)(GTDiffDelta *delta, BOOL *stop))block;
+
+// Modify the diff list to combine similar changes using the given options.
+//
+// options - A dictionary containing any of the above find options key constants
+//           or nil to use the defaults.
+- (void)findSimilarWithOptions:(NSDictionary *)options;
 
 @end
