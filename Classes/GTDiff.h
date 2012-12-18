@@ -78,22 +78,48 @@ typedef enum : git_diff_option_t {
 // Defualts to `GTDiffFindOptionsFlagsFindRenames`.
 extern NSString *const GTDiffFindOptionsFlagsKey;
 
-// An `NSNumber` wrapped `NSUInteger` dictating the similarity between file
-// names to be considered a rename.
+// An `NSNumber` wrapped `NSUInteger` dictating the similarity between files
+// to be considered a rename.
+//
+// This is a value as per the git similarity index and should be between 1 and
+// 100 (0 and above 100 use the default).
 //
 // Defaults to 50.
 extern NSString *const GTDiffFindOptionsRenameThresholdKey;
 
-// An `NSNumber` wrapped `NSUInteger` 
+// An `NSNumber` wrapped `NSUInteger` dictating how similar a modified file can
+// be to be eligable as a rename.
+//
+// This is a value as per the git similarity index and should be between 1 and
+// 100 (0 and above 100 use the default).
+//
+// Defaults to 50.
 extern NSString *const GTDiffFindOptionsRenameFromRewriteThresholdKey;
 
-// An `NSNumber` wrapped `NSUInteger`
+// An `NSNumber` wrapped `NSUInteger` dictating how similar a modified file can
+// be to be considered a copy.
+//
+// This is a value as per the git similarity index and should be between 1 and
+// 100 (0 and above 100 use the default).
+//
+// Defaults to 50.
 extern NSString *const GTDiffFindOptionsCopyThresholdKey;
 
-// An `NSNumber` wrapped `NSUInteger`
+// An `NSNumber` wrapped `NSUInteger` dictating how similar a modified file can
+// be to be to be broken into a separate deletion and addition pair.
+//
+// This is a value as per the git similarity index and should be between 1 and
+// 100 (0 and above 100 use the default).
+//
+// Defaults to 60.
 extern NSString *const GTDiffFindOptionsBreakRewriteThresholdKey;
 
-// An `NSNumber` wrapped `NSUInteger`
+// An `NSNumber` wrapped `NSUInteger` dictating the maximum amount of similarity
+// sources to examine.
+//
+// This is the equivalent of the `diff.renameLimit` config value.
+//
+// Defaults to 200.
 extern NSString *const GTDiffFindOptionsTargetLimitKey;
 
 // Enum for options passed into `-findSimilar`.
