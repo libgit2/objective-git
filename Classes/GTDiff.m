@@ -58,7 +58,7 @@ NSString *const GTDiffFindOptionsTargetLimitKey = @"GTDiffFindOptionsTargetLimit
 + (GTDiff *)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree options:(NSDictionary *)options {
 	NSParameterAssert([oldTree.repository isEqualTo:newTree.repository]);
 	
-	git_diff_options optionsStruct;
+	git_diff_options optionsStruct = GIT_DIFF_OPTIONS_INIT;
 	BOOL optionsStructCreated = [self optionsStructFromDictionary:options optionsStruct:&optionsStruct];
 	git_diff_list *diffList;
 	int returnValue = git_diff_tree_to_tree(&diffList, oldTree.repository.git_repository, oldTree.git_tree, newTree.git_tree, (optionsStructCreated ? &optionsStruct : NULL));
@@ -71,7 +71,7 @@ NSString *const GTDiffFindOptionsTargetLimitKey = @"GTDiffFindOptionsTargetLimit
 + (GTDiff *)diffIndexFromTree:(GTTree *)tree options:(NSDictionary *)options {
 	NSParameterAssert(tree != nil);
 	
-	git_diff_options optionsStruct;
+	git_diff_options optionsStruct = GIT_DIFF_OPTIONS_INIT;
 	BOOL optionsStructCreated = [self optionsStructFromDictionary:options optionsStruct:&optionsStruct];
 	git_diff_list *diffList;
 	int returnValue = git_diff_tree_to_index(&diffList, tree.repository.git_repository, tree.git_tree, NULL, (optionsStructCreated ? &optionsStruct : NULL));
@@ -84,7 +84,7 @@ NSString *const GTDiffFindOptionsTargetLimitKey = @"GTDiffFindOptionsTargetLimit
 + (GTDiff *)diffIndexToWorkingDirectoryInRepository:(GTRepository *)repository options:(NSDictionary *)options {
 	NSParameterAssert(repository != nil);
 	
-	git_diff_options optionsStruct;
+	git_diff_options optionsStruct = GIT_DIFF_OPTIONS_INIT;
 	BOOL optionsStructCreated = [self optionsStructFromDictionary:options optionsStruct:&optionsStruct];
 	git_diff_list *diffList;
 	int returnValue = git_diff_index_to_workdir(&diffList, repository.git_repository, NULL, (optionsStructCreated ? &optionsStruct : NULL));
@@ -97,7 +97,7 @@ NSString *const GTDiffFindOptionsTargetLimitKey = @"GTDiffFindOptionsTargetLimit
 + (GTDiff *)diffWorkingDirectoryFromTree:(GTTree *)tree options:(NSDictionary *)options {
 	NSParameterAssert(tree != nil);
 	
-	git_diff_options optionsStruct;
+	git_diff_options optionsStruct = GIT_DIFF_OPTIONS_INIT;
 	BOOL optionsStructCreated = [self optionsStructFromDictionary:options optionsStruct:&optionsStruct];
 	git_diff_list *diffList;
 	int returnValue = git_diff_tree_to_workdir(&diffList, tree.repository.git_repository, tree.git_tree, (optionsStructCreated ? &optionsStruct : NULL));
