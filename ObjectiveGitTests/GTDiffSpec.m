@@ -69,7 +69,7 @@ describe(@"GTDiff diffing", ^{
 			expect(delta.oldFile.path).to.equal(@"TestAppWindowController.h");
 			expect(delta.oldFile.path).to.equal(delta.newFile.path);
 			expect(delta.hunkCount).to.equal(1);
-			expect(delta.isBinary).to.beFalsy();
+			expect(delta.binary).to.beFalsy();
 			expect((NSUInteger)delta.type).to.equal(GTDiffFileDeltaModified);
 			
 			[delta enumerateHunksWithBlock:^(GTDiffHunk *hunk, BOOL *stop) {
