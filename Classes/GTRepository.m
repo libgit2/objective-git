@@ -165,7 +165,9 @@ static void transferProgressCallback(const git_transfer_progress *progress, void
 	git_clone_options cloneOptions = GIT_CLONE_OPTIONS_INIT;
 	if (barely) {
 		cloneOptions.bare = 1;
-	} else {
+	}
+	
+	if (withCheckout) {
 		git_checkout_opts checkoutOptions = GIT_CHECKOUT_OPTS_INIT;
 		checkoutOptions.checkout_strategy = GIT_CHECKOUT_SAFE;
 		checkoutOptions.progress_cb = checkoutProgressCallback;
