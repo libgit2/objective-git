@@ -73,7 +73,7 @@ static inline BOOL setupRepositoryFixtureIfNeeded(NSString *repositoryName, Clas
 	if (![NSFileManager.defaultManager createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:NULL]) return NO;
 	
 	NSString *zippedFixturesPath = [[[NSBundle bundleForClass:cls] resourcePath] stringByAppendingPathComponent:@"fixtures/fixtures.zip"];
-	return unzipFileFromArchiveAtPathIntoDirectory(repositoryName, zippedFixturesPath, [zippedFixturesPath stringByDeletingLastPathComponent]);
+	return unzipFileFromArchiveAtPathIntoDirectory(repositoryName, zippedFixturesPath, zippedFixturesPath.stringByDeletingLastPathComponent);
 }
 
 static inline NSString *TEST_REPO_PATH(Class cls) {
