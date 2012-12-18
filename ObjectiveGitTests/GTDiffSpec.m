@@ -11,11 +11,11 @@
 SpecBegin(GTDiff)
 
 __block GTRepository *repository = nil;
-__block GTCommit *firstCommit = nil;
-__block GTCommit *secondCommit = nil;
-__block GTDiff *diff = nil;
 
 describe(@"GTDiff initialisation", ^{
+	__block GTCommit *firstCommit = nil;
+	__block GTCommit *secondCommit = nil;
+	
 	beforeEach(^{
 		repository = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:NULL];
 		expect(repository).toNot.beNil();
@@ -45,6 +45,10 @@ describe(@"GTDiff initialisation", ^{
 });
 
 describe(@"GTDiff diffing", ^{
+	__block GTCommit *firstCommit = nil;
+	__block GTCommit *secondCommit = nil;
+	__block GTDiff *diff = nil;
+	
 	beforeEach(^{
 		repository = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_APP_REPO_PATH(self.class)] error:NULL];
 		expect(repository).toNot.beNil();
