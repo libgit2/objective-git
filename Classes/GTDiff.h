@@ -43,7 +43,7 @@ extern NSString *const GTDiffOptionsNewPrefixKey;
 // An `NSNumber` wrapped `NSUInteger` determining the maximum size (in bytes)
 // of a file to diff. Above this size the file will be treated as binary.
 //
-// Defaults to 512Mb.
+// Defaults to 512MB.
 extern NSString *const GTDiffOptionsMaxSizeKey;
 
 // Enum for use as documented in the options dictionary with the
