@@ -161,27 +161,39 @@ static void transferProgressCallback(const git_transfer_progress *progress, void
 }
 
 + (id)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL barely:(BOOL)barely withCheckout:(BOOL)withCheckout error:(NSError **)error transferProgressBlock:(void (^)(const git_transfer_progress *))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))checkoutProgressBlock {
-	const char *cOriginURL = originURL.absoluteString.UTF8String;
-	const char *cWorkdirURL = workdirURL.path.UTF8String;
 
-	git_repository *r;
-	int gitError;
+	git_clone_options cloneOptions = GIT_CLONE_OPTIONS_INIT;
 	if (barely) {
-		gitError = git_clone_bare(&r, cOriginURL, cWorkdirURL, transferProgressCallback, (__bridge void *)transferProgressBlock);
+		cloneOptions.bare = 1;
 	} else {
-		git_checkout_opts opts = GIT_CHECKOUT_OPTS_INIT;
-		opts.checkout_strategy = GIT_CHECKOUT_SAFE;
-		opts.progress_cb = checkoutProgressCallback;
-		opts.progress_payload = (__bridge void *)checkoutProgressBlock;
-		gitError = git_clone(&r, cOriginURL, cWorkdirURL, (withCheckout ? &opts : NULL), transferProgressCallback, (__bridge void *)transferProgressBlock);
+		git_checkout_opts checkoutOptions = GIT_CHECKOUT_OPTS_INIT;
+		checkoutOptions.checkout_strategy = GIT_CHECKOUT_SAFE;
+		checkoutOptions.progress_cb = checkoutProgressCallback;
+		checkoutOptions.progress_payload = (__bridge void *)checkoutProgressBlock;
+		cloneOptions.checkout_opts = &checkoutOptions;
 	}
 	
+	cloneOptions.fetch_progress_cb = transferProgressCallback;
+	cloneOptions.fetch_progress_payload = (__bridge void *)transferProgressBlock;
+	
+	git_remote *remote;
+	const char *remoteURL = originURL.absoluteString.UTF8String;
+	int gitError = git_remote_new(&remote, NULL, "origin", remoteURL, NULL);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to create remote to clone repository."];
+		return nil;
+	}
+	
+	git_repository *repository;
+	
+	const char *cWorkdirURL = workdirURL.path.UTF8String;
+	gitError = git_clone(&repository, remote, cWorkdirURL, &cloneOptions);
 	if (gitError < GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to clone repository."];
 		return nil;
 	}
 
-	return [[self alloc] initWithGitRepository:r];
+	return [[self alloc] initWithGitRepository:repository];
 }
 
 
