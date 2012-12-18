@@ -45,47 +45,61 @@
 #import "GTReference.h"
 #import "GTBranch.h"
 
+static inline BOOL unzipFileFromArchiveAtPathIntoDirectory(NSString *fileName, NSString *zipPath, NSString *destinationPath) {
+	NSTask *task = [[NSTask alloc] init];
+	task.launchPath = @"/usr/bin/unzip";
+	task.arguments = @[ @"-qq", @"-d", destinationPath, zipPath, [fileName stringByAppendingString:@"*"] ];
+	
+	[task launch];
+	[task waitUntilExit];
+	
+	BOOL success = (task.terminationStatus == 0);
+	return success;
+}
+
+static inline NSString *repositoryFixturePathForName(NSString *repositoryName, Class cls) {
+	static NSString *unzippedFixturesPath = nil;
+	if (unzippedFixturesPath == nil) {
+		NSString *containerPath = nil;
+		while (containerPath == nil) {
+			containerPath = [[NSTemporaryDirectory() stringByAppendingPathComponent:@"com.libgit2.objectivegit"] stringByAppendingPathComponent:NSProcessInfo.processInfo.globallyUniqueString];
+			if ([NSFileManager.defaultManager fileExistsAtPath:containerPath]) containerPath = nil;
+		}
+		
+		unzippedFixturesPath = containerPath;
+	}
+	
+	return [unzippedFixturesPath stringByAppendingPathComponent:repositoryName];
+}
+
+static inline BOOL setupRepositoryFixtureIfNeeded(NSString *repositoryName, Class cls) {
+	NSString *path = repositoryFixturePathForName(repositoryName, cls);
+	BOOL isDirectory = NO;
+	if ([NSFileManager.defaultManager fileExistsAtPath:path isDirectory:&isDirectory] && isDirectory) return YES;
+	
+	if (![NSFileManager.defaultManager createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:NULL]) return NO;
+	
+	NSString *zippedFixturesPath = [[[NSBundle bundleForClass:cls] resourcePath] stringByAppendingPathComponent:@"fixtures/fixtures.zip"];
+	return unzipFileFromArchiveAtPathIntoDirectory(repositoryName, zippedFixturesPath, path.stringByDeletingLastPathComponent);
+}
 
 static inline NSString *TEST_REPO_PATH(Class cls) {
-#if TARGET_OS_IPHONE
-    return [NSTemporaryDirectory() stringByAppendingFormat:@"fixtures/testrepo.git"];
-#else
-	return [[[NSBundle bundleForClass:cls] resourcePath] stringByAppendingPathComponent:@"fixtures/testrepo.git"];
-#endif
+	if (!setupRepositoryFixtureIfNeeded(@"testrepo.git", cls)) {
+		NSLog(@"Failed to unzip fixtures.");
+	}
+		
+	return repositoryFixturePathForName(@"testrepo.git", cls);
 }
 
 static inline NSString *TEST_INDEX_PATH(Class cls) {
-#if TARGET_OS_IPHONE
-    return [NSTemporaryDirectory() stringByAppendingFormat:@"fixtures/testrepo.git/index"];
-#else
-	return [[[NSBundle bundleForClass:cls] resourcePath] stringByAppendingPathComponent:@"fixtures/testrepo.git/index"];
-#endif
+	return [TEST_REPO_PATH(cls) stringByAppendingPathComponent:@"index"];
 }
 
-static inline void CREATE_WRITABLE_FIXTURES(void) {
-#if TARGET_OS_IPHONE
-    NSFileManager *fm = [NSFileManager defaultManager];
-	
-    if([fm fileExistsAtPath:TEST_REPO_PATH()])
-		[fm removeItemAtPath:TEST_REPO_PATH() error:nil];
-    
-    NSString *repoInBundle = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"fixtures/testrepo.git"];
-    
-    NSString *fixturesDir = [TEST_REPO_PATH() stringByDeletingPathExtension];
-    NSError *error = nil;
-    [fm createDirectoryAtPath:fixturesDir withIntermediateDirectories:YES attributes:nil error:&error];
-    if (error) {
-        NSLog(@"%@", [error localizedDescription]);
-        [NSException raise:@"Fixture Setup Error:" format:[error localizedDescription]];
-    }
-    
-    [fm copyItemAtPath:repoInBundle toPath:TEST_REPO_PATH() error:&error];
-    if (error) {
-        NSLog(@"%@", [error localizedDescription]);
-        [NSException raise:@"Fixture Setup Error:" format:[error localizedDescription]];
-    }
-    
-#endif
+static inline NSString *TEST_APP_REPO_PATH(Class cls) {
+	if (!setupRepositoryFixtureIfNeeded(@"Test_App", cls)) {
+		NSLog(@"Failed to unzip fixtures.");
+	}
+	return repositoryFixturePathForName(@"Test_App", cls);
 }
 
 static inline void rm_loose(Class cls, NSString *sha) {

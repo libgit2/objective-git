@@ -47,6 +47,11 @@
 #import <ObjectiveGit/NSData+Git.h>
 #import <ObjectiveGit/NSString+Git.h>
 
+#import <ObjectiveGit/GTDiff.h>
+#import <ObjectiveGit/GTDiffDelta.h>
+#import <ObjectiveGit/GTDiffFile.h>
+#import <ObjectiveGit/GTDiffHunk.h>
+
 // This must be called before doing any ObjectiveGit work.  Under normal
 // circumstances, it will automatically be called on your behalf.
 // If you've linked ObjectiveGit as a static library but haven't set
