@@ -50,7 +50,7 @@ describe(@"GTDiff diffing", ^{
 		expect(repository).toNot.beNil();
 	});
 	
-	void (^setupDiffFromCommitSHAs)(NSString *, NSString *) = ^(NSString *firstCommitSHA, NSString *secondCommitSHA) {
+	void (^setupDiffFromCommitSHAs)(NSString *, NSString *) = [^(NSString *firstCommitSHA, NSString *secondCommitSHA) {
 		firstCommit = (GTCommit *)[repository lookupObjectBySha:firstCommitSHA objectType:GTObjectTypeCommit error:NULL];
 		expect(firstCommit).toNot.beNil();
 		secondCommit = (GTCommit *)[repository lookupObjectBySha:secondCommitSHA objectType:GTObjectTypeCommit error:NULL];
@@ -58,7 +58,7 @@ describe(@"GTDiff diffing", ^{
 		
 		diff = [GTDiff diffOldTree:firstCommit.tree withNewTree:secondCommit.tree options:nil];
 		expect(diff).toNot.beNil();
-	};
+	} copy];
 	
 	it(@"should be able to diff simple file changes", ^{
 		setupDiffFromCommitSHAs(@"be0f001ff517a00b5b8e3c29ee6561e70f994e17", @"fe89ea0a8e70961b8a6344d9660c326d3f2eb0fe");
