@@ -161,7 +161,7 @@ static void transferProgressCallback(const git_transfer_progress *progress, void
 }
 
 + (id)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL barely:(BOOL)barely withCheckout:(BOOL)withCheckout error:(NSError **)error transferProgressBlock:(void (^)(const git_transfer_progress *))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))checkoutProgressBlock {
-
+	
 	git_clone_options cloneOptions = GIT_CLONE_OPTIONS_INIT;
 	if (barely) {
 		cloneOptions.bare = 1;
@@ -186,10 +186,10 @@ static void transferProgressCallback(const git_transfer_progress *progress, void
 		return nil;
 	}
 	
+	const char *workingDirectoryPath = workdirURL.path.UTF8String;
 	git_repository *repository;
-	
-	const char *cWorkdirURL = workdirURL.path.UTF8String;
-	gitError = git_clone(&repository, remote, cWorkdirURL, &cloneOptions);
+	gitError = git_clone(&repository, remote, workingDirectoryPath, &cloneOptions);
+	git_remote_free(remote);
 	if (gitError < GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to clone repository."];
 		return nil;
