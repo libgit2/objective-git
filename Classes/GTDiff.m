@@ -68,26 +68,26 @@ NSString *const GTDiffFindOptionsTargetLimitKey = @"GTDiffFindOptionsTargetLimit
 	return newDiff;
 }
 
-+ (GTDiff *)diffIndexToTree:(GTTree *)tree options:(NSDictionary *)options {
++ (GTDiff *)diffIndexFromTree:(GTTree *)tree options:(NSDictionary *)options {
 	NSParameterAssert(tree != nil);
 	
 	git_diff_options optionsStruct;
 	BOOL optionsStructCreated = [self optionsStructFromDictionary:options optionsStruct:&optionsStruct];
 	git_diff_list *diffList;
-	int returnValue = git_diff_index_to_tree(&diffList, tree.repository.git_repository, tree.git_tree, NULL, (optionsStructCreated ? &optionsStruct : NULL));
+	int returnValue = git_diff_tree_to_index(&diffList, tree.repository.git_repository, tree.git_tree, NULL, (optionsStructCreated ? &optionsStruct : NULL));
 	if (returnValue != GIT_OK) return nil;
 	
 	GTDiff *newDiff = [[GTDiff alloc] initWithGitDiffList:diffList];
 	return newDiff;
 }
 
-+ (GTDiff *)diffWorkingDirectoryToIndexInRepository:(GTRepository *)repository options:(NSDictionary *)options {
++ (GTDiff *)diffIndexToWorkingDirectoryInRepository:(GTRepository *)repository options:(NSDictionary *)options {
 	NSParameterAssert(repository != nil);
 	
 	git_diff_options optionsStruct;
 	BOOL optionsStructCreated = [self optionsStructFromDictionary:options optionsStruct:&optionsStruct];
 	git_diff_list *diffList;
-	int returnValue = git_diff_workdir_to_index(&diffList, repository.git_repository, NULL, (optionsStructCreated ? &optionsStruct : NULL));
+	int returnValue = git_diff_index_to_workdir(&diffList, repository.git_repository, NULL, (optionsStructCreated ? &optionsStruct : NULL));
 	if (returnValue != GIT_OK) return nil;
 	
 	GTDiff *newDiff = [[GTDiff alloc] initWithGitDiffList:diffList];
@@ -100,7 +100,7 @@ NSString *const GTDiffFindOptionsTargetLimitKey = @"GTDiffFindOptionsTargetLimit
 	git_diff_options optionsStruct;
 	BOOL optionsStructCreated = [self optionsStructFromDictionary:options optionsStruct:&optionsStruct];
 	git_diff_list *diffList;
-	int returnValue = git_diff_workdir_to_tree(&diffList, tree.repository.git_repository, tree.git_tree, (optionsStructCreated ? &optionsStruct : NULL));
+	int returnValue = git_diff_tree_to_workdir(&diffList, tree.repository.git_repository, tree.git_tree, (optionsStructCreated ? &optionsStruct : NULL));
 	if (returnValue != GIT_OK) return nil;
 	
 	GTDiff *newDiff = [[GTDiff alloc] initWithGitDiffList:diffList];

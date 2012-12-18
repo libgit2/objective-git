@@ -157,31 +157,34 @@ typedef enum : git_diff_find_t {
 // Returns a newly created `GTDiff` object or nil on error.
 + (GTDiff *)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree options:(NSDictionary *)options;
 
-// Create a diff between a repository's current index and a tree.
+// Create a diff between a repository's current index.
 //
 // This is equivalent to `git diff --cached <treeish>` or if you pass the HEAD
 // tree, then `git diff --cached`.
 //
+// The tree you pass will be used for the "left" side of the diff, and the
+// index will be used for the "right" side of the diff.
+//
 // tree    - The tree to be diffed. The index will be taken from this tree's
-//           repository.
+//           repository. The left side of the diff.
 // options - A dictionary containing any of the above options key constants, or
 //           nil to use the defaults.
 //
 // Returns a newly created `GTDiff` object or nil on error.
-+ (GTDiff *)diffIndexToTree:(GTTree *)tree options:(NSDictionary *)options;
++ (GTDiff *)diffIndexFromTree:(GTTree *)tree options:(NSDictionary *)options;
 
-// Create a diff between the working directory and index in a given repository.
+// Create a diff between the index and working directory in a given repository.
 //
 // This matches the `git diff` command.
 //
 // repository - The repository to be used for the diff.
-// options - A dictionary containing any of the above options key constants, or
-//           nil to use the defaults.
+// options    - A dictionary containing any of the above options key constants,
+//              or nil to use the defaults.
 //
 // Returns a newly created `GTDiff` object or nil on error.
-+ (GTDiff *)diffWorkingDirectoryToIndexInRepository:(GTRepository *)repository options:(NSDictionary *)options;
++ (GTDiff *)diffIndexToWorkingDirectoryInRepository:(GTRepository *)repository options:(NSDictionary *)options;
 
-// Create a diff between a tree and its repository's working directory.
+// Create a diff between a repository's working directory and a tree.
 //
 // tree    - The tree to be diffed. The tree will be the left side of the diff.
 // options - A dictionary containing any of the above options key constants, or
