@@ -32,7 +32,7 @@ describe(@"GTDiff initialisation", ^{
 	});
 	
 	it(@"should be able to initialise a diff against the index with a tree", ^{
-		expect([GTDiff diffIndexToTree:secondCommit.tree options:nil]).toNot.beNil();
+		expect([GTDiff diffIndexFromTree:secondCommit.tree options:nil]).toNot.beNil();
 	});
 	
 	it(@"should be able to initialise a diff against a working directory and a tree", ^{
@@ -40,7 +40,7 @@ describe(@"GTDiff initialisation", ^{
 	});
 	
 	it(@"should be able to initialse a diff against an index from a repo's working directory", ^{
-		expect([GTDiff diffWorkingDirectoryToIndexInRepository:repository options:nil]).toNot.beNil();
+		expect([GTDiff diffIndexToWorkingDirectoryInRepository:repository options:nil]).toNot.beNil();
 	});
 });
 
