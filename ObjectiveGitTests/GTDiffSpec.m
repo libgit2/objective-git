@@ -102,9 +102,9 @@ describe(@"GTDiff diffing", ^{
 				}];
 			}];
 			
-		 // just in case we have failed an above test, don't add a whole bunch
-		 // more false failures by iterating again.
-		 *stop = YES;
+			// just in case we have failed an above test, don't add a whole bunch
+			// more false failures by iterating again.
+			*stop = YES;
 		}];
 	});
 	
