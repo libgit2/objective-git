@@ -54,18 +54,18 @@ describe(@"GTDiff diffing", ^{
 		expect(repository).toNot.beNil();
 	});
 	
-	void (^setupDiffFromCommitSHAs)(NSString *, NSString *) = [^(NSString *firstCommitSHA, NSString *secondCommitSHA) {
+	void (^setupDiffFromCommitSHAsAndOptions)(NSString *, NSString *, NSDictionary *) = [^(NSString *firstCommitSHA, NSString *secondCommitSHA, NSDictionary *options) {
 		firstCommit = (GTCommit *)[repository lookupObjectBySha:firstCommitSHA objectType:GTObjectTypeCommit error:NULL];
 		expect(firstCommit).toNot.beNil();
 		secondCommit = (GTCommit *)[repository lookupObjectBySha:secondCommitSHA objectType:GTObjectTypeCommit error:NULL];
 		expect(secondCommit).toNot.beNil();
 		
-		diff = [GTDiff diffOldTree:firstCommit.tree withNewTree:secondCommit.tree options:nil];
+		diff = [GTDiff diffOldTree:firstCommit.tree withNewTree:secondCommit.tree options:options];
 		expect(diff).toNot.beNil();
 	} copy];
 	
 	it(@"should be able to diff simple file changes", ^{
-		setupDiffFromCommitSHAs(@"be0f001ff517a00b5b8e3c29ee6561e70f994e17", @"fe89ea0a8e70961b8a6344d9660c326d3f2eb0fe");
+		setupDiffFromCommitSHAsAndOptions(@"be0f001ff517a00b5b8e3c29ee6561e70f994e17", @"fe89ea0a8e70961b8a6344d9660c326d3f2eb0fe", nil);
 		expect(diff.deltaCount).to.equal(1);
 		expect([diff numberOfDeltasWithType:GTDiffFileDeltaModified]).to.equal(1);
 		
@@ -113,7 +113,7 @@ describe(@"GTDiff diffing", ^{
 	});
 	
 	it(@"should recognised added files", ^{
-		setupDiffFromCommitSHAs(@"4d5a6cc7a4d810be71bd47331c947b22580a5997", @"38f1e536cfc2ee41e07d55b38baec00149b2b0d1");
+		setupDiffFromCommitSHAsAndOptions(@"4d5a6cc7a4d810be71bd47331c947b22580a5997", @"38f1e536cfc2ee41e07d55b38baec00149b2b0d1", nil);
 		expect(diff.deltaCount).to.equal(1);
 		[diff enumerateDeltasUsingBlock:^(GTDiffDelta *delta, BOOL *stop) {
 			expect(delta.newFile.path).to.equal(@"REAME"); //loltypo
@@ -123,7 +123,7 @@ describe(@"GTDiff diffing", ^{
 	});
 	
 	it(@"should recognise deleted files", ^{
-		setupDiffFromCommitSHAs(@"6317779b4731d9c837dcc6972b964bdf4211eeef", @"9f90c6e24629fae3ef51101bb6448342b44098ef");
+		setupDiffFromCommitSHAsAndOptions(@"6317779b4731d9c837dcc6972b964bdf4211eeef", @"9f90c6e24629fae3ef51101bb6448342b44098ef", nil);
 		expect(diff.deltaCount).to.equal(1);
 		[diff enumerateDeltasUsingBlock:^(GTDiffDelta *delta, BOOL *stop) {
 			expect((NSUInteger)delta.type).to.equal(GTDiffFileDeltaDeleted);
@@ -132,7 +132,7 @@ describe(@"GTDiff diffing", ^{
 	});
 	
 	it(@"should recognise binary files", ^{
-		setupDiffFromCommitSHAs(@"2ba9cdca982ac35a8db29f51c635251374008229", @"524500582248889ef2243931aa7fc48aa21dd12f");
+		setupDiffFromCommitSHAsAndOptions(@"2ba9cdca982ac35a8db29f51c635251374008229", @"524500582248889ef2243931aa7fc48aa21dd12f", nil);
 		expect(diff.deltaCount).to.equal(1);
 		[diff enumerateDeltasUsingBlock:^(GTDiffDelta *delta, BOOL *stop) {
 			expect(delta.binary).to.beTruthy();
@@ -142,13 +142,31 @@ describe(@"GTDiff diffing", ^{
 	});
 	
 	it(@"should recognise renames", ^{
-		setupDiffFromCommitSHAs(@"f7ecd8f4404d3a388efbff6711f1bdf28ffd16a0", @"6b0c1c8b8816416089c534e474f4c692a76ac14f");
+		setupDiffFromCommitSHAsAndOptions(@"f7ecd8f4404d3a388efbff6711f1bdf28ffd16a0", @"6b0c1c8b8816416089c534e474f4c692a76ac14f", nil);
 		[diff findSimilarWithOptions:nil];
 		expect(diff.deltaCount).to.equal(1);
 		[diff enumerateDeltasUsingBlock:^(GTDiffDelta *delta, BOOL *stop) {
 			expect((NSUInteger)delta.type).to.equal(GTDiffFileDeltaRenamed);
 			expect(delta.oldFile.path).to.equal(@"README");
 			expect(delta.newFile.path).to.equal(@"README_renamed");
+			*stop = YES;
+		}];
+	});
+	
+	it(@"should correctly pass options to libgit2", ^{
+		NSDictionary *options = @{ GTDiffOptionsContextLinesKey: @(5) };
+		setupDiffFromCommitSHAsAndOptions(@"be0f001ff517a00b5b8e3c29ee6561e70f994e17", @"fe89ea0a8e70961b8a6344d9660c326d3f2eb0fe", options);
+		expect(diff.deltaCount).to.equal(1);
+		[diff enumerateDeltasUsingBlock:^(GTDiffDelta *delta, BOOL *stop) {
+			expect(delta.hunkCount).to.equal(1);
+			[delta enumerateHunksWithBlock:^(GTDiffHunk *hunk, BOOL *stop) {
+				__block NSUInteger contextCount = 0;
+				[hunk enumerateLinesInHunkUsingBlock:^(NSString *lineContent, NSUInteger oldLineNumber, NSUInteger newLineNumber, GTDiffHunkLineOrigin lineOrigin, BOOL *stop) {
+					if (lineOrigin == GTDiffHunkLineOriginContext) contextCount ++;
+				}];
+				expect(contextCount).to.equal(10);
+				*stop = YES;
+			}];
 			*stop = YES;
 		}];
 	});
