@@ -122,7 +122,7 @@ extern NSString *const GTDiffFindOptionsBreakRewriteThresholdKey;
 // Defaults to 200.
 extern NSString *const GTDiffFindOptionsTargetLimitKey;
 
-// Enum for options passed into `-findSimilar`.
+// Enum for options passed into `-findSimilarWithOptions:`.
 //
 // For individual case documentation see `diff.h`.
 typedef enum : git_diff_find_t {
