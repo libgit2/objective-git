@@ -10,17 +10,6 @@
 
 @class GTDiffDelta;
 
-// A character representing the origin of a given line.
-//
-// See diff.h for individual documentation.
-typedef enum : git_diff_line_t {
-	GTDiffHunkLineOriginContext = GIT_DIFF_LINE_CONTEXT,
-	GTDiffHunkLineOriginAddition = GIT_DIFF_LINE_ADDITION,
-	GTDiffHunkLineOriginDeletion = GIT_DIFF_LINE_DELETION,
-	GTDiffHunkLineOriginAddEOFNewLine = GIT_DIFF_LINE_ADD_EOFNL,
-	GTDiffHunkLineOriginDeleteEOFNewLine = GIT_DIFF_LINE_DEL_EOFNL,
-} GTDiffHunkLineOrigin;
-
 // A class representing a hunk within a diff delta.
 @interface GTDiffHunk : NSObject
 
