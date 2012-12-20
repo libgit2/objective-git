@@ -19,13 +19,22 @@ typedef enum : git_diff_line_t {
 	GTDiffLineOriginDeleteEOFNewLine = GIT_DIFF_LINE_DEL_EOFNL,
 } GTDiffLineOrigin;
 
+// Represents an individual line in a diff hunk.
 @interface GTDiffLine : NSObject
 
+// The content string of the line.
 @property (nonatomic, readonly) NSString *content;
+
+// The line number of this line in the left side of the diff.
 @property (nonatomic, readonly) NSUInteger oldLineNumber;
+
+// The line number of this line in the right side of the diff.
 @property (nonatomic, readonly) NSUInteger newLineNumber;
+
+// The origin of the line, see the enum above for possible values.
 @property (nonatomic, readonly) GTDiffLineOrigin origin;
 
+// Designated initialiser.
 - (instancetype)initWithContent:(NSString *)content oldLineNumber:(NSUInteger)oldLineNumber newLineNumber:(NSUInteger)newLineNumber origin:(GTDiffLineOrigin)origin;
 
 @end
