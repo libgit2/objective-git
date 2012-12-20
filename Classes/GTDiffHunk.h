@@ -9,6 +9,7 @@
 #import "git2.h"
 
 @class GTDiffDelta;
+@class GTDiffLine;
 
 // A class representing a hunk within a diff delta.
 @interface GTDiffHunk : NSObject
@@ -31,6 +32,6 @@
 //
 // block - A block to execute on each line. Setting `stop` to `NO` will
 //         immediately stop the enumeration and return from the method.
-- (void)enumerateLinesInHunkUsingBlock:(void (^)(NSString *lineContent, NSUInteger oldLineNumber, NSUInteger newLineNumber, GTDiffHunkLineOrigin lineOrigin, BOOL *stop))block;
+- (void)enumerateLinesInHunkUsingBlock:(void (^)(GTDiffLine *line, BOOL *stop))block;
 
 @end

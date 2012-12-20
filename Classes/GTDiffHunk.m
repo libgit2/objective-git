@@ -9,6 +9,7 @@
 #import "GTDiffHunk.h"
 
 #import "GTDiffDelta.h"
+#import "GTDiffLine.h"
 
 @interface GTDiffHunk ()
 
@@ -38,7 +39,7 @@
 	return self;
 }
 
-- (void)enumerateLinesInHunkUsingBlock:(void (^)(NSString *lineContent, NSUInteger oldLineNumber, NSUInteger newLineNumber, GTDiffHunkLineOrigin lineOrigin, BOOL *stop))block {
+- (void)enumerateLinesInHunkUsingBlock:(void (^)(GTDiffLine *line, BOOL *stop))block {
 	NSParameterAssert(block != nil);
 	
 	for (NSUInteger idx = 0; idx < self.lineCount; idx ++) {
@@ -51,8 +52,9 @@
 		if (result != GIT_OK) continue;
 		
 		NSString *lineString = [[[NSString alloc] initWithBytes:content length:contentLength encoding:NSUTF8StringEncoding] stringByTrimmingCharactersInSet:NSCharacterSet.newlineCharacterSet];
+		GTDiffLine *line = [[GTDiffLine alloc] initWithContent:lineString oldLineNumber:(NSUInteger)oldLineNumber newLineNumber:(NSUInteger)newLineNumber origin:lineOrigin];
 		BOOL stop = NO;
-		block(lineString, (NSUInteger)oldLineNumber, (NSUInteger)newLineNumber, lineOrigin, &stop);
+		block(line, &stop);
 		if (stop) return;
 	}
 }
