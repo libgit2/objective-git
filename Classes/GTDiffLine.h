@@ -26,15 +26,19 @@ typedef enum : git_diff_line_t {
 @property (nonatomic, readonly) NSString *content;
 
 // The line number of this line in the left side of the diff.
-@property (nonatomic, readonly) NSUInteger oldLineNumber;
+//
+// -1 if the line is an addition.
+@property (nonatomic, readonly) NSInteger oldLineNumber;
 
 // The line number of this line in the right side of the diff.
-@property (nonatomic, readonly) NSUInteger newLineNumber;
+//
+// -1 if the line is a deletion.
+@property (nonatomic, readonly) NSInteger newLineNumber;
 
 // The origin of the line, see the enum above for possible values.
 @property (nonatomic, readonly) GTDiffLineOrigin origin;
 
 // Designated initialiser.
-- (instancetype)initWithContent:(NSString *)content oldLineNumber:(NSUInteger)oldLineNumber newLineNumber:(NSUInteger)newLineNumber origin:(GTDiffLineOrigin)origin;
+- (instancetype)initWithContent:(NSString *)content oldLineNumber:(NSInteger)oldLineNumber newLineNumber:(NSInteger)newLineNumber origin:(GTDiffLineOrigin)origin;
 
 @end

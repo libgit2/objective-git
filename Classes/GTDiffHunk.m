@@ -52,7 +52,7 @@
 		if (result != GIT_OK) continue;
 		
 		NSString *lineString = [[[NSString alloc] initWithBytes:content length:contentLength encoding:NSUTF8StringEncoding] stringByTrimmingCharactersInSet:NSCharacterSet.newlineCharacterSet];
-		GTDiffLine *line = [[GTDiffLine alloc] initWithContent:lineString oldLineNumber:(NSUInteger)oldLineNumber newLineNumber:(NSUInteger)newLineNumber origin:lineOrigin];
+		GTDiffLine *line = [[GTDiffLine alloc] initWithContent:lineString oldLineNumber:oldLineNumber newLineNumber:newLineNumber origin:lineOrigin];
 		BOOL stop = NO;
 		block(line, &stop);
 		if (stop) return;

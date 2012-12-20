@@ -10,7 +10,7 @@
 
 @implementation GTDiffLine
 
-- (instancetype)initWithContent:(NSString *)content oldLineNumber:(NSUInteger)oldLineNumber newLineNumber:(NSUInteger)newLineNumber origin:(GTDiffLineOrigin)origin {
+- (instancetype)initWithContent:(NSString *)content oldLineNumber:(NSInteger)oldLineNumber newLineNumber:(NSInteger)newLineNumber origin:(GTDiffLineOrigin)origin {
 	self = [super init];
 	if (self == nil) return nil;
 	
