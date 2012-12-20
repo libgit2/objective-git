@@ -51,6 +51,7 @@
 #import <ObjectiveGit/GTDiffDelta.h>
 #import <ObjectiveGit/GTDiffFile.h>
 #import <ObjectiveGit/GTDiffHunk.h>
+#import <ObjectiveGit/GTDiffLine.h>
 
 // This must be called before doing any ObjectiveGit work.  Under normal
 // circumstances, it will automatically be called on your behalf.
