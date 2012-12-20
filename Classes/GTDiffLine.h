@@ -23,8 +23,9 @@ typedef enum : git_diff_line_t {
 
 @property (nonatomic, readonly) NSString *content;
 @property (nonatomic, readonly) NSUInteger oldLineNumber;
+@property (nonatomic, readonly) NSUInteger newLineNumber;
 @property (nonatomic, readonly) GTDiffLineOrigin origin;
 
-- (instancetype)initWithContent:(NSString *)content oldLineNumber:(NSUInteger)oldLineNumber origin:(GTDiffLineOrigin)origin;
+- (instancetype)initWithContent:(NSString *)content oldLineNumber:(NSUInteger)oldLineNumber newLineNumber:(NSUInteger)newLineNumber origin:(GTDiffLineOrigin)origin;
 
 @end
