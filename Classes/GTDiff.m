@@ -55,7 +55,7 @@ NSString *const GTDiffFindOptionsTargetLimitKey = @"GTDiffFindOptionsTargetLimit
 	return YES;
 }
 
-+ (GTDiff *)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree options:(NSDictionary *)options {
++ (GTDiff *)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree options:(NSDictionary *)options error:(NSError **)error {
 	NSParameterAssert([oldTree.repository isEqualTo:newTree.repository]);
 	
 	git_diff_options optionsStruct = GIT_DIFF_OPTIONS_INIT;
@@ -68,7 +68,7 @@ NSString *const GTDiffFindOptionsTargetLimitKey = @"GTDiffFindOptionsTargetLimit
 	return newDiff;
 }
 
-+ (GTDiff *)diffIndexFromTree:(GTTree *)tree options:(NSDictionary *)options {
++ (GTDiff *)diffIndexFromTree:(GTTree *)tree options:(NSDictionary *)options error:(NSError **)error {
 	NSParameterAssert(tree != nil);
 	
 	git_diff_options optionsStruct = GIT_DIFF_OPTIONS_INIT;
@@ -81,7 +81,7 @@ NSString *const GTDiffFindOptionsTargetLimitKey = @"GTDiffFindOptionsTargetLimit
 	return newDiff;
 }
 
-+ (GTDiff *)diffIndexToWorkingDirectoryInRepository:(GTRepository *)repository options:(NSDictionary *)options {
++ (GTDiff *)diffIndexToWorkingDirectoryInRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error {
 	NSParameterAssert(repository != nil);
 	
 	git_diff_options optionsStruct = GIT_DIFF_OPTIONS_INIT;
@@ -94,7 +94,7 @@ NSString *const GTDiffFindOptionsTargetLimitKey = @"GTDiffFindOptionsTargetLimit
 	return newDiff;
 }
 
-+ (GTDiff *)diffWorkingDirectoryFromTree:(GTTree *)tree options:(NSDictionary *)options {
++ (GTDiff *)diffWorkingDirectoryFromTree:(GTTree *)tree options:(NSDictionary *)options error:(NSError **)error {
 	NSParameterAssert(tree != nil);
 	
 	git_diff_options optionsStruct = GIT_DIFF_OPTIONS_INIT;

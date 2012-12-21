@@ -153,9 +153,11 @@ typedef enum : git_diff_find_t {
 // newTree - The "right" side of the diff.
 // options - A dictionary containing any of the above options key constants, or
 //           nil to use the defaults.
+// error   - Populated with an `NSError` object on error, if information is
+//           available.
 //
 // Returns a newly created `GTDiff` object or nil on error.
-+ (GTDiff *)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree options:(NSDictionary *)options;
++ (GTDiff *)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree options:(NSDictionary *)options error:(NSError **)error;
 
 // Create a diff between a repository's current index.
 //
@@ -169,9 +171,11 @@ typedef enum : git_diff_find_t {
 //           repository. The left side of the diff.
 // options - A dictionary containing any of the above options key constants, or
 //           nil to use the defaults.
+// error   - Populated with an `NSError` object on error, if information is
+//           available.
 //
 // Returns a newly created `GTDiff` object or nil on error.
-+ (GTDiff *)diffIndexFromTree:(GTTree *)tree options:(NSDictionary *)options;
++ (GTDiff *)diffIndexFromTree:(GTTree *)tree options:(NSDictionary *)options error:(NSError **)error;
 
 // Create a diff between the index and working directory in a given repository.
 //
@@ -180,18 +184,22 @@ typedef enum : git_diff_find_t {
 // repository - The repository to be used for the diff.
 // options    - A dictionary containing any of the above options key constants,
 //              or nil to use the defaults.
+// error   - Populated with an `NSError` object on error, if information is
+//           available.
 //
 // Returns a newly created `GTDiff` object or nil on error.
-+ (GTDiff *)diffIndexToWorkingDirectoryInRepository:(GTRepository *)repository options:(NSDictionary *)options;
++ (GTDiff *)diffIndexToWorkingDirectoryInRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error;
 
 // Create a diff between a repository's working directory and a tree.
 //
 // tree    - The tree to be diffed. The tree will be the left side of the diff.
 // options - A dictionary containing any of the above options key constants, or
 //           nil to use the defaults.
+// error   - Populated with an `NSError` object on error, if information is
+//           available.
 //
 // Returns a newly created `GTDiff` object or nil on error.
-+ (GTDiff *)diffWorkingDirectoryFromTree:(GTTree *)tree options:(NSDictionary *)options;
++ (GTDiff *)diffWorkingDirectoryFromTree:(GTTree *)tree options:(NSDictionary *)options error:(NSError **)error;
 
 // Designated initialiser.
 - (instancetype)initWithGitDiffList:(git_diff_list *)diffList;
