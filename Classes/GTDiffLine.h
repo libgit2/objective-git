@@ -23,7 +23,7 @@ typedef enum : git_diff_line_t {
 @interface GTDiffLine : NSObject
 
 // The content string of the line.
-@property (nonatomic, readonly) NSString *content;
+@property (nonatomic, readonly, copy) NSString *content;
 
 // The line number of this line in the left side of the diff.
 //
