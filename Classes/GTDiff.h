@@ -184,8 +184,8 @@ typedef enum : git_diff_find_t {
 // repository - The repository to be used for the diff.
 // options    - A dictionary containing any of the above options key constants,
 //              or nil to use the defaults.
-// error   - Populated with an `NSError` object on error, if information is
-//           available.
+// error      - Populated with an `NSError` object on error, if information is
+//              available.
 //
 // Returns a newly created `GTDiff` object or nil on error.
 + (GTDiff *)diffIndexToWorkingDirectoryInRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error;
