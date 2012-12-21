@@ -12,6 +12,8 @@
 #import "GTRepository.h"
 #import "GTTree.h"
 
+#import "NSError+Git.h"
+
 NSString *const GTDiffOptionsFlagsKey = @"GTDiffOptionsFlagsKey";
 NSString *const GTDiffOptionsContextLinesKey = @"GTDiffOptionsContextLinesKey";
 NSString *const GTDiffOptionsInterHunkLinesKey = @"GTDiffOptionsInterHunkLinesKey";
@@ -55,53 +57,65 @@ NSString *const GTDiffFindOptionsTargetLimitKey = @"GTDiffFindOptionsTargetLimit
 	return YES;
 }
 
-+ (GTDiff *)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree options:(NSDictionary *)options {
++ (GTDiff *)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree options:(NSDictionary *)options error:(NSError **)error {
 	NSParameterAssert([oldTree.repository isEqualTo:newTree.repository]);
 	
 	git_diff_options optionsStruct = GIT_DIFF_OPTIONS_INIT;
 	BOOL optionsStructCreated = [self optionsStructFromDictionary:options optionsStruct:&optionsStruct];
 	git_diff_list *diffList;
 	int returnValue = git_diff_tree_to_tree(&diffList, oldTree.repository.git_repository, oldTree.git_tree, newTree.git_tree, (optionsStructCreated ? &optionsStruct : NULL));
-	if (returnValue != GIT_OK) return nil;
+	if (returnValue != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:returnValue withAdditionalDescription:@"Failed to create diff."];
+		return nil;
+	}
 	
 	GTDiff *newDiff = [[GTDiff alloc] initWithGitDiffList:diffList];
 	return newDiff;
 }
 
-+ (GTDiff *)diffIndexFromTree:(GTTree *)tree options:(NSDictionary *)options {
++ (GTDiff *)diffIndexFromTree:(GTTree *)tree options:(NSDictionary *)options error:(NSError **)error {
 	NSParameterAssert(tree != nil);
 	
 	git_diff_options optionsStruct = GIT_DIFF_OPTIONS_INIT;
 	BOOL optionsStructCreated = [self optionsStructFromDictionary:options optionsStruct:&optionsStruct];
 	git_diff_list *diffList;
 	int returnValue = git_diff_tree_to_index(&diffList, tree.repository.git_repository, tree.git_tree, NULL, (optionsStructCreated ? &optionsStruct : NULL));
-	if (returnValue != GIT_OK) return nil;
+	if (returnValue != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:returnValue withAdditionalDescription:@"Failed to create diff."];
+		return nil;
+	}
 	
 	GTDiff *newDiff = [[GTDiff alloc] initWithGitDiffList:diffList];
 	return newDiff;
 }
 
-+ (GTDiff *)diffIndexToWorkingDirectoryInRepository:(GTRepository *)repository options:(NSDictionary *)options {
++ (GTDiff *)diffIndexToWorkingDirectoryInRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error {
 	NSParameterAssert(repository != nil);
 	
 	git_diff_options optionsStruct = GIT_DIFF_OPTIONS_INIT;
 	BOOL optionsStructCreated = [self optionsStructFromDictionary:options optionsStruct:&optionsStruct];
 	git_diff_list *diffList;
 	int returnValue = git_diff_index_to_workdir(&diffList, repository.git_repository, NULL, (optionsStructCreated ? &optionsStruct : NULL));
-	if (returnValue != GIT_OK) return nil;
+	if (returnValue != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:returnValue withAdditionalDescription:@"Failed to create diff."];
+		return nil;
+	}
 	
 	GTDiff *newDiff = [[GTDiff alloc] initWithGitDiffList:diffList];
 	return newDiff;
 }
 
-+ (GTDiff *)diffWorkingDirectoryFromTree:(GTTree *)tree options:(NSDictionary *)options {
++ (GTDiff *)diffWorkingDirectoryFromTree:(GTTree *)tree options:(NSDictionary *)options error:(NSError **)error {
 	NSParameterAssert(tree != nil);
 	
 	git_diff_options optionsStruct = GIT_DIFF_OPTIONS_INIT;
 	BOOL optionsStructCreated = [self optionsStructFromDictionary:options optionsStruct:&optionsStruct];
 	git_diff_list *diffList;
 	int returnValue = git_diff_tree_to_workdir(&diffList, tree.repository.git_repository, tree.git_tree, (optionsStructCreated ? &optionsStruct : NULL));
-	if (returnValue != GIT_OK) return nil;
+	if (returnValue != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:returnValue withAdditionalDescription:@"Failed to create diff."];
+		return nil;
+	}
 	
 	GTDiff *newDiff = [[GTDiff alloc] initWithGitDiffList:diffList];
 	return newDiff;

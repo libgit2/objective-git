@@ -28,19 +28,19 @@ describe(@"GTDiff initialisation", ^{
 	});
 	
 	it(@"should be able to initialise a diff from 2 trees", ^{
-		expect([GTDiff diffOldTree:firstCommit.tree withNewTree:secondCommit.tree options:nil]).toNot.beNil();
+		expect([GTDiff diffOldTree:firstCommit.tree withNewTree:secondCommit.tree options:nil error:NULL]).toNot.beNil();
 	});
 	
 	it(@"should be able to initialise a diff against the index with a tree", ^{
-		expect([GTDiff diffIndexFromTree:secondCommit.tree options:nil]).toNot.beNil();
+		expect([GTDiff diffIndexFromTree:secondCommit.tree options:nil error:NULL]).toNot.beNil();
 	});
 	
 	it(@"should be able to initialise a diff against a working directory and a tree", ^{
-		expect([GTDiff diffWorkingDirectoryFromTree:firstCommit.tree options:nil]).toNot.beNil();
+		expect([GTDiff diffWorkingDirectoryFromTree:firstCommit.tree options:nil error:NULL]).toNot.beNil();
 	});
 	
 	it(@"should be able to initialse a diff against an index from a repo's working directory", ^{
-		expect([GTDiff diffIndexToWorkingDirectoryInRepository:repository options:nil]).toNot.beNil();
+		expect([GTDiff diffIndexToWorkingDirectoryInRepository:repository options:nil error:NULL]).toNot.beNil();
 	});
 });
 
@@ -60,7 +60,7 @@ describe(@"GTDiff diffing", ^{
 			secondCommit = (GTCommit *)[repository lookupObjectBySha:secondCommitSHA objectType:GTObjectTypeCommit error:NULL];
 			expect(secondCommit).toNot.beNil();
 			
-			diff = [GTDiff diffOldTree:firstCommit.tree withNewTree:secondCommit.tree options:options];
+			diff = [GTDiff diffOldTree:firstCommit.tree withNewTree:secondCommit.tree options:options error:NULL];
 			expect(diff).toNot.beNil();
 		} copy];
 	});
