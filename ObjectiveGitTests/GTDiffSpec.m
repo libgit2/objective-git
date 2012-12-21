@@ -93,14 +93,14 @@ describe(@"GTDiff diffing", ^{
 				NSUInteger subtractionLine = 3;
 				NSUInteger additionLine = 4;
 				__block NSUInteger lineIndex = 0;
-				[hunk enumerateLinesInHunkUsingBlock:^(NSString *lineContent, NSUInteger oldLineNumber, NSUInteger newLineNumber, GTDiffHunkLineOrigin lineOrigin, BOOL *stop) {
-					expect(lineContent).to.equal(expectedLines[lineIndex]);
+				[hunk enumerateLinesInHunkUsingBlock:^(GTDiffLine *line, BOOL *stop) {
+					expect(line.content).to.equal(expectedLines[lineIndex]);
 					if (lineIndex == subtractionLine) {
-						expect((NSUInteger)lineOrigin).to.equal(GTDiffHunkLineOriginDeletion);
+						expect((NSUInteger)line.origin).to.equal(GTDiffLineOriginDeletion);
 					} else if (lineIndex == additionLine) {
-						expect((NSUInteger)lineOrigin).to.equal(GTDiffHunkLineOriginAddition);
+						expect((NSUInteger)line.origin).to.equal(GTDiffLineOriginAddition);
 					} else {
-						expect((NSUInteger)lineOrigin).to.equal(GTDiffHunkLineOriginContext);
+						expect((NSUInteger)line.origin).to.equal(GTDiffLineOriginContext);
 					}
 					
 					lineIndex ++;
@@ -162,8 +162,8 @@ describe(@"GTDiff diffing", ^{
 			expect(delta.hunkCount).to.equal(1);
 			[delta enumerateHunksWithBlock:^(GTDiffHunk *hunk, BOOL *stop) {
 				__block NSUInteger contextCount = 0;
-				[hunk enumerateLinesInHunkUsingBlock:^(NSString *lineContent, NSUInteger oldLineNumber, NSUInteger newLineNumber, GTDiffHunkLineOrigin lineOrigin, BOOL *stop) {
-					if (lineOrigin == GTDiffHunkLineOriginContext) contextCount ++;
+				[hunk enumerateLinesInHunkUsingBlock:^(GTDiffLine *line, BOOL *stop) {
+					if (line.origin == GTDiffLineOriginContext) contextCount ++;
 				}];
 				expect(contextCount).to.equal(10);
 				*stop = YES;

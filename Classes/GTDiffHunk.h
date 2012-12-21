@@ -9,17 +9,7 @@
 #import "git2.h"
 
 @class GTDiffDelta;
-
-// A character representing the origin of a given line.
-//
-// See diff.h for individual documentation.
-typedef enum : git_diff_line_t {
-	GTDiffHunkLineOriginContext = GIT_DIFF_LINE_CONTEXT,
-	GTDiffHunkLineOriginAddition = GIT_DIFF_LINE_ADDITION,
-	GTDiffHunkLineOriginDeletion = GIT_DIFF_LINE_DELETION,
-	GTDiffHunkLineOriginAddEOFNewLine = GIT_DIFF_LINE_ADD_EOFNL,
-	GTDiffHunkLineOriginDeleteEOFNewLine = GIT_DIFF_LINE_DEL_EOFNL,
-} GTDiffHunkLineOrigin;
+@class GTDiffLine;
 
 // A class representing a hunk within a diff delta.
 @interface GTDiffHunk : NSObject
@@ -42,6 +32,6 @@ typedef enum : git_diff_line_t {
 //
 // block - A block to execute on each line. Setting `stop` to `NO` will
 //         immediately stop the enumeration and return from the method.
-- (void)enumerateLinesInHunkUsingBlock:(void (^)(NSString *lineContent, NSUInteger oldLineNumber, NSUInteger newLineNumber, GTDiffHunkLineOrigin lineOrigin, BOOL *stop))block;
+- (void)enumerateLinesInHunkUsingBlock:(void (^)(GTDiffLine *line, BOOL *stop))block;
 
 @end
