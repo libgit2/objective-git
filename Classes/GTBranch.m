@@ -131,7 +131,12 @@
 }
 
 - (GTCommit *)targetCommitAndReturnError:(NSError **)error {
-    return (GTCommit *)[self.repository lookupObjectBySha:self.sha error:error];
+	if (self.sha == nil) {
+		if (error != NULL) *error = GTReference.invalidReferenceError;
+		return nil;
+	}
+
+	return (GTCommit *)[self.repository lookupObjectBySha:self.sha objectType:GTObjectTypeCommit error:error];
 }
 
 - (NSUInteger)numberOfCommitsWithError:(NSError **)error {
