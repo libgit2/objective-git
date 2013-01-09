@@ -57,7 +57,7 @@ NSString *const GTDiffFindOptionsTargetLimitKey = @"GTDiffFindOptionsTargetLimit
 	
 	NSArray *pathSpec = dictionary[GTDiffOptionsPathSpecArrayKey];
 	if (pathSpec != nil) {
-		char *cStrings[pathSpec.count];
+		char **cStrings = malloc(sizeof(*cStrings) * pathSpec.count);
 		for (NSUInteger idx = 0; idx < pathSpec.count; idx ++) {
 			cStrings[idx] = (char *)[pathSpec[idx] cStringUsingEncoding:NSUTF8StringEncoding];
 		}
