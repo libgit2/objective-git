@@ -55,6 +55,17 @@ NSString *const GTDiffFindOptionsTargetLimitKey = @"GTDiffFindOptionsTargetLimit
 	NSNumber *maxSizeNumber = dictionary[GTDiffOptionsMaxSizeKey];
 	if (maxSizeNumber != nil) newOptions->max_size = (uint16_t)maxSizeNumber.unsignedIntegerValue;
 	
+	NSArray *pathSpec = dictionary[GTDiffOptionsPathSpecArrayKey];
+	if (pathSpec != nil) {
+		char *cStrings[pathSpec.count];
+		for (NSUInteger idx = 0; idx < pathSpec.count; idx ++) {
+			cStrings[idx] = (char *)[pathSpec[idx] cStringUsingEncoding:NSUTF8StringEncoding];
+		}
+		
+		git_strarray optionsPathSpec = {.strings = cStrings, .count = pathSpec.count};
+		newOptions->pathspec = optionsPathSpec;
+	}
+	
 	return YES;
 }
 
