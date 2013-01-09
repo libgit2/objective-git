@@ -176,6 +176,10 @@ describe(@"GTDiff diffing", ^{
 		NSDictionary *options = @{ GTDiffOptionsPathSpecArrayKey: @[ @"ladflbahjgdf" ] };
 		setupDiffFromCommitSHAsAndOptions(@"be0f001ff517a00b5b8e3c29ee6561e70f994e17", @"fe89ea0a8e70961b8a6344d9660c326d3f2eb0fe", options);
 		expect(diff.deltaCount).to.equal(0);
+		
+		options = @{ GTDiffOptionsPathSpecArrayKey: @[ @"TestAppWindowController.h" ] };
+		setupDiffFromCommitSHAsAndOptions(@"be0f001ff517a00b5b8e3c29ee6561e70f994e17", @"fe89ea0a8e70961b8a6344d9660c326d3f2eb0fe", options);
+		expect(diff.deltaCount).to.equal(1);
 	});
 });
 
