@@ -20,6 +20,7 @@ NSString *const GTDiffOptionsInterHunkLinesKey = @"GTDiffOptionsInterHunkLinesKe
 NSString *const GTDiffOptionsOldPrefixKey = @"GTDiffOptionsOldPrefixKey";
 NSString *const GTDiffOptionsNewPrefixKey = @"GTDiffOptionsNewPrefixKey";
 NSString *const GTDiffOptionsMaxSizeKey = @"GTDiffOptionsMaxSizeKey";
+NSString *const GTDiffOptionsPathSpecArrayKey = @"GTDiffOptionsPathSpecArrayKey";
 
 NSString *const GTDiffFindOptionsFlagsKey = @"GTDiffFindOptionsFlagsKey";
 NSString *const GTDiffFindOptionsRenameThresholdKey = @"GTDiffFindOptionsRenameThresholdKey";

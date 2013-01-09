@@ -46,6 +46,15 @@ extern NSString *const GTDiffOptionsNewPrefixKey;
 // Defaults to 512MB.
 extern NSString *const GTDiffOptionsMaxSizeKey;
 
+// An `NSArray` of `NSString`s representing either a local path or fnmatch
+// pattern.
+//
+// The diff will only contain the files or patterns included in this options
+// array.
+//
+// Defaults to including all files.
+extern NSString *const GTDiffOptionsPathSpecArrayKey;
+
 // Enum for use as documented in the options dictionary with the
 // `GTDiffOptionsFlagsKey` key.
 //
