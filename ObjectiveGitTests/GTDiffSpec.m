@@ -171,6 +171,33 @@ describe(@"GTDiff diffing", ^{
 			*stop = YES;
 		}];
 	});
+	
+	it(@"should correctly recognise binary and text files", ^{
+		setupDiffFromCommitSHAsAndOptions(@"6b0c1c8b8816416089c534e474f4c692a76ac14f", @"a4bca6b67a5483169963572ee3da563da33712f7", nil);
+		expect(diff.deltaCount).to.equal(3);
+		
+		NSDictionary *expectedBinaryness = @{ @"README.md": @(NO), @"hero_slide1.png": @(YES), @"jquery-1.8.1.min.js": @(NO) };
+		[diff enumerateDeltasUsingBlock:^(GTDiffDelta *delta, BOOL *stop) {
+			BOOL expectedBinary = [expectedBinaryness[delta.newFile.path] boolValue];
+			expect(delta.binary).to.equal(expectedBinary);
+		}];
+	});
+	
+	it(@"shouldn't choke on totally cray diffs", ^{
+		setupDiffFromCommitSHAsAndOptions(@"6b0c1c8b8816416089c534e474f4c692a76ac14f", @"a4bca6b67a5483169963572ee3da563da33712f7", nil);
+		
+		[diff enumerateDeltasUsingBlock:^(GTDiffDelta *delta, BOOL *stop) {
+			if (![delta.newFile.path isEqualToString:@"jquery-1.8.1.min.js"]) return;
+			
+			expect(delta.hunkCount).to.equal(1);
+			[delta enumerateHunksWithBlock:^(GTDiffHunk *hunk, BOOL *stop) {
+				expect(hunk.lineCount).to.equal(3);
+				*stop = YES;
+			}];
+			
+			*stop = YES;
+		}];
+	});
 });
 
 SpecEnd
