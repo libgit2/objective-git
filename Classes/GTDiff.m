@@ -69,6 +69,10 @@ NSString *const GTDiffFindOptionsTargetLimitKey = @"GTDiffFindOptionsTargetLimit
 	return YES;
 }
 
++ (void)freeOptionsStruct:(git_diff_options *)options {	
+	free(options->pathspec.strings);
+}
+
 + (GTDiff *)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree options:(NSDictionary *)options error:(NSError **)error {
 	NSParameterAssert([oldTree.repository isEqualTo:newTree.repository]);
 	
@@ -76,6 +80,7 @@ NSString *const GTDiffFindOptionsTargetLimitKey = @"GTDiffFindOptionsTargetLimit
 	BOOL optionsStructCreated = [self optionsStructFromDictionary:options optionsStruct:&optionsStruct];
 	git_diff_list *diffList;
 	int returnValue = git_diff_tree_to_tree(&diffList, oldTree.repository.git_repository, oldTree.git_tree, newTree.git_tree, (optionsStructCreated ? &optionsStruct : NULL));
+	[self freeOptionsStruct:&optionsStruct];
 	if (returnValue != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:returnValue withAdditionalDescription:@"Failed to create diff."];
 		return nil;
@@ -92,6 +97,7 @@ NSString *const GTDiffFindOptionsTargetLimitKey = @"GTDiffFindOptionsTargetLimit
 	BOOL optionsStructCreated = [self optionsStructFromDictionary:options optionsStruct:&optionsStruct];
 	git_diff_list *diffList;
 	int returnValue = git_diff_tree_to_index(&diffList, tree.repository.git_repository, tree.git_tree, NULL, (optionsStructCreated ? &optionsStruct : NULL));
+	[self freeOptionsStruct:&optionsStruct];
 	if (returnValue != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:returnValue withAdditionalDescription:@"Failed to create diff."];
 		return nil;
@@ -108,6 +114,7 @@ NSString *const GTDiffFindOptionsTargetLimitKey = @"GTDiffFindOptionsTargetLimit
 	BOOL optionsStructCreated = [self optionsStructFromDictionary:options optionsStruct:&optionsStruct];
 	git_diff_list *diffList;
 	int returnValue = git_diff_index_to_workdir(&diffList, repository.git_repository, NULL, (optionsStructCreated ? &optionsStruct : NULL));
+	[self freeOptionsStruct:&optionsStruct];
 	if (returnValue != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:returnValue withAdditionalDescription:@"Failed to create diff."];
 		return nil;
@@ -124,6 +131,7 @@ NSString *const GTDiffFindOptionsTargetLimitKey = @"GTDiffFindOptionsTargetLimit
 	BOOL optionsStructCreated = [self optionsStructFromDictionary:options optionsStruct:&optionsStruct];
 	git_diff_list *diffList;
 	int returnValue = git_diff_tree_to_workdir(&diffList, tree.repository.git_repository, tree.git_tree, (optionsStructCreated ? &optionsStruct : NULL));
+	[self freeOptionsStruct:&optionsStruct];
 	if (returnValue != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:returnValue withAdditionalDescription:@"Failed to create diff."];
 		return nil;
