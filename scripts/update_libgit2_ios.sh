@@ -19,7 +19,12 @@ fi
 mkdir build
 cd build
 
-cmake -DCMAKE_C_COMPILER_WORKS:BOOL=ON -DBUILD_SHARED_LIBS:BOOL=OFF -DCMAKE_C_COMPILER=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/llvm-gcc-4.2/bin/llvm-gcc-4.2 -DCMAKE_OSX_ARCHITECTURES:STRING=armv7 -DCMAKE_OSX_SYSROOT=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS${ios_version}.sdk/ ..
+cmake -DCMAKE_C_COMPILER_WORKS:BOOL=ON \
+      -DBUILD_SHARED_LIBS:BOOL=OFF \
+      -DCMAKE_C_COMPILER=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/llvm-gcc-4.2/bin/llvm-gcc-4.2 \
+      -DCMAKE_OSX_ARCHITECTURES:STRING=armv7 \
+      -DCMAKE_OSX_SYSROOT=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS${ios_version}.sdk/ \
+      ..
 cmake --build .
 
 product="libgit2.a"
@@ -39,7 +44,12 @@ fi
 mkdir build
 cd build
 
-cmake -DCMAKE_C_COMPILER_WORKS:BOOL=ON -DBUILD_SHARED_LIBS:BOOL=OFF -DCMAKE_C_COMPILER=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/llvm-gcc-4.2/bin/llvm-gcc-4.2 -DCMAKE_OSX_ARCHITECTURES:STRING=i386 -DCMAKE_OSX_SYSROOT=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator${ios_version}.sdk/ ..
+cmake -DCMAKE_C_COMPILER_WORKS:BOOL=ON \
+      -DBUILD_SHARED_LIBS:BOOL=OFF \
+      -DCMAKE_C_COMPILER=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/llvm-gcc-4.2/bin/llvm-gcc-4.2 \
+      -DCMAKE_OSX_ARCHITECTURES:STRING=i386 \
+      -DCMAKE_OSX_SYSROOT=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator${ios_version}.sdk/ \
+      ..
 cmake --build .
 
 product="libgit2.a"
