@@ -3,7 +3,7 @@
 	url = git://github.com/libgit2/libgit2.git
 [submodule "ObjectiveGitTests/specta"]
 	path = ObjectiveGitTests/specta
-	url = git://github.com/petejkim/specta.git
+	url = git://github.com/github/specta.git
 [submodule "ObjectiveGitTests/expecta"]
 	path = ObjectiveGitTests/expecta
-	url = git://github.com/petejkim/expecta.git
+	url = git://github.com/github/expecta.git
