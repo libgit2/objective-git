@@ -24,6 +24,7 @@ cmake -DCMAKE_C_COMPILER_WORKS:BOOL=ON \
       -DCMAKE_C_COMPILER=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/llvm-gcc-4.2/bin/llvm-gcc-4.2 \
       -DOPENSSL_SSL_LIBRARY:FILEPATH= \
       -DOPENSSL_CRYPTO_LIBRARY:FILEPATH= \
+      -DCMAKE_OSX_DEPLOYMENT_TARGET:STRING= \
       -DCMAKE_OSX_ARCHITECTURES:STRING=armv7 \
       -DCMAKE_OSX_SYSROOT=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS${ios_version}.sdk/ \
       ..
@@ -51,6 +52,7 @@ cmake -DCMAKE_C_COMPILER_WORKS:BOOL=ON \
       -DCMAKE_C_COMPILER=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/llvm-gcc-4.2/bin/llvm-gcc-4.2 \
       -DOPENSSL_SSL_LIBRARY:FILEPATH= \
       -DOPENSSL_CRYPTO_LIBRARY:FILEPATH= \
+      -DCMAKE_OSX_DEPLOYMENT_TARGET:STRING= \
       -DCMAKE_OSX_ARCHITECTURES:STRING=i386 \
       -DCMAKE_OSX_SYSROOT=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator${ios_version}.sdk/ \
       ..
