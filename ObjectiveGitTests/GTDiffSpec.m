@@ -208,6 +208,18 @@ describe(@"GTDiff diffing", ^{
 			*stop = YES;
 		}];
 	});
+	
+	it(@"should correctly find untracked files if asked", ^{
+		diff = [GTDiff diffIndexToWorkingDirectoryInRepository:repository options:@{ GTDiffOptionsFlagsKey: @(GTDiffOptionsFlagsIncludeUntracked) } error:NULL];
+		__block BOOL foundImage = NO;
+		[diff enumerateDeltasUsingBlock:^(GTDiffDelta *delta, BOOL *stop) {
+			if (![delta.newFile.path isEqualToString:@"UntrackedImage.png"]) return;
+			foundImage = YES;			
+			*stop = YES;
+		}];
+		
+		expect(foundImage).to.beTruthy();
+	});
 });
 
 SpecEnd
