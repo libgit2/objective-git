@@ -58,7 +58,7 @@ NSString *const GTDiffFindOptionsTargetLimitKey = @"GTDiffFindOptionsTargetLimit
 }
 
 + (GTDiff *)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree options:(NSDictionary *)options error:(NSError **)error {
-	NSParameterAssert([oldTree.repository isEqualTo:newTree.repository]);
+	NSParameterAssert([oldTree.repository isEqual:newTree.repository]);
 	
 	git_diff_options optionsStruct = GIT_DIFF_OPTIONS_INIT;
 	BOOL optionsStructCreated = [self optionsStructFromDictionary:options optionsStruct:&optionsStruct];
