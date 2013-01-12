@@ -25,7 +25,7 @@ cmake -DCMAKE_C_COMPILER_WORKS:BOOL=ON \
       -DOPENSSL_SSL_LIBRARY:FILEPATH= \
       -DOPENSSL_CRYPTO_LIBRARY:FILEPATH= \
       -DCMAKE_OSX_DEPLOYMENT_TARGET:STRING= \
-      -DCMAKE_OSX_ARCHITECTURES:STRING=armv7 \
+      -DCMAKE_OSX_ARCHITECTURES:STRING="armv7;armv7s" \
       -DCMAKE_OSX_SYSROOT=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS${ios_version}.sdk/ \
       ..
 cmake --build .
