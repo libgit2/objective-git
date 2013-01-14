@@ -172,24 +172,16 @@ static void transferProgressCallback(const git_transfer_progress *progress, void
 		checkoutOptions.checkout_strategy = GIT_CHECKOUT_SAFE;
 		checkoutOptions.progress_cb = checkoutProgressCallback;
 		checkoutOptions.progress_payload = (__bridge void *)checkoutProgressBlock;
-		cloneOptions.checkout_opts = &checkoutOptions;
+		cloneOptions.checkout_opts = checkoutOptions;
 	}
 	
 	cloneOptions.fetch_progress_cb = transferProgressCallback;
 	cloneOptions.fetch_progress_payload = (__bridge void *)transferProgressBlock;
 	
-	git_remote *remote;
 	const char *remoteURL = originURL.absoluteString.UTF8String;
-	int gitError = git_remote_new(&remote, NULL, "origin", remoteURL, GIT_REMOTE_DEFAULT_FETCH);
-	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to create remote to clone repository."];
-		return nil;
-	}
-	
 	const char *workingDirectoryPath = workdirURL.path.UTF8String;
 	git_repository *repository;
-	gitError = git_clone(&repository, remote, workingDirectoryPath, &cloneOptions);
-	git_remote_free(remote);
+	int gitError = git_clone(&repository, remoteURL, workingDirectoryPath, &cloneOptions);
 	if (gitError < GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to clone repository."];
 		return nil;
