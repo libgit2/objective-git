@@ -245,6 +245,8 @@
     }];
     GTCommit *originalHeadCommit = originalHeadCommits[0];
     [aRepo resetToCommit:originalHeadCommit withResetType:GTRepositoryResetTypeSoft error:NULL];
+    head = [aRepo headReferenceWithError:&err];
+    STAssertEqualObjects(head.target, originalHead.target, @"Reset failed to move head back to the original position");
 }
 
 - (void)expectSHA:(NSString*)sha forRefspec:(NSString*)refspec {
