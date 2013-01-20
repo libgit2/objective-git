@@ -42,6 +42,8 @@
 #import "GTTag.h"
 #import "NSError+Git.h"
 #import "NSString+Git.h"
+#import "GTDiffFile.h"
+
 
 // The type of block passed to -enumerateSubmodulesRecursively:usingBlock:.
 typedef void (^GTRepositorySubmoduleEnumerationBlock)(GTSubmodule *submodule, BOOL *stop);
@@ -56,6 +58,7 @@ typedef struct {
 	__unsafe_unretained GTRepository *parentRepository;
 	__unsafe_unretained GTRepositorySubmoduleEnumerationBlock block;
 } GTRepositorySubmoduleEnumerationInfo;
+
 
 @interface GTRepository ()
 @property (nonatomic, assign, readonly) git_repository *git_repository;
@@ -117,7 +120,7 @@ typedef struct {
 
 	self = [super init];
 	if (self == nil) return nil;
-	
+
 	_git_repository = repository;
 
 	return self;
@@ -155,12 +158,12 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 }
 
 + (id)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL barely:(BOOL)barely withCheckout:(BOOL)withCheckout error:(NSError **)error transferProgressBlock:(void (^)(const git_transfer_progress *))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))checkoutProgressBlock {
-	
+
 	git_clone_options cloneOptions = GIT_CLONE_OPTIONS_INIT;
 	if (barely) {
 		cloneOptions.bare = 1;
 	}
-	
+
 	if (withCheckout) {
 		git_checkout_opts checkoutOptions = GIT_CHECKOUT_OPTS_INIT;
 		checkoutOptions.checkout_strategy = GIT_CHECKOUT_SAFE_CREATE;
@@ -168,10 +171,10 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 		checkoutOptions.progress_payload = (__bridge void *)checkoutProgressBlock;
 		cloneOptions.checkout_opts = checkoutOptions;
 	}
-	
+
 	cloneOptions.fetch_progress_cb = transferProgressCallback;
 	cloneOptions.fetch_progress_payload = (__bridge void *)transferProgressBlock;
-	
+
 	const char *remoteURL = originURL.absoluteString.UTF8String;
 	const char *workingDirectoryPath = workdirURL.path.UTF8String;
 	git_repository *repository;
@@ -369,7 +372,7 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 
 	GTReference *newRef = [GTReference referenceByCreatingReferenceNamed:[NSString stringWithFormat:@"%@%@", [GTBranch localNamePrefix], name] fromReferenceTarget:ref.unresolvedTarget inRepository:self error:error];
 	if (newRef == nil) return nil;
-	
+
 	return [GTBranch branchWithReference:newRef repository:self];
 }
 
@@ -403,7 +406,7 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 	for (NSUInteger i = 0; i < array.count; i++) {
 		NSString *refName = @(array.strings[i]);
 		if (refName == nil) continue;
-		
+
 		[references addObject:refName];
 	}
 
@@ -437,12 +440,12 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 
 - (BOOL)resetToCommit:(GTCommit *)commit withResetType:(GTRepositoryResetType)resetType error:(NSError **)error {
     NSParameterAssert(commit != nil);
-    
+
     int result = git_reset(self.git_repository, commit.git_object, (git_reset_t)resetType);
     if (result == GIT_OK) return YES;
-    
+
     if (error != NULL) *error = [NSError git_errorFor:result withAdditionalDescription:@"Failed to reset repository."];
-    
+
     return NO;
 }
 
@@ -607,6 +610,54 @@ static int submoduleEnumerationCallback(git_submodule *git_submodule, const char
 	}
 
 	return [[GTSignature alloc] initWithName:name email:email time:[NSDate date]];
+}
+
+static int checkoutNotifyCallback(git_checkout_notify_t why, const char *path, const git_diff_file *baseline, const git_diff_file *target, const git_diff_file *workdir, void *payload)
+{
+	if (payload == NULL) return 0;
+	int (^block)(GTCheckoutNotify why, NSString* path, GTDiffFile* baseline, GTDiffFile* target, GTDiffFile* workdir) = (__bridge id)payload;
+	NSString *nsPath = (path != NULL ? [NSString stringWithUTF8String:path] : nil);
+    GTDiffFile *gtBaseline = baseline ? [[GTDiffFile alloc] initWithGitDiffFile:*baseline] : nil;
+    GTDiffFile *gtTarget = target ? [[GTDiffFile alloc] initWithGitDiffFile:*target] : nil;
+    GTDiffFile *gtWorkdir = workdir ? [[GTDiffFile alloc] initWithGitDiffFile:*workdir] : nil;
+	return block((GTCheckoutNotify)why, nsPath, gtBaseline, gtTarget, gtWorkdir);
+
+}
+
+- (BOOL)checkout:(NSString *)newTarget
+              strategy:(GTCheckoutStrategy)strategy
+         progressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))progressBlock
+           notifyBlock:(int (^)(GTCheckoutNotify why, NSString* path, GTDiffFile* baseline, GTDiffFile* target, GTDiffFile* workdir))notifyBlock
+           notifyFlags:(GTCheckoutNotify)notifyFlags
+             withError:(NSError **)error
+{
+    GTReference * head = [GTReference referenceByLookingUpReferencedNamed:@"HEAD" inRepository:self error:error];
+    if (head == nil) {
+        head = [GTReference referenceByCreatingReferenceNamed:@"HEAD" fromReferenceTarget:newTarget inRepository:self error:error];
+        if (head == nil) return NO;
+    } else {
+        if (![head setTarget:newTarget error:error]) return NO;
+    }
+
+
+    git_checkout_opts checkoutOptions = GIT_CHECKOUT_OPTS_INIT;
+
+    checkoutOptions.checkout_strategy = strategy;
+    checkoutOptions.progress_cb = checkoutProgressCallback;
+    checkoutOptions.progress_payload = (__bridge void *)progressBlock;
+
+    checkoutOptions.notify_cb = checkoutNotifyCallback;
+    checkoutOptions.notify_flags = notifyFlags;
+    checkoutOptions.notify_payload = (__bridge void *)notifyBlock;
+
+    int gitError = git_checkout_head(self.git_repository, &checkoutOptions);
+    if (gitError < GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to checkout tree."];
+    }
+
+
+
+	return gitError == GIT_OK;
 }
 
 @end
