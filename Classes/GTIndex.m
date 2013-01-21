@@ -112,7 +112,7 @@
 }
 
 - (BOOL)addFile:(NSString *)file error:(NSError **)error {
-	int gitError = git_index_add_from_workdir(self.git_index, file.UTF8String);
+	int gitError = git_index_add_bypath(self.git_index, file.UTF8String);
 	if(gitError < GIT_OK) {
 		if(error != NULL)
 			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to add entry to index."];
