@@ -135,7 +135,7 @@
 	if (self == nil) return nil;
 
 	git_repository *r;
-	int gitError = git_repository_open(&r, gitDirForLocalURL.path.UTF8String);
+	int gitError = git_repository_open(&r, localFileURL.path.UTF8String);
 
 	if (gitError < GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to open repository."];
