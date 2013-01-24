@@ -172,6 +172,16 @@ describe(@"GTDiff diffing", ^{
 		}];
 	});
 	
+	it(@"should correctly limit itself to a given pathspec", ^{
+		NSDictionary *options = @{ GTDiffOptionsPathSpecArrayKey: @[ @"ladflbahjgdf" ] };
+		setupDiffFromCommitSHAsAndOptions(@"be0f001ff517a00b5b8e3c29ee6561e70f994e17", @"fe89ea0a8e70961b8a6344d9660c326d3f2eb0fe", options);
+		expect(diff.deltaCount).to.equal(0);
+		
+		options = @{ GTDiffOptionsPathSpecArrayKey: @[ @"TestAppWindowController.h" ] };
+		setupDiffFromCommitSHAsAndOptions(@"be0f001ff517a00b5b8e3c29ee6561e70f994e17", @"fe89ea0a8e70961b8a6344d9660c326d3f2eb0fe", options);
+		expect(diff.deltaCount).to.equal(1);
+	});
+	
 	it(@"should correctly recognise binary and text files", ^{
 		setupDiffFromCommitSHAsAndOptions(@"6b0c1c8b8816416089c534e474f4c692a76ac14f", @"a4bca6b67a5483169963572ee3da563da33712f7", nil);
 		expect(diff.deltaCount).to.equal(3);
@@ -197,6 +207,18 @@ describe(@"GTDiff diffing", ^{
 			
 			*stop = YES;
 		}];
+	});
+	
+	it(@"should correctly find untracked files if asked", ^{
+		diff = [GTDiff diffIndexToWorkingDirectoryInRepository:repository options:@{ GTDiffOptionsFlagsKey: @(GTDiffOptionsFlagsIncludeUntracked) } error:NULL];
+		__block BOOL foundImage = NO;
+		[diff enumerateDeltasUsingBlock:^(GTDiffDelta *delta, BOOL *stop) {
+			if (![delta.newFile.path isEqualToString:@"UntrackedImage.png"]) return;
+			foundImage = YES;			
+			*stop = YES;
+		}];
+		
+		expect(foundImage).to.beTruthy();
 	});
 });
 

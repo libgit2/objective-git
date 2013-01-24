@@ -46,6 +46,17 @@ extern NSString *const GTDiffOptionsNewPrefixKey;
 // Defaults to 512MB.
 extern NSString *const GTDiffOptionsMaxSizeKey;
 
+// An `NSArray` of `NSStrings`s to limit the diff to specific paths inside the
+// repository.  The entries in the array represent either single paths or
+// filename patterns with wildcard matching a la standard shell glob (see
+// http://linux.die.net/man/7/glob for wildcard matching rules).
+//
+// The diff will only contain the files or patterns included in this options
+// array.
+//
+// Defaults to including all files.
+extern NSString *const GTDiffOptionsPathSpecArrayKey;
+
 // Enum for use as documented in the options dictionary with the
 // `GTDiffOptionsFlagsKey` key.
 //

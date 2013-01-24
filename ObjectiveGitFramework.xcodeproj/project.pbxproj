@@ -92,6 +92,12 @@
 		55C8057E13875C1B004DCB0F /* NSString+Git.h in Headers */ = {isa = PBXBuildFile; fileRef = 55C8057213874CDF004DCB0F /* NSString+Git.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		55C8057F13875C62004DCB0F /* NSData+Git.h in Headers */ = {isa = PBXBuildFile; fileRef = BD6C2266131459E700992935 /* NSData+Git.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		55C8058013875C6E004DCB0F /* NSString+Git.h in Headers */ = {isa = PBXBuildFile; fileRef = 55C8057213874CDF004DCB0F /* NSString+Git.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6A74CA3216A9429700E1A3C5 /* GTRemote.m in Sources */ = {isa = PBXBuildFile; fileRef = 883CD6AA1600EBC600F57354 /* GTRemote.m */; };
+		6A74CA3416A942AA00E1A3C5 /* NSData+Git.m in Sources */ = {isa = PBXBuildFile; fileRef = BD6C2267131459E700992935 /* NSData+Git.m */; };
+		6A74CA3516A942B400E1A3C5 /* GTRepository+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 8849C6A114AD81FF003890AF /* GTRepository+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A74CA3616A942C000E1A3C5 /* GTConfiguration+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 883CD6AE1600F01000F57354 /* GTConfiguration+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6A74CA3716A942C800E1A3C5 /* GTRemote.h in Headers */ = {isa = PBXBuildFile; fileRef = 883CD6A91600EBC600F57354 /* GTRemote.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6A74CA3816A9432A00E1A3C5 /* ObjectiveGit.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F05AC51601209A00B7AD1D /* ObjectiveGit.m */; };
 		79262F1013C697C100A4B1EA /* git2 in Copy git2 Headers */ = {isa = PBXBuildFile; fileRef = 79262F0E13C697BE00A4B1EA /* git2 */; };
 		79262F8B13C69B1600A4B1EA /* git2.h in Headers */ = {isa = PBXBuildFile; fileRef = 79262F8A13C69B1600A4B1EA /* git2.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8803DA871313145700E6E818 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8803DA861313145700E6E818 /* libz.dylib */; };
@@ -677,9 +683,12 @@
 				E9FFC6C01577CC8A00A9E736 /* GTConfiguration.h in Headers */,
 				30A3D6551667F11C00C49A39 /* GTDiff.h in Headers */,
 				3011D86C1668E48500CE3409 /* GTDiffFile.h in Headers */,
+				6A74CA3716A942C800E1A3C5 /* GTRemote.h in Headers */,
 				3011D8721668E78500CE3409 /* GTDiffHunk.h in Headers */,
 				30FDC08016835A8100654BF0 /* GTDiffLine.h in Headers */,
 				3011D8781668F29600CE3409 /* GTDiffDelta.h in Headers */,
+				6A74CA3516A942B400E1A3C5 /* GTRepository+Private.h in Headers */,
+				6A74CA3616A942C000E1A3C5 /* GTConfiguration+Private.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -937,6 +946,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A74CA3816A9432A00E1A3C5 /* ObjectiveGit.m in Sources */,
+				6A74CA3416A942AA00E1A3C5 /* NSData+Git.m in Sources */,
+				6A74CA3216A9429700E1A3C5 /* GTRemote.m in Sources */,
 				04DB4660133AB5EB00D9C624 /* NSError+Git.m in Sources */,
 				04DB4661133AB5EB00D9C624 /* GTRepository.m in Sources */,
 				04DB4664133AB5EB00D9C624 /* GTEnumerator.m in Sources */,
