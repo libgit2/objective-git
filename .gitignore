@@ -3,6 +3,8 @@
 *~.nib
 
 build/*
+.build/*
+build-iPhoneSimulator/*
 ObjectiveGitFramework/build/*
 ObjectiveGit-iOS.framework/*
 libgit2*.a
