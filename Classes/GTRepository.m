@@ -110,6 +110,11 @@
 }
 
 - (id)initWithURL:(NSURL *)localFileURL error:(NSError **)error {
+	if (![localFileURL isFileURL] || localFileURL.path == nil) {
+		if (error != NULL) *error = [NSError errorWithDomain:NSCocoaErrorDomain code:kCFURLErrorUnsupportedURL userInfo:@{ NSLocalizedDescriptionKey: NSLocalizedString(@"Invalid file path URL to open.", @"") }];
+		return nil;
+	}
+
 	self = [super init];
 	if (self == nil) return nil;
 
