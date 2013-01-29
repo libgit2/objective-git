@@ -55,6 +55,10 @@
 	return [NSString stringWithFormat:@"<%@: %p> fileURL: %@", self.class, self, self.fileURL];
 }
 
+- (BOOL)isEqual:(GTRepository *)comparisonRepository {
+	return ([self.fileURL isEqual:comparisonRepository.fileURL]);
+}
+
 - (void)dealloc {
 	// Alright so git_revwalk needs to be free'd before the repository it points to is free'd, otherwise the odb is double-free'd and it crashes. But GTEnumerator shouldn't have to know anything about the lifetime of its GTRepository to keep from crashing. So the repository keeps track of all the enumerators pointing to it and nils out their repository when they're being dealloc'd. That tells the enumerator that it should go ahead and free its revwalk. And so life goes on.
 	for (NSValue *weakWrappedValue in self.weakEnumerators) {
