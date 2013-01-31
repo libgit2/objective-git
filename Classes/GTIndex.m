@@ -97,7 +97,7 @@
 }
 
 - (GTIndexEntry *)entryWithName:(NSString *)name {
-	int i = git_index_find(self.git_index, [name UTF8String]);
+	int i = git_index_find(0, self.git_index, [name UTF8String]);
 	return [GTIndexEntry indexEntryWithEntry:git_index_get_byindex(self.git_index, (unsigned int)i)];
 }
 
