@@ -67,6 +67,21 @@ typedef enum : git_delta_t {
 // The number of hunks represented by this delta.
 @property (nonatomic, readonly) NSUInteger hunkCount;
 
+// The number of added lines in this delta.
+//
+// Undefined if this delta is binary.
+@property (nonatomic, readonly) NSUInteger addedLinesCount;
+
+// The number of deleted lines in this delta.
+//
+// Undefined if this delta is binary.
+@property (nonatomic, readonly) NSUInteger deletedLinesCount;
+
+// The number of context lines in this delta.
+//
+// Undefined if this delta is binary.
+@property (nonatomic, readonly) NSUInteger contextLinesCount;
+
 // Designated initialiser.
 - (instancetype)initWithGitPatch:(git_diff_patch *)patch;
 
