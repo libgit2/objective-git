@@ -21,6 +21,15 @@
 	
 	_git_diff_patch = patch;
 	
+	size_t adds = 0;
+	size_t deletes = 0;
+	size_t contexts = 0;
+	git_diff_patch_line_stats(&contexts, &adds, &deletes, patch);
+	
+	_addedLinesCount = adds;
+	_deletedLinesCount = deletes;
+	_contextLinesCount = contexts;
+	
 	return self;
 }
 
