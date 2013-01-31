@@ -77,6 +77,10 @@ describe(@"GTDiff diffing", ^{
 			expect(delta.binary).to.beFalsy();
 			expect((NSUInteger)delta.type).to.equal(GTDiffFileDeltaModified);
 			
+			expect(delta.addedLinesCount).to.equal(1);
+			expect(delta.deletedLinesCount).to.equal(1);
+			expect(delta.contextLinesCount).to.equal(6);
+			
 			[delta enumerateHunksWithBlock:^(GTDiffHunk *hunk, BOOL *stop) {
 				expect(hunk.header).to.equal(@"@@ -4,7 +4,7 @@");
 				expect(hunk.lineCount).to.equal(8);
