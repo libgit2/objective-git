@@ -26,6 +26,7 @@ cmake -DCMAKE_C_COMPILER_WORKS:BOOL=ON \
       -DOPENSSL_CRYPTO_LIBRARY:FILEPATH= \
       -DCMAKE_OSX_DEPLOYMENT_TARGET:STRING= \
       -DCMAKE_OSX_ARCHITECTURES:STRING="armv7;armv7s" \
+      -DBUILD_CLAR:BOOL=OFF \
       -DCMAKE_OSX_SYSROOT=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS${ios_version}.sdk/ \
       ..
 cmake --build .
@@ -54,6 +55,7 @@ cmake -DCMAKE_C_COMPILER_WORKS:BOOL=ON \
       -DOPENSSL_CRYPTO_LIBRARY:FILEPATH= \
       -DCMAKE_OSX_DEPLOYMENT_TARGET:STRING= \
       -DCMAKE_OSX_ARCHITECTURES:STRING=i386 \
+      -DBUILD_CLAR:BOOL=OFF \
       -DCMAKE_OSX_SYSROOT=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator${ios_version}.sdk/ \
       ..
 cmake --build .
