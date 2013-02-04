@@ -6,7 +6,7 @@ then
     exit 0
 fi
 
-ios_version="6.0";
+ios_version="6.1";
 
 cd "libgit2"
 
