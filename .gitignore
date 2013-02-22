@@ -5,6 +5,8 @@
 build/*
 .build/*
 build-iPhoneSimulator/*
+build-iPhoneOS/*
+objective-git.bridgesupport
 ObjectiveGitFramework/build/*
 ObjectiveGit-iOS.framework/*
 libgit2*.a
