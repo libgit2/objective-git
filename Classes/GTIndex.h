@@ -83,6 +83,7 @@
 
 // Get the entry with the given name.
 - (GTIndexEntry *)entryWithName:(NSString *)name;
+- (GTIndexEntry *)entryWithName:(NSString *)name error:(NSError **)error;
 
 // Add entries to the index
 - (BOOL)addEntry:(GTIndexEntry *)entry error:(NSError **)error;
