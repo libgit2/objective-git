@@ -97,8 +97,18 @@
 }
 
 - (GTIndexEntry *)entryWithName:(NSString *)name {
-	int i = git_index_find(0, self.git_index, [name UTF8String]);
-	return [GTIndexEntry indexEntryWithEntry:git_index_get_byindex(self.git_index, (unsigned int)i)];
+	return [self entryWithName: name error: nil];
+}
+
+- (GTIndexEntry *)entryWithName:(NSString *)name error:(NSError **)error {
+	size_t pos = 0;
+	int gitError = git_index_find(&pos, self.git_index, [name UTF8String]);
+	if (gitError != 0) {
+		if(error != NULL)
+			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Entry not found in index"];
+		return nil;
+	}
+	return [GTIndexEntry indexEntryWithEntry:git_index_get_byindex(self.git_index, pos)];
 }
 
 - (BOOL)addEntry:(GTIndexEntry *)entry error:(NSError **)error {
