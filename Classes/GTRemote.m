@@ -10,6 +10,10 @@
 
 @implementation GTRemote
 
+- (void)dealloc {
+	if (_git_remote != NULL) git_remote_free(_git_remote);
+}
+
 - (BOOL)isEqual:(GTRemote *)object {
 	if (object == self) return YES;
 	if (![object isKindOfClass:[self class]]) return NO;
