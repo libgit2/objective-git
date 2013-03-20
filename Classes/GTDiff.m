@@ -11,6 +11,7 @@
 #import "GTDiffDelta.h"
 #import "GTRepository.h"
 #import "GTTree.h"
+#import "GTCommit.h"
 
 #import "NSError+Git.h"
 
@@ -142,6 +143,23 @@ NSString *const GTDiffFindOptionsTargetLimitKey = @"GTDiffFindOptionsTargetLimit
 	
 	GTDiff *newDiff = [[GTDiff alloc] initWithGitDiffList:diffList];
 	return newDiff;
+}
+
++ (GTDiff *)diffWorkingDirectoryToHEADInRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error {
+	NSParameterAssert(repository != nil);
+
+	GTCommit *HEADCommit = (GTCommit *)[repository lookupObjectByRefspec:@"HEAD" error:error];
+	if (HEADCommit == nil) return nil;
+
+	GTDiff *HEADIndexDiff = [GTDiff diffIndexFromTree:HEADCommit.tree options:options error:error];
+	if (HEADIndexDiff == nil) return nil;
+
+	GTDiff *WDDiff = [GTDiff diffIndexToWorkingDirectoryInRepository:repository options:options error:error];
+	if (WDDiff == nil) return nil;
+
+	git_diff_merge(HEADIndexDiff.git_diff_list, WDDiff.git_diff_list);
+
+	return HEADIndexDiff;
 }
 
 - (instancetype)initWithGitDiffList:(git_diff_list *)diffList {

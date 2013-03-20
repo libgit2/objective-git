@@ -212,6 +212,16 @@ typedef enum : git_diff_find_t {
 // Returns a newly created `GTDiff` object or nil on error.
 + (GTDiff *)diffWorkingDirectoryFromTree:(GTTree *)tree options:(NSDictionary *)options error:(NSError **)error;
 
+// Create a diff between the working directory and HEAD.
+//
+// repository - The repository to be used for the diff.
+// options    - A dictionary containing any of the above options key constants,
+//              or nil to use the defaults.
+// error      - Populated if an error occurs.
+//
+// Returns a newly created GTDiff, or nil if an error occurred.
++ (GTDiff *)diffWorkingDirectoryToHEADInRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error;
+
 // Designated initialiser.
 - (instancetype)initWithGitDiffList:(git_diff_list *)diffList;
 

@@ -42,6 +42,10 @@ describe(@"GTDiff initialisation", ^{
 	it(@"should be able to initialse a diff against an index from a repo's working directory", ^{
 		expect([GTDiff diffIndexToWorkingDirectoryInRepository:repository options:nil error:NULL]).toNot.beNil();
 	});
+
+	it(@"should be able to initialize a diff between HEAD and the working directory", ^{
+		expect([GTDiff diffWorkingDirectoryToHEADInRepository:repository options:nil error:NULL]).notTo.beNil();
+	});
 });
 
 describe(@"GTDiff diffing", ^{
