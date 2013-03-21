@@ -274,4 +274,20 @@
 	return [[self class] branchWithReference:[[GTReference alloc] initWithGitReference:trackingRef repository:self.repository] repository:self.repository];
 }
 
+- (BOOL)calculateAhead:(size_t *)ahead behind:(size_t *)behind relativeTo:(GTBranch *)branch error:(NSError **)error {
+	if (branch == nil) {
+		*ahead = 0;
+		*behind = 0;
+		return YES;
+	}
+
+	int errorCode = git_graph_ahead_behind(ahead, behind, self.repository.git_repository, self.reference.oid, branch.reference.oid);
+	if (errorCode != GIT_OK && error != NULL) {
+		*error = [NSError git_errorFor:errorCode withAdditionalDescription:[NSString stringWithFormat:@"Calculating ahead/behind with %@ to %@", self, branch]];
+		return NO;
+	}
+
+	return YES;
+}
+
 @end
