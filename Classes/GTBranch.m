@@ -281,7 +281,7 @@
 		return YES;
 	}
 
-	int errorCode = git_graph_ahead_behind(ahead, behind, self.repository.git_repository, self.reference.oid, branch.reference.oid);
+	int errorCode = git_graph_ahead_behind(ahead, behind, self.repository.git_repository, branch.reference.oid, self.reference.oid);
 	if (errorCode != GIT_OK && error != NULL) {
 		*error = [NSError git_errorFor:errorCode withAdditionalDescription:[NSString stringWithFormat:@"Calculating ahead/behind with %@ to %@", self, branch]];
 		return NO;
