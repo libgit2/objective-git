@@ -20,3 +20,5 @@ libgit2*.a
 
 project.xcworkspace
 */xcuserdata/
+
+ObjectiveGitTests/fixtures/Fixtures/*
