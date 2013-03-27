@@ -16,7 +16,7 @@
 @property (nonatomic, readonly, unsafe_unretained) GTRepository *repository;
 @property (nonatomic, readonly, copy) NSArray *configurationKeys;
 
-// The GTRemotes in the config. If the configuration isn't associate with any
+// The GTRemotes in the config. If the configuration isn't associated with any
 // repository, this will always be nil.
 @property (nonatomic, readonly, copy) NSArray *remotes;
 
