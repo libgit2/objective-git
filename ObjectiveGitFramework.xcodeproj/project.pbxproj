@@ -79,6 +79,10 @@
 		30A3D6551667F11C00C49A39 /* GTDiff.h in Headers */ = {isa = PBXBuildFile; fileRef = 30A3D6521667F11C00C49A39 /* GTDiff.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		30A3D6561667F11C00C49A39 /* GTDiff.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A3D6531667F11C00C49A39 /* GTDiff.m */; };
 		30A3D6571667F11C00C49A39 /* GTDiff.m in Sources */ = {isa = PBXBuildFile; fileRef = 30A3D6531667F11C00C49A39 /* GTDiff.m */; };
+		30B1E7EE1703522100D0814D /* NSDate+GTTimeAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 30B1E7EC1703522100D0814D /* NSDate+GTTimeAdditions.h */; };
+		30B1E7EF1703522100D0814D /* NSDate+GTTimeAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 30B1E7EC1703522100D0814D /* NSDate+GTTimeAdditions.h */; };
+		30B1E7F01703522100D0814D /* NSDate+GTTimeAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 30B1E7ED1703522100D0814D /* NSDate+GTTimeAdditions.m */; };
+		30B1E7F11703522100D0814D /* NSDate+GTTimeAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 30B1E7ED1703522100D0814D /* NSDate+GTTimeAdditions.m */; };
 		30FDC07F16835A8100654BF0 /* GTDiffLine.h in Headers */ = {isa = PBXBuildFile; fileRef = 30FDC07D16835A8100654BF0 /* GTDiffLine.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		30FDC08016835A8100654BF0 /* GTDiffLine.h in Headers */ = {isa = PBXBuildFile; fileRef = 30FDC07D16835A8100654BF0 /* GTDiffLine.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		30FDC08116835A8100654BF0 /* GTDiffLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 30FDC07E16835A8100654BF0 /* GTDiffLine.m */; };
@@ -296,6 +300,8 @@
 		30865A90167F503400B1AB6E /* GTDiffSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTDiffSpec.m; sourceTree = "<group>"; };
 		30A3D6521667F11C00C49A39 /* GTDiff.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTDiff.h; sourceTree = "<group>"; };
 		30A3D6531667F11C00C49A39 /* GTDiff.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTDiff.m; sourceTree = "<group>"; };
+		30B1E7EC1703522100D0814D /* NSDate+GTTimeAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+GTTimeAdditions.h"; sourceTree = "<group>"; };
+		30B1E7ED1703522100D0814D /* NSDate+GTTimeAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+GTTimeAdditions.m"; sourceTree = "<group>"; };
 		30FDC07D16835A8100654BF0 /* GTDiffLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTDiffLine.h; sourceTree = "<group>"; };
 		30FDC07E16835A8100654BF0 /* GTDiffLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTDiffLine.m; sourceTree = "<group>"; };
 		32DBCF5E0370ADEE00C91783 /* ObjectiveGitFramework_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectiveGitFramework_Prefix.pch; sourceTree = "<group>"; };
@@ -658,6 +664,8 @@
 				BDE4C061130EFE2C00851650 /* NSError+Git.m */,
 				55C8057213874CDF004DCB0F /* NSString+Git.h */,
 				55C8057313874CDF004DCB0F /* NSString+Git.m */,
+				30B1E7EC1703522100D0814D /* NSDate+GTTimeAdditions.h */,
+				30B1E7ED1703522100D0814D /* NSDate+GTTimeAdditions.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -697,6 +705,7 @@
 				3011D8781668F29600CE3409 /* GTDiffDelta.h in Headers */,
 				6A74CA3516A942B400E1A3C5 /* GTRepository+Private.h in Headers */,
 				6A74CA3616A942C000E1A3C5 /* GTConfiguration+Private.h in Headers */,
+				30B1E7EF1703522100D0814D /* NSDate+GTTimeAdditions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -732,6 +741,7 @@
 				30FDC07F16835A8100654BF0 /* GTDiffLine.h in Headers */,
 				3011D8771668F29600CE3409 /* GTDiffDelta.h in Headers */,
 				8849C6A214AD81FF003890AF /* GTRepository+Private.h in Headers */,
+				30B1E7EE1703522100D0814D /* NSDate+GTTimeAdditions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -980,6 +990,7 @@
 				3011D8741668E78500CE3409 /* GTDiffHunk.m in Sources */,
 				3011D87A1668F29600CE3409 /* GTDiffDelta.m in Sources */,
 				30FDC08216835A8100654BF0 /* GTDiffLine.m in Sources */,
+				30B1E7F11703522100D0814D /* NSDate+GTTimeAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1037,6 +1048,7 @@
 				3011D8731668E78500CE3409 /* GTDiffHunk.m in Sources */,
 				3011D8791668F29600CE3409 /* GTDiffDelta.m in Sources */,
 				30FDC08116835A8100654BF0 /* GTDiffLine.m in Sources */,
+				30B1E7F01703522100D0814D /* NSDate+GTTimeAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
