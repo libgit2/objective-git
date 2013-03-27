@@ -33,6 +33,7 @@
 #import "NSError+Git.h"
 #import "GTRepository.h"
 #import "NSString+Git.h"
+#import "NSDate+GTTimeAdditions.h"
 
 @interface GTCommit ()
 @property (nonatomic, strong) GTSignature *author;
@@ -120,8 +121,8 @@
 }
 
 - (NSDate *)commitDate {
-	time_t t = git_commit_time(self.git_commit);
-	return [NSDate dateWithTimeIntervalSince1970:t];
+	git_time time = (git_time){.time = git_commit_time(self.git_commit), .offset = git_commit_time_offset(self.git_commit)};
+	return [NSDate gt_dateFromGitTime:time];
 }
 
 - (GTSignature *)author {
