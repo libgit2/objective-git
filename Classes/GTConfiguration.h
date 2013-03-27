@@ -16,10 +16,13 @@
 @property (nonatomic, readonly, unsafe_unretained) GTRepository *repository;
 @property (nonatomic, readonly, copy) NSArray *configurationKeys;
 
-// The GTRemotes in the config.
+// The GTRemotes in the config. If the configuration isn't associate with any
+// repository, this will always be nil.
 @property (nonatomic, readonly, copy) NSArray *remotes;
 
-- (id)initWithGitConfig:(git_config *)config repository:(GTRepository *)repository;
+// Creates and returns a configuration which includes the global, XDG, and
+// system configurations.
++ (instancetype)defaultConfiguration;
 
 - (void)setString:(NSString *)s forKey:(NSString *)key;
 - (NSString *)stringForKey:(NSString *)key;
