@@ -27,6 +27,12 @@ describe(@"Convertion between git_time and NSDate", ^{
 		expect(components.year).to.equal(2010);
 		expect(components.hour).to.equal(11);
 	});
+	
+	it(@"should return a correct offset for an NSDate", ^{
+		NSDate *date = [NSDate dateWithString:@"2012-11-02 15:38:46 +0200"];
+		expect(date).toNot.beNil();
+		expect(date.gt_gitTimeOffset).to.equal(120);
+	});
 });
 
 SpecEnd
