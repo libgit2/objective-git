@@ -14,13 +14,15 @@
 
 @implementation GTConfiguration
 
+#pragma mark Lifecycle
+
 - (void)dealloc {
 	git_config_free(self.git_config);
 }
 
-#pragma mark API
-
 - (id)initWithGitConfig:(git_config *)config repository:(GTRepository *)repository {
+	NSParameterAssert(config != NULL);
+
 	self = [super init];
 	if (self == nil) return nil;
 
@@ -29,6 +31,16 @@
 
 	return self;
 }
+
++ (instancetype)defaultConfiguration {
+	git_config *config = NULL;
+	int error = git_config_open_default(&config);
+	if (error != GIT_OK || config == NULL) return nil;
+
+	return [[self alloc] initWithGitConfig:config repository:nil];
+}
+
+#pragma mark Read/Write
 
 - (void)setString:(NSString *)s forKey:(NSString *)key {
 	git_config_set_string(self.git_config, key.UTF8String, s.UTF8String);
@@ -97,6 +109,8 @@ static int configCallback(const git_config_entry *entry, void *payload) {
 }
 
 - (NSArray *)remotes {
+	if (self.repository == NULL) return nil;
+
 	git_strarray names;
 	git_remote_list(&names, self.repository.git_repository);
 	NSMutableArray *remotes = [NSMutableArray arrayWithCapacity:names.count];
@@ -114,10 +128,12 @@ static int configCallback(const git_config_entry *entry, void *payload) {
 	return remotes;
 }
 
+#pragma mark Refresh
+
 - (BOOL)refresh:(NSError **)error {
 	int success = git_config_refresh(self.git_config);
-	if (success != 0) {
-		if (error != NULL) *error = [NSError git_errorFor:success withAdditionalDescription:@"Couldn't reload the repository configuration from disk."];
+	if (success != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:success withAdditionalDescription:@"Couldn't reload the configuration from disk."];
 
 		return NO;
 	}
