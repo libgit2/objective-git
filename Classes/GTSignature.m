@@ -29,6 +29,7 @@
 
 #import "GTSignature.h"
 
+#import "NSDate+GTTimeAdditions.h"
 
 @implementation GTSignature
 
@@ -61,8 +62,7 @@
 
 - (id)initWithName:(NSString *)theName email:(NSString *)theEmail time:(NSDate *)theTime {
 	if((self = [super init])) {
-		git_signature_new(&git_signature, [theName UTF8String], [theEmail UTF8String], (git_time_t) [theTime timeIntervalSince1970], 0);
-		// todo: figure out offset for NSDate
+		git_signature_new(&git_signature, [theName UTF8String], [theEmail UTF8String], (git_time_t) [theTime timeIntervalSince1970], theTime.gt_gitTimeOffset);
 	}
 	return self;
 }
@@ -85,12 +85,12 @@
 	self.git_signature->email = strdup([e cStringUsingEncoding:NSUTF8StringEncoding]);
 }
 
-- (NSDate *)time {	
-	return [NSDate dateWithTimeIntervalSince1970:self.git_signature->when.time];
+- (NSDate *)time {
+	return [NSDate gt_dateFromGitTime:self.git_signature->when];
 }
 
-- (void)setTime:(NSDate *)d {
-	self.git_signature->when.time = (git_time_t) [d timeIntervalSince1970];
+- (void)setTime:(NSDate *)date {
+	self.git_signature->when = date.gt_gitTime;
 }
 
 @end
