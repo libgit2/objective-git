@@ -14,7 +14,7 @@
 
 // Creates a new `NSDate` from the provided `git_time`.
 //
-// time     - The `git_time` to base the returned date on.
+// time - The `git_time` to base the returned date on.
 //
 // Returns an `NSDate` object representing the passed in `time`. 
 + (NSDate *)gt_dateFromGitTime:(git_time)time;
