@@ -15,7 +15,7 @@
 // Creates a new `NSDate` from the provided `git_time`.
 //
 // time     - The `git_time` to base the returned date on.
-// timeZone - The timezone used by the time passed in.
+// timeZone - The timezone used by the time passed in. Optional.
 //
 // Returns an `NSDate` object representing the passed in `time`. 
 + (NSDate *)gt_dateFromGitTime:(git_time)time timeZone:(NSTimeZone **)timeZone;
