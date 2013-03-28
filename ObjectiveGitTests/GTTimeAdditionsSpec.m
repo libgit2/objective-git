@@ -11,14 +11,12 @@
 SpecBegin(GTTimeAdditions)
 
 describe(@"Conversion between git_time and NSDate", ^{
-	it(@"should be able to create an NSDate when given a git_time", ^{
+	it(@"should be able to create a correct NSDate and NSTimeZone when given a git_time", ^{
 		git_time_t seconds = 1265374800;
 		int offset = -120; //2 hours behind GMT
 		git_time time = (git_time){ .time = seconds, .offset = offset };
-		NSTimeZone *timeZone = nil;
-		NSDate *date = [NSDate gt_dateFromGitTime:time timeZone:&timeZone];
+		NSDate *date = [NSDate gt_dateFromGitTime:time];
 		expect(date).toNot.beNil();
-		expect(timeZone).toNot.beNil();
 		
 		NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 		NSDateComponents *components = [gregorianCalendar components:NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit | NSHourCalendarUnit fromDate:date];
@@ -29,6 +27,8 @@ describe(@"Conversion between git_time and NSDate", ^{
 		expect(components.year).to.equal(2010);
 		expect(components.hour).to.equal(13);
 		
+		NSTimeZone *timeZone = [NSTimeZone gt_timeZoneFromGitTime:time];
+		expect(timeZone).toNot.beNil();
 		NSInteger expectedSecondsFromGMT = -120 * 60;
 		expect(timeZone.secondsFromGMT).to.equal(expectedSecondsFromGMT);
 	});
