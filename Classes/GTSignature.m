@@ -87,13 +87,11 @@
 }
 
 - (NSDate *)time {
-	return [NSDate gt_dateFromGitTime:self.git_signature->when timeZone:NULL];
+	return [NSDate gt_dateFromGitTime:self.git_signature->when];
 }
 
 - (NSTimeZone *)timeZone {
-	NSTimeZone *timeZone = nil;
-	[NSDate gt_dateFromGitTime:self.git_signature->when timeZone:&timeZone];
-	return timeZone;
+	return [NSTimeZone gt_timeZoneFromGitTime:self.git_signature->when];
 }
 
 - (void)setTime:(NSDate *)date {
