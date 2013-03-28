@@ -15,10 +15,9 @@
 // Creates a new `NSDate` from the provided `git_time`.
 //
 // time     - The `git_time` to base the returned date on.
-// timeZone - The timezone used by the time passed in. Optional.
 //
 // Returns an `NSDate` object representing the passed in `time`. 
-+ (NSDate *)gt_dateFromGitTime:(git_time)time timeZone:(NSTimeZone **)timeZone;
++ (NSDate *)gt_dateFromGitTime:(git_time)time;
 
 // Converts the date to a `git_time`.
 //
@@ -29,6 +28,12 @@
 @end
 
 @interface NSTimeZone (GTTimeAdditions)
+
+// Creates a new `NSTimeZone` from the provided `git_time`.
+//
+// Returns an `NSTimeZone` object representing the time zone for the offset in
+// the passed in `git_time`.
++ (NSTimeZone *)gt_timeZoneFromGitTime:(git_time)time;
 
 // The difference, in minutes, between the current default timezone and GMT.
 @property (nonatomic, readonly) int gt_gitTimeOffset;
