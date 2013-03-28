@@ -15,8 +15,10 @@ describe(@"Convertion between git_time and NSDate", ^{
 		git_time_t seconds = 1265374800;
 		int offset = -120; //2 hours behind GMT
 		git_time time = (git_time){ .time = seconds, .offset = offset };
-		NSDate *date = [NSDate gt_dateFromGitTime:time];
+		NSTimeZone *timeZone = nil;
+		NSDate *date = [NSDate gt_dateFromGitTime:time timeZone:&timeZone];
 		expect(date).toNot.beNil();
+		expect(timeZone).toNot.beNil();
 		
 		NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 		NSDateComponents *components = [gregorianCalendar components:NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit | NSHourCalendarUnit fromDate:date];
@@ -25,19 +27,26 @@ describe(@"Convertion between git_time and NSDate", ^{
 		expect(components.day).to.equal(5);
 		expect(components.month).to.equal(2);
 		expect(components.year).to.equal(2010);
-		expect(components.hour).to.equal(11);
+		expect(components.hour).to.equal(13);
+		
+		NSInteger expectedSecondsFromGMT = -120 * 60;
+		expect(timeZone.secondsFromGMT).to.equal(expectedSecondsFromGMT);
 	});
 	
-	it(@"should return a correct offset for an NSDate", ^{
-		NSDate *date = [NSDate dateWithString:@"2012-11-02 15:38:46 +0200"];
-		expect(date).toNot.beNil();
-		expect(date.gt_gitTimeOffset).to.equal(120);
+	it(@"should return a correct offset for an NSTimeZone", ^{
+		NSTimeZone *timeZone = [NSTimeZone timeZoneForSecondsFromGMT:180 * 60];
+		expect(timeZone).toNot.beNil();
+		expect(timeZone.gt_gitTimeOffset).to.equal(180);
 	});
 	
 	it(@"should return a correct git_time for an NSDate", ^{
 		NSDate *date = [NSDate dateWithString:@"2010-05-12 18:29:13 +0000"];
 		expect(date).toNot.beNil();
-		expect(date.gt_gitTime.time).to.equal(1273688953);
+		
+		NSTimeZone *twoHoursAheadOfGMT = [NSTimeZone timeZoneForSecondsFromGMT:120 * 60];
+		git_time time = [date gt_gitTimeUsingTimeZone:twoHoursAheadOfGMT];
+		expect(time.time).to.equal(1273688953);
+		expect(time.offset).to.equal(120);
 	});
 });
 
