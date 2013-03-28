@@ -10,18 +10,25 @@
 
 @implementation NSDate (GTTimeAdditions)
 
-+ (NSDate *)gt_dateFromGitTime:(git_time)time {
-	NSInteger seconds = time.time;
-	seconds += time.offset * 60;
-	return [NSDate dateWithTimeIntervalSince1970:seconds];
++ (NSDate *)gt_dateFromGitTime:(git_time)time timeZone:(NSTimeZone **)timeZone {
+	if (timeZone != NULL) {
+		NSTimeZone *newTimeZone = [NSTimeZone timeZoneForSecondsFromGMT:time.offset * 60];
+		*timeZone = newTimeZone;
+	}
+	
+	return [NSDate dateWithTimeIntervalSince1970:time.time];
 }
 
 - (git_time)gt_gitTime {
-	return (git_time){.offset = self.gt_gitTimeOffset, .time = (git_time_t)[self timeIntervalSince1970]};
+	return (git_time){.offset = NSTimeZone.defaultTimeZone.gt_gitTimeOffset, .time = (git_time_t)[self timeIntervalSince1970]};
 }
 
+@end
+
+@implementation NSTimeZone (GTTimeAdditions)
+
 - (int)gt_gitTimeOffset {
-	NSInteger timezoneOffset = [NSTimeZone.defaultTimeZone secondsFromGMT];
+	NSInteger timezoneOffset = self.secondsFromGMT;
 	int offset = (int)timezoneOffset / 60;
 	return offset;
 }
