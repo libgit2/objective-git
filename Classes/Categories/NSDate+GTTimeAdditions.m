@@ -10,12 +10,7 @@
 
 @implementation NSDate (GTTimeAdditions)
 
-+ (NSDate *)gt_dateFromGitTime:(git_time)time timeZone:(NSTimeZone **)timeZone {
-	if (timeZone != NULL) {
-		NSTimeZone *newTimeZone = [NSTimeZone timeZoneForSecondsFromGMT:time.offset * 60];
-		*timeZone = newTimeZone;
-	}
-	
++ (NSDate *)gt_dateFromGitTime:(git_time)time {
 	return [NSDate dateWithTimeIntervalSince1970:time.time];
 }
 
@@ -27,6 +22,10 @@
 @end
 
 @implementation NSTimeZone (GTTimeAdditions)
+
++ (NSTimeZone *)gt_timeZoneFromGitTime:(git_time)time {
+	return [NSTimeZone timeZoneForSecondsFromGMT:time.offset * 60];
+}
 
 - (int)gt_gitTimeOffset {
 	NSInteger timezoneOffset = self.secondsFromGMT;
