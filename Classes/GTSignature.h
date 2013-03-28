@@ -37,7 +37,7 @@
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *email;
 @property (nonatomic, strong) NSDate *time;
-@property (nonatomic, readonly) NSTimeZone *timeZone;
+@property (nonatomic, readonly, copy) NSTimeZone *timeZone;
 
 // Convenience initializers
 - (id)initWithSignature:(git_signature *)theSignature;
