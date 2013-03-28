@@ -121,13 +121,13 @@
 }
 
 - (NSDate *)commitDate {
-	git_time time = (git_time){.time = git_commit_time(self.git_commit), .offset = git_commit_time_offset(self.git_commit)};
+	git_time time = (git_time){ .time = git_commit_time(self.git_commit), .offset = git_commit_time_offset(self.git_commit) };
 	return [NSDate gt_dateFromGitTime:time timeZone:NULL];
 }
 
 - (NSTimeZone *)commitTimeZone {
 	NSTimeZone *timeZone = nil;
-	git_time time = (git_time){.time = git_commit_time(self.git_commit), .offset = git_commit_time_offset(self.git_commit)};
+	git_time time = (git_time){ .time = git_commit_time(self.git_commit), .offset = git_commit_time_offset(self.git_commit) };
 	[NSDate gt_dateFromGitTime:time timeZone:&timeZone];
 	return timeZone;
 }
