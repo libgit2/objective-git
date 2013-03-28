@@ -62,7 +62,8 @@
 
 - (id)initWithName:(NSString *)theName email:(NSString *)theEmail time:(NSDate *)theTime {
 	if((self = [super init])) {
-		git_signature_new(&git_signature, [theName UTF8String], [theEmail UTF8String], (git_time_t) [theTime timeIntervalSince1970], theTime.gt_gitTimeOffset);
+		git_time gitTime = [theTime gt_gitTimeUsingTimeZone:nil];
+		git_signature_new(&git_signature, [theName UTF8String], [theEmail UTF8String], gitTime.time, gitTime.offset);
 	}
 	return self;
 }
@@ -86,11 +87,18 @@
 }
 
 - (NSDate *)time {
-	return [NSDate gt_dateFromGitTime:self.git_signature->when];
+	return [NSDate gt_dateFromGitTime:self.git_signature->when timeZone:NULL];
+}
+
+- (NSTimeZone *)timeZone {
+	NSTimeZone *timeZone = nil;
+	[NSDate gt_dateFromGitTime:self.git_signature->when timeZone:&timeZone];
+	return timeZone;
 }
 
 - (void)setTime:(NSDate *)date {
-	self.git_signature->when = date.gt_gitTime;
+	git_time newTime = [date gt_gitTimeUsingTimeZone:nil];
+	self.git_signature->when = newTime;
 }
 
 @end
