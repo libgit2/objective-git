@@ -44,6 +44,7 @@
 @property (nonatomic, readonly) NSString *messageDetails;
 @property (nonatomic, readonly) NSString *messageSummary;
 @property (nonatomic, readonly) NSDate *commitDate;
+@property (nonatomic, readonly) NSTimeZone *commitTimeZone;
 @property (nonatomic, readonly) GTTree *tree;
 
 + (GTCommit *)commitInRepository:(GTRepository *)theRepo updateRefNamed:(NSString *)refName author:(GTSignature *)authorSig committer:(GTSignature *)committerSig message:(NSString *)newMessage tree:(GTTree *)theTree parents:(NSArray *)theParents error:(NSError **)error;
