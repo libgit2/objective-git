@@ -19,8 +19,9 @@
 	return [NSDate dateWithTimeIntervalSince1970:time.time];
 }
 
-- (git_time)gt_gitTime {
-	return (git_time){.offset = NSTimeZone.defaultTimeZone.gt_gitTimeOffset, .time = (git_time_t)[self timeIntervalSince1970]};
+- (git_time)gt_gitTimeUsingTimeZone:(NSTimeZone *)timeZone {
+	NSTimeZone *correctedTimeZone = timeZone ?: NSTimeZone.defaultTimeZone;
+	return (git_time){.offset = correctedTimeZone.gt_gitTimeOffset, .time = (git_time_t)[self timeIntervalSince1970]};
 }
 
 @end
