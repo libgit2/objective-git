@@ -10,7 +10,7 @@
 
 SpecBegin(GTTimeAdditions)
 
-describe(@"Convertion between git_time and NSDate", ^{
+describe(@"Conversion between git_time and NSDate", ^{
 	it(@"should be able to create an NSDate when given a git_time", ^{
 		git_time_t seconds = 1265374800;
 		int offset = -120; //2 hours behind GMT
