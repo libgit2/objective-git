@@ -63,7 +63,7 @@
 - (id)initWithName:(NSString *)theName email:(NSString *)theEmail time:(NSDate *)theTime {
 	if((self = [super init])) {
 		git_time gitTime = [theTime gt_gitTimeUsingTimeZone:nil];
-		git_signature_new(&git_signature, [theName UTF8String], [theEmail UTF8String], gitTime.time, gitTime.offset);
+		git_signature_new(&git_signature, theName.UTF8String, theEmail.UTF8String, gitTime.time, gitTime.offset);
 	}
 	return self;
 }
