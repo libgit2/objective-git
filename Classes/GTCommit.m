@@ -120,16 +120,16 @@
 	return messageComponents.count > 0 ? [messageComponents objectAtIndex:0] : @"";
 }
 
+- (git_time)commitTime {
+	return (git_time){ .time = git_commit_time(self.git_commit), .offset = git_commit_time_offset(self.git_commit) };
+}
+
 - (NSDate *)commitDate {
-	git_time time = (git_time){ .time = git_commit_time(self.git_commit), .offset = git_commit_time_offset(self.git_commit) };
-	return [NSDate gt_dateFromGitTime:time timeZone:NULL];
+	return [NSDate gt_dateFromGitTime:self.commitTime];
 }
 
 - (NSTimeZone *)commitTimeZone {
-	NSTimeZone *timeZone = nil;
-	git_time time = (git_time){ .time = git_commit_time(self.git_commit), .offset = git_commit_time_offset(self.git_commit) };
-	[NSDate gt_dateFromGitTime:time timeZone:&timeZone];
-	return timeZone;
+	return [NSTimeZone gt_timeZoneFromGitTime:self.commitTime];
 }
 
 - (GTSignature *)author {
