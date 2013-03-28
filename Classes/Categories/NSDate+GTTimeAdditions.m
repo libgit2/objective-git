@@ -21,7 +21,7 @@
 
 - (git_time)gt_gitTimeUsingTimeZone:(NSTimeZone *)timeZone {
 	NSTimeZone *correctedTimeZone = timeZone ?: NSTimeZone.defaultTimeZone;
-	return (git_time){.offset = correctedTimeZone.gt_gitTimeOffset, .time = (git_time_t)[self timeIntervalSince1970]};
+	return (git_time){ .offset = correctedTimeZone.gt_gitTimeOffset, .time = (git_time_t)self.timeIntervalSince1970 };
 }
 
 @end
