@@ -24,6 +24,6 @@
 @property (nonatomic, readonly, strong) GTSignature *committer;
 
 // The message associated with the entry.
-@property (nonatomic, readonly, strong) NSString *message;
+@property (nonatomic, readonly, copy) NSString *message;
 
 @end
