@@ -18,7 +18,7 @@
 
 - (void)setUp {
 	
-	expectedRefs = [NSArray arrayWithObjects:@"refs/heads/master", @"refs/tags/v0.9", @"refs/tags/v1.0", @"refs/heads/packed", nil];
+	expectedRefs = [NSArray arrayWithObjects:@"refs/heads/packed", @"refs/heads/master", @"refs/tags/v0.9", @"refs/tags/v1.0", nil];
 }
 
 - (void)testCanOpenRef {
@@ -175,7 +175,7 @@
 	
 	NSArray *refs = [repo referenceNamesWithTypes:GTReferenceTypesOid error:&error];
 	STAssertNil(error, [error localizedDescription]);
-	STAssertEquals(3, (int)refs.count, nil);
+	STAssertEquals(4, (int)refs.count, nil);
 	
 	for(int i=0; i < refs.count; i++) {
 		STAssertEqualObjects([expectedRefs objectAtIndex:i], [refs objectAtIndex:i], nil);
