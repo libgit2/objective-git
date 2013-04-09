@@ -142,10 +142,12 @@ static void checkoutProgressCallback(const char *path, size_t completedSteps, si
 	block(nsPath, completedSteps, totalSteps);
 }
 
-static void transferProgressCallback(const git_transfer_progress *progress, void *payload) {
-	if (payload == NULL) return;
+static int transferProgressCallback(const git_transfer_progress *progress, void *payload) {
+	if (payload == NULL) return 0;
 	void (^block)(const git_transfer_progress *) = (__bridge id)payload;
 	block(progress);
+
+	return 0;
 }
 
 + (id)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL barely:(BOOL)barely withCheckout:(BOOL)withCheckout error:(NSError **)error transferProgressBlock:(void (^)(const git_transfer_progress *))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))checkoutProgressBlock {
