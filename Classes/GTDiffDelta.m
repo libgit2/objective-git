@@ -44,7 +44,7 @@
 }
 
 - (BOOL)isBinary {
-	return (self.git_diff_delta->flags & GIT_DIFF_FLAG_BINARY) ? 1 : 0;
+	return (self.git_diff_delta->flags & GIT_DIFF_FLAG_BINARY) != 0;
 }
 
 - (GTDiffFile *)oldFile {
