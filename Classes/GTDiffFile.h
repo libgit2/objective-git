@@ -11,14 +11,10 @@
 // Flags which may be set on the file.
 //
 // See diff.h for individual documentation.
-typedef enum : git_diff_file_flag_t {
-	GTDiffFileFlagValidOID = GIT_DIFF_FILE_VALID_OID,
-	GTDiffFileFlagFreePath = GIT_DIFF_FILE_FREE_PATH,
-	GTDiffFileFlagBinary = GIT_DIFF_FILE_BINARY,
-	GTDiffFileFlagNotBinary = GIT_DIFF_FILE_NOT_BINARY,
-	GTDiffFileFlagFreeData = GIT_DIFF_FILE_FREE_DATA,
-	GTDiffFileFlagUnmapData = GIT_DIFF_FILE_UNMAP_DATA,
-	GTDiffFileFlagNoData = GIT_DIFF_FILE_NO_DATA,
+typedef enum : git_diff_flag_t {
+	GTDiffFileFlagValidOID = GIT_DIFF_FLAG_VALID_OID,
+	GTDiffFileFlagBinary = GIT_DIFF_FLAG_BINARY,
+	GTDiffFileFlagNotBinary = GIT_DIFF_FLAG_NOT_BINARY,
 } GTDiffFileFlag;
 
 // A class representing a file on one side of a diff.

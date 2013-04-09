@@ -187,13 +187,6 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 // returns the local commits, an empty array if there is no remote branch, or nil if an error occurred
 - (NSArray *)localCommitsRelativeToRemoteBranch:(GTBranch *)remoteBranch error:(NSError **)error;
 
-// Pack all references in the repository.
-//
-// error(out) - will be filled if an error occurs
-//
-// returns YES if the pack was successful
-- (BOOL)packAllWithError:(NSError **)error;
-
 // Reset the repository's HEAD to the given commit.
 //
 // commit - the commit the HEAD is to be reset to. Must not be nil.

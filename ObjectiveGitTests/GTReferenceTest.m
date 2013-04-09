@@ -206,17 +206,4 @@
 	}
 }
 
-- (void)testCanListPackedReferences {
-	
-	NSError *error = nil;
-	GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&error];
-	STAssertNil(error, [error localizedDescription]);
-	
-	NSArray *refs = [repo referenceNamesWithTypes:GTReferenceTypesPacked error:&error];
-	STAssertNil(error, [error localizedDescription]);
-	STAssertEquals(1, (int)refs.count, nil);
-	
-	STAssertEqualObjects(@"refs/heads/packed", [refs objectAtIndex:0], nil);
-}
-
 @end

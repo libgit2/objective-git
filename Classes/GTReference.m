@@ -150,16 +150,16 @@
 		return NO;
 	}
 	
-	int gitError = git_reference_rename(self.git_reference, [newName UTF8String], 0);
+	git_reference *newRef = NULL;
+	int gitError = git_reference_rename(&newRef, self.git_reference, newName.UTF8String, 0);
 	if(gitError < GIT_OK) {
 		if(error != NULL)
 			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to rename reference."];
 
-		// Our reference might have been deleted (which implies being freed), so
-		// we should invalidate it.
-		self.git_reference = NULL;
 		return NO;
 	}
+
+	self.git_reference = newRef;
 	return YES;
 }
 
@@ -190,6 +190,7 @@
 	
 	int gitError;
 	
+	git_reference *newRef = NULL;
 	if(git_reference_type(self.git_reference) == GIT_REF_OID) {
 		git_oid oid;
 		gitError = git_oid_fromstr(&oid, [newTarget UTF8String]);
@@ -199,9 +200,9 @@
 			return NO;
 		}
 		
-		gitError = git_reference_set_target(self.git_reference, &oid);
+		gitError = git_reference_set_target(&newRef, self.git_reference, &oid);
 	} else {
-		gitError = git_reference_symbolic_set_target(self.git_reference, [newTarget UTF8String]);
+		gitError = git_reference_symbolic_set_target(&newRef, self.git_reference, newTarget.UTF8String);
 	}
 
 	if(gitError < GIT_OK) {
@@ -209,6 +210,8 @@
 			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to set reference target."];
 		return NO;
 	}
+
+	self.git_reference = newRef;
 	return YES;
 }
 
@@ -244,24 +247,26 @@
 }
 
 - (BOOL)reloadWithError:(NSError **)error {
-	if(![self isValid]) {
+	if (![self isValid]) {
 		if(error != NULL) {
-			*error = [[self class] invalidReferenceError];
+			*error = self.class.invalidReferenceError;
 		}
 		
 		return NO;
 	}
-	
-	int errorCode = git_reference_reload(self.git_reference);
-	if(errorCode < GIT_OK) {
-		if(error != NULL) {
+
+	git_reference *newRef = NULL;
+	int errorCode = git_reference_lookup(&newRef, self.repository.git_repository, self.name.UTF8String);
+	if (errorCode < GIT_OK) {
+		if (error != NULL) {
 			*error = [NSError git_errorFor:errorCode withAdditionalDescription:@"Failed to reload reference."];
 		}
 		
-		self.git_reference = NULL;
 		return NO;
 	}
 	
+	// TODO: Mutability sucks!
+	self.git_reference = newRef;
 	return YES;
 }
 
