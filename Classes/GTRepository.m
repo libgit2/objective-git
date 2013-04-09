@@ -142,10 +142,12 @@ static void checkoutProgressCallback(const char *path, size_t completedSteps, si
 	block(nsPath, completedSteps, totalSteps);
 }
 
-static void transferProgressCallback(const git_transfer_progress *progress, void *payload) {
-	if (payload == NULL) return;
+static int transferProgressCallback(const git_transfer_progress *progress, void *payload) {
+	if (payload == NULL) return 0;
 	void (^block)(const git_transfer_progress *) = (__bridge id)payload;
 	block(progress);
+
+	return 0;
 }
 
 + (id)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL barely:(BOOL)barely withCheckout:(BOOL)withCheckout error:(NSError **)error transferProgressBlock:(void (^)(const git_transfer_progress *))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))checkoutProgressBlock {
@@ -531,15 +533,6 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 
 - (BOOL)isHeadDetached {
 	return (BOOL) git_repository_head_detached(self.git_repository);
-}
-
-- (BOOL)packAllWithError:(NSError **)error {
-	int gitError = git_reference_packall(self.git_repository);
-	if (gitError < GIT_OK) {
-		if(error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to pack all references in repo."];
-		return NO;
-	}
-	return YES;
 }
 
 - (NSMutableSet *)weakEnumerators {
