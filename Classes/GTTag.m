@@ -89,7 +89,7 @@
 
 - (GTSignature *)tagger {
 	if(tagger == nil) {
-		tagger = [GTSignature signatureWithSignature:(git_signature *)git_tag_tagger(self.git_tag)];
+		tagger = [[GTSignature alloc] initWithGitSignature:git_tag_tagger(self.git_tag)];
 	}
 	return tagger;
 }

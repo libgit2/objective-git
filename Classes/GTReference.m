@@ -27,9 +27,14 @@
 #import "GTRepository.h"
 #import "NSError+Git.h"
 #import "NSString+Git.h"
+#import "GTReflog+Private.h"
 
 @interface GTReference ()
+
 @property (nonatomic, readwrite) git_reference *git_reference;
+
+@property (nonatomic, readwrite, strong) GTReflog *reflog;
+
 @end
 
 @implementation GTReference
@@ -275,6 +280,14 @@
 
 + (NSError *)invalidReferenceError {
 	return [NSError git_errorFor:GTReferenceErrorCodeInvalidReference withAdditionalDescription:@"Invalid git_reference."];
+}
+
+- (GTReflog *)reflog {
+	if (_reflog == nil) {
+		_reflog = [[GTReflog alloc] initWithReference:self];
+	}
+	
+	return _reflog;
 }
 
 @end

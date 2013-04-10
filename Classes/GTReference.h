@@ -25,6 +25,8 @@
 
 #import "GTObject.h"
 
+@class GTReflog;
+
 typedef enum {
 	GTReferenceErrorCodeInvalidReference = -4,
 } GTReferenceErrorCode;
@@ -45,6 +47,9 @@ typedef enum {
 @property (nonatomic, readonly) NSString *type;
 @property (nonatomic, readonly) const git_oid *oid;
 @property (nonatomic, readonly, getter=isValid) BOOL valid;
+
+// The reflog for the reference.
+@property (nonatomic, readonly, strong) GTReflog *reflog;
 
 // Convenience initializers
 + (id)referenceByLookingUpReferencedNamed:(NSString *)refName inRepository:(GTRepository *)theRepo error:(NSError **)error;

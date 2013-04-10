@@ -38,6 +38,7 @@
 @class GTIndex;
 @class GTBranch;
 @class GTConfiguration;
+@class GTSignature;
 
 // Options returned from the enumerateFileStatusUsingBlock: function
 enum {

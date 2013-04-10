@@ -106,6 +106,19 @@
 		79262F1013C697C100A4B1EA /* git2 in Copy git2 Headers */ = {isa = PBXBuildFile; fileRef = 79262F0E13C697BE00A4B1EA /* git2 */; };
 		79262F8B13C69B1600A4B1EA /* git2.h in Headers */ = {isa = PBXBuildFile; fileRef = 79262F8A13C69B1600A4B1EA /* git2.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8803DA871313145700E6E818 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8803DA861313145700E6E818 /* libz.dylib */; };
+		882154691714740500D76B76 /* GTReflog.h in Headers */ = {isa = PBXBuildFile; fileRef = 882154671714740500D76B76 /* GTReflog.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8821546A1714740500D76B76 /* GTReflog.h in Headers */ = {isa = PBXBuildFile; fileRef = 882154671714740500D76B76 /* GTReflog.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8821546B1714740500D76B76 /* GTReflog.m in Sources */ = {isa = PBXBuildFile; fileRef = 882154681714740500D76B76 /* GTReflog.m */; };
+		8821546C1714740500D76B76 /* GTReflog.m in Sources */ = {isa = PBXBuildFile; fileRef = 882154681714740500D76B76 /* GTReflog.m */; };
+		8821547617147A5200D76B76 /* GTReflogEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = 8821547417147A5100D76B76 /* GTReflogEntry.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8821547717147A5200D76B76 /* GTReflogEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = 8821547417147A5100D76B76 /* GTReflogEntry.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8821547817147A5200D76B76 /* GTReflogEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 8821547517147A5200D76B76 /* GTReflogEntry.m */; };
+		8821547917147A5200D76B76 /* GTReflogEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 8821547517147A5200D76B76 /* GTReflogEntry.m */; };
+		8821547D17147B3600D76B76 /* GTOID.h in Headers */ = {isa = PBXBuildFile; fileRef = 8821547B17147B3600D76B76 /* GTOID.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8821547E17147B3600D76B76 /* GTOID.h in Headers */ = {isa = PBXBuildFile; fileRef = 8821547B17147B3600D76B76 /* GTOID.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8821547F17147B3600D76B76 /* GTOID.m in Sources */ = {isa = PBXBuildFile; fileRef = 8821547C17147B3600D76B76 /* GTOID.m */; };
+		8821548017147B3600D76B76 /* GTOID.m in Sources */ = {isa = PBXBuildFile; fileRef = 8821547C17147B3600D76B76 /* GTOID.m */; };
+		88215483171499BE00D76B76 /* GTReflogSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88215482171499BE00D76B76 /* GTReflogSpec.m */; };
 		883CD6AB1600EBC600F57354 /* GTRemote.h in Headers */ = {isa = PBXBuildFile; fileRef = 883CD6A91600EBC600F57354 /* GTRemote.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		883CD6AC1600EBC600F57354 /* GTRemote.m in Sources */ = {isa = PBXBuildFile; fileRef = 883CD6AA1600EBC600F57354 /* GTRemote.m */; };
 		8849C6A214AD81FF003890AF /* GTRepository+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 8849C6A114AD81FF003890AF /* GTRepository+Private.h */; };
@@ -315,6 +328,15 @@
 		79262F0E13C697BE00A4B1EA /* git2 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = git2; path = libgit2/include/git2; sourceTree = "<group>"; };
 		79262F8A13C69B1600A4B1EA /* git2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = git2.h; path = libgit2/include/git2.h; sourceTree = "<group>"; };
 		8803DA861313145700E6E818 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		882154671714740500D76B76 /* GTReflog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTReflog.h; sourceTree = "<group>"; };
+		882154681714740500D76B76 /* GTReflog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTReflog.m; sourceTree = "<group>"; };
+		882154731714755500D76B76 /* GTReflog+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GTReflog+Private.h"; sourceTree = "<group>"; };
+		8821547417147A5100D76B76 /* GTReflogEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTReflogEntry.h; sourceTree = "<group>"; };
+		8821547517147A5200D76B76 /* GTReflogEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTReflogEntry.m; sourceTree = "<group>"; };
+		8821547A17147A5F00D76B76 /* GTReflogEntry+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GTReflogEntry+Private.h"; sourceTree = "<group>"; };
+		8821547B17147B3600D76B76 /* GTOID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTOID.h; sourceTree = "<group>"; };
+		8821547C17147B3600D76B76 /* GTOID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTOID.m; sourceTree = "<group>"; };
+		88215482171499BE00D76B76 /* GTReflogSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTReflogSpec.m; sourceTree = "<group>"; };
 		883CD6A91600EBC600F57354 /* GTRemote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTRemote.h; sourceTree = "<group>"; };
 		883CD6AA1600EBC600F57354 /* GTRemote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTRemote.m; sourceTree = "<group>"; };
 		883CD6AE1600F01000F57354 /* GTConfiguration+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GTConfiguration+Private.h"; sourceTree = "<group>"; };
@@ -546,6 +568,7 @@
 				88A994B916FCE7D400402C7B /* GTBranchSpec.m */,
 				30B1E7FF1703871900D0814D /* GTTimeAdditionsSpec.m */,
 				88C0BC5817038CF3009E99AA /* GTConfigurationSpec.m */,
+				88215482171499BE00D76B76 /* GTReflogSpec.m */,
 				88F05AAF16011FFD00B7AD1D /* ObjectiveGitTests-Info.plist */,
 				88F05AB016011FFD00B7AD1D /* ObjectiveGitTests-Prefix.pch */,
 				88F05A7616011E5400B7AD1D /* Supporting Files */,
@@ -657,6 +680,14 @@
 				883CD6A91600EBC600F57354 /* GTRemote.h */,
 				883CD6AA1600EBC600F57354 /* GTRemote.m */,
 				30FDC07C16835A6F00654BF0 /* Diff */,
+				882154671714740500D76B76 /* GTReflog.h */,
+				882154731714755500D76B76 /* GTReflog+Private.h */,
+				882154681714740500D76B76 /* GTReflog.m */,
+				8821547417147A5100D76B76 /* GTReflogEntry.h */,
+				8821547A17147A5F00D76B76 /* GTReflogEntry+Private.h */,
+				8821547517147A5200D76B76 /* GTReflogEntry.m */,
+				8821547B17147B3600D76B76 /* GTOID.h */,
+				8821547C17147B3600D76B76 /* GTOID.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -708,7 +739,10 @@
 				6A74CA3716A942C800E1A3C5 /* GTRemote.h in Headers */,
 				3011D8721668E78500CE3409 /* GTDiffHunk.h in Headers */,
 				30FDC08016835A8100654BF0 /* GTDiffLine.h in Headers */,
+				8821547717147A5200D76B76 /* GTReflogEntry.h in Headers */,
 				3011D8781668F29600CE3409 /* GTDiffDelta.h in Headers */,
+				8821547E17147B3600D76B76 /* GTOID.h in Headers */,
+				8821546A1714740500D76B76 /* GTReflog.h in Headers */,
 				6A74CA3516A942B400E1A3C5 /* GTRepository+Private.h in Headers */,
 				6A74CA3616A942C000E1A3C5 /* GTConfiguration+Private.h in Headers */,
 				30B1E7EF1703522100D0814D /* NSDate+GTTimeAdditions.h in Headers */,
@@ -746,6 +780,9 @@
 				3011D8711668E78500CE3409 /* GTDiffHunk.h in Headers */,
 				30FDC07F16835A8100654BF0 /* GTDiffLine.h in Headers */,
 				3011D8771668F29600CE3409 /* GTDiffDelta.h in Headers */,
+				882154691714740500D76B76 /* GTReflog.h in Headers */,
+				8821547D17147B3600D76B76 /* GTOID.h in Headers */,
+				8821547617147A5200D76B76 /* GTReflogEntry.h in Headers */,
 				8849C6A214AD81FF003890AF /* GTRepository+Private.h in Headers */,
 				30B1E7EE1703522100D0814D /* NSDate+GTTimeAdditions.h in Headers */,
 			);
@@ -997,6 +1034,9 @@
 				3011D87A1668F29600CE3409 /* GTDiffDelta.m in Sources */,
 				30FDC08216835A8100654BF0 /* GTDiffLine.m in Sources */,
 				30B1E7F11703522100D0814D /* NSDate+GTTimeAdditions.m in Sources */,
+				8821546C1714740500D76B76 /* GTReflog.m in Sources */,
+				8821547917147A5200D76B76 /* GTReflogEntry.m in Sources */,
+				8821548017147B3600D76B76 /* GTOID.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1024,6 +1064,7 @@
 				88A994CB16FCED1D00402C7B /* GTTestCase.m in Sources */,
 				30B1E8001703871900D0814D /* GTTimeAdditionsSpec.m in Sources */,
 				88C0BC5917038CF3009E99AA /* GTConfigurationSpec.m in Sources */,
+				88215483171499BE00D76B76 /* GTReflogSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1057,6 +1098,9 @@
 				3011D8791668F29600CE3409 /* GTDiffDelta.m in Sources */,
 				30FDC08116835A8100654BF0 /* GTDiffLine.m in Sources */,
 				30B1E7F01703522100D0814D /* NSDate+GTTimeAdditions.m in Sources */,
+				8821546B1714740500D76B76 /* GTReflog.m in Sources */,
+				8821547817147A5200D76B76 /* GTReflogEntry.m in Sources */,
+				8821547F17147B3600D76B76 /* GTOID.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1254,7 +1298,7 @@
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/libgit2/include\"";
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = .;
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 				TEST_AFTER_BUILD = YES;
@@ -1275,7 +1319,7 @@
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/libgit2/include\"";
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = .;
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				SDKROOT = macosx;
 				TEST_AFTER_BUILD = YES;
 				VALID_ARCHS = x86_64;
@@ -1337,7 +1381,7 @@
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/libgit2/include\"";
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = .;
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				SDKROOT = macosx;
 				TEST_AFTER_BUILD = YES;
 				VALID_ARCHS = x86_64;

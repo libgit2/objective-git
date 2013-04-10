@@ -39,6 +39,9 @@
 #import <ObjectiveGit/GTObject.h>
 #import <ObjectiveGit/GTRemote.h>
 #import <ObjectiveGit/GTConfiguration.h>
+#import <ObjectiveGit/GTReflog.h>
+#import <ObjectiveGit/GTReflogEntry.h>
+#import <ObjectiveGit/GTOID.h>
 
 #import <ObjectiveGit/GTObjectDatabase.h>
 #import <ObjectiveGit/GTOdbObject.h>
