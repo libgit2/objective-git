@@ -34,7 +34,7 @@
 	git_oid *oid = malloc(sizeof(git_oid));
 	int status = git_oid_fromstr(oid, SHA.UTF8String);
 	if (status != GIT_OK) {
-		if (oid != NULL) free(oid);
+		free(oid);
 		return nil;
 	}
 
