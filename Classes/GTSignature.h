@@ -30,20 +30,16 @@
 
 #import "GTObject.h"
 
+@interface GTSignature : NSObject
 
-@interface GTSignature : NSObject {}
-
-@property (nonatomic, assign) git_signature *git_signature;
-@property (nonatomic, copy) NSString *name;
-@property (nonatomic, copy) NSString *email;
-@property (nonatomic, strong) NSDate *time;
+@property (nonatomic, readonly, assign) git_signature *git_signature;
+@property (nonatomic, readonly, copy) NSString *name;
+@property (nonatomic, readonly, copy) NSString *email;
+@property (nonatomic, readonly, strong) NSDate *time;
 @property (nonatomic, readonly, copy) NSTimeZone *timeZone;
 
-// Convenience initializers
-- (id)initWithSignature:(git_signature *)theSignature;
-+ (id)signatureWithSignature:(git_signature *)theSignature;
+- (id)initWithGitSignature:(const git_signature *)git_signature;
 
-- (id)initWithName:(NSString *)theName email:(NSString *)theEmail time:(NSDate *)theTime;
-+ (id)signatureWithName:(NSString *)theName email:(NSString *)theEmail time:(NSDate *)theTime;
+- (id)initWithName:(NSString *)name email:(NSString *)email time:(NSDate *)time;
 
 @end

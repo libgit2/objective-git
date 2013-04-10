@@ -11,6 +11,7 @@
 #import "GTRepository.h"
 #import "GTRemote.h"
 #import "NSError+Git.h"
+#import "GTSignature.h"
 
 @implementation GTConfiguration
 
@@ -126,6 +127,14 @@ static int configCallback(const git_config_entry *entry, void *payload) {
 	git_strarray_free(&names);
 
 	return remotes;
+}
+
+#pragma mark User
+
+- (GTSignature *)user {
+	NSString *username = [self stringForKey:@"user.name"] ?: @"";
+	NSString *email = [self stringForKey:@"user.email"] ?: @"";
+	return [[GTSignature alloc] initWithName:username email:email time:[NSDate date]];
 }
 
 #pragma mark Refresh
