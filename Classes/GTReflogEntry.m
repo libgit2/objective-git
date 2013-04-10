@@ -43,7 +43,7 @@
 }
 
 - (GTSignature *)committer {
-	return [[GTSignature alloc] initWithSignature:(git_signature *)git_reflog_entry_committer(self.git_reflog_entry)];
+	return [[GTSignature alloc] initWithGitSignature:git_reflog_entry_committer(self.git_reflog_entry)];
 }
 
 - (NSString *)message {

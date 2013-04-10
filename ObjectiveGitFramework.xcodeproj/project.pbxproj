@@ -107,7 +107,7 @@
 		79262F8B13C69B1600A4B1EA /* git2.h in Headers */ = {isa = PBXBuildFile; fileRef = 79262F8A13C69B1600A4B1EA /* git2.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8803DA871313145700E6E818 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8803DA861313145700E6E818 /* libz.dylib */; };
 		882154691714740500D76B76 /* GTReflog.h in Headers */ = {isa = PBXBuildFile; fileRef = 882154671714740500D76B76 /* GTReflog.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		8821546A1714740500D76B76 /* GTReflog.h in Headers */ = {isa = PBXBuildFile; fileRef = 882154671714740500D76B76 /* GTReflog.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		8821546A1714740500D76B76 /* GTReflog.h in Headers */ = {isa = PBXBuildFile; fileRef = 882154671714740500D76B76 /* GTReflog.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8821546B1714740500D76B76 /* GTReflog.m in Sources */ = {isa = PBXBuildFile; fileRef = 882154681714740500D76B76 /* GTReflog.m */; };
 		8821546C1714740500D76B76 /* GTReflog.m in Sources */ = {isa = PBXBuildFile; fileRef = 882154681714740500D76B76 /* GTReflog.m */; };
 		8821547617147A5200D76B76 /* GTReflogEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = 8821547417147A5100D76B76 /* GTReflogEntry.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -742,9 +742,9 @@
 				8821547717147A5200D76B76 /* GTReflogEntry.h in Headers */,
 				3011D8781668F29600CE3409 /* GTDiffDelta.h in Headers */,
 				8821547E17147B3600D76B76 /* GTOID.h in Headers */,
+				8821546A1714740500D76B76 /* GTReflog.h in Headers */,
 				6A74CA3516A942B400E1A3C5 /* GTRepository+Private.h in Headers */,
 				6A74CA3616A942C000E1A3C5 /* GTConfiguration+Private.h in Headers */,
-				8821546A1714740500D76B76 /* GTReflog.h in Headers */,
 				30B1E7EF1703522100D0814D /* NSDate+GTTimeAdditions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

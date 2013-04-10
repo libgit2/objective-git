@@ -29,9 +29,14 @@
 }
 
 - (id)initWithSHA:(NSString *)SHA {
+	NSParameterAssert(SHA != nil);
+
 	git_oid *oid = malloc(sizeof(git_oid));
 	int status = git_oid_fromstr(oid, SHA.UTF8String);
-	if (status != GIT_OK) return nil;
+	if (status != GIT_OK) {
+		if (oid != NULL) free(oid);
+		return nil;
+	}
 
 	GTOID *OID = [self initWithGitOid:oid];
 	free(oid);

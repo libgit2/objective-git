@@ -132,7 +132,9 @@ static int configCallback(const git_config_entry *entry, void *payload) {
 #pragma mark User
 
 - (GTSignature *)user {
-	return [[GTSignature alloc] initWithName:[self stringForKey:@"user.name"] email:[self stringForKey:@"user.email"] time:[NSDate date]];
+	NSString *username = [self stringForKey:@"user.name"] ?: @"";
+	NSString *email = [self stringForKey:@"user.email"] ?: @"";
+	return [[GTSignature alloc] initWithName:username email:email time:[NSDate date]];
 }
 
 #pragma mark Refresh

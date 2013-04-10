@@ -28,62 +28,55 @@
 //
 
 #import "GTSignature.h"
-
 #import "NSDate+GTTimeAdditions.h"
 
 @implementation GTSignature
 
+#pragma mark Lifecycle
+
+- (void)dealloc {
+	if (_git_signature != NULL) git_signature_free(_git_signature);
+}
+
+- (id)initWithGitSignature:(const git_signature *)git_signature {
+	NSParameterAssert(git_signature != NULL);
+
+	self = [super init];
+	if (self == nil) return nil;
+
+	_git_signature = git_signature_dup(git_signature);
+
+	return self;
+}
+
+- (id)initWithName:(NSString *)name email:(NSString *)email time:(NSDate *)time {
+	NSParameterAssert(name != nil);
+	NSParameterAssert(email != nil);
+
+	self = [super init];
+	if (self == nil) return nil;
+
+	git_time gitTime = [time gt_gitTimeUsingTimeZone:nil];
+	int status = git_signature_new(&_git_signature, name.UTF8String, email.UTF8String, gitTime.time, gitTime.offset);
+	if (status != GIT_OK) return nil;
+
+	return self;
+}
+
+#pragma mark NSObject
+
 - (NSString *)description {
-	return [NSString stringWithFormat:@"<%@: %p> name: %@, email: %@, time: %@", NSStringFromClass([self class]), self, self.name, self.email, self.time];
+	return [NSString stringWithFormat:@"<%@: %p> name: %@, email: %@, time: %@", self.class, self, self.name, self.email, self.time];
 }
 
-
-#pragma mark API 
-
-@synthesize git_signature;
-@synthesize name;
-@synthesize email;
-@synthesize time;
-
-+ (id)signatureWithSignature:(git_signature *)theSignature {
-	return [[self alloc] initWithSignature:theSignature];
-}
-
-+ (id)signatureWithName:(NSString *)theName email:(NSString *)theEmail time:(NSDate *)theTime {
-	return [[self alloc] initWithName:theName email:theEmail time:theTime];
-}
-
-- (id)initWithSignature:(git_signature *)theSignature {
-	if((self = [self init])) {
-		self.git_signature = theSignature;
-	}
-	return self;
-}
-
-- (id)initWithName:(NSString *)theName email:(NSString *)theEmail time:(NSDate *)theTime {
-	if((self = [super init])) {
-		git_time gitTime = [theTime gt_gitTimeUsingTimeZone:nil];
-		git_signature_new(&git_signature, theName.UTF8String, theEmail.UTF8String, gitTime.time, gitTime.offset);
-	}
-	return self;
-}
+#pragma mark Properties 
 
 - (NSString *)name {
-	return [NSString stringWithUTF8String:self.git_signature->name];
-}
-
-- (void)setName:(NSString *)n {
-	free(self.git_signature->name);
-	self.git_signature->name = strdup([n cStringUsingEncoding:NSUTF8StringEncoding]);
+	return @(self.git_signature->name);
 }
 
 - (NSString *)email {
-	return [NSString stringWithUTF8String:self.git_signature->email];
-}
-
-- (void)setEmail:(NSString *)e {	
-	free(self.git_signature->email);
-	self.git_signature->email = strdup([e cStringUsingEncoding:NSUTF8StringEncoding]);
+	return @(self.git_signature->email);
 }
 
 - (NSDate *)time {
@@ -92,11 +85,6 @@
 
 - (NSTimeZone *)timeZone {
 	return [NSTimeZone gt_timeZoneFromGitTime:self.git_signature->when];
-}
-
-- (void)setTime:(NSDate *)date {
-	git_time newTime = [date gt_gitTimeUsingTimeZone:nil];
-	self.git_signature->when = newTime;
 }
 
 @end

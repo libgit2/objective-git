@@ -26,7 +26,7 @@
 #pragma mark Lifecycle
 
 - (void)dealloc {
-	git_reflog_free(_git_reflog);
+	if (_git_reflog != NULL) git_reflog_free(_git_reflog);
 }
 
 - (id)initWithReference:(GTReference *)reference {

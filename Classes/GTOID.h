@@ -21,6 +21,7 @@
 //
 // git_oid - The underlying git_oid. Cannot be NULL.
 //
+// Returns the initialized receiver.
 - (id)initWithGitOid:(const git_oid *)git_oid;
 
 // Initializes the receiver by converting the given SHA to an OID.

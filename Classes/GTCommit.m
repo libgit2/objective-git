@@ -134,7 +134,7 @@
 
 - (GTSignature *)author {
 	if (_author == nil) {
-		_author = [GTSignature signatureWithSignature:(git_signature *)git_commit_author(self.git_commit)];
+		_author = [[GTSignature alloc] initWithGitSignature:git_commit_author(self.git_commit)];
 	}
 	
 	return _author;
@@ -142,7 +142,7 @@
 
 - (GTSignature *)committer {
 	if (_committer == nil) {
-		_committer = [GTSignature signatureWithSignature:(git_signature *)git_commit_committer(self.git_commit)];
+		_committer = [[GTSignature alloc] initWithGitSignature:git_commit_committer(self.git_commit)];
 	}
 	return _committer;
 }
