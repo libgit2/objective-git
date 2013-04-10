@@ -30,7 +30,11 @@
 #import "GTReflog+Private.h"
 
 @interface GTReference ()
+
 @property (nonatomic, readwrite) git_reference *git_reference;
+
+@property (nonatomic, readwrite, strong) GTReflog *reflog;
+
 @end
 
 @implementation GTReference
@@ -279,7 +283,11 @@
 }
 
 - (GTReflog *)reflog {
-	return [[GTReflog alloc] initWithReference:self];
+	if (_reflog == nil) {
+		_reflog = [[GTReflog alloc] initWithReference:self];
+	}
+	
+	return _reflog;
 }
 
 @end

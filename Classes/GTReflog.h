@@ -35,4 +35,11 @@
 // Returns the entry at that index.
 - (GTReflogEntry *)entryAtIndex:(NSUInteger)index;
 
+// Reload the reflog from the disk.
+//
+// error - The error if one occurred.
+//
+// Returns whether the reload succeeded.
+- (BOOL)reload:(NSError **)error;
+
 @end
