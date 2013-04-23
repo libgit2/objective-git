@@ -5,6 +5,11 @@ then
     echo "No update needed."
     exit 0
 fi
+# augment path to help it find cmake installed in /usr/local/bin,
+# e.g. via brew. Xcode's Run Script phase doesn't seem to honor
+# ~/.MacOSX/environemnt.plist
+PATH=/usr/local/bin:$PATH
+
 
 cd "libgit2"
 
