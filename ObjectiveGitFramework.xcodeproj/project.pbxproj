@@ -415,6 +415,8 @@
 		BDFAF9C7131C1868000508BC /* GTIndexEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTIndexEntry.h; sourceTree = "<group>"; };
 		BDFAF9C8131C1868000508BC /* GTIndexEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = GTIndexEntry.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		D2F7E79907B2D74100F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+		E46931A7172740D300F2077D /* update_libgit2.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = update_libgit2.sh; sourceTree = "<group>"; };
+		E46931A8172740D300F2077D /* update_libgit2_ios.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = update_libgit2_ios.sh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -474,6 +476,7 @@
 				BDD9C2F2133BA3F7003708E7 /* External Frameworks and Libraries iOS */,
 				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
 				034768DFFF38A50411DB9C8B /* Products */,
+				E46931A6172740D300F2077D /* Scripts */,
 			);
 			name = ObjectiveGitFramework;
 			sourceTree = "<group>";
@@ -705,6 +708,15 @@
 				30B1E7ED1703522100D0814D /* NSDate+GTTimeAdditions.m */,
 			);
 			path = Categories;
+			sourceTree = "<group>";
+		};
+		E46931A6172740D300F2077D /* Scripts */ = {
+			isa = PBXGroup;
+			children = (
+				E46931A7172740D300F2077D /* update_libgit2.sh */,
+				E46931A8172740D300F2077D /* update_libgit2_ios.sh */,
+			);
+			path = Scripts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
