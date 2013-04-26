@@ -477,6 +477,7 @@
 			);
 			name = ObjectiveGitFramework;
 			sourceTree = "<group>";
+			usesTabs = 1;
 		};
 		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
