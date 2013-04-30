@@ -201,8 +201,8 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 //
 // error - If not NULL, set to any error that occurs.
 //
-// Returns the read message, or nil if no prepared message exists or an error
-// occurred.
+// Returns the message from disk, or nil if no prepared message exists or an
+// error occurred.
 - (NSString *)preparedMessageWithError:(NSError **)error;
 
 @end
