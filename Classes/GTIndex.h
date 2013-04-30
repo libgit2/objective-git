@@ -60,6 +60,7 @@
 // Get entries from the index
 - (GTIndexEntry *)entryAtIndex:(NSUInteger)theIndex;
 - (GTIndexEntry *)entryWithName:(NSString *)name;
+- (GTIndexEntry *)entryWithName:(NSString *)name error:(NSError **)error;
 
 // Add entries to the index
 - (BOOL)addEntry:(GTIndexEntry *)entry error:(NSError **)error;
