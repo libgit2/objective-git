@@ -589,4 +589,53 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
     return NO;
 }
 
+- (NSString *)preparedMessageWithError:(NSError **)error {
+	void (^setErrorFromCode)(int) = ^(int errorCode) {
+		if (errorCode == 0 || errorCode == GIT_ENOTFOUND) {
+			// Not an error.
+			return;
+		}
+
+		if (error != NULL) {
+			*error = [NSError git_errorFor:errorCode withAdditionalDescription:@"Failed to read prepared message."];
+		}
+	};
+
+	int errorCode = git_repository_message(NULL, 0, self.git_repository);
+	if (errorCode <= 0) {
+		setErrorFromCode(errorCode);
+		return nil;
+	}
+
+	size_t size = (size_t)errorCode;
+	if (size == 1) {
+		// This is just the NUL terminator. The message must be an empty string.
+		return @"";
+	}
+
+	void *bytes = malloc(size);
+	if (bytes == nil) return nil;
+
+	// Although documented to return the size of the read data, this function
+	// actually returns the full size of the message, which may not match what
+	// gets copied into `bytes` (like if the file changed since we checked it
+	// originally). So we don't really care about that number except for error
+	// checking.
+	//
+	// See libgit2/libgit2#1519.
+	errorCode = git_repository_message(bytes, size, self.git_repository);
+	if (errorCode <= 0) {
+		setErrorFromCode(errorCode);
+		free(bytes);
+		return nil;
+	}
+
+	NSString *message = [[NSString alloc] initWithBytesNoCopy:bytes length:size - 1 encoding:NSUTF8StringEncoding freeWhenDone:YES];
+	if (message == nil) {
+		free(bytes);
+	}
+
+	return message;
+}
+
 @end
