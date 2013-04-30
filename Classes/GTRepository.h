@@ -196,4 +196,13 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 // Returns `YES` if successful, `NO` if not.
 - (BOOL)resetToCommit:(GTCommit *)commit withResetType:(GTRepositoryResetType)resetType error:(NSError **)error;
 
+// Retrieves git's "prepared message" for the next commit, like the default
+// message pre-filled when committing after a conflicting merge.
+//
+// error - If not NULL, set to any error that occurs.
+//
+// Returns the read message, or nil if no prepared message exists or an error
+// occurred.
+- (NSString *)preparedMessageWithError:(NSError **)error;
+
 @end
