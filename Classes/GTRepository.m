@@ -650,7 +650,7 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 	NSString *email = [self.configuration stringForKey:@"user.email"];
 	if (email == nil) {
 		NSString *username = NSUserName() ?: @"nobody";
-		NSString *domain = NSProcessInfo.processInfo.hostName ?: @"nowhere";
+		NSString *domain = NSProcessInfo.processInfo.hostName ?: @"nowhere.local";
 		email = [NSString stringWithFormat:@"%@@%@", username, domain];
 	}
 
