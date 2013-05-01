@@ -45,6 +45,8 @@
 #pragma mark Entries
 
 - (BOOL)writeEntryWithCommitter:(GTSignature *)committer message:(NSString *)message error:(NSError **)error {
+	NSParameterAssert(committer != nil);
+
 	// Make sure the reference and reflog are as up-to-date as possible before
 	// we try to write.
 	BOOL success = [self reload:error];

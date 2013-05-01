@@ -39,6 +39,7 @@
 #import "NSString+Git.h"
 #import "GTConfiguration.h"
 #import "GTConfiguration+Private.h"
+#import "GTSignature.h"
 
 @interface GTRepository ()
 @property (nonatomic, assign) git_repository *git_repository;
@@ -636,6 +637,24 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 	}
 
 	return message;
+}
+
+#pragma mark User
+
+- (GTSignature *)userSignatureForNow {
+	NSString *name = [self.configuration stringForKey:@"user.name"];
+	if (name == nil) {
+		name = NSFullUserName() ?: NSUserName() ?: @"Nobody";
+	}
+
+	NSString *email = [self.configuration stringForKey:@"user.email"];
+	if (email == nil) {
+		NSString *username = NSUserName() ?: @"nobody";
+		NSString *domain = NSProcessInfo.processInfo.hostName ?: @"nowhere";
+		email = [NSString stringWithFormat:@"%@@%@", username, domain];
+	}
+
+	return [[GTSignature alloc] initWithName:name email:email time:[NSDate date]];
 }
 
 @end

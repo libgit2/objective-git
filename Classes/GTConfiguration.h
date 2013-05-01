@@ -21,10 +21,6 @@
 // repository, this will always be nil.
 @property (nonatomic, readonly, copy) NSArray *remotes;
 
-// The signature based on the user configuration keys. The signature's date will
-// be +[NSDate date].
-@property (nonatomic, readonly, strong) GTSignature *user;
-
 // Creates and returns a configuration which includes the global, XDG, and
 // system configurations.
 + (instancetype)defaultConfiguration;
