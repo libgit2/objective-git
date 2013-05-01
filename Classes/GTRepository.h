@@ -205,4 +205,11 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 // error occurred.
 - (NSString *)preparedMessageWithError:(NSError **)error;
 
+// The signature for the user at the current time, based on the repository and
+// system configs. If the user's name or email have not been set, reasonable
+// defaults will be used instead. Will never return nil.
+//
+// Returns the signature.
+- (GTSignature *)userSignatureForNow;
+
 @end
