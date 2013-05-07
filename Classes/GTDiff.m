@@ -82,11 +82,12 @@ NSString *const GTDiffFindOptionsTargetLimitKey = @"GTDiffFindOptionsTargetLimit
 }
 
 + (GTDiff *)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree options:(NSDictionary *)options error:(NSError **)error {
-	NSParameterAssert([oldTree.repository isEqual:newTree.repository]);
+	NSParameterAssert(newTree != nil);
+	NSParameterAssert(oldTree == nil || [oldTree.repository isEqual:newTree.repository]);
 	
 	git_diff_options *optionsStruct = [self optionsStructFromDictionary:options];
 	git_diff_list *diffList;
-	int returnValue = git_diff_tree_to_tree(&diffList, oldTree.repository.git_repository, oldTree.git_tree, newTree.git_tree, optionsStruct);
+	int returnValue = git_diff_tree_to_tree(&diffList, newTree.repository.git_repository, oldTree.git_tree, newTree.git_tree, optionsStruct);
 	[self freeOptionsStruct:optionsStruct];
 	if (returnValue != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:returnValue withAdditionalDescription:@"Failed to create diff."];
