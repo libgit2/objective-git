@@ -433,11 +433,9 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 	if (!success) return nil;
 
 	GTReference *newRef = [GTReference referenceByCreatingReferenceNamed:[NSString stringWithFormat:@"%@%@", [GTBranch localNamePrefix], name] fromReferenceTarget:ref.target inRepository:self error:error];
-	if (newRef) {
-		return [GTBranch branchWithReference:newRef repository:self];
-	} else {
-		return nil;
-	}
+	if (newRef == nil) return nil;
+	
+	return [GTBranch branchWithReference:newRef repository:self];
 }
 
 - (BOOL)isEmpty {
