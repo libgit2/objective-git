@@ -160,7 +160,7 @@ typedef enum : git_diff_find_t {
 //
 // The 2 trees must be from the same repository, or an exception will be thrown.
 //
-// oldTree - The "left" side of the diff.
+// oldTree - The "left" side of the diff. May be nil to represent an empty tree.
 // newTree - The "right" side of the diff.
 // options - A dictionary containing any of the above options key constants, or
 //           nil to use the defaults.
