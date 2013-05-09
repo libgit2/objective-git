@@ -45,6 +45,7 @@
 	if (self == nil) return nil;
 
 	_git_signature = git_signature_dup(git_signature);
+	NSAssert(_git_signature != NULL, @"Couldn't copy signature.");
 
 	return self;
 }
@@ -72,10 +73,14 @@
 #pragma mark Properties 
 
 - (NSString *)name {
+	if (self.git_signature == NULL) return nil;
+
 	return @(self.git_signature->name);
 }
 
 - (NSString *)email {
+	if (self.git_signature == NULL) return nil;
+
 	return @(self.git_signature->email);
 }
 
