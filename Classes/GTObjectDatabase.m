@@ -29,6 +29,8 @@
 #import "GTOdbObject.h"
 #import "NSString+Git.h"
 
+#import "git2/odb_backend.h"
+
 @interface GTObjectDatabase ()
 @property (nonatomic, unsafe_unretained) GTRepository *repository;
 @end
