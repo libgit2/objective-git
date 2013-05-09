@@ -15,6 +15,7 @@ typedef enum : git_diff_line_t {
 	GTDiffLineOriginContext = GIT_DIFF_LINE_CONTEXT,
 	GTDiffLineOriginAddition = GIT_DIFF_LINE_ADDITION,
 	GTDiffLineOriginDeletion = GIT_DIFF_LINE_DELETION,
+	GTDiffLineOriginNoEOFNewlineContext = GIT_DIFF_LINE_CONTEXT_EOFNL,
 	GTDiffLineOriginAddEOFNewLine = GIT_DIFF_LINE_ADD_EOFNL,
 	GTDiffLineOriginDeleteEOFNewLine = GIT_DIFF_LINE_DEL_EOFNL,
 } GTDiffLineOrigin;
