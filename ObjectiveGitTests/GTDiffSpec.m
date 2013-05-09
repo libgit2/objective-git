@@ -31,6 +31,10 @@ describe(@"GTDiff initialisation", ^{
 		expect([GTDiff diffOldTree:firstCommit.tree withNewTree:secondCommit.tree options:nil error:NULL]).toNot.beNil();
 	});
 	
+	it(@"should be able to initialise a diff against an empty tree", ^{
+		expect([GTDiff diffOldTree:nil withNewTree:firstCommit.tree options:nil error:NULL]).toNot.beNil();
+	});
+	
 	it(@"should be able to initialise a diff against the index with a tree", ^{
 		expect([GTDiff diffIndexFromTree:secondCommit.tree options:nil error:NULL]).toNot.beNil();
 	});
