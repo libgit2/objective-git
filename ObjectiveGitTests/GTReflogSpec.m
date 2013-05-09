@@ -38,7 +38,7 @@ describe(@"reading", ^{
 describe(@"writing", ^{
 	it(@"should be able to write a new reflog entry", ^{
 		static NSString * const message = @"Refloggin' ain't easy.";
-		GTSignature *user = repository.configuration.user;
+		GTSignature *user = repository.userSignatureForNow;
 		BOOL success = [reflog writeEntryWithCommitter:user message:message error:NULL];
 		expect(success).to.beTruthy();
 
