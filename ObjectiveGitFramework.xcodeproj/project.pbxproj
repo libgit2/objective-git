@@ -119,6 +119,8 @@
 		8821547F17147B3600D76B76 /* GTOID.m in Sources */ = {isa = PBXBuildFile; fileRef = 8821547C17147B3600D76B76 /* GTOID.m */; };
 		8821548017147B3600D76B76 /* GTOID.m in Sources */ = {isa = PBXBuildFile; fileRef = 8821547C17147B3600D76B76 /* GTOID.m */; };
 		88215483171499BE00D76B76 /* GTReflogSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88215482171499BE00D76B76 /* GTReflogSpec.m */; };
+		8832811F173D8816006D7DCF /* GTIndexSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8832811E173D8816006D7DCF /* GTIndexSpec.m */; };
+		88328128173D8A64006D7DCF /* GTTreeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88328127173D8A64006D7DCF /* GTTreeSpec.m */; };
 		883CD6AB1600EBC600F57354 /* GTRemote.h in Headers */ = {isa = PBXBuildFile; fileRef = 883CD6A91600EBC600F57354 /* GTRemote.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		883CD6AC1600EBC600F57354 /* GTRemote.m in Sources */ = {isa = PBXBuildFile; fileRef = 883CD6AA1600EBC600F57354 /* GTRemote.m */; };
 		8849C6A214AD81FF003890AF /* GTRepository+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 8849C6A114AD81FF003890AF /* GTRepository+Private.h */; };
@@ -135,14 +137,12 @@
 		88F05AB416011FFD00B7AD1D /* GTBranchTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F05AA316011FFD00B7AD1D /* GTBranchTest.m */; };
 		88F05AB516011FFD00B7AD1D /* GTCommitTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F05AA416011FFD00B7AD1D /* GTCommitTest.m */; };
 		88F05AB616011FFD00B7AD1D /* GTConfigurationTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F05AA516011FFD00B7AD1D /* GTConfigurationTest.m */; };
-		88F05AB716011FFD00B7AD1D /* GTIndexTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F05AA616011FFD00B7AD1D /* GTIndexTest.m */; };
 		88F05AB816011FFD00B7AD1D /* GTLibTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F05AA716011FFD00B7AD1D /* GTLibTest.m */; };
 		88F05AB916011FFD00B7AD1D /* GTObjectTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F05AA816011FFD00B7AD1D /* GTObjectTest.m */; };
 		88F05ABA16011FFD00B7AD1D /* GTReferenceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F05AA916011FFD00B7AD1D /* GTReferenceTest.m */; };
 		88F05ABB16011FFD00B7AD1D /* GTRepositoryPackTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F05AAA16011FFD00B7AD1D /* GTRepositoryPackTest.m */; };
 		88F05ABC16011FFD00B7AD1D /* GTRepositoryTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F05AAB16011FFD00B7AD1D /* GTRepositoryTest.m */; };
 		88F05ABD16011FFD00B7AD1D /* GTTagTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F05AAC16011FFD00B7AD1D /* GTTagTest.m */; };
-		88F05ABE16011FFD00B7AD1D /* GTTreeTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F05AAD16011FFD00B7AD1D /* GTTreeTest.m */; };
 		88F05ABF16011FFD00B7AD1D /* GTWalkerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F05AAE16011FFD00B7AD1D /* GTWalkerTest.m */; };
 		88F05AC31601200800B7AD1D /* fixtures in Resources */ = {isa = PBXBuildFile; fileRef = 88F05AC21601200800B7AD1D /* fixtures */; };
 		88F05AC41601204200B7AD1D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 88F05A7816011E5400B7AD1D /* InfoPlist.strings */; };
@@ -338,6 +338,8 @@
 		8821547B17147B3600D76B76 /* GTOID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTOID.h; sourceTree = "<group>"; };
 		8821547C17147B3600D76B76 /* GTOID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTOID.m; sourceTree = "<group>"; };
 		88215482171499BE00D76B76 /* GTReflogSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTReflogSpec.m; sourceTree = "<group>"; };
+		8832811E173D8816006D7DCF /* GTIndexSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTIndexSpec.m; sourceTree = "<group>"; };
+		88328127173D8A64006D7DCF /* GTTreeSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTTreeSpec.m; sourceTree = "<group>"; };
 		883CD6A91600EBC600F57354 /* GTRemote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTRemote.h; sourceTree = "<group>"; };
 		883CD6AA1600EBC600F57354 /* GTRemote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTRemote.m; sourceTree = "<group>"; };
 		883CD6AE1600F01000F57354 /* GTConfiguration+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GTConfiguration+Private.h"; sourceTree = "<group>"; };
@@ -361,17 +363,14 @@
 		88F05AA316011FFD00B7AD1D /* GTBranchTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTBranchTest.m; sourceTree = "<group>"; };
 		88F05AA416011FFD00B7AD1D /* GTCommitTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTCommitTest.m; sourceTree = "<group>"; };
 		88F05AA516011FFD00B7AD1D /* GTConfigurationTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTConfigurationTest.m; sourceTree = "<group>"; };
-		88F05AA616011FFD00B7AD1D /* GTIndexTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTIndexTest.m; sourceTree = "<group>"; };
 		88F05AA716011FFD00B7AD1D /* GTLibTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTLibTest.m; sourceTree = "<group>"; };
 		88F05AA816011FFD00B7AD1D /* GTObjectTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTObjectTest.m; sourceTree = "<group>"; };
 		88F05AA916011FFD00B7AD1D /* GTReferenceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTReferenceTest.m; sourceTree = "<group>"; };
 		88F05AAA16011FFD00B7AD1D /* GTRepositoryPackTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTRepositoryPackTest.m; sourceTree = "<group>"; };
 		88F05AAB16011FFD00B7AD1D /* GTRepositoryTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTRepositoryTest.m; sourceTree = "<group>"; };
 		88F05AAC16011FFD00B7AD1D /* GTTagTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTTagTest.m; sourceTree = "<group>"; };
-		88F05AAD16011FFD00B7AD1D /* GTTreeTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTTreeTest.m; sourceTree = "<group>"; };
 		88F05AAE16011FFD00B7AD1D /* GTWalkerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTWalkerTest.m; sourceTree = "<group>"; };
 		88F05AAF16011FFD00B7AD1D /* ObjectiveGitTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ObjectiveGitTests-Info.plist"; sourceTree = "<group>"; };
-		88F05AB016011FFD00B7AD1D /* ObjectiveGitTests-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ObjectiveGitTests-Prefix.pch"; sourceTree = "<group>"; };
 		88F05AC21601200800B7AD1D /* fixtures */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fixtures; sourceTree = "<group>"; };
 		88F05AC51601209A00B7AD1D /* ObjectiveGit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ObjectiveGit.m; path = Classes/ObjectiveGit.m; sourceTree = "<group>"; };
 		88F05AC91601335C00B7AD1D /* Specta.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Specta.xcodeproj; path = specta/Specta.xcodeproj; sourceTree = "<group>"; };
@@ -561,14 +560,12 @@
 				88F05AA316011FFD00B7AD1D /* GTBranchTest.m */,
 				88F05AA416011FFD00B7AD1D /* GTCommitTest.m */,
 				88F05AA516011FFD00B7AD1D /* GTConfigurationTest.m */,
-				88F05AA616011FFD00B7AD1D /* GTIndexTest.m */,
 				88F05AA716011FFD00B7AD1D /* GTLibTest.m */,
 				88F05AA816011FFD00B7AD1D /* GTObjectTest.m */,
 				88F05AA916011FFD00B7AD1D /* GTReferenceTest.m */,
 				88F05AAA16011FFD00B7AD1D /* GTRepositoryPackTest.m */,
 				88F05AAB16011FFD00B7AD1D /* GTRepositoryTest.m */,
 				88F05AAC16011FFD00B7AD1D /* GTTagTest.m */,
-				88F05AAD16011FFD00B7AD1D /* GTTreeTest.m */,
 				88F05AAE16011FFD00B7AD1D /* GTWalkerTest.m */,
 				30865A90167F503400B1AB6E /* GTDiffSpec.m */,
 				88A994B916FCE7D400402C7B /* GTBranchSpec.m */,
@@ -576,8 +573,8 @@
 				88C0BC5817038CF3009E99AA /* GTConfigurationSpec.m */,
 				88215482171499BE00D76B76 /* GTReflogSpec.m */,
 				D0AC906B172F941F00347DC4 /* GTRepositorySpec.m */,
-				88F05AAF16011FFD00B7AD1D /* ObjectiveGitTests-Info.plist */,
-				88F05AB016011FFD00B7AD1D /* ObjectiveGitTests-Prefix.pch */,
+				8832811E173D8816006D7DCF /* GTIndexSpec.m */,
+				88328127173D8A64006D7DCF /* GTTreeSpec.m */,
 				88F05A7616011E5400B7AD1D /* Supporting Files */,
 			);
 			path = ObjectiveGitTests;
@@ -593,6 +590,7 @@
 				88F05A7716011E5400B7AD1D /* ObjectiveGitTests-Info.plist */,
 				88F05A7816011E5400B7AD1D /* InfoPlist.strings */,
 				88F05A7E16011E5400B7AD1D /* ObjectiveGitTests-Prefix.pch */,
+				88F05AAF16011FFD00B7AD1D /* ObjectiveGitTests-Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -1066,14 +1064,12 @@
 				88F05AB416011FFD00B7AD1D /* GTBranchTest.m in Sources */,
 				88F05AB516011FFD00B7AD1D /* GTCommitTest.m in Sources */,
 				88F05AB616011FFD00B7AD1D /* GTConfigurationTest.m in Sources */,
-				88F05AB716011FFD00B7AD1D /* GTIndexTest.m in Sources */,
 				88F05AB816011FFD00B7AD1D /* GTLibTest.m in Sources */,
 				88F05AB916011FFD00B7AD1D /* GTObjectTest.m in Sources */,
 				88F05ABA16011FFD00B7AD1D /* GTReferenceTest.m in Sources */,
 				88F05ABB16011FFD00B7AD1D /* GTRepositoryPackTest.m in Sources */,
 				88F05ABC16011FFD00B7AD1D /* GTRepositoryTest.m in Sources */,
 				88F05ABD16011FFD00B7AD1D /* GTTagTest.m in Sources */,
-				88F05ABE16011FFD00B7AD1D /* GTTreeTest.m in Sources */,
 				88F05ABF16011FFD00B7AD1D /* GTWalkerTest.m in Sources */,
 				30865A91167F503400B1AB6E /* GTDiffSpec.m in Sources */,
 				88A994BA16FCE7D400402C7B /* GTBranchSpec.m in Sources */,
@@ -1082,6 +1078,8 @@
 				88C0BC5917038CF3009E99AA /* GTConfigurationSpec.m in Sources */,
 				88215483171499BE00D76B76 /* GTReflogSpec.m in Sources */,
 				D0AC906C172F941F00347DC4 /* GTRepositorySpec.m in Sources */,
+				8832811F173D8816006D7DCF /* GTIndexSpec.m in Sources */,
+				88328128173D8A64006D7DCF /* GTTreeSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

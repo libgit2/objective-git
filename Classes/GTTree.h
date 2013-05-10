@@ -31,16 +31,15 @@
 #import "GTObject.h"
 
 @class GTTreeEntry;
+@class GTIndex;
 
+@interface GTTree : GTObject
 
-@interface GTTree : GTObject {}
-
+// The underlying libgit2 tree.
 @property (nonatomic, readonly) git_tree *git_tree;
 
-// Get the number of entries
-//
-// returns the number of entries in this tree
-- (NSUInteger)numberOfEntries;
+// The number of entries in the tree.
+@property (nonatomic, readonly) NSUInteger entryCount;
 
 // Get a entry at the specified index
 //
@@ -56,16 +55,16 @@
 // returns a GTTreeEntry or nil if there is nothing with the specified name
 - (GTTreeEntry *)entryWithName:(NSString *)name;
 
-/*
-// Add an entry to the index
+// Merges the receiver with the given tree in memory and produces the result as
+// an index.
 //
-// sha - the sha of the file to add
-// filename - the name of the file to add
-// mode - the file mode
-// error(out) - will be filled if an error occurs
+// otherTree    - The tree with which the receiver should be merged. Cannot be
+//                nil.
+// ancestorTree - The common ancestor of the two trees, or nil if none.
+// error        - The error if one occurred.
 //
-// returns the added GTTreeEntry or nil if an error occurred
-- (GTTreeEntry *)addEntryWithSha:(NSString *)sha filename:(NSString *)filename mode:(NSInteger *)mode error:(NSError **)error;
-*/
+// Returns an index which represents the result of the merge, or nil if an error
+// occurred.
+- (GTIndex *)merge:(GTTree *)otherTree ancestor:(GTTree *)ancestorTree error:(NSError **)error;
 
 @end

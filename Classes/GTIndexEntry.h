@@ -28,39 +28,34 @@
 //
 
 #include "git2.h"
-#import "GTObject.h"
 
 typedef enum {
-	GTIndexEntryStatusUpdated = 0,
-	GTIndexEntryStatusRemoved,
-	GTIndexEntryStatusNew,
-	GTIndexEntryStatusUnchanged,
+	GTIndexEntryStatusUpdate = 0,
+	GTIndexEntryStatusConflicted,
+	GTIndexEntryStatusAdded,
+	GTIndexEntryStatusRemove,
+	GTIndexEntryStatusUpToDate,
 } GTIndexEntryStatus;
 
+@interface GTIndexEntry : NSObject
 
-@interface GTIndexEntry : NSObject <GTObject> {}
+// The underlying libgit2 index entry.
+@property (nonatomic, readonly) const git_index_entry *git_index_entry;
 
-@property (nonatomic, assign) git_index_entry *git_index_entry;
-@property (nonatomic, copy) NSString *path;
-@property (nonatomic, strong) NSDate *modificationDate;
-@property (nonatomic, strong) NSDate *creationDate;
-@property (nonatomic, assign) long long fileSize;
-@property (nonatomic, assign) NSUInteger dev;
-@property (nonatomic, assign) NSUInteger ino;
-@property (nonatomic, assign) NSUInteger mode;
-@property (nonatomic, assign) NSUInteger uid;
-@property (nonatomic, assign) NSUInteger gid;
-@property (nonatomic, assign) NSUInteger flags;
-@property (nonatomic, getter=isStaged, readonly) NSUInteger staged;
-@property (nonatomic, getter=isValid, readonly) BOOL valid;
+// The repository-relative path for the entry.
+@property (nonatomic, readonly, copy) NSString *path;
+
+// Has the entry been staged?
+@property (nonatomic, getter = isStaged, readonly) BOOL staged;
+
+// What is the entry's status?
 @property (nonatomic, readonly) GTIndexEntryStatus status;
-@property (nonatomic, unsafe_unretained) GTRepository *repository;
 
-// Convenience initializers
-- (id)initWithEntry:(const git_index_entry *)theEntry;
-+ (id)indexEntryWithEntry:(const git_index_entry *)theEntry;
-
-- (NSString *)sha;
-- (BOOL)setSha:(NSString *)theSha error:(NSError **)error;
+// Initializes the receiver with the given libgit2 index entry.
+//
+// entry - The libgit2 index entry. Cannot be NULL.
+//
+// Returns the initialized object.
+- (id)initWithGitIndexEntry:(const git_index_entry *)entry;
 
 @end
