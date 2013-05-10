@@ -7,7 +7,7 @@
 //
 
 #import "GTTree.h"
-#import "Contants.h"
+#import "GTTreeEntry.h"
 
 static NSString * const testTreeSHA = @"c4dc1555e4d4fa0e0c9c3fc46734c7c35b3ce90b";
 
@@ -16,7 +16,7 @@ SpecBegin(GTTree)
 __block GTTree *tree;
 
 beforeEach(^{
-	GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:NULL];
+	GTRepository *repo = [self fixtureRepositoryNamed:@"testrepo.git"];
 	expect(repo).notTo.beNil();
 
 	tree = (GTTree *)[repo lookupObjectBySha:testTreeSHA error:NULL];

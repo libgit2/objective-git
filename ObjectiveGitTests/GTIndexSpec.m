@@ -7,14 +7,14 @@
 //
 
 #import "GTIndex.h"
-#import "Contants.h"
 
 SpecBegin(GTIndex)
 
 __block GTIndex *index;
 
 beforeEach(^{
-	index = [[GTIndex alloc] initWithFileURL:[NSURL fileURLWithPath:TEST_INDEX_PATH(self.class)] error:NULL];
+	NSURL *indexURL = [[self fixtureRepositoryNamed:@"testrepo.git"].fileURL URLByAppendingPathComponent:@"testrepo.git/index"];
+	index = [[GTIndex alloc] initWithFileURL:indexURL error:NULL];
 	expect(index).notTo.beNil();
 
 	BOOL success = [index refresh:NULL];
