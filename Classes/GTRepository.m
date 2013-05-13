@@ -343,7 +343,7 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to get index for repository."];
 		return NO;
 	} else {
-		self.index = [GTIndex indexWithGitIndex:i];
+		self.index = [[GTIndex alloc] initWithGitIndex:i];
 		return YES;
 	}
 }
