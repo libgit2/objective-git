@@ -31,34 +31,51 @@
 
 @class GTIndexEntry;
 
+@interface GTIndex : NSObject
 
-@interface GTIndex : NSObject {}
+// The underlying libgit2 index.
+@property (nonatomic, readonly) git_index *git_index;
 
-@property (nonatomic, assign) git_index *git_index;
-@property (nonatomic, copy) NSURL *fileURL;
+// The file URL for the index if it exists on disk.
+@property (nonatomic, readonly, copy) NSURL *fileURL;
+
+// The number of entries in the index.
 @property (nonatomic, readonly) NSUInteger entryCount;
-@property (nonatomic, readonly) NSArray *entries;
 
-// Convenience initializers
-- (id)initWithFileURL:(NSURL *)localFileUrl error:(NSError **)error;
-+ (id)indexWithFileURL:(NSURL *)localFileUrl error:(NSError **)error;
+// The GTIndexEntries in the index.
+@property (nonatomic, readonly, copy) NSArray *entries;
 
-- (id)initWithGitIndex:(git_index *)theIndex;
-+ (id)indexWithGitIndex:(git_index *)theIndex;
+// Initializes the receiver with the index at the given file URL.
+//
+// fileURL - The file URL for the index on disk. Cannot be nil.
+// error   - The error if one occurred.
+//
+// Returns the initialized object, or nil if an error occurred.
+- (id)initWithFileURL:(NSURL *)fileURL error:(NSError **)error;
+
+// Initializes the receiver with the given libgit2 index.
+//
+// index - The libgit2 index from which the index should be created. Cannot be
+//         NULL.
+//
+// Returns the initialized object.
+- (id)initWithGitIndex:(git_index *)index;
 
 // Refresh the index from the datastore
 //
-// error(out) - will be filled if an error occurs
+// error - The error if one occurred.
 //
-// returns YES if refresh was successful
-- (BOOL)refreshWithError:(NSError **)error;
+// Returns whether the refresh was successful.
+- (BOOL)refresh:(NSError **)error;
 
-// Clear the contents (all entry objects) of the index. This happens in memory.
-// Changes can be written to the datastore by calling writeAndReturnError:
+// Clear all the entries from the index. This happens in memory. Changes can be
+// written to the datastore by calling -write:.
 - (void)clear;
 
-// Get entries from the index
-- (GTIndexEntry *)entryAtIndex:(NSUInteger)theIndex;
+// Get entry at the given index.
+- (GTIndexEntry *)entryAtIndex:(NSUInteger)index;
+
+// Get the entry with the given name.
 - (GTIndexEntry *)entryWithName:(NSString *)name;
 
 // Add entries to the index
@@ -70,6 +87,6 @@
 // error(out) - will be filled if an error occurs
 //
 // returns YES if the write was successful.
-- (BOOL)writeWithError:(NSError **)error;
+- (BOOL)write:(NSError **)error;
 
 @end
