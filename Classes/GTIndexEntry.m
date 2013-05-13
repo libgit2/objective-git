@@ -69,7 +69,7 @@
 
 - (GTIndexEntryStatus)status {
 	if ((self.flags & GIT_IDXENTRY_UPDATE) != 0) {
-		return GTIndexEntryStatusUpdate;
+		return GTIndexEntryStatusUpdated;
 	} else if ((self.flags & GIT_IDXENTRY_UPTODATE) != 0) {
 		return GTIndexEntryStatusUpToDate;
 	} else if ((self.flags & GIT_IDXENTRY_CONFLICTED) != 0) {
@@ -77,7 +77,7 @@
 	} else if ((self.flags & GIT_IDXENTRY_ADDED) != 0) {
 		return GTIndexEntryStatusAdded;
 	} else if ((self.flags & GIT_IDXENTRY_REMOVE) != 0) {
-		return GTIndexEntryStatusRemove;
+		return GTIndexEntryStatusRemoved;
 	}
 	
 	return GTIndexEntryStatusUpToDate;

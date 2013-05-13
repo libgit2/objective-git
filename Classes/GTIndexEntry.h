@@ -30,10 +30,10 @@
 #include "git2.h"
 
 typedef enum {
-	GTIndexEntryStatusUpdate = 0,
+	GTIndexEntryStatusUpdated = 0,
 	GTIndexEntryStatusConflicted,
 	GTIndexEntryStatusAdded,
-	GTIndexEntryStatusRemove,
+	GTIndexEntryStatusRemoved,
 	GTIndexEntryStatusUpToDate,
 } GTIndexEntryStatus;
 
