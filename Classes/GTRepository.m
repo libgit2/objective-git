@@ -470,9 +470,9 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 	return [localBranch uniqueCommitsRelativeToBranch:remoteBranch error:error];
 }
 
-- (NSArray *)referenceNamesWithTypes:(GTReferenceTypes)types error:(NSError **)error {
+- (NSArray *)referenceNamesWithError:(NSError **)error {
 	git_strarray array;
-	int gitError = git_reference_list(&array, self.git_repository, types);
+	int gitError = git_reference_list(&array, self.git_repository);
 	if (gitError < GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to list all references."];
 		return nil;
@@ -489,10 +489,6 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 	git_strarray_free(&array);
 
 	return references;
-}
-
-- (NSArray *)referenceNamesWithError:(NSError **)error {
-	return [self referenceNamesWithTypes:GTReferenceTypesListAll error:error];
 }
 
 - (GTRepository *)repository {

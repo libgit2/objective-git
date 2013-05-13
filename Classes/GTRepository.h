@@ -113,18 +113,7 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 // Lookup an object in the repo using a revparse spec
 - (GTObject *)lookupObjectByRefspec:(NSString *)spec error:(NSError **)error;
 
-// List references in the repository
-//
-// types - One or more GTReferenceTypes
-// error(out) - will be filled if an error occurs
-//
-// returns an array of NSStrings holding the names of the references
-// returns nil if an error occurred and fills the error parameter
-- (NSArray *)referenceNamesWithTypes:(GTReferenceTypes)types error:(NSError **)error;
-
 // List all references in the repository
-//
-// This is a convenience method for listReferencesInRepo: type:GTReferenceTypesListAll error:
 //
 // repository - The GTRepository to list references in
 // error(out) - will be filled if an error occurs
