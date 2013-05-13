@@ -55,7 +55,7 @@
 // returns a GTTreeEntry or nil if there is nothing with the specified name
 - (GTTreeEntry *)entryWithName:(NSString *)name;
 
-// Merges the receiver with the given tree in memory and produces the result as
+// Merges the given tree into the receiver in memory and produces the result as
 // an index.
 //
 // otherTree    - The tree with which the receiver should be merged. Cannot be
