@@ -54,7 +54,7 @@
 	git_index *index = NULL;
 	int status = git_index_open(&index, fileURL.path.fileSystemRepresentation);
 	if (status != GIT_OK) {
-		if(error != NULL) *error = [NSError git_errorFor:status withAdditionalDescription:@"Failed to initialize index."];
+		if (error != NULL) *error = [NSError git_errorFor:status withAdditionalDescription:@"Failed to initialize index."];
 		return nil;
 	}
 
