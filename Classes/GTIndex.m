@@ -132,7 +132,7 @@
 
 - (BOOL)write:(NSError **)error {
 	int status = git_index_write(self.git_index);
-	if (status < GIT_OK) {
+	if (status != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:status withAdditionalDescription:@"Failed to write index."];
 		return NO;
 	}
