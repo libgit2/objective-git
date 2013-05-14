@@ -657,4 +657,17 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 	return [[GTSignature alloc] initWithName:name email:email time:[NSDate date]];
 }
 
+#pragma mark Stash
+
+- (GTCommit*)stashChangesWithMessage:(NSString *)message withStashFlag:(GTRepositoryStashFlag)stashFlag error:(NSError **)error
+{
+	git_oid oid;
+
+	git_stash_save(&oid, self.git_repository, [self userSignatureForNow].git_signature, [message cStringUsingEncoding:NSUTF8StringEncoding], stashFlag);
+	
+	GTCommit* commit = (GTCommit*)[self lookupObjectByOid:&oid error:error];
+	
+	return commit;
+}
+	
 @end

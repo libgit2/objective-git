@@ -61,6 +61,13 @@ typedef enum : git_reset_t {
     GTRepositoryResetTypeHard = GIT_RESET_HARD
 } GTRepositoryResetType;
 
+typedef enum : git_stash_flags {
+    GTRepositoryStashFlagDefault = GIT_STASH_DEFAULT,
+    GTRepositoryStashFlagKeepIndex = GIT_STASH_KEEP_INDEX,
+	GTRepositoryStashFlagIncludeUntracked = GIT_STASH_INCLUDE_UNTRACKED,
+    GTRepositoryStashFlagIncludeIgnored = GIT_STASH_INCLUDE_IGNORED
+} GTRepositoryStashFlag;
+
 typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus status, BOOL *stop);
 
 @interface GTRepository : NSObject <GTObject>
@@ -211,5 +218,14 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 //
 // Returns the signature.
 - (GTSignature *)userSignatureForNow;
+
+// Stash the repository's changes.
+//
+// message - the message to be attributed to the item in the stash.
+// stashFlag - The flag of stash to be used.
+// error(out) - in the event of an error this may be set.
+//
+// Returns commit of the stashed changes if successful, nil in the even of an error
+- (GTCommit*)stashChangesWithMessage:(NSString *)message withStashFlag:(GTRepositoryStashFlag)stashFlag error:(NSError **)error;
 
 @end
