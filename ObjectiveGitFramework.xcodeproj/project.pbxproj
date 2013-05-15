@@ -415,6 +415,22 @@
 		BDFAF9C7131C1868000508BC /* GTIndexEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTIndexEntry.h; sourceTree = "<group>"; };
 		BDFAF9C8131C1868000508BC /* GTIndexEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = GTIndexEntry.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		D0AC906B172F941F00347DC4 /* GTRepositorySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTRepositorySpec.m; sourceTree = "<group>"; };
+		D0D81859174421EB00995A2E /* Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
+		D0D8185B174421EB00995A2E /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		D0D8185C174421EB00995A2E /* Profile.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Profile.xcconfig; sourceTree = "<group>"; };
+		D0D8185D174421EB00995A2E /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		D0D8185E174421EB00995A2E /* Test.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Test.xcconfig; sourceTree = "<group>"; };
+		D0D81860174421EB00995A2E /* Application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Application.xcconfig; sourceTree = "<group>"; };
+		D0D81861174421EB00995A2E /* StaticLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = StaticLibrary.xcconfig; sourceTree = "<group>"; };
+		D0D81863174421EB00995A2E /* iOS-Application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "iOS-Application.xcconfig"; sourceTree = "<group>"; };
+		D0D81864174421EB00995A2E /* iOS-Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "iOS-Base.xcconfig"; sourceTree = "<group>"; };
+		D0D81865174421EB00995A2E /* iOS-StaticLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "iOS-StaticLibrary.xcconfig"; sourceTree = "<group>"; };
+		D0D81867174421EB00995A2E /* Mac-Application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-Application.xcconfig"; sourceTree = "<group>"; };
+		D0D81868174421EB00995A2E /* Mac-Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-Base.xcconfig"; sourceTree = "<group>"; };
+		D0D81869174421EB00995A2E /* Mac-DynamicLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-DynamicLibrary.xcconfig"; sourceTree = "<group>"; };
+		D0D8186A174421EB00995A2E /* Mac-Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-Framework.xcconfig"; sourceTree = "<group>"; };
+		D0D8186B174421EB00995A2E /* Mac-StaticLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-StaticLibrary.xcconfig"; sourceTree = "<group>"; };
+		D0D8186C174421EB00995A2E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		D2F7E79907B2D74100F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		E46931A7172740D300F2077D /* update_libgit2.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = update_libgit2.sh; sourceTree = "<group>"; };
 		E46931A8172740D300F2077D /* update_libgit2_ios.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = update_libgit2_ios.sh; sourceTree = "<group>"; };
@@ -474,8 +490,8 @@
 				88F05A7516011E5400B7AD1D /* ObjectiveGitTests */,
 				32C88DFF0371C24200C91783 /* Other Sources */,
 				089C1665FE841158C02AAC07 /* Resources */,
-				BDD9C2F2133BA3F7003708E7 /* External Frameworks and Libraries iOS */,
 				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
+				D0D81857174421EB00995A2E /* Configuration */,
 				034768DFFF38A50411DB9C8B /* Products */,
 				E46931A6172740D300F2077D /* Scripts */,
 			);
@@ -507,6 +523,7 @@
 				887DAFF915CB1C9F00F30D0D /* libssl.dylib */,
 				887DAFFB15CB1CBD00F30D0D /* libcrypto.dylib */,
 				8803DA861313145700E6E818 /* libz.dylib */,
+				04DB4671133AB5FE00D9C624 /* libz.dylib */,
 				887DAFF615CB1C8000F30D0D /* Security.framework */,
 				1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */,
 			);
@@ -518,7 +535,10 @@
 			children = (
 				0867D6A5FE840307C02AAC07 /* AppKit.framework */,
 				D2F7E79907B2D74100F64583 /* CoreData.framework */,
+				BDD9C3FB133BA604003708E7 /* CoreGraphics.framework */,
 				0867D69BFE84028FC02AAC07 /* Foundation.framework */,
+				BDD9C3FD133BA604003708E7 /* Foundation.framework */,
+				BDD9C3FF133BA604003708E7 /* UIKit.framework */,
 			);
 			name = "Other Frameworks";
 			sourceTree = "<group>";
@@ -617,33 +637,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		BDD9C2F2133BA3F7003708E7 /* External Frameworks and Libraries iOS */ = {
-			isa = PBXGroup;
-			children = (
-				BDD9C2F3133BA418003708E7 /* Linked Frameworks */,
-				BDD9C406133BA6C5003708E7 /* Other Frameworks */,
-			);
-			name = "External Frameworks and Libraries iOS";
-			sourceTree = "<group>";
-		};
-		BDD9C2F3133BA418003708E7 /* Linked Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				04DB4671133AB5FE00D9C624 /* libz.dylib */,
-			);
-			name = "Linked Frameworks";
-			sourceTree = "<group>";
-		};
-		BDD9C406133BA6C5003708E7 /* Other Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				BDD9C3FB133BA604003708E7 /* CoreGraphics.framework */,
-				BDD9C3FD133BA604003708E7 /* Foundation.framework */,
-				BDD9C3FF133BA604003708E7 /* UIKit.framework */,
-			);
-			name = "Other Frameworks";
-			sourceTree = "<group>";
-		};
 		BDE4C05E130EFE2C00851650 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -710,6 +703,69 @@
 				30B1E7ED1703522100D0814D /* NSDate+GTTimeAdditions.m */,
 			);
 			path = Categories;
+			sourceTree = "<group>";
+		};
+		D0D81857174421EB00995A2E /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				D0D81858174421EB00995A2E /* Base */,
+				D0D81862174421EB00995A2E /* iOS */,
+				D0D81866174421EB00995A2E /* Mac OS X */,
+				D0D8186C174421EB00995A2E /* README.md */,
+			);
+			path = Configuration;
+			sourceTree = "<group>";
+		};
+		D0D81858174421EB00995A2E /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				D0D81859174421EB00995A2E /* Common.xcconfig */,
+				D0D8185A174421EB00995A2E /* Configurations */,
+				D0D8185F174421EB00995A2E /* Targets */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		D0D8185A174421EB00995A2E /* Configurations */ = {
+			isa = PBXGroup;
+			children = (
+				D0D8185B174421EB00995A2E /* Debug.xcconfig */,
+				D0D8185C174421EB00995A2E /* Profile.xcconfig */,
+				D0D8185D174421EB00995A2E /* Release.xcconfig */,
+				D0D8185E174421EB00995A2E /* Test.xcconfig */,
+			);
+			path = Configurations;
+			sourceTree = "<group>";
+		};
+		D0D8185F174421EB00995A2E /* Targets */ = {
+			isa = PBXGroup;
+			children = (
+				D0D81860174421EB00995A2E /* Application.xcconfig */,
+				D0D81861174421EB00995A2E /* StaticLibrary.xcconfig */,
+			);
+			path = Targets;
+			sourceTree = "<group>";
+		};
+		D0D81862174421EB00995A2E /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				D0D81863174421EB00995A2E /* iOS-Application.xcconfig */,
+				D0D81864174421EB00995A2E /* iOS-Base.xcconfig */,
+				D0D81865174421EB00995A2E /* iOS-StaticLibrary.xcconfig */,
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
+		D0D81866174421EB00995A2E /* Mac OS X */ = {
+			isa = PBXGroup;
+			children = (
+				D0D81867174421EB00995A2E /* Mac-Application.xcconfig */,
+				D0D81868174421EB00995A2E /* Mac-Base.xcconfig */,
+				D0D81869174421EB00995A2E /* Mac-DynamicLibrary.xcconfig */,
+				D0D8186A174421EB00995A2E /* Mac-Framework.xcconfig */,
+				D0D8186B174421EB00995A2E /* Mac-StaticLibrary.xcconfig */,
+			);
+			path = "Mac OS X";
 			sourceTree = "<group>";
 		};
 		E46931A6172740D300F2077D /* Scripts */ = {
@@ -1171,189 +1227,90 @@
 /* Begin XCBuildConfiguration section */
 		04DB4646133AB57600D9C624 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0D81865174421EB00995A2E /* iOS-StaticLibrary.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CLANG_ENABLE_OBJC_ARC = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_OBJC_GC = unsupported;
-				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREFIX_HEADER = ObjectiveGitFramework_Prefix.pch;
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/libgit2/include";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)\"",
-				);
 				OTHER_LDFLAGS = "-lgit2-iOS";
 				PRODUCT_NAME = "ObjectiveGit-iOS";
-				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/ObjectiveGit;
-				SDKROOT = iphoneos;
-				VALID_ARCHS = "i386 armv7";
 			};
 			name = Debug;
 		};
 		04DB4647133AB57600D9C624 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0D81865174421EB00995A2E /* iOS-StaticLibrary.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CLANG_ENABLE_OBJC_ARC = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				GCC_ENABLE_OBJC_GC = unsupported;
 				GCC_PREFIX_HEADER = ObjectiveGitFramework_Prefix.pch;
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/libgit2/include";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)\"",
-				);
 				OTHER_LDFLAGS = "-lgit2-iOS";
 				PRODUCT_NAME = "ObjectiveGit-iOS";
-				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/ObjectiveGit;
-				SDKROOT = iphoneos;
-				VALID_ARCHS = "i386 armv7";
-				ZERO_LINK = NO;
 			};
 			name = Release;
 		};
 		1DEB91AE08733DA50010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0D8186A174421EB00995A2E /* Mac-Framework.xcconfig */;
 			buildSettings = {
-				CLANG_WARN_IMPLICIT_SIGN_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_ATOMIC_PROPERTIES = YES;
-				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
-				COMBINE_HIDPI_IMAGES = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ObjectiveGitFramework_Prefix.pch;
-				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = YES;
-				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
-				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
-				GCC_WARN_SHADOW = YES;
-				GCC_WARN_SIGN_COMPARE = YES;
-				GCC_WARN_STRICT_SELECTOR_MATCH = YES;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)\"",
-				);
-				MACH_O_TYPE = mh_dylib;
 				OTHER_LDFLAGS = "-lgit2";
 				PRODUCT_NAME = ObjectiveGit;
-				WARNING_CFLAGS = (
-					"-Wall",
-					"-Werror",
-				);
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
 		};
 		1DEB91AF08733DA50010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0D8186A174421EB00995A2E /* Mac-Framework.xcconfig */;
 			buildSettings = {
-				CLANG_WARN_IMPLICIT_SIGN_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_ATOMIC_PROPERTIES = YES;
-				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
-				COMBINE_HIDPI_IMAGES = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ObjectiveGitFramework_Prefix.pch;
-				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = YES;
-				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
-				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
-				GCC_WARN_SHADOW = YES;
-				GCC_WARN_SIGN_COMPARE = YES;
-				GCC_WARN_STRICT_SELECTOR_MATCH = YES;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)\"",
-				);
-				MACH_O_TYPE = mh_dylib;
 				OTHER_LDFLAGS = "-lgit2";
 				PRODUCT_NAME = ObjectiveGit;
-				WARNING_CFLAGS = (
-					"-Wall",
-					"-Werror",
-				);
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Release;
 		};
 		1DEB91B208733DA50010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0D8185B174421EB00995A2E /* Debug.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CLANG_ENABLE_OBJC_ARC = YES;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/libgit2/include\"";
-				INSTALL_PATH = "@executable_path/../Frameworks";
+				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO;
+				HEADER_SEARCH_PATHS = libgit2/include;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = .;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx;
 				TEST_AFTER_BUILD = YES;
-				VALID_ARCHS = x86_64;
 			};
 			name = Debug;
 		};
 		1DEB91B308733DA50010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0D8185D174421EB00995A2E /* Release.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CLANG_ENABLE_OBJC_ARC = YES;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/libgit2/include\"";
-				INSTALL_PATH = "@executable_path/../Frameworks";
+				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO;
+				HEADER_SEARCH_PATHS = libgit2/include;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = .;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				SDKROOT = macosx;
 				TEST_AFTER_BUILD = YES;
-				VALID_ARCHS = x86_64;
 			};
 			name = Release;
 		};
 		88F05A8016011E5400B7AD1D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0D81867174421EB00995A2E /* Mac-Application.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ObjectiveGitTests/ObjectiveGitTests-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
 				HEADER_SEARCH_PATHS = (
-					"\"$(SRCROOT)/libgit2/include\"",
+					libgit2/include,
 					ObjectiveGitTests/specta/src,
 					"ObjectiveGitTests/expecta/src/**",
 				);
@@ -1366,13 +1323,12 @@
 		};
 		88F05A8116011E5400B7AD1D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0D81867174421EB00995A2E /* Mac-Application.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ObjectiveGitTests/ObjectiveGitTests-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
-					"\"$(SRCROOT)/libgit2/include\"",
+					libgit2/include,
 					ObjectiveGitTests/specta/src,
 					"ObjectiveGitTests/expecta/src/**",
 				);
@@ -1385,98 +1341,51 @@
 		};
 		D03FC3D71602E97F00BCFA73 /* Profile */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0D8185C174421EB00995A2E /* Profile.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CLANG_ENABLE_OBJC_ARC = YES;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/libgit2/include\"";
-				INSTALL_PATH = "@executable_path/../Frameworks";
+				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO;
+				HEADER_SEARCH_PATHS = libgit2/include;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = .;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				SDKROOT = macosx;
 				TEST_AFTER_BUILD = YES;
-				VALID_ARCHS = x86_64;
 			};
 			name = Profile;
 		};
 		D03FC3D81602E97F00BCFA73 /* Profile */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0D8186A174421EB00995A2E /* Mac-Framework.xcconfig */;
 			buildSettings = {
-				CLANG_WARN_IMPLICIT_SIGN_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_ATOMIC_PROPERTIES = YES;
-				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
-				COMBINE_HIDPI_IMAGES = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ObjectiveGitFramework_Prefix.pch;
-				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = YES;
-				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
-				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
-				GCC_WARN_SHADOW = YES;
-				GCC_WARN_SIGN_COMPARE = YES;
-				GCC_WARN_STRICT_SELECTOR_MATCH = YES;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)\"",
-				);
-				MACH_O_TYPE = mh_dylib;
 				OTHER_LDFLAGS = "-lgit2";
 				PRODUCT_NAME = ObjectiveGit;
-				WARNING_CFLAGS = (
-					"-Wall",
-					"-Werror",
-				);
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Profile;
 		};
 		D03FC3D91602E97F00BCFA73 /* Profile */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0D81865174421EB00995A2E /* iOS-StaticLibrary.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CLANG_ENABLE_OBJC_ARC = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				GCC_ENABLE_OBJC_GC = unsupported;
 				GCC_PREFIX_HEADER = ObjectiveGitFramework_Prefix.pch;
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/libgit2/include";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)\"",
-				);
 				OTHER_LDFLAGS = "-lgit2-iOS";
 				PRODUCT_NAME = "ObjectiveGit-iOS";
-				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/ObjectiveGit;
-				SDKROOT = iphoneos;
-				VALID_ARCHS = "i386 armv7";
-				ZERO_LINK = NO;
 			};
 			name = Profile;
 		};
 		D03FC3DA1602E97F00BCFA73 /* Profile */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0D81867174421EB00995A2E /* Mac-Application.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ObjectiveGitTests/ObjectiveGitTests-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
-					"\"$(SRCROOT)/libgit2/include\"",
+					libgit2/include,
 					ObjectiveGitTests/specta/src,
 					"ObjectiveGitTests/expecta/src/**",
 				);
@@ -1489,55 +1398,49 @@
 		};
 		D03FC3DB1602E97F00BCFA73 /* Profile */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0D8186B174421EB00995A2E /* Mac-StaticLibrary.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Profile;
 		};
 		D03FC3DC1602E97F00BCFA73 /* Profile */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0D81865174421EB00995A2E /* iOS-StaticLibrary.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				VALID_ARCHS = "i386 armv7";
 			};
 			name = Profile;
 		};
 		D0A330EF16027F1E00A616FA /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0D8186B174421EB00995A2E /* Mac-StaticLibrary.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
 		D0A330F016027F1E00A616FA /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0D8186B174421EB00995A2E /* Mac-StaticLibrary.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
 		D0A330F416027F3700A616FA /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0D81865174421EB00995A2E /* iOS-StaticLibrary.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				VALID_ARCHS = "i386 armv7";
 			};
 			name = Debug;
 		};
 		D0A330F516027F3700A616FA /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0D81865174421EB00995A2E /* iOS-StaticLibrary.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				VALID_ARCHS = "i386 armv7";
 			};
 			name = Release;
 		};
