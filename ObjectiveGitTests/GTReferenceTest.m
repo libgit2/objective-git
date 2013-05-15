@@ -167,43 +167,4 @@
 	}
 }
 
-- (void)testCanListOidReferences {
-	
-	NSError *error = nil;
-	GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&error];
-	STAssertNil(error, [error localizedDescription]);
-	
-	NSArray *refs = [repo referenceNamesWithTypes:GTReferenceTypesOid error:&error];
-	STAssertNil(error, [error localizedDescription]);
-	STAssertEquals(4, (int)refs.count, nil);
-	
-	for(int i=0; i < refs.count; i++) {
-		STAssertEqualObjects([expectedRefs objectAtIndex:i], [refs objectAtIndex:i], nil);
-	}
-}
-
-- (void)testCanListSymbolicReferences {
-	
-	NSError *error = nil;
-	GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&error];
-	STAssertNil(error, [error localizedDescription]);
-	
-	// create a symbolic reference
-	GTReference *ref = [GTReference referenceByCreatingReferenceNamed:@"refs/heads/unit_test" fromReferenceTarget:@"refs/heads/master" inRepository:repo error:&error];
-	STAssertNotNil(ref, [error localizedDescription]);
-	
-	@try {
-		
-		NSArray *refs = [repo referenceNamesWithTypes:GTReferenceTypesSymbolic error:&error];
-		STAssertNil(error, [error localizedDescription]);
-		STAssertEquals(1, (int)refs.count, nil);	
-		STAssertEqualObjects(@"refs/heads/unit_test", [refs objectAtIndex:0], nil);
-	}
-	@finally {
-		// cleanup
-		BOOL success = [ref deleteWithError:&error];
-        STAssertTrue(success, [error localizedDescription]);
-	}
-}
-
 @end
