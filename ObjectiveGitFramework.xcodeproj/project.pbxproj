@@ -1240,6 +1240,10 @@
 			baseConfigurationReference = D0D81865174421EB00995A2E /* iOS-StaticLibrary.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = ObjectiveGitFramework_Prefix.pch;
+				HEADER_SEARCH_PATHS = (
+					libgit2/include,
+					"$(OBJROOT)/UninstalledProducts/include",
+				);
 				OTHER_LDFLAGS = "-lgit2-iOS";
 				PRODUCT_NAME = "ObjectiveGit-iOS";
 			};
@@ -1250,6 +1254,10 @@
 			baseConfigurationReference = D0D81865174421EB00995A2E /* iOS-StaticLibrary.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = ObjectiveGitFramework_Prefix.pch;
+				HEADER_SEARCH_PATHS = (
+					libgit2/include,
+					"$(OBJROOT)/UninstalledProducts/include",
+				);
 				OTHER_LDFLAGS = "-lgit2-iOS";
 				PRODUCT_NAME = "ObjectiveGit-iOS";
 			};
@@ -1383,6 +1391,10 @@
 			baseConfigurationReference = D0D81865174421EB00995A2E /* iOS-StaticLibrary.xcconfig */;
 			buildSettings = {
 				GCC_PREFIX_HEADER = ObjectiveGitFramework_Prefix.pch;
+				HEADER_SEARCH_PATHS = (
+					libgit2/include,
+					"$(OBJROOT)/UninstalledProducts/include",
+				);
 				OTHER_LDFLAGS = "-lgit2-iOS";
 				PRODUCT_NAME = "ObjectiveGit-iOS";
 			};
