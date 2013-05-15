@@ -62,10 +62,10 @@ typedef enum : git_reset_t {
 } GTRepositoryResetType;
 
 typedef enum : git_stash_flags {
-    GTRepositoryStashFlagDefault = GIT_STASH_DEFAULT,
-    GTRepositoryStashFlagKeepIndex = GIT_STASH_KEEP_INDEX,
+	GTRepositoryStashFlagDefault = GIT_STASH_DEFAULT,
+	GTRepositoryStashFlagKeepIndex = GIT_STASH_KEEP_INDEX,
 	GTRepositoryStashFlagIncludeUntracked = GIT_STASH_INCLUDE_UNTRACKED,
-    GTRepositoryStashFlagIncludeIgnored = GIT_STASH_INCLUDE_IGNORED
+	GTRepositoryStashFlagIncludeIgnored = GIT_STASH_INCLUDE_IGNORED
 } GTRepositoryStashFlag;
 
 typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus status, BOOL *stop);
