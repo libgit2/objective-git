@@ -999,7 +999,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = scripts/update_libgit2.sh;
+			shellScript = script/update_libgit2;
 		};
 		D0A330F616027F3B00A616FA /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1012,7 +1012,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = scripts/update_libgit2_ios.sh;
+			shellScript = script/update_libgit2_ios;
 		};
 /* End PBXShellScriptBuildPhase section */
 
