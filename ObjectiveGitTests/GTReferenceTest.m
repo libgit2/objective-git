@@ -161,7 +161,7 @@
 	STAssertNil(error, [error localizedDescription]);
 	STAssertEquals(4, (int)refs.count, nil);
 	
-	for(int i=0; i < refs.count; i++) {
+	for (NSUInteger i = 0; i < refs.count; i++) {
 		NSLog(@"%@", [refs objectAtIndex:i]);
         STAssertTrue([expectedRefs containsObject:[refs objectAtIndex:i]], nil);
 	}
