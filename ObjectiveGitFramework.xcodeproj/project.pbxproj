@@ -883,6 +883,7 @@
 				88F05A6616011E5400B7AD1D /* Sources */,
 				88F05A6716011E5400B7AD1D /* Frameworks */,
 				88F05A6816011E5400B7AD1D /* Resources */,
+				D0D81875174425AA00995A2E /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -953,8 +954,8 @@
 			projectRoot = "";
 			targets = (
 				8DC2EF4F0486A6940098B216 /* ObjectiveGit */,
-				04DB4644133AB57600D9C624 /* ObjectiveGit-iOS */,
 				88F05A6A16011E5400B7AD1D /* ObjectiveGitTests */,
+				04DB4644133AB57600D9C624 /* ObjectiveGit-iOS */,
 				D0A330ED16027F1E00A616FA /* libgit2 */,
 				D0A330F216027F3600A616FA /* libgit2-iOS */,
 			);
@@ -1066,6 +1067,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = script/update_libgit2_ios;
+		};
+		D0D81875174425AA00995A2E /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1281,7 +1295,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = .;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				TEST_AFTER_BUILD = YES;
+				TEST_AFTER_BUILD = NO;
 			};
 			name = Debug;
 		};
@@ -1295,7 +1309,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = .;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				TEST_AFTER_BUILD = YES;
+				TEST_AFTER_BUILD = NO;
 			};
 			name = Release;
 		};
@@ -1345,7 +1359,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = .;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				TEST_AFTER_BUILD = YES;
+				TEST_AFTER_BUILD = NO;
 			};
 			name = Profile;
 		};
