@@ -137,7 +137,6 @@
 		88F05AB416011FFD00B7AD1D /* GTBranchTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F05AA316011FFD00B7AD1D /* GTBranchTest.m */; };
 		88F05AB516011FFD00B7AD1D /* GTCommitTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F05AA416011FFD00B7AD1D /* GTCommitTest.m */; };
 		88F05AB616011FFD00B7AD1D /* GTConfigurationTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F05AA516011FFD00B7AD1D /* GTConfigurationTest.m */; };
-		88F05AB816011FFD00B7AD1D /* GTLibTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F05AA716011FFD00B7AD1D /* GTLibTest.m */; };
 		88F05AB916011FFD00B7AD1D /* GTObjectTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F05AA816011FFD00B7AD1D /* GTObjectTest.m */; };
 		88F05ABA16011FFD00B7AD1D /* GTReferenceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F05AA916011FFD00B7AD1D /* GTReferenceTest.m */; };
 		88F05ABB16011FFD00B7AD1D /* GTRepositoryPackTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F05AAA16011FFD00B7AD1D /* GTRepositoryPackTest.m */; };
@@ -363,7 +362,6 @@
 		88F05AA316011FFD00B7AD1D /* GTBranchTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTBranchTest.m; sourceTree = "<group>"; };
 		88F05AA416011FFD00B7AD1D /* GTCommitTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTCommitTest.m; sourceTree = "<group>"; };
 		88F05AA516011FFD00B7AD1D /* GTConfigurationTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTConfigurationTest.m; sourceTree = "<group>"; };
-		88F05AA716011FFD00B7AD1D /* GTLibTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTLibTest.m; sourceTree = "<group>"; };
 		88F05AA816011FFD00B7AD1D /* GTObjectTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTObjectTest.m; sourceTree = "<group>"; };
 		88F05AA916011FFD00B7AD1D /* GTReferenceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTReferenceTest.m; sourceTree = "<group>"; };
 		88F05AAA16011FFD00B7AD1D /* GTRepositoryPackTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTRepositoryPackTest.m; sourceTree = "<group>"; };
@@ -580,7 +578,6 @@
 				88F05AA316011FFD00B7AD1D /* GTBranchTest.m */,
 				88F05AA416011FFD00B7AD1D /* GTCommitTest.m */,
 				88F05AA516011FFD00B7AD1D /* GTConfigurationTest.m */,
-				88F05AA716011FFD00B7AD1D /* GTLibTest.m */,
 				88F05AA816011FFD00B7AD1D /* GTObjectTest.m */,
 				88F05AA916011FFD00B7AD1D /* GTReferenceTest.m */,
 				88F05AAA16011FFD00B7AD1D /* GTRepositoryPackTest.m */,
@@ -1120,7 +1117,6 @@
 				88F05AB416011FFD00B7AD1D /* GTBranchTest.m in Sources */,
 				88F05AB516011FFD00B7AD1D /* GTCommitTest.m in Sources */,
 				88F05AB616011FFD00B7AD1D /* GTConfigurationTest.m in Sources */,
-				88F05AB816011FFD00B7AD1D /* GTLibTest.m in Sources */,
 				88F05AB916011FFD00B7AD1D /* GTObjectTest.m in Sources */,
 				88F05ABA16011FFD00B7AD1D /* GTReferenceTest.m in Sources */,
 				88F05ABB16011FFD00B7AD1D /* GTRepositoryPackTest.m in Sources */,
