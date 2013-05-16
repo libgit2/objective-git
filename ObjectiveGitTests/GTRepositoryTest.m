@@ -159,7 +159,8 @@
 							 @"5b5b0",
 							 @"84960",
 							 nil];
-	for(int i=0; i < [expectedShas count]; i++) {
+
+	for (NSUInteger i = 0; i < expectedShas.count; i++) {
 		GTCommit *commit = [commits objectAtIndex:i];
 		STAssertEqualObjects([commit.sha substringToIndex:5], [expectedShas objectAtIndex:i], nil);
 	}
@@ -199,7 +200,7 @@
 	
 	STAssertEquals(2, (int)[commits count], nil);
 	NSArray *expectedShas = [NSArray arrayWithObjects:@"c4780", @"9fd73", nil];
-	for(int i=0; i < [expectedShas count]; i++) {
+	for (NSUInteger i = 0; i < expectedShas.count; i++) {
 		GTCommit *commit = [commits objectAtIndex:i];
 		STAssertEqualObjects([commit.sha substringToIndex:5], [expectedShas objectAtIndex:i], nil);
 	}
