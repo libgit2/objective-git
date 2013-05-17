@@ -30,48 +30,82 @@
 #import <Foundation/Foundation.h>
 #include "git2.h"
 
+typedef enum : git_filemode_t {
+    GTFileModeNew = GIT_FILEMODE_NEW,
+	GTFileModeTree = GIT_FILEMODE_TREE,
+	GTFileModeBlob = GIT_FILEMODE_BLOB,
+	GTFileModeBlobExecutable = GIT_FILEMODE_BLOB_EXECUTABLE,
+	GTFileModeLink = GIT_FILEMODE_LINK,
+	GTFileModeCommit = GIT_FILEMODE_COMMIT
+} GTFileMode;
+
 @class GTTree;
 @class GTTreeEntry;
 @class GTRepository;
 @interface GTTreeBuilder : NSObject
 
-// the underlaying git_treebuilder
-@property (nonatomic, readonly) git_treebuilder *git_treebuilder;
+// A tree builder is used to create or modify trees in memory and write them as
+// tree objects to a repository.
 
+// The underlaying git_treebuilder
+@property (nonatomic, readonly) git_treebuilder *git_treebuilder;
+// Get the number of entries listed in a treebuilder
+@property (nonatomic, readonly) NSUInteger entryCount;
+
+// Initializes the receiver, optionally from an existing tree
+//
+// treeOrNil - Source tree (or nil)
+// error     - The error if one occurred.
+//
+// Returns the initialized object, or nil if an error occurred.
 - (id)initWithTree:(GTTree *)treeOrNil error:(NSError **)error;
 
 // Clear all the entires in the builder
 - (void)clear;
 
-// Get the number of entries listed in a treebuilder
-- (NSUInteger)entryCount;
-
 // Filter the entries in the tree
 //
-// The filter callback will be called for each entry in the tree with a pointer
-// to the entry and the provided payload; if the callback returns non-zero, the
-// entry will be filtered (removed from the builder).
-//
-- (void)filter:(git_treebuilder_filter_cb)filterCallback context:(void *)context;
+// filterBlock - a block which returns YES for entries which should be filtered
+// from the index
+- (void)filter:(BOOL(^)(const git_tree_entry *entry))filterBlock;
 
 // Get an entry from the builder from its filename
+//
+// filename - Filename for the object in the index
+//
+// returns the matching entry or nil if it doesn't exist
 - (GTTreeEntry *)entryWithName:(NSString *)filename;
 
 // Add or update an entry to the builder
 //
-// Insert a new entry for filename in the builder with the given attributes.
+// sha - The SHA of a git object aleady stored in the repository
+// filename - Filename for the object in the index
+// filemode - Filemode for the object in the index
+// error    - The error if one occurred.
 //
 // If an entry named filename already exists, its attributes will be updated
 // with the given ones.
 //
-// No attempt is being made to ensure that the provided oid points to an
-// existing git object in the object database, nor that the attributes make
-// sense regarding the type of the pointed at object.
-- (GTTreeEntry *)addEntryWithSha1:(NSString *)sha filename:(NSString *)filename filemode:(git_filemode_t)filemode error:(NSError **)error;
+// No attempt is made to ensure that the provided oid points to an existing git
+// object in the object database, nor that the attributes make sense regarding
+// the type of the pointed at object.
+//
+// returns the added entry, or nil if an error occurred.
+- (GTTreeEntry *)addEntryWithSHA:(NSString *)sha filename:(NSString *)filename filemode:(GTFileMode)filemode error:(NSError **)error;
 
 // Remove an entry from the builder by its filename
+//
+// filename - Filename for the object in the tree
+// error    - The error if one occurred.
+//
+// returns YES if the entry was removed, or NO if an error occurred.
 - (BOOL)removeEntryWithFilename:(NSString *)filename error:(NSError **)error;
 
 // Write the contents of the tree builder as a tree object
+//
+// repository - Repository in which to write the tree
+// error    - The error if one occurred.
+//
+// returns the written tree, or nil if an error occurred.
 - (GTTree *)writeTreeToRepository:(GTRepository *)repository error:(NSError **)error;
 @end
