@@ -40,8 +40,8 @@
 
 - (id)initWithTree:(GTTree *)treeOrNil error:(NSError **)error;
 {
-    self = [super init];
-    if (self) {
+	self = [super init];
+	if (self) {
 		git_treebuilder *git_treebuilder;
 		int status = git_treebuilder_create(&git_treebuilder, treeOrNil.git_tree);
 		if (status != GIT_OK) {
@@ -49,8 +49,8 @@
 			return nil;
 		}
 		_git_treebuilder = git_treebuilder;
-    }
-    return self;
+	}
+	return self;
 }
 
 - (void)dealloc {

@@ -31,7 +31,7 @@
 #include "git2.h"
 
 typedef enum : git_filemode_t {
-    GTFileModeNew = GIT_FILEMODE_NEW,
+	GTFileModeNew = GIT_FILEMODE_NEW,
 	GTFileModeTree = GIT_FILEMODE_TREE,
 	GTFileModeBlob = GIT_FILEMODE_BLOB,
 	GTFileModeBlobExecutable = GIT_FILEMODE_BLOB_EXECUTABLE,
