@@ -30,6 +30,7 @@
 #import <Foundation/Foundation.h>
 #include "git2.h"
 
+// The mode of an index or tree entry.
 typedef enum : git_filemode_t {
 	GTFileModeNew = GIT_FILEMODE_NEW,
 	GTFileModeTree = GIT_FILEMODE_TREE,
@@ -42,17 +43,18 @@ typedef enum : git_filemode_t {
 @class GTTree;
 @class GTTreeEntry;
 @class GTRepository;
-@interface GTTreeBuilder : NSObject
 
 // A tree builder is used to create or modify trees in memory and write them as
 // tree objects to a repository.
+@interface GTTreeBuilder : NSObject
 
-// The underlaying git_treebuilder
+// The underlying git_treebuilder.
 @property (nonatomic, readonly) git_treebuilder *git_treebuilder;
-// Get the number of entries listed in a treebuilder
+
+// Get the number of entries listed in a treebuilder.
 @property (nonatomic, readonly) NSUInteger entryCount;
 
-// Initializes the receiver, optionally from an existing tree
+// Initializes the receiver, optionally from an existing tree.
 //
 // treeOrNil - Source tree (or nil)
 // error     - The error if one occurred.
@@ -60,52 +62,52 @@ typedef enum : git_filemode_t {
 // Returns the initialized object, or nil if an error occurred.
 - (id)initWithTree:(GTTree *)treeOrNil error:(NSError **)error;
 
-// Clear all the entires in the builder
+// Clear all the entires in the builder.
 - (void)clear;
 
-// Filter the entries in the tree
+// Filter the entries in the tree.
 //
-// filterBlock - a block which returns YES for entries which should be filtered
-// from the index
-- (void)filter:(BOOL(^)(const git_tree_entry *entry))filterBlock;
+// filterBlock - A block which returns YES for entries which should be filtered
+//               from the index.
+- (void)filter:(BOOL (^)(const git_tree_entry *entry))filterBlock;
 
-// Get an entry from the builder from its filename
+// Get an entry from the builder from its filename.
 //
 // filename - Filename for the object in the index
 //
-// returns the matching entry or nil if it doesn't exist
+// Returns the matching entry or nil if it doesn't exist.
 - (GTTreeEntry *)entryWithName:(NSString *)filename;
 
-// Add or update an entry to the builder
+// Add or update an entry to the builder.
 //
-// sha - The SHA of a git object aleady stored in the repository
-// filename - Filename for the object in the index
-// filemode - Filemode for the object in the index
+// sha      - The SHA of a git object aleady stored in the repository.
+// filename - Filename for the object in the index.
+// filemode - Filemode for the object in the index.
 // error    - The error if one occurred.
 //
-// If an entry named filename already exists, its attributes will be updated
+// If an entry named `filename` already exists, its attributes will be updated
 // with the given ones.
 //
 // No attempt is made to ensure that the provided oid points to an existing git
 // object in the object database, nor that the attributes make sense regarding
 // the type of the pointed at object.
 //
-// returns the added entry, or nil if an error occurred.
+// Returns the added entry, or nil if an error occurred.
 - (GTTreeEntry *)addEntryWithSHA:(NSString *)sha filename:(NSString *)filename filemode:(GTFileMode)filemode error:(NSError **)error;
 
-// Remove an entry from the builder by its filename
+// Remove an entry from the builder by its filename.
 //
-// filename - Filename for the object in the tree
+// filename - Filename for the object in the tree.
 // error    - The error if one occurred.
 //
-// returns YES if the entry was removed, or NO if an error occurred.
+// Returns YES if the entry was removed, or NO if an error occurred.
 - (BOOL)removeEntryWithFilename:(NSString *)filename error:(NSError **)error;
 
-// Write the contents of the tree builder as a tree object
+// Write the contents of the tree builder as a tree object.
 //
-// repository - Repository in which to write the tree
-// error    - The error if one occurred.
+// repository - Repository in which to write the tree.
+// error      - The error if one occurred.
 //
-// returns the written tree, or nil if an error occurred.
+// Returns the written tree, or nil if an error occurred.
 - (GTTree *)writeTreeToRepository:(GTRepository *)repository error:(NSError **)error;
 @end
