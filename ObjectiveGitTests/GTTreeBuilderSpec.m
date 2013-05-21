@@ -53,8 +53,7 @@ describe(@"GTTreeBuilder building", ^{
 		expect(entry).notTo.beNil();
 		expect(error).to.beNil();
 		
-		NSUInteger numberOfEntries = [builder entryCount];
-		expect(numberOfEntries).to.beGreaterThan(0);
+		expect(builder.entryCount).to.equal(1);
 	});
 	
 	it(@"should be possible to remove an entry from a builder", ^{
@@ -63,15 +62,13 @@ describe(@"GTTreeBuilder building", ^{
 		expect(entry).notTo.beNil();
 		expect(error).to.beNil();
 		
-		NSUInteger numberOfEntries = [builder entryCount];
-		expect(numberOfEntries == 1).to.beTruthy();
+		expect(builder.entryCount).to.equal(1);
 		
 		BOOL success = [builder removeEntryWithFilename:filename error:&error];
 		expect(success).to.beTruthy();
 		expect(error).to.beNil();
 		
-		numberOfEntries = [builder entryCount];
-		expect(numberOfEntries == 0).to.beTruthy();
+		expect(builder.entryCount).to.equal(0);
 	});
 	
 	it(@"should be possible to filter a builder", ^{	
@@ -84,15 +81,13 @@ describe(@"GTTreeBuilder building", ^{
 		
 		[builder addEntryWithSHA:blob.sha filename:@"hi.txt" filemode:GTFileModeTree error:&error];
 		
-		NSUInteger numberOfEntries = [builder entryCount];
-		expect(numberOfEntries == 1).to.beTruthy();
+		expect(builder.entryCount).to.equal(1);
 		
-		[builder filter:^BOOL(const git_tree_entry *entry) {
+		[builder filter:^(const git_tree_entry *entry) {
 			return YES;
 		}];
 		
-		numberOfEntries = [builder entryCount];
-		expect(numberOfEntries == 0).to.beTruthy();		
+		expect(builder.entryCount).to.equal(0);
 	});
 
 	it(@"should be possible to find an entry by file name in a builder", ^{
@@ -102,7 +97,7 @@ describe(@"GTTreeBuilder building", ^{
 		expect(error).to.beNil();
 		
 		GTTreeEntry *foundEntry = [builder entryWithName:filename];
-		expect([foundEntry.sha isEqual:entry.sha]).to.beTruthy();
+		expect(foundEntry.sha).to.equal(entry.sha);
 	});
 
 	it(@"should be possible to write a builder to a repository", ^{
