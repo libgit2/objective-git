@@ -33,72 +33,79 @@
 #import "GTRepository.h"
 #import "NSError+Git.h"
 
-@interface GTTreeBuilder ()
-@end
-
 @implementation GTTreeBuilder
 
-- (id)initWithTree:(GTTree *)treeOrNil error:(NSError **)error;
-{
+#pragma mark Properties
+
+- (NSUInteger)entryCount {
+	return (NSUInteger)git_treebuilder_entrycount(self.git_treebuilder);
+}
+
+#pragma mark Lifecycle
+
+- (id)initWithTree:(GTTree *)treeOrNil error:(NSError **)error {
 	self = [super init];
-	if (self) {
-		git_treebuilder *git_treebuilder;
-		int status = git_treebuilder_create(&git_treebuilder, treeOrNil.git_tree);
-		if (status != GIT_OK) {
-			if (error != NULL) *error = [NSError git_errorFor:status withAdditionalDescription:@"Failed to create tree builder."];
-			return nil;
-		}
-		_git_treebuilder = git_treebuilder;
+	if (self == nil) return nil;
+
+	int status = git_treebuilder_create(&_git_treebuilder, treeOrNil.git_tree);
+	if (status != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:status withAdditionalDescription:@"Failed to create tree builder."];
+		return nil;
 	}
+
 	return self;
 }
 
 - (void)dealloc {
-	if (self.git_treebuilder != NULL) git_treebuilder_free(self.git_treebuilder);
+	if (_git_treebuilder != NULL) {
+		git_treebuilder_free(_git_treebuilder);
+		_git_treebuilder = NULL;
+	}
 }
+
+#pragma mark Modification
 
 - (void)clear {
 	git_treebuilder_clear(self.git_treebuilder);	
 }
 
-- (NSUInteger)entryCount {
-	return (NSUInteger) git_treebuilder_entrycount(self.git_treebuilder);
-}
-
-int filter_callback(const git_tree_entry *entry, void *payload) {
-	BOOL (^filterBlock)(const git_tree_entry *entry) = (__bridge BOOL (^)(const git_tree_entry *entry))payload;
+static int filter_callback(const git_tree_entry *entry, void *payload) {
+	BOOL (^filterBlock)(const git_tree_entry *entry) = (__bridge __typeof__(filterBlock))payload;
 	return filterBlock(entry);
 };
 
-- (void)filter:(BOOL(^)(const git_tree_entry *entry))filterBlock {
+- (void)filter:(BOOL (^)(const git_tree_entry *entry))filterBlock {
+	NSParameterAssert(filterBlock != nil);
+
 	git_treebuilder_filter(self.git_treebuilder, filter_callback, (__bridge void *)filterBlock);
 }
 
 - (GTTreeEntry *)entryWithName:(NSString *)filename {
+	NSParameterAssert(filename != nil);
+
 	const git_tree_entry *entry = git_treebuilder_get(self.git_treebuilder, filename.UTF8String);
-	if (NULL == entry) return nil;
+	if (entry == NULL) return nil;
 	
 	return [GTTreeEntry entryWithEntry:entry parentTree:nil];
 }
 
 - (GTTreeEntry *)addEntryWithSHA:(NSString *)sha filename:(NSString *)filename filemode:(GTFileMode)filemode error:(NSError **)error {
-	const git_tree_entry *entry = NULL;
+	NSParameterAssert(sha != nil);
+	NSParameterAssert(filename != nil);
 	
 	git_oid oid;	
-	int gitError = git_oid_fromstr(&oid, [sha UTF8String]);
+	int gitError = git_oid_fromstr(&oid, sha.UTF8String);
 	if (gitError < GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorForMkStr:gitError];
 		return nil;
 	}	
 	
-	int status = git_treebuilder_insert(&entry,
-							   self.git_treebuilder,
-							   filename.UTF8String,
-							   &oid,
-							   (git_filemode_t)filemode);
+	const git_tree_entry *entry = NULL;
+	int status = git_treebuilder_insert(&entry, self.git_treebuilder, filename.UTF8String, &oid, (git_filemode_t)filemode);
 	
 	if (status != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:status withAdditionalDescription:@"Failed to add entry to tree builder."];
+		return nil;
 	}
 	
 	return [GTTreeEntry entryWithEntry:entry parentTree:nil];
