@@ -1262,6 +1262,7 @@
 				);
 				OTHER_LDFLAGS = "-lgit2-iOS";
 				PRODUCT_NAME = "ObjectiveGit-iOS";
+				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/ObjectiveGit;
 			};
 			name = Debug;
 		};
@@ -1276,6 +1277,7 @@
 				);
 				OTHER_LDFLAGS = "-lgit2-iOS";
 				PRODUCT_NAME = "ObjectiveGit-iOS";
+				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/ObjectiveGit;
 			};
 			name = Release;
 		};
@@ -1413,6 +1415,7 @@
 				);
 				OTHER_LDFLAGS = "-lgit2-iOS";
 				PRODUCT_NAME = "ObjectiveGit-iOS";
+				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/ObjectiveGit;
 			};
 			name = Profile;
 		};
