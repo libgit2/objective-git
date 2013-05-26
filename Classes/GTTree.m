@@ -76,4 +76,26 @@
 	return [[GTIndex alloc] initWithGitIndex:index];
 }
 
+#pragma mark - NSFastEnumeration
+
+- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id __unsafe_unretained [])buffer count:(NSUInteger)len
+{
+	state->mutationsPtr = state->extra;
+    state->itemsPtr = buffer;
+
+	if (state->extra[0] == 0) {
+		state->extra[1] = git_tree_entrycount(self.git_tree);
+	}
+
+	__autoreleasing id *temporaries = (__autoreleasing id *)(void *)buffer;	
+	
+	NSUInteger initial = state->state;
+	for (;state->state < MIN(initial + len, state->extra[1] - initial); state->state++) {
+		*temporaries++ = [[GTTreeEntry alloc] initWithEntry:git_tree_entry_byindex(self.git_tree, state->state) parentTree:self];
+	}
+	
+	return state->state - initial;
+}
+
+
 @end

@@ -33,7 +33,7 @@
 @class GTTreeEntry;
 @class GTIndex;
 
-@interface GTTree : GTObject
+@interface GTTree : GTObject <NSFastEnumeration>
 
 // The underlying libgit2 tree.
 @property (nonatomic, readonly) git_tree *git_tree;

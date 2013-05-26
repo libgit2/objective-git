@@ -35,4 +35,17 @@ it(@"should be able to read tree entry properties", ^{
 	expect(entry.sha).to.equal(@"1385f264afb75a56a5bec74243be9b367ba4ca08");
 });
 
+it(@"should be possible to fast enumerate the entries", ^{
+	NSInteger index = 0;
+	for (GTTreeEntry *entry in tree) {
+		expect(entry).notTo.beNil();
+		expect([entry isKindOfClass:[GTTreeEntry class]]).to.beTruthy();		
+		if (index == 0) {
+			expect(entry.name).to.equal(@"README");
+			expect(entry.sha).to.equal(@"1385f264afb75a56a5bec74243be9b367ba4ca08");
+		}
+		index++;
+	}
+});
+
 SpecEnd
