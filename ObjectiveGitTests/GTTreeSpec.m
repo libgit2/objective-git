@@ -36,7 +36,8 @@ it(@"should be able to read tree entry properties", ^{
 });
 
 it(@"should be possible to fast enumerate the entries", ^{
-	NSInteger index = 0;
+	NSUInteger index = 0;
+	NSUInteger entryCount = [tree entryCount];
 	for (GTTreeEntry *entry in tree) {
 		expect(entry).notTo.beNil();
 		expect([entry isKindOfClass:[GTTreeEntry class]]).to.beTruthy();		
@@ -46,6 +47,7 @@ it(@"should be possible to fast enumerate the entries", ^{
 		}
 		index++;
 	}
+	expect(entryCount == index).to.beTruthy();
 });
 
 SpecEnd
