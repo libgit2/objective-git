@@ -39,8 +39,7 @@ it(@"should be possible to fast enumerate the entries", ^{
 	NSUInteger index = 0;
 	NSUInteger entryCount = [tree entryCount];
 	for (GTTreeEntry *entry in tree) {
-		expect(entry).notTo.beNil();
-		expect([entry isKindOfClass:[GTTreeEntry class]]).to.beTruthy();		
+		expect(entry).to.beKindOf(GTTreeEntry.class);
 		if (index == 0) {
 			expect(entry.name).to.equal(@"README");
 			expect(entry.sha).to.equal(@"1385f264afb75a56a5bec74243be9b367ba4ca08");
