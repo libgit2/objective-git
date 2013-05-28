@@ -49,4 +49,33 @@ it(@"should be possible to fast enumerate the entries", ^{
 	expect(entryCount == index).to.beTruthy();
 });
 
+it(@"should be possible to fast enumerate the entries in a large tree", ^{
+	
+	NSError *error = nil;
+	GTTreeBuilder *builder = nil;
+	
+	builder = [[GTTreeBuilder alloc] initWithTree:nil error:&error];
+	expect(builder).notTo.beNil();
+	expect(error).to.beNil();	
+	
+	GTRepository *repo = [self fixtureRepositoryNamed:@"testrepo.git"];
+	expect(repo).notTo.beNil();
+	
+	NSUInteger entryCount = 100;
+	for (NSUInteger i=0; i<entryCount; i++) {
+		NSString *string = [NSString stringWithFormat:@"%li.txt", (unsigned long)i];
+		GTBlob *blob = [GTBlob blobWithString:string inRepository:repo error:&error];
+		[builder addEntryWithSHA:blob.sha filename:string filemode:GTFileModeTree error:&error];
+	}
+		
+	GTTree *writtenTree = [builder writeTreeToRepository:repo error:&error];
+	expect(writtenTree).notTo.beNil();
+	expect(error).to.beNil();
+	
+	NSUInteger index = 0;
+	for (GTTreeEntry *entry in writtenTree)
+		index++;		
+	expect(entryCount == index).to.beTruthy();
+});
+
 SpecEnd
