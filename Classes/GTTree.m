@@ -80,7 +80,7 @@
 
 - (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id __unsafe_unretained [])buffer count:(NSUInteger)len {
 	state->mutationsPtr = state->extra;
-    state->itemsPtr = buffer;
+	state->itemsPtr = buffer;
 
 	if (state->extra[0] == 0) {
 		state->extra[1] = git_tree_entrycount(self.git_tree);
@@ -95,6 +95,5 @@
 	
 	return state->state - initial;
 }
-
 
 @end
