@@ -86,11 +86,10 @@
 		state->itemsPtr = buffer;
 	}
 
-	__autoreleasing id *temporaries = (__autoreleasing id *)(void *)buffer;	
-	
 	NSUInteger initial = state->state;
 	for (;state->state < MIN(initial + len, state->extra[0] - initial); state->state++) {
-		*temporaries++ = [[GTTreeEntry alloc] initWithEntry:git_tree_entry_byindex(self.git_tree, state->state) parentTree:self];
+		__autoreleasing GTTreeEntry *entry = [[GTTreeEntry alloc] initWithEntry:git_tree_entry_byindex(self.git_tree, state->state) parentTree:self];
+		buffer[state->state-initial] = entry;
 	}
 	
 	return state->state - initial;
