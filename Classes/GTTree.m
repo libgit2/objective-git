@@ -87,7 +87,8 @@
 	}
 
 	NSUInteger initial = state->state;
-	for (;state->state < MIN(initial + len, state->extra[0] - initial); state->state++) {
+	NSUInteger last = initial + MIN(len, state->extra[0] - initial);
+	for (;state->state < last; state->state++) {
 		__autoreleasing GTTreeEntry *entry = [[GTTreeEntry alloc] initWithEntry:git_tree_entry_byindex(self.git_tree, state->state) parentTree:self];
 		buffer[state->state-initial] = entry;
 	}
