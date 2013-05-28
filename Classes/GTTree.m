@@ -78,8 +78,7 @@
 
 #pragma mark - NSFastEnumeration
 
-- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id __unsafe_unretained [])buffer count:(NSUInteger)len
-{
+- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id __unsafe_unretained [])buffer count:(NSUInteger)len {
 	state->mutationsPtr = state->extra;
     state->itemsPtr = buffer;
 
