@@ -32,28 +32,17 @@
 #import "NSError+Git.h"
 #import "NSString+Git.h"
 #import "GTRepository.h"
-#import "GTRepository+Private.h"
 
 @interface GTEnumerator ()
 
 @property (nonatomic, assign, readonly) git_revwalk *walk;
+@property (nonatomic, assign, readwrite) GTEnumeratorOptions options;
 
 @end
 
 @implementation GTEnumerator
 
-#pragma mark Properties
-
-- (void)setOptions:(GTEnumeratorOptions)newOptions {
-	_options = newOptions;
-	git_revwalk_sorting(self.walk, _options);
-}
-
 #pragma mark Lifecycle
-
-+ (id)enumeratorWithRepository:(GTRepository *)theRepo error:(NSError **)error {
-	return [[self alloc] initWithRepository:theRepo error:error];
-}
 
 - (id)initWithRepository:(GTRepository *)repo error:(NSError **)error {
 	NSParameterAssert(repo != nil);
@@ -62,6 +51,7 @@
 	if (self == nil) return nil;
 
 	_repository = repo;
+	_options = GTEnumeratorOptionsNone;
 
 	int gitError = git_revwalk_new(&_walk, self.repository.git_repository);
 	if (gitError != GIT_OK) {
@@ -79,7 +69,7 @@
 	}
 }
 
-#pragma mark Pushing and Skipping
+#pragma mark Pushing and Hiding
 
 - (BOOL)pushSHA:(NSString *)sha error:(NSError **)error {
 	NSParameterAssert(sha != nil);
@@ -109,7 +99,7 @@
 	return YES;
 }
 
-- (BOOL)skipSHA:(NSString *)sha error:(NSError **)error {
+- (BOOL)hideSHA:(NSString *)sha error:(NSError **)error {
 	NSParameterAssert(sha != nil);
 
 	git_oid oid;
@@ -125,7 +115,7 @@
 	return YES;
 }
 
-- (BOOL)skipGlob:(NSString *)refGlob error:(NSError **)error {
+- (BOOL)hideGlob:(NSString *)refGlob error:(NSError **)error {
 	NSParameterAssert(refGlob != nil);
 
 	int gitError = git_revwalk_hide_glob(self.walk, refGlob.UTF8String);
@@ -139,19 +129,27 @@
 
 #pragma mark Resetting
 
-- (void)reset {
-	git_revwalk_reset(self.walk);
+- (void)resetWithOptions:(GTEnumeratorOptions)options {
+	self.options = options;
+
+	// This will also reset the walker.
+	git_revwalk_sorting(self.walk, self.options);
 }
 
 #pragma mark Enumerating
 
-- (GTCommit *)nextObjectWithError:(NSError **)error {
+- (GTCommit *)nextObjectWithSuccess:(BOOL *)success error:(NSError **)error {
 	git_oid oid;
 	int gitError = git_revwalk_next(&oid, self.walk);
-	if (gitError == GIT_ITEROVER) return nil;
+	if (gitError == GIT_ITEROVER) {
+		if (success != NULL) *success = YES;
+		return nil;
+	}
 	
 	// Ignore error if we can't lookup object and just return nil.
-	return (id)[self.repository lookupObjectBySha:[NSString git_stringWithOid:&oid] objectType:GTObjectTypeCommit error:error];
+	GTCommit *commit = (id)[self.repository lookupObjectBySha:[NSString git_stringWithOid:&oid] objectType:GTObjectTypeCommit error:error];
+	if (success != NULL) *success = (commit != nil);
+	return commit;
 }
 
 - (NSArray *)allObjectsWithError:(NSError **)error {
@@ -159,21 +157,19 @@
 
 	GTCommit *object;
 	do {
-		NSError *localError = nil;
-		object = [self nextObjectWithError:&localError];
+		BOOL success;
+		object = [self nextObjectWithSuccess:&success error:error];
+		if (!success) return nil;
 
 		if (object != nil) {
 			[array addObject:object];
-		} else if (localError != nil) {
-			if (error != NULL) *error = localError;
-			return nil;
 		}
 	} while (object != nil);
 
 	return array;
 }
 
-- (NSUInteger)countRemainingObjectsWithError:(NSError **)error {
+- (NSUInteger)countRemainingObjects:(NSError **)error {
 	git_oid oid;
 
 	int gitError;
@@ -198,7 +194,7 @@
 }
 
 - (id)nextObject {
-	return [self nextObjectWithError:NULL];
+	return [self nextObjectWithSuccess:NULL error:NULL];
 }
 
 #pragma mark NSObject
