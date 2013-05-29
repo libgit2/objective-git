@@ -63,9 +63,6 @@ typedef enum : unsigned int {
 // Initializes the receiver to enumerate the commits in `theRepo`.
 - (id)initWithRepository:(GTRepository *)theRepo error:(NSError **)error;
 
-// Creates an enumerator for the commits in `theRepo`.
-+ (id)enumeratorWithRepository:(GTRepository *)theRepo error:(NSError **)error;
-
 // Marks a commit to start traversal from.
 //
 // sha   - The SHA of a commit in the receiver's repository.

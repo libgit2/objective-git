@@ -44,10 +44,6 @@
 
 #pragma mark Lifecycle
 
-+ (id)enumeratorWithRepository:(GTRepository *)theRepo error:(NSError **)error {
-	return [[self alloc] initWithRepository:theRepo error:error];
-}
-
 - (id)initWithRepository:(GTRepository *)repo error:(NSError **)error {
 	NSParameterAssert(repo != nil);
 
