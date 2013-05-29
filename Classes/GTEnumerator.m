@@ -32,152 +32,175 @@
 #import "NSError+Git.h"
 #import "NSString+Git.h"
 #import "GTRepository.h"
-#import "GTRepository+Private.h"
 
-@interface GTEnumerator()
-@property (nonatomic, assign) git_revwalk *walk;
+@interface GTEnumerator ()
 
-- (void)cleanup;
+@property (nonatomic, assign, readonly) git_revwalk *walk;
+@property (nonatomic, assign, readwrite) GTEnumeratorOptions options;
+
 @end
-
 
 @implementation GTEnumerator
 
-- (NSString *)description {
-  return [NSString stringWithFormat:@"<%@: %p> repository: %@", NSStringFromClass([self class]), self, self.repository];
-}
+#pragma mark Lifecycle
 
-- (void)dealloc {
-	[self cleanup];
-}
+- (id)initWithRepository:(GTRepository *)repo error:(NSError **)error {
+	NSParameterAssert(repo != nil);
 
+	self = [super init];
+	if (self == nil) return nil;
 
-#pragma mark API
+	_repository = repo;
+	_options = GTEnumeratorOptionsNone;
 
-@synthesize repository;
-@synthesize walk;
-@synthesize options;
-
-- (id)initWithRepository:(GTRepository *)theRepo error:(NSError **)error {
-	if((self = [super init])) {
-		self.repository = theRepo;
-		git_revwalk *w;
-		int gitError = git_revwalk_new(&w, self.repository.git_repository);
-		if(gitError < GIT_OK) {
-			if (error != NULL)
-				*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to initialize rev walker."];
-			return nil;
-		}
-		self.walk = w;
+	int gitError = git_revwalk_new(&_walk, self.repository.git_repository);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to initialize rev walker."];
+		return nil;
 	}
+
 	return self;
 }
 
-+ (id)enumeratorWithRepository:(GTRepository *)theRepo error:(NSError **)error {
-	return [[self alloc] initWithRepository:theRepo error:error];
-}
-
-- (void)cleanup {
-	[self.repository removeEnumerator:self];
-	self.repository = nil;
-	
-	if(self.walk != NULL) {
-		git_revwalk_free(self.walk);
-		self.walk = NULL;
+- (void)dealloc {
+	if (_walk != NULL) {
+		git_revwalk_free(_walk);
+		_walk = NULL;
 	}
 }
 
-- (BOOL)push:(NSString *)sha error:(NSError **)error {
+#pragma mark Pushing and Hiding
+
+- (BOOL)pushSHA:(NSString *)sha error:(NSError **)error {
+	NSParameterAssert(sha != nil);
+
 	git_oid oid;
 	BOOL success = [sha git_getOid:&oid error:error];
-	if(!success) return NO;
-	
-	[self reset];
+	if (!success) return NO;
 	
 	int gitError = git_revwalk_push(self.walk, &oid);
-	if(gitError < GIT_OK) {
-		if (error != NULL)
-			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to push sha onto rev walker."];
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to push SHA onto rev walker."];
 		return NO;
 	}
 	
 	return YES;
 }
 
-- (BOOL)skipCommitWithHash:(NSString *)sha error:(NSError **)error {
+- (BOOL)pushGlob:(NSString *)refGlob error:(NSError **)error {
+	NSParameterAssert(refGlob != nil);
+
+	int gitError = git_revwalk_push_glob(self.walk, refGlob.UTF8String);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to push glob onto rev walker."];
+		return NO;
+	}
+	
+	return YES;
+}
+
+- (BOOL)hideSHA:(NSString *)sha error:(NSError **)error {
+	NSParameterAssert(sha != nil);
+
 	git_oid oid;
 	BOOL success = [sha git_getOid:&oid error:error];
-	if(!success) return NO;
+	if (!success) return NO;
 	
 	int gitError = git_revwalk_hide(self.walk, &oid);
-	if(gitError < GIT_OK) {
-		if (error != NULL)
-			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to hide sha on rev walker."];
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to hide SHA on rev walker."];
 		return NO;
 	}
+
 	return YES;
 }
 
-- (void)reset {
-	git_revwalk_reset(self.walk);
+- (BOOL)hideGlob:(NSString *)refGlob error:(NSError **)error {
+	NSParameterAssert(refGlob != nil);
+
+	int gitError = git_revwalk_hide_glob(self.walk, refGlob.UTF8String);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to push glob onto rev walker."];
+		return NO;
+	}
+	
+	return YES;
 }
 
-- (void)setOptions:(GTEnumeratorOptions)newOptions {
-    options = newOptions;
-	git_revwalk_sorting(self.walk, (unsigned int)options);
+#pragma mark Resetting
+
+- (void)resetWithOptions:(GTEnumeratorOptions)options {
+	self.options = options;
+
+	// This will also reset the walker.
+	git_revwalk_sorting(self.walk, self.options);
 }
 
-- (id)nextObject {
-	return [self nextObjectWithError:NULL];
-}
+#pragma mark Enumerating
 
-- (id)nextObjectWithError:(NSError **)error {
+- (GTCommit *)nextObjectWithSuccess:(BOOL *)success error:(NSError **)error {
 	git_oid oid;
 	int gitError = git_revwalk_next(&oid, self.walk);
-	if(gitError == GIT_ITEROVER)
+	if (gitError == GIT_ITEROVER) {
+		if (success != NULL) *success = YES;
 		return nil;
+	}
 	
-	// ignore error if we can't lookup object and just return nil
-	return [self.repository lookupObjectBySha:[NSString git_stringWithOid:&oid] objectType:GTObjectTypeCommit error:error];
+	// Ignore error if we can't lookup object and just return nil.
+	GTCommit *commit = (id)[self.repository lookupObjectBySha:[NSString git_stringWithOid:&oid] objectType:GTObjectTypeCommit error:error];
+	if (success != NULL) *success = (commit != nil);
+	return commit;
 }
+
+- (NSArray *)allObjectsWithError:(NSError **)error {
+	NSMutableArray *array = [NSMutableArray array];
+
+	GTCommit *object;
+	do {
+		BOOL success;
+		object = [self nextObjectWithSuccess:&success error:error];
+		if (!success) return nil;
+
+		if (object != nil) {
+			[array addObject:object];
+		}
+	} while (object != nil);
+
+	return array;
+}
+
+- (NSUInteger)countRemainingObjects:(NSError **)error {
+	git_oid oid;
+
+	int gitError;
+	NSUInteger count = 0;
+
+	while ((gitError = git_revwalk_next(&oid, self.walk)) == GIT_OK) {
+		count++;
+	}
+
+	if (gitError == GIT_ITEROVER) {
+		return count;
+	} else {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to get next SHA with rev walker."];
+		return NSNotFound;
+	}
+}
+
+#pragma mark NSEnumerator
 
 - (NSArray *)allObjects {
 	return [self allObjectsWithError:NULL];
 }
 
-- (NSArray *)allObjectsWithError:(NSError **)error {
-    NSMutableArray *array = [NSMutableArray array];
-    id object = nil;
-    while ((object = [self nextObjectWithError:error]) != nil) {
-        [array addObject:object];
-    }
-    return array;
+- (id)nextObject {
+	return [self nextObjectWithSuccess:NULL error:NULL];
 }
 
-- (NSUInteger)countFromSha:(NSString *)sha error:(NSError **)error {
-	[self setOptions:GTEnumeratorOptionsNone];
-	
-	BOOL success = [self push:sha error:error];
-	if(!success) return NSNotFound;
-	
-	git_oid oid;
-	NSUInteger count = 0;
-	while(git_revwalk_next(&oid, self.walk) == GIT_OK) {
-		count++;
-	}
-	return count;
-}
+#pragma mark NSObject
 
-- (void)setRepository:(GTRepository *)r {
-	if(r == repository) return;
-	
-	repository = r;
-	
-	if(self.repository == nil) {
-		[self cleanup];
-	} else {
-		[self.repository addEnumerator:self];
-	}
+- (NSString *)description {
+	return [NSString stringWithFormat:@"<%@: %p> repository: %@", self.class, self, self.repository];
 }
 
 @end

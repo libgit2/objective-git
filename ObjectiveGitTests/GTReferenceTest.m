@@ -6,9 +6,6 @@
 //  Copyright 2011 GitHub Inc. All rights reserved.
 //
 
-#import "Contants.h"
-
-
 @interface GTReferenceTest : SenTestCase {
 	NSArray *expectedRefs;
 }

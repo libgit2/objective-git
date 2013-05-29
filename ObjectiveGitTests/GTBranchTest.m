@@ -6,8 +6,6 @@
 //  Copyright 2011 GitHub, Inc. All rights reserved.
 //
 
-#import "Contants.h"
-
 @interface GTBranchTest : SenTestCase {
 
         GTRepository *repo;

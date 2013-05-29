@@ -27,9 +27,6 @@
 //  THE SOFTWARE.
 //
 
-#import "Contants.h"
-
-
 @interface GTRepositoryTest : SenTestCase {
 
 	GTRepository *repo;

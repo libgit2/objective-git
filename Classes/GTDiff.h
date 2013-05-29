@@ -131,7 +131,7 @@ extern NSString *const GTDiffFindOptionsBreakRewriteThresholdKey;
 // This is the equivalent of the `diff.renameLimit` config value.
 //
 // Defaults to 200.
-extern NSString *const GTDiffFindOptionsTargetLimitKey;
+extern NSString *const GTDiffFindOptionsRenameLimitKey;
 
 // Enum for options passed into `-findSimilarWithOptions:`.
 //
