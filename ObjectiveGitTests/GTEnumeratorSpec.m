@@ -75,9 +75,9 @@ describe(@"with a rev list", ^{
 		verifyEnumerator();
 	});
 
-	it(@"should skip a SHA", ^{
+	it(@"should hide a SHA", ^{
 		__block NSError *error = nil;
-		expect([enumerator skipSHA:expectedSHAs[2] error:&error]).to.beTruthy();
+		expect([enumerator hideSHA:expectedSHAs[2] error:&error]).to.beTruthy();
 		expect(error).to.beNil();
 
 		[expectedSHAs removeObjectsInRange:NSMakeRange(2, expectedSHAs.count - 2)];
@@ -130,12 +130,12 @@ describe(@"globbing", ^{
 		verifyEnumerator();
 	});
 
-	it(@"should skip a glob", ^{
+	it(@"should hide a glob", ^{
 		__block NSError *error = nil;
 		expect([enumerator pushSHA:expectedSHAs[0] error:&error]).to.beTruthy();
 		expect(error).to.beNil();
 
-		expect([enumerator skipGlob:branchGlob error:&error]).to.beTruthy();
+		expect([enumerator hideGlob:branchGlob error:&error]).to.beTruthy();
 		expect(error).to.beNil();
 		
 		[expectedSHAs removeAllObjects];

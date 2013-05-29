@@ -69,7 +69,7 @@
 	}
 }
 
-#pragma mark Pushing and Skipping
+#pragma mark Pushing and Hiding
 
 - (BOOL)pushSHA:(NSString *)sha error:(NSError **)error {
 	NSParameterAssert(sha != nil);
@@ -99,7 +99,7 @@
 	return YES;
 }
 
-- (BOOL)skipSHA:(NSString *)sha error:(NSError **)error {
+- (BOOL)hideSHA:(NSString *)sha error:(NSError **)error {
 	NSParameterAssert(sha != nil);
 
 	git_oid oid;
@@ -115,7 +115,7 @@
 	return YES;
 }
 
-- (BOOL)skipGlob:(NSString *)refGlob error:(NSError **)error {
+- (BOOL)hideGlob:(NSString *)refGlob error:(NSError **)error {
 	NSParameterAssert(refGlob != nil);
 
 	int gitError = git_revwalk_hide_glob(self.walk, refGlob.UTF8String);

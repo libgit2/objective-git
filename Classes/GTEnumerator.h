@@ -79,21 +79,21 @@ typedef enum : unsigned int {
 // Returns whether pushing matching references was successful.
 - (BOOL)pushGlob:(NSString *)refGlob error:(NSError **)error;
 
-// Skips the specified commit and all of its ancestors when enumerating.
+// Hides the specified commit and all of its ancestors when enumerating.
 //
 // sha   - The SHA of a commit in the receiver's repository.
 // error - If not NULL, this will be set to any error that occurs.
 //
-// Returns whether marking the SHA for skipping was successful.
-- (BOOL)skipSHA:(NSString *)sha error:(NSError **)error;
+// Returns whether marking the SHA for hiding was successful.
+- (BOOL)hideSHA:(NSString *)sha error:(NSError **)error;
 
-// Skips all references matching `refGlob`.
+// Hides all references matching `refGlob`.
 //
 // refGlob - A glob to match references against.
 // error   - If not NULL, this will be set to any error that occurs.
 //
-// Returns whether marking matching references for skipping was successful.
-- (BOOL)skipGlob:(NSString *)refGlob error:(NSError **)error;
+// Returns whether marking matching references for hiding was successful.
+- (BOOL)hideGlob:(NSString *)refGlob error:(NSError **)error;
 
 // Resets the receiver, putting it back into a clean state for reuse, and
 // replacing the receiver's `options`.
