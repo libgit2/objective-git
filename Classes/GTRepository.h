@@ -32,13 +32,14 @@
 #import "GTEnumerator.h"
 #import "GTReference.h"
 
+@class GTBranch;
+@class GTCommit;
+@class GTConfiguration;
+@class GTIndex;
 @class GTObjectDatabase;
 @class GTOdbObject;
-@class GTCommit;
-@class GTIndex;
-@class GTBranch;
-@class GTConfiguration;
 @class GTSignature;
+@class GTSubmodule;
 
 // Options returned from the enumerateFileStatusUsingBlock: function
 enum {
@@ -206,5 +207,12 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 //
 // Returns the signature.
 - (GTSignature *)userSignatureForNow;
+
+// Enumerates over all the tracked submodules in the repository.
+//
+// recursive - Whether to recurse into nested submodules, depth-first.
+// block     - A block to execute for each `submodule` found. Setting `stop` to
+//             YES will cause enumeration to stop after the block returns.
+- (void)enumerateSubmodulesRecursively:(BOOL)recursive usingBlock:(void (^)(GTSubmodule *submodule, BOOL *stop))block;
 
 @end
