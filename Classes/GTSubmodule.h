@@ -13,6 +13,8 @@
 
 // Determines which kinds of changes within the submodule repository will be
 // ignored when retrieving its status.
+//
+// These flags are mutually exclusive.
 typedef enum : git_submodule_ignore_t {
 	GTSubmoduleIgnoreDefault = GIT_SUBMODULE_IGNORE_DEFAULT,
 	GTSubmoduleIgnoreNone = GIT_SUBMODULE_IGNORE_NONE,
@@ -21,7 +23,9 @@ typedef enum : git_submodule_ignore_t {
 	GTSubmoduleIgnoreAll = GIT_SUBMODULE_IGNORE_ALL
 } GTSubmoduleIgnoreRule;
 
-// Describes the status of a submodule. These flags may be ORed together.
+// Describes the status of a submodule.
+//
+// These flags may be ORed together.
 typedef enum : git_submodule_status_t {
 	GTSubmoduleStatusUnknown = 0,
 
