@@ -47,7 +47,7 @@ BOOL setupRepositoryFixtureIfNeeded(NSString *repositoryName, Class cls) {
 	
 	if (![NSFileManager.defaultManager createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:NULL]) return NO;
 	
-	NSString *zippedFixturesPath = [[[NSBundle bundleForClass:cls] resourcePath] stringByAppendingPathComponent:@"fixtures/fixtures.zip"];
+	NSString *zippedFixturesPath = [[NSBundle bundleForClass:cls] pathForResource:@"fixtures" ofType:@"zip"];
 	return unzipFileFromArchiveAtPathIntoDirectory(repositoryName, zippedFixturesPath, path.stringByDeletingLastPathComponent);
 }
 
@@ -148,7 +148,7 @@ void rm_loose(Class cls, NSString *sha) {
 	BOOL success = [NSFileManager.defaultManager createDirectoryAtPath:self.repositoryFixturesPath withIntermediateDirectories:YES attributes:nil error:&error];
 	STAssertTrue(success, @"Couldn't create the repository fixtures directory at %@: %@", self.repositoryFixturesPath, error);
 
-	NSString *zippedRepositoriesPath = [[self.mainTestBundle.resourcePath stringByAppendingPathComponent:@"fixtures"] stringByAppendingPathComponent:@"fixtures.zip"];
+	NSString *zippedRepositoriesPath = [[NSBundle bundleForClass:self.class] pathForResource:@"fixtures" ofType:@"zip"];
 
 	error = nil;
 	success = [self unzipFile:repositoryName fromArchiveAtPath:zippedRepositoriesPath intoDirectory:self.repositoryFixturesPath error:&error];
