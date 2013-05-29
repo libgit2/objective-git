@@ -36,17 +36,11 @@
 @interface GTEnumerator ()
 
 @property (nonatomic, assign, readonly) git_revwalk *walk;
+@property (nonatomic, assign, readwrite) GTEnumeratorOptions options;
 
 @end
 
 @implementation GTEnumerator
-
-#pragma mark Properties
-
-- (void)setOptions:(GTEnumeratorOptions)newOptions {
-	_options = newOptions;
-	git_revwalk_sorting(self.walk, _options);
-}
 
 #pragma mark Lifecycle
 
@@ -61,6 +55,7 @@
 	if (self == nil) return nil;
 
 	_repository = repo;
+	_options = GTEnumeratorOptionsNone;
 
 	int gitError = git_revwalk_new(&_walk, self.repository.git_repository);
 	if (gitError != GIT_OK) {
@@ -138,8 +133,11 @@
 
 #pragma mark Resetting
 
-- (void)reset {
-	git_revwalk_reset(self.walk);
+- (void)resetWithOptions:(GTEnumeratorOptions)options {
+	self.options = options;
+
+	// This will also reset the walker.
+	git_revwalk_sorting(self.walk, self.options);
 }
 
 #pragma mark Enumerating

@@ -240,8 +240,7 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 		sha = head.target;
 	}
 
-	[self.enumerator reset];
-	self.enumerator.options = options;
+	[self.enumerator resetWithOptions:options];
 
 	BOOL success = [self.enumerator pushSHA:sha error:error];
 	if (!success) return NO;

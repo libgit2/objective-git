@@ -140,8 +140,7 @@
 }
 
 - (NSUInteger)numberOfCommitsWithError:(NSError **)error {
-	[self.repository.enumerator reset];
-	self.repository.enumerator.options = GTEnumeratorOptionsNone;
+	[self.repository.enumerator resetWithOptions:GTEnumeratorOptionsNone];
 
 	if (![self.repository.enumerator pushSHA:self.sha error:error]) return NSNotFound;
 	return [self.repository.enumerator countRemainingObjectsWithError:error];
@@ -199,8 +198,7 @@
 	GTEnumerator *enumerator = self.repository.enumerator;
 	
 	NSMutableOrderedSet * (^allCommitsFromSHA)(NSString *, NSError **) = ^ id (NSString *sha, NSError **error) {
-		[enumerator reset];
-		enumerator.options = GTEnumeratorOptionsTopologicalSort;
+		[enumerator resetWithOptions:GTEnumeratorOptionsTopologicalSort];
 		
 		BOOL success = [enumerator pushSHA:sha error:error];
 		if (!success) return nil;

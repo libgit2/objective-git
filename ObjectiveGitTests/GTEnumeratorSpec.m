@@ -84,9 +84,13 @@ describe(@"with a rev list", ^{
 		verifyEnumerator();
 	});
 
-	it(@"should reset", ^{
+	it(@"should reset with options", ^{
+		expect(enumerator.options).to.equal(GTEnumeratorOptionsNone);
 		verifyEnumerator();
-		[enumerator reset];
+
+		[enumerator resetWithOptions:GTEnumeratorOptionsTimeSort];
+
+		expect(enumerator.options).to.equal(GTEnumeratorOptionsTimeSort);
 		verifyEnumerator();
 	});
 });

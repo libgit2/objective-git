@@ -55,8 +55,10 @@ typedef enum : unsigned int {
 // The repository being enumerated.
 @property (nonatomic, weak, readonly) GTRepository *repository;
 
-// The options to use when enumerating.
-@property (nonatomic, assign) GTEnumeratorOptions options;
+// The options currently being used for enumeration.
+//
+// To set new options, use -resetWithOptions:.
+@property (nonatomic, assign, readonly) GTEnumeratorOptions options;
 
 // Initializes the receiver to enumerate the commits in `theRepo`.
 - (id)initWithRepository:(GTRepository *)theRepo error:(NSError **)error;
@@ -96,8 +98,9 @@ typedef enum : unsigned int {
 // Returns whether marking matching references for skipping was successful.
 - (BOOL)skipGlob:(NSString *)refGlob error:(NSError **)error;
 
-// Resets the receiver, putting it back into a clean state for reuse.
-- (void)reset;
+// Resets the receiver, putting it back into a clean state for reuse, and
+// replacing the receiver's `options`.
+- (void)resetWithOptions:(GTEnumeratorOptions)options;
 
 // Enumerates all marked commits, completely exhausting the receiver.
 //
