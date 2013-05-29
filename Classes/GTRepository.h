@@ -83,6 +83,12 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 + (id)repositoryWithURL:(NSURL *)localFileURL error:(NSError **)error;
 - (id)initWithURL:(NSURL *)localFileURL error:(NSError **)error;
 
+// Initializes the receiver to wrap the given repository object.
+//
+// The receiver will take over memory management of the `git_repository`, so it
+// must not be freed elsewhere after this method is invoked.
+- (id)initWithGitRepository:(git_repository *)repository;
+
 // Clone a repository
 //
 // originURL             - The URL to clone from.

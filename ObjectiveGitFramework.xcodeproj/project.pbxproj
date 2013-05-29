@@ -191,6 +191,10 @@
 		BDFAF9C9131C1868000508BC /* GTIndexEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = BDFAF9C7131C1868000508BC /* GTIndexEntry.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BDFAF9CA131C1868000508BC /* GTIndexEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = BDFAF9C8131C1868000508BC /* GTIndexEntry.m */; };
 		D06D9E011755D10000558C17 /* GTEnumeratorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D06D9E001755D10000558C17 /* GTEnumeratorSpec.m */; };
+		D09C2E361755F16200065E36 /* GTSubmodule.h in Headers */ = {isa = PBXBuildFile; fileRef = D09C2E341755F16200065E36 /* GTSubmodule.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D09C2E371755F16200065E36 /* GTSubmodule.h in Headers */ = {isa = PBXBuildFile; fileRef = D09C2E341755F16200065E36 /* GTSubmodule.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D09C2E381755F16200065E36 /* GTSubmodule.m in Sources */ = {isa = PBXBuildFile; fileRef = D09C2E351755F16200065E36 /* GTSubmodule.m */; };
+		D09C2E391755F16200065E36 /* GTSubmodule.m in Sources */ = {isa = PBXBuildFile; fileRef = D09C2E351755F16200065E36 /* GTSubmodule.m */; };
 		D0AC906C172F941F00347DC4 /* GTRepositorySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0AC906B172F941F00347DC4 /* GTRepositorySpec.m */; };
 		E9FFC6BF1577CC8300A9E736 /* GTConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 88EB7E4C14AEBA600046FEA4 /* GTConfiguration.m */; };
 		E9FFC6C01577CC8A00A9E736 /* GTConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 88EB7E4B14AEBA600046FEA4 /* GTConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -419,6 +423,8 @@
 		BDFAF9C7131C1868000508BC /* GTIndexEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTIndexEntry.h; sourceTree = "<group>"; };
 		BDFAF9C8131C1868000508BC /* GTIndexEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = GTIndexEntry.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		D06D9E001755D10000558C17 /* GTEnumeratorSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTEnumeratorSpec.m; sourceTree = "<group>"; };
+		D09C2E341755F16200065E36 /* GTSubmodule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTSubmodule.h; sourceTree = "<group>"; };
+		D09C2E351755F16200065E36 /* GTSubmodule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTSubmodule.m; sourceTree = "<group>"; };
 		D0AC906B172F941F00347DC4 /* GTRepositorySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTRepositorySpec.m; sourceTree = "<group>"; };
 		D0D81859174421EB00995A2E /* Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
 		D0D8185B174421EB00995A2E /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
@@ -692,6 +698,8 @@
 				8821547517147A5200D76B76 /* GTReflogEntry.m */,
 				8821547B17147B3600D76B76 /* GTOID.h */,
 				8821547C17147B3600D76B76 /* GTOID.m */,
+				D09C2E341755F16200065E36 /* GTSubmodule.h */,
+				D09C2E351755F16200065E36 /* GTSubmodule.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -823,6 +831,7 @@
 				6A74CA3516A942B400E1A3C5 /* GTRepository+Private.h in Headers */,
 				6A74CA3616A942C000E1A3C5 /* GTConfiguration+Private.h in Headers */,
 				30B1E7EF1703522100D0814D /* NSDate+GTTimeAdditions.h in Headers */,
+				D09C2E371755F16200065E36 /* GTSubmodule.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -863,6 +872,7 @@
 				8821547617147A5200D76B76 /* GTReflogEntry.h in Headers */,
 				8849C6A214AD81FF003890AF /* GTRepository+Private.h in Headers */,
 				30B1E7EE1703522100D0814D /* NSDate+GTTimeAdditions.h in Headers */,
+				D09C2E361755F16200065E36 /* GTSubmodule.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1130,6 +1140,7 @@
 				8821547917147A5200D76B76 /* GTReflogEntry.m in Sources */,
 				8821548017147B3600D76B76 /* GTOID.m in Sources */,
 				5BE6128B1745EE3400266D8C /* GTTreeBuilder.m in Sources */,
+				D09C2E391755F16200065E36 /* GTSubmodule.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1196,6 +1207,7 @@
 				8821547817147A5200D76B76 /* GTReflogEntry.m in Sources */,
 				8821547F17147B3600D76B76 /* GTOID.m in Sources */,
 				5BE6128A1745EE3400266D8C /* GTTreeBuilder.m in Sources */,
+				D09C2E381755F16200065E36 /* GTSubmodule.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
