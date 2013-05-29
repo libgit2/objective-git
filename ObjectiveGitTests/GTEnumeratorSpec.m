@@ -71,10 +71,11 @@ describe(@"with a rev list", ^{
 
 	it(@"should walk part of a rev list", ^{
 		[expectedSHAs removeObjectsInRange:NSMakeRange(0, expectedSHAs.count - 1)];
+
 		verifyEnumerator();
 	});
 
-	it(@"should hide a SHA", ^{
+	it(@"should skip a SHA", ^{
 		__block NSError *error = nil;
 		expect([enumerator skipSHA:expectedSHAs[2] error:&error]).to.beTruthy();
 		expect(error).to.beNil();
@@ -86,6 +87,54 @@ describe(@"with a rev list", ^{
 	it(@"should reset", ^{
 		verifyEnumerator();
 		[enumerator reset];
+		verifyEnumerator();
+	});
+});
+
+describe(@"globbing", ^{
+	NSString *branchGlob = @"refs/heads/m*t*r";
+
+	__block NSMutableArray *expectedSHAs;
+	__block void (^verifyEnumerator)(void);
+	
+	beforeEach(^{
+		expectedSHAs = [@[
+			@"36060c58702ed4c2a40832c51758d5344201d89a",
+			@"5b5b025afb0b4c913b4c338a42934a3863bf3644",
+			@"8496071c1b46c854b31185ea97743be6a8774479",
+		] mutableCopy];
+
+		verifyEnumerator = ^{
+			NSMutableArray *SHAs = [NSMutableArray array];
+			for (GTCommit *commit in enumerator) {
+				[SHAs addObject:commit.sha];
+			}
+
+			expect(SHAs).to.equal(expectedSHAs);
+
+			__block NSError *error = nil;
+			expect([enumerator nextObjectWithError:&error]).to.beNil();
+			expect(error).to.beNil();
+		};
+	});
+
+	it(@"should push a glob", ^{
+		__block NSError *error = nil;
+		expect([enumerator pushGlob:branchGlob error:&error]).to.beTruthy();
+		expect(error).to.beNil();
+		
+		verifyEnumerator();
+	});
+
+	it(@"should skip a glob", ^{
+		__block NSError *error = nil;
+		expect([enumerator pushSHA:expectedSHAs[0] error:&error]).to.beTruthy();
+		expect(error).to.beNil();
+
+		expect([enumerator skipGlob:branchGlob error:&error]).to.beTruthy();
+		expect(error).to.beNil();
+		
+		[expectedSHAs removeAllObjects];
 		verifyEnumerator();
 	});
 });

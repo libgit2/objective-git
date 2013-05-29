@@ -72,6 +72,14 @@ typedef enum : unsigned int {
 // Returns whether pushing the commit was successful.
 - (BOOL)pushSHA:(NSString *)sha error:(NSError **)error;
 
+// Pushes all references matching `refGlob`.
+//
+// refGlob - A glob to match references against.
+// error   - If not NULL, this will be set to any error that occurs.
+//
+// Returns whether pushing matching references was successful.
+- (BOOL)pushGlob:(NSString *)refGlob error:(NSError **)error;
+
 // Skips the specified commit and all of its ancestors when enumerating.
 //
 // sha   - The SHA of a commit in the receiver's repository.
@@ -79,6 +87,14 @@ typedef enum : unsigned int {
 //
 // Returns whether marking the SHA for skipping was successful.
 - (BOOL)skipSHA:(NSString *)sha error:(NSError **)error;
+
+// Skips all references matching `refGlob`.
+//
+// refGlob - A glob to match references against.
+// error   - If not NULL, this will be set to any error that occurs.
+//
+// Returns whether marking matching references for skipping was successful.
+- (BOOL)skipGlob:(NSString *)refGlob error:(NSError **)error;
 
 // Resets the receiver, putting it back into a clean state for reuse.
 - (void)reset;

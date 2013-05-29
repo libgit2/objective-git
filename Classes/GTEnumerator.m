@@ -97,6 +97,18 @@
 	return YES;
 }
 
+- (BOOL)pushGlob:(NSString *)refGlob error:(NSError **)error {
+	NSParameterAssert(refGlob != nil);
+
+	int gitError = git_revwalk_push_glob(self.walk, refGlob.UTF8String);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to push glob onto rev walker."];
+		return NO;
+	}
+	
+	return YES;
+}
+
 - (BOOL)skipSHA:(NSString *)sha error:(NSError **)error {
 	NSParameterAssert(sha != nil);
 
@@ -110,6 +122,18 @@
 		return NO;
 	}
 
+	return YES;
+}
+
+- (BOOL)skipGlob:(NSString *)refGlob error:(NSError **)error {
+	NSParameterAssert(refGlob != nil);
+
+	int gitError = git_revwalk_hide_glob(self.walk, refGlob.UTF8String);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to push glob onto rev walker."];
+		return NO;
+	}
+	
 	return YES;
 }
 
