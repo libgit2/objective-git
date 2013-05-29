@@ -143,7 +143,7 @@
 	[self.repository.enumerator resetWithOptions:GTEnumeratorOptionsNone];
 
 	if (![self.repository.enumerator pushSHA:self.sha error:error]) return NSNotFound;
-	return [self.repository.enumerator countRemainingObjectsWithError:error];
+	return [self.repository.enumerator countRemainingObjects:error];
 }
 
 - (GTBranchType)branchType {

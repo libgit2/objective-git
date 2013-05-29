@@ -129,6 +129,6 @@ typedef enum : unsigned int {
 // error - If not NULL, set to any error that occurs during traversal.
 //
 // Returns the number of commits remaining, or `NSNotFound` if an error occurs.
-- (NSUInteger)countRemainingObjectsWithError:(NSError **)error;
+- (NSUInteger)countRemainingObjects:(NSError **)error;
 
 @end

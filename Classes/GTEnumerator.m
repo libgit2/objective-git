@@ -169,7 +169,7 @@
 	return array;
 }
 
-- (NSUInteger)countRemainingObjectsWithError:(NSError **)error {
+- (NSUInteger)countRemainingObjects:(NSError **)error {
 	git_oid oid;
 
 	int gitError;
