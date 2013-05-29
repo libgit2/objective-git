@@ -60,12 +60,18 @@ typedef enum : unsigned int {
 // To set new options, use -resetWithOptions:.
 @property (nonatomic, assign, readonly) GTEnumeratorOptions options;
 
-// Initializes the receiver to enumerate the commits in `theRepo`.
-- (id)initWithRepository:(GTRepository *)theRepo error:(NSError **)error;
+// Initializes the receiver to enumerate the commits in the given repository.
+//
+// repo  - The repository to enumerate the commits of. This must not be nil.
+// error - If not NULL, set to any error that occurs.
+//
+// Returns an initialized enumerator, or nil if an error occurs.
+- (id)initWithRepository:(GTRepository *)repo error:(NSError **)error;
 
 // Marks a commit to start traversal from.
 //
-// sha   - The SHA of a commit in the receiver's repository.
+// sha   - The SHA of a commit in the receiver's repository. This must not be
+//         nil.
 // error - If not NULL, this will be set to any error that occurs.
 //
 // Returns whether pushing the commit was successful.
@@ -73,7 +79,7 @@ typedef enum : unsigned int {
 
 // Pushes all references matching `refGlob`.
 //
-// refGlob - A glob to match references against.
+// refGlob - A glob to match references against. This must not be nil.
 // error   - If not NULL, this will be set to any error that occurs.
 //
 // Returns whether pushing matching references was successful.
@@ -81,7 +87,8 @@ typedef enum : unsigned int {
 
 // Hides the specified commit and all of its ancestors when enumerating.
 //
-// sha   - The SHA of a commit in the receiver's repository.
+// sha   - The SHA of a commit in the receiver's repository. This must not be
+//         nil.
 // error - If not NULL, this will be set to any error that occurs.
 //
 // Returns whether marking the SHA for hiding was successful.
@@ -89,7 +96,7 @@ typedef enum : unsigned int {
 
 // Hides all references matching `refGlob`.
 //
-// refGlob - A glob to match references against.
+// refGlob - A glob to match references against. This must not be nil.
 // error   - If not NULL, this will be set to any error that occurs.
 //
 // Returns whether marking matching references for hiding was successful.
