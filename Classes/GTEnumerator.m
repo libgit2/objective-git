@@ -161,12 +161,13 @@
 	do {
 		NSError *localError = nil;
 		object = [self nextObjectWithError:&localError];
-		if (object == nil && localError != nil) {
+
+		if (object != nil) {
+			[array addObject:object];
+		} else if (localError != nil) {
 			if (error != NULL) *error = localError;
 			return nil;
 		}
-
-		[array addObject:object];
 	} while (object != nil);
 
 	return array;
