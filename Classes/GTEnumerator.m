@@ -32,7 +32,6 @@
 #import "NSError+Git.h"
 #import "NSString+Git.h"
 #import "GTRepository.h"
-#import "GTRepository+Private.h"
 
 @interface GTEnumerator ()
 
