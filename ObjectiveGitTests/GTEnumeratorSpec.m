@@ -27,9 +27,9 @@ it(@"should walk from repository HEAD", ^{
 	NSError *error = nil;
 
 	__block NSUInteger count = 0;
-    [repo enumerateCommitsBeginningAtSha:nil error:&error usingBlock:^(GTCommit *commit, BOOL *stop) {
-        count++;
-    }];
+	[repo enumerateCommitsBeginningAtSha:nil error:&error usingBlock:^(GTCommit *commit, BOOL *stop) {
+		count++;
+	}];
 
 	expect(count).to.equal(3);
 	expect(error).to.beNil();
