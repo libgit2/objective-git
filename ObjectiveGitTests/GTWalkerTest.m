@@ -39,7 +39,7 @@
 	
 	NSError *error = nil;
 	GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&error];
-	BOOL success = [repo.enumerator push:@"9fd738e8f7967c078dceed8190330fc8648ee56a" error:&error];
+	BOOL success = [repo.enumerator pushSHA:@"9fd738e8f7967c078dceed8190330fc8648ee56a" error:&error];
 	STAssertTrue(success, [error localizedDescription]);
 	
 	NSMutableArray *shas = [NSMutableArray arrayWithCapacity:4];
@@ -91,7 +91,7 @@
 	NSError *error = nil;
 	GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&error];
 	NSString *sha = @"8496071c1b46c854b31185ea97743be6a8774479";
-	BOOL success = [repo.enumerator push:sha error:&error];
+	BOOL success = [repo.enumerator pushSHA:sha error:&error];
 	STAssertTrue(success, [error localizedDescription]);
 	
 	STAssertEqualObjects([[repo.enumerator nextObjectWithError:&error] sha], sha, nil);
@@ -102,9 +102,9 @@
 	
 	NSError *error = nil;
 	GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&error];
-	BOOL success = [repo.enumerator push:@"9fd738e8f7967c078dceed8190330fc8648ee56a" error:&error];
+	BOOL success = [repo.enumerator pushSHA:@"9fd738e8f7967c078dceed8190330fc8648ee56a" error:&error];
 	STAssertTrue(success, [error localizedDescription]);
-	success = [repo.enumerator skipCommitWithHash:@"5b5b025afb0b4c913b4c338a42934a3863bf3644" error:&error];
+	success = [repo.enumerator skipSHA:@"5b5b025afb0b4c913b4c338a42934a3863bf3644" error:&error];
 	STAssertTrue(success, [error localizedDescription]);
 	
 	for(int i=0; i < 2; i++) {
@@ -119,14 +119,14 @@
 	NSError *error = nil;
 	GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&error];
 	NSString *sha = @"8496071c1b46c854b31185ea97743be6a8774479";
-	BOOL success = [repo.enumerator push:sha error:&error];
+	BOOL success = [repo.enumerator pushSHA:sha error:&error];
 	STAssertTrue(success, nil);
 	STAssertEqualObjects([[repo.enumerator nextObjectWithError:&error] sha], sha, nil);
 	STAssertNil([repo.enumerator nextObjectWithError:&error], nil);
 	
 	[repo.enumerator reset];
 	
-	success = [repo.enumerator push:sha error:&error];
+	success = [repo.enumerator pushSHA:sha error:&error];
 	STAssertTrue(success, [error localizedDescription]);
 	STAssertEqualObjects([[repo.enumerator nextObjectWithError:&error] sha], sha, nil);
 }
@@ -137,7 +137,7 @@
 	GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&error];
 	NSString *sha = @"a4a7dce85cf63874e984719f4fdd239f5145052f";
 	[repo.enumerator setOptions:sortMode];
-	BOOL success = [repo.enumerator push:sha error:&error];
+	BOOL success = [repo.enumerator pushSHA:sha error:&error];
 	STAssertTrue(success, [error localizedDescription]);
 	
 	NSMutableArray *commits = [[NSMutableArray alloc] initWithCapacity:6];

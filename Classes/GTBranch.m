@@ -140,7 +140,11 @@
 }
 
 - (NSUInteger)numberOfCommitsWithError:(NSError **)error {
-	return [self.repository.enumerator countFromSha:self.sha error:error];
+	[self.repository.enumerator reset];
+	self.repository.enumerator.options = GTEnumeratorOptionsNone;
+
+	if (![self.repository.enumerator pushSHA:self.sha error:error]) return NSNotFound;
+	return [self.repository.enumerator countRemainingObjectsWithError:error];
 }
 
 - (GTBranchType)branchType {
@@ -187,36 +191,45 @@
 }
 
 - (NSArray *)uniqueCommitsRelativeToBranch:(GTBranch *)otherBranch error:(NSError **)error {
-	if(otherBranch == nil) return [NSArray array];
+	NSParameterAssert(otherBranch != nil);
 	
-	GTCommit *mergeBase = [[self class] mergeBaseOf:self andBranch:otherBranch error:error];
-	if(mergeBase == nil) return nil;
+	GTCommit *mergeBase = [self.class mergeBaseOf:self andBranch:otherBranch error:error];
+	if (mergeBase == nil) return nil;
 	
 	GTEnumerator *enumerator = self.repository.enumerator;
-	if(enumerator == nil) return nil;
 	
-	NSArray * (^allCommitsFromSha)(NSString *, NSError **) = ^NSArray *(NSString *sha, NSError **localError) {
+	NSMutableOrderedSet * (^allCommitsFromSHA)(NSString *, NSError **) = ^ id (NSString *sha, NSError **error) {
 		[enumerator reset];
-		[enumerator setOptions:GTEnumeratorOptionsTopologicalSort];
+		enumerator.options = GTEnumeratorOptionsTopologicalSort;
 		
-		BOOL success = [enumerator push:sha error:localError];
-		if(!success) return nil;
+		BOOL success = [enumerator pushSHA:sha error:error];
+		if (!success) return nil;
 		
-		NSMutableArray *commits = [NSMutableArray array];
-		GTCommit *currentCommit = [enumerator nextObjectWithError:localError];
-		while(currentCommit != nil && ![currentCommit.sha isEqualToString:mergeBase.sha]) {
+		NSMutableOrderedSet *commits = [[NSMutableOrderedSet alloc] init];
+
+		NSError *localError = nil;
+		GTCommit *currentCommit;
+		while ((currentCommit = [enumerator nextObjectWithError:&localError]) != nil) {
+			if ([currentCommit.sha isEqualToString:mergeBase.sha]) continue;
 			[commits addObject:currentCommit];
-			currentCommit = [enumerator nextObjectWithError:localError];
 		}
-		
+
+		if (localError != nil) {
+			if (error != NULL) *error = localError;
+			return nil;
+		}
+
 		return commits;
 	};
 	
-	NSArray *localCommits = allCommitsFromSha(self.sha, error);
-	NSArray *otherCommits = allCommitsFromSha(otherBranch.sha, error);
-	NSMutableArray *uniqueCommits = [localCommits mutableCopy];
-	[uniqueCommits removeObjectsInArray:otherCommits];
-	return uniqueCommits;
+	NSMutableOrderedSet *uniqueCommits = allCommitsFromSHA(self.sha, error);
+	if (uniqueCommits == nil) return nil;
+
+	NSMutableOrderedSet *otherCommits = allCommitsFromSHA(otherBranch.sha, error);
+	if (otherCommits == nil) return nil;
+	
+	[uniqueCommits minusOrderedSet:otherCommits];
+	return uniqueCommits.array;
 }
 
 - (BOOL)deleteWithError:(NSError **)error {
