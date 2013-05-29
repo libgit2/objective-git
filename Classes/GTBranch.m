@@ -205,19 +205,17 @@
 		
 		NSMutableOrderedSet *commits = [[NSMutableOrderedSet alloc] init];
 
-		NSError *localError = nil;
 		GTCommit *currentCommit;
-		while ((currentCommit = [enumerator nextObjectWithError:&localError]) != nil) {
+		while ((currentCommit = [enumerator nextObjectWithSuccess:&success error:error]) != nil) {
 			if ([currentCommit.sha isEqualToString:mergeBase.sha]) continue;
 			[commits addObject:currentCommit];
 		}
 
-		if (localError != nil) {
-			if (error != NULL) *error = localError;
+		if (success) {
+			return commits;
+		} else {
 			return nil;
 		}
-
-		return commits;
 	};
 	
 	NSMutableOrderedSet *uniqueCommits = allCommitsFromSHA(self.sha, error);

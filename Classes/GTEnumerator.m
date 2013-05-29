@@ -138,13 +138,18 @@
 
 #pragma mark Enumerating
 
-- (GTCommit *)nextObjectWithError:(NSError **)error {
+- (GTCommit *)nextObjectWithSuccess:(BOOL *)success error:(NSError **)error {
 	git_oid oid;
 	int gitError = git_revwalk_next(&oid, self.walk);
-	if (gitError == GIT_ITEROVER) return nil;
+	if (gitError == GIT_ITEROVER) {
+		if (success != NULL) *success = YES;
+		return nil;
+	}
 	
 	// Ignore error if we can't lookup object and just return nil.
-	return (id)[self.repository lookupObjectBySha:[NSString git_stringWithOid:&oid] objectType:GTObjectTypeCommit error:error];
+	GTCommit *commit = (id)[self.repository lookupObjectBySha:[NSString git_stringWithOid:&oid] objectType:GTObjectTypeCommit error:error];
+	if (success != NULL) *success = (commit != nil);
+	return commit;
 }
 
 - (NSArray *)allObjectsWithError:(NSError **)error {
@@ -152,14 +157,12 @@
 
 	GTCommit *object;
 	do {
-		NSError *localError = nil;
-		object = [self nextObjectWithError:&localError];
+		BOOL success;
+		object = [self nextObjectWithSuccess:&success error:error];
+		if (!success) return nil;
 
 		if (object != nil) {
 			[array addObject:object];
-		} else if (localError != nil) {
-			if (error != NULL) *error = localError;
-			return nil;
 		}
 	} while (object != nil);
 
@@ -191,7 +194,7 @@
 }
 
 - (id)nextObject {
-	return [self nextObjectWithError:NULL];
+	return [self nextObjectWithSuccess:NULL error:NULL];
 }
 
 #pragma mark NSObject

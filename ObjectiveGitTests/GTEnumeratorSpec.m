@@ -60,7 +60,9 @@ describe(@"with a rev list", ^{
 
 			expect(SHAs).to.equal(expectedSHAs);
 
-			expect([enumerator nextObjectWithError:&error]).to.beNil();
+			__block BOOL success;
+			expect([enumerator nextObjectWithSuccess:&success error:&error]).to.beNil();
+			expect(success).to.beTruthy();
 			expect(error).to.beNil();
 		};
 	});
@@ -117,7 +119,9 @@ describe(@"globbing", ^{
 			expect(SHAs).to.equal(expectedSHAs);
 
 			__block NSError *error = nil;
-			expect([enumerator nextObjectWithError:&error]).to.beNil();
+			__block BOOL success;
+			expect([enumerator nextObjectWithSuccess:&success error:&error]).to.beNil();
+			expect(success).to.beTruthy();
 			expect(error).to.beNil();
 		};
 	});

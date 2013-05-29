@@ -110,15 +110,18 @@ typedef enum : unsigned int {
 //
 // error - If not NULL, set to any error that occurs during traversal.
 //
-// Returns an array of GTCommits, or nil if an error occurs.
+// Returns a (possibly empty) array of GTCommits, or nil if an error occurs.
 - (NSArray *)allObjectsWithError:(NSError **)error;
 
 // Gets the next commit.
 //
-// error - If not NULL, set to any error that occurs during traversal.
+// success - If not NULL, this will be set to whether getting the next object
+//           was successful. This will be YES if the receiver is exhausted, so
+//           it can be used to interpret the meaning of a nil return value.
+// error   - If not NULL, set to any error that occurs during traversal.
 //
 // Returns nil if an error occurs or the receiver is exhausted.
-- (GTCommit *)nextObjectWithError:(NSError **)error;
+- (GTCommit *)nextObjectWithSuccess:(BOOL *)success error:(NSError **)error;
 
 // Counts the number of commits that were not enumerated, completely exhausting
 // the receiver.

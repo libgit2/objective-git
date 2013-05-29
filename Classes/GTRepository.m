@@ -246,15 +246,13 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 	if (!success) return NO;
 
 	GTCommit *commit = nil;
-	NSError *localError = nil;
-	while ((commit = [self.enumerator nextObjectWithError:&localError]) != nil) {
+	while ((commit = [self.enumerator nextObjectWithSuccess:&success error:error]) != nil) {
 		BOOL stop = NO;
 		block(commit, &stop);
 		if (stop) break;
 	}
 
-	if (error != NULL) *error = localError;
-	return (localError == nil);
+	return success;
 }
 
 - (BOOL)enumerateCommitsBeginningAtSha:(NSString *)sha error:(NSError **)error usingBlock:(void (^)(GTCommit *, BOOL *))block; {
