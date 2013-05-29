@@ -6,7 +6,6 @@
 //  Copyright (c) 2011 GitHub, Inc. All rights reserved.
 //
 
-#import "Contants.h"
 #import "GTConfiguration.h"
 
 @interface GTConfigurationTest : SenTestCase {

@@ -46,7 +46,6 @@
 @property (nonatomic, strong) GTEnumerator *enumerator;
 @property (nonatomic, strong) GTIndex *index;
 @property (nonatomic, strong) GTObjectDatabase *objectDatabase;
-@property (nonatomic, strong) NSMutableSet *weakEnumerators;
 @property (nonatomic, strong) GTConfiguration *configuration;
 @end
 
@@ -61,11 +60,6 @@
 }
 
 - (void)dealloc {
-	// Alright so git_revwalk needs to be free'd before the repository it points to is free'd, otherwise the odb is double-free'd and it crashes. But GTEnumerator shouldn't have to know anything about the lifetime of its GTRepository to keep from crashing. So the repository keeps track of all the enumerators pointing to it and nils out their repository when they're being dealloc'd. That tells the enumerator that it should go ahead and free its revwalk. And so life goes on.
-	for (NSValue *weakWrappedValue in self.weakEnumerators) {
-		[[weakWrappedValue nonretainedObjectValue] setRepository:nil];
-	}
-
 	if (_configuration != nil) {
 		self.configuration.repository = nil;
 	}
@@ -242,26 +236,23 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 	if (sha == nil) {
 		GTReference *head = [self headReferenceWithError:error];
 		if (head == nil) return NO;
+
 		sha = head.target;
 	}
 
-	[self.enumerator reset];
-	[self.enumerator setOptions:options];
-	BOOL success = [self.enumerator push:sha error:error];
+	[self.enumerator resetWithOptions:options];
+
+	BOOL success = [self.enumerator pushSHA:sha error:error];
 	if (!success) return NO;
 
 	GTCommit *commit = nil;
-	while ((commit = [self.enumerator nextObjectWithError:error]) != nil) {
+	while ((commit = [self.enumerator nextObjectWithSuccess:&success error:error]) != nil) {
 		BOOL stop = NO;
 		block(commit, &stop);
 		if (stop) break;
 	}
 
-	if (error == NULL) {
-		return YES;
-	}
-
-	return *error == nil;
+	return success;
 }
 
 - (BOOL)enumerateCommitsBeginningAtSha:(NSString *)sha error:(NSError **)error usingBlock:(void (^)(GTCommit *, BOOL *))block; {
@@ -421,10 +412,10 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 }
 
 - (NSUInteger)numberOfCommitsInCurrentBranch:(NSError **)error {
-	GTReference *head = [self headReferenceWithError:error];
-	if (head == nil) return NSNotFound;
+	GTBranch *currentBranch = [self currentBranchWithError:error];
+	if (currentBranch == nil) return NSNotFound;
 
-	return [self.enumerator countFromSha:head.target error:error];
+	return [currentBranch numberOfCommitsWithError:error];
 }
 
 - (GTBranch *)createBranchNamed:(NSString *)name fromReference:(GTReference *)ref error:(NSError **)error {
@@ -534,14 +525,6 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 	return (BOOL) git_repository_head_detached(self.git_repository);
 }
 
-- (NSMutableSet *)weakEnumerators {
-	if (_weakEnumerators == nil) {
-		self.weakEnumerators = [NSMutableSet set];
-	}
-
-	return _weakEnumerators;
-}
-
 - (GTConfiguration *)configuration {
 	if (_configuration == nil) {
 		git_config *config = NULL;
@@ -566,14 +549,6 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 	}
 
 	return _index;
-}
-
-- (void)addEnumerator:(GTEnumerator *)e {
-	[self.weakEnumerators addObject:[NSValue valueWithNonretainedObject:e]];
-}
-
-- (void)removeEnumerator:(GTEnumerator *)e {
-	[self.weakEnumerators removeObject:[NSValue valueWithNonretainedObject:e]];
 }
 
 - (BOOL)resetToCommit:(GTCommit *)commit withResetType:(GTRepositoryResetType)resetType error:(NSError **)error {

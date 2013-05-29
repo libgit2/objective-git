@@ -28,7 +28,7 @@ NSString *const GTDiffFindOptionsRenameThresholdKey = @"GTDiffFindOptionsRenameT
 NSString *const GTDiffFindOptionsRenameFromRewriteThresholdKey = @"GTDiffFindOptionsRenameFromRewriteThresholdKey";
 NSString *const GTDiffFindOptionsCopyThresholdKey = @"GTDiffFindOptionsCopyThresholdKey";
 NSString *const GTDiffFindOptionsBreakRewriteThresholdKey = @"GTDiffFindOptionsBreakRewriteThresholdKey";
-NSString *const GTDiffFindOptionsTargetLimitKey = @"GTDiffFindOptionsTargetLimitKey";
+NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimitKey";
 
 @implementation GTDiff
 
@@ -207,19 +207,19 @@ NSString *const GTDiffFindOptionsTargetLimitKey = @"GTDiffFindOptionsTargetLimit
 	if (flagsNumber != nil) newOptions->flags = (uint32_t)flagsNumber.unsignedIntegerValue;
 	
 	NSNumber *renameThresholdNumber = dictionary[GTDiffFindOptionsRenameThresholdKey];
-	if (renameThresholdNumber != nil) newOptions->rename_threshold = renameThresholdNumber.unsignedIntValue;
+	if (renameThresholdNumber != nil) newOptions->rename_threshold = renameThresholdNumber.unsignedShortValue;
 	
 	NSNumber *renameFromRewriteThresholdNumber = dictionary[GTDiffFindOptionsRenameFromRewriteThresholdKey];
-	if (renameFromRewriteThresholdNumber != nil) newOptions->rename_from_rewrite_threshold = renameFromRewriteThresholdNumber.unsignedIntValue;
+	if (renameFromRewriteThresholdNumber != nil) newOptions->rename_from_rewrite_threshold = renameFromRewriteThresholdNumber.unsignedShortValue;
 	
 	NSNumber *copyThresholdNumber = dictionary[GTDiffFindOptionsCopyThresholdKey];
-	if (copyThresholdNumber != nil) newOptions->copy_threshold = copyThresholdNumber.unsignedIntValue;
+	if (copyThresholdNumber != nil) newOptions->copy_threshold = copyThresholdNumber.unsignedShortValue;
 	
 	NSNumber *breakRewriteThresholdNumber = dictionary[GTDiffFindOptionsBreakRewriteThresholdKey];
-	if (renameThresholdNumber != nil) newOptions->break_rewrite_threshold = breakRewriteThresholdNumber.unsignedIntValue;
+	if (renameThresholdNumber != nil) newOptions->break_rewrite_threshold = breakRewriteThresholdNumber.unsignedShortValue;
 	
-	NSNumber *targetLimitNumber = dictionary[GTDiffFindOptionsTargetLimitKey];
-	if (targetLimitNumber != nil) newOptions->target_limit = targetLimitNumber.unsignedIntValue;
+	NSNumber *renameLimitNumber = dictionary[GTDiffFindOptionsRenameLimitKey];
+	if (renameLimitNumber != nil) newOptions->rename_limit = renameLimitNumber.unsignedShortValue;
 	
 	return YES;
 }
