@@ -6,8 +6,6 @@
 //  Copyright (c) 2012 GitHub, Inc. All rights reserved.
 //
 
-#import "Contants.h"
-
 SpecBegin(GTDiff)
 
 __block GTRepository *repository = nil;

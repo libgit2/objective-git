@@ -365,7 +365,6 @@
 		88F05A7916011E5400B7AD1D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		88F05A7E16011E5400B7AD1D /* ObjectiveGitTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ObjectiveGitTests-Prefix.pch"; sourceTree = "<group>"; };
 		88F05A9C16011F6A00B7AD1D /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		88F05AA116011FFD00B7AD1D /* Contants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Contants.h; sourceTree = "<group>"; };
 		88F05AA216011FFD00B7AD1D /* GTBlobTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTBlobTest.m; sourceTree = "<group>"; };
 		88F05AA316011FFD00B7AD1D /* GTBranchTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTBranchTest.m; sourceTree = "<group>"; };
 		88F05AA416011FFD00B7AD1D /* GTCommitTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTCommitTest.m; sourceTree = "<group>"; };
@@ -579,7 +578,6 @@
 		88F05A7516011E5400B7AD1D /* ObjectiveGitTests */ = {
 			isa = PBXGroup;
 			children = (
-				88F05AA116011FFD00B7AD1D /* Contants.h */,
 				88A994C916FCED1D00402C7B /* GTTestCase.h */,
 				88A994CA16FCED1D00402C7B /* GTTestCase.m */,
 				88F05AA216011FFD00B7AD1D /* GTBlobTest.m */,
