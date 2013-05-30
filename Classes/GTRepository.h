@@ -219,13 +219,14 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 //             must not be nil.
 - (void)enumerateSubmodulesRecursively:(BOOL)recursive usingBlock:(void (^)(GTSubmodule *submodule, BOOL *stop))block;
 
-// Looks up the submodule with the given name.
+// Looks up the top-level submodule with the given name. This will not recurse
+// into submodule repositories.
 //
 // name  - The name of the submodule. This must not be nil.
 // error - If not NULL, set to any error that occurs.
 //
-// Returns the submodule, or nil if an error occurred locating or instantiating
-// it.
+// Returns the first submodule that matches the given name, or nil if an error
+// occurred locating or instantiating the GTSubmodule.
 - (GTSubmodule *)submoduleWithName:(NSString *)name error:(NSError **)error;
 
 @end
