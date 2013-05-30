@@ -131,6 +131,16 @@ describe(@"dirty, checked out submodule", ^{
 		expect(error).to.beNil();
 	});
 
+	it(@"should honor the ignore rule", ^{
+		submodule.ignoreRule = GTSubmoduleIgnoreDirty;
+
+		GTSubmoduleStatus expectedStatus =
+			GTSubmoduleStatusExistsInHEAD | GTSubmoduleStatusExistsInIndex | GTSubmoduleStatusExistsInConfig | GTSubmoduleStatusExistsInWorkingDirectory |
+			GTSubmoduleStatusModifiedInIndex | GTSubmoduleStatusModifiedInWorkingDirectory;
+
+		expect([submodule statusWithError:NULL]).to.equal(expectedStatus);
+	});
+
 	it(@"should open a repository" ,^{
 		NSError *error = nil;
 		GTRepository *submoduleRepo = [submodule submoduleRepositoryWithError:&error];
