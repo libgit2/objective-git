@@ -49,7 +49,7 @@ typedef enum : git_submodule_status_t {
 } GTSubmoduleStatus;
 
 // Represents a submodule within its parent repository.
-@interface GTSubmodule : NSObject <GTObject>
+@interface GTSubmodule : NSObject
 
 // The repository that this submodule lives within.
 @property (nonatomic, strong, readonly) GTRepository *repository;
