@@ -153,6 +153,24 @@ describe(@"dirty, checked out submodule", ^{
 		expect(submoduleRepo.headDetached).to.beTruthy();
 		expect([submoduleRepo isWorkingDirectoryClean]).to.beFalsy();
 	});
+
+	it(@"should synchronize the remote URL", ^{
+		GTConfiguration *config = repo.configuration;
+		expect(config).notTo.beNil();
+
+		NSString *configKey = @"submodule.Test_App2.url";
+		NSString *newOrigin = @"https://github.com/libgit2/objective-git.git";
+		[config setString:newOrigin forKey:configKey];
+
+		expect([config refresh:NULL]).to.beTruthy();
+		expect([config stringForKey:configKey]).to.equal(newOrigin);
+
+		__block NSError *error = nil;
+		expect([submodule syncWithError:&error]).to.beTruthy();
+
+		expect([config refresh:NULL]).to.beTruthy();
+		expect([config stringForKey:configKey]).to.equal(@"../Test_App");
+	});
 });
 
 SpecEnd
