@@ -60,7 +60,7 @@
 	self = [super init];
 	if (self == nil) return nil;
 	
-	_repository = repository;
+	_parentRepository = repository;
 	_git_submodule = submodule;
 
 	return self;

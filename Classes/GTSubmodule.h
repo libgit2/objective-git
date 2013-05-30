@@ -52,7 +52,7 @@ typedef enum : git_submodule_status_t {
 @interface GTSubmodule : NSObject
 
 // The repository that this submodule lives within.
-@property (nonatomic, strong, readonly) GTRepository *repository;
+@property (nonatomic, strong, readonly) GTRepository *parentRepository;
 
 // The underlying `git_submodule`.
 @property (nonatomic, assign, readonly) git_submodule *git_submodule;

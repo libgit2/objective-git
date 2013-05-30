@@ -68,7 +68,7 @@ describe(@"clean, checked out submodule", ^{
 		expect(error).to.beNil();
 
 		expect(submodule.name).to.equal(@"Test_App");
-		expect(submodule.repository).to.beIdenticalTo(repo);
+		expect(submodule.parentRepository).to.beIdenticalTo(repo);
 		expect(submodule.git_submodule).notTo.beNil();
 	});
 
@@ -110,7 +110,7 @@ describe(@"dirty, checked out submodule", ^{
 		expect(error).to.beNil();
 
 		expect(submodule.name).to.equal(@"Test_App2");
-		expect(submodule.repository).to.beIdenticalTo(repo);
+		expect(submodule.parentRepository).to.beIdenticalTo(repo);
 		expect(submodule.git_submodule).notTo.beNil();
 	});
 
