@@ -659,6 +659,19 @@ static int submoduleEnumerationCallback(git_submodule *git_submodule, const char
 	git_submodule_foreach(self.git_repository, &submoduleEnumerationCallback, &info);
 }
 
+- (GTSubmodule *)submoduleWithName:(NSString *)name error:(NSError **)error {
+	NSParameterAssert(name != nil);
+
+	git_submodule *submodule;
+	int gitError = git_submodule_lookup(&submodule, self.git_repository, name.UTF8String);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to look up specified submodule."];
+		return nil;
+	}
+
+	return [[GTSubmodule alloc] initWithGitSubmodule:submodule parentRepository:self];
+}
+
 #pragma mark User
 
 - (GTSignature *)userSignatureForNow {
