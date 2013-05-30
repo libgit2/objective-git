@@ -68,7 +68,6 @@
 	STAssertNil(error, [error localizedDescription]);
 	STAssertNotNil(newRepo, nil);
 	STAssertNotNil(newRepo.fileURL, nil);
-	STAssertNotNil(newRepo.repository, nil);
 }
 
 - (void)testFailsToOpenNonExistentRepo {

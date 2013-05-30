@@ -497,10 +497,6 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 	return references;
 }
 
-- (GTRepository *)repository {
-	return self;
-}
-
 - (NSURL *)fileURL {
 	const char *path = git_repository_workdir(self.git_repository);
 	// bare repository, you may be looking for gitDirectoryURL
