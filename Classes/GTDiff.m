@@ -30,6 +30,14 @@ NSString *const GTDiffFindOptionsCopyThresholdKey = @"GTDiffFindOptionsCopyThres
 NSString *const GTDiffFindOptionsBreakRewriteThresholdKey = @"GTDiffFindOptionsBreakRewriteThresholdKey";
 NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimitKey";
 
+@interface GTDiff ()
+
+// A cache of the deltas for the diff. Will be populated only after the first
+// call of -enumerateDeltasUsingBlock:.
+@property (atomic, copy) NSArray *cachedDeltas;
+
+@end
+
 @implementation GTDiff
 
 + (git_diff_options *)optionsStructFromDictionary:(NSDictionary *)dictionary {
@@ -180,16 +188,25 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 
 - (void)enumerateDeltasUsingBlock:(void (^)(GTDiffDelta *delta, BOOL *stop))block {
 	NSParameterAssert(block != nil);
-	
-	for (NSUInteger idx = 0; idx < self.deltaCount; idx ++) {
-		git_diff_patch *patch;
-		int result = git_diff_get_patch(&patch, NULL, self.git_diff_list, idx);
-		if (result != GIT_OK) continue;
-		GTDiffDelta *delta = [[GTDiffDelta alloc] initWithGitPatch:patch];
-		BOOL stop = NO;
-		block(delta, &stop);
-		if (stop) return;
+
+	if (self.cachedDeltas == nil) {
+		NSMutableArray *deltas = [NSMutableArray arrayWithCapacity:self.deltaCount];
+		for (NSUInteger idx = 0; idx < self.deltaCount; idx ++) {
+			git_diff_patch *patch;
+			int result = git_diff_get_patch(&patch, NULL, self.git_diff_list, idx);
+			if (result != GIT_OK) continue;
+			GTDiffDelta *delta = [[GTDiffDelta alloc] initWithGitPatch:patch];
+			if (delta == nil) continue;
+
+			[deltas addObject:delta];
+		}
+
+		self.cachedDeltas = deltas;
 	}
+
+	[self.cachedDeltas enumerateObjectsUsingBlock:^(GTDiffDelta *delta, NSUInteger idx, BOOL *stop) {
+		block(delta, stop);
+	}];
 }
 
 - (NSUInteger)deltaCount {
