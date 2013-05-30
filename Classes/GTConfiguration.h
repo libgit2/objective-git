@@ -14,7 +14,7 @@
 @interface GTConfiguration : NSObject
 
 @property (nonatomic, readonly, assign) git_config *git_config;
-@property (nonatomic, readonly, unsafe_unretained) GTRepository *repository;
+@property (nonatomic, readonly, weak) GTRepository *repository;
 @property (nonatomic, readonly, copy) NSArray *configurationKeys;
 
 // The GTRemotes in the config. If the configuration isn't associated with any
