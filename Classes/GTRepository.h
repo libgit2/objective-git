@@ -86,8 +86,11 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 
 // Initializes the receiver to wrap the given repository object.
 //
-// The receiver will take over memory management of the `git_repository`, so it
-// must not be freed elsewhere after this method is invoked.
+// repository - The repository to wrap. The receiver will take over memory
+//              management of this object, so it must not be freed elsewhere
+//              after this method is invoked. This must not be nil.
+//
+// Returns an initialized GTRepository, or nil if an error occurs.
 - (id)initWithGitRepository:(git_repository *)repository;
 
 // Clone a repository
@@ -212,7 +215,8 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 //
 // recursive - Whether to recurse into nested submodules, depth-first.
 // block     - A block to execute for each `submodule` found. Setting `stop` to
-//             YES will cause enumeration to stop after the block returns.
+//             YES will cause enumeration to stop after the block returns. This
+//             must not be nil.
 - (void)enumerateSubmodulesRecursively:(BOOL)recursive usingBlock:(void (^)(GTSubmodule *submodule, BOOL *stop))block;
 
 // Looks up the submodule with the given name.

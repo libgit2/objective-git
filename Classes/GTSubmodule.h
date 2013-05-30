@@ -82,6 +82,14 @@ typedef enum : git_submodule_status_t {
 @property (nonatomic, copy, readonly) NSString *name;
 
 // Initializes the receiver to wrap the given submodule object.
+//
+// submodule  - The submodule to wrap. The receiver will not own this object, so
+//              it must not be freed while the GTSubmodule is alive. This must
+//              not be NULL.
+// repository - The repository that contains the submodule. This must not be
+//              nil.
+//
+// Returns an initialized GTSubmodule, or nil if an error occurs.
 - (id)initWithGitSubmodule:(git_submodule *)submodule parentRepository:(GTRepository *)repository;
 
 // Synchronizes the submodule repository's configuration files with the settings
