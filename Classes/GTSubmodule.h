@@ -78,6 +78,9 @@ typedef enum : git_submodule_status_t {
 // If the submodule is not checked out, this will be nil.
 @property (nonatomic, strong, readonly) GTOID *workingDirectoryOID;
 
+// The name of this submodule.
+@property (nonatomic, copy, readonly) NSString *name;
+
 // Initializes the receiver to wrap the given submodule object.
 - (id)initWithGitSubmodule:(git_submodule *)submodule parentRepository:(GTRepository *)repository;
 

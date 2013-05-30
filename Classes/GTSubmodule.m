@@ -44,6 +44,13 @@
 	return [[GTOID alloc] initWithGitOid:oid];
 }
 
+- (NSString *)name {
+	const char *cName = git_submodule_name(self.git_submodule);
+	if (cName == NULL) return nil;
+
+	return @(cName);
+}
+
 #pragma mark Lifecycle
 
 - (id)initWithGitSubmodule:(git_submodule *)submodule parentRepository:(GTRepository *)repository {
