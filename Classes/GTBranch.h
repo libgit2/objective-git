@@ -34,7 +34,7 @@ typedef enum {
     GTBranchTypeRemote
 } GTBranchType;
 
-@interface GTBranch : NSObject <GTObject> {}
+@interface GTBranch : NSObject
 
 @property (nonatomic, readonly) NSString *name;
 @property (nonatomic, readonly) NSString *shortName;

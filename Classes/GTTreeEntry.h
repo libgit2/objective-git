@@ -31,8 +31,7 @@
 
 @class GTTree;
 
-
-@interface GTTreeEntry : NSObject <GTObject> {}
+@interface GTTreeEntry : NSObject
 
 @property (nonatomic, assign, readonly) const git_tree_entry *git_tree_entry;
 @property (nonatomic, readonly, weak) GTTree *tree;

@@ -40,7 +40,7 @@ typedef enum {
 @class GTRepository;
 
 
-@interface GTReference : NSObject <GTObject> {}
+@interface GTReference : NSObject
 
 @property (nonatomic, readonly) git_reference *git_reference;
 @property (nonatomic, strong) GTRepository *repository;
