@@ -118,17 +118,28 @@
 	if (self.branchType == GTBranchTypeLocal || ![self.reference isValid]) return nil;
 
 	const char *refname = git_reference_name(self.reference.git_reference);
-	int length = git_branch_remote_name(NULL, 0, self.repository.git_repository, refname);
-	if (length <= 0) return nil;
 
+	// To minimize calls to git_branch_remote_name, start with a length that
+	// will accommodate common remote names ("origin", "upstream", etc.).
+	int length = 10;
 	char *name = malloc(length);
-	int written = git_branch_remote_name(name, length, self.repository.git_repository, refname);
-	if (written < length) {
-		free(name);
+	if (name == NULL) return nil;
+
+	int actualLength = git_branch_remote_name(name, length, self.repository.git_repository, refname);
+	if (actualLength <= 0) {
 		return nil;
+	} else if (actualLength > length) {
+		name = reallocf(name, actualLength);
+		if (name == NULL) return nil;
+
+		actualLength = git_branch_remote_name(name, actualLength, self.repository.git_repository, refname);
+		if (actualLength <= 0) {
+			free(name);
+			return nil;
+		}
 	}
 
-	NSString *str = [[NSString alloc] initWithBytesNoCopy:name length:length encoding:NSUTF8StringEncoding freeWhenDone:YES];
+	NSString *str = [[NSString alloc] initWithBytesNoCopy:name length:actualLength encoding:NSUTF8StringEncoding freeWhenDone:YES];
 	if (str == nil) free(name);
 
 	return str;
