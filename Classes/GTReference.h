@@ -48,6 +48,9 @@ typedef enum {
 @property (nonatomic, readonly) const git_oid *oid;
 @property (nonatomic, readonly, getter=isValid) BOOL valid;
 
+// Whether this is a remote-tracking branch.
+@property (nonatomic, readonly, getter = isRemote) BOOL remote;
+
 // The reflog for the reference.
 @property (nonatomic, readonly, strong) GTReflog *reflog;
 

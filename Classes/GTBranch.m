@@ -101,15 +101,13 @@
 }
 
 - (NSString *)shortName {
-	if([self branchType] == GTBranchTypeLocal) {
-		return [self.name stringByReplacingOccurrencesOfString:[[self class] localNamePrefix] withString:@""];
-	} else if([self branchType] == GTBranchTypeRemote) {
-		// remote repos also have their remote in their name
-		NSString *remotePath = [[[self class] remoteNamePrefix] stringByAppendingFormat:@"%@/", [self remoteName]];
-		return [self.name stringByReplacingOccurrencesOfString:remotePath withString:@""];
-	} else {
-		return self.name;
-	}
+	if (![self.reference isValid]) return nil;
+
+	const char *name;
+	int gitError = git_branch_name(&name, self.reference.git_reference);
+	if (gitError != GIT_OK) return nil;
+
+	return @(name);
 }
 
 - (NSString *)sha {
@@ -117,17 +115,23 @@
 }
 
 - (NSString *)remoteName {
-	if([self branchType] == GTBranchTypeLocal) {
+	if (self.branchType == GTBranchTypeLocal || ![self.reference isValid]) return nil;
+
+	const char *refname = git_reference_name(self.reference.git_reference);
+	int length = git_branch_remote_name(NULL, 0, self.repository.git_repository, refname);
+	if (length <= 0) return nil;
+
+	char *name = malloc(length);
+	int written = git_branch_remote_name(name, length, self.repository.git_repository, refname);
+	if (written < length) {
+		free(name);
 		return nil;
 	}
-	
-	NSArray *components = [self.name componentsSeparatedByString:@"/"];
-	// refs/heads/origin/branch_name
-	if(components.count < 4) {
-		return nil;
-	}
-	
-	return [components objectAtIndex:2];
+
+	NSString *str = [[NSString alloc] initWithBytesNoCopy:name length:length encoding:NSUTF8StringEncoding freeWhenDone:YES];
+	if (str == nil) free(name);
+
+	return str;
 }
 
 - (GTCommit *)targetCommitAndReturnError:(NSError **)error {
@@ -147,10 +151,11 @@
 }
 
 - (GTBranchType)branchType {
-    if ([self.name hasPrefix:[[self class] remoteNamePrefix]]) {
-        return GTBranchTypeRemote;
-    }
-    return GTBranchTypeLocal;
+	if (self.reference.remote) {
+		return GTBranchTypeRemote;
+	} else {
+		return GTBranchTypeLocal;
+	}
 }
 
 - (GTBranch *)remoteBranchForRemoteName:(NSString *)remote {

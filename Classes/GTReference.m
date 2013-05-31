@@ -58,6 +58,10 @@
 @synthesize git_reference;
 @synthesize repository;
 
+- (BOOL)isRemote {
+	return git_reference_is_remote(self.git_reference) != 0;
+}
+
 + (id)referenceByLookingUpReferencedNamed:(NSString *)refName inRepository:(GTRepository *)theRepo error:(NSError **)error {
 	return [[self alloc] initByLookingUpReferenceNamed:refName inRepository:theRepo error:error];
 }
