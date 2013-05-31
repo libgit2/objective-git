@@ -37,7 +37,7 @@ it(@"should be able to read tree entry properties", ^{
 
 it(@"should be possible to fast enumerate the entries", ^{
 	NSUInteger index = 0;
-	NSUInteger entryCount = [tree entryCount];
+	NSUInteger entryCount = tree.entryCount;
 	for (GTTreeEntry *entry in tree) {
 		expect(entry).to.beKindOf(GTTreeEntry.class);
 		if (index == 0) {
