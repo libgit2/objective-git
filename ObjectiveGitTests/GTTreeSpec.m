@@ -63,7 +63,7 @@ it(@"should be possible to fast enumerate the entries in a large tree", ^{
 	
 	NSUInteger entryCount = 100;
 	for (NSUInteger i=0; i<entryCount; i++) {
-		NSString *string = [NSString stringWithFormat:@"%li.txt", (unsigned long)i];
+		NSString *string = [NSString stringWithFormat:@"%lu.txt", (unsigned long)i];
 		GTBlob *blob = [GTBlob blobWithString:string inRepository:repo error:&error];
 		[builder addEntryWithSHA:blob.sha filename:string filemode:GTFileModeTree error:&error];
 	}
