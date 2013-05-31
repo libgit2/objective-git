@@ -63,7 +63,7 @@ typedef enum : git_reset_t {
 
 typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus status, BOOL *stop);
 
-@interface GTRepository : NSObject <GTObject>
+@interface GTRepository : NSObject
 
 @property (nonatomic, assign, readonly) git_repository *git_repository;
 // The file URL for the repository's working directory.
