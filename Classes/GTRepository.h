@@ -32,13 +32,14 @@
 #import "GTEnumerator.h"
 #import "GTReference.h"
 
+@class GTBranch;
+@class GTCommit;
+@class GTConfiguration;
+@class GTIndex;
 @class GTObjectDatabase;
 @class GTOdbObject;
-@class GTCommit;
-@class GTIndex;
-@class GTBranch;
-@class GTConfiguration;
 @class GTSignature;
+@class GTSubmodule;
 
 // Options returned from the enumerateFileStatusUsingBlock: function
 enum {
@@ -82,6 +83,15 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 
 + (id)repositoryWithURL:(NSURL *)localFileURL error:(NSError **)error;
 - (id)initWithURL:(NSURL *)localFileURL error:(NSError **)error;
+
+// Initializes the receiver to wrap the given repository object.
+//
+// repository - The repository to wrap. The receiver will take over memory
+//              management of this object, so it must not be freed elsewhere
+//              after this method is invoked. This must not be nil.
+//
+// Returns an initialized GTRepository, or nil if an error occurs.
+- (id)initWithGitRepository:(git_repository *)repository;
 
 // Clone a repository
 //
@@ -200,5 +210,23 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 //
 // Returns the signature.
 - (GTSignature *)userSignatureForNow;
+
+// Enumerates over all the tracked submodules in the repository.
+//
+// recursive - Whether to recurse into nested submodules, depth-first.
+// block     - A block to execute for each `submodule` found. Setting `stop` to
+//             YES will cause enumeration to stop after the block returns. This
+//             must not be nil.
+- (void)enumerateSubmodulesRecursively:(BOOL)recursive usingBlock:(void (^)(GTSubmodule *submodule, BOOL *stop))block;
+
+// Looks up the top-level submodule with the given name. This will not recurse
+// into submodule repositories.
+//
+// name  - The name of the submodule. This must not be nil.
+// error - If not NULL, set to any error that occurs.
+//
+// Returns the first submodule that matches the given name, or nil if an error
+// occurred locating or instantiating the GTSubmodule.
+- (GTSubmodule *)submoduleWithName:(NSString *)name error:(NSError **)error;
 
 @end
