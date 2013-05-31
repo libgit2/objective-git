@@ -196,36 +196,18 @@
 	if (mergeBase == nil) return nil;
 	
 	GTEnumerator *enumerator = self.repository.enumerator;
+	[enumerator resetWithOptions:GTEnumeratorOptionsTimeSort];
 	
-	NSMutableOrderedSet * (^allCommitsFromSHA)(NSString *, NSError **) = ^ id (NSString *sha, NSError **error) {
-		[enumerator resetWithOptions:GTEnumeratorOptionsTopologicalSort];
-		
-		BOOL success = [enumerator pushSHA:sha error:error];
-		if (!success) return nil;
-		
-		NSMutableOrderedSet *commits = [[NSMutableOrderedSet alloc] init];
+	BOOL success = [enumerator pushSHA:self.sha error:error];
+	if (!success) return nil;
 
-		GTCommit *currentCommit;
-		while ((currentCommit = [enumerator nextObjectWithSuccess:&success error:error]) != nil) {
-			if ([currentCommit.sha isEqualToString:mergeBase.sha]) continue;
-			[commits addObject:currentCommit];
-		}
+	success = [enumerator hideSHA:mergeBase.sha error:error];
+	if (!success) return nil;
 
-		if (success) {
-			return commits;
-		} else {
-			return nil;
-		}
-	};
-	
-	NSMutableOrderedSet *uniqueCommits = allCommitsFromSHA(self.sha, error);
-	if (uniqueCommits == nil) return nil;
+	success = [enumerator hideSHA:otherBranch.sha error:error];
+	if (!success) return nil;
 
-	NSMutableOrderedSet *otherCommits = allCommitsFromSHA(otherBranch.sha, error);
-	if (otherCommits == nil) return nil;
-	
-	[uniqueCommits minusOrderedSet:otherCommits];
-	return uniqueCommits.array;
+	return [enumerator allObjectsWithError:error];
 }
 
 - (BOOL)deleteWithError:(NSError **)error {
