@@ -32,7 +32,7 @@
 #import "git2/odb_backend.h"
 
 @interface GTObjectDatabase ()
-@property (nonatomic, weak) GTRepository *repository;
+@property (nonatomic, readwrite, weak) GTRepository *repository;
 @end
 
 
