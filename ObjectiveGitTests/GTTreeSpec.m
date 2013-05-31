@@ -73,8 +73,9 @@ it(@"should be possible to fast enumerate the entries in a large tree", ^{
 	expect(error).to.beNil();
 	
 	NSUInteger index = 0;
-	for (GTTreeEntry *entry in writtenTree)
-		index++;		
+	for (GTTreeEntry *entry in writtenTree) {
+		index++;
+    }
 	expect(entryCount).to.equal(index);
 });
 
