@@ -49,7 +49,6 @@
 }
 
 - (void)dealloc {
-	self.repository = nil;
 	git_object_free(self.git_object);
 }
 
@@ -67,11 +66,10 @@
 #pragma mark API 
 
 @synthesize git_object;
-@synthesize repository;
 
 - (id)initWithObj:(git_object *)theObject inRepository:(GTRepository *)theRepo {
 	if((self = [super init])) {
-		self.repository = theRepo;
+		_repository = theRepo;
 		self.git_object = theObject;
 	}
 	return self;
