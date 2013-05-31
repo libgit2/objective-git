@@ -46,7 +46,7 @@ it(@"should be possible to fast enumerate the entries", ^{
 		}
 		index++;
 	}
-	expect(entryCount == index).to.beTruthy();
+	expect(entryCount).to.equal(index);
 });
 
 it(@"should be possible to fast enumerate the entries in a large tree", ^{
@@ -75,7 +75,7 @@ it(@"should be possible to fast enumerate the entries in a large tree", ^{
 	NSUInteger index = 0;
 	for (GTTreeEntry *entry in writtenTree)
 		index++;		
-	expect(entryCount == index).to.beTruthy();
+	expect(entryCount).to.equal(index);
 });
 
 SpecEnd
