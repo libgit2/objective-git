@@ -12,7 +12,7 @@
 
 @interface GTConfiguration ()
 
-@property (nonatomic, readwrite, unsafe_unretained) GTRepository *repository;
+@property (nonatomic, readwrite, weak) GTRepository *repository;
 
 // Initializes the receiver.
 //
