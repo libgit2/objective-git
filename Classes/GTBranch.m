@@ -108,11 +108,11 @@
 	if (gitError != GIT_OK) return nil;
 
 	if (self.branchType == GTBranchTypeRemote) {
-		int remoteLength = git_branch_remote_name(NULL, 0, self.repository.git_repository, git_reference_name(self.reference.git_reference));
-		if (remoteLength <= 0) return nil;
-
 		// Skip the initial remote name and forward slash.
-		name += remoteLength;
+		name = strchr(name, '/');
+		if (name == NULL) return nil;
+
+		name++;
 	}
 
 	return @(name);
