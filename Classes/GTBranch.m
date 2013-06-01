@@ -220,9 +220,6 @@
 	success = [enumerator hideSHA:mergeBase.sha error:error];
 	if (!success) return nil;
 
-	success = [enumerator hideSHA:otherBranch.sha error:error];
-	if (!success) return nil;
-
 	return [enumerator allObjectsWithError:error];
 }
 
