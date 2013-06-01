@@ -28,18 +28,33 @@
 //
 
 #import "GTRepository.h"
-#import "GTEnumerator.h"
-#import "GTObject.h"
-#import "GTCommit.h"
-#import "GTObjectDatabase.h"
-#import "GTIndex.h"
 #import "GTBranch.h"
+#import "GTCommit.h"
+#import "GTConfiguration+Private.h"
+#import "GTConfiguration.h"
+#import "GTEnumerator.h"
+#import "GTIndex.h"
+#import "GTObject.h"
+#import "GTObjectDatabase.h"
+#import "GTSignature.h"
+#import "GTSubmodule.h"
 #import "GTTag.h"
 #import "NSError+Git.h"
 #import "NSString+Git.h"
-#import "GTConfiguration.h"
-#import "GTConfiguration+Private.h"
-#import "GTSignature.h"
+
+// The type of block passed to -enumerateSubmodulesRecursively:usingBlock:.
+typedef void (^GTRepositorySubmoduleEnumerationBlock)(GTSubmodule *submodule, BOOL *stop);
+
+// Used as a payload for submodule enumeration.
+//
+// recursive        - Whether submodule enumeration should recurse.
+// parentRepository - The repository that the submodule is contained within.
+// block            - The block to invoke for each submodule.
+typedef struct {
+	BOOL recursive;
+	__unsafe_unretained GTRepository *parentRepository;
+	__unsafe_unretained GTRepositorySubmoduleEnumerationBlock block;
+} GTRepositorySubmoduleEnumerationInfo;
 
 @interface GTRepository ()
 @property (nonatomic, assign) git_repository *git_repository;
@@ -606,6 +621,51 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 	}
 
 	return message;
+}
+
+#pragma mark Submodules
+
+static int submoduleEnumerationCallback(git_submodule *git_submodule, const char *name, void *payload) {
+	GTRepositorySubmoduleEnumerationInfo *info = payload;
+
+	GTSubmodule *submodule = [[GTSubmodule alloc] initWithGitSubmodule:git_submodule parentRepository:info->parentRepository];
+
+	BOOL stop = NO;
+	info->block(submodule, &stop);
+	if (stop) return 1;
+
+	if (info->recursive) {
+		[[submodule submoduleRepositoryWithError:NULL] enumerateSubmodulesRecursively:YES usingBlock:info->block];
+	}
+
+	return 0;
+}
+
+- (void)enumerateSubmodulesRecursively:(BOOL)recursive usingBlock:(void (^)(GTSubmodule *submodule, BOOL *stop))block {
+	NSParameterAssert(block != nil);
+
+	// Enumeration is synchronous, so it's okay for the objects here to be
+	// unretained for the duration.
+	GTRepositorySubmoduleEnumerationInfo info = {
+		.recursive = recursive,
+		.parentRepository = self,
+		.block = block
+	};
+
+	git_submodule_foreach(self.git_repository, &submoduleEnumerationCallback, &info);
+}
+
+- (GTSubmodule *)submoduleWithName:(NSString *)name error:(NSError **)error {
+	NSParameterAssert(name != nil);
+
+	git_submodule *submodule;
+	int gitError = git_submodule_lookup(&submodule, self.git_repository, name.UTF8String);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to look up specified submodule."];
+		return nil;
+	}
+
+	return [[GTSubmodule alloc] initWithGitSubmodule:submodule parentRepository:self];
 }
 
 #pragma mark User
