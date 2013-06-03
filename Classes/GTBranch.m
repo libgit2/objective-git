@@ -125,17 +125,9 @@
 - (NSString *)remoteName {
 	if (self.branchType == GTBranchTypeLocal || ![self.reference isValid]) return nil;
 
-	const char *name = git_reference_name(self.reference.git_reference);
-
-	// Skip `refs`
-	name = strchr(name, '/');
-	if (name == NULL) return nil;
-
-	// Skip `remotes`
-	name = strchr(name + 1, '/');
-	if (name == NULL) return nil;
-
-	name++;
+	const char *name;
+	int gitError = git_branch_name(&name, self.reference.git_reference);
+	if (gitError != GIT_OK) return nil;
 
 	// Find out where the remote name ends.
 	const char *end = strchr(name, '/');
