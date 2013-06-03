@@ -50,6 +50,16 @@ describe(@"remoteName", ^{
 	});
 });
 
+describe(@"branchType", ^{
+	it(@"should be GTBranchTypeLocal for a local branch", ^{
+		expect(masterBranch.branchType).to.equal(GTBranchTypeLocal);
+	});
+
+	it(@"should be GTBranchTypeRemote for a tracking branch", ^{
+		expect(trackingBranch.branchType).to.equal(GTBranchTypeRemote);
+	});
+});
+
 describe(@"-calculateAhead:behind:relativeTo:error:", ^{
 	it(@"should report the right numbers", ^{
 		size_t ahead = 0;
