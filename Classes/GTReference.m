@@ -24,10 +24,11 @@
 //
 
 #import "GTReference.h"
+#import "GTOID.h"
+#import "GTReflog+Private.h"
 #import "GTRepository.h"
 #import "NSError+Git.h"
 #import "NSString+Git.h"
-#import "GTReflog+Private.h"
 
 @interface GTReference ()
 
@@ -248,10 +249,17 @@
 	return [GTReference referenceByResolvingSymbolicReference:self error:error];
 }
 
-- (const git_oid *)oid {
-	if(![self isValid]) return NULL;
+- (const git_oid *)git_oid {
+	if (![self isValid]) return nil;
 	
 	return git_reference_target(self.git_reference);
+}
+
+- (GTOID *)OID {
+	const git_oid *oid = self.git_oid;
+	if (oid == NULL) return nil;
+
+	return [[GTOID alloc] initWithGitOid:oid];
 }
 
 - (BOOL)reloadWithError:(NSError **)error {

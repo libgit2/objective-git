@@ -25,6 +25,7 @@
 
 #import "GTObject.h"
 
+@class GTOID;
 @class GTReflog;
 
 typedef enum {
@@ -45,7 +46,8 @@ typedef enum {
 @property (nonatomic, readonly) git_reference *git_reference;
 @property (nonatomic, strong) GTRepository *repository;
 @property (nonatomic, readonly) NSString *type;
-@property (nonatomic, readonly) const git_oid *oid;
+@property (nonatomic, readonly) const git_oid *git_oid;
+@property (nonatomic, strong, readonly) GTOID *OID;
 @property (nonatomic, readonly, getter=isValid) BOOL valid;
 
 // Whether this is a remote-tracking branch.

@@ -184,7 +184,7 @@
 	NSAssert2([branch1.repository isEqual:branch2.repository], @"Both branches must be in the same repository: %@ vs. %@", branch1.repository, branch2.repository);
 	
 	git_oid mergeBase;
-	int errorCode = git_merge_base(&mergeBase, branch1.repository.git_repository, (git_oid *) branch1.reference.oid, (git_oid *) branch2.reference.oid);
+	int errorCode = git_merge_base(&mergeBase, branch1.repository.git_repository, branch1.reference.git_oid, branch2.reference.git_oid);
 	if(errorCode < GIT_OK) {
 		if(error != NULL) {
 			*error = [NSError git_errorFor:errorCode withAdditionalDescription:NSLocalizedString(@"", @"")];
@@ -276,7 +276,7 @@
 		return YES;
 	}
 
-	int errorCode = git_graph_ahead_behind(ahead, behind, self.repository.git_repository, branch.reference.oid, self.reference.oid);
+	int errorCode = git_graph_ahead_behind(ahead, behind, self.repository.git_repository, branch.reference.git_oid, self.reference.git_oid);
 	if (errorCode != GIT_OK && error != NULL) {
 		*error = [NSError git_errorFor:errorCode withAdditionalDescription:[NSString stringWithFormat:@"Calculating ahead/behind with %@ to %@", self, branch]];
 		return NO;
