@@ -12,6 +12,7 @@ SpecBegin(GTBranch)
 
 __block GTRepository *repository;
 __block GTBranch *masterBranch;
+__block GTBranch *trackingBranch;
 
 beforeEach(^{
 	repository = [self fixtureRepositoryNamed:@"Test_App"];
@@ -21,6 +22,12 @@ beforeEach(^{
 	masterBranch = [repository currentBranchWithError:&error];
 	expect(masterBranch).notTo.beNil();
 	expect(error).to.beNil();
+
+	BOOL success = NO;
+	trackingBranch = [masterBranch trackingBranchWithError:&error success:&success];
+	expect(trackingBranch).notTo.equal(masterBranch);
+	expect(success).to.beTruthy();
+	expect(error).to.beNil();
 });
 
 describe(@"shortName", ^{
@@ -29,17 +36,22 @@ describe(@"shortName", ^{
 	});
 
 	it(@"should not include the remote name for a tracking branch", ^{
-		GTBranch *trackingBranch = [masterBranch trackingBranchWithError:NULL success:NULL];
-		expect(trackingBranch).notTo.equal(masterBranch);
 		expect(trackingBranch.shortName).to.equal(@"master");
+	});
+});
+
+describe(@"remoteName", ^{
+	it(@"should return nil for a local branch", ^{
+		expect(masterBranch.remoteName).to.beNil();
+	});
+
+	it(@"should return the remote name for a tracking branch", ^{
+		expect(trackingBranch.remoteName).to.equal(@"origin");
 	});
 });
 
 describe(@"-calculateAhead:behind:relativeTo:error:", ^{
 	it(@"should report the right numbers", ^{
-		GTBranch *trackingBranch = [masterBranch trackingBranchWithError:NULL success:NULL];
-		expect(trackingBranch).notTo.beNil();
-
 		size_t ahead = 0;
 		size_t behind = 0;
 		[masterBranch calculateAhead:&ahead behind:&behind relativeTo:trackingBranch error:NULL];
