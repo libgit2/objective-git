@@ -52,7 +52,7 @@
 	BOOL success = [self reload:error];
 	if (!success) return NO;
 
-	int status = git_reflog_append(self.git_reflog, self.reference.oid, committer.git_signature, message.UTF8String);
+	int status = git_reflog_append(self.git_reflog, self.reference.git_oid, committer.git_signature, message.UTF8String);
 	if (status != GIT_OK) {
 		if (error != NULL) {
 			*error = [NSError git_errorFor:status withAdditionalDescription:@"Could not append to reflog"];
