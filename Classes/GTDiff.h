@@ -179,7 +179,8 @@ typedef enum : git_diff_find_t {
 // index will be used for the "right" side of the diff.
 //
 // tree    - The tree to be diffed. The index will be taken from this tree's
-//           repository. The left side of the diff.
+//           repository. The left side of the diff. May be nil to represent an
+//           empty tree.
 // options - A dictionary containing any of the above options key constants, or
 //           nil to use the defaults.
 // error   - Populated with an `NSError` object on error, if information is
@@ -204,6 +205,7 @@ typedef enum : git_diff_find_t {
 // Create a diff between a repository's working directory and a tree.
 //
 // tree    - The tree to be diffed. The tree will be the left side of the diff.
+//           May be nil to represent an empty tree.
 // options - A dictionary containing any of the above options key constants, or
 //           nil to use the defaults.
 // error   - Populated with an `NSError` object on error, if information is
