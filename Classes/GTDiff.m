@@ -89,13 +89,14 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 	free(options);
 }
 
-+ (GTDiff *)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree options:(NSDictionary *)options error:(NSError **)error {
-	NSParameterAssert(newTree != nil);
-	NSParameterAssert(oldTree == nil || [oldTree.repository isEqual:newTree.repository]);
++ (GTDiff *)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree inRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error {
+	NSParameterAssert(repository != nil);
+	NSParameterAssert(newTree == nil || [newTree.repository isEqual:repository]);
+	NSParameterAssert(oldTree == nil || [oldTree.repository isEqual:repository]);
 	
 	git_diff_options *optionsStruct = [self optionsStructFromDictionary:options];
 	git_diff_list *diffList;
-	int returnValue = git_diff_tree_to_tree(&diffList, newTree.repository.git_repository, oldTree.git_tree, newTree.git_tree, optionsStruct);
+	int returnValue = git_diff_tree_to_tree(&diffList, repository.git_repository, oldTree.git_tree, newTree.git_tree, optionsStruct);
 	[self freeOptionsStruct:optionsStruct];
 	if (returnValue != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:returnValue withAdditionalDescription:@"Failed to create diff."];
@@ -106,10 +107,13 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 	return newDiff;
 }
 
-+ (GTDiff *)diffIndexFromTree:(GTTree *)tree options:(NSDictionary *)options error:(NSError **)error {
++ (GTDiff *)diffIndexFromTree:(GTTree *)tree inRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error {
+	NSParameterAssert(repository != nil);
+	NSParameterAssert(tree == nil || [tree.repository isEqual:repository]);
+
 	git_diff_options *optionsStruct = [self optionsStructFromDictionary:options];
 	git_diff_list *diffList;
-	int returnValue = git_diff_tree_to_index(&diffList, tree.repository.git_repository, tree.git_tree, NULL, optionsStruct);
+	int returnValue = git_diff_tree_to_index(&diffList, repository.git_repository, tree.git_tree, NULL, optionsStruct);
 	[self freeOptionsStruct:optionsStruct];
 	if (returnValue != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:returnValue withAdditionalDescription:@"Failed to create diff."];
@@ -136,10 +140,13 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 	return newDiff;
 }
 
-+ (GTDiff *)diffWorkingDirectoryFromTree:(GTTree *)tree options:(NSDictionary *)options error:(NSError **)error {
++ (GTDiff *)diffWorkingDirectoryFromTree:(GTTree *)tree inRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error {
+	NSParameterAssert(repository != nil);
+	NSParameterAssert(tree == nil || [tree.repository isEqual:repository]);
+
 	git_diff_options *optionsStruct = [self optionsStructFromDictionary:options];
 	git_diff_list *diffList;
-	int returnValue = git_diff_tree_to_workdir(&diffList, tree.repository.git_repository, tree.git_tree, optionsStruct);
+	int returnValue = git_diff_tree_to_workdir(&diffList, repository.git_repository, tree.git_tree, optionsStruct);
 	[self freeOptionsStruct:optionsStruct];
 	if (returnValue != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:returnValue withAdditionalDescription:@"Failed to create diff."];
@@ -153,10 +160,8 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 + (GTDiff *)diffWorkingDirectoryToHEADInRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error {
 	NSParameterAssert(repository != nil);
 
-	GTCommit *HEADCommit = (GTCommit *)[repository lookupObjectByRefspec:@"HEAD" error:error];
-	if (HEADCommit == nil) return nil;
-
-	GTDiff *HEADIndexDiff = [GTDiff diffIndexFromTree:HEADCommit.tree options:options error:error];
+	GTCommit *HEADCommit = (GTCommit *)[repository lookupObjectByRefspec:@"HEAD" error:NULL];
+	GTDiff *HEADIndexDiff = [GTDiff diffIndexFromTree:HEADCommit.tree inRepository:repository options:options error:error];
 	if (HEADIndexDiff == nil) return nil;
 
 	GTDiff *WDDiff = [GTDiff diffIndexToWorkingDirectoryInRepository:repository options:options error:error];
