@@ -160,15 +160,17 @@ typedef enum : git_diff_find_t {
 //
 // The 2 trees must be from the same repository, or an exception will be thrown.
 //
-// oldTree - The "left" side of the diff. May be nil to represent an empty tree.
-// newTree - The "right" side of the diff.
-// options - A dictionary containing any of the above options key constants, or
-//           nil to use the defaults.
-// error   - Populated with an `NSError` object on error, if information is
-//           available.
+// oldTree    - The "left" side of the diff. May be nil to represent an empty tree.
+// newTree    - The "right" side of the diff. May be nil to represent an empty
+//              tree.
+// repository - The repository to be used for the diff.
+// options    - A dictionary containing any of the above options key constants, or
+//              nil to use the defaults.
+// error      - Populated with an `NSError` object on error, if information is
+//              available.
 //
 // Returns a newly created `GTDiff` object or nil on error.
-+ (GTDiff *)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree options:(NSDictionary *)options error:(NSError **)error;
++ (GTDiff *)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree inRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error;
 
 // Create a diff between a repository's current index.
 //
@@ -178,15 +180,17 @@ typedef enum : git_diff_find_t {
 // The tree you pass will be used for the "left" side of the diff, and the
 // index will be used for the "right" side of the diff.
 //
-// tree    - The tree to be diffed. The index will be taken from this tree's
-//           repository. The left side of the diff.
-// options - A dictionary containing any of the above options key constants, or
-//           nil to use the defaults.
-// error   - Populated with an `NSError` object on error, if information is
-//           available.
+// tree       - The tree to be diffed. The index will be taken from this tree's
+//              repository. The left side of the diff. May be nil to represent an
+//              empty tree.
+// repository - The repository to be used for the diff.
+// options    - A dictionary containing any of the above options key constants, or
+//              nil to use the defaults.
+// error      - Populated with an `NSError` object on error, if information is
+//              available.
 //
 // Returns a newly created `GTDiff` object or nil on error.
-+ (GTDiff *)diffIndexFromTree:(GTTree *)tree options:(NSDictionary *)options error:(NSError **)error;
++ (GTDiff *)diffIndexFromTree:(GTTree *)tree inRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error;
 
 // Create a diff between the index and working directory in a given repository.
 //
@@ -203,16 +207,21 @@ typedef enum : git_diff_find_t {
 
 // Create a diff between a repository's working directory and a tree.
 //
-// tree    - The tree to be diffed. The tree will be the left side of the diff.
-// options - A dictionary containing any of the above options key constants, or
-//           nil to use the defaults.
-// error   - Populated with an `NSError` object on error, if information is
-//           available.
+// tree       - The tree to be diffed. The tree will be the left side of the diff.
+//              May be nil to represent an empty tree.
+// repository - The repository to be used for the diff.
+// options    - A dictionary containing any of the above options key constants, or
+//              nil to use the defaults.
+// error      - Populated with an `NSError` object on error, if information is
+//              available.
 //
 // Returns a newly created `GTDiff` object or nil on error.
-+ (GTDiff *)diffWorkingDirectoryFromTree:(GTTree *)tree options:(NSDictionary *)options error:(NSError **)error;
++ (GTDiff *)diffWorkingDirectoryFromTree:(GTTree *)tree inRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error;
 
 // Create a diff between the working directory and HEAD.
+//
+// If the repository does not have a HEAD commit yet, this will create a diff of
+// the working directory as if everything would be part of the initial commit.
 //
 // repository - The repository to be used for the diff.
 // options    - A dictionary containing any of the above options key constants,
