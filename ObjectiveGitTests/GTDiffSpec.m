@@ -77,8 +77,8 @@ describe(@"GTDiff diffing", ^{
 		expect([diff numberOfDeltasWithType:GTDiffFileDeltaModified]).to.equal(1);
 		
 		[diff enumerateDeltasUsingBlock:^(GTDiffDelta *delta, BOOL *stop) {
-			expect(delta.oldFile.path).to.equal(@"TestAppWindowController.h");
-			expect(delta.oldFile.path).to.equal(delta.newFile.path);
+			expect(delta.leftFile.path).to.equal(@"TestAppWindowController.h");
+			expect(delta.leftFile.path).to.equal(delta.rightFile.path);
 			expect(delta.hunkCount).to.equal(1);
 			expect(delta.binary).to.beFalsy();
 			expect((NSUInteger)delta.type).to.equal(GTDiffFileDeltaModified);
@@ -127,7 +127,7 @@ describe(@"GTDiff diffing", ^{
 		setupDiffFromCommitSHAsAndOptions(@"4d5a6cc7a4d810be71bd47331c947b22580a5997", @"38f1e536cfc2ee41e07d55b38baec00149b2b0d1", nil);
 		expect(diff.deltaCount).to.equal(1);
 		[diff enumerateDeltasUsingBlock:^(GTDiffDelta *delta, BOOL *stop) {
-			expect(delta.newFile.path).to.equal(@"REAME"); //loltypo
+			expect(delta.rightFile.path).to.equal(@"REAME"); //loltypo
 			expect((NSUInteger)delta.type).to.equal(GTDiffFileDeltaAdded);
 			*stop = YES;
 		}];
@@ -158,8 +158,8 @@ describe(@"GTDiff diffing", ^{
 		expect(diff.deltaCount).to.equal(1);
 		[diff enumerateDeltasUsingBlock:^(GTDiffDelta *delta, BOOL *stop) {
 			expect((NSUInteger)delta.type).to.equal(GTDiffFileDeltaRenamed);
-			expect(delta.oldFile.path).to.equal(@"README");
-			expect(delta.newFile.path).to.equal(@"README_renamed");
+			expect(delta.leftFile.path).to.equal(@"README");
+			expect(delta.rightFile.path).to.equal(@"README_renamed");
 			*stop = YES;
 		}];
 	});
@@ -198,7 +198,7 @@ describe(@"GTDiff diffing", ^{
 		
 		NSDictionary *expectedBinaryness = @{ @"README.md": @(NO), @"hero_slide1.png": @(YES), @"jquery-1.8.1.min.js": @(NO) };
 		[diff enumerateDeltasUsingBlock:^(GTDiffDelta *delta, BOOL *stop) {
-			BOOL expectedBinary = [expectedBinaryness[delta.newFile.path] boolValue];
+			BOOL expectedBinary = [expectedBinaryness[delta.rightFile.path] boolValue];
 			expect(delta.binary).to.equal(expectedBinary);
 		}];
 	});
@@ -207,7 +207,7 @@ describe(@"GTDiff diffing", ^{
 		setupDiffFromCommitSHAsAndOptions(@"6b0c1c8b8816416089c534e474f4c692a76ac14f", @"a4bca6b67a5483169963572ee3da563da33712f7", nil);
 		
 		[diff enumerateDeltasUsingBlock:^(GTDiffDelta *delta, BOOL *stop) {
-			if (![delta.newFile.path isEqualToString:@"jquery-1.8.1.min.js"]) return;
+			if (![delta.rightFile.path isEqualToString:@"jquery-1.8.1.min.js"]) return;
 			
 			expect(delta.hunkCount).to.equal(1);
 			[delta enumerateHunksWithBlock:^(GTDiffHunk *hunk, BOOL *stop) {
@@ -223,7 +223,7 @@ describe(@"GTDiff diffing", ^{
 		diff = [GTDiff diffIndexToWorkingDirectoryInRepository:repository options:@{ GTDiffOptionsFlagsKey: @(GTDiffOptionsFlagsIncludeUntracked) } error:NULL];
 		__block BOOL foundImage = NO;
 		[diff enumerateDeltasUsingBlock:^(GTDiffDelta *delta, BOOL *stop) {
-			if (![delta.newFile.path isEqualToString:@"UntrackedImage.png"]) return;
+			if (![delta.rightFile.path isEqualToString:@"UntrackedImage.png"]) return;
 			foundImage = YES;			
 			*stop = YES;
 		}];

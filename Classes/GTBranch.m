@@ -101,15 +101,21 @@
 }
 
 - (NSString *)shortName {
-	if([self branchType] == GTBranchTypeLocal) {
-		return [self.name stringByReplacingOccurrencesOfString:[[self class] localNamePrefix] withString:@""];
-	} else if([self branchType] == GTBranchTypeRemote) {
-		// remote repos also have their remote in their name
-		NSString *remotePath = [[[self class] remoteNamePrefix] stringByAppendingFormat:@"%@/", [self remoteName]];
-		return [self.name stringByReplacingOccurrencesOfString:remotePath withString:@""];
-	} else {
-		return self.name;
+	if (![self.reference isValid]) return nil;
+
+	const char *name;
+	int gitError = git_branch_name(&name, self.reference.git_reference);
+	if (gitError != GIT_OK) return nil;
+
+	if (self.branchType == GTBranchTypeRemote) {
+		// Skip the initial remote name and forward slash.
+		name = strchr(name, '/');
+		if (name == NULL) return nil;
+
+		name++;
 	}
+
+	return @(name);
 }
 
 - (NSString *)sha {
@@ -117,17 +123,17 @@
 }
 
 - (NSString *)remoteName {
-	if([self branchType] == GTBranchTypeLocal) {
-		return nil;
-	}
-	
-	NSArray *components = [self.name componentsSeparatedByString:@"/"];
-	// refs/heads/origin/branch_name
-	if(components.count < 4) {
-		return nil;
-	}
-	
-	return [components objectAtIndex:2];
+	if (self.branchType == GTBranchTypeLocal || ![self.reference isValid]) return nil;
+
+	const char *name;
+	int gitError = git_branch_name(&name, self.reference.git_reference);
+	if (gitError != GIT_OK) return nil;
+
+	// Find out where the remote name ends.
+	const char *end = strchr(name, '/');
+	if (end == NULL || end == name) return nil;
+
+	return [[NSString alloc] initWithBytes:name length:end - name encoding:NSUTF8StringEncoding];
 }
 
 - (GTCommit *)targetCommitAndReturnError:(NSError **)error {
@@ -147,10 +153,11 @@
 }
 
 - (GTBranchType)branchType {
-    if ([self.name hasPrefix:[[self class] remoteNamePrefix]]) {
-        return GTBranchTypeRemote;
-    }
-    return GTBranchTypeLocal;
+	if (self.reference.remote) {
+		return GTBranchTypeRemote;
+	} else {
+		return GTBranchTypeLocal;
+	}
 }
 
 - (GTBranch *)remoteBranchForRemoteName:(NSString *)remote {
@@ -177,7 +184,7 @@
 	NSAssert2([branch1.repository isEqual:branch2.repository], @"Both branches must be in the same repository: %@ vs. %@", branch1.repository, branch2.repository);
 	
 	git_oid mergeBase;
-	int errorCode = git_merge_base(&mergeBase, branch1.repository.git_repository, (git_oid *) branch1.reference.oid, (git_oid *) branch2.reference.oid);
+	int errorCode = git_merge_base(&mergeBase, branch1.repository.git_repository, branch1.reference.git_oid, branch2.reference.git_oid);
 	if(errorCode < GIT_OK) {
 		if(error != NULL) {
 			*error = [NSError git_errorFor:errorCode withAdditionalDescription:NSLocalizedString(@"", @"")];
@@ -196,36 +203,15 @@
 	if (mergeBase == nil) return nil;
 	
 	GTEnumerator *enumerator = self.repository.enumerator;
+	[enumerator resetWithOptions:GTEnumeratorOptionsTimeSort];
 	
-	NSMutableOrderedSet * (^allCommitsFromSHA)(NSString *, NSError **) = ^ id (NSString *sha, NSError **error) {
-		[enumerator resetWithOptions:GTEnumeratorOptionsTopologicalSort];
-		
-		BOOL success = [enumerator pushSHA:sha error:error];
-		if (!success) return nil;
-		
-		NSMutableOrderedSet *commits = [[NSMutableOrderedSet alloc] init];
+	BOOL success = [enumerator pushSHA:self.sha error:error];
+	if (!success) return nil;
 
-		GTCommit *currentCommit;
-		while ((currentCommit = [enumerator nextObjectWithSuccess:&success error:error]) != nil) {
-			if ([currentCommit.sha isEqualToString:mergeBase.sha]) continue;
-			[commits addObject:currentCommit];
-		}
+	success = [enumerator hideSHA:mergeBase.sha error:error];
+	if (!success) return nil;
 
-		if (success) {
-			return commits;
-		} else {
-			return nil;
-		}
-	};
-	
-	NSMutableOrderedSet *uniqueCommits = allCommitsFromSHA(self.sha, error);
-	if (uniqueCommits == nil) return nil;
-
-	NSMutableOrderedSet *otherCommits = allCommitsFromSHA(otherBranch.sha, error);
-	if (otherCommits == nil) return nil;
-	
-	[uniqueCommits minusOrderedSet:otherCommits];
-	return uniqueCommits.array;
+	return [enumerator allObjectsWithError:error];
 }
 
 - (BOOL)deleteWithError:(NSError **)error {
@@ -290,7 +276,7 @@
 		return YES;
 	}
 
-	int errorCode = git_graph_ahead_behind(ahead, behind, self.repository.git_repository, branch.reference.oid, self.reference.oid);
+	int errorCode = git_graph_ahead_behind(ahead, behind, self.repository.git_repository, branch.reference.git_oid, self.reference.git_oid);
 	if (errorCode != GIT_OK && error != NULL) {
 		*error = [NSError git_errorFor:errorCode withAdditionalDescription:[NSString stringWithFormat:@"Calculating ahead/behind with %@ to %@", self, branch]];
 		return NO;
