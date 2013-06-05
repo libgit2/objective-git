@@ -47,12 +47,11 @@ typedef enum : unsigned int {
 @class GTRepository;
 @class GTCommit;
 
-// Enumerates the commits in a repository. You generally don't need to
-// instantiate a GTEnumerator -- use GTRepository.enumerator instead.
+// Enumerates the commits in a repository.
 @interface GTEnumerator : NSEnumerator
 
 // The repository being enumerated.
-@property (nonatomic, weak, readonly) GTRepository *repository;
+@property (nonatomic, strong, readonly) GTRepository *repository;
 
 // The options currently being used for enumeration.
 //

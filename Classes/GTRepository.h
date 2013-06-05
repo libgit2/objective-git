@@ -71,7 +71,6 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 @property (nonatomic, readonly, strong) NSURL *fileURL;
 // The file URL for the repository's .git directory.
 @property (nonatomic, readonly, strong) NSURL *gitDirectoryURL;
-@property (nonatomic, readonly, strong) GTEnumerator *enumerator; // should only be used on the main thread
 @property (nonatomic, readonly, strong) GTIndex *index;
 @property (nonatomic, readonly, strong) GTObjectDatabase *objectDatabase;
 @property (nonatomic, readonly, strong) GTConfiguration *configuration;
@@ -131,11 +130,6 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 // returns an array of NSStrings holding the names of the references
 // returns nil if an error occurred and fills the error parameter
 - (NSArray *)referenceNamesWithError:(NSError **)error;
-
-- (BOOL)enumerateCommitsBeginningAtSha:(NSString *)sha sortOptions:(GTEnumeratorOptions)options error:(NSError **)error usingBlock:(void (^)(GTCommit *, BOOL *))block;
-- (BOOL)enumerateCommitsBeginningAtSha:(NSString *)sha error:(NSError **)error usingBlock:(void (^)(GTCommit *, BOOL *))block;
-
-- (NSArray *)selectCommitsBeginningAtSha:(NSString *)sha error:(NSError **)error block:(BOOL (^)(GTCommit *commit, BOOL *stop))block;
 
 // For each file in the repository calls your block with the URL of the file and the status of that file in the repository,
 //

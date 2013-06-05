@@ -133,75 +133,6 @@
 	rm_loose(self.class, sha);
 }
 
-- (void)testCanWalk {
-	
-	NSError *error = nil;
-	// alloc and init to verify memory management
-	GTRepository *aRepo = [[GTRepository alloc] initWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&error];
-	NSString *sha = @"a4a7dce85cf63874e984719f4fdd239f5145052f";
-	NSMutableArray *commits = [NSMutableArray array];
-    [aRepo enumerateCommitsBeginningAtSha:sha 
-                                    error:&error 
-                               usingBlock:^(GTCommit *commit, BOOL *stop) {
-                                   [commits addObject:commit];
-                               }];
-	STAssertNil(error, [error localizedDescription]);
-	
-	NSArray *expectedShas = [NSArray arrayWithObjects:
-							 @"a4a7d",
-							 @"c4780",
-							 @"9fd73",
-							 @"4a202",
-							 @"5b5b0",
-							 @"84960",
-							 nil];
-
-	for (NSUInteger i = 0; i < expectedShas.count; i++) {
-		GTCommit *commit = [commits objectAtIndex:i];
-		STAssertEqualObjects([commit.sha substringToIndex:5], [expectedShas objectAtIndex:i], nil);
-	}
-	
-}
-
-- (void)testCanWalkALot {
-	
-	NSError *error = nil;
-	GTRepository *aRepo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&error];
-	NSString *sha = @"a4a7dce85cf63874e984719f4fdd239f5145052f";
-	
-	for(int i=0; i < 100; i++) {
-		__block NSInteger count = 0;
-        [aRepo enumerateCommitsBeginningAtSha:sha error:&error usingBlock:^(GTCommit *commit, BOOL *stop) {
-            count++;
-        }];
-		STAssertNil(error, [error localizedDescription]);
-		STAssertEquals(6, (int)count, nil);
-		
-		//[[NSGarbageCollector defaultCollector] collectExhaustively];
-	}
-}
-
-- (void)testCanSelectCommits {
-	
-	NSError *error = nil;
-	GTRepository *aRepo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&error];
-	NSString *sha = @"a4a7dce85cf63874e984719f4fdd239f5145052f";
-	
-	__block NSInteger count = 0;
-	NSArray *commits = [aRepo selectCommitsBeginningAtSha:sha error:&error block:^BOOL(GTCommit *commit, BOOL *stop) {
-		count++;
-		if(count > 2) *stop = YES;
-		return [[commit parents] count] < 2;
-	}];
-	
-	STAssertEquals(2, (int)[commits count], nil);
-	NSArray *expectedShas = [NSArray arrayWithObjects:@"c4780", @"9fd73", nil];
-	for (NSUInteger i = 0; i < expectedShas.count; i++) {
-		GTCommit *commit = [commits objectAtIndex:i];
-		STAssertEqualObjects([commit.sha substringToIndex:5], [expectedShas objectAtIndex:i], nil);
-	}
-}
-
 - (void)testLookupHead {
 	
 	NSError *error = nil;
@@ -221,26 +152,15 @@
     STAssertNotNil(aRepo, @"Repository failed to initialise");
     GTReference *originalHead = [aRepo headReferenceWithError:NULL];
     NSString *resetTargetSha = @"8496071c1b46c854b31185ea97743be6a8774479";
-    NSArray *commits = [aRepo selectCommitsBeginningAtSha:resetTargetSha error:&err block:^ BOOL (GTCommit *commit, BOOL *stop) {
-        if ([commit.sha isEqualToString:resetTargetSha]) {
-            *stop = YES;
-            return YES;
-        }
-        
-        return NO;
-    }];
+
+	GTCommit *commit = (GTCommit *)[aRepo lookupObjectBySha:resetTargetSha error:NULL];
     
-    GTCommit *commit = commits[0];
     BOOL success = [aRepo resetToCommit:commit withResetType:GTRepositoryResetTypeSoft error:&err];
     STAssertTrue(success, @"Failed to reset, error given: %@", err);
     GTReference *head = [aRepo headReferenceWithError:&err];
     STAssertEqualObjects(head.target, resetTargetSha, @"Reset failed to move head to given commit");
     
-    NSArray *originalHeadCommits = [aRepo selectCommitsBeginningAtSha:originalHead.target error:NULL block: ^ BOOL (GTCommit *commit, BOOL *stop) {
-        *stop = YES;
-        return YES;
-    }];
-    GTCommit *originalHeadCommit = originalHeadCommits[0];
+    GTCommit *originalHeadCommit = (GTCommit *)[aRepo lookupObjectBySha:originalHead.target error:NULL];
     [aRepo resetToCommit:originalHeadCommit withResetType:GTRepositoryResetTypeSoft error:NULL];
     head = [aRepo headReferenceWithError:&err];
     STAssertEqualObjects(head.target, originalHead.target, @"Reset failed to move head back to the original position");

@@ -146,10 +146,11 @@
 }
 
 - (NSUInteger)numberOfCommitsWithError:(NSError **)error {
-	[self.repository.enumerator resetWithOptions:GTEnumeratorOptionsNone];
+	GTEnumerator *enumerator = [[GTEnumerator alloc] initWithRepository:repository error:error];
+	if (enumerator == nil) return NSNotFound;
 
-	if (![self.repository.enumerator pushSHA:self.sha error:error]) return NSNotFound;
-	return [self.repository.enumerator countRemainingObjects:error];
+	if (![enumerator pushSHA:self.sha error:error]) return NSNotFound;
+	return [enumerator countRemainingObjects:error];
 }
 
 - (GTBranchType)branchType {
@@ -202,7 +203,9 @@
 	GTCommit *mergeBase = [self.class mergeBaseOf:self andBranch:otherBranch error:error];
 	if (mergeBase == nil) return nil;
 	
-	GTEnumerator *enumerator = self.repository.enumerator;
+	GTEnumerator *enumerator = [[GTEnumerator alloc] initWithRepository:self.repository error:error];
+	if (enumerator == nil) return nil;
+	
 	[enumerator resetWithOptions:GTEnumeratorOptionsTimeSort];
 	
 	BOOL success = [enumerator pushSHA:self.sha error:error];
