@@ -109,7 +109,6 @@
 		NSError *error = nil;
 		GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&error];
 		STAssertNil(error, [error localizedDescription]);
-		(void) repo.enumerator; // walker's created lazily, so force its creation
 		GTReference *ref = [GTReference referenceByCreatingReferenceNamed:@"refs/heads/unit_test" fromReferenceTarget:@"36060c58702ed4c2a40832c51758d5344201d89a" inRepository:repo error:&error];
 		STAssertNil(error, [error localizedDescription]);
 		STAssertNotNil(ref, nil);

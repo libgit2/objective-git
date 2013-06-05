@@ -19,18 +19,18 @@ beforeEach(^{
 	expect(repo).notTo.beNil();
 	expect(error).to.beNil();
 
-	enumerator = repo.enumerator;
+	enumerator = [[GTEnumerator alloc] initWithRepository:repo error:NULL];
 	expect(enumerator).notTo.beNil();
 });
 
 it(@"should walk from repository HEAD", ^{
 	NSError *error = nil;
 
-	__block NSUInteger count = 0;
-	[repo enumerateCommitsBeginningAtSha:nil error:&error usingBlock:^(GTCommit *commit, BOOL *stop) {
-		count++;
-	}];
-
+	GTReference *HEADRef = [repo headReferenceWithError:NULL];
+	expect(HEADRef).notTo.beNil();
+	
+	[enumerator pushSHA:HEADRef.target error:NULL];
+	NSUInteger count = [enumerator allObjects].count;
 	expect(count).to.equal(3);
 	expect(error).to.beNil();
 });

@@ -58,7 +58,6 @@ typedef struct {
 
 @interface GTRepository ()
 @property (nonatomic, assign) git_repository *git_repository;
-@property (nonatomic, strong) GTEnumerator *enumerator;
 @property (nonatomic, strong) GTIndex *index;
 @property (nonatomic, strong) GTObjectDatabase *objectDatabase;
 @property (nonatomic, strong) GTConfiguration *configuration;
@@ -243,46 +242,6 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 		return nil;
 	}
 	return [GTObject objectWithObj:obj inRepository:self];
-}
-
-- (BOOL)enumerateCommitsBeginningAtSha:(NSString *)sha sortOptions:(GTEnumeratorOptions)options error:(NSError **)error usingBlock:(void (^)(GTCommit *, BOOL *))block {
-	NSParameterAssert(block != NULL);
-
-	if (sha == nil) {
-		GTReference *head = [self headReferenceWithError:error];
-		if (head == nil) return NO;
-
-		sha = head.target;
-	}
-
-	[self.enumerator resetWithOptions:options];
-
-	BOOL success = [self.enumerator pushSHA:sha error:error];
-	if (!success) return NO;
-
-	GTCommit *commit = nil;
-	while ((commit = [self.enumerator nextObjectWithSuccess:&success error:error]) != nil) {
-		BOOL stop = NO;
-		block(commit, &stop);
-		if (stop) break;
-	}
-
-	return success;
-}
-
-- (BOOL)enumerateCommitsBeginningAtSha:(NSString *)sha error:(NSError **)error usingBlock:(void (^)(GTCommit *, BOOL *))block; {
-	return [self enumerateCommitsBeginningAtSha:sha sortOptions:GTEnumeratorOptionsTimeSort error:error usingBlock:block];
-}
-
-- (NSArray *)selectCommitsBeginningAtSha:(NSString *)sha error:(NSError **)error block:(BOOL (^)(GTCommit *commit, BOOL *stop))block {
-	NSMutableArray *passingCommits = [NSMutableArray array];
-    [self enumerateCommitsBeginningAtSha:sha error:error usingBlock:^(GTCommit *commit, BOOL *stop) {
-		BOOL passes = block(commit, stop);
-		if (passes) {
-			[passingCommits addObject:commit];
-		}
-    }];
-    return passingCommits;
 }
 
 struct gitPayload {
@@ -518,14 +477,6 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 	}
 
 	return _objectDatabase;
-}
-
-- (GTEnumerator *)enumerator {
-	if (_enumerator == nil) {
-		self.enumerator = [[GTEnumerator alloc] initWithRepository:self error:NULL];
-	}
-
-	return _enumerator;
 }
 
 - (BOOL)isBare {
