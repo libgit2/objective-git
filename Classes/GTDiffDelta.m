@@ -47,11 +47,11 @@
 	return (self.git_diff_delta->flags & GIT_DIFF_FLAG_BINARY) != 0;
 }
 
-- (GTDiffFile *)leftFile {
+- (GTDiffFile *)oldFile {
 	return [[GTDiffFile alloc] initWithGitDiffFile:self.git_diff_delta->old_file];
 }
 
-- (GTDiffFile *)rightFile {
+- (GTDiffFile *)newFile {
 	return [[GTDiffFile alloc] initWithGitDiffFile:self.git_diff_delta->new_file];
 }
 

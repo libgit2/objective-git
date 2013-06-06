@@ -53,11 +53,11 @@ typedef enum : git_delta_t {
 // Whether the file(s) are to be treated as binary.
 @property (nonatomic, readonly, getter = isBinary) BOOL binary;
 
-// The file to the "left" (old) side of the diff.
-@property (nonatomic, readonly, copy) GTDiffFile *leftFile;
+// The file to the "left" of the diff.
+@property (nonatomic, readonly, copy) GTDiffFile *oldFile;
 
-// The file to the "right" (new) side of the diff.
-@property (nonatomic, readonly, copy) GTDiffFile *rightFile;
+// The file to the "right" of the diff.
+@property (nonatomic, readonly, copy) GTDiffFile *newFile __attribute__((ns_returns_not_retained));
 
 // The type of change that this delta represents.
 //
