@@ -36,6 +36,7 @@
 #import "GTIndex.h"
 #import "GTObject.h"
 #import "GTObjectDatabase.h"
+#import "GTOID.h"
 #import "GTSignature.h"
 #import "GTSubmodule.h"
 #import "GTTag.h"
@@ -572,6 +573,20 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 	}
 
 	return message;
+}
+
+- (GTCommit *)mergeBaseBetweenFirstOID:(GTOID *)firstOID secondOID:(GTOID *)secondOID error:(NSError **)error {
+	NSParameterAssert(firstOID != nil);
+	NSParameterAssert(secondOID != nil);
+
+	git_oid mergeBase;
+	int errorCode = git_merge_base(&mergeBase, self.git_repository, firstOID.git_oid, secondOID.git_oid);
+	if (errorCode < GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:errorCode withAdditionalDescription:@"Failed to find merge base between commits."];
+		return nil;
+	}
+	
+	return (id)[self lookupObjectByOid:&mergeBase objectType:GTObjectTypeCommit error:error];
 }
 
 #pragma mark Submodules
