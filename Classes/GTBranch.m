@@ -181,26 +181,10 @@
 	return nil;
 }
 
-+ (GTCommit *)mergeBaseOf:(GTBranch *)branch1 andBranch:(GTBranch *)branch2 error:(NSError **)error {
-	NSAssert2([branch1.repository isEqual:branch2.repository], @"Both branches must be in the same repository: %@ vs. %@", branch1.repository, branch2.repository);
-	
-	git_oid mergeBase;
-	int errorCode = git_merge_base(&mergeBase, branch1.repository.git_repository, branch1.reference.git_oid, branch2.reference.git_oid);
-	if(errorCode < GIT_OK) {
-		if(error != NULL) {
-			*error = [NSError git_errorFor:errorCode withAdditionalDescription:NSLocalizedString(@"", @"")];
-		}
-		
-		return nil;
-	}
-	
-	return (GTCommit *) [branch1.repository lookupObjectByOid:&mergeBase objectType:GTObjectTypeCommit error:error];
-}
-
 - (NSArray *)uniqueCommitsRelativeToBranch:(GTBranch *)otherBranch error:(NSError **)error {
 	NSParameterAssert(otherBranch != nil);
 	
-	GTCommit *mergeBase = [self.class mergeBaseOf:self andBranch:otherBranch error:error];
+	GTCommit *mergeBase = [self.repository mergeBaseBetweenFirstOID:self.reference.OID secondOID:otherBranch.reference.OID error:error];
 	if (mergeBase == nil) return nil;
 	
 	GTEnumerator *enumerator = [[GTEnumerator alloc] initWithRepository:self.repository error:error];

@@ -223,4 +223,13 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 // occurred locating or instantiating the GTSubmodule.
 - (GTSubmodule *)submoduleWithName:(NSString *)name error:(NSError **)error;
 
+// Finds the merge base between the commits pointed at by the given OIDs.
+//
+// firstOID  - The OID for the first commit. This must not be nil.
+// secondOID - The OID for the second commit. This must not be nil.
+// error     - If not NULL, set to any error that occurs.
+//
+// Returns the merge base, or nil if none is found or an error occurred.
+- (GTCommit *)mergeBaseBetweenFirstOID:(GTOID *)firstOID secondOID:(GTOID *)secondOID error:(NSError **)error;
+
 @end
