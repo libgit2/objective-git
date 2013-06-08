@@ -30,8 +30,10 @@
 #import <Foundation/Foundation.h>
 #include "git2.h"
 
+#import "GTEnum.h"
+
 // The mode of an index or tree entry.
-typedef enum : git_filemode_t {
+typedef enum : underlying_libgit2_enum(git_filemode_t) {
 	GTFileModeNew = GIT_FILEMODE_NEW,
 	GTFileModeTree = GIT_FILEMODE_TREE,
 	GTFileModeBlob = GIT_FILEMODE_BLOB,

@@ -7,11 +7,12 @@
 //
 
 #import "git2.h"
+#import "GTEnum.h"
 
 // Flags which may be set on the file.
 //
 // See diff.h for individual documentation.
-typedef enum : git_diff_flag_t {
+typedef enum : underlying_libgit2_enum(git_diff_flag_t) {
 	GTDiffFileFlagValidOID = GIT_DIFF_FLAG_VALID_OID,
 	GTDiffFileFlagBinary = GIT_DIFF_FLAG_BINARY,
 	GTDiffFileFlagNotBinary = GIT_DIFF_FLAG_NOT_BINARY,
