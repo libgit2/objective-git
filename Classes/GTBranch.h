@@ -43,7 +43,6 @@ typedef enum {
 @property (nonatomic, readonly) GTBranchType branchType;
 @property (nonatomic, readonly, strong) GTRepository *repository;
 @property (nonatomic, readonly, strong) GTReference *reference;
-@property (nonatomic, copy) NSArray *remoteBranches;
 
 + (NSString *)localNamePrefix;
 + (NSString *)remoteNamePrefix;
@@ -68,11 +67,6 @@ typedef enum {
 //
 // returns number of commits in the branch or NSNotFound if an error occurred
 - (NSUInteger)numberOfCommitsWithError:(NSError **)error;
-
-// Find the remote branch for the passed in remote name.
-//
-// returns the matched remote branch or nil if no match was found.
-- (GTBranch *)remoteBranchForRemoteName:(NSString *)remote;
 
 - (NSArray *)uniqueCommitsRelativeToBranch:(GTBranch *)otherBranch error:(NSError **)error;
 
