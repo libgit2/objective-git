@@ -373,14 +373,6 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 		if (localBranch == nil) {
 			[allBranches addObject:branch];
 		}
-
-		NSMutableArray *branches = [NSMutableArray array];
-		if (localBranch.remoteBranches != nil) {
-			[branches addObjectsFromArray:localBranch.remoteBranches];
-		}
-
-		[branches addObject:branch];
-		localBranch.remoteBranches = branches;
 	}
 
     return allBranches;
@@ -412,21 +404,7 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 	GTReference *head = [self headReferenceWithError:error];
 	if (head == nil) return nil;
 
-	GTBranch *currentBranch = [GTBranch branchWithReference:head repository:self];
-
-	NSArray *remoteBranches = [self remoteBranchesWithError:error];
-	if (remoteBranches == nil) return nil;
-
-	NSMutableArray *matchedRemoteBranches = [NSMutableArray array];
-	for (GTBranch *branch in remoteBranches) {
-		if ([branch.shortName isEqualToString:currentBranch.shortName]) {
-			[matchedRemoteBranches addObject:branch];
-		}
-	}
-
-	currentBranch.remoteBranches = matchedRemoteBranches;
-
-	return currentBranch;
+	return [GTBranch branchWithReference:head repository:self];
 }
 
 - (NSArray *)localCommitsRelativeToRemoteBranch:(GTBranch *)remoteBranch error:(NSError **)error {

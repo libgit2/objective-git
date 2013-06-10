@@ -58,7 +58,6 @@
 
 @synthesize reference;
 @synthesize repository;
-@synthesize remoteBranches;
 
 + (NSString *)localNamePrefix {
 	return @"refs/heads/";
@@ -159,26 +158,6 @@
 	} else {
 		return GTBranchTypeLocal;
 	}
-}
-
-- (GTBranch *)remoteBranchForRemoteName:(NSString *)remote {
-	for(GTBranch *remoteBranch in self.remoteBranches) {
-		if([remoteBranch.remoteName isEqualToString:remote]) {
-			return remoteBranch;
-		}
-	}
-	
-	return nil;
-}
-
-- (NSArray *)remoteBranches {
-	if(remoteBranches != nil) {
-		return remoteBranches;
-	} else if(self.branchType == GTBranchTypeRemote) {
-		return [NSArray arrayWithObject:self];
-	}
-	
-	return nil;
 }
 
 - (NSArray *)uniqueCommitsRelativeToBranch:(GTBranch *)otherBranch error:(NSError **)error {
