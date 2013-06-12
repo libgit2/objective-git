@@ -28,7 +28,7 @@
 	STAssertNotNil(ref, nil);
 	
 	STAssertEqualObjects(@"36060c58702ed4c2a40832c51758d5344201d89a", ref.target, nil);
-	STAssertEqualObjects(@"commit", ref.type, nil);
+	STAssertEquals(GTReferenceTypeOid, ref.referenceType, nil);
 	STAssertEqualObjects(@"refs/heads/master", ref.name, nil);
 }
 
@@ -42,7 +42,7 @@
 	STAssertNotNil(ref, nil);
 	
 	STAssertEqualObjects(@"5b5b025afb0b4c913b4c338a42934a3863bf3644", ref.target, nil);
-	STAssertEqualObjects(@"commit", ref.type, nil);
+	STAssertEquals(GTReferenceTypeOid, ref.referenceType, nil);
 	STAssertEqualObjects(@"refs/tags/v0.9", ref.name, nil);
 }
 
@@ -56,7 +56,7 @@
 	STAssertNotNil(ref, nil);
 	
 	STAssertEqualObjects(@"refs/heads/master", ref.target, nil);
-	STAssertEqualObjects(@"tree", ref.type, nil);
+	STAssertEquals(GTReferenceTypeSymbolic, ref.referenceType, nil);
 	STAssertEqualObjects(@"refs/heads/unit_test", ref.name, nil);
 	
 	BOOL success = [ref deleteWithError:&error];
@@ -73,7 +73,7 @@
 	STAssertNotNil(ref, nil);
 	
 	STAssertEqualObjects(@"36060c58702ed4c2a40832c51758d5344201d89a", ref.target, nil);
-	STAssertEqualObjects(@"commit", ref.type, nil);
+	STAssertEquals(GTReferenceTypeOid, ref.referenceType, nil);
 	STAssertEqualObjects(@"refs/heads/unit_test", ref.name, nil);
 	
 	BOOL success = [ref deleteWithError:&error];

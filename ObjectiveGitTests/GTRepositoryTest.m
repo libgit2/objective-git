@@ -93,7 +93,7 @@
 	GTReference *head = [repo headReferenceWithError:&error];
 	STAssertNil(error, [error localizedDescription]);
 	STAssertEqualObjects(head.target, @"36060c58702ed4c2a40832c51758d5344201d89a", nil);
-	STAssertEqualObjects(head.type, @"commit", nil);
+	STAssertEquals(head.referenceType, GTReferenceTypeOid, nil);
 }
 
 - (void)testIsEmpty {
@@ -172,7 +172,7 @@
 	GTReference *head = [repo headReferenceWithError:&err];
 	STAssertNotNil(head, err.localizedDescription);
 	STAssertEqualObjects(head.target, @"36060c58702ed4c2a40832c51758d5344201d89a", nil);
-	STAssertEqualObjects(head.type, @"commit", nil);
+	STAssertEquals(head.referenceType, GTReferenceTypeOid, nil);
 }
 
 - (void)testCanCloneBarely {
@@ -200,7 +200,7 @@
 	GTReference *head = [repo headReferenceWithError:&err];
 	STAssertNotNil(head, err.localizedDescription);
 	STAssertEqualObjects(head.target, @"36060c58702ed4c2a40832c51758d5344201d89a", nil);
-	STAssertEqualObjects(head.type, @"commit", nil);
+	STAssertEquals(head.referenceType, GTReferenceTypeOid, nil);
 }
 
 //- (void) testCanGetRemotes {

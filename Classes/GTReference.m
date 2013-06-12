@@ -34,6 +34,31 @@
 @property (nonatomic, readonly, assign) git_reference *git_reference;
 @end
 
+static NSString *referenceTypeToString(GTReferenceType type) {
+	NSString *stringType = @"unknown";
+	switch (type) {
+		case GTReferenceTypeInvalid:
+			stringType = @"invalid";
+			break;
+
+		case GTReferenceTypeOid:
+			stringType = @"direct";
+			break;
+
+		case GTReferenceTypeSymbolic:
+			stringType = @"symbolic";
+			break;
+
+		case GTReferenceTypeListAll:
+			stringType = @"listall";
+			break;
+
+		default:
+			break;
+	}
+	return stringType;
+}
+
 @implementation GTReference
 
 - (void)dealloc {
@@ -144,8 +169,8 @@
 	return [[self.class alloc] initWithGitReference:newRef repository:self.repository];
 }
 
-- (NSString *)type {
-	return @(git_object_type2string((git_otype)git_reference_type(self.git_reference)));
+- (GTReferenceType)referenceType {
+	return (GTReferenceType)git_reference_type(self.git_reference);
 }
 
 - (NSString *)target {
@@ -222,7 +247,7 @@
 #pragma mark NSObject
 
 - (NSString *)description {
-  return [NSString stringWithFormat:@"<%@: %p>{ OID: %@, type: %@, remote: %i }", self.class, self, self.OID, self.type, (int)self.remote];
+  return [NSString stringWithFormat:@"<%@: %p>{ OID: %@, type: %@, remote: %i }", self.class, self, self.OID, referenceTypeToString(self.referenceType), (int)self.remote];
 }
 
 - (NSUInteger)hash {

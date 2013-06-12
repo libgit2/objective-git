@@ -33,10 +33,11 @@ typedef enum {
 } GTReferenceErrorCode;
 
 typedef enum {
-	GTReferenceTypesOid = GIT_REF_OID,				/** A reference which points at an object id */
-	GTReferenceTypesSymbolic = GIT_REF_SYMBOLIC,	/** A reference which points at another reference */
-	GTReferenceTypesListAll = GIT_REF_LISTALL,
-} GTReferenceTypes;
+	GTReferenceTypeInvalid =    GIT_REF_INVALID,  /** Invalid reference */
+	GTReferenceTypeOid =        GIT_REF_OID,      /** A reference which points at an object id */
+	GTReferenceTypeSymbolic =   GIT_REF_SYMBOLIC, /** A reference which points at another reference */
+	GTReferenceTypeListAll =    GIT_REF_LISTALL,
+} GTReferenceType;
 
 @class GTRepository;
 
@@ -44,7 +45,7 @@ typedef enum {
 @interface GTReference : NSObject
 
 @property (nonatomic, readonly, strong) GTRepository *repository;
-@property (nonatomic, readonly) NSString *type;
+@property (nonatomic, readonly) GTReferenceType referenceType;
 @property (nonatomic, readonly) const git_oid *git_oid;
 @property (nonatomic, strong, readonly) GTOID *OID;
 
