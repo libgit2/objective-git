@@ -45,7 +45,7 @@
 @implementation GTCommit
 
 - (NSString *)description {
-	return [NSString stringWithFormat:@"<%@: %p> author: %@, message: %@", NSStringFromClass([self class]), self, self.author, [self message]];
+	return [NSString stringWithFormat:@"<%@: %p>{ SHA: %@, author: %@, message: %@ }", self.class, self, self.sha, self.author, self.message];
 }
 
 - (git_commit *)git_commit {
