@@ -9,11 +9,6 @@
 #import "GTOdbObject.h"
 #import "NSString+Git.h"
 
-@interface GTOdbObject()
-@property (nonatomic, assign) git_odb_object *git_odb_object;
-@end
-
-
 @implementation GTOdbObject
 
 - (NSString *)description {
@@ -23,11 +18,9 @@
 
 #pragma mark API
 
-@synthesize git_odb_object;
-
 - (id)initWithOdbObj:(git_odb_object *)object {
 	if((self = [super init])) {
-		self.git_odb_object = object;
+		_git_odb_object = object;
 	}
 	return self;
 }

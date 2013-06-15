@@ -31,11 +31,6 @@
 
 #import "git2/odb_backend.h"
 
-@interface GTObjectDatabase ()
-@property (nonatomic, readwrite, weak) GTRepository *repository;
-@end
-
-
 @implementation GTObjectDatabase
 
 - (NSString *)description {
@@ -43,15 +38,10 @@
 }
 
 - (void)dealloc {
-	git_odb_free(self.git_odb);
-    self.repository = nil;
+	git_odb_free(_git_odb);
 }
 
-
 #pragma mark API
-
-@synthesize git_odb;
-@synthesize repository;
 
 + (id)objectDatabaseWithRepository:(GTRepository *)repo {
     return [[self alloc] initWithRepository:repo];
@@ -60,8 +50,8 @@
 - (id)initWithRepository:(GTRepository *)repo {
     self = [super init];
     if (self) {
-        self.repository = repo;
-        git_repository_odb(&git_odb, self.repository.git_repository);
+        _repository = repo;
+        git_repository_odb(&_git_odb, self.repository.git_repository);
     }
     return self;
 }

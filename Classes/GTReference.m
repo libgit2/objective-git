@@ -30,11 +30,10 @@
 #import "NSError+Git.h"
 #import "NSString+Git.h"
 
-@interface GTReference ()
-
-@property (nonatomic, readwrite) git_reference *git_reference;
-
-@property (nonatomic, readwrite, strong) GTReflog *reflog;
+@interface GTReference () {
+	OSSpinLock _spinLock;
+	GTReflog *_reflog;
+}
 
 @end
 
@@ -45,19 +44,14 @@
 }
 
 - (void)dealloc {
-	self.repository = nil;
-
 	if(self.git_reference != NULL) {
 		git_reference_free(self.git_reference);
-		self.git_reference = NULL;
+		_git_reference = NULL;
 	}
 }
 
 
 #pragma mark API
-
-@synthesize git_reference;
-@synthesize repository;
 
 - (BOOL)isRemote {
 	return git_reference_is_remote(self.git_reference) != 0;
@@ -77,8 +71,8 @@
 
 - (id)initByLookingUpReferenceNamed:(NSString *)refName inRepository:(GTRepository *)theRepo error:(NSError **)error {
 	if((self = [super init])) {
-		self.repository = theRepo;
-		int gitError = git_reference_lookup(&git_reference, self.repository.git_repository, [refName UTF8String]);
+		_repository = theRepo;
+		int gitError = git_reference_lookup(&_git_reference, self.repository.git_repository, [refName UTF8String]);
 		if(gitError < GIT_OK) {
 			if(error != NULL)
 				*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to lookup reference."];
@@ -93,16 +87,16 @@
 		git_oid oid;
 		int gitError;
 		
-		self.repository = theRepo;
+		_repository = theRepo;
 		if (git_oid_fromstr(&oid, [theTarget UTF8String]) == GIT_OK) {
-			gitError = git_reference_create(&git_reference,
+			gitError = git_reference_create(&_git_reference,
 											self.repository.git_repository,
 											[refName UTF8String],
 											&oid,
 											0);
 		}
 		else {
-			gitError = git_reference_symbolic_create(&git_reference,
+			gitError = git_reference_symbolic_create(&_git_reference,
 													 self.repository.git_repository, 
 													 [refName UTF8String], 
 													 [theTarget UTF8String],
@@ -120,13 +114,13 @@
 
 - (id)initByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error {
 	if((self = [super init])) {
-		int gitError = git_reference_resolve(&git_reference, symbolicRef.git_reference);
+		int gitError = git_reference_resolve(&_git_reference, symbolicRef.git_reference);
 		if(gitError < GIT_OK) {
 			if(error != NULL)
 				*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to resolve reference."];
 			return nil;
 		}
-		self.repository = symbolicRef.repository;
+		_repository = symbolicRef.repository;
 	}
 	return self;
 }
@@ -135,8 +129,8 @@
 	self = [super init];
 	if (self == nil) return nil;
 
-	self.git_reference = ref;
-	self.repository = repo;
+	_git_reference = ref;
+	_repository = repo;
 
 	return self;
 }
@@ -168,7 +162,7 @@
 		return NO;
 	}
 
-	self.git_reference = newRef;
+	_git_reference = newRef;
 	return YES;
 }
 
@@ -220,7 +214,7 @@
 		return NO;
 	}
 
-	self.git_reference = newRef;
+	_git_reference = newRef;
 	return YES;
 }
 
@@ -234,7 +228,7 @@
 	}
 	
 	int gitError = git_reference_delete(self.git_reference);
-	self.git_reference = NULL; /* this has been free'd */
+	_git_reference = NULL; /* this has been free'd */
 
 	if(gitError < GIT_OK) {
 		if(error != NULL)
@@ -282,7 +276,7 @@
 	}
 	
 	// TODO: Mutability sucks!
-	self.git_reference = newRef;
+	_git_reference = newRef;
 	return YES;
 }
 
@@ -295,9 +289,13 @@
 }
 
 - (GTReflog *)reflog {
-	if (_reflog == nil) {
-		_reflog = [[GTReflog alloc] initWithReference:self];
+	OSSpinLockLock(&_spinLock);
+	{
+		if (_reflog == nil) {
+			_reflog = [[GTReflog alloc] initWithReference:self];
+		}
 	}
+	OSSpinLockUnlock(&_spinLock);
 	
 	return _reflog;
 }

@@ -18,7 +18,7 @@
 #pragma mark Lifecycle
 
 - (void)dealloc {
-	git_config_free(self.git_config);
+	git_config_free(_git_config);
 }
 
 - (id)initWithGitConfig:(git_config *)config repository:(GTRepository *)repository {

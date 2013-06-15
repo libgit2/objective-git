@@ -34,11 +34,12 @@
 #import "NSError+Git.h"
 #import "NSString+Git.h"
 
-@interface GTTreeEntry()
-@property (nonatomic, assign) const git_tree_entry *git_tree_entry;
-@property (nonatomic, readwrite, weak) GTTree *tree;
-@end
+@interface GTTreeEntry () {
+	const git_tree_entry *_git_tree_entry;
+	__weak GTTree *_tree;
+}
 
+@end
 
 @implementation GTTreeEntry
 
@@ -46,20 +47,12 @@
 	return [NSString stringWithFormat:@"<%@: %p> name: %@, sha: %@ attributes: %lu", NSStringFromClass([self class]), self, [self name], [self sha], (unsigned long)[self attributes]];
 }
 
-- (void)dealloc {
-	self.git_tree_entry = nil;
-}
-
-
 #pragma mark API
-
-@synthesize git_tree_entry;
-@synthesize tree;
 
 - (id)initWithEntry:(const git_tree_entry *)theEntry parentTree:(GTTree *)parent {
 	if((self = [super init])) {
-		self.git_tree_entry = theEntry;
-		self.tree = parent;
+		_git_tree_entry = theEntry;
+		_tree = parent;
 	}
 	return self;
 }

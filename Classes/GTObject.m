@@ -37,8 +37,10 @@
 #import "GTBlob.h"
 #import "GTTag.h"
 
-@interface GTObject ()
-@property (nonatomic, assign) git_object *git_object;
+@interface GTObject () {
+	git_object *_git_object;
+}
+
 @end
 
 
@@ -70,7 +72,7 @@
 - (id)initWithObj:(git_object *)theObject inRepository:(GTRepository *)theRepo {
 	if((self = [super init])) {
 		_repository = theRepo;
-		self.git_object = theObject;
+		_git_object = theObject;
 	}
 	return self;
 }

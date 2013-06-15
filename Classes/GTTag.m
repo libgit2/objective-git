@@ -34,11 +34,6 @@
 #import "GTRepository.h"
 #import "NSString+Git.h"
 
-@interface GTTag ()
-@property (nonatomic, strong) GTSignature *tagger;
-@end
-
-
 @implementation GTTag
 
 - (NSString *)description {
@@ -88,10 +83,7 @@
 }
 
 - (GTSignature *)tagger {
-	if(tagger == nil) {
-		tagger = [[GTSignature alloc] initWithGitSignature:git_tag_tagger(self.git_tag)];
-	}
-	return tagger;
+	return [[GTSignature alloc] initWithGitSignature:git_tag_tagger(self.git_tag)];
 }
 
 - (git_tag *)git_tag {

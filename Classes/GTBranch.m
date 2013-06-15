@@ -30,12 +30,6 @@
 #import "GTCommit.h"
 #import "NSError+Git.h"
 
-
-@interface GTBranch ()
-@property (nonatomic, strong) GTReference *reference;
-@property (nonatomic, strong) GTRepository *repository;
-@end
-
 @implementation GTBranch
 
 - (NSString *)description {
@@ -56,9 +50,6 @@
 
 #pragma mark API
 
-@synthesize reference;
-@synthesize repository;
-
 + (NSString *)localNamePrefix {
 	return @"refs/heads/";
 }
@@ -77,20 +68,20 @@
 
 - (id)initWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error {
 	if((self = [super init])) {
-		self.reference = [GTReference referenceByLookingUpReferencedNamed:branchName inRepository:repo error:error];
+		_reference = [GTReference referenceByLookingUpReferencedNamed:branchName inRepository:repo error:error];
 		if(self.reference == nil) {
             return nil;
         }
 		
-		self.repository = repo;
+		_repository = repo;
 	}
 	return self;
 }
 
 - (id)initWithReference:(GTReference *)ref repository:(GTRepository *)repo {
 	if((self = [super init])) {
-		self.reference = ref;
-		self.repository = repo;
+		_reference = ref;
+		_repository = repo;
 	}
 	return self;
 }
@@ -145,7 +136,7 @@
 }
 
 - (NSUInteger)numberOfCommitsWithError:(NSError **)error {
-	GTEnumerator *enumerator = [[GTEnumerator alloc] initWithRepository:repository error:error];
+	GTEnumerator *enumerator = [[GTEnumerator alloc] initWithRepository:self.repository error:error];
 	if (enumerator == nil) return NSNotFound;
 
 	if (![enumerator pushSHA:self.sha error:error]) return NSNotFound;
@@ -192,7 +183,7 @@
 		return NO;
 	}
 	
-	self.reference = nil;
+	_reference = nil;
 	
 	return YES;
 }

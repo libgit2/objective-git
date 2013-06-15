@@ -57,11 +57,14 @@ typedef struct {
 	__unsafe_unretained GTRepositorySubmoduleEnumerationBlock block;
 } GTRepositorySubmoduleEnumerationInfo;
 
-@interface GTRepository ()
-@property (nonatomic, assign) git_repository *git_repository;
-@property (nonatomic, strong) GTIndex *index;
-@property (nonatomic, strong) GTObjectDatabase *objectDatabase;
-@property (nonatomic, strong) GTConfiguration *configuration;
+@interface GTRepository () {
+	// The lock used to control access to writeable properties.
+	OSSpinLock _spinLock;
+	GTIndex *_index;
+	GTObjectDatabase *_objectDatabase;
+	GTConfiguration *_configuration;
+}
+
 @end
 
 @implementation GTRepository
@@ -71,14 +74,10 @@ typedef struct {
 }
 
 - (BOOL)isEqual:(GTRepository *)comparisonRepository {
-	return ([self.fileURL isEqual:comparisonRepository.fileURL]);
+	return [self.fileURL isEqual:comparisonRepository.fileURL];
 }
 
 - (void)dealloc {
-	if (_configuration != nil) {
-		self.configuration.repository = nil;
-	}
-
 	if (self.git_repository != NULL) git_repository_free(self.git_repository);
 }
 
@@ -119,7 +118,8 @@ typedef struct {
 	self = [super init];
 	if (self == nil) return nil;
 	
-	self.git_repository = repository;
+	_git_repository = repository;
+	
 	return self;
 }
 
@@ -140,7 +140,7 @@ typedef struct {
 		return nil;
 	}
 
-	self.git_repository = r;
+	_git_repository = r;
 
 	return self;
 }
@@ -303,15 +303,21 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 }
 
 - (BOOL)setupIndexWithError:(NSError **)error {
-	git_index *i;
-	int gitError = git_repository_index(&i, self.git_repository);
-	if (gitError < GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to get index for repository."];
-		return NO;
-	} else {
-		self.index = [[GTIndex alloc] initWithGitIndex:i];
-		return YES;
+	OSSpinLockLock(&_spinLock);
+	{
+		if (_index == nil) {
+			git_index *i = NULL;
+			int gitError = git_repository_index(&i, self.git_repository);
+			if (gitError == GIT_OK) {
+				_index = [[GTIndex alloc] initWithGitIndex:i];
+			} else {
+				if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to get index for repository."];
+			}
+		}
 	}
+	OSSpinLockUnlock(&_spinLock);
+
+	return _index != nil;
 }
 
 - (GTReference *)headReferenceWithError:(NSError **)error {
@@ -451,8 +457,11 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 }
 
 - (GTObjectDatabase *)objectDatabase {
-	if (_objectDatabase == nil) {
-		self.objectDatabase = [GTObjectDatabase objectDatabaseWithRepository:self];
+	OSSpinLockLock(&_spinLock);
+	{
+		if (_objectDatabase == nil) {
+			_objectDatabase = [GTObjectDatabase objectDatabaseWithRepository:self];
+		}
 	}
 
 	return _objectDatabase;
@@ -467,15 +476,17 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 }
 
 - (GTConfiguration *)configuration {
-	if (_configuration == nil) {
-		git_config *config = NULL;
-		int error = git_repository_config(&config, self.git_repository);
-		if (error < GIT_OK) {
-			return nil;
+	OSSpinLockLock(&_spinLock);
+	{
+		if (_configuration == nil) {
+			git_config *config = NULL;
+			int error = git_repository_config(&config, self.git_repository);
+			if (error == GIT_OK) {
+				_configuration = [[GTConfiguration alloc] initWithGitConfig:config repository:self];
+			}
 		}
-
-		self.configuration = [[GTConfiguration alloc] initWithGitConfig:config repository:self];
 	}
+	OSSpinLockUnlock(&_spinLock);
 
 	return _configuration;
 }
