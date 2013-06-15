@@ -945,7 +945,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "GitHub, Inc";
 			};
 			buildConfigurationList = 1DEB91B108733DA50010E9CD /* Build configuration list for PBXProject "ObjectiveGitFramework" */;
@@ -1328,11 +1328,14 @@
 			baseConfigurationReference = D0D8185B174421EB00995A2E /* Debug.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_WARN_EMPTY_BODY = YES;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				HEADER_SEARCH_PATHS = libgit2/include;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = .;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
 				TEST_AFTER_BUILD = NO;
 			};
 			name = Debug;
@@ -1342,7 +1345,9 @@
 			baseConfigurationReference = D0D8185D174421EB00995A2E /* Release.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_WARN_EMPTY_BODY = YES;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				HEADER_SEARCH_PATHS = libgit2/include;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = .;
@@ -1392,7 +1397,9 @@
 			baseConfigurationReference = D0D8185C174421EB00995A2E /* Profile.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_WARN_EMPTY_BODY = YES;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				HEADER_SEARCH_PATHS = libgit2/include;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = .;
