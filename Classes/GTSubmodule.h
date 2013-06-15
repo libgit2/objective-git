@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "GTObject.h"
+#import "GTEnum.h"
 
 @class GTOID;
 
@@ -15,7 +16,7 @@
 // ignored when retrieving its status.
 //
 // These flags are mutually exclusive.
-typedef enum : git_submodule_ignore_t {
+typedef enum : underlying_libgit2_enum(git_submodule_ignore_t) {
 	GTSubmoduleIgnoreDefault = GIT_SUBMODULE_IGNORE_DEFAULT,
 	GTSubmoduleIgnoreNone = GIT_SUBMODULE_IGNORE_NONE,
 	GTSubmoduleIgnoreUntracked = GIT_SUBMODULE_IGNORE_UNTRACKED,
@@ -26,7 +27,7 @@ typedef enum : git_submodule_ignore_t {
 // Describes the status of a submodule.
 //
 // These flags may be ORed together.
-typedef enum : git_submodule_status_t {
+typedef enum : underlying_libgit2_enum(git_submodule_status_t) {
 	GTSubmoduleStatusUnknown = 0,
 
 	GTSubmoduleStatusExistsInHEAD = GIT_SUBMODULE_STATUS_IN_HEAD,

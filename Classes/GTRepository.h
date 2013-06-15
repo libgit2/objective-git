@@ -31,6 +31,7 @@
 #import "GTObject.h"
 #import "GTEnumerator.h"
 #import "GTReference.h"
+#import "GTEnum.h"
 
 @class GTBranch;
 @class GTCommit;
@@ -56,7 +57,7 @@ enum {
 
 typedef unsigned int GTRepositoryFileStatus;
 
-typedef enum : git_reset_t {
+typedef enum : underlying_libgit2_enum(git_reset_t) {
     GTRepositoryResetTypeSoft = GIT_RESET_SOFT,
     GTRepositoryResetTypeMixed = GIT_RESET_MIXED,
     GTRepositoryResetTypeHard = GIT_RESET_HARD

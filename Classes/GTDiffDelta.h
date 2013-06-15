@@ -8,6 +8,8 @@
 
 #import "git2.h"
 
+#import "GTEnum.h"
+
 @class GTDiffFile;
 @class GTDiffHunk;
 
@@ -24,7 +26,7 @@
 //                             and is therefore currently untracked.
 // GTDiffFileDeltaTypeChange - The file has changed from a blob to either a
 //                             submodule, symlink or directory. Or vice versa.
-typedef enum : git_delta_t {
+typedef enum : underlying_libgit2_enum(git_delta_t) {
 	GTDiffFileDeltaUnmodified = GIT_DELTA_UNMODIFIED,
 	GTDiffFileDeltaAdded = GIT_DELTA_ADDED,
 	GTDiffFileDeltaDeleted = GIT_DELTA_DELETED,

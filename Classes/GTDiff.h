@@ -9,6 +9,7 @@
 #import "git2.h"
 
 #import "GTDiffDelta.h"
+#import "GTEnum.h"
 
 @class GTDiffDelta;
 @class GTRepository;
@@ -61,7 +62,7 @@ extern NSString *const GTDiffOptionsPathSpecArrayKey;
 // `GTDiffOptionsFlagsKey` key.
 //
 // See diff.h for documentation of each individual flag. 
-typedef enum : git_diff_option_t {
+typedef enum : underlying_libgit2_enum(git_diff_option_t) {
 	GTDiffOptionsFlagsNormal = GIT_DIFF_NORMAL,
 	GTDiffOptionsFlagsReverse = GIT_DIFF_REVERSE,
 	GTDiffOptionsFlagsForceText = GIT_DIFF_FORCE_TEXT,
@@ -136,7 +137,7 @@ extern NSString *const GTDiffFindOptionsRenameLimitKey;
 // Enum for options passed into `-findSimilarWithOptions:`.
 //
 // For individual case documentation see `diff.h`.
-typedef enum : git_diff_find_t {
+typedef enum : underlying_libgit2_enum(git_diff_find_t) {
 	GTDiffFindOptionsFlagsFindRenames = GIT_DIFF_FIND_RENAMES,
 	GTDiffFindOptionsFlagsFindRenamesFromRewrites = GIT_DIFF_FIND_RENAMES_FROM_REWRITES,
 	GTDiffFindOptionsFlagsFindCopies = GIT_DIFF_FIND_COPIES,
