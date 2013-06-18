@@ -24,7 +24,7 @@
 //                             and is therefore currently untracked.
 // GTDiffFileDeltaTypeChange - The file has changed from a blob to either a
 //                             submodule, symlink or directory. Or vice versa.
-typedef enum : int {
+typedef enum {
 	GTDiffFileDeltaUnmodified = GIT_DELTA_UNMODIFIED,
 	GTDiffFileDeltaAdded = GIT_DELTA_ADDED,
 	GTDiffFileDeltaDeleted = GIT_DELTA_DELETED,

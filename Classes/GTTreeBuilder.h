@@ -31,7 +31,7 @@
 #include "git2.h"
 
 // The mode of an index or tree entry.
-typedef enum : int {
+typedef enum {
 	GTFileModeNew = GIT_FILEMODE_NEW,
 	GTFileModeTree = GIT_FILEMODE_TREE,
 	GTFileModeBlob = GIT_FILEMODE_BLOB,
