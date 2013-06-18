@@ -56,7 +56,7 @@ enum {
 
 typedef unsigned int GTRepositoryFileStatus;
 
-typedef enum : git_reset_t {
+typedef enum {
     GTRepositoryResetTypeSoft = GIT_RESET_SOFT,
     GTRepositoryResetTypeMixed = GIT_RESET_MIXED,
     GTRepositoryResetTypeHard = GIT_RESET_HARD
