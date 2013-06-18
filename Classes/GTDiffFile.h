@@ -11,7 +11,7 @@
 // Flags which may be set on the file.
 //
 // See diff.h for individual documentation.
-typedef enum : git_diff_flag_t {
+typedef enum {
 	GTDiffFileFlagValidOID = GIT_DIFF_FLAG_VALID_OID,
 	GTDiffFileFlagBinary = GIT_DIFF_FLAG_BINARY,
 	GTDiffFileFlagNotBinary = GIT_DIFF_FLAG_NOT_BINARY,
