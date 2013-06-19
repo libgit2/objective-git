@@ -29,6 +29,7 @@
 #import "GTRepository.h"
 #import "NSError+Git.h"
 #import "NSString+Git.h"
+#import <libkern/OSAtomic.h>
 
 @interface GTReference () {
 	OSSpinLock _spinLock;

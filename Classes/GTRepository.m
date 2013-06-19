@@ -42,6 +42,7 @@
 #import "GTTag.h"
 #import "NSError+Git.h"
 #import "NSString+Git.h"
+#import <libkern/OSAtomic.h>
 
 // The type of block passed to -enumerateSubmodulesRecursively:usingBlock:.
 typedef void (^GTRepositorySubmoduleEnumerationBlock)(GTSubmodule *submodule, BOOL *stop);
