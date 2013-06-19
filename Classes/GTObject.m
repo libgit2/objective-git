@@ -37,13 +37,6 @@
 #import "GTBlob.h"
 #import "GTTag.h"
 
-@interface GTObject () {
-	git_object *_git_object;
-}
-
-@end
-
-
 @implementation GTObject
 
 - (NSString *)description {
@@ -66,8 +59,6 @@
 
 
 #pragma mark API 
-
-@synthesize git_object;
 
 - (id)initWithObj:(git_object *)theObject inRepository:(GTRepository *)theRepo {
 	if((self = [super init])) {

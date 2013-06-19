@@ -463,6 +463,7 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 			_objectDatabase = [GTObjectDatabase objectDatabaseWithRepository:self];
 		}
 	}
+	OSSpinLockUnlock(&_spinLock);
 
 	return _objectDatabase;
 }
@@ -492,12 +493,10 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 }
 
 - (GTIndex *)index {
-	if (_index == nil) {
-		NSError *error = nil;
-		BOOL success = [self setupIndexWithError:&error];
-		if(!success) {
-			GTLog(@"Error setting up index: %@", error);
-		}
+	NSError *error;
+	BOOL success = [self setupIndexWithError:&error];
+	if (!success) {
+		GTLog(@"Error setting up index: %@", error);
 	}
 
 	return _index;

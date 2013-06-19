@@ -28,7 +28,7 @@
 
 @interface GTObjectDatabase : NSObject
 
-@property (nonatomic, assign) git_odb *git_odb;
+@property (nonatomic, readonly, assign) git_odb *git_odb;
 @property (nonatomic, readonly, weak) GTRepository *repository;
 
 + (id)objectDatabaseWithRepository:(GTRepository *)repository;

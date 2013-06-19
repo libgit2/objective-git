@@ -34,13 +34,6 @@
 #import "NSError+Git.h"
 #import "NSString+Git.h"
 
-@interface GTTreeEntry () {
-	const git_tree_entry *_git_tree_entry;
-	__weak GTTree *_tree;
-}
-
-@end
-
 @implementation GTTreeEntry
 
 - (NSString *)description {
