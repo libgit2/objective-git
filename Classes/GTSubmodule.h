@@ -15,7 +15,7 @@
 // ignored when retrieving its status.
 //
 // These flags are mutually exclusive.
-typedef enum : int {
+typedef enum {
 	GTSubmoduleIgnoreDefault = GIT_SUBMODULE_IGNORE_DEFAULT,
 	GTSubmoduleIgnoreNone = GIT_SUBMODULE_IGNORE_NONE,
 	GTSubmoduleIgnoreUntracked = GIT_SUBMODULE_IGNORE_UNTRACKED,
@@ -26,7 +26,7 @@ typedef enum : int {
 // Describes the status of a submodule.
 //
 // These flags may be ORed together.
-typedef enum : int {
+typedef enum {
 	GTSubmoduleStatusUnknown = 0,
 
 	GTSubmoduleStatusExistsInHEAD = GIT_SUBMODULE_STATUS_IN_HEAD,
