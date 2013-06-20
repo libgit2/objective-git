@@ -1272,7 +1272,11 @@
 					libgit2/include,
 					"$(OBJROOT)/UninstalledProducts/include",
 				);
-				OTHER_LDFLAGS = "-lgit2-iOS";
+				OTHER_LDFLAGS = (
+					"-lgit2-iOS",
+					"-force_load",
+					"libgit2-iOS.a",
+				);
 				PRODUCT_NAME = "ObjectiveGit-iOS";
 				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/ObjectiveGit;
 			};
@@ -1287,7 +1291,11 @@
 					libgit2/include,
 					"$(OBJROOT)/UninstalledProducts/include",
 				);
-				OTHER_LDFLAGS = "-lgit2-iOS";
+				OTHER_LDFLAGS = (
+					"-lgit2-iOS",
+					"-force_load",
+					"libgit2-iOS.a",
+				);
 				PRODUCT_NAME = "ObjectiveGit-iOS";
 				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/ObjectiveGit;
 			};
@@ -1302,7 +1310,11 @@
 				FRAMEWORK_VERSION = A;
 				GCC_PREFIX_HEADER = ObjectiveGitFramework_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
-				OTHER_LDFLAGS = "-lgit2";
+				OTHER_LDFLAGS = (
+					"-lgit2",
+					"-force_load",
+					libgit2.a,
+				);
 				PRODUCT_NAME = ObjectiveGit;
 				WRAPPER_EXTENSION = framework;
 			};
@@ -1317,7 +1329,11 @@
 				FRAMEWORK_VERSION = A;
 				GCC_PREFIX_HEADER = ObjectiveGitFramework_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
-				OTHER_LDFLAGS = "-lgit2";
+				OTHER_LDFLAGS = (
+					"-lgit2",
+					"-force_load",
+					libgit2.a,
+				);
 				PRODUCT_NAME = ObjectiveGit;
 				WRAPPER_EXTENSION = framework;
 			};
@@ -1410,7 +1426,11 @@
 				FRAMEWORK_VERSION = A;
 				GCC_PREFIX_HEADER = ObjectiveGitFramework_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
-				OTHER_LDFLAGS = "-lgit2";
+				OTHER_LDFLAGS = (
+					"-lgit2",
+					"-force_load",
+					libgit2.a,
+				);
 				PRODUCT_NAME = ObjectiveGit;
 				WRAPPER_EXTENSION = framework;
 			};
@@ -1425,7 +1445,11 @@
 					libgit2/include,
 					"$(OBJROOT)/UninstalledProducts/include",
 				);
-				OTHER_LDFLAGS = "-lgit2-iOS";
+				OTHER_LDFLAGS = (
+					"-lgit2-iOS",
+					"-force_load",
+					"libgit2-iOS.a",
+				);
 				PRODUCT_NAME = "ObjectiveGit-iOS";
 				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/ObjectiveGit;
 			};
