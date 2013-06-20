@@ -1274,8 +1274,7 @@
 				);
 				OTHER_LDFLAGS = (
 					"-lgit2-iOS",
-					"-force_load",
-					"libgit2-iOS.a",
+					"-all_load",
 				);
 				PRODUCT_NAME = "ObjectiveGit-iOS";
 				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/ObjectiveGit;
@@ -1293,8 +1292,7 @@
 				);
 				OTHER_LDFLAGS = (
 					"-lgit2-iOS",
-					"-force_load",
-					"libgit2-iOS.a",
+					"-all_load",
 				);
 				PRODUCT_NAME = "ObjectiveGit-iOS";
 				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/ObjectiveGit;
@@ -1447,8 +1445,7 @@
 				);
 				OTHER_LDFLAGS = (
 					"-lgit2-iOS",
-					"-force_load",
-					"libgit2-iOS.a",
+					"-all_load",
 				);
 				PRODUCT_NAME = "ObjectiveGit-iOS";
 				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/ObjectiveGit;
