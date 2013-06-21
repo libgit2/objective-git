@@ -41,11 +41,10 @@ describe(@"mutation", ^{
 	static NSString * const testRefName = @"refs/heads/unit_test";
 	static NSString * const testRefTarget = @"36060c58702ed4c2a40832c51758d5344201d89a";
 
-	__block GTRepository *repository;
 	__block GTReference *reference;
 
 	beforeEach(^{
-		repository = [self fixtureRepositoryNamed:@"testrepo.git"];
+		GTRepository *repository = [self fixtureRepositoryNamed:@"testrepo.git"];
 		expect(repository).notTo.beNil();
 
 		NSError *error;
