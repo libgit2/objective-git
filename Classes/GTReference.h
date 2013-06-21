@@ -48,7 +48,6 @@ typedef enum {
 @property (nonatomic, readonly) NSString *type;
 @property (nonatomic, readonly) const git_oid *git_oid;
 @property (nonatomic, strong, readonly) GTOID *OID;
-@property (nonatomic, readonly, getter=isValid) BOOL valid;
 
 // Whether this is a remote-tracking branch.
 @property (nonatomic, readonly, getter = isRemote) BOOL remote;
@@ -68,16 +67,39 @@ typedef enum {
 
 - (id)initWithGitReference:(git_reference *)ref repository:(GTRepository *)repository;
 
-- (NSString *)target;
-- (BOOL)setTarget:(NSString *)newTarget error:(NSError **)error;
-- (NSString *)name;
-- (BOOL)setName:(NSString *)newName error:(NSError **)error;
+// The target to which the reference points.
+@property (nonatomic, readonly, copy) NSString *target;
 
-// Delete this reference
+// Updates the on-disk reference to point to the a target and returns the
+// updated refrence.
 //
-// error(out) - will be filled if an error occurs
+// Note that this does *not* change the receiver's target.
 //
-// returns YES if the delete was successful
+// newTarget - The target for the new reference. Cannot be nil.
+// error     - The error if one occurred.
+//
+// Returns the updated reference, or nil if an error occurred.
+- (GTReference *)referenceByUpdatingTarget:(NSString *)newTarget error:(NSError **)error;
+
+// The name of the reference.
+@property (nonatomic, readonly, copy) NSString *name;
+
+// Updates the on-disk reference to the a name and returns the renamed
+// reference.
+//
+// Note that this does *not* change the receiver's name.
+//
+// newName - The new name for the reference. Cannot be nil.
+// error   - The error if one occurred.
+//
+// Returns the renamed reference, or nil if an error occurred.
+- (GTReference *)referenceByRenaming:(NSString *)newName error:(NSError **)error;
+
+// Delete this reference.
+//
+// error - The error if one occurred.
+//
+// Returns whether the deletion was successful.
 - (BOOL)deleteWithError:(NSError **)error;
 
 // Resolve this reference as a symbolic ref
@@ -87,12 +109,12 @@ typedef enum {
 // returns the peeled GTReference or nil if an error occurred.
 - (GTReference *)resolvedReferenceWithError:(NSError **)error;
 
-// Reload the reference from disk. Note that if reloading fails, the underlying `git_reference` will be invalidated and NULL'd.
+// Reload the reference from disk.
 //
-// error(out) - will be filled if an error occurs
+// error - The error if one occurred.
 //
-// returns YES if the reload was successful, NO otherwise.
-- (BOOL)reloadWithError:(NSError **)error;
+// Returns the reloaded reference, or nil if an error occurred.
+- (GTReference *)reloadedReferenceWithError:(NSError **)error;
 
 // An error indicating that the git_reference is no longer valid.
 + (NSError *)invalidReferenceError;

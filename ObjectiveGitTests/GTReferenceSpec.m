@@ -37,4 +37,39 @@ describe(@"remote property", ^{
 	});
 });
 
+describe(@"mutation", ^{
+	static NSString * const testRefName = @"refs/heads/unit_test";
+	static NSString * const testRefTarget = @"36060c58702ed4c2a40832c51758d5344201d89a";
+
+	__block GTRepository *repository;
+	__block GTReference *reference;
+
+	beforeEach(^{
+		repository = [self fixtureRepositoryNamed:@"testrepo.git"];
+		expect(repository).notTo.beNil();
+
+		NSError *error;
+		reference = [GTReference referenceByCreatingReferenceNamed:testRefName fromReferenceTarget:testRefTarget inRepository:repository error:&error];
+		expect(reference).notTo.beNil();
+		expect(reference.name).to.equal(testRefName);
+		expect(reference.target).to.equal(testRefTarget);
+	});
+
+	it(@"should be able to be renamed", ^{
+		static NSString * const newRefName = @"refs/heads/new_name";
+		GTReference *renamedRef = [reference referenceByRenaming:newRefName error:NULL];
+		expect(renamedRef).notTo.beNil();
+		expect(renamedRef.name).to.equal(newRefName);
+		expect(renamedRef.target).to.equal(testRefTarget);
+	});
+
+	it(@"should be able to change the target", ^{
+		static NSString * const newRefTarget = @"5b5b025afb0b4c913b4c338a42934a3863bf3644";
+		GTReference *updatedRef = [reference referenceByUpdatingTarget:@"5b5b025afb0b4c913b4c338a42934a3863bf3644" error:NULL];
+		expect(updatedRef).notTo.beNil();
+		expect(updatedRef.name).to.equal(testRefName);
+		expect(updatedRef.target).to.equal(newRefTarget);
+	});
+});
+
 SpecEnd

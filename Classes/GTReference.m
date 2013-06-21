@@ -31,13 +31,6 @@
 #import "NSString+Git.h"
 #import <libkern/OSAtomic.h>
 
-@interface GTReference () {
-	OSSpinLock _spinLock;
-	GTReflog *_reflog;
-}
-
-@end
-
 @implementation GTReference
 
 - (NSString *)description {
@@ -127,6 +120,9 @@
 }
 
 - (id)initWithGitReference:(git_reference *)ref repository:(GTRepository *)repo {
+	NSParameterAssert(ref != NULL);
+	NSParameterAssert(repo != nil);
+
 	self = [super init];
 	if (self == nil) return nil;
 
@@ -137,71 +133,64 @@
 }
 
 - (NSString *)name {
-	if(![self isValid]) return nil;
+	if (self.git_reference == NULL) return nil;
 	
 	const char *refName = git_reference_name(self.git_reference);
-	if(refName == NULL) return nil;
+	if (refName == NULL) return nil;
 	
-	return [NSString stringWithUTF8String:refName];
+	return @(refName);
 }
 
-- (BOOL)setName:(NSString *)newName error:(NSError **)error {
-	if(![self isValid]) {
-		if(error != NULL) {
-			*error = [[self class] invalidReferenceError];
-		}
-		
-		return NO;
+- (GTReference *)referenceByRenaming:(NSString *)newName error:(NSError **)error {
+	NSParameterAssert(newName != nil);
+
+	if (self.git_reference == NULL) {
+		if (error != NULL) *error = self.class.invalidReferenceError;
+		return nil;
 	}
 	
 	git_reference *newRef = NULL;
 	int gitError = git_reference_rename(&newRef, self.git_reference, newName.UTF8String, 0);
-	if(gitError < GIT_OK) {
-		if(error != NULL)
-			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to rename reference."];
-
+	if (gitError != GIT_OK) {
+		if(error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to rename reference."];
 		return NO;
 	}
 
-	_git_reference = newRef;
-	return YES;
+	return [[self.class alloc] initWithGitReference:newRef repository:self.repository];
 }
 
 - (NSString *)type {
-	if(![self isValid]) return nil;
+	if (self.git_reference == NULL) return nil;
 	
-	return [NSString stringWithUTF8String:git_object_type2string((git_otype)git_reference_type(self.git_reference))];
+	return @(git_object_type2string((git_otype)git_reference_type(self.git_reference)));
 }
 
 - (NSString *)target {
-	if(![self isValid]) return nil;
+	if (self.git_reference == NULL) return nil;
 	
-	if(git_reference_type(self.git_reference) == GIT_REF_OID) {
+	if (git_reference_type(self.git_reference) == GIT_REF_OID) {
 		return [NSString git_stringWithOid:git_reference_target(self.git_reference)];
 	} else {
-		return [NSString stringWithUTF8String:git_reference_symbolic_target(self.git_reference)];
+		return @(git_reference_symbolic_target(self.git_reference));
 	}
 }
 
-- (BOOL)setTarget:(NSString *)newTarget error:(NSError **)error {
-	if(![self isValid]) {
-		if(error != NULL) {
-			*error = [[self class] invalidReferenceError];
-		}
-		
-		return NO;
+- (GTReference *)referenceByUpdatingTarget:(NSString *)newTarget error:(NSError **)error {
+	NSParameterAssert(newTarget != nil);
+
+	if (self.git_reference == NULL) {
+		if (error != NULL) *error = [self.class invalidReferenceError];
+		return nil;
 	}
 	
 	int gitError;
-	
 	git_reference *newRef = NULL;
-	if(git_reference_type(self.git_reference) == GIT_REF_OID) {
+	if (git_reference_type(self.git_reference) == GIT_REF_OID) {
 		git_oid oid;
-		gitError = git_oid_fromstr(&oid, [newTarget UTF8String]);
-		if(gitError < GIT_OK) {
-			if(error != NULL)
-				*error = [NSError git_errorForMkStr:gitError];
-			return NO;
+		gitError = git_oid_fromstr(&oid, newTarget.UTF8String);
+		if (gitError != GIT_OK) {
+			if(error != NULL) *error = [NSError git_errorFor:gitError];
+			return nil;
 		}
 		
 		gitError = git_reference_set_target(&newRef, self.git_reference, &oid);
@@ -209,31 +198,23 @@
 		gitError = git_reference_symbolic_set_target(&newRef, self.git_reference, newTarget.UTF8String);
 	}
 
-	if(gitError < GIT_OK) {
-		if(error != NULL)
-			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to set reference target."];
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to set reference target."];
 		return NO;
 	}
 
-	_git_reference = newRef;
-	return YES;
+	return [[self.class alloc] initWithGitReference:newRef repository:self.repository];
 }
 
 - (BOOL)deleteWithError:(NSError **)error {
-	if(![self isValid]) {
-		if(error != NULL) {
-			*error = [[self class] invalidReferenceError];
-		}
-		
+	if (self.git_reference == NULL) {
+		if (error != NULL) *error = self.class.invalidReferenceError;
 		return NO;
 	}
 	
 	int gitError = git_reference_delete(self.git_reference);
-	_git_reference = NULL; /* this has been free'd */
-
-	if(gitError < GIT_OK) {
-		if(error != NULL)
-			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to delete reference."];
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to delete reference."];
 		return NO;
 	}
 
@@ -245,7 +226,7 @@
 }
 
 - (const git_oid *)git_oid {
-	if (![self isValid]) return nil;
+	if (self.git_reference == NULL) return NULL;
 	
 	return git_reference_target(self.git_reference);
 }
@@ -257,32 +238,13 @@
 	return [[GTOID alloc] initWithGitOid:oid];
 }
 
-- (BOOL)reloadWithError:(NSError **)error {
-	if (![self isValid]) {
-		if(error != NULL) {
-			*error = self.class.invalidReferenceError;
-		}
-		
+- (GTReference *)reloadedReferenceWithError:(NSError **)error {
+	if (self.git_reference == NULL) {
+		if (error != NULL) *error = self.class.invalidReferenceError;
 		return NO;
 	}
 
-	git_reference *newRef = NULL;
-	int errorCode = git_reference_lookup(&newRef, self.repository.git_repository, self.name.UTF8String);
-	if (errorCode < GIT_OK) {
-		if (error != NULL) {
-			*error = [NSError git_errorFor:errorCode withAdditionalDescription:@"Failed to reload reference."];
-		}
-		
-		return NO;
-	}
-	
-	// TODO: Mutability sucks!
-	_git_reference = newRef;
-	return YES;
-}
-
-- (BOOL)isValid {
-	return self.git_reference != NULL;
+	return [[self.class alloc] initByLookingUpReferenceNamed:self.name inRepository:self.repository error:error];
 }
 
 + (NSError *)invalidReferenceError {
@@ -290,15 +252,7 @@
 }
 
 - (GTReflog *)reflog {
-	OSSpinLockLock(&_spinLock);
-	{
-		if (_reflog == nil) {
-			_reflog = [[GTReflog alloc] initWithReference:self];
-		}
-	}
-	OSSpinLockUnlock(&_spinLock);
-	
-	return _reflog;
+	return [[GTReflog alloc] initWithReference:self];
 }
 
 @end

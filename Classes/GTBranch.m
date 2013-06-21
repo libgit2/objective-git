@@ -91,7 +91,7 @@
 }
 
 - (NSString *)shortName {
-	if (![self.reference isValid]) return nil;
+	if (self.reference.git_reference == NULL) return nil;
 
 	const char *name;
 	int gitError = git_branch_name(&name, self.reference.git_reference);
@@ -113,7 +113,7 @@
 }
 
 - (NSString *)remoteName {
-	if (self.branchType == GTBranchTypeLocal || ![self.reference isValid]) return nil;
+	if (self.branchType == GTBranchTypeLocal || self.reference.git_reference == NULL) return nil;
 
 	const char *name;
 	int gitError = git_branch_name(&name, self.reference.git_reference);
@@ -172,7 +172,7 @@
 }
 
 - (BOOL)deleteWithError:(NSError **)error {
-	if (!self.reference.valid) {
+	if (self.reference.git_reference == NULL) {
 		if (error != NULL) *error = GTReference.invalidReferenceError;
 		return NO;
 	}
@@ -182,9 +182,7 @@
 		if(error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to delete branch."];
 		return NO;
 	}
-	
-	_reference = nil;
-	
+
 	return YES;
 }
 
@@ -194,7 +192,7 @@
 		return self;
 	}
 
-	if (!self.reference.valid) {
+	if (self.reference.git_reference == NULL) {
 		if (success != NULL) *success = NO;
 		if (error != NULL) *error = GTReference.invalidReferenceError;
 		return NO;

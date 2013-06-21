@@ -59,8 +59,6 @@ typedef struct {
 } GTRepositorySubmoduleEnumerationInfo;
 
 @interface GTRepository () {
-	// The lock used to control access to writeable properties.
-	OSSpinLock _spinLock;
 	GTIndex *_index;
 	GTObjectDatabase *_objectDatabase;
 	GTConfiguration *_configuration;
@@ -304,19 +302,18 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 }
 
 - (BOOL)setupIndexWithError:(NSError **)error {
-	OSSpinLockLock(&_spinLock);
-	{
+	@synchronized(self) {
 		if (_index == nil) {
 			git_index *i = NULL;
 			int gitError = git_repository_index(&i, self.git_repository);
-			if (gitError == GIT_OK) {
-				_index = [[GTIndex alloc] initWithGitIndex:i];
-			} else {
+			if (gitError != GIT_OK) {
 				if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to get index for repository."];
+				return NO;
 			}
+
+			_index = [[GTIndex alloc] initWithGitIndex:i];
 		}
 	}
-	OSSpinLockUnlock(&_spinLock);
 
 	return _index != nil;
 }
@@ -394,8 +391,8 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 
 - (GTBranch *)createBranchNamed:(NSString *)name fromReference:(GTReference *)ref error:(NSError **)error {
 	// make sure the ref is up to date before we branch off it, otherwise we could branch off an older sha
-	BOOL success = [ref reloadWithError:error];
-	if (!success) return nil;
+	ref = [ref reloadedReferenceWithError:error];
+	if (ref == nil) return nil;
 
 	GTReference *newRef = [GTReference referenceByCreatingReferenceNamed:[NSString stringWithFormat:@"%@%@", [GTBranch localNamePrefix], name] fromReferenceTarget:ref.target inRepository:self error:error];
 	if (newRef == nil) return nil;
@@ -458,13 +455,11 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 }
 
 - (GTObjectDatabase *)objectDatabase {
-	OSSpinLockLock(&_spinLock);
-	{
+	@synchronized(self) {
 		if (_objectDatabase == nil) {
 			_objectDatabase = [GTObjectDatabase objectDatabaseWithRepository:self];
 		}
 	}
-	OSSpinLockUnlock(&_spinLock);
 
 	return _objectDatabase;
 }
@@ -478,17 +473,15 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 }
 
 - (GTConfiguration *)configuration {
-	OSSpinLockLock(&_spinLock);
-	{
+	@synchronized(self) {
 		if (_configuration == nil) {
 			git_config *config = NULL;
 			int error = git_repository_config(&config, self.git_repository);
-			if (error == GIT_OK) {
-				_configuration = [[GTConfiguration alloc] initWithGitConfig:config repository:self];
-			}
+			if (error != GIT_OK) return nil;
+
+			_configuration = [[GTConfiguration alloc] initWithGitConfig:config repository:self];
 		}
 	}
-	OSSpinLockUnlock(&_spinLock);
 
 	return _configuration;
 }
