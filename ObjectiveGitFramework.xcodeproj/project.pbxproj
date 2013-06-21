@@ -1272,7 +1272,10 @@
 					libgit2/include,
 					"$(OBJROOT)/UninstalledProducts/include",
 				);
-				OTHER_LDFLAGS = "-lgit2-iOS";
+				OTHER_LDFLAGS = (
+					"-lgit2-iOS",
+					"-all_load",
+				);
 				PRODUCT_NAME = "ObjectiveGit-iOS";
 				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/ObjectiveGit;
 			};
@@ -1287,7 +1290,10 @@
 					libgit2/include,
 					"$(OBJROOT)/UninstalledProducts/include",
 				);
-				OTHER_LDFLAGS = "-lgit2-iOS";
+				OTHER_LDFLAGS = (
+					"-lgit2-iOS",
+					"-all_load",
+				);
 				PRODUCT_NAME = "ObjectiveGit-iOS";
 				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/ObjectiveGit;
 			};
@@ -1302,7 +1308,11 @@
 				FRAMEWORK_VERSION = A;
 				GCC_PREFIX_HEADER = ObjectiveGitFramework_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
-				OTHER_LDFLAGS = "-lgit2";
+				OTHER_LDFLAGS = (
+					"-lgit2",
+					"-force_load",
+					libgit2.a,
+				);
 				PRODUCT_NAME = ObjectiveGit;
 				WRAPPER_EXTENSION = framework;
 			};
@@ -1317,7 +1327,11 @@
 				FRAMEWORK_VERSION = A;
 				GCC_PREFIX_HEADER = ObjectiveGitFramework_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
-				OTHER_LDFLAGS = "-lgit2";
+				OTHER_LDFLAGS = (
+					"-lgit2",
+					"-force_load",
+					libgit2.a,
+				);
 				PRODUCT_NAME = ObjectiveGit;
 				WRAPPER_EXTENSION = framework;
 			};
@@ -1328,14 +1342,11 @@
 			baseConfigurationReference = D0D8185B174421EB00995A2E /* Debug.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CLANG_WARN_EMPTY_BODY = YES;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				HEADER_SEARCH_PATHS = libgit2/include;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = .;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				ONLY_ACTIVE_ARCH = YES;
 				TEST_AFTER_BUILD = NO;
 			};
 			name = Debug;
@@ -1345,9 +1356,7 @@
 			baseConfigurationReference = D0D8185D174421EB00995A2E /* Release.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CLANG_WARN_EMPTY_BODY = YES;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				HEADER_SEARCH_PATHS = libgit2/include;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = .;
@@ -1397,9 +1406,7 @@
 			baseConfigurationReference = D0D8185C174421EB00995A2E /* Profile.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CLANG_WARN_EMPTY_BODY = YES;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				HEADER_SEARCH_PATHS = libgit2/include;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = .;
@@ -1417,7 +1424,11 @@
 				FRAMEWORK_VERSION = A;
 				GCC_PREFIX_HEADER = ObjectiveGitFramework_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
-				OTHER_LDFLAGS = "-lgit2";
+				OTHER_LDFLAGS = (
+					"-lgit2",
+					"-force_load",
+					libgit2.a,
+				);
 				PRODUCT_NAME = ObjectiveGit;
 				WRAPPER_EXTENSION = framework;
 			};
@@ -1432,7 +1443,10 @@
 					libgit2/include,
 					"$(OBJROOT)/UninstalledProducts/include",
 				);
-				OTHER_LDFLAGS = "-lgit2-iOS";
+				OTHER_LDFLAGS = (
+					"-lgit2-iOS",
+					"-all_load",
+				);
 				PRODUCT_NAME = "ObjectiveGit-iOS";
 				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/ObjectiveGit;
 			};

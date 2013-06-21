@@ -51,7 +51,7 @@
     self = [super init];
     if (self) {
         _repository = repo;
-        git_repository_odb(&_git_odb, self.repository.git_repository);
+        git_repository_odb(&_git_odb, repo.git_repository);
     }
     return self;
 }
