@@ -87,14 +87,15 @@
 #pragma mark Reloading
 
 - (BOOL)reload:(NSError **)error {
-	BOOL success = [self.reference reloadWithError:error];
+	GTReference *reference = self.reference;
+	BOOL success = [reference reloadWithError:error];
 	if (!success) return NO;
 
 	git_reflog *reflog = NULL;
-	int status = git_reflog_read(&reflog, self.reference.git_reference);
+	int status = git_reflog_read(&reflog, reference.git_reference);
 	if (status != GIT_OK || reflog == NULL) {
 		if (reflog != NULL) git_reflog_free(reflog);
-		if (error != NULL) *error = [NSError git_errorFor:status withAdditionalDescription:[NSString stringWithFormat:@"Couldn't read reflog for reference: %@", self.reference]];
+		if (error != NULL) *error = [NSError git_errorFor:status withAdditionalDescription:[NSString stringWithFormat:@"Couldn't read reflog for reference: %@", reference]];
 		return NO;
 	}
 
