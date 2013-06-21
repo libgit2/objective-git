@@ -111,7 +111,7 @@ static int configCallback(const git_config_entry *entry, void *payload) {
 
 - (NSArray *)remotes {
 	GTRepository *repository = self.repository;
-	if (nil == repository) return nil;
+	if (repository == nil) return nil;
 
 	git_strarray names;
 	git_remote_list(&names, repository.git_repository);
