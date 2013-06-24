@@ -60,11 +60,16 @@
 
 #pragma mark API 
 
-- (id)initWithObj:(git_object *)theObject inRepository:(GTRepository *)theRepo {
-	if((self = [super init])) {
-		_repository = theRepo;
-		_git_object = theObject;
-	}
+- (id)initWithObj:(git_object *)object inRepository:(GTRepository *)repo {
+	NSParameterAssert(object != NULL);
+	NSParameterAssert(repo != nil);
+
+	self = [super init];
+	if (self == nil) return nil;
+
+	_repository = repo;
+	_git_object = object;
+
 	return self;
 }
 

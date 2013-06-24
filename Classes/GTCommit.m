@@ -146,10 +146,10 @@
 }
 
 - (NSArray *)parents {
-	unsigned int numberOfParents = git_commit_parentcount(self.git_commit);
+	unsigned numberOfParents = git_commit_parentcount(self.git_commit);
 	NSMutableArray *parents = [NSMutableArray arrayWithCapacity:numberOfParents];
 	
-	for (unsigned int i = 0; i < numberOfParents; i++) {
+	for (unsigned i = 0; i < numberOfParents; i++) {
 		git_commit *parent = NULL;
 		int parentResult = git_commit_parent(&parent, self.git_commit, i);
 		if (parentResult != GIT_OK) continue;

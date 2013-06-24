@@ -43,17 +43,21 @@
 
 #pragma mark API
 
-+ (id)objectDatabaseWithRepository:(GTRepository *)repo {
-    return [[self alloc] initWithRepository:repo];
-}
+- (id)initWithRepository:(GTRepository *)repo error:(NSError **)error {
+	NSParameterAssert(repo != nil);
 
-- (id)initWithRepository:(GTRepository *)repo {
-    self = [super init];
-    if (self) {
-        _repository = repo;
-        git_repository_odb(&_git_odb, repo.git_repository);
-    }
-    return self;
+	self = [super init];
+	if (self == nil) return nil;
+
+	_repository = repo;
+
+	int gitError = git_repository_odb(&_git_odb, repo.git_repository);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to get ODB for repo."];
+		return nil;
+	}
+
+	return self;
 }
 
 - (GTOdbObject *)objectWithOid:(const git_oid *)oid error:(NSError **)error {

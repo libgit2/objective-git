@@ -19,9 +19,13 @@
 #pragma mark API
 
 - (id)initWithOdbObj:(git_odb_object *)object {
-	if((self = [super init])) {
-		_git_odb_object = object;
-	}
+	NSParameterAssert(object != NULL);
+
+	self = [super init];
+	if (self == nil) return nil;
+
+	_git_odb_object = object;
+
 	return self;
 }
 

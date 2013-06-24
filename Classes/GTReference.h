@@ -70,8 +70,8 @@ typedef enum {
 // The target to which the reference points.
 @property (nonatomic, readonly, copy) NSString *target;
 
-// Updates the on-disk reference to point to the a target and returns the
-// updated refrence.
+// Updates the on-disk reference to point to the target and returns the updated
+// reference.
 //
 // Note that this does *not* change the receiver's target.
 //
@@ -84,8 +84,7 @@ typedef enum {
 // The name of the reference.
 @property (nonatomic, readonly, copy) NSString *name;
 
-// Updates the on-disk reference to the a name and returns the renamed
-// reference.
+// Updates the on-disk reference to the name and returns the renamed reference.
 //
 // Note that this does *not* change the receiver's name.
 //

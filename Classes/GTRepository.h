@@ -88,9 +88,10 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 // repository - The repository to wrap. The receiver will take over memory
 //              management of this object, so it must not be freed elsewhere
 //              after this method is invoked. This must not be nil.
+// error      - The error if one occurred.
 //
 // Returns an initialized GTRepository, or nil if an error occurs.
-- (id)initWithGitRepository:(git_repository *)repository;
+- (id)initWithGitRepository:(git_repository *)repository error:(NSError **)error;
 
 // Clone a repository
 //
@@ -138,8 +139,6 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 
 // Return YES if the working directory is clean (no modified, new, or deleted files in index)
 - (BOOL)isWorkingDirectoryClean;
-
-- (BOOL)setupIndexWithError:(NSError **)error;
 
 - (GTReference *)headReferenceWithError:(NSError **)error;
 

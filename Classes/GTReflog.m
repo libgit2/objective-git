@@ -37,14 +37,8 @@
 
 	_reference = reference;
 
-	git_reflog *reflog = NULL;
-	int status = git_reflog_read(&reflog, reference.git_reference);
-	if (status != GIT_OK || reflog == NULL) {
-		if (reflog != NULL) git_reflog_free(reflog);
-		return nil;
-	}
-
-	_git_reflog = reflog;
+	int status = git_reflog_read(&_git_reflog, reference.git_reference);
+	if (status != GIT_OK || _git_reflog == NULL) return nil;
 
 	return self;
 }

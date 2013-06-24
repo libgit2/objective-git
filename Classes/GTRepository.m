@@ -42,7 +42,6 @@
 #import "GTTag.h"
 #import "NSError+Git.h"
 #import "NSString+Git.h"
-#import <libkern/OSAtomic.h>
 
 // The type of block passed to -enumerateSubmodulesRecursively:usingBlock:.
 typedef void (^GTRepositorySubmoduleEnumerationBlock)(GTSubmodule *submodule, BOOL *stop);
@@ -57,14 +56,6 @@ typedef struct {
 	__unsafe_unretained GTRepository *parentRepository;
 	__unsafe_unretained GTRepositorySubmoduleEnumerationBlock block;
 } GTRepositorySubmoduleEnumerationInfo;
-
-@interface GTRepository () {
-	GTIndex *_index;
-	GTObjectDatabase *_objectDatabase;
-	GTConfiguration *_configuration;
-}
-
-@end
 
 @implementation GTRepository
 
@@ -113,12 +104,35 @@ typedef struct {
 	return [[self alloc] initWithURL:localFileURL error:error];
 }
 
-- (id)initWithGitRepository:(git_repository *)repository {
+- (id)initWithGitRepository:(git_repository *)repository error:(NSError **)error {
+	NSParameterAssert(repository != nil);
+
 	self = [super init];
 	if (self == nil) return nil;
 	
 	_git_repository = repository;
-	
+
+	_objectDatabase = [[GTObjectDatabase alloc] initWithRepository:self error:error];
+	if (_objectDatabase == nil) return nil;
+
+	git_config *config = NULL;
+	int gitError = git_repository_config(&config, self.git_repository);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Faied to get config for repository."];
+		return nil;
+	}
+
+	_configuration = [[GTConfiguration alloc] initWithGitConfig:config repository:self];
+
+	git_index *index = NULL;
+	gitError = git_repository_index(&index, self.git_repository);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to get index for repository."];
+		return NO;
+	}
+
+	_index = [[GTIndex alloc] initWithGitIndex:index];
+
 	return self;
 }
 
@@ -128,20 +142,14 @@ typedef struct {
 		return nil;
 	}
 
-	self = [super init];
-	if (self == nil) return nil;
-
 	git_repository *r;
 	int gitError = git_repository_open(&r, localFileURL.path.UTF8String);
-
 	if (gitError < GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to open repository."];
 		return nil;
 	}
 
-	_git_repository = r;
-
-	return self;
+	return [self initWithGitRepository:r error:error];
 }
 
 static void checkoutProgressCallback(const char *path, size_t completedSteps, size_t totalSteps, void *payload) {
@@ -186,7 +194,7 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 		return nil;
 	}
 
-	return [[self alloc] initWithGitRepository:repository];
+	return [[self alloc] initWithGitRepository:repository error:error];
 }
 
 
@@ -299,23 +307,6 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 	}];
 
 	return clean;
-}
-
-- (BOOL)setupIndexWithError:(NSError **)error {
-	@synchronized(self) {
-		if (_index == nil) {
-			git_index *i = NULL;
-			int gitError = git_repository_index(&i, self.git_repository);
-			if (gitError != GIT_OK) {
-				if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to get index for repository."];
-				return NO;
-			}
-
-			_index = [[GTIndex alloc] initWithGitIndex:i];
-		}
-	}
-
-	return _index != nil;
 }
 
 - (GTReference *)headReferenceWithError:(NSError **)error {
@@ -454,46 +445,12 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 	return [NSURL fileURLWithPath:@(path) isDirectory:YES];
 }
 
-- (GTObjectDatabase *)objectDatabase {
-	@synchronized(self) {
-		if (_objectDatabase == nil) {
-			_objectDatabase = [GTObjectDatabase objectDatabaseWithRepository:self];
-		}
-	}
-
-	return _objectDatabase;
-}
-
 - (BOOL)isBare {
 	return self.git_repository && git_repository_is_bare(self.git_repository);
 }
 
 - (BOOL)isHeadDetached {
 	return (BOOL) git_repository_head_detached(self.git_repository);
-}
-
-- (GTConfiguration *)configuration {
-	@synchronized(self) {
-		if (_configuration == nil) {
-			git_config *config = NULL;
-			int error = git_repository_config(&config, self.git_repository);
-			if (error != GIT_OK) return nil;
-
-			_configuration = [[GTConfiguration alloc] initWithGitConfig:config repository:self];
-		}
-	}
-
-	return _configuration;
-}
-
-- (GTIndex *)index {
-	NSError *error;
-	BOOL success = [self setupIndexWithError:&error];
-	if (!success) {
-		GTLog(@"Error setting up index: %@", error);
-	}
-
-	return _index;
 }
 
 - (BOOL)resetToCommit:(GTCommit *)commit withResetType:(GTRepositoryResetType)resetType error:(NSError **)error {

@@ -67,22 +67,30 @@
 }
 
 - (id)initWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error {
-	if((self = [super init])) {
-		_reference = [GTReference referenceByLookingUpReferencedNamed:branchName inRepository:repo error:error];
-		if(self.reference == nil) {
-            return nil;
-        }
-		
-		_repository = repo;
-	}
+	NSParameterAssert(branchName != nil);
+	NSParameterAssert(repo != nil);
+
+	self = [super init];
+	if (self == nil) return nil;
+
+	_repository = repo;
+
+	_reference = [GTReference referenceByLookingUpReferencedNamed:branchName inRepository:repo error:error];
+	if (_reference == nil) return nil;
+
 	return self;
 }
 
 - (id)initWithReference:(GTReference *)ref repository:(GTRepository *)repo {
-	if((self = [super init])) {
-		_reference = ref;
-		_repository = repo;
-	}
+	NSParameterAssert(ref != nil);
+	NSParameterAssert(repo != nil);
+
+	self = [super init];
+	if (self == nil) return nil;
+
+	_repository = repo;
+	_reference = ref;
+
 	return self;
 }
 
@@ -91,8 +99,6 @@
 }
 
 - (NSString *)shortName {
-	if (self.reference.git_reference == NULL) return nil;
-
 	const char *name;
 	int gitError = git_branch_name(&name, self.reference.git_reference);
 	if (gitError != GIT_OK) return nil;
@@ -113,7 +119,7 @@
 }
 
 - (NSString *)remoteName {
-	if (self.branchType == GTBranchTypeLocal || self.reference.git_reference == NULL) return nil;
+	if (self.branchType == GTBranchTypeLocal) return nil;
 
 	const char *name;
 	int gitError = git_branch_name(&name, self.reference.git_reference);
@@ -172,13 +178,8 @@
 }
 
 - (BOOL)deleteWithError:(NSError **)error {
-	if (self.reference.git_reference == NULL) {
-		if (error != NULL) *error = GTReference.invalidReferenceError;
-		return NO;
-	}
-
 	int gitError = git_branch_delete(self.reference.git_reference);
-	if(gitError != GIT_OK) {
+	if (gitError != GIT_OK) {
 		if(error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to delete branch."];
 		return NO;
 	}
@@ -190,12 +191,6 @@
 	if (self.branchType == GTBranchTypeRemote) {
 		if (success != NULL) *success = YES;
 		return self;
-	}
-
-	if (self.reference.git_reference == NULL) {
-		if (success != NULL) *success = NO;
-		if (error != NULL) *error = GTReference.invalidReferenceError;
-		return NO;
 	}
 
 	git_reference *trackingRef = NULL;
