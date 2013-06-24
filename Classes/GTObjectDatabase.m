@@ -62,18 +62,13 @@
 
 - (GTOdbObject *)objectWithOid:(const git_oid *)oid error:(NSError **)error {
 	git_odb_object *obj;
-	
 	int gitError = git_odb_read(&obj, self.git_odb, oid);
-	if(gitError < GIT_OK) {
-		if(error != NULL)
-			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to read raw object."];
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to read raw object."];
 		return nil;
 	}
-	
-	GTOdbObject *rawObj = [GTOdbObject objectWithOdbObj:obj];
-	git_odb_object_free(obj);
-	
-	return rawObj;    
+
+	return [[GTOdbObject alloc] initWithOdbObj:obj repository:self.repository];
 }
 
 - (GTOdbObject *)objectWithSha:(NSString *)sha error:(NSError **)error {

@@ -30,8 +30,13 @@
 #include "git2.h"
 
 @class GTIndexEntry;
+@class GTRepository;
 
 @interface GTIndex : NSObject
+
+// The repository in which the index resides. This may be nil if the index was
+// created with -initWithFileURL:error:.
+@property (nonatomic, readonly, strong) GTRepository *repository;
 
 // The underlying libgit2 index.
 @property (nonatomic, readonly) git_index *git_index;
@@ -55,11 +60,12 @@
 
 // Initializes the receiver with the given libgit2 index.
 //
-// index - The libgit2 index from which the index should be created. Cannot be
-//         NULL.
+// index      - The libgit2 index from which the index should be created. Cannot
+//              be NULL.
+// repository - The repository in which the index resides. Cannot be nil.
 //
 // Returns the initialized object.
-- (id)initWithGitIndex:(git_index *)index;
+- (id)initWithGitIndex:(git_index *)index repository:(GTRepository *)repository;
 
 // Refresh the index from the datastore
 //

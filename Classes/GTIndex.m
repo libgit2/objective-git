@@ -64,13 +64,15 @@
 	return self;
 }
 
-- (id)initWithGitIndex:(git_index *)index {
+- (id)initWithGitIndex:(git_index *)index repository:(GTRepository *)repository {
 	NSParameterAssert(index != NULL);
+	NSParameterAssert(repository != nil);
 
 	self = [super init];
 	if (self == nil) return nil;
 
 	_git_index = index;
+	_repository = repository;
 
 	return self;
 }

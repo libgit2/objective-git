@@ -99,7 +99,7 @@
 		return nil;
 	}
 
-	return [[GTRepository alloc] initWithGitRepository:repo error:error];
+	return [[GTRepository alloc] initWithGitRepository:repo];
 }
 
 @end

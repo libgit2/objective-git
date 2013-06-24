@@ -71,9 +71,6 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 @property (nonatomic, readonly, strong) NSURL *fileURL;
 // The file URL for the repository's .git directory.
 @property (nonatomic, readonly, strong) NSURL *gitDirectoryURL;
-@property (nonatomic, readonly, strong) GTIndex *index;
-@property (nonatomic, readonly, strong) GTObjectDatabase *objectDatabase;
-@property (nonatomic, readonly, strong) GTConfiguration *configuration;
 @property (nonatomic, readonly, getter=isBare) BOOL bare; // Is this a 'bare' repository?  i.e. created with git clone --bare
 @property (nonatomic, readonly, getter=isEmpty) BOOL empty; // Is this repository empty? Will only be YES for a freshly `git init`'d repo.
 @property (nonatomic, readonly, getter=isHeadDetached) BOOL headDetached; // Is HEAD detached? i.e., not pointing to any permanent ref.
@@ -88,10 +85,9 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 // repository - The repository to wrap. The receiver will take over memory
 //              management of this object, so it must not be freed elsewhere
 //              after this method is invoked. This must not be nil.
-// error      - The error if one occurred.
 //
-// Returns an initialized GTRepository, or nil if an error occurs.
-- (id)initWithGitRepository:(git_repository *)repository error:(NSError **)error;
+// Returns an initialized GTRepository.
+- (id)initWithGitRepository:(git_repository *)repository;
 
 // Clone a repository
 //
@@ -230,5 +226,26 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 //
 // Returns the merge base, or nil if none is found or an error occurred.
 - (GTCommit *)mergeBaseBetweenFirstOID:(GTOID *)firstOID secondOID:(GTOID *)secondOID error:(NSError **)error;
+
+// The object database backing the repository.
+//
+// error - The error if one occurred.
+//
+// Returns the object database, or nil if an error occurred.
+- (GTObjectDatabase *)objectDatabaseWithError:(NSError **)error;
+
+// The configuration for the repository.
+//
+// error - The error if one occurred.
+//
+// Returns the configuration, or nil if an error occurred.
+- (GTConfiguration *)configurationWithError:(NSError **)error;
+
+// The index for the repository.
+//
+// error - The error if one occurred.
+//
+// Returns the index, or nil if an error occurred.
+- (GTIndex *)indexWithError:(NSError **)error;
 
 @end

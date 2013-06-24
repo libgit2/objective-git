@@ -104,34 +104,13 @@ typedef struct {
 	return [[self alloc] initWithURL:localFileURL error:error];
 }
 
-- (id)initWithGitRepository:(git_repository *)repository error:(NSError **)error {
+- (id)initWithGitRepository:(git_repository *)repository {
 	NSParameterAssert(repository != nil);
 
 	self = [super init];
 	if (self == nil) return nil;
 	
 	_git_repository = repository;
-
-	_objectDatabase = [[GTObjectDatabase alloc] initWithRepository:self error:error];
-	if (_objectDatabase == nil) return nil;
-
-	git_config *config = NULL;
-	int gitError = git_repository_config(&config, self.git_repository);
-	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Faied to get config for repository."];
-		return nil;
-	}
-
-	_configuration = [[GTConfiguration alloc] initWithGitConfig:config repository:self];
-
-	git_index *index = NULL;
-	gitError = git_repository_index(&index, self.git_repository);
-	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to get index for repository."];
-		return NO;
-	}
-
-	_index = [[GTIndex alloc] initWithGitIndex:index];
 
 	return self;
 }
@@ -149,7 +128,7 @@ typedef struct {
 		return nil;
 	}
 
-	return [self initWithGitRepository:r error:error];
+	return [self initWithGitRepository:r];
 }
 
 static void checkoutProgressCallback(const char *path, size_t completedSteps, size_t totalSteps, void *payload) {
@@ -194,7 +173,7 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 		return nil;
 	}
 
-	return [[self alloc] initWithGitRepository:repository error:error];
+	return [[self alloc] initWithGitRepository:repository];
 }
 
 
@@ -528,6 +507,32 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 	return (id)[self lookupObjectByOid:&mergeBase objectType:GTObjectTypeCommit error:error];
 }
 
+- (GTObjectDatabase *)objectDatabaseWithError:(NSError **)error {
+	return [[GTObjectDatabase alloc] initWithRepository:self error:error];
+}
+
+- (GTConfiguration *)configurationWithError:(NSError **)error {
+	git_config *config = NULL;
+	int gitError = git_repository_config(&config, self.git_repository);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Faied to get config for repository."];
+		return nil;
+	}
+
+	return [[GTConfiguration alloc] initWithGitConfig:config repository:self];
+}
+
+- (GTIndex *)indexWithError:(NSError **)error {
+	git_index *index = NULL;
+	int gitError = git_repository_index(&index, self.git_repository);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to get index for repository."];
+		return NO;
+	}
+
+	return [[GTIndex alloc] initWithGitIndex:index repository:self];
+}
+
 #pragma mark Submodules
 
 static int submoduleEnumerationCallback(git_submodule *git_submodule, const char *name, void *payload) {
@@ -576,12 +581,13 @@ static int submoduleEnumerationCallback(git_submodule *git_submodule, const char
 #pragma mark User
 
 - (GTSignature *)userSignatureForNow {
-	NSString *name = [self.configuration stringForKey:@"user.name"];
+	GTConfiguration *configuration = [self configurationWithError:NULL];
+	NSString *name = [configuration stringForKey:@"user.name"];
 	if (name == nil) {
 		name = NSFullUserName() ?: NSUserName() ?: @"Nobody";
 	}
 
-	NSString *email = [self.configuration stringForKey:@"user.email"];
+	NSString *email = [configuration stringForKey:@"user.email"];
 	if (email == nil) {
 		NSString *username = NSUserName() ?: @"nobody";
 		NSString *domain = NSProcessInfo.processInfo.hostName ?: @"nowhere.local";

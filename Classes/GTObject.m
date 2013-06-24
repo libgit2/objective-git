@@ -110,7 +110,10 @@
 }
 
 - (GTOdbObject *)odbObjectWithError:(NSError **)error {
-    return [self.repository.objectDatabase objectWithOid:git_object_id(self.git_object) error:error];
+	GTObjectDatabase *database = [self.repository objectDatabaseWithError:error];
+	if (database == nil) return nil;
+
+	return [database objectWithOid:git_object_id(self.git_object) error:error];
 }
 
 @end

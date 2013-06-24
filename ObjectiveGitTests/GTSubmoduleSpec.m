@@ -155,7 +155,7 @@ describe(@"dirty, checked out submodule", ^{
 	});
 
 	it(@"should synchronize the remote URL", ^{
-		GTConfiguration *config = repo.configuration;
+		GTConfiguration *config = [repo configurationWithError:NULL];
 		expect(config).notTo.beNil();
 
 		NSString *configKey = @"submodule.Test_App2.url";

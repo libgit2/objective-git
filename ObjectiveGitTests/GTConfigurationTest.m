@@ -22,7 +22,7 @@
 }
 
 - (void)testCanSetUserName {
-	GTConfiguration *configuration = repo.configuration;
+	GTConfiguration *configuration = [repo configurationWithError:NULL];
 	STAssertNotNil(configuration, @"Couldn't get the configuration");
 
 	static NSString * const setUserName = @"josh@github.com";
@@ -32,7 +32,7 @@
 }
 
 - (void)testCanDeleteUserName {
-	GTConfiguration *configuration = repo.configuration;
+	GTConfiguration *configuration = [repo configurationWithError:NULL];
 	STAssertNotNil(configuration, @"Couldn't get the configuration");
 	
 	NSError *error = nil;

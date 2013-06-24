@@ -83,16 +83,18 @@
 - (void)testCanTellIfAnObjectExists {
 	
 	NSError *error = nil;
-	STAssertTrue([repo.objectDatabase containsObjectWithSha:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error], nil);
-	STAssertTrue([repo.objectDatabase containsObjectWithSha:@"1385f264afb75a56a5bec74243be9b367ba4ca08" error:&error], nil);
-	STAssertFalse([repo.objectDatabase containsObjectWithSha:@"ce08fe4884650f067bd5703b6a59a8b3b3c99a09" error:&error], nil);
-	STAssertFalse([repo.objectDatabase containsObjectWithSha:@"8496071c1c46c854b31185ea97743be6a8774479" error:&error], nil);
+	GTObjectDatabase *database = [repo objectDatabaseWithError:NULL];
+	STAssertTrue([database containsObjectWithSha:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error], nil);
+	STAssertTrue([database containsObjectWithSha:@"1385f264afb75a56a5bec74243be9b367ba4ca08" error:&error], nil);
+	STAssertFalse([database containsObjectWithSha:@"ce08fe4884650f067bd5703b6a59a8b3b3c99a09" error:&error], nil);
+	STAssertFalse([database containsObjectWithSha:@"8496071c1c46c854b31185ea97743be6a8774479" error:&error], nil);
 }
 
 - (void)testCanReadObjectFromDb {
 	
 	NSError *error = nil;
-	GTOdbObject *rawObj = [repo.objectDatabase objectWithSha:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error];
+	GTObjectDatabase *database = [repo objectDatabaseWithError:NULL];
+	GTOdbObject *rawObj = [database objectWithSha:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error];
 	
 	STAssertNil(error, [error localizedDescription]);
 	STAssertNotNil(rawObj, nil);
@@ -106,7 +108,8 @@
 - (void)testReadingFailsOnUnknownObjects {
 	
 	NSError *error = nil;
-	GTOdbObject *rawObj = [repo.objectDatabase objectWithSha:@"a496071c1b46c854b31185ea97743be6a8774471" error:&error];
+	GTObjectDatabase *database = [repo objectDatabaseWithError:NULL];
+	GTOdbObject *rawObj = [database objectWithSha:@"a496071c1b46c854b31185ea97743be6a8774471" error:&error];
 	
 	STAssertNil(rawObj, nil);
 	STAssertNotNil(error, nil);
@@ -123,12 +126,13 @@
 - (void)testCanWriteToDb {
 	
 	NSError *error = nil;
-	NSString *sha = [repo.objectDatabase shaByInsertingString:testContent objectType:testContentType error:&error];
+	GTObjectDatabase *database = [repo objectDatabaseWithError:NULL];
+	NSString *sha = [database shaByInsertingString:testContent objectType:testContentType error:&error];
 	
 	STAssertNil(error, [error localizedDescription]);
 	STAssertNotNil(sha, nil);
 	STAssertEqualObjects(sha, @"76b1b55ab653581d6f2c7230d34098e837197674", nil);
-	STAssertTrue([repo.objectDatabase containsObjectWithSha:sha error:&error], nil);
+	STAssertTrue([database containsObjectWithSha:sha error:&error], nil);
 	
 	rm_loose(self.class, sha);
 }
