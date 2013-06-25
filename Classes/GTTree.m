@@ -73,7 +73,7 @@
 		return nil;
 	}
 
-	return [[GTIndex alloc] initWithGitIndex:index];
+	return [[GTIndex alloc] initWithGitIndex:index repository:self.repository];
 }
 
 @end

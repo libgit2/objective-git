@@ -34,11 +34,6 @@
 #import "GTRepository.h"
 #import "NSString+Git.h"
 
-@interface GTTag ()
-@property (nonatomic, strong) GTSignature *tagger;
-@end
-
-
 @implementation GTTag
 
 - (NSString *)description {
@@ -47,8 +42,6 @@
 
 
 #pragma mark API
-
-@synthesize tagger;
 
 + (GTTag *)tagInRepository:(GTRepository *)theRepo name:(NSString *)tagName target:(GTObject *)theTarget tagger:(GTSignature *)theTagger message:(NSString *)theMessage error:(NSError **)error {
 	NSString *sha = [GTTag shaByCreatingTagInRepository:theRepo name:tagName target:theTarget tagger:theTagger message:theMessage error:error];
@@ -88,10 +81,7 @@
 }
 
 - (GTSignature *)tagger {
-	if(tagger == nil) {
-		tagger = [[GTSignature alloc] initWithGitSignature:git_tag_tagger(self.git_tag)];
-	}
-	return tagger;
+	return [[GTSignature alloc] initWithGitSignature:git_tag_tagger(self.git_tag)];
 }
 
 - (git_tag *)git_tag {

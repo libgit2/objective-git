@@ -31,7 +31,6 @@
 #import "NSError+Git.h"
 #import "NSString+Git.h"
 
-
 @implementation GTIndexEntry
 
 #pragma mark NSObject

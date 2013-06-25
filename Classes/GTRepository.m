@@ -57,13 +57,6 @@ typedef struct {
 	__unsafe_unretained GTRepositorySubmoduleEnumerationBlock block;
 } GTRepositorySubmoduleEnumerationInfo;
 
-@interface GTRepository ()
-@property (nonatomic, assign) git_repository *git_repository;
-@property (nonatomic, strong) GTIndex *index;
-@property (nonatomic, strong) GTObjectDatabase *objectDatabase;
-@property (nonatomic, strong) GTConfiguration *configuration;
-@end
-
 @implementation GTRepository
 
 - (NSString *)description {
@@ -71,14 +64,10 @@ typedef struct {
 }
 
 - (BOOL)isEqual:(GTRepository *)comparisonRepository {
-	return ([self.fileURL isEqual:comparisonRepository.fileURL]);
+	return [self.fileURL isEqual:comparisonRepository.fileURL];
 }
 
 - (void)dealloc {
-	if (_configuration != nil) {
-		self.configuration.repository = nil;
-	}
-
 	if (self.git_repository != NULL) git_repository_free(self.git_repository);
 }
 
@@ -116,10 +105,13 @@ typedef struct {
 }
 
 - (id)initWithGitRepository:(git_repository *)repository {
+	NSParameterAssert(repository != nil);
+
 	self = [super init];
 	if (self == nil) return nil;
 	
-	self.git_repository = repository;
+	_git_repository = repository;
+
 	return self;
 }
 
@@ -129,20 +121,14 @@ typedef struct {
 		return nil;
 	}
 
-	self = [super init];
-	if (self == nil) return nil;
-
 	git_repository *r;
 	int gitError = git_repository_open(&r, localFileURL.path.UTF8String);
-
 	if (gitError < GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to open repository."];
 		return nil;
 	}
 
-	self.git_repository = r;
-
-	return self;
+	return [self initWithGitRepository:r];
 }
 
 static void checkoutProgressCallback(const char *path, size_t completedSteps, size_t totalSteps, void *payload) {
@@ -302,18 +288,6 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 	return clean;
 }
 
-- (BOOL)setupIndexWithError:(NSError **)error {
-	git_index *i;
-	int gitError = git_repository_index(&i, self.git_repository);
-	if (gitError < GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to get index for repository."];
-		return NO;
-	} else {
-		self.index = [[GTIndex alloc] initWithGitIndex:i];
-		return YES;
-	}
-}
-
 - (GTReference *)headReferenceWithError:(NSError **)error {
 	GTReference *headSymRef = [GTReference referenceByLookingUpReferencedNamed:@"HEAD" inRepository:self error:error];
 	if (headSymRef == nil) return nil;
@@ -387,8 +361,8 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 
 - (GTBranch *)createBranchNamed:(NSString *)name fromReference:(GTReference *)ref error:(NSError **)error {
 	// make sure the ref is up to date before we branch off it, otherwise we could branch off an older sha
-	BOOL success = [ref reloadWithError:error];
-	if (!success) return nil;
+	ref = [ref reloadedReferenceWithError:error];
+	if (ref == nil) return nil;
 
 	GTReference *newRef = [GTReference referenceByCreatingReferenceNamed:[NSString stringWithFormat:@"%@%@", [GTBranch localNamePrefix], name] fromReferenceTarget:ref.target inRepository:self error:error];
 	if (newRef == nil) return nil;
@@ -450,46 +424,12 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 	return [NSURL fileURLWithPath:@(path) isDirectory:YES];
 }
 
-- (GTObjectDatabase *)objectDatabase {
-	if (_objectDatabase == nil) {
-		self.objectDatabase = [GTObjectDatabase objectDatabaseWithRepository:self];
-	}
-
-	return _objectDatabase;
-}
-
 - (BOOL)isBare {
 	return self.git_repository && git_repository_is_bare(self.git_repository);
 }
 
 - (BOOL)isHeadDetached {
 	return (BOOL) git_repository_head_detached(self.git_repository);
-}
-
-- (GTConfiguration *)configuration {
-	if (_configuration == nil) {
-		git_config *config = NULL;
-		int error = git_repository_config(&config, self.git_repository);
-		if (error < GIT_OK) {
-			return nil;
-		}
-
-		self.configuration = [[GTConfiguration alloc] initWithGitConfig:config repository:self];
-	}
-
-	return _configuration;
-}
-
-- (GTIndex *)index {
-	if (_index == nil) {
-		NSError *error = nil;
-		BOOL success = [self setupIndexWithError:&error];
-		if(!success) {
-			GTLog(@"Error setting up index: %@", error);
-		}
-	}
-
-	return _index;
 }
 
 - (BOOL)resetToCommit:(GTCommit *)commit withResetType:(GTRepositoryResetType)resetType error:(NSError **)error {
@@ -567,6 +507,32 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 	return (id)[self lookupObjectByOid:&mergeBase objectType:GTObjectTypeCommit error:error];
 }
 
+- (GTObjectDatabase *)objectDatabaseWithError:(NSError **)error {
+	return [[GTObjectDatabase alloc] initWithRepository:self error:error];
+}
+
+- (GTConfiguration *)configurationWithError:(NSError **)error {
+	git_config *config = NULL;
+	int gitError = git_repository_config(&config, self.git_repository);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Faied to get config for repository."];
+		return nil;
+	}
+
+	return [[GTConfiguration alloc] initWithGitConfig:config repository:self];
+}
+
+- (GTIndex *)indexWithError:(NSError **)error {
+	git_index *index = NULL;
+	int gitError = git_repository_index(&index, self.git_repository);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to get index for repository."];
+		return NO;
+	}
+
+	return [[GTIndex alloc] initWithGitIndex:index repository:self];
+}
+
 #pragma mark Submodules
 
 static int submoduleEnumerationCallback(git_submodule *git_submodule, const char *name, void *payload) {
@@ -615,12 +581,13 @@ static int submoduleEnumerationCallback(git_submodule *git_submodule, const char
 #pragma mark User
 
 - (GTSignature *)userSignatureForNow {
-	NSString *name = [self.configuration stringForKey:@"user.name"];
+	GTConfiguration *configuration = [self configurationWithError:NULL];
+	NSString *name = [configuration stringForKey:@"user.name"];
 	if (name == nil) {
 		name = NSFullUserName() ?: NSUserName() ?: @"Nobody";
 	}
 
-	NSString *email = [self.configuration stringForKey:@"user.email"];
+	NSString *email = [configuration stringForKey:@"user.email"];
 	if (email == nil) {
 		NSString *username = NSUserName() ?: @"nobody";
 		NSString *domain = NSProcessInfo.processInfo.hostName ?: @"nowhere.local";
