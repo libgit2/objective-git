@@ -70,15 +70,10 @@
 	NSParameterAssert(branchName != nil);
 	NSParameterAssert(repo != nil);
 
-	self = [super init];
-	if (self == nil) return nil;
+	GTReference *ref = [GTReference referenceByLookingUpReferencedNamed:branchName inRepository:repo error:error];
+	if (ref == nil) return nil;
 
-	_repository = repo;
-
-	_reference = [GTReference referenceByLookingUpReferencedNamed:branchName inRepository:repo error:error];
-	if (_reference == nil) return nil;
-
-	return self;
+	return [self initWithReference:ref repository:repo];
 }
 
 - (id)initWithReference:(GTReference *)ref repository:(GTRepository *)repo {
