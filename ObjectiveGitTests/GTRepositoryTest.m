@@ -80,61 +80,11 @@
 	NSLog(@"error = %@", [error localizedDescription]);
 }
 
-- (void)testCanTellIfAnObjectExists {
-	
-	NSError *error = nil;
-	GTObjectDatabase *database = [repo objectDatabaseWithError:NULL];
-	STAssertTrue([database containsObjectWithSha:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error], nil);
-	STAssertTrue([database containsObjectWithSha:@"1385f264afb75a56a5bec74243be9b367ba4ca08" error:&error], nil);
-	STAssertFalse([database containsObjectWithSha:@"ce08fe4884650f067bd5703b6a59a8b3b3c99a09" error:&error], nil);
-	STAssertFalse([database containsObjectWithSha:@"8496071c1c46c854b31185ea97743be6a8774479" error:&error], nil);
-}
-
-- (void)testCanReadObjectFromDb {
-	
-	NSError *error = nil;
-	GTObjectDatabase *database = [repo objectDatabaseWithError:NULL];
-	GTOdbObject *rawObj = [database objectWithSha:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error];
-	
-	STAssertNil(error, [error localizedDescription]);
-	STAssertNotNil(rawObj, nil);
-	
-	NSString *string = [[NSString alloc] initWithData:[rawObj data] encoding:NSUTF8StringEncoding];
-	STAssertEqualObjects(@"tree 181037049a54a1eb5fab404658a3a250b44335d7", [string substringToIndex:45], nil);
-	STAssertEquals((int)[rawObj.data length], 172, nil);
-	STAssertEquals(rawObj.type, GTObjectTypeCommit, nil);
-}
-
-- (void)testReadingFailsOnUnknownObjects {
-	
-	NSError *error = nil;
-	GTObjectDatabase *database = [repo objectDatabaseWithError:NULL];
-	GTOdbObject *rawObj = [database objectWithSha:@"a496071c1b46c854b31185ea97743be6a8774471" error:&error];
-	
-	STAssertNil(rawObj, nil);
-	STAssertNotNil(error, nil);
-	NSLog(@"error = %@", [error localizedDescription]);
-}
-
 - (void)testCanHashData {
 	
 	NSError *error = nil;
 	NSString *sha = [GTRepository hash:testContent objectType:testContentType error:&error];
 	STAssertEqualObjects(sha, @"76b1b55ab653581d6f2c7230d34098e837197674", nil);
-}
-
-- (void)testCanWriteToDb {
-	
-	NSError *error = nil;
-	GTObjectDatabase *database = [repo objectDatabaseWithError:NULL];
-	NSString *sha = [database shaByInsertingString:testContent objectType:testContentType error:&error];
-	
-	STAssertNil(error, [error localizedDescription]);
-	STAssertNotNil(sha, nil);
-	STAssertEqualObjects(sha, @"76b1b55ab653581d6f2c7230d34098e837197674", nil);
-	STAssertTrue([database containsObjectWithSha:sha error:&error], nil);
-	
-	rm_loose(self.class, sha);
 }
 
 - (void)testLookupHead {
