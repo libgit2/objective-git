@@ -28,11 +28,17 @@
 
 @interface GTObjectDatabase : NSObject
 
-@property (nonatomic, assign) git_odb *git_odb;
-@property (nonatomic, readonly, weak) GTRepository *repository;
+@property (nonatomic, readonly, assign) git_odb *git_odb;
+@property (nonatomic, readonly, strong) GTRepository *repository;
 
-+ (id)objectDatabaseWithRepository:(GTRepository *)repository;
-- (id)initWithRepository:(GTRepository *)repository;
+// Initializes the object database with the given repository.
+//
+// repo  - The repository from which the object database should be created.
+//         Cannot be nil.
+// error - The error if one occurred.
+//
+// Returns the initialized object.
+- (id)initWithRepository:(GTRepository *)repo error:(NSError **)error;
 
 - (GTOdbObject *)objectWithOid:(const git_oid *)oid error:(NSError **)error;
 - (GTOdbObject *)objectWithSha:(NSString *)sha error:(NSError **)error;

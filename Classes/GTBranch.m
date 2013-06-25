@@ -30,12 +30,6 @@
 #import "GTCommit.h"
 #import "NSError+Git.h"
 
-
-@interface GTBranch ()
-@property (nonatomic, strong) GTReference *reference;
-@property (nonatomic, strong) GTRepository *repository;
-@end
-
 @implementation GTBranch
 
 - (NSString *)description {
@@ -56,9 +50,6 @@
 
 #pragma mark API
 
-@synthesize reference;
-@synthesize repository;
-
 + (NSString *)localNamePrefix {
 	return @"refs/heads/";
 }
@@ -76,22 +67,25 @@
 }
 
 - (id)initWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error {
-	if((self = [super init])) {
-		self.reference = [GTReference referenceByLookingUpReferencedNamed:branchName inRepository:repo error:error];
-		if(self.reference == nil) {
-            return nil;
-        }
-		
-		self.repository = repo;
-	}
-	return self;
+	NSParameterAssert(branchName != nil);
+	NSParameterAssert(repo != nil);
+
+	GTReference *ref = [GTReference referenceByLookingUpReferencedNamed:branchName inRepository:repo error:error];
+	if (ref == nil) return nil;
+
+	return [self initWithReference:ref repository:repo];
 }
 
 - (id)initWithReference:(GTReference *)ref repository:(GTRepository *)repo {
-	if((self = [super init])) {
-		self.reference = ref;
-		self.repository = repo;
-	}
+	NSParameterAssert(ref != nil);
+	NSParameterAssert(repo != nil);
+
+	self = [super init];
+	if (self == nil) return nil;
+
+	_repository = repo;
+	_reference = ref;
+
 	return self;
 }
 
@@ -100,8 +94,6 @@
 }
 
 - (NSString *)shortName {
-	if (![self.reference isValid]) return nil;
-
 	const char *name;
 	int gitError = git_branch_name(&name, self.reference.git_reference);
 	if (gitError != GIT_OK) return nil;
@@ -122,7 +114,7 @@
 }
 
 - (NSString *)remoteName {
-	if (self.branchType == GTBranchTypeLocal || ![self.reference isValid]) return nil;
+	if (self.branchType == GTBranchTypeLocal) return nil;
 
 	const char *name;
 	int gitError = git_branch_name(&name, self.reference.git_reference);
@@ -145,7 +137,7 @@
 }
 
 - (NSUInteger)numberOfCommitsWithError:(NSError **)error {
-	GTEnumerator *enumerator = [[GTEnumerator alloc] initWithRepository:repository error:error];
+	GTEnumerator *enumerator = [[GTEnumerator alloc] initWithRepository:self.repository error:error];
 	if (enumerator == nil) return NSNotFound;
 
 	if (![enumerator pushSHA:self.sha error:error]) return NSNotFound;
@@ -181,19 +173,12 @@
 }
 
 - (BOOL)deleteWithError:(NSError **)error {
-	if (!self.reference.valid) {
-		if (error != NULL) *error = GTReference.invalidReferenceError;
-		return NO;
-	}
-
 	int gitError = git_branch_delete(self.reference.git_reference);
-	if(gitError != GIT_OK) {
+	if (gitError != GIT_OK) {
 		if(error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to delete branch."];
 		return NO;
 	}
-	
-	self.reference = nil;
-	
+
 	return YES;
 }
 
@@ -201,12 +186,6 @@
 	if (self.branchType == GTBranchTypeRemote) {
 		if (success != NULL) *success = YES;
 		return self;
-	}
-
-	if (!self.reference.valid) {
-		if (success != NULL) *success = NO;
-		if (error != NULL) *error = GTReference.invalidReferenceError;
-		return NO;
 	}
 
 	git_reference *trackingRef = NULL;
