@@ -60,6 +60,10 @@
 
 #pragma mark NSObject
 
+- (NSString *)description {
+	return [NSString stringWithFormat:@"<%@: %p>{ SHA: %@ }", self.class, self, self.SHA];
+}
+
 - (NSUInteger)hash {
 	// Hash the raw OID.
 	NSData *data = [[NSData alloc] initWithBytesNoCopy:_git_oid.id length:GIT_OID_RAWSZ freeWhenDone:NO];
