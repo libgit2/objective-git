@@ -551,6 +551,16 @@ static int submoduleEnumerationCallback(git_submodule *git_submodule, const char
 	return 0;
 }
 
+- (BOOL)reloadSubmodules:(NSError **)error {
+	int gitError = git_submodule_reload_all(self.git_repository);
+	if (gitError == GIT_OK) {
+		return YES;
+	} else {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to reload submodules."];
+		return NO;
+	}
+}
+
 - (void)enumerateSubmodulesRecursively:(BOOL)recursive usingBlock:(void (^)(GTSubmodule *submodule, BOOL *stop))block {
 	NSParameterAssert(block != nil);
 

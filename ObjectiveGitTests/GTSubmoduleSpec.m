@@ -76,6 +76,28 @@ it(@"should write to the parent .git/config", ^{
 	expect(@(git_submodule_url(submodule.git_submodule))).to.equal(testURLString);
 });
 
+it(@"should reload all submodules", ^{
+	GTSubmodule *submodule = [repo submoduleWithName:@"new_submodule" error:NULL];
+	expect(submodule).to.beNil();
+
+	NSURL *gitmodulesURL = [repo.fileURL URLByAppendingPathComponent:@".gitmodules"];
+	NSMutableString *gitmodules = [NSMutableString stringWithContentsOfURL:gitmodulesURL usedEncoding:NULL error:NULL];
+	expect(gitmodules).notTo.beNil();
+
+	[gitmodules appendString:@"[submodule \"new_submodule\"]\n\turl = some_url"];
+	expect([gitmodules writeToURL:gitmodulesURL atomically:YES encoding:NSUTF8StringEncoding error:NULL]).to.beTruthy();
+
+	submodule = [repo submoduleWithName:@"new_submodule" error:NULL];
+	expect(submodule).to.beNil();
+
+	__block NSError *error = nil;
+	expect([repo reloadSubmodules:&error]).to.beTruthy();
+	expect(error).to.beNil();
+
+	submodule = [repo submoduleWithName:@"new_submodule" error:NULL];
+	expect(submodule).notTo.beNil();
+});
+
 describe(@"clean, checked out submodule", ^{
 	__block GTSubmodule *submodule;
 
