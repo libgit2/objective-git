@@ -15,6 +15,8 @@
 
 @property (nonatomic, readonly, assign) const git_reflog_entry *git_reflog_entry;
 
+// The reflog isn't actually used for anything directly, but we want to keep it
+// alive as long as the entry is alive.
 @property (nonatomic, readonly, strong) GTReflog *reflog;
 
 @end
