@@ -15,19 +15,23 @@
 
 @property (nonatomic, readonly, assign) const git_reflog_entry *git_reflog_entry;
 
+@property (nonatomic, readonly, strong) GTReflog *reflog;
+
 @end
 
 @implementation GTReflogEntry
 
 #pragma mark Lifecycle
 
-- (id)initWithGitReflogEntry:(const git_reflog_entry *)entry {
+- (id)initWithGitReflogEntry:(const git_reflog_entry *)entry reflog:(GTReflog *)reflog {
 	NSParameterAssert(entry != NULL);
+	NSParameterAssert(reflog != nil);
 
 	self = [super init];
 	if (self == nil) return nil;
 
 	_git_reflog_entry = entry;
+	_reflog = reflog;
 
 	return self;
 }

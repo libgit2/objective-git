@@ -73,7 +73,7 @@
 	const git_reflog_entry *entry = git_reflog_entry_byindex(self.git_reflog, index);
 	if (entry == NULL) return nil;
 
-	return [[GTReflogEntry alloc] initWithGitReflogEntry:entry];
+	return [[GTReflogEntry alloc] initWithGitReflogEntry:entry reflog:self];
 }
 
 - (NSUInteger)entryCount {
