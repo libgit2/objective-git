@@ -138,6 +138,23 @@ describe(@"clean, checked out submodule", ^{
 		expect(submoduleRepo.headDetached).to.beTruthy();
 		expect([submoduleRepo isWorkingDirectoryClean]).to.beTruthy();
 	});
+
+	it(@"should reload", ^{
+		GTRepository *submoduleRepo = [submodule submoduleRepository:NULL];
+		expect(submoduleRepo).notTo.beNil();
+
+		GTCommit *newHEAD = (id)[submoduleRepo lookupObjectBySha:@"82dc47f6ba3beecab33080a1136d8913098e1801" objectType:GTObjectTypeCommit error:NULL];
+		expect(newHEAD).notTo.beNil();
+		expect([submoduleRepo resetToCommit:newHEAD withResetType:GTRepositoryResetTypeHard error:NULL]).to.beTruthy();
+
+		expect(submodule.workingDirectoryOID.SHA).notTo.equal(newHEAD.sha);
+
+		__block NSError *error = nil;
+		expect([submodule reload:&error]).to.beTruthy();
+		expect(error).to.beNil();
+
+		expect(submodule.workingDirectoryOID.SHA).to.equal(newHEAD.sha);
+	});
 });
 
 describe(@"dirty, checked out submodule", ^{

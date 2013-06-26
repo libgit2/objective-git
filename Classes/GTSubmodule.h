@@ -92,6 +92,13 @@ typedef enum {
 // Returns an initialized GTSubmodule, or nil if an error occurs.
 - (id)initWithGitSubmodule:(git_submodule *)submodule parentRepository:(GTRepository *)repository;
 
+// Reloads the receiver's configuration from the parent repository.
+//
+// This will mutate properties on the receiver.
+//
+// Returns whether reloading succeeded.
+- (BOOL)reload:(NSError **)error;
+
 // Synchronizes the submodule repository's configuration files with the settings
 // from the parent repository.
 //
