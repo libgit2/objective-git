@@ -11,9 +11,6 @@
 // Represents an object ID.
 @interface GTOID : NSObject
 
-// The underlying git_oid struct.
-@property (nonatomic, readonly, assign) git_oid *git_oid;
-
 // The SHA pointed to by the OID.
 @property (nonatomic, readonly, copy) NSString *SHA;
 
@@ -30,5 +27,8 @@
 //
 // Returns the initialized receiver.
 - (id)initWithSHA:(NSString *)SHA;
+
+// Returns the underlying git_oid struct.
+- (const git_oid *)git_oid __attribute__((objc_returns_inner_pointer));
 
 @end
