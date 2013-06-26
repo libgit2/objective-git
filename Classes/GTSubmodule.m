@@ -129,4 +129,21 @@
 	return YES;
 }
 
+#pragma mark NSObject
+
+- (NSString *)description {
+	return [NSString stringWithFormat:@"<%@: %p>{ name: %@, indexOID: %@, HEADOID: %@, workingDirectoryOID: %@ }", self.class, self, self.name, self.indexOID, self.HEADOID, self.workingDirectoryOID];
+}
+
+- (NSUInteger)hash {
+	return self.name.hash;
+}
+
+- (BOOL)isEqual:(GTSubmodule *)submodule {
+	if (self == submodule) return YES;
+	if (![submodule isKindOfClass:GTSubmodule.class]) return NO;
+
+	return [self.parentRepository isEqual:submodule.parentRepository] && [self.name isEqual:submodule.name];
+}
+
 @end
