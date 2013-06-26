@@ -63,8 +63,9 @@ typedef struct {
 	return [NSString stringWithFormat:@"<%@: %p> fileURL: %@", self.class, self, self.fileURL];
 }
 
-- (BOOL)isEqual:(GTRepository *)comparisonRepository {
-	return [self.fileURL isEqual:comparisonRepository.fileURL];
+- (BOOL)isEqual:(GTRepository *)repo {
+	if (![repo isKindOfClass:GTRepository.class]) return NO;
+	return [self.fileURL isEqual:repo.fileURL];
 }
 
 - (void)dealloc {
