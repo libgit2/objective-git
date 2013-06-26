@@ -78,6 +78,16 @@ typedef enum {
 // found, returns nil and sets `success` to YES.
 - (GTBranch *)trackingBranchWithError:(NSError **)error success:(BOOL *)success;
 
+// Reloads the branch's reference and creates a new branch based off that newly
+// loaded reference.
+//
+// This does *not* change the receiver.
+//
+// error - The error if one occurred.
+//
+// Returns the reloaded branch, or nil if an error occurred.
+- (GTBranch *)reloadedBranchWithError:(NSError **)error;
+
 // Calculate the ahead/behind count from this branch to the given branch.
 //
 // ahead  - The number of commits which are unique to the receiver. Cannot be

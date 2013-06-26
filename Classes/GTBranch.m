@@ -214,6 +214,13 @@
 	return [[self class] branchWithReference:[[GTReference alloc] initWithGitReference:trackingRef repository:self.repository] repository:self.repository];
 }
 
+- (GTBranch *)reloadedBranchWithError:(NSError **)error {
+	GTReference *reloadedRef = [self.reference reloadedReferenceWithError:error];
+	if (reloadedRef == nil) return nil;
+
+	return [[self.class alloc] initWithReference:reloadedRef repository:self.repository];
+}
+
 - (BOOL)calculateAhead:(size_t *)ahead behind:(size_t *)behind relativeTo:(GTBranch *)branch error:(NSError **)error {
 	if (branch == nil) {
 		*ahead = 0;
