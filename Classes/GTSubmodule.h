@@ -81,6 +81,9 @@ typedef enum {
 // The name of this submodule.
 @property (nonatomic, copy, readonly) NSString *name;
 
+// The path to this submodule, relative to its parent repository's root.
+@property (nonatomic, copy, readonly) NSString *path;
+
 // Initializes the receiver to wrap the given submodule object.
 //
 // submodule  - The submodule to wrap. The receiver will not own this object, so
@@ -92,22 +95,40 @@ typedef enum {
 // Returns an initialized GTSubmodule, or nil if an error occurs.
 - (id)initWithGitSubmodule:(git_submodule *)submodule parentRepository:(GTRepository *)repository;
 
+// Reloads the receiver's configuration from the parent repository.
+//
+// This will mutate properties on the receiver.
+//
+// Returns whether reloading succeeded.
+- (BOOL)reload:(NSError **)error;
+
 // Synchronizes the submodule repository's configuration files with the settings
 // from the parent repository.
 //
 // Returns whether the synchronization succeeded.
-- (BOOL)syncWithError:(NSError **)error;
+- (BOOL)sync:(NSError **)error;
 
 // Opens the submodule repository.
 //
 // If the submodule is not currently checked out, this will fail.
 //
 // Returns the opened repository, or nil if an error occurs.
-- (GTRepository *)submoduleRepositoryWithError:(NSError **)error;
+- (GTRepository *)submoduleRepository:(NSError **)error;
 
 // Determines the status for the submodule.
 //
 // Returns the status, or `GTSubmoduleStatusUnknown` if an error occurs.
-- (GTSubmoduleStatus)statusWithError:(NSError **)error;
+- (GTSubmoduleStatus)status:(NSError **)error;
+
+// Initializes the submodule by copying its information into the parent
+// repository's `.git/config` file. This is equivalent to `git submodule init`
+// on the command line.
+//
+// overwrite - Whether to force an update to the `.git/config` file. If NO,
+//             existing entries will not be overwritten.
+// error     - If not NULL, set to any error that occurs.
+//
+// Returns whether the initialization succeeded.
+- (BOOL)writeToParentConfigurationDestructively:(BOOL)overwrite error:(NSError **)error;
 
 @end

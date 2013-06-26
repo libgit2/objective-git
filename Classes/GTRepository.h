@@ -200,6 +200,16 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 // Returns the signature.
 - (GTSignature *)userSignatureForNow;
 
+// Reloads all cached information about the receiver's submodules.
+//
+// Existing GTSubmodule objects from this repository will be mutated as part of
+// this operation.
+//
+// error - If not NULL, set to any errors that occur.
+//
+// Returns whether the reload succeeded.
+- (BOOL)reloadSubmodules:(NSError **)error;
+
 // Enumerates over all the tracked submodules in the repository.
 //
 // recursive - Whether to recurse into nested submodules, depth-first.

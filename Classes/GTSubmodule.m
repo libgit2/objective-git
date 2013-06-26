@@ -51,6 +51,13 @@
 	return @(cName);
 }
 
+- (NSString *)path {
+	const char *cPath = git_submodule_path(self.git_submodule);
+	if (cPath == NULL) return nil;
+
+	return @(cPath);
+}
+
 #pragma mark Lifecycle
 
 - (id)initWithGitSubmodule:(git_submodule *)submodule parentRepository:(GTRepository *)repository {
@@ -68,7 +75,7 @@
 
 #pragma mark Inspection
 
-- (GTSubmoduleStatus)statusWithError:(NSError **)error {
+- (GTSubmoduleStatus)status:(NSError **)error {
 	unsigned status;
 	int gitError = git_submodule_status(&status, self.git_submodule);
 	if (gitError != GIT_OK) {
@@ -81,7 +88,17 @@
 
 #pragma mark Manipulation
 
-- (BOOL)syncWithError:(NSError **)error {
+- (BOOL)reload:(NSError **)error {
+	int gitError = git_submodule_reload(self.git_submodule);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to reload submodule."];
+		return NO;
+	}
+
+	return YES;
+}
+
+- (BOOL)sync:(NSError **)error {
 	int gitError = git_submodule_sync(self.git_submodule);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to synchronize submodule."];
@@ -91,7 +108,7 @@
 	return YES;
 }
 
-- (GTRepository *)submoduleRepositoryWithError:(NSError **)error {
+- (GTRepository *)submoduleRepository:(NSError **)error {
 	git_repository *repo;
 	int gitError = git_submodule_open(&repo, self.git_submodule);
 	if (gitError != GIT_OK) {
@@ -100,6 +117,16 @@
 	}
 
 	return [[GTRepository alloc] initWithGitRepository:repo];
+}
+
+- (BOOL)writeToParentConfigurationDestructively:(BOOL)overwrite error:(NSError **)error {
+	int gitError = git_submodule_init(self.git_submodule, (overwrite ? 1 : 0));
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to initialize submodule."];
+		return NO;
+	}
+
+	return YES;
 }
 
 @end
