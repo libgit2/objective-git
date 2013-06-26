@@ -104,12 +104,12 @@
 
 - (BOOL)writeToParentConfigurationDestructively:(BOOL)overwrite error:(NSError **)error {
 	int gitError = git_submodule_init(self.git_submodule, (overwrite ? 1 : 0));
-	if (gitError == GIT_OK) {
-		return YES;
-	} else {
+	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to initialize submodule."];
 		return NO;
 	}
+
+	return YES;
 }
 
 @end
