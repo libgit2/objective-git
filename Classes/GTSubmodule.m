@@ -68,7 +68,7 @@
 
 #pragma mark Inspection
 
-- (GTSubmoduleStatus)statusWithError:(NSError **)error {
+- (GTSubmoduleStatus)status:(NSError **)error {
 	unsigned status;
 	int gitError = git_submodule_status(&status, self.git_submodule);
 	if (gitError != GIT_OK) {
@@ -81,7 +81,7 @@
 
 #pragma mark Manipulation
 
-- (BOOL)syncWithError:(NSError **)error {
+- (BOOL)sync:(NSError **)error {
 	int gitError = git_submodule_sync(self.git_submodule);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to synchronize submodule."];
@@ -91,7 +91,7 @@
 	return YES;
 }
 
-- (GTRepository *)submoduleRepositoryWithError:(NSError **)error {
+- (GTRepository *)submoduleRepository:(NSError **)error {
 	git_repository *repo;
 	int gitError = git_submodule_open(&repo, self.git_submodule);
 	if (gitError != GIT_OK) {

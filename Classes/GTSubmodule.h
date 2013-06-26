@@ -96,19 +96,19 @@ typedef enum {
 // from the parent repository.
 //
 // Returns whether the synchronization succeeded.
-- (BOOL)syncWithError:(NSError **)error;
+- (BOOL)sync:(NSError **)error;
 
 // Opens the submodule repository.
 //
 // If the submodule is not currently checked out, this will fail.
 //
 // Returns the opened repository, or nil if an error occurs.
-- (GTRepository *)submoduleRepositoryWithError:(NSError **)error;
+- (GTRepository *)submoduleRepository:(NSError **)error;
 
 // Determines the status for the submodule.
 //
 // Returns the status, or `GTSubmoduleStatusUnknown` if an error occurs.
-- (GTSubmoduleStatus)statusWithError:(NSError **)error;
+- (GTSubmoduleStatus)status:(NSError **)error;
 
 // Initializes the submodule by copying its information into the parent
 // repository's `.git/config` file. This is equivalent to `git submodule init`

@@ -122,13 +122,13 @@ describe(@"clean, checked out submodule", ^{
 		GTSubmoduleStatus expectedStatus = GTSubmoduleStatusExistsInHEAD | GTSubmoduleStatusExistsInIndex | GTSubmoduleStatusExistsInConfig | GTSubmoduleStatusExistsInWorkingDirectory;
 
 		__block NSError *error = nil;
-		expect([submodule statusWithError:&error]).to.equal(expectedStatus);
+		expect([submodule status:&error]).to.equal(expectedStatus);
 		expect(error).to.beNil();
 	});
 
 	it(@"should open a repository" ,^{
 		NSError *error = nil;
-		GTRepository *submoduleRepo = [submodule submoduleRepositoryWithError:&error];
+		GTRepository *submoduleRepo = [submodule submoduleRepository:&error];
 		expect(submoduleRepo).notTo.beNil();
 		expect(error).to.beNil();
 
@@ -167,7 +167,7 @@ describe(@"dirty, checked out submodule", ^{
 			GTSubmoduleStatusDirtyIndex | GTSubmoduleStatusDirtyWorkingDirectory | GTSubmoduleStatusUntrackedFilesInWorkingDirectory;
 
 		__block NSError *error = nil;
-		expect([submodule statusWithError:&error]).to.equal(expectedStatus);
+		expect([submodule status:&error]).to.equal(expectedStatus);
 		expect(error).to.beNil();
 	});
 
@@ -178,12 +178,12 @@ describe(@"dirty, checked out submodule", ^{
 			GTSubmoduleStatusExistsInHEAD | GTSubmoduleStatusExistsInIndex | GTSubmoduleStatusExistsInConfig | GTSubmoduleStatusExistsInWorkingDirectory |
 			GTSubmoduleStatusModifiedInIndex | GTSubmoduleStatusModifiedInWorkingDirectory;
 
-		expect([submodule statusWithError:NULL]).to.equal(expectedStatus);
+		expect([submodule status:NULL]).to.equal(expectedStatus);
 	});
 
 	it(@"should open a repository" ,^{
 		NSError *error = nil;
-		GTRepository *submoduleRepo = [submodule submoduleRepositoryWithError:&error];
+		GTRepository *submoduleRepo = [submodule submoduleRepository:&error];
 		expect(submoduleRepo).notTo.beNil();
 		expect(error).to.beNil();
 
@@ -206,7 +206,7 @@ describe(@"dirty, checked out submodule", ^{
 		expect([config stringForKey:configKey]).to.equal(newOrigin);
 
 		__block NSError *error = nil;
-		expect([submodule syncWithError:&error]).to.beTruthy();
+		expect([submodule sync:&error]).to.beTruthy();
 
 		expect([config refresh:NULL]).to.beTruthy();
 		expect([config stringForKey:configKey]).to.equal(@"../Test_App");

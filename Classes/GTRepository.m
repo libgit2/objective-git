@@ -545,7 +545,7 @@ static int submoduleEnumerationCallback(git_submodule *git_submodule, const char
 	if (stop) return 1;
 
 	if (info->recursive) {
-		[[submodule submoduleRepositoryWithError:NULL] enumerateSubmodulesRecursively:YES usingBlock:info->block];
+		[[submodule submoduleRepository:NULL] enumerateSubmodulesRecursively:YES usingBlock:info->block];
 	}
 
 	return 0;
