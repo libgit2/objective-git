@@ -58,6 +58,24 @@ it(@"should terminate enumeration early", ^{
 	expect(count).to.equal(2);
 });
 
+it(@"should write to the parent .git/config", ^{
+	NSString *testURLString = @"fake_url";
+
+	GTSubmodule *submodule = [repo submoduleWithName:@"Test_App" error:NULL];
+	expect(submodule).notTo.beNil();
+	expect(@(git_submodule_url(submodule.git_submodule))).notTo.equal(testURLString);
+
+	git_submodule_set_url(submodule.git_submodule, testURLString.UTF8String);
+	
+	__block NSError *error = nil;
+	expect([submodule writeToParentConfigurationDestructively:YES error:&error]).to.beTruthy();
+	expect(error).to.beNil();
+
+	submodule = [repo submoduleWithName:@"Test_App" error:NULL];
+	expect(submodule).notTo.beNil();
+	expect(@(git_submodule_url(submodule.git_submodule))).to.equal(testURLString);
+});
+
 describe(@"clean, checked out submodule", ^{
 	__block GTSubmodule *submodule;
 

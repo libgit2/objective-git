@@ -110,4 +110,15 @@ typedef enum {
 // Returns the status, or `GTSubmoduleStatusUnknown` if an error occurs.
 - (GTSubmoduleStatus)statusWithError:(NSError **)error;
 
+// Initializes the submodule by copying its information into the parent
+// repository's `.git/config` file. This is equivalent to `git submodule init`
+// on the command line.
+//
+// overwrite - Whether to force an update to the `.git/config` file. If NO,
+//             existing entries will not be overwritten.
+// error     - If not NULL, set to any error that occurs.
+//
+// Returns whether the initialization succeeded.
+- (BOOL)writeToParentConfigurationDestructively:(BOOL)overwrite error:(NSError **)error;
+
 @end
