@@ -63,8 +63,9 @@ typedef struct {
 	return [NSString stringWithFormat:@"<%@: %p> fileURL: %@", self.class, self, self.fileURL];
 }
 
-- (BOOL)isEqual:(GTRepository *)comparisonRepository {
-	return [self.fileURL isEqual:comparisonRepository.fileURL];
+- (BOOL)isEqual:(GTRepository *)repo {
+	if (![repo isKindOfClass:GTRepository.class]) return NO;
+	return [self.fileURL isEqual:repo.fileURL];
 }
 
 - (void)dealloc {
@@ -545,10 +546,20 @@ static int submoduleEnumerationCallback(git_submodule *git_submodule, const char
 	if (stop) return 1;
 
 	if (info->recursive) {
-		[[submodule submoduleRepositoryWithError:NULL] enumerateSubmodulesRecursively:YES usingBlock:info->block];
+		[[submodule submoduleRepository:NULL] enumerateSubmodulesRecursively:YES usingBlock:info->block];
 	}
 
 	return 0;
+}
+
+- (BOOL)reloadSubmodules:(NSError **)error {
+	int gitError = git_submodule_reload_all(self.git_repository);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to reload submodules."];
+		return NO;
+	}
+
+	return YES;
 }
 
 - (void)enumerateSubmodulesRecursively:(BOOL)recursive usingBlock:(void (^)(GTSubmodule *submodule, BOOL *stop))block {
