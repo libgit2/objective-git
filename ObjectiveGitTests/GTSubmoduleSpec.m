@@ -84,7 +84,7 @@ it(@"should reload all submodules", ^{
 	NSMutableString *gitmodules = [NSMutableString stringWithContentsOfURL:gitmodulesURL usedEncoding:NULL error:NULL];
 	expect(gitmodules).notTo.beNil();
 
-	[gitmodules appendString:@"[submodule \"new_submodule\"]\n\turl = some_url"];
+	[gitmodules appendString:@"[submodule \"new_submodule\"]\n\turl = some_url\n\tpath = new_submodule_path"];
 	expect([gitmodules writeToURL:gitmodulesURL atomically:YES encoding:NSUTF8StringEncoding error:NULL]).to.beTruthy();
 
 	submodule = [repo submoduleWithName:@"new_submodule" error:NULL];
@@ -96,6 +96,7 @@ it(@"should reload all submodules", ^{
 
 	submodule = [repo submoduleWithName:@"new_submodule" error:NULL];
 	expect(submodule).notTo.beNil();
+	expect(submodule.path).to.equal(@"new_submodule_path");
 });
 
 describe(@"clean, checked out submodule", ^{
@@ -108,6 +109,7 @@ describe(@"clean, checked out submodule", ^{
 		expect(error).to.beNil();
 
 		expect(submodule.name).to.equal(@"Test_App");
+		expect(submodule.path).to.equal(@"Test_App");
 		expect(submodule.parentRepository).to.beIdenticalTo(repo);
 		expect(submodule.git_submodule).notTo.beNil();
 	});
@@ -167,6 +169,7 @@ describe(@"dirty, checked out submodule", ^{
 		expect(error).to.beNil();
 
 		expect(submodule.name).to.equal(@"Test_App2");
+		expect(submodule.path).to.equal(@"Test_App2");
 		expect(submodule.parentRepository).to.beIdenticalTo(repo);
 		expect(submodule.git_submodule).notTo.beNil();
 	});

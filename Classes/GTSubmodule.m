@@ -51,6 +51,13 @@
 	return @(cName);
 }
 
+- (NSString *)path {
+	const char *cPath = git_submodule_path(self.git_submodule);
+	if (cPath == NULL) return nil;
+
+	return @(cPath);
+}
+
 #pragma mark Lifecycle
 
 - (id)initWithGitSubmodule:(git_submodule *)submodule parentRepository:(GTRepository *)repository {

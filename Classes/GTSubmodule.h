@@ -81,6 +81,9 @@ typedef enum {
 // The name of this submodule.
 @property (nonatomic, copy, readonly) NSString *name;
 
+// The path to this submodule, relative to its parent repository's root.
+@property (nonatomic, copy, readonly) NSString *path;
+
 // Initializes the receiver to wrap the given submodule object.
 //
 // submodule  - The submodule to wrap. The receiver will not own this object, so
