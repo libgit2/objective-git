@@ -10,10 +10,12 @@
 
 @interface GTRemote : NSObject
 
-@property (nonatomic, readonly, assign) git_remote *git_remote;
 @property (nonatomic, readonly, copy) NSString *name;
 @property (nonatomic, readonly, copy) NSString *URLString;
 
 - (id)initWithGitRemote:(git_remote *)remote;
+
+// The underlying `git_remote` object.
+- (git_remote *)git_remote __attribute__((objc_returns_inner_pointer));
 
 @end

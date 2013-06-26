@@ -31,6 +31,10 @@
 #import "GTIndexEntry.h"
 #import "NSError+Git.h"
 
+@interface GTIndex ()
+@property (nonatomic, assign, readonly) git_index *git_index;
+@end
+
 @implementation GTIndex
 
 #pragma mark NSObject

@@ -11,6 +11,10 @@
 #import "GTRepository.h"
 #import "NSError+Git.h"
 
+@interface GTSubmodule ()
+@property (nonatomic, assign, readonly) git_submodule *git_submodule;
+@end
+
 @implementation GTSubmodule
 
 #pragma mark Properties

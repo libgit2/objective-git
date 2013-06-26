@@ -1350,6 +1350,7 @@
 			baseConfigurationReference = D0D8185B174421EB00995A2E /* Debug.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				GCC_STRICT_ALIASING = NO;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO;
 				HEADER_SEARCH_PATHS = libgit2/include;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
@@ -1364,6 +1365,7 @@
 			baseConfigurationReference = D0D8185D174421EB00995A2E /* Release.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				GCC_STRICT_ALIASING = NO;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO;
 				HEADER_SEARCH_PATHS = libgit2/include;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
@@ -1414,6 +1416,7 @@
 			baseConfigurationReference = D0D8185C174421EB00995A2E /* Profile.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				GCC_STRICT_ALIASING = NO;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO;
 				HEADER_SEARCH_PATHS = libgit2/include;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;

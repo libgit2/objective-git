@@ -54,9 +54,6 @@ typedef enum {
 // The repository that this submodule lives within.
 @property (nonatomic, strong, readonly) GTRepository *parentRepository;
 
-// The underlying `git_submodule`.
-@property (nonatomic, assign, readonly) git_submodule *git_submodule;
-
 // The current ignore rule for this submodule.
 //
 // Setting this property will only update the rule in memory, not on disk.
@@ -94,6 +91,9 @@ typedef enum {
 //
 // Returns an initialized GTSubmodule, or nil if an error occurs.
 - (id)initWithGitSubmodule:(git_submodule *)submodule parentRepository:(GTRepository *)repository;
+
+// The underlying `git_submodule` object.
+- (git_submodule *)git_submodule __attribute__((objc_returns_inner_pointer));
 
 // Reloads the receiver's configuration from the parent repository.
 //

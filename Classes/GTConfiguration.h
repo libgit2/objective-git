@@ -13,7 +13,6 @@
 
 @interface GTConfiguration : NSObject
 
-@property (nonatomic, readonly, assign) git_config *git_config;
 @property (nonatomic, readonly, strong) GTRepository *repository;
 @property (nonatomic, readonly, copy) NSArray *configurationKeys;
 
@@ -24,6 +23,9 @@
 // Creates and returns a configuration which includes the global, XDG, and
 // system configurations.
 + (instancetype)defaultConfiguration;
+
+// The underlying `git_config` object.
+- (git_config *)git_config __attribute__((objc_returns_inner_pointer));
 
 - (void)setString:(NSString *)s forKey:(NSString *)key;
 - (NSString *)stringForKey:(NSString *)key;

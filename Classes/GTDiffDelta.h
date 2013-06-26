@@ -43,10 +43,6 @@ typedef enum {
 // for the types of change represented.
 @interface GTDiffDelta : NSObject
 
-// A convenience accessor to fetch the `git_diff_delta` represented by the
-// object.
-@property (nonatomic, readonly) const git_diff_delta *git_diff_delta;
-
 // The backing libgit2 `git_diff_patch` object.
 @property (nonatomic, readonly) git_diff_patch *git_diff_patch;
 
@@ -84,6 +80,10 @@ typedef enum {
 
 // Designated initialiser.
 - (instancetype)initWithGitPatch:(git_diff_patch *)patch;
+
+// A convenience accessor to fetch the `git_diff_delta` represented by the
+// object.
+- (const git_diff_delta *)git_diff_delta __attribute__((objc_returns_inner_pointer));
 
 // Enumerate the hunks contained in the delta.
 //

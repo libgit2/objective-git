@@ -11,6 +11,10 @@
 #import "GTDiffFile.h"
 #import "GTDiffHunk.h"
 
+@interface GTDiffDelta ()
+@property (nonatomic, assign, readonly) const git_diff_delta *git_diff_delta;
+@end
+
 @implementation GTDiffDelta
 
 - (instancetype)initWithGitPatch:(git_diff_patch *)patch {
@@ -34,7 +38,10 @@
 }
 
 - (void)dealloc {
-	git_diff_patch_free(self.git_diff_patch);
+	if (_git_diff_patch != NULL) {
+		git_diff_patch_free(_git_diff_patch);
+		_git_diff_patch = NULL;
+	}
 }
 
 #pragma mark - Properties
