@@ -17,7 +17,7 @@
 
 @property (nonatomic, readonly, assign) git_reflog *git_reflog;
 
-@property (nonatomic, readonly, weak) GTReference *reference;
+@property (nonatomic, readonly, strong) GTReference *reference;
 
 @end
 
