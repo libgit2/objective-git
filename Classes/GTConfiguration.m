@@ -13,12 +13,19 @@
 #import "NSError+Git.h"
 #import "GTSignature.h"
 
+@interface GTConfiguration ()
+@property (nonatomic, readonly, assign) git_config *git_config;
+@end
+
 @implementation GTConfiguration
 
 #pragma mark Lifecycle
 
 - (void)dealloc {
-	git_config_free(_git_config);
+	if (_git_config != NULL) {
+		git_config_free(_git_config);
+		_git_config = NULL;
+	}
 }
 
 - (id)initWithGitConfig:(git_config *)config repository:(GTRepository *)repository {

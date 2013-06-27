@@ -33,6 +33,10 @@
 #import "GTRepository.h"
 #import "NSError+Git.h"
 
+@interface GTTreeBuilder ()
+@property (nonatomic, assign, readonly) git_treebuilder *git_treebuilder;
+@end
+
 @implementation GTTreeBuilder
 
 #pragma mark Properties

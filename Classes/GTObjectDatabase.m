@@ -31,6 +31,10 @@
 
 #import "git2/odb_backend.h"
 
+@interface GTObjectDatabase ()
+@property (nonatomic, readonly, assign) git_odb *git_odb;
+@end
+
 @implementation GTObjectDatabase
 
 - (NSString *)description {
@@ -38,7 +42,10 @@
 }
 
 - (void)dealloc {
-	git_odb_free(_git_odb);
+	if (_git_odb != NULL) {
+		git_odb_free(_git_odb);
+		_git_odb = NULL;
+	}
 }
 
 #pragma mark API

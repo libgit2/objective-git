@@ -150,9 +150,6 @@ typedef enum {
 // changes or "deltas", which are represented by `GTDiffDelta` objects.
 @interface GTDiff : NSObject
 
-// The libgit2 diff list object.
-@property (nonatomic, readonly) git_diff_list *git_diff_list;
-
 // The number of deltas represented by the diff object.
 @property (nonatomic, readonly) NSUInteger deltaCount;
 
@@ -233,6 +230,9 @@ typedef enum {
 
 // Designated initialiser.
 - (instancetype)initWithGitDiffList:(git_diff_list *)diffList;
+
+// The libgit2 diff list object.
+- (git_diff_list *)git_diff_list __attribute__((objc_returns_inner_pointer));
 
 // The number of deltas of the given type that are contained in the diff.
 - (NSUInteger)numberOfDeltasWithType:(GTDiffDeltaType)deltaType;

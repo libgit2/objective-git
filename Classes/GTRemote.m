@@ -8,6 +8,10 @@
 
 #import "GTRemote.h"
 
+@interface GTRemote ()
+@property (nonatomic, readonly, assign) git_remote *git_remote;
+@end
+
 @implementation GTRemote
 
 - (void)dealloc {

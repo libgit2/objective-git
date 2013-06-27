@@ -9,10 +9,17 @@
 #import "GTOdbObject.h"
 #import "NSString+Git.h"
 
+@interface GTOdbObject ()
+@property (nonatomic, assign, readonly) git_odb_object *git_odb_object;
+@end
+
 @implementation GTOdbObject
 
 - (void)dealloc {
-	git_odb_object_free(_git_odb_object);
+	if (_git_odb_object != NULL) {
+		git_odb_object_free(_git_odb_object);
+		_git_odb_object = NULL;
+	}
 }
 
 - (NSString *)description {

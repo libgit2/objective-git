@@ -33,8 +33,6 @@
 
 @interface GTBlob : GTObject {}
 
-@property (nonatomic, readonly) git_blob *git_blob;
-
 + (id)blobWithString:(NSString *)string inRepository:(GTRepository *)repository error:(NSError **)error;
 + (id)blobWithData:(NSData *)data inRepository:(GTRepository *)repository error:(NSError **)error;
 + (id)blobWithFile:(NSURL *)file inRepository:(GTRepository *)repository error:(NSError **)error;
@@ -42,6 +40,9 @@
 - (id)initWithString:(NSString *)string inRepository:(GTRepository *)repository error:(NSError **)error;
 - (id)initWithData:(NSData *)data inRepository:(GTRepository *)repository error:(NSError **)error;
 - (id)initWithFile:(NSURL *)file inRepository:(GTRepository *)repository error:(NSError **)error;
+
+// The underlying `git_object` as a `git_blob` object.
+- (git_blob *)git_blob __attribute__((objc_returns_inner_pointer));
 
 - (git_off_t)size;
 - (NSString *)content;

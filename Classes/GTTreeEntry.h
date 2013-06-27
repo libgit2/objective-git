@@ -33,11 +33,13 @@
 
 @interface GTTreeEntry : NSObject
 
-@property (nonatomic, assign, readonly) const git_tree_entry *git_tree_entry;
 @property (nonatomic, readonly, strong) GTTree *tree;
 
 - (id)initWithEntry:(const git_tree_entry *)theEntry parentTree:(GTTree *)parent;
 + (id)entryWithEntry:(const git_tree_entry *)theEntry parentTree:(GTTree *)parent;
+
+// The underlying `git_tree_entry`.
+- (const git_tree_entry *)git_tree_entry __attribute__((objc_returns_inner_pointer));
 
 - (NSString *)name;
 - (NSInteger)attributes;
