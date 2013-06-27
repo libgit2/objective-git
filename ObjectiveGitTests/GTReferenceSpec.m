@@ -15,6 +15,14 @@ beforeEach(^{
 	expect(repository).notTo.beNil();
 });
 
+it(@"should compare equal to the same reference", ^{
+	expect([[GTReference alloc] initByLookingUpReferenceNamed:@"refs/heads/master" inRepository:repository error:NULL]).to.equal([[GTReference alloc] initByLookingUpReferenceNamed:@"refs/heads/master" inRepository:repository error:NULL]);
+});
+
+it(@"should compare unequal to a different reference", ^{
+	expect([[GTReference alloc] initByLookingUpReferenceNamed:@"refs/heads/master" inRepository:repository error:NULL]).notTo.equal([[GTReference alloc] initByLookingUpReferenceNamed:@"refs/remotes/origin/master" inRepository:repository error:NULL]);
+});
+
 describe(@"remote property", ^{
 	it(@"should be YES for a remote-tracking branch", ^{
 		NSError *error = nil;

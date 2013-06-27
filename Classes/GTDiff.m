@@ -32,6 +32,8 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 
 @interface GTDiff ()
 
+@property (nonatomic, assign, readonly) git_diff_list *git_diff_list;
+
 // A cache of the deltas for the diff. Will be populated only after the first
 // call of -enumerateDeltasUsingBlock:.
 @property (atomic, copy) NSArray *cachedDeltas;
@@ -184,7 +186,10 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 }
 
 - (void)dealloc {
-	git_diff_list_free(self.git_diff_list);
+	if (_git_diff_list != NULL) {
+		git_diff_list_free(_git_diff_list);
+		_git_diff_list = NULL;
+	}
 }
 
 - (void)enumerateDeltasUsingBlock:(void (^)(GTDiffDelta *delta, BOOL *stop))block {

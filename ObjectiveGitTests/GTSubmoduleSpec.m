@@ -114,6 +114,14 @@ describe(@"clean, checked out submodule", ^{
 		expect(submodule.git_submodule).notTo.beNil();
 	});
 
+	it(@"should compare equal to the same submodule", ^{
+		expect(submodule).to.equal([repo submoduleWithName:@"Test_App" error:NULL]);
+	});
+
+	it(@"should compare unequal to a different submodule", ^{
+		expect(submodule).notTo.equal([repo submoduleWithName:@"Test_App2" error:NULL]);
+	});
+
 	it(@"should have identical OIDs", ^{
 		expect(submodule.HEADOID.SHA).to.equal(@"f7ecd8f4404d3a388efbff6711f1bdf28ffd16a0");
 		expect(submodule.indexOID.SHA).to.equal(@"f7ecd8f4404d3a388efbff6711f1bdf28ffd16a0");
@@ -172,6 +180,14 @@ describe(@"dirty, checked out submodule", ^{
 		expect(submodule.path).to.equal(@"Test_App2");
 		expect(submodule.parentRepository).to.beIdenticalTo(repo);
 		expect(submodule.git_submodule).notTo.beNil();
+	});
+
+	it(@"should compare equal to the same submodule", ^{
+		expect(submodule).to.equal([repo submoduleWithName:@"Test_App2" error:NULL]);
+	});
+
+	it(@"should compare unequal to a different submodule", ^{
+		expect(submodule).notTo.equal([repo submoduleWithName:@"Test_App" error:NULL]);
 	});
 
 	it(@"should have varying OIDs", ^{

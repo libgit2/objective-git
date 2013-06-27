@@ -66,7 +66,6 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 
 @interface GTRepository : NSObject
 
-@property (nonatomic, assign, readonly) git_repository *git_repository;
 // The file URL for the repository's working directory.
 @property (nonatomic, readonly, strong) NSURL *fileURL;
 // The file URL for the repository's .git directory.
@@ -88,6 +87,9 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 //
 // Returns an initialized GTRepository.
 - (id)initWithGitRepository:(git_repository *)repository;
+
+// The underlying `git_repository` object.
+- (git_repository *)git_repository __attribute__((objc_returns_inner_pointer));
 
 // Clone a repository
 //

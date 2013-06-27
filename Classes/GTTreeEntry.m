@@ -34,6 +34,10 @@
 #import "NSError+Git.h"
 #import "NSString+Git.h"
 
+@interface GTTreeEntry ()
+@property (nonatomic, assign, readonly) const git_tree_entry *git_tree_entry;
+@end
+
 @implementation GTTreeEntry
 
 - (NSString *)description {

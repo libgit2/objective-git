@@ -43,7 +43,6 @@ typedef enum {
 
 @interface GTReference : NSObject
 
-@property (nonatomic, readonly) git_reference *git_reference;
 @property (nonatomic, readonly, strong) GTRepository *repository;
 @property (nonatomic, readonly) NSString *type;
 @property (nonatomic, readonly) const git_oid *git_oid;
@@ -66,6 +65,9 @@ typedef enum {
 - (id)initByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error;
 
 - (id)initWithGitReference:(git_reference *)ref repository:(GTRepository *)repository;
+
+// The underlying `git_reference` object.
+- (git_reference *)git_reference __attribute__((objc_returns_inner_pointer));
 
 // The target to which the reference points.
 @property (nonatomic, readonly, copy) NSString *target;

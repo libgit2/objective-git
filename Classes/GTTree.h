@@ -35,11 +35,11 @@
 
 @interface GTTree : GTObject
 
-// The underlying libgit2 tree.
-@property (nonatomic, readonly) git_tree *git_tree;
-
 // The number of entries in the tree.
 @property (nonatomic, readonly) NSUInteger entryCount;
+
+// The underlying `git_object` as a `git_tree` object.
+- (git_tree *)git_tree __attribute__((objc_returns_inner_pointer));
 
 // Get a entry at the specified index
 //

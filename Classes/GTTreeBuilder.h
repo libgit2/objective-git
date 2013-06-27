@@ -48,9 +48,6 @@ typedef enum {
 // tree objects to a repository.
 @interface GTTreeBuilder : NSObject
 
-// The underlying git_treebuilder.
-@property (nonatomic, readonly) git_treebuilder *git_treebuilder;
-
 // Get the number of entries listed in a treebuilder.
 @property (nonatomic, readonly) NSUInteger entryCount;
 
@@ -61,6 +58,9 @@ typedef enum {
 //
 // Returns the initialized object, or nil if an error occurred.
 - (id)initWithTree:(GTTree *)treeOrNil error:(NSError **)error;
+
+// The underlying `git_treebuilder` object.
+- (git_treebuilder *)git_treebuilder __attribute__((objc_returns_inner_pointer));
 
 // Clear all the entires in the builder.
 - (void)clear;

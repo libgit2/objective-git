@@ -57,6 +57,10 @@ typedef struct {
 	__unsafe_unretained GTRepositorySubmoduleEnumerationBlock block;
 } GTRepositorySubmoduleEnumerationInfo;
 
+@interface GTRepository ()
+@property (nonatomic, assign, readonly) git_repository *git_repository;
+@end
+
 @implementation GTRepository
 
 - (NSString *)description {
@@ -69,7 +73,10 @@ typedef struct {
 }
 
 - (void)dealloc {
-	if (self.git_repository != NULL) git_repository_free(self.git_repository);
+	if (_git_repository != NULL) {
+		git_repository_free(_git_repository);
+		_git_repository = NULL;
+	}
 }
 
 #pragma mark API
@@ -436,8 +443,7 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 - (BOOL)resetToCommit:(GTCommit *)commit withResetType:(GTRepositoryResetType)resetType error:(NSError **)error {
     NSParameterAssert(commit != nil);
     
-    git_object *targetCommit = commit.git_object;
-    int result = git_reset(self.git_repository, targetCommit, (git_reset_t)resetType);
+    int result = git_reset(self.git_repository, commit.git_object, (git_reset_t)resetType);
     if (result == GIT_OK) return YES;
     
     if (error != NULL) *error = [NSError git_errorFor:result withAdditionalDescription:@"Failed to reset repository."];

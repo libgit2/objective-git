@@ -39,9 +39,6 @@ typedef enum {
 
 @interface GTIndexEntry : NSObject
 
-// The underlying libgit2 index entry.
-@property (nonatomic, readonly) const git_index_entry *git_index_entry;
-
 // The repository-relative path for the entry.
 @property (nonatomic, readonly, copy) NSString *path;
 
@@ -57,5 +54,8 @@ typedef enum {
 //
 // Returns the initialized object.
 - (id)initWithGitIndexEntry:(const git_index_entry *)entry;
+
+// The underlying `git_index_entry` object.
+- (const git_index_entry *)git_index_entry __attribute__((objc_returns_inner_pointer));
 
 @end

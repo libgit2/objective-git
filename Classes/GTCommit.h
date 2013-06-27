@@ -36,7 +36,6 @@
 
 @interface GTCommit : GTObject {}
 
-@property (nonatomic, readonly) git_commit *git_commit;
 @property (nonatomic, readonly, strong) GTSignature *author;
 @property (nonatomic, readonly, strong) GTSignature *committer;
 @property (nonatomic, readonly, copy) NSArray *parents;
@@ -50,5 +49,8 @@
 + (GTCommit *)commitInRepository:(GTRepository *)theRepo updateRefNamed:(NSString *)refName author:(GTSignature *)authorSig committer:(GTSignature *)committerSig message:(NSString *)newMessage tree:(GTTree *)theTree parents:(NSArray *)theParents error:(NSError **)error;
 
 + (NSString *)shaByCreatingCommitInRepository:(GTRepository *)theRepo updateRefNamed:(NSString *)refName author:(GTSignature *)authorSig committer:(GTSignature *)committerSig message:(NSString *)newMessage tree:(GTTree *)theTree parents:(NSArray *)theParents error:(NSError **)error;
+
+// The underlying `git_object` as a `git_commit` object.
+- (git_commit *)git_commit __attribute__((objc_returns_inner_pointer));
 
 @end

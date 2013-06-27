@@ -38,9 +38,6 @@
 // created with -initWithFileURL:error:.
 @property (nonatomic, readonly, strong) GTRepository *repository;
 
-// The underlying libgit2 index.
-@property (nonatomic, readonly) git_index *git_index;
-
 // The file URL for the index if it exists on disk.
 @property (nonatomic, readonly, copy) NSURL *fileURL;
 
@@ -66,6 +63,9 @@
 //
 // Returns the initialized object.
 - (id)initWithGitIndex:(git_index *)index repository:(GTRepository *)repository;
+
+// The underlying `git_index` object.
+- (git_index *)git_index __attribute__((objc_returns_inner_pointer));
 
 // Refresh the index from the datastore
 //

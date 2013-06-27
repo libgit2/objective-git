@@ -37,6 +37,10 @@
 #import "GTBlob.h"
 #import "GTTag.h"
 
+@interface GTObject ()
+@property (nonatomic, readonly, assign) git_object *git_object;
+@end
+
 @implementation GTObject
 
 - (NSString *)description {
@@ -44,7 +48,10 @@
 }
 
 - (void)dealloc {
-	git_object_free(self.git_object);
+	if (_git_object != NULL) {
+		git_object_free(_git_object);
+		_git_object = NULL;
+	}
 }
 
 - (NSUInteger)hash {

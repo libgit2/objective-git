@@ -30,15 +30,15 @@
 #import "NSError+Git.h"
 #import "NSString+Git.h"
 
+@interface GTReference ()
+@property (nonatomic, readonly, assign) git_reference *git_reference;
+@end
+
 @implementation GTReference
 
-- (NSString *)description {
-  return [NSString stringWithFormat:@"<%@: %p> type: %@, repository: %@", NSStringFromClass([self class]), self, self.type, self.repository];
-}
-
 - (void)dealloc {
-	if(self.git_reference != NULL) {
-		git_reference_free(self.git_reference);
+	if (_git_reference != NULL) {
+		git_reference_free(_git_reference);
 		_git_reference = NULL;
 	}
 }
@@ -217,6 +217,23 @@
 
 - (GTReflog *)reflog {
 	return [[GTReflog alloc] initWithReference:self];
+}
+
+#pragma mark NSObject
+
+- (NSString *)description {
+  return [NSString stringWithFormat:@"<%@: %p>{ OID: %@, type: %@, remote: %i }", self.class, self, self.OID, self.type, (int)self.remote];
+}
+
+- (NSUInteger)hash {
+	return self.name.hash;
+}
+
+- (BOOL)isEqual:(GTReference *)reference {
+	if (self == reference) return YES;
+	if (![reference isKindOfClass:GTReference.class]) return NO;
+
+	return [self.repository isEqual:reference.repository] && [self.name isEqual:reference.name] && [self.target isEqual:reference.target];
 }
 
 @end
