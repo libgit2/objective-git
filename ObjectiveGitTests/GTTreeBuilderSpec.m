@@ -79,7 +79,7 @@ describe(@"GTTreeBuilder building", ^{
 		expect(blob).notTo.beNil();
 		expect(error).to.beNil();
 		
-		[builder addEntryWithSHA:blob.sha filename:@"hi.txt" filemode:GTFileModeTree error:&error];
+		[builder addEntryWithSHA:blob.sha filename:@"hi.txt" filemode:GTFileModeBlob error:&error];
 		
 		expect(builder.entryCount).to.equal(1);
 		
@@ -108,7 +108,7 @@ describe(@"GTTreeBuilder building", ^{
 		expect(blob).notTo.beNil();
 		expect(error).to.beNil();
 		
-		[builder addEntryWithSHA:blob.sha filename:@"hi.txt" filemode:GTFileModeTree error:&error];
+		[builder addEntryWithSHA:blob.sha filename:@"hi.txt" filemode:GTFileModeBlob error:&error];
 		
 		GTTree *writtenTree = [builder writeTreeToRepository:repo error:&error];
 		expect(writtenTree).notTo.beNil();
