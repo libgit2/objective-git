@@ -81,6 +81,10 @@ typedef enum {
 // The path to this submodule, relative to its parent repository's root.
 @property (nonatomic, copy, readonly) NSString *path;
 
+// The remote URL provided for this submodule, read from the parent repository's
+// `.git/config` or `.gitmodules` file.
+@property (nonatomic, copy, readonly) NSString *URLString;
+
 // Initializes the receiver to wrap the given submodule object.
 //
 // submodule  - The submodule to wrap. The receiver will not own this object, so
