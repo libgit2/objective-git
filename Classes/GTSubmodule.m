@@ -62,6 +62,13 @@
 	return @(cPath);
 }
 
+- (NSString *)URLString {
+	const char *cURL = git_submodule_url(self.git_submodule);
+	if (cURL == NULL) return nil;
+
+	return @(cURL);
+}
+
 #pragma mark Lifecycle
 
 - (id)initWithGitSubmodule:(git_submodule *)submodule parentRepository:(GTRepository *)repository {
