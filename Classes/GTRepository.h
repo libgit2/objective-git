@@ -213,7 +213,7 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 //
 // message - the message to be attributed to the item in the stash.
 // stashFlag - The flag of stash to be used.
-// error(out) - in the event of an error this may be set.
+// error - in the event of an error this may be set.
 //
 // Returns commit of the stashed changes if successful, nil in the even of an error
 - (GTCommit*)stashChangesWithMessage:(NSString *)message withStashFlag:(GTRepositoryStashFlag)stashFlag error:(NSError **)error;

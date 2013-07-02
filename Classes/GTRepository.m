@@ -619,8 +619,13 @@ static int submoduleEnumerationCallback(git_submodule *git_submodule, const char
 - (GTCommit*)stashChangesWithMessage:(NSString *)message withStashFlag:(GTRepositoryStashFlag)stashFlag error:(NSError **)error
 {
 	git_oid oid;
-
-	git_stash_save(&oid, self.git_repository, [self userSignatureForNow].git_signature, [message cStringUsingEncoding:NSUTF8StringEncoding], stashFlag);
+	git_signature *sign = (git_signature *)[self userSignatureForNow].git_signature;
+	
+	int gitError = git_stash_save(&oid, self.git_repository, sign, [message UTF8String], stashFlag);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to stash."];
+		return nil;
+	}
 	
 	GTCommit* commit = (GTCommit*)[self lookupObjectByOid:&oid error:error];
 	
