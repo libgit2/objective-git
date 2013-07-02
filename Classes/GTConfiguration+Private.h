@@ -12,8 +12,6 @@
 
 @interface GTConfiguration ()
 
-@property (nonatomic, readwrite, unsafe_unretained) GTRepository *repository;
-
 // Initializes the receiver.
 //
 // config     - The libgit2 config. Cannot be NULL.

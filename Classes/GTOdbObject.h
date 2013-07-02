@@ -10,12 +10,21 @@
 #import "GTObject.h"
 
 
-@interface GTOdbObject : NSObject {}
+@interface GTOdbObject : NSObject
 
-@property (nonatomic, assign, readonly) git_odb_object *git_odb_object;
+// The repository in which the object resides.
+@property (nonatomic, readonly, strong) GTRepository *repository;
 
-- (id)initWithOdbObj:(git_odb_object *)object;
-+ (id)objectWithOdbObj:(git_odb_object *)object;
+// Initializes the object with the underlying libgit2 object and repository.
+//
+// object     - The underlying libgit2 object. Cannot be NULL.
+// repository - The repository in which the object resides. Cannot be nil.
+//
+// Returns the initialized object.
+- (id)initWithOdbObj:(git_odb_object *)object repository:(GTRepository *)repository;
+
+// The underlying `git_odb_object`.
+- (git_odb_object *)git_odb_object __attribute__((objc_returns_inner_pointer));
 
 - (NSString *)shaHash;
 - (GTObjectType)type;

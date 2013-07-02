@@ -28,26 +28,37 @@
 //
 
 #import "GTRepository.h"
-#import "GTEnumerator.h"
-#import "GTObject.h"
-#import "GTCommit.h"
-#import "GTObjectDatabase.h"
-#import "GTIndex.h"
 #import "GTBranch.h"
+#import "GTCommit.h"
+#import "GTConfiguration+Private.h"
+#import "GTConfiguration.h"
+#import "GTEnumerator.h"
+#import "GTIndex.h"
+#import "GTObject.h"
+#import "GTObjectDatabase.h"
+#import "GTOID.h"
+#import "GTSignature.h"
+#import "GTSubmodule.h"
 #import "GTTag.h"
 #import "NSError+Git.h"
 #import "NSString+Git.h"
-#import "GTConfiguration.h"
-#import "GTConfiguration+Private.h"
-#import "GTSignature.h"
+
+// The type of block passed to -enumerateSubmodulesRecursively:usingBlock:.
+typedef void (^GTRepositorySubmoduleEnumerationBlock)(GTSubmodule *submodule, BOOL *stop);
+
+// Used as a payload for submodule enumeration.
+//
+// recursive        - Whether submodule enumeration should recurse.
+// parentRepository - The repository that the submodule is contained within.
+// block            - The block to invoke for each submodule.
+typedef struct {
+	BOOL recursive;
+	__unsafe_unretained GTRepository *parentRepository;
+	__unsafe_unretained GTRepositorySubmoduleEnumerationBlock block;
+} GTRepositorySubmoduleEnumerationInfo;
 
 @interface GTRepository ()
-@property (nonatomic, assign) git_repository *git_repository;
-@property (nonatomic, strong) GTEnumerator *enumerator;
-@property (nonatomic, strong) GTIndex *index;
-@property (nonatomic, strong) GTObjectDatabase *objectDatabase;
-@property (nonatomic, strong) NSMutableSet *weakEnumerators;
-@property (nonatomic, strong) GTConfiguration *configuration;
+@property (nonatomic, assign, readonly) git_repository *git_repository;
 @end
 
 @implementation GTRepository
@@ -56,21 +67,16 @@
 	return [NSString stringWithFormat:@"<%@: %p> fileURL: %@", self.class, self, self.fileURL];
 }
 
-- (BOOL)isEqual:(GTRepository *)comparisonRepository {
-	return ([self.fileURL isEqual:comparisonRepository.fileURL]);
+- (BOOL)isEqual:(GTRepository *)repo {
+	if (![repo isKindOfClass:GTRepository.class]) return NO;
+	return [self.fileURL isEqual:repo.fileURL];
 }
 
 - (void)dealloc {
-	// Alright so git_revwalk needs to be free'd before the repository it points to is free'd, otherwise the odb is double-free'd and it crashes. But GTEnumerator shouldn't have to know anything about the lifetime of its GTRepository to keep from crashing. So the repository keeps track of all the enumerators pointing to it and nils out their repository when they're being dealloc'd. That tells the enumerator that it should go ahead and free its revwalk. And so life goes on.
-	for (NSValue *weakWrappedValue in self.weakEnumerators) {
-		[[weakWrappedValue nonretainedObjectValue] setRepository:nil];
+	if (_git_repository != NULL) {
+		git_repository_free(_git_repository);
+		_git_repository = NULL;
 	}
-
-	if (_configuration != nil) {
-		self.configuration.repository = nil;
-	}
-
-	if (self.git_repository != NULL) git_repository_free(self.git_repository);
 }
 
 #pragma mark API
@@ -107,10 +113,13 @@
 }
 
 - (id)initWithGitRepository:(git_repository *)repository {
+	NSParameterAssert(repository != nil);
+
 	self = [super init];
 	if (self == nil) return nil;
 	
-	self.git_repository = repository;
+	_git_repository = repository;
+
 	return self;
 }
 
@@ -120,20 +129,14 @@
 		return nil;
 	}
 
-	self = [super init];
-	if (self == nil) return nil;
-
 	git_repository *r;
 	int gitError = git_repository_open(&r, localFileURL.path.UTF8String);
-
 	if (gitError < GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to open repository."];
 		return nil;
 	}
 
-	self.git_repository = r;
-
-	return self;
+	return [self initWithGitRepository:r];
 }
 
 static void checkoutProgressCallback(const char *path, size_t completedSteps, size_t totalSteps, void *payload) {
@@ -236,49 +239,6 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 	return [GTObject objectWithObj:obj inRepository:self];
 }
 
-- (BOOL)enumerateCommitsBeginningAtSha:(NSString *)sha sortOptions:(GTEnumeratorOptions)options error:(NSError **)error usingBlock:(void (^)(GTCommit *, BOOL *))block {
-	NSParameterAssert(block != NULL);
-
-	if (sha == nil) {
-		GTReference *head = [self headReferenceWithError:error];
-		if (head == nil) return NO;
-		sha = head.target;
-	}
-
-	[self.enumerator reset];
-	[self.enumerator setOptions:options];
-	BOOL success = [self.enumerator push:sha error:error];
-	if (!success) return NO;
-
-	GTCommit *commit = nil;
-	while ((commit = [self.enumerator nextObjectWithError:error]) != nil) {
-		BOOL stop = NO;
-		block(commit, &stop);
-		if (stop) break;
-	}
-
-	if (error == NULL) {
-		return YES;
-	}
-
-	return *error == nil;
-}
-
-- (BOOL)enumerateCommitsBeginningAtSha:(NSString *)sha error:(NSError **)error usingBlock:(void (^)(GTCommit *, BOOL *))block; {
-	return [self enumerateCommitsBeginningAtSha:sha sortOptions:GTEnumeratorOptionsTimeSort error:error usingBlock:block];
-}
-
-- (NSArray *)selectCommitsBeginningAtSha:(NSString *)sha error:(NSError **)error block:(BOOL (^)(GTCommit *commit, BOOL *stop))block {
-	NSMutableArray *passingCommits = [NSMutableArray array];
-    [self enumerateCommitsBeginningAtSha:sha error:error usingBlock:^(GTCommit *commit, BOOL *stop) {
-		BOOL passes = block(commit, stop);
-		if (passes) {
-			[passingCommits addObject:commit];
-		}
-    }];
-    return passingCommits;
-}
-
 struct gitPayload {
 	__unsafe_unretained GTRepository *repository;
 	__unsafe_unretained GTRepositoryStatusBlock block;
@@ -334,18 +294,6 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 	}];
 
 	return clean;
-}
-
-- (BOOL)setupIndexWithError:(NSError **)error {
-	git_index *i;
-	int gitError = git_repository_index(&i, self.git_repository);
-	if (gitError < GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to get index for repository."];
-		return NO;
-	} else {
-		self.index = [GTIndex indexWithGitIndex:i];
-		return YES;
-	}
 }
 
 - (GTReference *)headReferenceWithError:(NSError **)error {
@@ -407,32 +355,26 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 		if (localBranch == nil) {
 			[allBranches addObject:branch];
 		}
-
-		NSMutableArray *branches = [NSMutableArray array];
-		if (localBranch.remoteBranches != nil) {
-			[branches addObjectsFromArray:localBranch.remoteBranches];
-		}
-
-		[branches addObject:branch];
-		localBranch.remoteBranches = branches;
 	}
 
     return allBranches;
 }
 
 - (NSUInteger)numberOfCommitsInCurrentBranch:(NSError **)error {
-	GTReference *head = [self headReferenceWithError:error];
-	if (head == nil) return NSNotFound;
+	GTBranch *currentBranch = [self currentBranchWithError:error];
+	if (currentBranch == nil) return NSNotFound;
 
-	return [self.enumerator countFromSha:head.target error:error];
+	return [currentBranch numberOfCommitsWithError:error];
 }
 
 - (GTBranch *)createBranchNamed:(NSString *)name fromReference:(GTReference *)ref error:(NSError **)error {
 	// make sure the ref is up to date before we branch off it, otherwise we could branch off an older sha
-	BOOL success = [ref reloadWithError:error];
-	if (!success) return nil;
+	ref = [ref reloadedReferenceWithError:error];
+	if (ref == nil) return nil;
 
 	GTReference *newRef = [GTReference referenceByCreatingReferenceNamed:[NSString stringWithFormat:@"%@%@", [GTBranch localNamePrefix], name] fromReferenceTarget:ref.target inRepository:self error:error];
+	if (newRef == nil) return nil;
+	
 	return [GTBranch branchWithReference:newRef repository:self];
 }
 
@@ -444,21 +386,7 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 	GTReference *head = [self headReferenceWithError:error];
 	if (head == nil) return nil;
 
-	GTBranch *currentBranch = [GTBranch branchWithReference:head repository:self];
-
-	NSArray *remoteBranches = [self remoteBranchesWithError:error];
-	if (remoteBranches == nil) return nil;
-
-	NSMutableArray *matchedRemoteBranches = [NSMutableArray array];
-	for (GTBranch *branch in remoteBranches) {
-		if ([branch.shortName isEqualToString:currentBranch.shortName]) {
-			[matchedRemoteBranches addObject:branch];
-		}
-	}
-
-	currentBranch.remoteBranches = matchedRemoteBranches;
-
-	return currentBranch;
+	return [GTBranch branchWithReference:head repository:self];
 }
 
 - (NSArray *)localCommitsRelativeToRemoteBranch:(GTBranch *)remoteBranch error:(NSError **)error {
@@ -468,9 +396,9 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 	return [localBranch uniqueCommitsRelativeToBranch:remoteBranch error:error];
 }
 
-- (NSArray *)referenceNamesWithTypes:(GTReferenceTypes)types error:(NSError **)error {
+- (NSArray *)referenceNamesWithError:(NSError **)error {
 	git_strarray array;
-	int gitError = git_reference_list(&array, self.git_repository, types);
+	int gitError = git_reference_list(&array, self.git_repository);
 	if (gitError < GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to list all references."];
 		return nil;
@@ -489,14 +417,6 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 	return references;
 }
 
-- (NSArray *)referenceNamesWithError:(NSError **)error {
-	return [self referenceNamesWithTypes:GTReferenceTypesListAll error:error];
-}
-
-- (GTRepository *)repository {
-	return self;
-}
-
 - (NSURL *)fileURL {
 	const char *path = git_repository_workdir(self.git_repository);
 	// bare repository, you may be looking for gitDirectoryURL
@@ -512,22 +432,6 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 	return [NSURL fileURLWithPath:@(path) isDirectory:YES];
 }
 
-- (GTObjectDatabase *)objectDatabase {
-	if (_objectDatabase == nil) {
-		self.objectDatabase = [GTObjectDatabase objectDatabaseWithRepository:self];
-	}
-
-	return _objectDatabase;
-}
-
-- (GTEnumerator *)enumerator {
-	if (_enumerator == nil) {
-		self.enumerator = [[GTEnumerator alloc] initWithRepository:self error:NULL];
-	}
-
-	return _enumerator;
-}
-
 - (BOOL)isBare {
 	return self.git_repository && git_repository_is_bare(self.git_repository);
 }
@@ -536,53 +440,10 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 	return (BOOL) git_repository_head_detached(self.git_repository);
 }
 
-- (NSMutableSet *)weakEnumerators {
-	if (_weakEnumerators == nil) {
-		self.weakEnumerators = [NSMutableSet set];
-	}
-
-	return _weakEnumerators;
-}
-
-- (GTConfiguration *)configuration {
-	if (_configuration == nil) {
-		git_config *config = NULL;
-		int error = git_repository_config(&config, self.git_repository);
-		if (error < GIT_OK) {
-			return nil;
-		}
-
-		self.configuration = [[GTConfiguration alloc] initWithGitConfig:config repository:self];
-	}
-
-	return _configuration;
-}
-
-- (GTIndex *)index {
-	if (_index == nil) {
-		NSError *error = nil;
-		BOOL success = [self setupIndexWithError:&error];
-		if(!success) {
-			GTLog(@"Error setting up index: %@", error);
-		}
-	}
-
-	return _index;
-}
-
-- (void)addEnumerator:(GTEnumerator *)e {
-	[self.weakEnumerators addObject:[NSValue valueWithNonretainedObject:e]];
-}
-
-- (void)removeEnumerator:(GTEnumerator *)e {
-	[self.weakEnumerators removeObject:[NSValue valueWithNonretainedObject:e]];
-}
-
 - (BOOL)resetToCommit:(GTCommit *)commit withResetType:(GTRepositoryResetType)resetType error:(NSError **)error {
     NSParameterAssert(commit != nil);
     
-    git_object *targetCommit = commit.git_object;
-    int result = git_reset(self.git_repository, targetCommit, (git_reset_t)resetType);
+    int result = git_reset(self.git_repository, commit.git_object, (git_reset_t)resetType);
     if (result == GIT_OK) return YES;
     
     if (error != NULL) *error = [NSError git_errorFor:result withAdditionalDescription:@"Failed to reset repository."];
@@ -639,15 +500,111 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 	return message;
 }
 
+- (GTCommit *)mergeBaseBetweenFirstOID:(GTOID *)firstOID secondOID:(GTOID *)secondOID error:(NSError **)error {
+	NSParameterAssert(firstOID != nil);
+	NSParameterAssert(secondOID != nil);
+
+	git_oid mergeBase;
+	int errorCode = git_merge_base(&mergeBase, self.git_repository, firstOID.git_oid, secondOID.git_oid);
+	if (errorCode < GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:errorCode withAdditionalDescription:@"Failed to find merge base between commits."];
+		return nil;
+	}
+	
+	return (id)[self lookupObjectByOid:&mergeBase objectType:GTObjectTypeCommit error:error];
+}
+
+- (GTObjectDatabase *)objectDatabaseWithError:(NSError **)error {
+	return [[GTObjectDatabase alloc] initWithRepository:self error:error];
+}
+
+- (GTConfiguration *)configurationWithError:(NSError **)error {
+	git_config *config = NULL;
+	int gitError = git_repository_config(&config, self.git_repository);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Faied to get config for repository."];
+		return nil;
+	}
+
+	return [[GTConfiguration alloc] initWithGitConfig:config repository:self];
+}
+
+- (GTIndex *)indexWithError:(NSError **)error {
+	git_index *index = NULL;
+	int gitError = git_repository_index(&index, self.git_repository);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to get index for repository."];
+		return NO;
+	}
+
+	return [[GTIndex alloc] initWithGitIndex:index repository:self];
+}
+
+#pragma mark Submodules
+
+static int submoduleEnumerationCallback(git_submodule *git_submodule, const char *name, void *payload) {
+	GTRepositorySubmoduleEnumerationInfo *info = payload;
+
+	GTSubmodule *submodule = [[GTSubmodule alloc] initWithGitSubmodule:git_submodule parentRepository:info->parentRepository];
+
+	BOOL stop = NO;
+	info->block(submodule, &stop);
+	if (stop) return 1;
+
+	if (info->recursive) {
+		[[submodule submoduleRepository:NULL] enumerateSubmodulesRecursively:YES usingBlock:info->block];
+	}
+
+	return 0;
+}
+
+- (BOOL)reloadSubmodules:(NSError **)error {
+	int gitError = git_submodule_reload_all(self.git_repository);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to reload submodules."];
+		return NO;
+	}
+
+	return YES;
+}
+
+- (void)enumerateSubmodulesRecursively:(BOOL)recursive usingBlock:(void (^)(GTSubmodule *submodule, BOOL *stop))block {
+	NSParameterAssert(block != nil);
+
+	// Enumeration is synchronous, so it's okay for the objects here to be
+	// unretained for the duration.
+	GTRepositorySubmoduleEnumerationInfo info = {
+		.recursive = recursive,
+		.parentRepository = self,
+		.block = block
+	};
+
+	git_submodule_foreach(self.git_repository, &submoduleEnumerationCallback, &info);
+}
+
+- (GTSubmodule *)submoduleWithName:(NSString *)name error:(NSError **)error {
+	NSParameterAssert(name != nil);
+
+	git_submodule *submodule;
+	int gitError = git_submodule_lookup(&submodule, self.git_repository, name.UTF8String);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to look up specified submodule."];
+		return nil;
+	}
+
+	return [[GTSubmodule alloc] initWithGitSubmodule:submodule parentRepository:self];
+}
+
 #pragma mark User
 
 - (GTSignature *)userSignatureForNow {
-	NSString *name = [self.configuration stringForKey:@"user.name"];
+	GTConfiguration *configuration = [self configurationWithError:NULL];
+	NSString *name = [configuration stringForKey:@"user.name"];
 	if (name == nil) {
 		name = NSFullUserName() ?: NSUserName() ?: @"Nobody";
 	}
 
-	NSString *email = [self.configuration stringForKey:@"user.email"];
+	NSString *email = [configuration stringForKey:@"user.email"];
 	if (email == nil) {
 		NSString *username = NSUserName() ?: @"nobody";
 		NSString *domain = NSProcessInfo.processInfo.hostName ?: @"nowhere.local";

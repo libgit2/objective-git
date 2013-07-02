@@ -26,13 +26,21 @@
 #import "GTObject.h"
 
 
-@interface GTObjectDatabase : NSObject <GTObject>
+@interface GTObjectDatabase : NSObject
 
-@property (nonatomic, assign) git_odb *git_odb;
-@property (nonatomic, readonly, unsafe_unretained) GTRepository *repository;
+@property (nonatomic, readonly, strong) GTRepository *repository;
 
-+ (id)objectDatabaseWithRepository:(GTRepository *)repository;
-- (id)initWithRepository:(GTRepository *)repository;
+// Initializes the object database with the given repository.
+//
+// repo  - The repository from which the object database should be created.
+//         Cannot be nil.
+// error - The error if one occurred.
+//
+// Returns the initialized object.
+- (id)initWithRepository:(GTRepository *)repo error:(NSError **)error;
+
+// The underlying `git_odb` object.
+- (git_odb *)git_odb __attribute__((objc_returns_inner_pointer));
 
 - (GTOdbObject *)objectWithOid:(const git_oid *)oid error:(NSError **)error;
 - (GTOdbObject *)objectWithSha:(NSString *)sha error:(NSError **)error;

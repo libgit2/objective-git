@@ -35,17 +35,10 @@
 #import "NSString+Git.h"
 #import "NSDate+GTTimeAdditions.h"
 
-@interface GTCommit ()
-@property (nonatomic, strong) GTSignature *author;
-@property (nonatomic, strong) GTSignature *committer;
-@property (nonatomic, copy) NSArray *parents;
-@end
-
-
 @implementation GTCommit
 
 - (NSString *)description {
-	return [NSString stringWithFormat:@"<%@: %p> author: %@, message: %@", NSStringFromClass([self class]), self, self.author, [self message]];
+	return [NSString stringWithFormat:@"<%@: %p>{ SHA: %@, author: %@, message: %@ }", self.class, self, self.sha, self.author, self.message];
 }
 
 - (git_commit *)git_commit {
@@ -133,18 +126,11 @@
 }
 
 - (GTSignature *)author {
-	if (_author == nil) {
-		_author = [[GTSignature alloc] initWithGitSignature:git_commit_author(self.git_commit)];
-	}
-	
-	return _author;
+	return [[GTSignature alloc] initWithGitSignature:git_commit_author(self.git_commit)];
 }
 
 - (GTSignature *)committer {
-	if (_committer == nil) {
-		_committer = [[GTSignature alloc] initWithGitSignature:git_commit_committer(self.git_commit)];
-	}
-	return _committer;
+	return [[GTSignature alloc] initWithGitSignature:git_commit_committer(self.git_commit)];
 }
 
 - (GTTree *)tree {
@@ -160,22 +146,18 @@
 }
 
 - (NSArray *)parents {
-	if(_parents == nil) {
-		unsigned int numberOfParents = git_commit_parentcount(self.git_commit);
-		NSMutableArray *parents = [NSMutableArray arrayWithCapacity:numberOfParents];
-		
-		for (unsigned int i = 0; i < numberOfParents; i++) {
-			git_commit *parent = NULL;
-			int parentResult = git_commit_parent(&parent, self.git_commit, i);
-			if (parentResult != GIT_OK) continue;
-
-			[parents addObject:(GTCommit *)[GTObject objectWithObj:(git_object *)parent inRepository:self.repository]];
-		}
-		
-		_parents = [parents copy];
-	}
+	unsigned numberOfParents = git_commit_parentcount(self.git_commit);
+	NSMutableArray *parents = [NSMutableArray arrayWithCapacity:numberOfParents];
 	
-	return _parents;
+	for (unsigned i = 0; i < numberOfParents; i++) {
+		git_commit *parent = NULL;
+		int parentResult = git_commit_parent(&parent, self.git_commit, i);
+		if (parentResult != GIT_OK) continue;
+
+		[parents addObject:(GTCommit *)[GTObject objectWithObj:(git_object *)parent inRepository:self.repository]];
+	}
+
+	return parents;
 }
 
 @end

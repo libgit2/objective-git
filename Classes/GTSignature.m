@@ -30,12 +30,19 @@
 #import "GTSignature.h"
 #import "NSDate+GTTimeAdditions.h"
 
+@interface GTSignature ()
+@property (nonatomic, assign, readonly) git_signature *git_signature;
+@end
+
 @implementation GTSignature
 
 #pragma mark Lifecycle
 
 - (void)dealloc {
-	if (_git_signature != NULL) git_signature_free(_git_signature);
+	if (_git_signature != NULL) {
+		git_signature_free(_git_signature);
+		_git_signature = NULL;
+	}
 }
 
 - (id)initWithGitSignature:(const git_signature *)git_signature {
@@ -45,6 +52,7 @@
 	if (self == nil) return nil;
 
 	_git_signature = git_signature_dup(git_signature);
+	NSAssert(_git_signature != NULL, @"Couldn't copy signature.");
 
 	return self;
 }
@@ -66,16 +74,36 @@
 #pragma mark NSObject
 
 - (NSString *)description {
-	return [NSString stringWithFormat:@"<%@: %p> name: %@, email: %@, time: %@", self.class, self, self.name, self.email, self.time];
+	return [NSString stringWithFormat:@"<%@: %p>{ name: %@, email: %@, time: %@, timeZone: %@ }", self.class, self, self.name, self.email, self.time, self.timeZone];
+}
+
+- (NSUInteger)hash {
+	return self.name.hash ^ self.email.hash ^ self.time.hash;
+}
+
+- (BOOL)isEqual:(GTSignature *)signature {
+	if (self == signature) return YES;
+	if (![signature isKindOfClass:GTSignature.class]) return NO;
+
+	if (self.name != signature.name && ![self.name isEqual:signature.name]) return NO;
+	if (self.email != signature.email && ![self.email isEqual:signature.email]) return NO;
+	if (self.time != signature.time && ![self.time isEqual:signature.time]) return NO;
+	if (self.timeZone != signature.timeZone && ![self.timeZone isEqual:signature.timeZone]) return NO;
+
+	return YES;
 }
 
 #pragma mark Properties 
 
 - (NSString *)name {
+	if (self.git_signature == NULL) return nil;
+
 	return @(self.git_signature->name);
 }
 
 - (NSString *)email {
+	if (self.git_signature == NULL) return nil;
+
 	return @(self.git_signature->email);
 }
 

@@ -12,9 +12,10 @@
 
 // Initializes the receiver with the underlying reflog entry.
 //
-// entry - The reflog entry. Cannot be NULL.
+// entry  - The reflog entry. Cannot be NULL.
+// reflog - The reflog in which the entry resides. Cannot be nil.
 //
 // Returns the initialized object.
-- (id)initWithGitReflogEntry:(const git_reflog_entry *)entry;
+- (id)initWithGitReflogEntry:(const git_reflog_entry *)entry reflog:(GTReflog *)reflog;
 
 @end

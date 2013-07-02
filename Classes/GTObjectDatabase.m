@@ -29,10 +29,11 @@
 #import "GTOdbObject.h"
 #import "NSString+Git.h"
 
-@interface GTObjectDatabase ()
-@property (nonatomic, unsafe_unretained) GTRepository *repository;
-@end
+#import "git2/odb_backend.h"
 
+@interface GTObjectDatabase ()
+@property (nonatomic, readonly, assign) git_odb *git_odb;
+@end
 
 @implementation GTObjectDatabase
 
@@ -41,43 +42,40 @@
 }
 
 - (void)dealloc {
-	git_odb_free(self.git_odb);
-    self.repository = nil;
+	if (_git_odb != NULL) {
+		git_odb_free(_git_odb);
+		_git_odb = NULL;
+	}
 }
-
 
 #pragma mark API
 
-@synthesize git_odb;
-@synthesize repository;
+- (id)initWithRepository:(GTRepository *)repo error:(NSError **)error {
+	NSParameterAssert(repo != nil);
 
-+ (id)objectDatabaseWithRepository:(GTRepository *)repo {
-    return [[self alloc] initWithRepository:repo];
-}
+	self = [super init];
+	if (self == nil) return nil;
 
-- (id)initWithRepository:(GTRepository *)repo {
-    self = [super init];
-    if (self) {
-        self.repository = repo;
-        git_repository_odb(&git_odb, self.repository.git_repository);
-    }
-    return self;
+	_repository = repo;
+
+	int gitError = git_repository_odb(&_git_odb, repo.git_repository);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to get ODB for repo."];
+		return nil;
+	}
+
+	return self;
 }
 
 - (GTOdbObject *)objectWithOid:(const git_oid *)oid error:(NSError **)error {
 	git_odb_object *obj;
-	
 	int gitError = git_odb_read(&obj, self.git_odb, oid);
-	if(gitError < GIT_OK) {
-		if(error != NULL)
-			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to read raw object."];
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to read raw object."];
 		return nil;
 	}
-	
-	GTOdbObject *rawObj = [GTOdbObject objectWithOdbObj:obj];
-	git_odb_object_free(obj);
-	
-	return rawObj;    
+
+	return [[GTOdbObject alloc] initWithOdbObj:obj repository:self.repository];
 }
 
 - (GTOdbObject *)objectWithSha:(NSString *)sha error:(NSError **)error {

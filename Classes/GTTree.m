@@ -29,20 +29,20 @@
 
 #import "GTTree.h"
 #import "GTTreeEntry.h"
+#import "GTRepository.h"
+#import "GTIndex.h"
 #import "NSError+Git.h"
-
 
 @implementation GTTree
 
 - (NSString *)description {
-	return [NSString stringWithFormat:@"<%@: %p> numberOfEntries: %lu", NSStringFromClass([self class]), self, (unsigned long)[self numberOfEntries]];
+	return [NSString stringWithFormat:@"<%@: %p> entryCount: %lu", self.class, self, (unsigned long)self.entryCount];
 }
-
 
 #pragma mark API
 
-- (NSUInteger)numberOfEntries {
-	return (NSUInteger) git_tree_entrycount(self.git_tree);
+- (NSUInteger)entryCount {
+	return (NSUInteger)git_tree_entrycount(self.git_tree);
 }
 
 - (GTTreeEntry *)createEntryWithEntry:(const git_tree_entry *)entry {
@@ -50,34 +50,30 @@
 }
 
 - (GTTreeEntry *)entryAtIndex:(NSUInteger)index {
-	return [self createEntryWithEntry:git_tree_entry_byindex(self.git_tree, (unsigned int) index)];
+	return [self createEntryWithEntry:git_tree_entry_byindex(self.git_tree, index)];
 }
 
 - (GTTreeEntry *)entryWithName:(NSString *)name {
-	return [self createEntryWithEntry:git_tree_entry_byname(self.git_tree, [name UTF8String])];
+	return [self createEntryWithEntry:git_tree_entry_byname(self.git_tree, name.UTF8String)];
 }
 
 - (git_tree *)git_tree {
-	return (git_tree *) self.git_object;
+	return (git_tree *)self.git_object;
 }
 
-/*
-- (GTTreeEntry *)addEntryWithSha:(NSString *)sha filename:(NSString *)filename mode:(NSInteger *)mode error:(NSError **)error {
-	
-	git_tree_entry *newEntry;
-	git_oid oid;
- 
-    BOOL success = [sha git_getOid:&oid error:error];
-	if(!success) return nil;
-	
-	int gitError = git_tree_add_entry(&newEntry, self.tree, &oid, [filename UTF8String], (int)mode);
-	if(gitError < GIT_OK) {
-		if(error != NULL)
-			*error = [NSError gitErrorForAddTreeEntry:gitError];
+#pragma mark Merging
+
+- (GTIndex *)merge:(GTTree *)otherTree ancestor:(GTTree *)ancestorTree error:(NSError **)error {
+	NSParameterAssert(otherTree != nil);
+
+	git_index *index;
+	int result = git_merge_trees(&index, self.repository.git_repository, ancestorTree.git_tree, self.git_tree, otherTree.git_tree, NULL);
+	if (result != GIT_OK || index == NULL) {
+		if (error != NULL) *error = [NSError git_errorFor:result withAdditionalDescription:@"Couldn't merge trees"];
 		return nil;
 	}
-	
-	return [self createEntryWithEntry:newEntry];
+
+	return [[GTIndex alloc] initWithGitIndex:index repository:self.repository];
 }
-*/
+
 @end

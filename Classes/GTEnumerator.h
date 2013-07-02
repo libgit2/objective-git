@@ -30,40 +30,103 @@
 #import "GTObject.h"
 
 // Options to specify enumeration order when enumerating through a repository.
-// These options may be bitwise-OR'd together
-enum {
+// With the exception of GTEnumeratorOptionsNone, the values here can be ORed
+// together to combine their behaviors.
+//
+// GTEnumeratorOptionsNone            - Implementation-defined sorting.
+// GTEnumeratorOptionsTopologicalSort - Sort parents before children.
+// GTEnumeratorOptionsTimeSort        - Sort by commit time.
+// GTEnumeratorOptionsReverse         - Iterate in reverse order.
+typedef enum : unsigned int {
 	GTEnumeratorOptionsNone = GIT_SORT_NONE,
-	GTEnumeratorOptionsTopologicalSort = GIT_SORT_TOPOLOGICAL, // sort parents before children
-	GTEnumeratorOptionsTimeSort = GIT_SORT_TIME, // sort by commit time
-	GTEnumeratorOptionsReverse = GIT_SORT_REVERSE, // sort in reverse order
-};
-
-typedef unsigned int GTEnumeratorOptions;
+	GTEnumeratorOptionsTopologicalSort = GIT_SORT_TOPOLOGICAL,
+	GTEnumeratorOptionsTimeSort = GIT_SORT_TIME,
+	GTEnumeratorOptionsReverse = GIT_SORT_REVERSE,
+} GTEnumeratorOptions;
 
 @class GTRepository;
 @class GTCommit;
-@protocol GTObject;
 
-// This object is usually used from within a repository. You generally don't 
-// need to instantiate a GTEnumerator. Instead, use the enumerator property on 
-// GTRepository
-@interface GTEnumerator : NSEnumerator <GTObject> {}
+// Enumerates the commits in a repository.
+@interface GTEnumerator : NSEnumerator
 
-@property (nonatomic, unsafe_unretained) GTRepository *repository;
-@property (nonatomic, assign) GTEnumeratorOptions options;
+// The repository being enumerated.
+@property (nonatomic, strong, readonly) GTRepository *repository;
 
-- (id)initWithRepository:(GTRepository *)theRepo error:(NSError **)error;
-+ (id)enumeratorWithRepository:(GTRepository *)theRepo error:(NSError **)error;
+// The options currently being used for enumeration.
+//
+// To set new options, use -resetWithOptions:.
+@property (nonatomic, assign, readonly) GTEnumeratorOptions options;
 
-- (BOOL)push:(NSString *)sha error:(NSError **)error;
+// Initializes the receiver to enumerate the commits in the given repository.
+//
+// repo  - The repository to enumerate the commits of. This must not be nil.
+// error - If not NULL, set to any error that occurs.
+//
+// Returns an initialized enumerator, or nil if an error occurs.
+- (id)initWithRepository:(GTRepository *)repo error:(NSError **)error;
 
-// suppress the enumeration of the specified commit and all of its ancestors
-- (BOOL)skipCommitWithHash:(NSString *)sha error:(NSError **)error;
+// Marks a commit to start traversal from.
+//
+// sha   - The SHA of a commit in the receiver's repository. This must not be
+//         nil.
+// error - If not NULL, this will be set to any error that occurs.
+//
+// Returns whether pushing the commit was successful.
+- (BOOL)pushSHA:(NSString *)sha error:(NSError **)error;
 
-- (void)reset;
-- (NSUInteger)countFromSha:(NSString *)sha error:(NSError **)error;
+// Pushes all references matching `refGlob`.
+//
+// refGlob - A glob to match references against. This must not be nil.
+// error   - If not NULL, this will be set to any error that occurs.
+//
+// Returns whether pushing matching references was successful.
+- (BOOL)pushGlob:(NSString *)refGlob error:(NSError **)error;
 
+// Hides the specified commit and all of its ancestors when enumerating.
+//
+// sha   - The SHA of a commit in the receiver's repository. This must not be
+//         nil.
+// error - If not NULL, this will be set to any error that occurs.
+//
+// Returns whether marking the SHA for hiding was successful.
+- (BOOL)hideSHA:(NSString *)sha error:(NSError **)error;
+
+// Hides all references matching `refGlob`.
+//
+// refGlob - A glob to match references against. This must not be nil.
+// error   - If not NULL, this will be set to any error that occurs.
+//
+// Returns whether marking matching references for hiding was successful.
+- (BOOL)hideGlob:(NSString *)refGlob error:(NSError **)error;
+
+// Resets the receiver, putting it back into a clean state for reuse, and
+// replacing the receiver's `options`.
+- (void)resetWithOptions:(GTEnumeratorOptions)options;
+
+// Enumerates all marked commits, completely exhausting the receiver.
+//
+// error - If not NULL, set to any error that occurs during traversal.
+//
+// Returns a (possibly empty) array of GTCommits, or nil if an error occurs.
 - (NSArray *)allObjectsWithError:(NSError **)error;
-- (id)nextObjectWithError:(NSError **)error;
+
+// Gets the next commit.
+//
+// success - If not NULL, this will be set to whether getting the next object
+//           was successful. This will be YES if the receiver is exhausted, so
+//           it can be used to interpret the meaning of a nil return value.
+// error   - If not NULL, set to any error that occurs during traversal.
+//
+// Returns nil if an error occurs or the receiver is exhausted.
+- (GTCommit *)nextObjectWithSuccess:(BOOL *)success error:(NSError **)error;
+
+// Counts the number of commits that were not enumerated, completely exhausting
+// the receiver.
+//
+// error - If not NULL, set to any error that occurs during traversal.
+//
+// Returns the number of commits remaining, or `NSNotFound` if an error occurs.
+- (NSUInteger)countRemainingObjects:(NSError **)error;
 
 @end

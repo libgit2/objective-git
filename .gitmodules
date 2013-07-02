@@ -7,3 +7,6 @@
 [submodule "ObjectiveGitTests/expecta"]
 	path = ObjectiveGitTests/expecta
 	url = git://github.com/github/expecta.git
+[submodule "Configuration"]
+	path = Configuration
+	url = https://github.com/jspahrsummers/xcconfigs.git

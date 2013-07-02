@@ -30,6 +30,8 @@
 #import <ObjectiveGit/GTCommit.h>
 #import <ObjectiveGit/GTSignature.h>
 #import <ObjectiveGit/GTTree.h>
+#import <ObjectiveGit/GTTreeEntry.h>
+#import <ObjectiveGit/GTTreeBuilder.h>
 #import <ObjectiveGit/GTBlob.h>
 #import <ObjectiveGit/GTTag.h>
 #import <ObjectiveGit/GTIndex.h>
@@ -42,6 +44,7 @@
 #import <ObjectiveGit/GTReflog.h>
 #import <ObjectiveGit/GTReflogEntry.h>
 #import <ObjectiveGit/GTOID.h>
+#import <ObjectiveGit/GTSubmodule.h>
 
 #import <ObjectiveGit/GTObjectDatabase.h>
 #import <ObjectiveGit/GTOdbObject.h>

@@ -28,7 +28,17 @@ NSString *const GTDiffFindOptionsRenameThresholdKey = @"GTDiffFindOptionsRenameT
 NSString *const GTDiffFindOptionsRenameFromRewriteThresholdKey = @"GTDiffFindOptionsRenameFromRewriteThresholdKey";
 NSString *const GTDiffFindOptionsCopyThresholdKey = @"GTDiffFindOptionsCopyThresholdKey";
 NSString *const GTDiffFindOptionsBreakRewriteThresholdKey = @"GTDiffFindOptionsBreakRewriteThresholdKey";
-NSString *const GTDiffFindOptionsTargetLimitKey = @"GTDiffFindOptionsTargetLimitKey";
+NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimitKey";
+
+@interface GTDiff ()
+
+@property (nonatomic, assign, readonly) git_diff_list *git_diff_list;
+
+// A cache of the deltas for the diff. Will be populated only after the first
+// call of -enumerateDeltasUsingBlock:.
+@property (atomic, copy) NSArray *cachedDeltas;
+
+@end
 
 @implementation GTDiff
 
@@ -81,12 +91,14 @@ NSString *const GTDiffFindOptionsTargetLimitKey = @"GTDiffFindOptionsTargetLimit
 	free(options);
 }
 
-+ (GTDiff *)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree options:(NSDictionary *)options error:(NSError **)error {
-	NSParameterAssert([oldTree.repository isEqual:newTree.repository]);
++ (GTDiff *)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree inRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error {
+	NSParameterAssert(repository != nil);
+	NSParameterAssert(newTree == nil || [newTree.repository isEqual:repository]);
+	NSParameterAssert(oldTree == nil || [oldTree.repository isEqual:repository]);
 	
 	git_diff_options *optionsStruct = [self optionsStructFromDictionary:options];
 	git_diff_list *diffList;
-	int returnValue = git_diff_tree_to_tree(&diffList, oldTree.repository.git_repository, oldTree.git_tree, newTree.git_tree, optionsStruct);
+	int returnValue = git_diff_tree_to_tree(&diffList, repository.git_repository, oldTree.git_tree, newTree.git_tree, optionsStruct);
 	[self freeOptionsStruct:optionsStruct];
 	if (returnValue != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:returnValue withAdditionalDescription:@"Failed to create diff."];
@@ -97,12 +109,13 @@ NSString *const GTDiffFindOptionsTargetLimitKey = @"GTDiffFindOptionsTargetLimit
 	return newDiff;
 }
 
-+ (GTDiff *)diffIndexFromTree:(GTTree *)tree options:(NSDictionary *)options error:(NSError **)error {
-	NSParameterAssert(tree != nil);
-	
++ (GTDiff *)diffIndexFromTree:(GTTree *)tree inRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error {
+	NSParameterAssert(repository != nil);
+	NSParameterAssert(tree == nil || [tree.repository isEqual:repository]);
+
 	git_diff_options *optionsStruct = [self optionsStructFromDictionary:options];
 	git_diff_list *diffList;
-	int returnValue = git_diff_tree_to_index(&diffList, tree.repository.git_repository, tree.git_tree, NULL, optionsStruct);
+	int returnValue = git_diff_tree_to_index(&diffList, repository.git_repository, tree.git_tree, NULL, optionsStruct);
 	[self freeOptionsStruct:optionsStruct];
 	if (returnValue != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:returnValue withAdditionalDescription:@"Failed to create diff."];
@@ -129,12 +142,13 @@ NSString *const GTDiffFindOptionsTargetLimitKey = @"GTDiffFindOptionsTargetLimit
 	return newDiff;
 }
 
-+ (GTDiff *)diffWorkingDirectoryFromTree:(GTTree *)tree options:(NSDictionary *)options error:(NSError **)error {
-	NSParameterAssert(tree != nil);
-	
++ (GTDiff *)diffWorkingDirectoryFromTree:(GTTree *)tree inRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error {
+	NSParameterAssert(repository != nil);
+	NSParameterAssert(tree == nil || [tree.repository isEqual:repository]);
+
 	git_diff_options *optionsStruct = [self optionsStructFromDictionary:options];
 	git_diff_list *diffList;
-	int returnValue = git_diff_tree_to_workdir(&diffList, tree.repository.git_repository, tree.git_tree, optionsStruct);
+	int returnValue = git_diff_tree_to_workdir(&diffList, repository.git_repository, tree.git_tree, optionsStruct);
 	[self freeOptionsStruct:optionsStruct];
 	if (returnValue != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:returnValue withAdditionalDescription:@"Failed to create diff."];
@@ -148,10 +162,8 @@ NSString *const GTDiffFindOptionsTargetLimitKey = @"GTDiffFindOptionsTargetLimit
 + (GTDiff *)diffWorkingDirectoryToHEADInRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error {
 	NSParameterAssert(repository != nil);
 
-	GTCommit *HEADCommit = (GTCommit *)[repository lookupObjectByRefspec:@"HEAD" error:error];
-	if (HEADCommit == nil) return nil;
-
-	GTDiff *HEADIndexDiff = [GTDiff diffIndexFromTree:HEADCommit.tree options:options error:error];
+	GTCommit *HEADCommit = (GTCommit *)[repository lookupObjectByRefspec:@"HEAD" error:NULL];
+	GTDiff *HEADIndexDiff = [GTDiff diffIndexFromTree:HEADCommit.tree inRepository:repository options:options error:error];
 	if (HEADIndexDiff == nil) return nil;
 
 	GTDiff *WDDiff = [GTDiff diffIndexToWorkingDirectoryInRepository:repository options:options error:error];
@@ -174,21 +186,34 @@ NSString *const GTDiffFindOptionsTargetLimitKey = @"GTDiffFindOptionsTargetLimit
 }
 
 - (void)dealloc {
-	git_diff_list_free(self.git_diff_list);
+	if (_git_diff_list != NULL) {
+		git_diff_list_free(_git_diff_list);
+		_git_diff_list = NULL;
+	}
 }
 
 - (void)enumerateDeltasUsingBlock:(void (^)(GTDiffDelta *delta, BOOL *stop))block {
 	NSParameterAssert(block != nil);
-	
-	for (NSUInteger idx = 0; idx < self.deltaCount; idx ++) {
-		git_diff_patch *patch;
-		int result = git_diff_get_patch(&patch, NULL, self.git_diff_list, idx);
-		if (result != GIT_OK) continue;
-		GTDiffDelta *delta = [[GTDiffDelta alloc] initWithGitPatch:patch];
-		BOOL stop = NO;
-		block(delta, &stop);
-		if (stop) return;
+
+	if (self.cachedDeltas == nil) {
+		NSMutableArray *deltas = [NSMutableArray arrayWithCapacity:self.deltaCount];
+		for (NSUInteger idx = 0; idx < self.deltaCount; idx ++) {
+			git_diff_patch *patch;
+			int result = git_diff_get_patch(&patch, NULL, self.git_diff_list, idx);
+			if (result != GIT_OK) continue;
+			
+			GTDiffDelta *delta = [[GTDiffDelta alloc] initWithGitPatch:patch];
+			if (delta == nil) continue;
+
+			[deltas addObject:delta];
+		}
+
+		self.cachedDeltas = deltas;
 	}
+
+	[self.cachedDeltas enumerateObjectsUsingBlock:^(GTDiffDelta *delta, NSUInteger idx, BOOL *stop) {
+		block(delta, stop);
+	}];
 }
 
 - (NSUInteger)deltaCount {
@@ -206,19 +231,19 @@ NSString *const GTDiffFindOptionsTargetLimitKey = @"GTDiffFindOptionsTargetLimit
 	if (flagsNumber != nil) newOptions->flags = (uint32_t)flagsNumber.unsignedIntegerValue;
 	
 	NSNumber *renameThresholdNumber = dictionary[GTDiffFindOptionsRenameThresholdKey];
-	if (renameThresholdNumber != nil) newOptions->rename_threshold = renameThresholdNumber.unsignedIntValue;
+	if (renameThresholdNumber != nil) newOptions->rename_threshold = renameThresholdNumber.unsignedShortValue;
 	
 	NSNumber *renameFromRewriteThresholdNumber = dictionary[GTDiffFindOptionsRenameFromRewriteThresholdKey];
-	if (renameFromRewriteThresholdNumber != nil) newOptions->rename_from_rewrite_threshold = renameFromRewriteThresholdNumber.unsignedIntValue;
+	if (renameFromRewriteThresholdNumber != nil) newOptions->rename_from_rewrite_threshold = renameFromRewriteThresholdNumber.unsignedShortValue;
 	
 	NSNumber *copyThresholdNumber = dictionary[GTDiffFindOptionsCopyThresholdKey];
-	if (copyThresholdNumber != nil) newOptions->copy_threshold = copyThresholdNumber.unsignedIntValue;
+	if (copyThresholdNumber != nil) newOptions->copy_threshold = copyThresholdNumber.unsignedShortValue;
 	
 	NSNumber *breakRewriteThresholdNumber = dictionary[GTDiffFindOptionsBreakRewriteThresholdKey];
-	if (renameThresholdNumber != nil) newOptions->break_rewrite_threshold = breakRewriteThresholdNumber.unsignedIntValue;
+	if (renameThresholdNumber != nil) newOptions->break_rewrite_threshold = breakRewriteThresholdNumber.unsignedShortValue;
 	
-	NSNumber *targetLimitNumber = dictionary[GTDiffFindOptionsTargetLimitKey];
-	if (targetLimitNumber != nil) newOptions->target_limit = targetLimitNumber.unsignedIntValue;
+	NSNumber *renameLimitNumber = dictionary[GTDiffFindOptionsRenameLimitKey];
+	if (renameLimitNumber != nil) newOptions->rename_limit = renameLimitNumber.unsignedShortValue;
 	
 	return YES;
 }

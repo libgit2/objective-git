@@ -34,4 +34,21 @@ describe(@"-preparedMessage", ^{
 	});
 });
 
+describe(@"-mergeBaseBetweenFirstOID:secondOID:error:", ^{
+	it(@"should find the merge base between two branches", ^{
+		NSError *error = nil;
+		GTBranch *masterBranch = [[GTBranch alloc] initWithName:@"refs/heads/master" repository:repository error:&error];
+		expect(masterBranch).notTo.beNil();
+		expect(error).to.beNil();
+
+		GTBranch *otherBranch = [[GTBranch alloc] initWithName:@"refs/heads/other-branch" repository:repository error:&error];
+		expect(otherBranch).notTo.beNil();
+		expect(error).to.beNil();
+
+		GTCommit *mergeBase = [repository mergeBaseBetweenFirstOID:masterBranch.reference.OID secondOID:otherBranch.reference.OID error:&error];
+		expect(mergeBase).notTo.beNil();
+		expect(mergeBase.sha).to.equal(@"f7ecd8f4404d3a388efbff6711f1bdf28ffd16a0");
+	});
+});
+
 SpecEnd

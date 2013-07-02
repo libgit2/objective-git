@@ -32,13 +32,14 @@
 #import "GTEnumerator.h"
 #import "GTReference.h"
 
+@class GTBranch;
+@class GTCommit;
+@class GTConfiguration;
+@class GTIndex;
 @class GTObjectDatabase;
 @class GTOdbObject;
-@class GTCommit;
-@class GTIndex;
-@class GTBranch;
-@class GTConfiguration;
 @class GTSignature;
+@class GTSubmodule;
 
 // Options returned from the enumerateFileStatusUsingBlock: function
 enum {
@@ -55,7 +56,7 @@ enum {
 
 typedef unsigned int GTRepositoryFileStatus;
 
-typedef enum : git_reset_t {
+typedef enum {
     GTRepositoryResetTypeSoft = GIT_RESET_SOFT,
     GTRepositoryResetTypeMixed = GIT_RESET_MIXED,
     GTRepositoryResetTypeHard = GIT_RESET_HARD
@@ -70,17 +71,12 @@ typedef enum : git_stash_flags {
 
 typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus status, BOOL *stop);
 
-@interface GTRepository : NSObject <GTObject>
+@interface GTRepository : NSObject
 
-@property (nonatomic, assign, readonly) git_repository *git_repository;
 // The file URL for the repository's working directory.
 @property (nonatomic, readonly, strong) NSURL *fileURL;
 // The file URL for the repository's .git directory.
 @property (nonatomic, readonly, strong) NSURL *gitDirectoryURL;
-@property (nonatomic, readonly, strong) GTEnumerator *enumerator; // should only be used on the main thread
-@property (nonatomic, readonly, strong) GTIndex *index;
-@property (nonatomic, readonly, strong) GTObjectDatabase *objectDatabase;
-@property (nonatomic, readonly, strong) GTConfiguration *configuration;
 @property (nonatomic, readonly, getter=isBare) BOOL bare; // Is this a 'bare' repository?  i.e. created with git clone --bare
 @property (nonatomic, readonly, getter=isEmpty) BOOL empty; // Is this repository empty? Will only be YES for a freshly `git init`'d repo.
 @property (nonatomic, readonly, getter=isHeadDetached) BOOL headDetached; // Is HEAD detached? i.e., not pointing to any permanent ref.
@@ -89,6 +85,18 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 
 + (id)repositoryWithURL:(NSURL *)localFileURL error:(NSError **)error;
 - (id)initWithURL:(NSURL *)localFileURL error:(NSError **)error;
+
+// Initializes the receiver to wrap the given repository object.
+//
+// repository - The repository to wrap. The receiver will take over memory
+//              management of this object, so it must not be freed elsewhere
+//              after this method is invoked. This must not be nil.
+//
+// Returns an initialized GTRepository.
+- (id)initWithGitRepository:(git_repository *)repository;
+
+// The underlying `git_repository` object.
+- (git_repository *)git_repository __attribute__((objc_returns_inner_pointer));
 
 // Clone a repository
 //
@@ -120,18 +128,7 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 // Lookup an object in the repo using a revparse spec
 - (GTObject *)lookupObjectByRefspec:(NSString *)spec error:(NSError **)error;
 
-// List references in the repository
-//
-// types - One or more GTReferenceTypes
-// error(out) - will be filled if an error occurs
-//
-// returns an array of NSStrings holding the names of the references
-// returns nil if an error occurred and fills the error parameter
-- (NSArray *)referenceNamesWithTypes:(GTReferenceTypes)types error:(NSError **)error;
-
 // List all references in the repository
-//
-// This is a convenience method for listReferencesInRepo: type:GTReferenceTypesListAll error:
 //
 // repository - The GTRepository to list references in
 // error(out) - will be filled if an error occurs
@@ -140,11 +137,6 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 // returns nil if an error occurred and fills the error parameter
 - (NSArray *)referenceNamesWithError:(NSError **)error;
 
-- (BOOL)enumerateCommitsBeginningAtSha:(NSString *)sha sortOptions:(GTEnumeratorOptions)options error:(NSError **)error usingBlock:(void (^)(GTCommit *, BOOL *))block;
-- (BOOL)enumerateCommitsBeginningAtSha:(NSString *)sha error:(NSError **)error usingBlock:(void (^)(GTCommit *, BOOL *))block;
-
-- (NSArray *)selectCommitsBeginningAtSha:(NSString *)sha error:(NSError **)error block:(BOOL (^)(GTCommit *commit, BOOL *stop))block;
-
 // For each file in the repository calls your block with the URL of the file and the status of that file in the repository,
 //
 // block - the block that gets called for each file
@@ -152,8 +144,6 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 
 // Return YES if the working directory is clean (no modified, new, or deleted files in index)
 - (BOOL)isWorkingDirectoryClean;
-
-- (BOOL)setupIndexWithError:(NSError **)error;
 
 - (GTReference *)headReferenceWithError:(NSError **)error;
 
@@ -227,5 +217,63 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 //
 // Returns commit of the stashed changes if successful, nil in the even of an error
 - (GTCommit*)stashChangesWithMessage:(NSString *)message withStashFlag:(GTRepositoryStashFlag)stashFlag error:(NSError **)error;
+
+// Reloads all cached information about the receiver's submodules.
+//
+// Existing GTSubmodule objects from this repository will be mutated as part of
+// this operation.
+//
+// error - If not NULL, set to any errors that occur.
+//
+// Returns whether the reload succeeded.
+- (BOOL)reloadSubmodules:(NSError **)error;
+
+// Enumerates over all the tracked submodules in the repository.
+//
+// recursive - Whether to recurse into nested submodules, depth-first.
+// block     - A block to execute for each `submodule` found. Setting `stop` to
+//             YES will cause enumeration to stop after the block returns. This
+//             must not be nil.
+- (void)enumerateSubmodulesRecursively:(BOOL)recursive usingBlock:(void (^)(GTSubmodule *submodule, BOOL *stop))block;
+
+// Looks up the top-level submodule with the given name. This will not recurse
+// into submodule repositories.
+//
+// name  - The name of the submodule. This must not be nil.
+// error - If not NULL, set to any error that occurs.
+//
+// Returns the first submodule that matches the given name, or nil if an error
+// occurred locating or instantiating the GTSubmodule.
+- (GTSubmodule *)submoduleWithName:(NSString *)name error:(NSError **)error;
+
+// Finds the merge base between the commits pointed at by the given OIDs.
+//
+// firstOID  - The OID for the first commit. This must not be nil.
+// secondOID - The OID for the second commit. This must not be nil.
+// error     - If not NULL, set to any error that occurs.
+//
+// Returns the merge base, or nil if none is found or an error occurred.
+- (GTCommit *)mergeBaseBetweenFirstOID:(GTOID *)firstOID secondOID:(GTOID *)secondOID error:(NSError **)error;
+
+// The object database backing the repository.
+//
+// error - The error if one occurred.
+//
+// Returns the object database, or nil if an error occurred.
+- (GTObjectDatabase *)objectDatabaseWithError:(NSError **)error;
+
+// The configuration for the repository.
+//
+// error - The error if one occurred.
+//
+// Returns the configuration, or nil if an error occurred.
+- (GTConfiguration *)configurationWithError:(NSError **)error;
+
+// The index for the repository.
+//
+// error - The error if one occurred.
+//
+// Returns the index, or nil if an error occurred.
+- (GTIndex *)indexWithError:(NSError **)error;
 
 @end

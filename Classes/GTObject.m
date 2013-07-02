@@ -38,9 +38,8 @@
 #import "GTTag.h"
 
 @interface GTObject ()
-@property (nonatomic, assign) git_object *git_object;
+@property (nonatomic, readonly, assign) git_object *git_object;
 @end
-
 
 @implementation GTObject
 
@@ -49,8 +48,10 @@
 }
 
 - (void)dealloc {
-	self.repository = nil;
-	git_object_free(self.git_object);
+	if (_git_object != NULL) {
+		git_object_free(_git_object);
+		_git_object = NULL;
+	}
 }
 
 - (NSUInteger)hash {
@@ -66,14 +67,16 @@
 
 #pragma mark API 
 
-@synthesize git_object;
-@synthesize repository;
+- (id)initWithObj:(git_object *)object inRepository:(GTRepository *)repo {
+	NSParameterAssert(object != NULL);
+	NSParameterAssert(repo != nil);
 
-- (id)initWithObj:(git_object *)theObject inRepository:(GTRepository *)theRepo {
-	if((self = [super init])) {
-		self.repository = theRepo;
-		self.git_object = theObject;
-	}
+	self = [super init];
+	if (self == nil) return nil;
+
+	_repository = repo;
+	_git_object = object;
+
 	return self;
 }
 
@@ -114,7 +117,10 @@
 }
 
 - (GTOdbObject *)odbObjectWithError:(NSError **)error {
-    return [self.repository.objectDatabase objectWithOid:git_object_id(self.git_object) error:error];
+	GTObjectDatabase *database = [self.repository objectDatabaseWithError:error];
+	if (database == nil) return nil;
+
+	return [database objectWithOid:git_object_id(self.git_object) error:error];
 }
 
 @end

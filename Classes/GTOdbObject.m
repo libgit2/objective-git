@@ -9,12 +9,18 @@
 #import "GTOdbObject.h"
 #import "NSString+Git.h"
 
-@interface GTOdbObject()
-@property (nonatomic, assign) git_odb_object *git_odb_object;
+@interface GTOdbObject ()
+@property (nonatomic, assign, readonly) git_odb_object *git_odb_object;
 @end
 
-
 @implementation GTOdbObject
+
+- (void)dealloc {
+	if (_git_odb_object != NULL) {
+		git_odb_object_free(_git_odb_object);
+		_git_odb_object = NULL;
+	}
+}
 
 - (NSString *)description {
   return [NSString stringWithFormat:@"<%@: %p> shaHash: %@, length: %zi, data: %@", NSStringFromClass([self class]), self, [self shaHash], [self length], [self data]];
@@ -23,17 +29,17 @@
 
 #pragma mark API
 
-@synthesize git_odb_object;
+- (id)initWithOdbObj:(git_odb_object *)object repository:(GTRepository *)repository {
+	NSParameterAssert(object != NULL);
+	NSParameterAssert(repository != nil);
 
-- (id)initWithOdbObj:(git_odb_object *)object {
-	if((self = [super init])) {
-		self.git_odb_object = object;
-	}
+	self = [super init];
+	if (self == nil) return nil;
+
+	_git_odb_object = object;
+	_repository = repository;
+
 	return self;
-}
-
-+ (id)objectWithOdbObj:(git_odb_object *)object {
-	return [[self alloc] initWithOdbObj:object];
 }
 
 - (NSString *)shaHash {

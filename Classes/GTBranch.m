@@ -30,12 +30,6 @@
 #import "GTCommit.h"
 #import "NSError+Git.h"
 
-
-@interface GTBranch ()
-@property (nonatomic, strong) GTReference *reference;
-@property (nonatomic, strong) GTRepository *repository;
-@end
-
 @implementation GTBranch
 
 - (NSString *)description {
@@ -56,10 +50,6 @@
 
 #pragma mark API
 
-@synthesize reference;
-@synthesize repository;
-@synthesize remoteBranches;
-
 + (NSString *)localNamePrefix {
 	return @"refs/heads/";
 }
@@ -77,22 +67,25 @@
 }
 
 - (id)initWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error {
-	if((self = [super init])) {
-		self.reference = [GTReference referenceByLookingUpReferencedNamed:branchName inRepository:repo error:error];
-		if(self.reference == nil) {
-            return nil;
-        }
-		
-		self.repository = repo;
-	}
-	return self;
+	NSParameterAssert(branchName != nil);
+	NSParameterAssert(repo != nil);
+
+	GTReference *ref = [GTReference referenceByLookingUpReferencedNamed:branchName inRepository:repo error:error];
+	if (ref == nil) return nil;
+
+	return [self initWithReference:ref repository:repo];
 }
 
 - (id)initWithReference:(GTReference *)ref repository:(GTRepository *)repo {
-	if((self = [super init])) {
-		self.reference = ref;
-		self.repository = repo;
-	}
+	NSParameterAssert(ref != nil);
+	NSParameterAssert(repo != nil);
+
+	self = [super init];
+	if (self == nil) return nil;
+
+	_repository = repo;
+	_reference = ref;
+
 	return self;
 }
 
@@ -101,15 +94,19 @@
 }
 
 - (NSString *)shortName {
-	if([self branchType] == GTBranchTypeLocal) {
-		return [self.name stringByReplacingOccurrencesOfString:[[self class] localNamePrefix] withString:@""];
-	} else if([self branchType] == GTBranchTypeRemote) {
-		// remote repos also have their remote in their name
-		NSString *remotePath = [[[self class] remoteNamePrefix] stringByAppendingFormat:@"%@/", [self remoteName]];
-		return [self.name stringByReplacingOccurrencesOfString:remotePath withString:@""];
-	} else {
-		return self.name;
+	const char *name;
+	int gitError = git_branch_name(&name, self.reference.git_reference);
+	if (gitError != GIT_OK) return nil;
+
+	if (self.branchType == GTBranchTypeRemote) {
+		// Skip the initial remote name and forward slash.
+		name = strchr(name, '/');
+		if (name == NULL) return nil;
+
+		name++;
 	}
+
+	return @(name);
 }
 
 - (NSString *)sha {
@@ -117,17 +114,17 @@
 }
 
 - (NSString *)remoteName {
-	if([self branchType] == GTBranchTypeLocal) {
-		return nil;
-	}
-	
-	NSArray *components = [self.name componentsSeparatedByString:@"/"];
-	// refs/heads/origin/branch_name
-	if(components.count < 4) {
-		return nil;
-	}
-	
-	return [components objectAtIndex:2];
+	if (self.branchType == GTBranchTypeLocal) return nil;
+
+	const char *name;
+	int gitError = git_branch_name(&name, self.reference.git_reference);
+	if (gitError != GIT_OK) return nil;
+
+	// Find out where the remote name ends.
+	const char *end = strchr(name, '/');
+	if (end == NULL || end == name) return nil;
+
+	return [[NSString alloc] initWithBytes:name length:end - name encoding:NSUTF8StringEncoding];
 }
 
 - (GTCommit *)targetCommitAndReturnError:(NSError **)error {
@@ -140,99 +137,48 @@
 }
 
 - (NSUInteger)numberOfCommitsWithError:(NSError **)error {
-	return [self.repository.enumerator countFromSha:self.sha error:error];
+	GTEnumerator *enumerator = [[GTEnumerator alloc] initWithRepository:self.repository error:error];
+	if (enumerator == nil) return NSNotFound;
+
+	if (![enumerator pushSHA:self.sha error:error]) return NSNotFound;
+	return [enumerator countRemainingObjects:error];
 }
 
 - (GTBranchType)branchType {
-    if ([self.name hasPrefix:[[self class] remoteNamePrefix]]) {
-        return GTBranchTypeRemote;
-    }
-    return GTBranchTypeLocal;
-}
-
-- (GTBranch *)remoteBranchForRemoteName:(NSString *)remote {
-	for(GTBranch *remoteBranch in self.remoteBranches) {
-		if([remoteBranch.remoteName isEqualToString:remote]) {
-			return remoteBranch;
-		}
+	if (self.reference.remote) {
+		return GTBranchTypeRemote;
+	} else {
+		return GTBranchTypeLocal;
 	}
-	
-	return nil;
-}
-
-- (NSArray *)remoteBranches {
-	if(remoteBranches != nil) {
-		return remoteBranches;
-	} else if(self.branchType == GTBranchTypeRemote) {
-		return [NSArray arrayWithObject:self];
-	}
-	
-	return nil;
-}
-
-+ (GTCommit *)mergeBaseOf:(GTBranch *)branch1 andBranch:(GTBranch *)branch2 error:(NSError **)error {
-	NSAssert2([branch1.repository isEqual:branch2.repository], @"Both branches must be in the same repository: %@ vs. %@", branch1.repository, branch2.repository);
-	
-	git_oid mergeBase;
-	int errorCode = git_merge_base(&mergeBase, branch1.repository.git_repository, (git_oid *) branch1.reference.oid, (git_oid *) branch2.reference.oid);
-	if(errorCode < GIT_OK) {
-		if(error != NULL) {
-			*error = [NSError git_errorFor:errorCode withAdditionalDescription:NSLocalizedString(@"", @"")];
-		}
-		
-		return nil;
-	}
-	
-	return (GTCommit *) [branch1.repository lookupObjectByOid:&mergeBase objectType:GTObjectTypeCommit error:error];
 }
 
 - (NSArray *)uniqueCommitsRelativeToBranch:(GTBranch *)otherBranch error:(NSError **)error {
-	if(otherBranch == nil) return [NSArray array];
+	NSParameterAssert(otherBranch != nil);
 	
-	GTCommit *mergeBase = [[self class] mergeBaseOf:self andBranch:otherBranch error:error];
-	if(mergeBase == nil) return nil;
+	GTCommit *mergeBase = [self.repository mergeBaseBetweenFirstOID:self.reference.OID secondOID:otherBranch.reference.OID error:error];
+	if (mergeBase == nil) return nil;
 	
-	GTEnumerator *enumerator = self.repository.enumerator;
-	if(enumerator == nil) return nil;
+	GTEnumerator *enumerator = [[GTEnumerator alloc] initWithRepository:self.repository error:error];
+	if (enumerator == nil) return nil;
 	
-	NSArray * (^allCommitsFromSha)(NSString *, NSError **) = ^NSArray *(NSString *sha, NSError **localError) {
-		[enumerator reset];
-		[enumerator setOptions:GTEnumeratorOptionsTopologicalSort];
-		
-		BOOL success = [enumerator push:sha error:localError];
-		if(!success) return nil;
-		
-		NSMutableArray *commits = [NSMutableArray array];
-		GTCommit *currentCommit = [enumerator nextObjectWithError:localError];
-		while(currentCommit != nil && ![currentCommit.sha isEqualToString:mergeBase.sha]) {
-			[commits addObject:currentCommit];
-			currentCommit = [enumerator nextObjectWithError:localError];
-		}
-		
-		return commits;
-	};
+	[enumerator resetWithOptions:GTEnumeratorOptionsTimeSort];
 	
-	NSArray *localCommits = allCommitsFromSha(self.sha, error);
-	NSArray *otherCommits = allCommitsFromSha(otherBranch.sha, error);
-	NSMutableArray *uniqueCommits = [localCommits mutableCopy];
-	[uniqueCommits removeObjectsInArray:otherCommits];
-	return uniqueCommits;
+	BOOL success = [enumerator pushSHA:self.sha error:error];
+	if (!success) return nil;
+
+	success = [enumerator hideSHA:mergeBase.sha error:error];
+	if (!success) return nil;
+
+	return [enumerator allObjectsWithError:error];
 }
 
 - (BOOL)deleteWithError:(NSError **)error {
-	if (!self.reference.valid) {
-		if (error != NULL) *error = GTReference.invalidReferenceError;
-		return NO;
-	}
-
 	int gitError = git_branch_delete(self.reference.git_reference);
-	if(gitError != GIT_OK) {
+	if (gitError != GIT_OK) {
 		if(error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to delete branch."];
 		return NO;
 	}
-	
-	self.reference = nil;
-	
+
 	return YES;
 }
 
@@ -240,12 +186,6 @@
 	if (self.branchType == GTBranchTypeRemote) {
 		if (success != NULL) *success = YES;
 		return self;
-	}
-
-	if (!self.reference.valid) {
-		if (success != NULL) *success = NO;
-		if (error != NULL) *error = GTReference.invalidReferenceError;
-		return NO;
 	}
 
 	git_reference *trackingRef = NULL;
@@ -274,6 +214,13 @@
 	return [[self class] branchWithReference:[[GTReference alloc] initWithGitReference:trackingRef repository:self.repository] repository:self.repository];
 }
 
+- (GTBranch *)reloadedBranchWithError:(NSError **)error {
+	GTReference *reloadedRef = [self.reference reloadedReferenceWithError:error];
+	if (reloadedRef == nil) return nil;
+
+	return [[self.class alloc] initWithReference:reloadedRef repository:self.repository];
+}
+
 - (BOOL)calculateAhead:(size_t *)ahead behind:(size_t *)behind relativeTo:(GTBranch *)branch error:(NSError **)error {
 	if (branch == nil) {
 		*ahead = 0;
@@ -281,7 +228,7 @@
 		return YES;
 	}
 
-	int errorCode = git_graph_ahead_behind(ahead, behind, self.repository.git_repository, branch.reference.oid, self.reference.oid);
+	int errorCode = git_graph_ahead_behind(ahead, behind, self.repository.git_repository, branch.reference.git_oid, self.reference.git_oid);
 	if (errorCode != GIT_OK && error != NULL) {
 		*error = [NSError git_errorFor:errorCode withAdditionalDescription:[NSString stringWithFormat:@"Calculating ahead/behind with %@ to %@", self, branch]];
 		return NO;

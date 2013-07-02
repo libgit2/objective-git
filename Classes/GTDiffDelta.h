@@ -24,7 +24,7 @@
 //                             and is therefore currently untracked.
 // GTDiffFileDeltaTypeChange - The file has changed from a blob to either a
 //                             submodule, symlink or directory. Or vice versa.
-typedef enum : git_delta_t {
+typedef enum {
 	GTDiffFileDeltaUnmodified = GIT_DELTA_UNMODIFIED,
 	GTDiffFileDeltaAdded = GIT_DELTA_ADDED,
 	GTDiffFileDeltaDeleted = GIT_DELTA_DELETED,
@@ -43,10 +43,6 @@ typedef enum : git_delta_t {
 // for the types of change represented.
 @interface GTDiffDelta : NSObject
 
-// A convenience accessor to fetch the `git_diff_delta` represented by the
-// object.
-@property (nonatomic, readonly) const git_diff_delta *git_diff_delta;
-
 // The backing libgit2 `git_diff_patch` object.
 @property (nonatomic, readonly) git_diff_patch *git_diff_patch;
 
@@ -57,7 +53,7 @@ typedef enum : git_delta_t {
 @property (nonatomic, readonly, copy) GTDiffFile *oldFile;
 
 // The file to the "right" of the diff.
-@property (nonatomic, readonly, copy) GTDiffFile *newFile;
+@property (nonatomic, readonly, copy) GTDiffFile *newFile __attribute__((ns_returns_not_retained));
 
 // The type of change that this delta represents.
 //
@@ -84,6 +80,10 @@ typedef enum : git_delta_t {
 
 // Designated initialiser.
 - (instancetype)initWithGitPatch:(git_diff_patch *)patch;
+
+// A convenience accessor to fetch the `git_diff_delta` represented by the
+// object.
+- (const git_diff_delta *)git_diff_delta __attribute__((objc_returns_inner_pointer));
 
 // Enumerate the hunks contained in the delta.
 //

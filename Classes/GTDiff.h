@@ -61,7 +61,7 @@ extern NSString *const GTDiffOptionsPathSpecArrayKey;
 // `GTDiffOptionsFlagsKey` key.
 //
 // See diff.h for documentation of each individual flag. 
-typedef enum : git_diff_option_t {
+typedef enum {
 	GTDiffOptionsFlagsNormal = GIT_DIFF_NORMAL,
 	GTDiffOptionsFlagsReverse = GIT_DIFF_REVERSE,
 	GTDiffOptionsFlagsForceText = GIT_DIFF_FORCE_TEXT,
@@ -131,12 +131,12 @@ extern NSString *const GTDiffFindOptionsBreakRewriteThresholdKey;
 // This is the equivalent of the `diff.renameLimit` config value.
 //
 // Defaults to 200.
-extern NSString *const GTDiffFindOptionsTargetLimitKey;
+extern NSString *const GTDiffFindOptionsRenameLimitKey;
 
 // Enum for options passed into `-findSimilarWithOptions:`.
 //
 // For individual case documentation see `diff.h`.
-typedef enum : git_diff_find_t {
+typedef enum {
 	GTDiffFindOptionsFlagsFindRenames = GIT_DIFF_FIND_RENAMES,
 	GTDiffFindOptionsFlagsFindRenamesFromRewrites = GIT_DIFF_FIND_RENAMES_FROM_REWRITES,
 	GTDiffFindOptionsFlagsFindCopies = GIT_DIFF_FIND_COPIES,
@@ -150,9 +150,6 @@ typedef enum : git_diff_find_t {
 // changes or "deltas", which are represented by `GTDiffDelta` objects.
 @interface GTDiff : NSObject
 
-// The libgit2 diff list object.
-@property (nonatomic, readonly) git_diff_list *git_diff_list;
-
 // The number of deltas represented by the diff object.
 @property (nonatomic, readonly) NSUInteger deltaCount;
 
@@ -160,15 +157,17 @@ typedef enum : git_diff_find_t {
 //
 // The 2 trees must be from the same repository, or an exception will be thrown.
 //
-// oldTree - The "left" side of the diff.
-// newTree - The "right" side of the diff.
-// options - A dictionary containing any of the above options key constants, or
-//           nil to use the defaults.
-// error   - Populated with an `NSError` object on error, if information is
-//           available.
+// oldTree    - The "left" side of the diff. May be nil to represent an empty tree.
+// newTree    - The "right" side of the diff. May be nil to represent an empty
+//              tree.
+// repository - The repository to be used for the diff.
+// options    - A dictionary containing any of the above options key constants, or
+//              nil to use the defaults.
+// error      - Populated with an `NSError` object on error, if information is
+//              available.
 //
 // Returns a newly created `GTDiff` object or nil on error.
-+ (GTDiff *)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree options:(NSDictionary *)options error:(NSError **)error;
++ (GTDiff *)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree inRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error;
 
 // Create a diff between a repository's current index.
 //
@@ -178,15 +177,17 @@ typedef enum : git_diff_find_t {
 // The tree you pass will be used for the "left" side of the diff, and the
 // index will be used for the "right" side of the diff.
 //
-// tree    - The tree to be diffed. The index will be taken from this tree's
-//           repository. The left side of the diff.
-// options - A dictionary containing any of the above options key constants, or
-//           nil to use the defaults.
-// error   - Populated with an `NSError` object on error, if information is
-//           available.
+// tree       - The tree to be diffed. The index will be taken from this tree's
+//              repository. The left side of the diff. May be nil to represent an
+//              empty tree.
+// repository - The repository to be used for the diff.
+// options    - A dictionary containing any of the above options key constants, or
+//              nil to use the defaults.
+// error      - Populated with an `NSError` object on error, if information is
+//              available.
 //
 // Returns a newly created `GTDiff` object or nil on error.
-+ (GTDiff *)diffIndexFromTree:(GTTree *)tree options:(NSDictionary *)options error:(NSError **)error;
++ (GTDiff *)diffIndexFromTree:(GTTree *)tree inRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error;
 
 // Create a diff between the index and working directory in a given repository.
 //
@@ -203,16 +204,21 @@ typedef enum : git_diff_find_t {
 
 // Create a diff between a repository's working directory and a tree.
 //
-// tree    - The tree to be diffed. The tree will be the left side of the diff.
-// options - A dictionary containing any of the above options key constants, or
-//           nil to use the defaults.
-// error   - Populated with an `NSError` object on error, if information is
-//           available.
+// tree       - The tree to be diffed. The tree will be the left side of the diff.
+//              May be nil to represent an empty tree.
+// repository - The repository to be used for the diff.
+// options    - A dictionary containing any of the above options key constants, or
+//              nil to use the defaults.
+// error      - Populated with an `NSError` object on error, if information is
+//              available.
 //
 // Returns a newly created `GTDiff` object or nil on error.
-+ (GTDiff *)diffWorkingDirectoryFromTree:(GTTree *)tree options:(NSDictionary *)options error:(NSError **)error;
++ (GTDiff *)diffWorkingDirectoryFromTree:(GTTree *)tree inRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error;
 
 // Create a diff between the working directory and HEAD.
+//
+// If the repository does not have a HEAD commit yet, this will create a diff of
+// the working directory as if everything would be part of the initial commit.
 //
 // repository - The repository to be used for the diff.
 // options    - A dictionary containing any of the above options key constants,
@@ -224,6 +230,9 @@ typedef enum : git_diff_find_t {
 
 // Designated initialiser.
 - (instancetype)initWithGitDiffList:(git_diff_list *)diffList;
+
+// The libgit2 diff list object.
+- (git_diff_list *)git_diff_list __attribute__((objc_returns_inner_pointer));
 
 // The number of deltas of the given type that are contained in the diff.
 - (NSUInteger)numberOfDeltasWithType:(GTDiffDeltaType)deltaType;

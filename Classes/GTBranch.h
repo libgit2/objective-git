@@ -34,7 +34,7 @@ typedef enum {
     GTBranchTypeRemote
 } GTBranchType;
 
-@interface GTBranch : NSObject <GTObject> {}
+@interface GTBranch : NSObject
 
 @property (nonatomic, readonly) NSString *name;
 @property (nonatomic, readonly) NSString *shortName;
@@ -43,12 +43,9 @@ typedef enum {
 @property (nonatomic, readonly) GTBranchType branchType;
 @property (nonatomic, readonly, strong) GTRepository *repository;
 @property (nonatomic, readonly, strong) GTReference *reference;
-@property (nonatomic, copy) NSArray *remoteBranches;
 
 + (NSString *)localNamePrefix;
 + (NSString *)remoteNamePrefix;
-
-+ (GTCommit *)mergeBaseOf:(GTBranch *)branch1 andBranch:(GTBranch *)branch2 error:(NSError **)error;
 
 // Convenience initializers
 - (id)initWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error;
@@ -71,11 +68,6 @@ typedef enum {
 // returns number of commits in the branch or NSNotFound if an error occurred
 - (NSUInteger)numberOfCommitsWithError:(NSError **)error;
 
-// Find the remote branch for the passed in remote name.
-//
-// returns the matched remote branch or nil if no match was found.
-- (GTBranch *)remoteBranchForRemoteName:(NSString *)remote;
-
 - (NSArray *)uniqueCommitsRelativeToBranch:(GTBranch *)otherBranch error:(NSError **)error;
 
 // Deletes the local branch and nils out the reference.
@@ -85,6 +77,16 @@ typedef enum {
 // If the receiver is a remote branch, returns self. If no tracking branch was
 // found, returns nil and sets `success` to YES.
 - (GTBranch *)trackingBranchWithError:(NSError **)error success:(BOOL *)success;
+
+// Reloads the branch's reference and creates a new branch based off that newly
+// loaded reference.
+//
+// This does *not* change the receiver.
+//
+// error - The error if one occurred.
+//
+// Returns the reloaded branch, or nil if an error occurred.
+- (GTBranch *)reloadedBranchWithError:(NSError **)error;
 
 // Calculate the ahead/behind count from this branch to the given branch.
 //

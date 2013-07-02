@@ -6,9 +6,6 @@
 //  Copyright 2011 GitHub Inc. All rights reserved.
 //
 
-#import "Contants.h"
-
-
 @interface GTReferenceTest : SenTestCase {
 	NSArray *expectedRefs;
 }
@@ -83,74 +80,6 @@
 	STAssertTrue(success, [error localizedDescription]);
 }
 
-- (void)testCanRenameRef {
-	@autoreleasepool {
-	
-		NSError *error = nil;
-		GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&error];
-		STAssertNil(error, [error localizedDescription]);
-		GTReference *ref = [GTReference referenceByCreatingReferenceNamed:@"refs/heads/unit_test" fromReferenceTarget:@"36060c58702ed4c2a40832c51758d5344201d89a" inRepository:repo error:&error];
-		STAssertNil(error, [error localizedDescription]);
-		STAssertNotNil(ref, nil);
-		STAssertEqualObjects(@"36060c58702ed4c2a40832c51758d5344201d89a", ref.target, nil);
-		STAssertEqualObjects(@"commit", ref.type, nil);
-		STAssertEqualObjects(@"refs/heads/unit_test", ref.name, nil);
-		
-		BOOL success = [ref setName:@"refs/heads/new_name" error:&error];
-		STAssertTrue(success, [error localizedDescription]);
-		STAssertEqualObjects(@"refs/heads/new_name", ref.name, nil);
-		
-		success = [ref deleteWithError:&error];
-		STAssertTrue(success, [error localizedDescription]);
-	
-	}
-}
-
-- (void)testCanRenameRefAfterUsingWalker {
-	@autoreleasepool {
-	
-		NSError *error = nil;
-		GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&error];
-		STAssertNil(error, [error localizedDescription]);
-		(void) repo.enumerator; // walker's created lazily, so force its creation
-		GTReference *ref = [GTReference referenceByCreatingReferenceNamed:@"refs/heads/unit_test" fromReferenceTarget:@"36060c58702ed4c2a40832c51758d5344201d89a" inRepository:repo error:&error];
-		STAssertNil(error, [error localizedDescription]);
-		STAssertNotNil(ref, nil);
-		STAssertEqualObjects(@"36060c58702ed4c2a40832c51758d5344201d89a", ref.target, nil);
-		STAssertEqualObjects(@"commit", ref.type, nil);
-		STAssertEqualObjects(@"refs/heads/unit_test", ref.name, nil);
-		
-		BOOL success = [ref setName:@"refs/heads/new_name" error:&error];
-		STAssertTrue(success, [error localizedDescription]);
-		STAssertEqualObjects(@"refs/heads/new_name", ref.name, nil);
-		
-		success = [ref deleteWithError:&error];
-		STAssertTrue(success, [error localizedDescription]);
-	
-	}
-}
-
-- (void)testCanSetTargetOnRef {
-	
-	NSError *error = nil;
-	GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&error];
-	STAssertNil(error, [error localizedDescription]);
-	GTReference *ref = [GTReference referenceByCreatingReferenceNamed:@"refs/heads/unit_test" fromReferenceTarget:@"36060c58702ed4c2a40832c51758d5344201d89a" inRepository:repo error:&error];
-	STAssertNil(error, [error localizedDescription]);
-	STAssertNotNil(ref, nil);
-	STAssertEqualObjects(@"36060c58702ed4c2a40832c51758d5344201d89a", ref.target, nil);
-	STAssertEqualObjects(@"commit", ref.type, nil);
-	STAssertEqualObjects(@"refs/heads/unit_test", ref.name, nil);
-	
-	BOOL success = [ref setTarget:@"5b5b025afb0b4c913b4c338a42934a3863bf3644" error:&error];
-
-	STAssertTrue(success, [error localizedDescription]);
-	STAssertEqualObjects(@"5b5b025afb0b4c913b4c338a42934a3863bf3644", ref.target, nil);
-	
-	success = [ref deleteWithError:&error];
-	STAssertTrue(success, [error localizedDescription]);
-}
-
 - (void)testCanListAllReferences {
 	
 	NSError *error = nil;
@@ -161,48 +90,9 @@
 	STAssertNil(error, [error localizedDescription]);
 	STAssertEquals(4, (int)refs.count, nil);
 	
-	for(int i=0; i < refs.count; i++) {
+	for (NSUInteger i = 0; i < refs.count; i++) {
 		NSLog(@"%@", [refs objectAtIndex:i]);
         STAssertTrue([expectedRefs containsObject:[refs objectAtIndex:i]], nil);
-	}
-}
-
-- (void)testCanListOidReferences {
-	
-	NSError *error = nil;
-	GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&error];
-	STAssertNil(error, [error localizedDescription]);
-	
-	NSArray *refs = [repo referenceNamesWithTypes:GTReferenceTypesOid error:&error];
-	STAssertNil(error, [error localizedDescription]);
-	STAssertEquals(4, (int)refs.count, nil);
-	
-	for(int i=0; i < refs.count; i++) {
-		STAssertEqualObjects([expectedRefs objectAtIndex:i], [refs objectAtIndex:i], nil);
-	}
-}
-
-- (void)testCanListSymbolicReferences {
-	
-	NSError *error = nil;
-	GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&error];
-	STAssertNil(error, [error localizedDescription]);
-	
-	// create a symbolic reference
-	GTReference *ref = [GTReference referenceByCreatingReferenceNamed:@"refs/heads/unit_test" fromReferenceTarget:@"refs/heads/master" inRepository:repo error:&error];
-	STAssertNotNil(ref, [error localizedDescription]);
-	
-	@try {
-		
-		NSArray *refs = [repo referenceNamesWithTypes:GTReferenceTypesSymbolic error:&error];
-		STAssertNil(error, [error localizedDescription]);
-		STAssertEquals(1, (int)refs.count, nil);	
-		STAssertEqualObjects(@"refs/heads/unit_test", [refs objectAtIndex:0], nil);
-	}
-	@finally {
-		// cleanup
-		BOOL success = [ref deleteWithError:&error];
-        STAssertTrue(success, [error localizedDescription]);
 	}
 }
 
