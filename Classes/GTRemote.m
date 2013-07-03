@@ -71,6 +71,20 @@
 	return @(URLString);
 }
 
+static int fetch_cred_acquire_cb(git_cred **cred, const char *url, const char *username_from_url, unsigned int allowed_types, void *payload) {
+	GTRemote *myself = (__bridge GTRemote *)payload;
+	NSLog(@"fetch_cred_acquire_cb: %@: url: %s, username: %s, types: %d", myself, url, username_from_url, allowed_types);
+	switch (allowed_types) {
+		case GIT_CREDTYPE_USERPASS_PLAINTEXT:
+			break;
+		case GIT_CREDTYPE_SSH_KEYFILE_PASSPHRASE:
+			break;
+		case GIT_CREDTYPE_SSH_PUBLICKEY:
+			break;
+	}
+	return GIT_OK;
+}
+
 static void fetch_progress(const char *str, int len, void *data) {
 	GTRemote *myself = (__bridge GTRemote *)data;
 	NSLog(@"fetch_progress: %@: str: %s, len: %d", myself, str, len);
@@ -102,6 +116,8 @@ static int fetch_update_tips(const char *refname, const git_oid *a, const git_oi
 		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to set remote callbacks for fetch"];
 		return NO;
 	}
+
+	git_remote_set_cred_acquire_cb(self.git_remote, fetch_cred_acquire_cb, (__bridge void *)(self));
 
 	gitError = git_remote_connect(self.git_remote, GIT_DIRECTION_FETCH);
 	if (gitError != GIT_OK) {
