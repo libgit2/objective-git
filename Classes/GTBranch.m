@@ -110,7 +110,7 @@
 }
 
 - (NSString *)sha {
-	return self.reference.target;
+	return self.reference.resolvedTarget.sha;
 }
 
 - (NSString *)remoteName {

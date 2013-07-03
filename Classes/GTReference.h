@@ -70,8 +70,14 @@ typedef enum {
 // The underlying `git_reference` object.
 - (git_reference *)git_reference __attribute__((objc_returns_inner_pointer));
 
-// The target to which the reference points.
-@property (nonatomic, readonly, copy) NSString *target;
+// The target (either GTObject or GTReference) to which the reference points.
+@property (nonatomic, readonly, copy) id target;
+
+// The resolved object to which the reference points.
+@property (nonatomic, readonly, copy) GTObject *resolvedTarget;
+
+// The last direct reference in a chain
+@property (nonatomic, readonly, copy) GTReference *resolvedReference;
 
 // Updates the on-disk reference to point to the target and returns the updated
 // reference.
