@@ -27,6 +27,7 @@
 
 @class GTCommit;
 @class GTReference;
+@class GTRemote;
 @class GTRepository;
 
 typedef enum {
@@ -43,6 +44,7 @@ typedef enum {
 @property (nonatomic, readonly) GTBranchType branchType;
 @property (nonatomic, readonly, strong) GTRepository *repository;
 @property (nonatomic, readonly, strong) GTReference *reference;
+@property (nonatomic, readonly, strong) GTRemote *remote;
 
 + (NSString *)localNamePrefix;
 + (NSString *)remoteNamePrefix;

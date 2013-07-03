@@ -28,6 +28,7 @@
 #import "GTEnumerator.h"
 #import "GTRepository.h"
 #import "GTCommit.h"
+#import "GTRemote.h"
 #import "NSError+Git.h"
 
 @implementation GTBranch
@@ -125,6 +126,10 @@
 	if (end == NULL || end == name) return nil;
 
 	return [[NSString alloc] initWithBytes:name length:end - name encoding:NSUTF8StringEncoding];
+}
+
+- (GTRemote *)remote {
+	return [GTRemote remoteWithName:[self remoteName] inRepository:[self repository]];
 }
 
 - (GTCommit *)targetCommitAndReturnError:(NSError **)error {
