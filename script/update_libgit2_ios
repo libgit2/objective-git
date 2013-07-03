@@ -1,3 +1,5 @@
+#!/bin/sh
+
 set -e
 
 # augment path to help it find cmake installed in /usr/local/bin,
