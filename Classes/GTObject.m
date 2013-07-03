@@ -71,7 +71,7 @@
 	NSParameterAssert(object != NULL);
 	NSParameterAssert(repo != nil);
 	git_repository *object_repo = git_object_owner(object);
-	NSAssert(object_repo == repo.git_repository, @"object %p doesn't belong to repo %p", object, repo);
+	NSAssert(object_repo == repo.git_repository, @"object %p doesn't belong to repo %@", object, repo);
 
 	Class objectClass = nil;
 	git_otype t = git_object_type(object);
