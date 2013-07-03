@@ -1,0 +1,22 @@
+#!/bin/sh
+
+PATH=$PATH:/usr/local/bin
+
+SEARCH_PATHS="Classes"
+TARGET_BUILD_DIR=${TARGET_BUILD_DIR:-$(pwd)}
+
+appledoc \
+ --project-name "Objective-Git" \
+ --project-company "Objective-Git" \
+ --company-id com.objective-git \
+ --output "$TARGET_BUILD_DIR/Docs" \
+ --logformat xcode \
+ --exit-threshold 2 \
+ --docset-feed-url "http://objective-git.com/documentation/%DOCSETATOMFILENAME" \
+ --docset-package-url "http://objective-git.com/documentation/%DOCSETPACKAGEFILENAME" \
+ --publish-docset \
+ --print-settings \
+ --keep-intermediate-files \
+ --keep-undocumented-members \
+ --keep-undocumented-objects \
+$SEARCH_PATHS
