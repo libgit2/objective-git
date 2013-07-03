@@ -8,10 +8,15 @@
 
 #import "git2.h"
 
+@class GTRepository;
+
 @interface GTRemote : NSObject
 
 @property (nonatomic, readonly, copy) NSString *name;
 @property (nonatomic, readonly, copy) NSString *URLString;
+
++ (instancetype)remoteWithName:(NSString *)name inRepository:(GTRepository *)repo;
+- (instancetype)initWithName:(NSString *)name inRepository:(GTRepository *)repo;
 
 - (id)initWithGitRemote:(git_remote *)remote;
 

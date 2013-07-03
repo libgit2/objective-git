@@ -7,6 +7,7 @@
 //
 
 #import "GTRemote.h"
+#import "GTRepository.h"
 #import "GTOID.h"
 #import "NSError+Git.h"
 
@@ -32,6 +33,20 @@
 }
 
 #pragma mark API
+
++ (instancetype)remoteWithName:(NSString *)name inRepository:(GTRepository *)repo {
+	return [[self alloc] initWithName:name inRepository:repo];
+}
+
+- (instancetype)initWithName:(NSString *)name inRepository:(GTRepository *)repo {
+	self = [super init];
+	if (self == nil) return nil;
+
+	int gitError = git_remote_load(&_git_remote, repo.git_repository, name.UTF8String);
+	if (gitError != GIT_OK) return nil;
+
+	return self;
+}
 
 - (id)initWithGitRemote:(git_remote *)remote {
 	self = [super init];
