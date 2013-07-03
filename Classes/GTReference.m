@@ -35,28 +35,20 @@
 @end
 
 static NSString *referenceTypeToString(GTReferenceType type) {
-	NSString *stringType = @"unknown";
 	switch (type) {
 		case GTReferenceTypeInvalid:
-			stringType = @"invalid";
-			break;
+			return @"invalid";
 
 		case GTReferenceTypeOid:
-			stringType = @"direct";
-			break;
+			return @"direct";
 
 		case GTReferenceTypeSymbolic:
-			stringType = @"symbolic";
-			break;
+			return @"symbolic";
 
 		case GTReferenceTypeListAll:
-			stringType = @"listall";
-			break;
-
-		default:
-			break;
+			return @"listall";
 	}
-	return stringType;
+	return @"unknown";
 }
 
 @implementation GTReference

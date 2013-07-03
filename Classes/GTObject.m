@@ -68,6 +68,11 @@
 #pragma mark API 
 
 - (id)initWithObj:(git_object *)object inRepository:(GTRepository *)repo {
+	NSParameterAssert(object != NULL);
+	NSParameterAssert(repo != nil);
+	git_repository *object_repo = git_object_owner(object);
+	NSAssert(object_repo == repo.git_repository, @"object %p doesn't belong to repo %p", object, repo);
+
 	Class objectClass = nil;
 	git_otype t = git_object_type(object);
 	switch (t) {
@@ -88,17 +93,13 @@
 	}
 
 	if (!objectClass) {
-		NSLog(@"Unknown git_otype %s (%d)", git_object_type2string(t), t);
+		NSLog(@"Unknown git_otype %s (%d)", git_object_type2string(t), (int)t);
 		return nil;
 	}
 	
-	if ([self class] != objectClass)
+	if (self.class != objectClass) {
 		return [[objectClass alloc] initWithObj:object inRepository:repo];
-	
-	NSParameterAssert(object != NULL);
-	NSParameterAssert(repo != nil);
-	git_repository *object_repo = git_object_owner(object);
-	NSAssert(object_repo == repo.git_repository, @"object %@ doesn't belong to repo %@", object, repo);
+	}
 	
 	self = [super init];
 	if (!self) return nil;
