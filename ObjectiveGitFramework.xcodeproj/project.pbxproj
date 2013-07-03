@@ -1317,9 +1317,11 @@
 				GCC_PREFIX_HEADER = ObjectiveGitFramework_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				OTHER_LDFLAGS = (
+					"-L/usr/local/lib",
 					"-lgit2",
 					"-force_load",
 					libgit2.a,
+					"-weak-lssh2",
 				);
 				PRODUCT_NAME = ObjectiveGit;
 				WRAPPER_EXTENSION = framework;
@@ -1336,9 +1338,11 @@
 				GCC_PREFIX_HEADER = ObjectiveGitFramework_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				OTHER_LDFLAGS = (
+					"-L/usr/local/lib",
 					"-lgit2",
 					"-force_load",
 					libgit2.a,
+					"-weak-lssh2",
 				);
 				PRODUCT_NAME = ObjectiveGit;
 				WRAPPER_EXTENSION = framework;
@@ -1436,9 +1440,11 @@
 				GCC_PREFIX_HEADER = ObjectiveGitFramework_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				OTHER_LDFLAGS = (
+					"-L/usr/local/lib",
 					"-lgit2",
 					"-force_load",
 					libgit2.a,
+					"-weak-lssh2",
 				);
 				PRODUCT_NAME = ObjectiveGit;
 				WRAPPER_EXTENSION = framework;
