@@ -62,7 +62,9 @@ typedef enum {
     GTRepositoryResetTypeHard = GIT_RESET_HARD
 } GTRepositoryResetType;
 
-typedef enum : git_stash_flags {
+// Flags for -stashChangesWithMessage:flags:error:.
+// Those can be ORed together. See git_stash_flags for additional information.
+typedef enum {
 	GTRepositoryStashFlagDefault = GIT_STASH_DEFAULT,
 	GTRepositoryStashFlagKeepIndex = GIT_STASH_KEEP_INDEX,
 	GTRepositoryStashFlagIncludeUntracked = GIT_STASH_INCLUDE_UNTRACKED,
@@ -211,20 +213,20 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 
 // Stash the repository's changes.
 //
-// message - the message to be attributed to the item in the stash.
-// stashFlag - The flag of stash to be used.
-// error - in the event of an error this may be set.
+// message   - Optional message to be attributed to the item in the stash.
+// stashFlag - The flags of stash to be used.
+// error     - If not NULL, it will be set on return to any error that occurred
 //
-// Returns commit of the stashed changes if successful, nil in the even of an error
-- (GTCommit*)stashChangesWithMessage:(NSString *)message withStashFlag:(GTRepositoryStashFlag)stashFlag error:(NSError **)error;
+// Returns commit of the stashed changes if successful, nil otherwise
+- (GTCommit *)stashChangesWithMessage:(NSString *)message flags:(GTRepositoryStashFlag)flags error:(NSError **)error;
 
 // Enumerate over all the stashes in the repository
 //
 // block - A block to execute for each stash found, giving the stash's index and
-//		   message along with its OID. Setting `stop` to YES will cause enumeration
+//         message along with its OID. Setting `stop` to YES will cause enumeration
 //         to stop after the block returns.
 //
-- (void)enumerateStashes:(void (^)(size_t index, NSString *message, GTOID *oid, BOOL *stop))block;
+- (void)enumerateStashesUsingBlock:(void (^)(size_t index, NSString *message, GTOID *oid, BOOL *stop))block;
 
 // Drop a stash from the repository's list of stashes
 //

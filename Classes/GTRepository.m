@@ -43,7 +43,8 @@
 #import "NSError+Git.h"
 #import "NSString+Git.h"
 
-// The type of block passed to -enumerateSubmodulesRecursively:usingBlock:.
+// Blocks typedef for -enumerateSubmodulesRecursively:usingBlock: and
+// -enumerateStashesWithBlock:flags:error:.
 typedef void (^GTRepositorySubmoduleEnumerationBlock)(GTSubmodule *submodule, BOOL *stop);
 typedef void (^GTRepositoryStashEnumerationBlock)(size_t index, NSString *message, GTOID *oid, BOOL *stop);
 
@@ -617,12 +618,12 @@ static int submoduleEnumerationCallback(git_submodule *git_submodule, const char
 
 #pragma mark Stash
 
-- (GTCommit*)stashChangesWithMessage:(NSString *)message withStashFlag:(GTRepositoryStashFlag)stashFlag error:(NSError **)error
+- (GTCommit*)stashChangesWithMessage:(NSString *)message flags:(GTRepositoryStashFlag)flags error:(NSError **)error
 {
 	git_oid oid;
 	git_signature *sign = (git_signature *)[self userSignatureForNow].git_signature;
 	
-	int gitError = git_stash_save(&oid, self.git_repository, sign, [message UTF8String], stashFlag);
+	int gitError = git_stash_save(&oid, self.git_repository, sign, [message UTF8String], flags);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to stash."];
 		return nil;
@@ -645,7 +646,7 @@ static int stashEnumerationCallback(size_t index, const char* message, const git
 	return stop;
 }
 
-- (void)enumerateStashes:(GTRepositoryStashEnumerationBlock)block {
+- (void)enumerateStashesUsingBlock:(GTRepositoryStashEnumerationBlock)block {
 	NSParameterAssert(block != nil);
 	
 	git_stash_foreach(self.git_repository, &stashEnumerationCallback, &block);
@@ -655,9 +656,9 @@ static int stashEnumerationCallback(size_t index, const char* message, const git
 	int gitError = git_stash_drop(self.git_repository, index);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to drop stash."];
-		return FALSE;
+		return NO;
 	}
-	return TRUE;
+	return YES;
 }
 	
 @end
