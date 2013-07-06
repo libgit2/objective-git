@@ -165,7 +165,7 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 	return (GTReferenceType)git_reference_type(self.git_reference);
 }
 
-- (id)target {
+- (id)unresolvedTarget {
 	if (self.referenceType == GTReferenceTypeOid) {
 		git_oid *oid = (git_oid *)git_reference_target(self.git_reference);
 		if (!oid) return nil;

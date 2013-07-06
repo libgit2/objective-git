@@ -71,7 +71,7 @@ typedef enum {
 - (git_reference *)git_reference __attribute__((objc_returns_inner_pointer));
 
 // The target (either GTObject or GTReference) to which the reference points.
-@property (nonatomic, readonly, copy) id target;
+@property (nonatomic, readonly, copy) id unresolvedTarget;
 
 // The resolved object to which the reference points.
 @property (nonatomic, readonly, copy) GTObject *resolvedTarget;
