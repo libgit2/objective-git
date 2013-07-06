@@ -33,6 +33,13 @@
 #import "GTIndex.h"
 #import "NSError+Git.h"
 
+typedef int(^GTTreeEnumerationBlock)(NSString *root, GTTreeEntry *entry);
+
+typedef struct GTTreeEnumerationStruct {
+	__unsafe_unretained GTTree *myself;
+	__unsafe_unretained GTTreeEnumerationBlock block;
+} GTTreeEnumerationStruct;
+
 @implementation GTTree
 
 - (NSString *)description {
@@ -59,6 +66,40 @@
 
 - (git_tree *)git_tree {
 	return (git_tree *)self.git_object;
+}
+
+#pragma mark Contents
+
+static int treewalk_cb(const char *root, const git_tree_entry *git_entry, void *payload) {
+	GTTreeEnumerationStruct *enumStruct = (GTTreeEnumerationStruct *)payload;
+	NSString *rootString = @(root);
+	GTTreeEntry *entry = [[GTTreeEntry alloc] initWithEntry:git_entry parentTree:enumStruct->myself];
+	return enumStruct->block(rootString, entry);
+}
+
+
+- (int)enumerateContentsWithOptions:(GTTreeEnumerationOptions)option error:(NSError **)error block:(GTTreeEnumerationBlock)block {
+	NSParameterAssert(block != nil);
+
+	GTTreeEnumerationStruct enumStruct = {
+		.myself = self,
+		.block = block,
+	};
+
+	int gitError = git_tree_walk(self.git_tree, (git_treewalk_mode)option, treewalk_cb, &enumStruct);
+	if (gitError != GIT_OK) {
+		if (*error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to enumerate tree"];
+	}
+	return gitError;
+}
+
+- (NSArray *)contents {
+	__block NSMutableArray *_contents = [NSMutableArray array];
+	int gitError = [self enumerateContentsWithOptions:GTTreeEnumerationOptionPre error:NULL block:^int(NSString *root, GTTreeEntry *entry) {
+		[_contents addObject:entry];
+		return 0;
+	}];
+	return _contents;
 }
 
 #pragma mark Merging
