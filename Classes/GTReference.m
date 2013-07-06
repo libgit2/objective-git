@@ -168,14 +168,14 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 - (id)unresolvedTarget {
 	if (self.referenceType == GTReferenceTypeOid) {
 		git_oid *oid = (git_oid *)git_reference_target(self.git_reference);
-		if (!oid) return nil;
+		if (oid == NULL) return nil;
 
 		return [self.repository lookupObjectByOid:oid error:NULL];
 	} else if (self.referenceType == GTReferenceTypeSymbolic) {
 		NSString *refName = @(git_reference_symbolic_target(self.git_reference));
-		if (!refName) return nil;
+		if (refName == NULL) return nil;
 
-		return [[self class] referenceByLookingUpReferencedNamed:refName inRepository:self.repository error:NULL];
+		return [self.class referenceByLookingUpReferencedNamed:refName inRepository:self.repository error:NULL];
 	}
 	return nil;
 }
@@ -183,14 +183,13 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 - (GTObject *)resolvedTarget {
 	git_object *obj;
 	git_reference_peel(&obj, self.git_reference, GIT_OBJ_ANY);
+	if (obj == NULL) return nil;
 
-	if (!obj)
-		return nil;
 	return [GTObject objectWithObj:obj inRepository:self.repository];
 }
 
 - (GTReference *)resolvedReference {
-	return [[self class] referenceByResolvingSymbolicReference:self error:NULL];
+	return [self.class referenceByResolvingSymbolicReference:self error:NULL];
 }
 
 - (GTReference *)referenceByUpdatingTarget:(NSString *)newTarget error:(NSError **)error {
@@ -270,7 +269,7 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 	if (self == reference) return YES;
 	if (![reference isKindOfClass:GTReference.class]) return NO;
 
-	return [self.repository isEqual:reference.repository] && [self.name isEqual:reference.name] && [self.target isEqual:reference.target];
+	return [self.repository isEqual:reference.repository] && [self.name isEqual:reference.name] && [self.unresolvedTarget isEqual:reference.unresolvedTarget];
 }
 
 @end
