@@ -94,11 +94,16 @@ static int treewalk_cb(const char *root, const git_tree_entry *git_entry, void *
 }
 
 - (NSArray *)contents {
+	NSError *error = nil;
 	__block NSMutableArray *_contents = [NSMutableArray array];
-	int gitError = [self enumerateContentsWithOptions:GTTreeEnumerationOptionPre error:NULL block:^int(NSString *root, GTTreeEntry *entry) {
+	int gitError = [self enumerateContentsWithOptions:GTTreeEnumerationOptionPre error:&error block:^int(NSString *root, GTTreeEntry *entry) {
 		[_contents addObject:entry];
 		return 0;
 	}];
+	if (gitError != GIT_OK) {
+		NSLog(@"%@", error);
+		return nil;
+	}
 	return _contents;
 }
 
