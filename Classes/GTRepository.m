@@ -59,6 +59,12 @@ typedef struct {
 
 @interface GTRepository ()
 @property (nonatomic, assign, readonly) git_repository *git_repository;
+
+// Cache plain credentials with respect to url authentication callback.
++ (void)cacheCredentialsForCallBack:(NSString*)url username:(NSString*)username password:(NSString*)password;
++ (NSArray *)credentialsForUrl:(NSString*)url;
++ (void)forgetCredentialsForUrl:(NSString*)url;
+
 @end
 
 @implementation GTRepository
@@ -76,6 +82,38 @@ typedef struct {
 	if (_git_repository != NULL) {
 		git_repository_free(_git_repository);
 		_git_repository = NULL;
+	}
+}
+
+#pragma mark Plain authentication
+
+static NSMutableDictionary *credentials;
+
++ (void)cacheCredentialsForCallBack:(NSString*)url username:(NSString*)username password:(NSString*)password {
+	if (!credentials) {
+		credentials = [NSMutableDictionary dictionary];
+	}
+	NSArray *creds = [NSArray arrayWithObjects:username, password, nil];
+	[credentials setObject:creds forKey:url];
+}
+
++ (NSArray *)credentialsForUrl:(NSString*)url {
+	return [credentials objectForKey:url];
+}
+
++ (void)forgetCredentialsForUrl:(NSString*)url {
+	[credentials removeObjectForKey:url];
+}
+
+static int cred_acquire_cb(git_cred **out, const char *url, const char *username_from_url, unsigned int allowed_types, void *payload) {
+	NSString *_url = [NSString stringWithUTF8String:url];
+	NSArray *creds = [GTRepository credentialsForUrl:_url];
+	if (creds) {
+		const char* username = [[creds objectAtIndex:0] UTF8String];
+		const char* password = [[creds objectAtIndex:1] UTF8String];
+		return git_cred_userpass_plaintext_new(out, username, password);
+	} else {
+		return git_cred_userpass_plaintext_new(out, "", "");
 	}
 }
 
@@ -154,7 +192,7 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 	return 0;
 }
 
-+ (id)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL barely:(BOOL)barely withCheckout:(BOOL)withCheckout error:(NSError **)error transferProgressBlock:(void (^)(const git_transfer_progress *))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))checkoutProgressBlock {
++ (id)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL barely:(BOOL)barely withCheckout:(BOOL)withCheckout error:(NSError **)error transferProgressBlock:(void (^)(const git_transfer_progress *))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))checkoutProgressBlock asUser:(NSString*)username withPassword:(NSString*)password {
 	
 	git_clone_options cloneOptions = GIT_CLONE_OPTIONS_INIT;
 	if (barely) {
@@ -172,16 +210,32 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 	cloneOptions.fetch_progress_cb = transferProgressCallback;
 	cloneOptions.fetch_progress_payload = (__bridge void *)transferProgressBlock;
 	
+	if (([username length] > 0)&&([password length] > 0)) {
+		// Auth might fail in case of redirects.
+		[GTRepository cacheCredentialsForCallBack:[originURL absoluteString] username:username password:password];
+		cloneOptions.cred_acquire_cb = cred_acquire_cb;
+	}
+	
 	const char *remoteURL = originURL.absoluteString.UTF8String;
 	const char *workingDirectoryPath = workdirURL.path.UTF8String;
 	git_repository *repository;
 	int gitError = git_clone(&repository, remoteURL, workingDirectoryPath, &cloneOptions);
+	
+	[GTRepository forgetCredentialsForUrl:[originURL absoluteString]];
+	
 	if (gitError < GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to clone repository."];
 		return nil;
 	}
-
+	
 	return [[self alloc] initWithGitRepository:repository];
+	
+}
+
++ (id)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL barely:(BOOL)barely withCheckout:(BOOL)withCheckout error:(NSError **)error transferProgressBlock:(void (^)(const git_transfer_progress *))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))checkoutProgressBlock {
+	
+	return [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL barely:barely withCheckout:withCheckout error:error transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock asUser:nil withPassword:nil];
+	
 }
 
 
