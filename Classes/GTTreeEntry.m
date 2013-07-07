@@ -41,7 +41,7 @@
 @implementation GTTreeEntry
 
 - (NSString *)description {
-	return [NSString stringWithFormat:@"<%@: %p> name: %@, sha: %@ attributes: %lu", NSStringFromClass([self class]), self, [self name], [self sha], (unsigned long)[self attributes]];
+	return [NSString stringWithFormat:@"<%@: %p> name: %@, type: %@, sha: %@, attributes: %lu", NSStringFromClass([self class]), self, [self name], [self typeString], [self sha], (unsigned long)[self attributes]];
 }
 
 #pragma mark API
@@ -68,6 +68,15 @@
 
 - (NSString *)sha {
 	return [NSString git_stringWithOid:git_tree_entry_id(self.git_tree_entry)];
+}
+
+
+- (GTObjectType)_type {
+	return (GTObjectType)git_tree_entry_type(self.git_tree_entry);
+}
+
+- (NSString *)typeString {
+	return @(git_object_type2string(git_tree_entry_type(self.git_tree_entry)));
 }
 
 - (GTRepository *)repository {
