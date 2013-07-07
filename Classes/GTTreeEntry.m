@@ -40,8 +40,25 @@
 
 @implementation GTTreeEntry
 
+#pragma mark NSObject
+
 - (NSString *)description {
 	return [NSString stringWithFormat:@"<%@: %p> name: %@, type: %@, sha: %@, attributes: %lu", NSStringFromClass([self class]), self, [self name], [self typeString], [self sha], (unsigned long)[self attributes]];
+}
+
+- (NSUInteger)hash {
+	return [self.sha hash];
+}
+
+- (BOOL)isEqual:(id)object {
+	if ([object isKindOfClass:[self class]]) {
+		return [self isEqualToEntry:object];
+	}
+	return [super isEqual:object];
+}
+
+- (BOOL)isEqualToEntry:(GTTreeEntry *)treeEntry {
+	return git_tree_entry_cmp(self.git_tree_entry, treeEntry.git_tree_entry) == 0 ? YES : NO;
 }
 
 #pragma mark API
