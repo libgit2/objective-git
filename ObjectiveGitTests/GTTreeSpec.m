@@ -35,4 +35,19 @@ it(@"should be able to read tree entry properties", ^{
 	expect(entry.sha).to.equal(@"1385f264afb75a56a5bec74243be9b367ba4ca08");
 });
 
+it(@"should give quick access to its contents", ^{
+	NSArray *treeContents = tree.contents;
+	expect(treeContents).notTo.beNil();
+	expect(treeContents.count).to.equal(3);
+	GTTreeEntry *readme = [tree entryWithName:@"README"];
+	GTTreeEntry *newTxt = [tree entryWithName:@"new.txt"];
+	GTTreeEntry *subdir = [tree entryWithName:@"subdir"];
+	expect(readme).notTo.beNil();
+	expect(newTxt).notTo.beNil();
+	expect(subdir).notTo.beNil();
+	expect(treeContents).to.contain(readme);
+	expect(treeContents).to.contain(newTxt);
+	expect(treeContents).to.contain(subdir);
+});
+
 SpecEnd
