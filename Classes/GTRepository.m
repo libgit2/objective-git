@@ -268,22 +268,26 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 	
 	gitError = git_remote_connect(remote, GIT_DIRECTION_FETCH);
     if (gitError < GIT_OK) {
+		[GTRepository forgetCredentialsForUrl:_url];
 		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to fetch."];
 		return false;
 	}
 	
 	gitError = git_remote_download(remote, transferProgressCallback, (__bridge void *)transferProgressBlock);
     if (gitError < GIT_OK) {
+		[GTRepository forgetCredentialsForUrl:_url];
 		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to fetch."];
 		return false;
 	}
 
 	gitError = git_remote_update_tips(remote);
     if (gitError < GIT_OK) {
+		[GTRepository forgetCredentialsForUrl:_url];
 		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to fetch."];
 		return false;
 	}
 	
+    [GTRepository forgetCredentialsForUrl:_url];
     git_remote_disconnect(remote);
 	git_remote_free(remote);
 	
