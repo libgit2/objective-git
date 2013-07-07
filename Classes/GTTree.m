@@ -38,7 +38,12 @@ typedef int(^GTTreeEnumerationBlock)(NSString *root, GTTreeEntry *entry);
 typedef struct GTTreeEnumerationStruct {
 	__unsafe_unretained GTTree *myself;
 	__unsafe_unretained GTTreeEnumerationBlock block;
+	__unsafe_unretained NSMutableDictionary *directoryStructure;
 } GTTreeEnumerationStruct;
+
+@interface GTTreeEntry (GTPrivate)
+- (GTObjectType)_type;
+@end
 
 @implementation GTTree
 
@@ -73,7 +78,15 @@ typedef struct GTTreeEnumerationStruct {
 static int treewalk_cb(const char *root, const git_tree_entry *git_entry, void *payload) {
 	GTTreeEnumerationStruct *enumStruct = (GTTreeEnumerationStruct *)payload;
 	NSString *rootString = @(root);
-	GTTreeEntry *entry = [[GTTreeEntry alloc] initWithEntry:git_entry parentTree:enumStruct->myself];
+	GTTreeEntry *parentEntry = [enumStruct->directoryStructure objectForKey:rootString];
+	GTTree *parentTree = parentEntry ? parentEntry.tree : enumStruct->myself;
+
+	GTTreeEntry *entry = [[GTTreeEntry alloc] initWithEntry:git_entry parentTree:parentTree];
+	if ([entry _type] == GTObjectTypeTree) {
+		NSString *path = [entry.name stringByAppendingString:@"/"];
+		path = [rootString stringByAppendingString:path];
+		[enumStruct->directoryStructure setObject:entry forKey:path];
+	}
 	return enumStruct->block(rootString, entry);
 }
 
@@ -81,9 +94,12 @@ static int treewalk_cb(const char *root, const git_tree_entry *git_entry, void *
 - (int)enumerateContentsWithOptions:(GTTreeEnumerationOptions)option error:(NSError **)error block:(GTTreeEnumerationBlock)block {
 	NSParameterAssert(block != nil);
 
+	NSMutableDictionary *structure = [[NSMutableDictionary alloc] initWithCapacity:[self entryCount]];
+
 	GTTreeEnumerationStruct enumStruct = {
 		.myself = self,
 		.block = block,
+		.directoryStructure = structure,
 	};
 
 	int gitError = git_tree_walk(self.git_tree, (git_treewalk_mode)option, treewalk_cb, &enumStruct);
