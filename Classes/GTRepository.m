@@ -238,6 +238,57 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 	
 }
 
+- (bool)fetchFromRemote:(NSString*)name transferProgressBlock:(void (^)(const git_transfer_progress *))transferProgressBlock error:(NSError **)error {
+	
+    return  [self fetchFromRemote:name transferProgressBlock:transferProgressBlock error:error asUser:nil withPassword:nil];
+	
+}
+
+- (bool)fetchFromRemote:(NSString*)name transferProgressBlock:(void (^)(const git_transfer_progress *))transferProgressBlock error:(NSError **)error asUser:(NSString*)username withPassword:(NSString*)password {
+	git_remote *remote = NULL;
+	const char *cname;
+	if (name) {
+		cname = [name UTF8String];
+	} else {
+		cname = [@"origin" UTF8String];
+	}
+	
+	int gitError = git_remote_load(&remote, self.git_repository, cname);
+    if (gitError < GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to fetch."];
+		return false;
+	}
+	
+	NSString *_url = [NSString stringWithUTF8String:git_remote_url(remote)];
+	if (([username length] > 0)&&([password length] > 0)) {
+		// Auth might fail in case of redirects.
+		[GTRepository cacheCredentialsForCallBack:_url username:username password:password];
+		git_remote_set_cred_acquire_cb(remote, cred_acquire_cb, NULL);
+	}
+	
+	gitError = git_remote_connect(remote, GIT_DIRECTION_FETCH);
+    if (gitError < GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to fetch."];
+		return false;
+	}
+	
+	gitError = git_remote_download(remote, transferProgressCallback, (__bridge void *)transferProgressBlock);
+    if (gitError < GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to fetch."];
+		return false;
+	}
+
+	gitError = git_remote_update_tips(remote);
+    if (gitError < GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to fetch."];
+		return false;
+	}
+	
+    git_remote_disconnect(remote);
+	git_remote_free(remote);
+	
+	return true;
+}
 
 + (NSString *)hash:(NSString *)data objectType:(GTObjectType)type error:(NSError **)error {
 	git_oid oid;

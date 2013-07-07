@@ -119,6 +119,24 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 // returns nil (and fills the error parameter) if an error occurred, or a GTRepository object if successful.
 + (id)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL barely:(BOOL)barely withCheckout:(BOOL)withCheckout error:(NSError **)error transferProgressBlock:(void (^)(const git_transfer_progress *))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))checkoutProgressBlock asUser:(NSString*)username withPassword:(NSString*)password;
 
+// Fetch from remote.
+//
+// remote	  - Remote name. "origin" if not provided.
+// error(out) - If not NULL, set to any error that occurs.
+//
+// Returns true if fetched.
+- (bool)fetchFromRemote:(NSString*)name transferProgressBlock:(void (^)(const git_transfer_progress *))transferProgressBlock error:(NSError **)error;
+
+// Fetch changes from remote. With authentication.
+//
+// remote	  - Remote name. "origin" if not provided.
+// error(out) - If not NULL, set to any error that occurs.
+// username   - User name, can be null.
+// password   - Password, can be null.
+//
+// Returns true if fetched.
+- (bool)fetchFromRemote:(NSString*)name transferProgressBlock:(void (^)(const git_transfer_progress *))transferProgressBlock error:(NSError **)error asUser:(NSString*)username withPassword:(NSString*)password;
+
 // Helper for getting the sha1 has of a raw object
 //
 // data - the data to compute a sha1 hash for
