@@ -184,6 +184,27 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 	return [[self alloc] initWithGitRepository:repository];
 }
 
+- (bool)checkout:(NSString*)ref error:(NSError **)error checkoutProgressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))checkoutProgressBlock {
+	
+	int gitError = git_repository_set_head(self.git_repository, [ref UTF8String]);
+	if (gitError < GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to checkout repository."];
+		return false;
+	}
+	
+    git_checkout_opts checkoutOptions = GIT_CHECKOUT_OPTS_INIT;
+    checkoutOptions.checkout_strategy = GIT_CHECKOUT_FORCE;
+	checkoutOptions.progress_cb = checkoutProgressCallback;
+	checkoutOptions.progress_payload = (__bridge void *)checkoutProgressBlock;
+	
+    gitError = git_checkout_head(self.git_repository, &checkoutOptions);
+	if (gitError < GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to checkout repository."];
+		return false;
+	}
+	
+	return true;
+}
 
 + (NSString *)hash:(NSString *)data objectType:(GTObjectType)type error:(NSError **)error {
 	git_oid oid;
