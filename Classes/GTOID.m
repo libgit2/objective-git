@@ -77,4 +77,10 @@
 	return (BOOL)git_oid_equal(self.git_oid, object.git_oid);
 }
 
+- (id)copyWithZone:(NSZone *)zone;
+{
+	// Optimization: Since this class is immutable we don't need to create an actual copy.
+	return self;
+}
+
 @end

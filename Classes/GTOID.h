@@ -9,7 +9,7 @@
 #import "git2.h"
 
 // Represents an object ID.
-@interface GTOID : NSObject
+@interface GTOID : NSObject < NSCopying >
 
 // The SHA pointed to by the OID.
 @property (nonatomic, readonly, copy) NSString *SHA;
