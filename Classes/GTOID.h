@@ -35,9 +35,14 @@
 // Returns the initialized receiver.
 - (id)initWithSHACString:(const char *)string;
 
-+ (instancetype)oidWithGitOid: (const git_oid *)git_oid;
-+ (instancetype)oidWithSHA: (NSString *)SHA;
-+ (instancetype)oidWithSHACString: (const char *)SHA;
+// Creates a new instance with the given git_oid using initWithGitOid:
++ (instancetype)oidWithGitOid:(const git_oid *)git_oid;
+
+// Creates a new instance from the given SHA string using initWithSHAString:
++ (instancetype)oidWithSHA:(NSString *)SHA;
+
+// Creates a new instance from the given SHA C string using initWithSHACString:
++ (instancetype)oidWithSHACString:(const char *)SHA;
 
 // Returns the underlying git_oid struct.
 - (const git_oid *)git_oid __attribute__((objc_returns_inner_pointer));
