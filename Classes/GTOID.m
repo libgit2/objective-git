@@ -64,6 +64,21 @@
 	return self;
 }
 
++ (instancetype)oidWithGitOid: (const git_oid *)git_oid;
+{
+	return [[self alloc] initWithGitOid: git_oid];
+}
+
++ (instancetype)oidWithSHA: (NSString *)SHA;
+{
+	return [[self alloc] initWithSHA: SHA];
+}
+
++ (instancetype)oidWithSHACString: (const char *)SHA;
+{
+	return [[self alloc] initWithSHACString: SHA];
+}
+
 #pragma mark NSObject
 
 - (NSString *)description {
