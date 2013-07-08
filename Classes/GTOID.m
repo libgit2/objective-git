@@ -48,13 +48,19 @@
 
 - (id)initWithSHA:(NSString *)SHA {
 	NSParameterAssert(SHA != nil);
+	return [self initWithSHACString: SHA.UTF8String];
+}
 
+- initWithSHACString: (const char *)string;
+{
+	NSParameterAssert( string );
+	
 	self = [super init];
 	if (self == nil) return nil;
-
-	int status = git_oid_fromstr(&_git_oid, SHA.UTF8String);
+	
+	int status = git_oid_fromstr( &_git_oid, string );
 	if (status != GIT_OK) return nil;
-
+	
 	return self;
 }
 

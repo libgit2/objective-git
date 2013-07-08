@@ -28,6 +28,13 @@
 // Returns the initialized receiver.
 - (id)initWithSHA:(NSString *)SHA;
 
+// Initializes the receiver by converting the given SHA C STring to an OID.
+//
+// string - The C string to convert. Cannot be NULL.
+//
+// Returns the initialized receiver.
+- initWithSHACString: (const char *)string;
+
 // Returns the underlying git_oid struct.
 - (const git_oid *)git_oid __attribute__((objc_returns_inner_pointer));
 
