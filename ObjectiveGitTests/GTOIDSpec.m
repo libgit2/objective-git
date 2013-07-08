@@ -32,6 +32,10 @@ describe(@"instance", ^{
 		NSString *secondSHA = @"82dc47f6ba3beecab33080a1136d8913098e1801";
 		expect(testOID).notTo.equal([[GTOID alloc] initWithSHA:secondSHA]);
 	});
+
+	it(@"should compare equal to an OID created with the same SHA from a C string", ^{
+		expect(testOID).to.equal([[GTOID alloc] initWithSHACString: "f7ecd8f4404d3a388efbff6711f1bdf28ffd16a0"]);
+	});
 });
 
 it(@"should keep the git_oid alive even if the object goes out of scope", ^{
