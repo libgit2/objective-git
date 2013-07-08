@@ -417,6 +417,33 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 	return references;
 }
 
+- (NSString*)currentRefNameWithError:(NSError**)error {
+	NSError *err;
+	
+	GTReference *currentHeadRef = [self headReferenceWithError:&err];
+	if (err) {
+		*error = err;
+		return nil;
+	}
+	
+	NSArray *availableRefs = [self referenceNamesWithError:&err];
+	if (err) {
+		*error = err;
+		return nil;
+	}
+	
+	for (NSString *ref in availableRefs) {
+		GTReference *gtr = [GTReference referenceByLookingUpReferencedNamed:ref inRepository:self error:&err];
+		if (gtr) {
+			if ([currentHeadRef.OID.SHA isEqualToString:gtr.OID.SHA]) {
+				return ref;
+			}
+		}
+	}
+	
+	return nil;
+}
+
 - (NSURL *)fileURL {
 	const char *path = git_repository_workdir(self.git_repository);
 	// bare repository, you may be looking for gitDirectoryURL

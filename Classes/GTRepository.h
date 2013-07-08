@@ -130,6 +130,13 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 // returns nil if an error occurred and fills the error parameter
 - (NSArray *)referenceNamesWithError:(NSError **)error;
 
+// Get current head name
+//
+// error(out) - will be filled if an error occurs
+//
+// returns nil if not found
+- (NSString*)currentRefNameWithError:(NSError**)error;
+
 // For each file in the repository calls your block with the URL of the file and the status of that file in the repository,
 //
 // block - the block that gets called for each file
