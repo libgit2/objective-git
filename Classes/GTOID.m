@@ -57,22 +57,22 @@
 	self = [super init];
 	if (self == nil) return nil;
 	
-	int status = git_oid_fromstr( &_git_oid, string );
+	int status = git_oid_fromstr(&_git_oid, string);
 	if (status != GIT_OK) return nil;
 
 	return self;
 }
 
-+ (instancetype)oidWithGitOid: (const git_oid *)git_oid {
-	return [[self alloc] initWithGitOid: git_oid];
++ (instancetype)oidWithGitOid:(const git_oid *)git_oid {
+	return [[self alloc] initWithGitOid:git_oid];
 }
 
-+ (instancetype)oidWithSHA: (NSString *)SHA {
-	return [[self alloc] initWithSHA: SHA];
++ (instancetype)oidWithSHA:(NSString *)SHA {
+	return [[self alloc] initWithSHA:SHA];
 }
 
-+ (instancetype)oidWithSHACString: (const char *)SHA {
-	return [[self alloc] initWithSHACString: SHA];
++ (instancetype)oidWithSHACString:(const char *)SHA {
+	return [[self alloc] initWithSHACString:SHA];
 }
 
 #pragma mark NSObject
