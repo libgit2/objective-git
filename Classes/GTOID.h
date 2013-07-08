@@ -9,7 +9,7 @@
 #import "git2.h"
 
 // Represents an object ID.
-@interface GTOID : NSObject < NSCopying >
+@interface GTOID : NSObject <NSCopying>
 
 // The SHA pointed to by the OID.
 @property (nonatomic, readonly, copy) NSString *SHA;
@@ -28,12 +28,12 @@
 // Returns the initialized receiver.
 - (id)initWithSHA:(NSString *)SHA;
 
-// Initializes the receiver by converting the given SHA C STring to an OID.
+// Initializes the receiver by converting the given SHA C string to an OID.
 //
 // string - The C string to convert. Cannot be NULL.
 //
 // Returns the initialized receiver.
-- initWithSHACString: (const char *)string;
+- (id)initWithSHACString:(const char *)string;
 
 + (instancetype)oidWithGitOid: (const git_oid *)git_oid;
 + (instancetype)oidWithSHA: (NSString *)SHA;

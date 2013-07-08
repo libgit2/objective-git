@@ -48,34 +48,30 @@
 
 - (id)initWithSHA:(NSString *)SHA {
 	NSParameterAssert(SHA != nil);
-	return [self initWithSHACString: SHA.UTF8String];
+	return [self initWithSHACString:SHA.UTF8String];
 }
 
-- initWithSHACString: (const char *)string;
-{
-	NSParameterAssert( string );
+- (id)initWithSHACString:(const char *)string {
+	NSParameterAssert(string != NULL);
 	
 	self = [super init];
 	if (self == nil) return nil;
 	
 	int status = git_oid_fromstr( &_git_oid, string );
 	if (status != GIT_OK) return nil;
-	
+
 	return self;
 }
 
-+ (instancetype)oidWithGitOid: (const git_oid *)git_oid;
-{
++ (instancetype)oidWithGitOid: (const git_oid *)git_oid {
 	return [[self alloc] initWithGitOid: git_oid];
 }
 
-+ (instancetype)oidWithSHA: (NSString *)SHA;
-{
++ (instancetype)oidWithSHA: (NSString *)SHA {
 	return [[self alloc] initWithSHA: SHA];
 }
 
-+ (instancetype)oidWithSHACString: (const char *)SHA;
-{
++ (instancetype)oidWithSHACString: (const char *)SHA {
 	return [[self alloc] initWithSHACString: SHA];
 }
 
@@ -98,8 +94,7 @@
 	return (BOOL)git_oid_equal(self.git_oid, object.git_oid);
 }
 
-- (id)copyWithZone:(NSZone *)zone;
-{
+- (id)copyWithZone:(NSZone *)zone {
 	// Optimization: Since this class is immutable we don't need to create an actual copy.
 	return self;
 }
