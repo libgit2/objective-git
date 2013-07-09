@@ -7,6 +7,7 @@
 //
 
 #import "GTOID.h"
+#import "NSError+Git.h"
 
 @interface GTOID () {
 	git_oid _git_oid;
@@ -46,16 +47,46 @@
 	return self;
 }
 
-- (id)initWithSHA:(NSString *)SHA {
+- (id)initWithSHA:(NSString *)SHA error:(NSError **)error {
 	NSParameterAssert(SHA != nil);
+	return [self initWithSHACString:SHA.UTF8String error:error];
+}
 
+- (id)initWithSHA:(NSString *)SHA {
+	return [self initWithSHA:SHA error:NULL];
+}
+
+- (id)initWithSHACString:(const char *)string error:(NSError **)error {
+	NSParameterAssert(string != NULL);
+	
 	self = [super init];
 	if (self == nil) return nil;
-
-	int status = git_oid_fromstr(&_git_oid, SHA.UTF8String);
-	if (status != GIT_OK) return nil;
+	
+	int status = git_oid_fromstr(&_git_oid, string);
+	if (status != GIT_OK) {
+		if (error != NULL) {
+			*error = [NSError git_errorFor:status withAdditionalDescription:[NSString stringWithFormat:@"Failed to convert string '%s' to object id", string]];
+		}
+		return nil;
+	}
 
 	return self;
+}
+
+- (id)initWithSHACString:(const char *)string {
+	return [self initWithSHACString:string error:NULL];
+}
+
++ (instancetype)oidWithGitOid:(const git_oid *)git_oid {
+	return [[self alloc] initWithGitOid:git_oid];
+}
+
++ (instancetype)oidWithSHA:(NSString *)SHA {
+	return [[self alloc] initWithSHA:SHA];
+}
+
++ (instancetype)oidWithSHACString:(const char *)SHA {
+	return [[self alloc] initWithSHACString:SHA];
 }
 
 #pragma mark NSObject
@@ -75,6 +106,11 @@
 	if (![object isKindOfClass:GTOID.class]) return NO;
 
 	return (BOOL)git_oid_equal(self.git_oid, object.git_oid);
+}
+
+- (id)copyWithZone:(NSZone *)zone {
+	// Optimization: Since this class is immutable we don't need to create an actual copy.
+	return self;
 }
 
 @end
