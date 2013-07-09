@@ -29,14 +29,12 @@
 
 #import "NSString+Git.h"
 #import "NSError+Git.h"
+#import "GTOID.h"
 
 @implementation NSString (Git)
 
 + (NSString *)git_stringWithOid:(const git_oid *)oid {
-	char hex[41];
-	git_oid_fmt(hex, oid);
-	hex[40] = 0;
-	return [NSString stringWithUTF8String:hex];
+	return [[GTOID oidWithGitOid: oid] SHA];
 }
 
 - (BOOL)git_isHexString {
@@ -73,13 +71,11 @@
         return NO;
     }
     
-	int gitError = git_oid_fromstr(oid, [self UTF8String]);
-	if(gitError < GIT_OK) {
-		if(error != NULL) {
-			*error = [NSError git_errorForMkStr:gitError];
-        }
-		return NO;
-	}
+	GTOID *gtoid = [[GTOID alloc] initWithSHA:self error:error];
+	if (gtoid == nil) return NO;
+
+	git_oid_cpy(oid, gtoid.git_oid);
+
 	return YES;
 }
 
