@@ -36,6 +36,7 @@
 #import "GTTree.h"
 #import "GTBlob.h"
 #import "GTTag.h"
+#import "GTOID.h"
 
 @interface GTObject ()
 @property (nonatomic, readonly, assign) git_object *git_object;
@@ -108,8 +109,12 @@
 	return [NSString stringWithUTF8String:git_object_type2string(git_object_type(self.git_object))];
 }
 
+- (GTOID *)oid {
+	return [GTOID oidWithGitOid:git_object_id(self.git_object)];
+}
+
 - (NSString *)sha {
-	return [NSString git_stringWithOid:git_object_id(self.git_object)];
+	return self.oid.SHA;
 }
 
 - (NSString *)shortSha {
@@ -120,7 +125,7 @@
 	GTObjectDatabase *database = [self.repository objectDatabaseWithError:error];
 	if (database == nil) return nil;
 
-	return [database objectWithOid:git_object_id(self.git_object) error:error];
+	return [database objectWithOid:self.oid error:error];
 }
 
 @end

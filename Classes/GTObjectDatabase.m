@@ -28,6 +28,7 @@
 #import "NSError+Git.h"
 #import "GTOdbObject.h"
 #import "NSString+Git.h"
+#import "GTOID.h"
 
 #import "git2/odb_backend.h"
 
@@ -67,9 +68,9 @@
 	return self;
 }
 
-- (GTOdbObject *)objectWithOid:(const git_oid *)oid error:(NSError **)error {
+- (GTOdbObject *)objectWithOid:(GTOID *)oid error:(NSError **)error {
 	git_odb_object *obj;
-	int gitError = git_odb_read(&obj, self.git_odb, oid);
+	int gitError = git_odb_read(&obj, self.git_odb, oid.git_oid);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to read raw object."];
 		return nil;
@@ -79,17 +80,15 @@
 }
 
 - (GTOdbObject *)objectWithSha:(NSString *)sha error:(NSError **)error {
-	git_oid oid;
-	int gitError = git_oid_fromstr(&oid, [sha UTF8String]);
-	if(gitError < GIT_OK) {
-		if (error != NULL)
-			*error = [NSError git_errorForMkStr:gitError];
+	GTOID *oid = [[GTOID alloc] initWithSHA:sha error:error];
+	if (oid == nil) {
 		return nil;
 	}
-    return [self objectWithOid:&oid error:error];
+
+    return [self objectWithOid:oid error:error];
 }
 
-- (NSString *)shaByInsertingString:(NSString *)data objectType:(GTObjectType)type error:(NSError **)error {
+- (GTOID *)oidByInsertingString:(NSString *)data objectType:(GTObjectType)type error:(NSError **)error {
 	git_odb_stream *stream;
 	git_oid oid;
 	
@@ -114,7 +113,11 @@
 		return nil;
 	}
     
-	return [NSString git_stringWithOid:&oid];
+	return [GTOID oidWithGitOid:&oid];
+}
+
+- (NSString *)shaByInsertingString:(NSString *)data objectType:(GTObjectType)type error:(NSError **)error {
+	return [self oidByInsertingString:data objectType:type error:error].SHA;
 }
 
 - (BOOL)containsObjectWithSha:(NSString *)sha error:(NSError **)error {
