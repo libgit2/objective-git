@@ -7,6 +7,7 @@
 //
 
 #import "GTOID.h"
+#import "NSError+Git.h"
 
 @interface GTOID () {
 	git_oid _git_oid;
@@ -46,21 +47,34 @@
 	return self;
 }
 
-- (id)initWithSHA:(NSString *)SHA {
+- (id)initWithSHA:(NSString *)SHA error:(NSError **)error {
 	NSParameterAssert(SHA != nil);
-	return [self initWithSHACString:SHA.UTF8String];
+	return [self initWithSHACString:SHA.UTF8String error:error];
 }
 
-- (id)initWithSHACString:(const char *)string {
+- (id)initWithSHA:(NSString *)SHA {
+	return [self initWithSHA:SHA error:NULL];
+}
+
+- (id)initWithSHACString:(const char *)string error:(NSError **)error {
 	NSParameterAssert(string != NULL);
 	
 	self = [super init];
 	if (self == nil) return nil;
 	
 	int status = git_oid_fromstr(&_git_oid, string);
-	if (status != GIT_OK) return nil;
+	if (status != GIT_OK) {
+		if (error != NULL) {
+			*error = [NSError git_errorForMkStr:status];
+		}
+		return nil;
+	}
 
 	return self;
+}
+
+- (id)initWithSHACString:(const char *)string {
+	return [self initWithSHACString:string error:NULL];
 }
 
 + (instancetype)oidWithGitOid:(const git_oid *)git_oid {

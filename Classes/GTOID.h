@@ -28,12 +28,30 @@
 // Returns the initialized receiver.
 - (id)initWithSHA:(NSString *)SHA;
 
+// Initializes the receiver by converting the given SHA to an OID
+// optionally returning a NSError instance on failure.
+//
+// SHA - The to convert to an OID. Cannot be nil.
+// error - Will be filled with an error object in if the SHA cannot be parsed
+//
+// Returns the initialized receiver or nil if an error occured.
+- (id)initWithSHA:(NSString *)SHA error:(NSError **)error;
+
 // Initializes the receiver by converting the given SHA C string to an OID.
 //
 // string - The C string to convert. Cannot be NULL.
 //
 // Returns the initialized receiver.
 - (id)initWithSHACString:(const char *)string;
+
+// Initializes the receiver by converting the given SHA C string to an OID
+// optionally returning a NSError instance on failure.
+//
+// string - The C string to convert. Cannot be NULL.
+// error - Will be filled with an error object in if the SHA cannot be parsed
+//
+// Returns the initialized receiver.
+- (id)initWithSHACString:(const char *)string error:(NSError **)error;
 
 // Creates a new instance with the given git_oid using initWithGitOid:
 + (instancetype)oidWithGitOid:(const git_oid *)git_oid;
