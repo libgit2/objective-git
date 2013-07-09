@@ -44,9 +44,6 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 
 		case GTReferenceTypeSymbolic:
 			return @"symbolic";
-
-		case GTReferenceTypeListAll:
-			return @"listall";
 	}
 	return @"unknown";
 }

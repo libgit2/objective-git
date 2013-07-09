@@ -36,7 +36,6 @@ typedef enum {
 	GTReferenceTypeInvalid =    GIT_REF_INVALID,  /** Invalid reference */
 	GTReferenceTypeOid =        GIT_REF_OID,      /** A reference which points at an object id */
 	GTReferenceTypeSymbolic =   GIT_REF_SYMBOLIC, /** A reference which points at another reference */
-	GTReferenceTypeListAll =    GIT_REF_LISTALL,
 } GTReferenceType;
 
 @class GTRepository;
