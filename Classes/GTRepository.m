@@ -197,10 +197,10 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 	return [NSString git_stringWithOid:&oid];
 }
 
-- (GTObject *)lookupObjectByOid:(git_oid *)oid objectType:(GTObjectType)type error:(NSError **)error {
+- (GTObject *)lookupObjectByOid:(GTOID *)oid objectType:(GTObjectType)type error:(NSError **)error {
 	git_object *obj;
 
-	int gitError = git_object_lookup(&obj, self.git_repository, oid, (git_otype) type);
+	int gitError = git_object_lookup(&obj, self.git_repository, oid.git_oid, (git_otype)type);
 	if (gitError < GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to lookup object in repository."];
 		return nil;
@@ -209,20 +209,15 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
     return [GTObject objectWithObj:obj inRepository:self];
 }
 
-- (GTObject *)lookupObjectByOid:(git_oid *)oid error:(NSError **)error {
+- (GTObject *)lookupObjectByOid:(GTOID *)oid error:(NSError **)error {
 	return [self lookupObjectByOid:oid objectType:GTObjectTypeAny error:error];
 }
 
 - (GTObject *)lookupObjectBySha:(NSString *)sha objectType:(GTObjectType)type error:(NSError **)error {
-	git_oid oid;
+	GTOID *oid = [[GTOID alloc] initWithSHA:sha error:error];
+	if (!oid) return nil;
 
-	int gitError = git_oid_fromstr(&oid, [sha UTF8String]);
-	if (gitError < GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorForMkStr:gitError];
-		return nil;
-	}
-
-	return [self lookupObjectByOid:&oid objectType:type error:error];
+	return [self lookupObjectByOid:oid objectType:type error:error];
 }
 
 - (GTObject *)lookupObjectBySha:(NSString *)sha error:(NSError **)error {
@@ -511,7 +506,7 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 		return nil;
 	}
 	
-	return (id)[self lookupObjectByOid:&mergeBase objectType:GTObjectTypeCommit error:error];
+	return (id)[self lookupObjectByOid: [GTOID oidWithGitOid: &mergeBase] objectType:GTObjectTypeCommit error:error];
 }
 
 - (GTObjectDatabase *)objectDatabaseWithError:(NSError **)error {
