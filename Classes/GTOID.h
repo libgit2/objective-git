@@ -31,7 +31,7 @@
 // Initializes the receiver by converting the given SHA to an OID
 // optionally returning a NSError instance on failure.
 //
-// SHA - The to convert to an OID. Cannot be nil.
+// SHA   - The to convert to an OID. Cannot be nil.
 // error - Will be filled with an error object in if the SHA cannot be parsed
 //
 // Returns the initialized receiver or nil if an error occured.
@@ -48,7 +48,7 @@
 // optionally returning a NSError instance on failure.
 //
 // string - The C string to convert. Cannot be NULL.
-// error - Will be filled with an error object in if the SHA cannot be parsed
+// error  - Will be filled with an error object in if the SHA cannot be parsed
 //
 // Returns the initialized receiver.
 - (id)initWithSHACString:(const char *)string error:(NSError **)error;

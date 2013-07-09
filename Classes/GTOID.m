@@ -65,7 +65,7 @@
 	int status = git_oid_fromstr(&_git_oid, string);
 	if (status != GIT_OK) {
 		if (error != NULL) {
-			*error = [NSError git_errorForMkStr:status];
+			*error = [NSError git_errorFor:status withAdditionalDescription:[NSString stringWithFormat:@"Failed to convert string '%s' to object id", string]];
 		}
 		return nil;
 	}
