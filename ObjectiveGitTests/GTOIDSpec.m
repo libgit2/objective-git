@@ -32,6 +32,10 @@ describe(@"instance", ^{
 		NSString *secondSHA = @"82dc47f6ba3beecab33080a1136d8913098e1801";
 		expect(testOID).notTo.equal([[GTOID alloc] initWithSHA:secondSHA]);
 	});
+
+	it(@"should compare equal to an OID created with the same SHA from a C string", ^{
+		expect(testOID).to.equal([[GTOID alloc] initWithSHACString:"f7ecd8f4404d3a388efbff6711f1bdf28ffd16a0"]);
+	});
 });
 
 it(@"should keep the git_oid alive even if the object goes out of scope", ^{
@@ -44,6 +48,30 @@ it(@"should keep the git_oid alive even if the object goes out of scope", ^{
 
 	GTOID *testOID = [[GTOID alloc] initWithGitOid:git_oid];
 	expect(testOID.SHA).to.equal(testSHA);
+});
+
+it(@"should return an error when initialized with an empty SHA string", ^{
+	NSError *error = nil;
+	GTOID *oid = [[GTOID alloc] initWithSHA:@"" error:&error];
+
+	expect(oid).to.beNil();
+	expect(error).notTo.beNil();
+});
+
+it(@"should return an error when initialized with a string that contains non-hex characters", ^{
+	NSError *error = nil;
+	GTOID *oid = [[GTOID alloc] initWithSHA:@"zzzzz8f4404d3a388efbff6711f1bdf28ffd16a0" error:&error];
+
+	expect(oid).to.beNil();
+	expect(error).notTo.beNil();
+});
+
+it(@"should return an error when initialized with a string shorter than 40 characters", ^{
+	NSError *error = nil;
+	GTOID *oid = [[GTOID alloc] initWithSHA:@"f7ecd80" error:&error];
+
+	expect(oid).to.beNil();
+	expect(error).notTo.beNil();
 });
 
 SpecEnd

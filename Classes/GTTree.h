@@ -33,6 +33,11 @@
 @class GTTreeEntry;
 @class GTIndex;
 
+typedef enum GTTreeEnumerationOptions {
+	GTTreeEnumerationOptionPre = GIT_TREEWALK_PRE,
+	GTTreeEnumerationOptionPost = GIT_TREEWALK_POST,
+} GTTreeEnumerationOptions;
+
 @interface GTTree : GTObject
 
 // The number of entries in the tree.
@@ -54,6 +59,20 @@
 //
 // returns a GTTreeEntry or nil if there is nothing with the specified name
 - (GTTreeEntry *)entryWithName:(NSString *)name;
+
+// Enumerates the contents of the tree
+//
+// options - One of `GTTreeEnumerationOptionPre` (for pre-order walks) or
+//           `GTTreeEnumerationOptionPost` (for post-order walks).
+// error   - The error if one occurred.
+// block   - A block that will be called back with a path to the root of the tree
+//           and the current entry.
+//
+// returns an error code if one occurred, 0 otherwise
+- (int)enumerateContentsWithOptions:(GTTreeEnumerationOptions)options error:(NSError **)error block:(int(^)(NSString *root, GTTreeEntry *entry))block;
+
+// Returns the contents of the tree, as an array of GTTreeEntries
+- (NSArray *)contents;
 
 // Merges the given tree into the receiver in memory and produces the result as
 // an index.

@@ -448,8 +448,8 @@
 		D0D8186B174421EB00995A2E /* Mac-StaticLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-StaticLibrary.xcconfig"; sourceTree = "<group>"; };
 		D0D8186C174421EB00995A2E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		D2F7E79907B2D74100F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
-		E46931A7172740D300F2077D /* update_libgit2.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = update_libgit2.sh; sourceTree = "<group>"; };
-		E46931A8172740D300F2077D /* update_libgit2_ios.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = update_libgit2_ios.sh; sourceTree = "<group>"; };
+		E46931A7172740D300F2077D /* update_libgit2 */ = {isa = PBXFileReference; lastKnownFileType = text; name = update_libgit2; path = script/update_libgit2; sourceTree = "<group>"; };
+		E46931A8172740D300F2077D /* update_libgit2_ios */ = {isa = PBXFileReference; lastKnownFileType = text; name = update_libgit2_ios; path = script/update_libgit2_ios; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -793,8 +793,8 @@
 		E46931A6172740D300F2077D /* Scripts */ = {
 			isa = PBXGroup;
 			children = (
-				E46931A7172740D300F2077D /* update_libgit2.sh */,
-				E46931A8172740D300F2077D /* update_libgit2_ios.sh */,
+				E46931A7172740D300F2077D /* update_libgit2 */,
+				E46931A8172740D300F2077D /* update_libgit2_ios */,
 			);
 			path = Scripts;
 			sourceTree = "<group>";
