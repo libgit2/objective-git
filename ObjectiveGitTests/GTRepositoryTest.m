@@ -92,7 +92,7 @@
 	NSError *error = nil;
 	GTReference *head = [repo headReferenceWithError:&error];
 	STAssertNil(error, [error localizedDescription]);
-	STAssertEqualObjects(head.resolvedTarget.sha, @"36060c58702ed4c2a40832c51758d5344201d89a", nil);
+	STAssertEqualObjects(head.targetSHA, @"36060c58702ed4c2a40832c51758d5344201d89a", nil);
 	STAssertEquals(head.referenceType, GTReferenceTypeOid, nil);
 }
 
@@ -112,9 +112,9 @@
     BOOL success = [aRepo resetToCommit:commit withResetType:GTRepositoryResetTypeSoft error:&err];
     STAssertTrue(success, @"Failed to reset, error given: %@", err);
     GTReference *head = [aRepo headReferenceWithError:&err];
-    STAssertEqualObjects(head.resolvedTarget.sha, resetTargetSha, @"Reset failed to move head to given commit");
+    STAssertEqualObjects(head.targetSHA, resetTargetSha, @"Reset failed to move head to given commit");
     
-    GTCommit *originalHeadCommit = (GTCommit *)[aRepo lookupObjectBySha:originalHead.resolvedTarget.sha error:NULL];
+    GTCommit *originalHeadCommit = (GTCommit *)[aRepo lookupObjectBySha:originalHead.targetSHA error:NULL];
     [aRepo resetToCommit:originalHeadCommit withResetType:GTRepositoryResetTypeSoft error:NULL];
     head = [aRepo headReferenceWithError:&err];
     STAssertEqualObjects(head.unresolvedTarget, originalHead.unresolvedTarget, @"Reset failed to move head back to the original position");
@@ -171,7 +171,7 @@
 
 	GTReference *head = [repo headReferenceWithError:&err];
 	STAssertNotNil(head, err.localizedDescription);
-	STAssertEqualObjects(head.resolvedTarget.sha, @"36060c58702ed4c2a40832c51758d5344201d89a", nil);
+	STAssertEqualObjects(head.targetSHA, @"36060c58702ed4c2a40832c51758d5344201d89a", nil);
 	STAssertEquals(head.referenceType, GTReferenceTypeOid, nil);
 }
 
@@ -199,7 +199,7 @@
 
 	GTReference *head = [repo headReferenceWithError:&err];
 	STAssertNotNil(head, err.localizedDescription);
-	STAssertEqualObjects(head.resolvedTarget.sha, @"36060c58702ed4c2a40832c51758d5344201d89a", nil);
+	STAssertEqualObjects(head.targetSHA, @"36060c58702ed4c2a40832c51758d5344201d89a", nil);
 	STAssertEquals(head.referenceType, GTReferenceTypeOid, nil);
 }
 

@@ -73,10 +73,13 @@ typedef enum {
 @property (nonatomic, readonly, copy) id unresolvedTarget;
 
 // The resolved object to which the reference points.
-@property (nonatomic, readonly, copy) GTObject *resolvedTarget;
+@property (nonatomic, readonly, copy) id resolvedTarget;
 
 // The last direct reference in a chain
 @property (nonatomic, readonly, copy) GTReference *resolvedReference;
+
+// The SHA of the target object
+@property (nonatomic, readonly, copy) NSString *targetSHA;
 
 // Updates the on-disk reference to point to the target and returns the updated
 // reference.
