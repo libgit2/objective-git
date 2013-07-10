@@ -44,7 +44,7 @@ extern NSString * const GTGitErrorDomain;
 // code - the libgit2 error code
 //
 // returns the created error object
-+ (NSError *)git_errorFor:(NSInteger)code withAdditionalDescription:(NSString *)desc;
++ (NSError *)git_errorFor:(NSInteger)code withAdditionalDescription:(NSString *)desc, ... NS_FORMAT_FUNCTION(2,3);
 
 /* Error helpers for common libgit2 errors */
 + (NSError *)git_errorForMkStr:(NSInteger)code;
