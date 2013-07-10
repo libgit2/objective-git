@@ -46,6 +46,8 @@
 // The type of block passed to -enumerateSubmodulesRecursively:usingBlock:.
 typedef void (^GTRepositorySubmoduleEnumerationBlock)(GTSubmodule *submodule, BOOL *stop);
 
+typedef void (^GTRepositoryTagEnumerationBlock)(GTTag *tag, BOOL *stop);
+
 // Used as a payload for submodule enumeration.
 //
 // recursive        - Whether submodule enumeration should recurse.
@@ -353,6 +355,45 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 	}
 
     return allBranches;
+}
+
+struct GTRepositoryTagEnumerationInfo {
+	__unsafe_unretained GTRepository *myself;
+	__unsafe_unretained GTRepositoryTagEnumerationBlock block;
+};
+
+static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *payload) {
+	struct GTRepositoryTagEnumerationInfo *info = payload;
+	GTTag *tag = (GTTag *)[info->myself lookupObjectByOid:oid objectType:GTObjectTypeTag error:NULL];
+
+	BOOL stop = NO;
+	info->block(tag, &stop);
+
+	return stop ? GIT_EUSER : 0;
+}
+
+- (BOOL)enumerateTags:(NSError **)error block:(GTRepositoryTagEnumerationBlock)block {
+	NSParameterAssert(block != nil);
+
+	struct GTRepositoryTagEnumerationInfo payload = {
+		.myself = self,
+		.block = block,
+	};
+	int gitError = git_tag_foreach(self.git_repository, GTRepositoryForeachTagCallback, &payload);
+	if (gitError != GIT_OK && gitError != GIT_EUSER) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to enumerate tags"];
+		return NO;
+	}
+
+	return YES;
+}
+
+- (NSArray *)allTagsWithError:(NSError **)error {
+	NSMutableArray *tagArray = [NSMutableArray array];
+	BOOL err = [self enumerateTags:error block:^(GTTag *tag, BOOL *stop) {
+		[tagArray addObject:tag];
+	}];
+	return err == YES ? tagArray : nil;
 }
 
 - (NSUInteger)numberOfCommitsInCurrentBranch:(NSError **)error {
