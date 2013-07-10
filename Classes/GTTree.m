@@ -83,8 +83,7 @@ static int treewalk_cb(const char *root, const git_tree_entry *git_entry, void *
 
 	GTTreeEntry *entry = [[GTTreeEntry alloc] initWithEntry:git_entry parentTree:parentTree];
 	if ([entry _type] == GTObjectTypeTree) {
-		NSString *path = [entry.name stringByAppendingString:@"/"];
-		path = [rootString stringByAppendingString:path];
+		NSString *path = [rootString stringByAppendingPathComponent:entry.name];
 		[enumStruct->directoryStructure setObject:entry forKey:path];
 	}
 	return enumStruct->block(rootString, entry);
