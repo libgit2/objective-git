@@ -67,6 +67,8 @@ typedef enum GTTreeEnumerationOptions {
 // error   - The error if one occurred.
 // block   - A block that will be called back with a path to the root of the tree
 //           and the current entry.
+//           Return a negative value to stop the walk, a positive one to skip the
+//           descendents of the entry, or 0 to continue the enumeration.
 //
 // returns YES if the enumeration completed successfully, NO otherwise
 - (BOOL)enumerateContentsWithOptions:(GTTreeEnumerationOptions)options error:(NSError **)error block:(int(^)(NSString *root, GTTreeEntry *entry))block;
