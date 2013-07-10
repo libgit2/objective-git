@@ -33,10 +33,10 @@ typedef enum {
 } GTReferenceErrorCode;
 
 typedef enum {
-	GTReferenceTypesOid = GIT_REF_OID,				/** A reference which points at an object id */
-	GTReferenceTypesSymbolic = GIT_REF_SYMBOLIC,	/** A reference which points at another reference */
-	GTReferenceTypesListAll = GIT_REF_LISTALL,
-} GTReferenceTypes;
+	GTReferenceTypeInvalid =    GIT_REF_INVALID,  /** Invalid reference */
+	GTReferenceTypeOid =        GIT_REF_OID,      /** A reference which points at an object id */
+	GTReferenceTypeSymbolic =   GIT_REF_SYMBOLIC, /** A reference which points at another reference */
+} GTReferenceType;
 
 @class GTRepository;
 
@@ -44,7 +44,7 @@ typedef enum {
 @interface GTReference : NSObject
 
 @property (nonatomic, readonly, strong) GTRepository *repository;
-@property (nonatomic, readonly) NSString *type;
+@property (nonatomic, readonly) GTReferenceType referenceType;
 @property (nonatomic, readonly) const git_oid *git_oid;
 @property (nonatomic, strong, readonly) GTOID *OID;
 
@@ -69,8 +69,17 @@ typedef enum {
 // The underlying `git_reference` object.
 - (git_reference *)git_reference __attribute__((objc_returns_inner_pointer));
 
-// The target to which the reference points.
-@property (nonatomic, readonly, copy) NSString *target;
+// The target (either GTObject or GTReference) to which the reference points.
+@property (nonatomic, readonly, copy) id unresolvedTarget;
+
+// The resolved object to which the reference points.
+@property (nonatomic, readonly, copy) id resolvedTarget;
+
+// The last direct reference in a chain
+@property (nonatomic, readonly, copy) GTReference *resolvedReference;
+
+// The SHA of the target object
+@property (nonatomic, readonly, copy) NSString *targetSHA;
 
 // Updates the on-disk reference to point to the target and returns the updated
 // reference.
