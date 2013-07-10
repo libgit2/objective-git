@@ -78,13 +78,13 @@ typedef struct GTTreeEnumerationStruct {
 static int treewalk_cb(const char *root, const git_tree_entry *git_entry, void *payload) {
 	GTTreeEnumerationStruct *enumStruct = (GTTreeEnumerationStruct *)payload;
 	NSString *rootString = @(root);
-	GTTreeEntry *parentEntry = [enumStruct->directoryStructure objectForKey:rootString];
+	GTTreeEntry *parentEntry = enumStruct->directoryStructure[rootString];
 	GTTree *parentTree = parentEntry ? parentEntry.tree : enumStruct->myself;
 
 	GTTreeEntry *entry = [[GTTreeEntry alloc] initWithEntry:git_entry parentTree:parentTree];
 	if ([entry _type] == GTObjectTypeTree) {
 		NSString *path = [rootString stringByAppendingPathComponent:entry.name];
-		[enumStruct->directoryStructure setObject:entry forKey:path];
+		enumStruct->directoryStructure[path] = entry;
 	}
 	return enumStruct->block(rootString, entry);
 }
