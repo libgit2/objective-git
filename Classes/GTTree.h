@@ -34,8 +34,8 @@
 @class GTIndex;
 
 typedef enum GTTreeEnumerationOptions {
-	GTTreeEnumerationOptionPre = GIT_TREEWALK_PRE,
-	GTTreeEnumerationOptionPost = GIT_TREEWALK_POST,
+	GTTreeEnumerationOptionPre = GIT_TREEWALK_PRE, // Walk the tree in pre-order (subdirectories come first)
+	GTTreeEnumerationOptionPost = GIT_TREEWALK_POST, // Walk the tree in post-order (subdirectories come last)
 } GTTreeEnumerationOptions;
 
 @interface GTTree : GTObject
