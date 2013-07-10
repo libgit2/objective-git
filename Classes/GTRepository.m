@@ -184,6 +184,12 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 	return [[self alloc] initWithGitRepository:repository];
 }
 
++ (instancetype)createRepositoryAtURL:(NSURL *)url error:(NSError **)error {
+	BOOL err = [GTRepository initializeEmptyRepositoryAtURL:url error:error];
+	if (!err) return nil;
+	
+	return [GTRepository repositoryWithURL:url error:error];
+}
 
 + (NSString *)hash:(NSString *)data objectType:(GTObjectType)type error:(NSError **)error {
 	git_oid oid;
