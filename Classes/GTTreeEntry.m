@@ -87,8 +87,7 @@
 	return [NSString git_stringWithOid:git_tree_entry_id(self.git_tree_entry)];
 }
 
-
-- (GTObjectType)_type {
+- (GTObjectType)type {
 	return (GTObjectType)git_tree_entry_type(self.git_tree_entry);
 }
 

@@ -32,6 +32,7 @@
 #import "GTRepository.h"
 #import "GTIndex.h"
 #import "NSError+Git.h"
+#import "GTTreeEntry+Private.h"
 
 typedef int(^GTTreeEnumerationBlock)(NSString *root, GTTreeEntry *entry);
 
@@ -40,10 +41,6 @@ typedef struct GTTreeEnumerationStruct {
 	__unsafe_unretained GTTreeEnumerationBlock block;
 	__unsafe_unretained NSMutableDictionary *directoryStructure;
 } GTTreeEnumerationStruct;
-
-@interface GTTreeEntry (GTPrivate)
-- (GTObjectType)_type;
-@end
 
 @implementation GTTree
 
@@ -82,7 +79,7 @@ static int treewalk_cb(const char *root, const git_tree_entry *git_entry, void *
 	GTTree *parentTree = parentEntry ? parentEntry.tree : enumStruct->myself;
 
 	GTTreeEntry *entry = [[GTTreeEntry alloc] initWithEntry:git_entry parentTree:parentTree];
-	if ([entry _type] == GTObjectTypeTree) {
+	if ([entry type] == GTObjectTypeTree) {
 		NSString *path = [rootString stringByAppendingPathComponent:entry.name];
 		enumStruct->directoryStructure[path] = entry;
 	}
@@ -113,7 +110,7 @@ static int treewalk_cb(const char *root, const git_tree_entry *git_entry, void *
 	__block NSMutableArray *_contents = [NSMutableArray array];
 	int gitError = [self enumerateContentsWithOptions:GTTreeEnumerationOptionPre error:&error block:^int(NSString *root, GTTreeEntry *entry) {
 		[_contents addObject:entry];
-		return [entry _type] == GTObjectTypeTree ? 1 : 0;
+		return [entry type] == GTObjectTypeTree ? 1 : 0;
 	}];
 	if (gitError < GIT_OK) {
 		NSLog(@"%@", error);
