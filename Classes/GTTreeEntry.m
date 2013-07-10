@@ -43,7 +43,7 @@
 #pragma mark NSObject
 
 - (NSString *)description {
-	return [NSString stringWithFormat:@"<%@: %p> name: %@, type: %@, sha: %@, attributes: %lu", NSStringFromClass([self class]), self, [self name], [self typeString], [self sha], (unsigned long)[self attributes]];
+	return [NSString stringWithFormat:@"<%@: %p> name: %@, type: %@, sha: %@, attributes: %lu", NSStringFromClass(self.class), self, self.name, self.typeString, self.sha, (unsigned long)self.attributes];
 }
 
 - (NSUInteger)hash {
