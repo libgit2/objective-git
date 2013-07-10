@@ -91,7 +91,7 @@ static int treewalk_cb(const char *root, const git_tree_entry *git_entry, void *
 }
 
 
-- (int)enumerateContentsWithOptions:(GTTreeEnumerationOptions)option error:(NSError **)error block:(GTTreeEnumerationBlock)block {
+- (BOOL)enumerateContentsWithOptions:(GTTreeEnumerationOptions)option error:(NSError **)error block:(GTTreeEnumerationBlock)block {
 	NSParameterAssert(block != nil);
 
 	NSMutableDictionary *structure = [[NSMutableDictionary alloc] initWithCapacity:[self entryCount]];
@@ -106,7 +106,7 @@ static int treewalk_cb(const char *root, const git_tree_entry *git_entry, void *
 	if (gitError != GIT_OK) {
 		if (*error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to enumerate tree"];
 	}
-	return gitError;
+	return gitError != GIT_OK;
 }
 
 - (NSArray *)contents {
