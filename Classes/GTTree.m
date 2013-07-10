@@ -103,7 +103,7 @@ static int treewalk_cb(const char *root, const git_tree_entry *git_entry, void *
 
 	int gitError = git_tree_walk(self.git_tree, (git_treewalk_mode)option, treewalk_cb, &enumStruct);
 	if (gitError != GIT_OK) {
-		if (*error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to enumerate tree"];
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to enumerate tree"];
 	}
 	return gitError != GIT_OK;
 }
