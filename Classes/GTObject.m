@@ -70,7 +70,7 @@
 - (id)initWithObj:(git_object *)object inRepository:(GTRepository *)repo {
 	NSParameterAssert(object != NULL);
 	NSParameterAssert(repo != nil);
-	git_repository *object_repo = git_object_owner(object);
+	git_repository *object_repo __attribute__((unused)) = git_object_owner(object);
 	NSAssert(object_repo == repo.git_repository, @"object %p doesn't belong to repo %@", object, repo);
 
 	Class objectClass = nil;
