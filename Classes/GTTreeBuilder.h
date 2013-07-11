@@ -43,6 +43,7 @@ typedef enum {
 @class GTTree;
 @class GTTreeEntry;
 @class GTRepository;
+@class GTOID;
 
 // A tree builder is used to create or modify trees in memory and write them as
 // tree objects to a repository.
@@ -80,7 +81,7 @@ typedef enum {
 
 // Add or update an entry to the builder.
 //
-// sha      - The SHA of a git object aleady stored in the repository.
+// sha      - The OID of a git object aleady stored in the repository.
 // filename - Filename for the object in the index.
 // filemode - Filemode for the object in the index.
 // error    - The error if one occurred.
@@ -93,6 +94,9 @@ typedef enum {
 // the type of the pointed at object.
 //
 // Returns the added entry, or nil if an error occurred.
+- (GTTreeEntry *)addEntryWithOID:(GTOID *)oid filename:(NSString *)filename filemode:(GTFileMode)filemode error:(NSError **)error;
+
+// Deprecated ?
 - (GTTreeEntry *)addEntryWithSHA:(NSString *)sha filename:(NSString *)filename filemode:(GTFileMode)filemode error:(NSError **)error;
 
 // Remove an entry from the builder by its filename.
