@@ -121,8 +121,8 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 + (NSString *)hash:(NSString *)data objectType:(GTObjectType)type error:(NSError **)error;
 
 // Lookup objects in the repo by oid or sha1
-- (GTObject *)lookupObjectByOid:(git_oid *)oid objectType:(GTObjectType)type error:(NSError **)error;
-- (GTObject *)lookupObjectByOid:(git_oid *)oid error:(NSError **)error;
+- (GTObject *)lookupObjectByOid:(const git_oid *)oid objectType:(GTObjectType)type error:(NSError **)error;
+- (GTObject *)lookupObjectByOid:(const git_oid *)oid error:(NSError **)error;
 - (GTObject *)lookupObjectBySha:(NSString *)sha objectType:(GTObjectType)type error:(NSError **)error;
 - (GTObject *)lookupObjectBySha:(NSString *)sha error:(NSError **)error;
 

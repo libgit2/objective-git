@@ -203,7 +203,7 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 	return [NSString git_stringWithOid:&oid];
 }
 
-- (GTObject *)lookupObjectByOid:(git_oid *)oid objectType:(GTObjectType)type error:(NSError **)error {
+- (GTObject *)lookupObjectByOid:(const git_oid *)oid objectType:(GTObjectType)type error:(NSError **)error {
 	git_object *obj;
 
 	int gitError = git_object_lookup(&obj, self.git_repository, oid, (git_otype) type);
@@ -215,7 +215,7 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
     return [GTObject objectWithObj:obj inRepository:self];
 }
 
-- (GTObject *)lookupObjectByOid:(git_oid *)oid error:(NSError **)error {
+- (GTObject *)lookupObjectByOid:(const git_oid *)oid error:(NSError **)error {
 	return [self lookupObjectByOid:oid objectType:GTObjectTypeAny error:error];
 }
 
