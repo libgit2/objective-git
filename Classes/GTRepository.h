@@ -40,6 +40,7 @@
 @class GTOdbObject;
 @class GTSignature;
 @class GTSubmodule;
+@class GTTreeBuilder;
 
 // Options returned from the enumerateFileStatusUsingBlock: function
 enum {
@@ -267,5 +268,7 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 //
 // Returns the index, or nil if an error occurred.
 - (GTIndex *)indexWithError:(NSError **)error;
+
+- (GTCommit *)buildCommitWithMessage:(NSString *)message parents:(NSArray *)parents error:(NSError **)error block:(void (^)(GTTreeBuilder *builder))builderBlock;
 
 @end

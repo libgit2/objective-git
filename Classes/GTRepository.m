@@ -40,6 +40,7 @@
 #import "GTSignature.h"
 #import "GTSubmodule.h"
 #import "GTTag.h"
+#import "GTTreeBuilder.h"
 #import "NSError+Git.h"
 #import "NSString+Git.h"
 
@@ -618,6 +619,22 @@ static int submoduleEnumerationCallback(git_submodule *git_submodule, const char
 	}
 
 	return [[GTSignature alloc] initWithName:name email:email time:[NSDate date]];
+}
+
+- (GTCommit *)buildCommitWithMessage:(NSString *)message parents:(NSArray *)parents error:(NSError **)error block:(void (^)(GTTreeBuilder *builder))builderBlock {
+	GTReference *headRef = [self headReferenceWithError:error];
+	if (!headRef) return NO;
+
+	GTTreeBuilder *builder = [[GTTreeBuilder alloc] initWithTree:nil error:error];
+	if (builder == nil) return NO;
+
+	builderBlock(builder);
+
+	GTTree *tree = [builder writeTreeToRepository:self error:error];
+	if (tree == nil) return NO;
+
+	GTSignature *sign = [self userSignatureForNow];
+	return [GTCommit commitInRepository:self updateRefNamed:headRef.name author:sign committer:sign message:message tree:tree parents:parents error:error];
 }
 
 @end
