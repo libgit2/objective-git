@@ -113,6 +113,8 @@
 			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to finalize write on odb."];
 		return nil;
 	}
+
+	stream->free(stream);
     
 	return [NSString git_stringWithOid:&oid];
 }
