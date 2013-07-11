@@ -79,6 +79,8 @@ typedef enum {
 // Returns the matching entry or nil if it doesn't exist.
 - (GTTreeEntry *)entryWithName:(NSString *)filename;
 
+- (GTTreeEntry *)addEntryWithData:(NSData *)data filename:(NSString *)filename filemode:(GTFileMode)filemode error:(NSError **)error;
+
 // Add or update an entry to the builder.
 //
 // sha      - The OID of a git object aleady stored in the repository.

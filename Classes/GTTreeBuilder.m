@@ -31,10 +31,13 @@
 #import "GTTree.h"
 #import "GTTreeEntry.h"
 #import "GTRepository.h"
+#import "GTObjectDatabase.h"
+#import "GTOID.h"
 #import "NSError+Git.h"
 
 @interface GTTreeBuilder ()
 @property (nonatomic, assign, readonly) git_treebuilder *git_treebuilder;
+@property (nonatomic, retain, readonly) NSMutableDictionary	*objectData;
 @end
 
 @implementation GTTreeBuilder
@@ -56,6 +59,8 @@
 		if (error != NULL) *error = [NSError git_errorFor:status withAdditionalDescription:@"Failed to create tree builder."];
 		return nil;
 	}
+
+	_objectData	= @{}.mutableCopy;
 
 	return self;
 }
@@ -93,6 +98,17 @@ static int filter_callback(const git_tree_entry *entry, void *payload) {
 	return [GTTreeEntry entryWithEntry:entry parentTree:nil];
 }
 
+- (GTTreeEntry *)addEntryWithData:(NSData *)data filename:(NSString *)filename filemode:(GTFileMode)filemode error:(NSError **)error {
+	NSParameterAssert(data != nil);
+	NSParameterAssert(filename != nil);
+
+	GTOID *oid = [GTOID oidByHashingData:data type:GTObjectTypeBlob];
+
+	self.objectData[filename] = @{@"data": data, @"oid":oid, @"filemode":@(filemode)};
+
+	return [self addEntryWithOID:oid filename:filename filemode:filemode error:error];
+}
+
 - (GTTreeEntry *)addEntryWithOID:(GTOID *)oid filename:(NSString *)filename filemode:(GTFileMode)filemode error:(NSError **)error {
 	NSParameterAssert(oid != nil);
 	NSParameterAssert(filename != nil);
@@ -118,11 +134,27 @@ static int filter_callback(const git_tree_entry *entry, void *payload) {
 	if (status != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:status withAdditionalDescription:@"Failed to remove entry from tree builder by filename."];
 	}
+
+	[self.objectData removeObjectForKey:filename];
 	
 	return (status == GIT_OK);
 }
 
 - (GTTree *)writeTreeToRepository:(GTRepository *)repository error:(NSError **)error {
+	if (self.objectData.count != 0) {
+		GTObjectDatabase *odb = [repository objectDatabaseWithError:error];
+		if (odb == nil) return nil;
+
+		for (GTOID *oid in self.objectData) {
+			NSDictionary *info = self.objectData[oid];
+
+			GTOdbObject *odbObj = [odb objectByInsertingData:info[@"data"]
+												  objectType:GTObjectTypeBlob
+													   error:error];
+			if (odbObj == nil) return nil;
+		}
+	}
+
 	git_oid treeOid;
 	int status = git_treebuilder_write(&treeOid, repository.git_repository, self.git_treebuilder);
 	if (status != GIT_OK) {
