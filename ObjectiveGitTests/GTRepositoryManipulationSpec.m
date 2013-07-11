@@ -26,6 +26,22 @@ afterAll(^{
 	expect(error.description).to.beNil();
 });
 
+describe(@"GTRepository", ^{
+	it(@"allows commits to be created easily", ^{
+		NSError *error = nil;
+		__block NSError *builderError;
+		GTCommit *initial = [repository buildCommitWithMessage:@"Initial commit" parents:nil error:&error block:^(GTTreeBuilder *builder) {
+			expect(builder).toNot.beNil();
+			[builder addEntryWithData:[@"Test contents" dataUsingEncoding:NSUTF8StringEncoding] filename:@"Test file.txt" filemode:GTFileModeBlob error:&builderError];
+			expect(builderError.description).to.beNil();
+			[builder addEntryWithData:[@"Another file contents" dataUsingEncoding:NSUTF8StringEncoding] filename:@"subdir/Test file 2.txt" filemode:GTFileModeBlob error:&builderError];
+			expect(builderError.description).to.beNil();
+		}];
+		expect(initial).notTo.beNil();
+		expect(error.description).to.beNil();
+	});
+});
+
 //describe(@"-preparedMessage", ^{
 //	it(@"should return nil by default", ^{
 //		__block NSError *error = nil;
