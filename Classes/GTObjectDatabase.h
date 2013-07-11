@@ -46,6 +46,7 @@
 - (GTOdbObject *)objectWithSha:(NSString *)sha error:(NSError **)error;
 
 - (NSString *)shaByInsertingString:(NSString *)data objectType:(GTObjectType)type error:(NSError **)error;
+- (GTOdbObject *)objectByInsertingData:(NSData *)data objectType:(GTObjectType)type error:(NSError **)error;
 
 - (BOOL)containsObjectWithSha:(NSString *)sha error:(NSError **)error;
 
