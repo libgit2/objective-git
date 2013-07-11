@@ -71,19 +71,11 @@
 - (id)initWithObj:(git_object *)object inRepository:(GTRepository *)repo {
 	NSParameterAssert(object != NULL);
 	NSParameterAssert(repo != nil);
+	git_repository *object_repo __attribute__((unused)) = git_object_owner(object);
+	NSAssert(object_repo == repo.git_repository, @"object %p doesn't belong to repo %@", object, repo);
 
-	self = [super init];
-	if (self == nil) return nil;
-
-	_repository = repo;
-	_git_object = object;
-
-	return self;
-}
-
-+ (id)objectWithObj:(git_object *)theObject inRepository:(GTRepository *)theRepo {	
 	Class objectClass = nil;
-	git_otype t = git_object_type(theObject);
+	git_otype t = git_object_type(object);
 	switch (t) {
 		case GIT_OBJ_COMMIT:
 			objectClass = [GTCommit class];
@@ -98,11 +90,29 @@
 			objectClass = [GTTag class];
 			break;
 		default:
-			objectClass = [GTObject class];
 			break;
 	}
+
+	if (!objectClass) {
+		NSLog(@"Unknown git_otype %s (%d)", git_object_type2string(t), (int)t);
+		return nil;
+	}
 	
-    return [[objectClass alloc] initWithObj:theObject inRepository:theRepo];
+	if (self.class != objectClass) {
+		return [[objectClass alloc] initWithObj:object inRepository:repo];
+	}
+	
+	self = [super init];
+	if (!self) return nil;
+	
+	_repository = repo;
+	_git_object = object;
+	
+	return self;
+}
+
++ (id)objectWithObj:(git_object *)theObject inRepository:(GTRepository *)theRepo {
+	return [[self alloc] initWithObj:theObject inRepository:theRepo];
 }
 
 - (NSString *)type {

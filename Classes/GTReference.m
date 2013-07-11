@@ -34,6 +34,20 @@
 @property (nonatomic, readonly, assign) git_reference *git_reference;
 @end
 
+static NSString *referenceTypeToString(GTReferenceType type) {
+	switch (type) {
+		case GTReferenceTypeInvalid:
+			return @"invalid";
+
+		case GTReferenceTypeOid:
+			return @"direct";
+
+		case GTReferenceTypeSymbolic:
+			return @"symbolic";
+	}
+	return @"unknown";
+}
+
 @implementation GTReference
 
 - (void)dealloc {
@@ -144,16 +158,39 @@
 	return [[self.class alloc] initWithGitReference:newRef repository:self.repository];
 }
 
-- (NSString *)type {
-	return @(git_object_type2string((git_otype)git_reference_type(self.git_reference)));
+- (GTReferenceType)referenceType {
+	return (GTReferenceType)git_reference_type(self.git_reference);
 }
 
-- (NSString *)target {
-	if (git_reference_type(self.git_reference) == GIT_REF_OID) {
-		return [NSString git_stringWithOid:git_reference_target(self.git_reference)];
-	} else {
-		return @(git_reference_symbolic_target(self.git_reference));
+- (id)unresolvedTarget {
+	if (self.referenceType == GTReferenceTypeOid) {
+		git_oid *oid = (git_oid *)git_reference_target(self.git_reference);
+		if (oid == NULL) return nil;
+
+		return [self.repository lookupObjectByOid:oid error:NULL];
+	} else if (self.referenceType == GTReferenceTypeSymbolic) {
+		NSString *refName = @(git_reference_symbolic_target(self.git_reference));
+		if (refName == NULL) return nil;
+
+		return [self.class referenceByLookingUpReferencedNamed:refName inRepository:self.repository error:NULL];
 	}
+	return nil;
+}
+
+- (id)resolvedTarget {
+	git_object *obj;
+	git_reference_peel(&obj, self.git_reference, GIT_OBJ_ANY);
+	if (obj == NULL) return nil;
+
+	return [GTObject objectWithObj:obj inRepository:self.repository];
+}
+
+- (GTReference *)resolvedReference {
+	return [self.class referenceByResolvingSymbolicReference:self error:NULL];
+}
+
+- (NSString *)targetSHA {
+	return [self.resolvedTarget sha];
 }
 
 - (GTReference *)referenceByUpdatingTarget:(NSString *)newTarget error:(NSError **)error {
@@ -222,7 +259,7 @@
 #pragma mark NSObject
 
 - (NSString *)description {
-  return [NSString stringWithFormat:@"<%@: %p>{ OID: %@, type: %@, remote: %i }", self.class, self, self.OID, self.type, (int)self.remote];
+  return [NSString stringWithFormat:@"<%@: %p>{ OID: %@, type: %@, remote: %i }", self.class, self, self.OID, referenceTypeToString(self.referenceType), (int)self.remote];
 }
 
 - (NSUInteger)hash {
@@ -233,7 +270,7 @@
 	if (self == reference) return YES;
 	if (![reference isKindOfClass:GTReference.class]) return NO;
 
-	return [self.repository isEqual:reference.repository] && [self.name isEqual:reference.name] && [self.target isEqual:reference.target];
+	return [self.repository isEqual:reference.repository] && [self.name isEqual:reference.name] && [self.unresolvedTarget isEqual:reference.unresolvedTarget];
 }
 
 @end
