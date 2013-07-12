@@ -121,16 +121,15 @@
 }
 
 - (BOOL)containsObjectWithSha:(NSString *)sha error:(NSError **)error {
-	git_oid oid;
-	
-	int gitError = git_oid_fromstr(&oid, [sha UTF8String]);
-	if(gitError < GIT_OK) {
-		if(error != NULL)
-			*error = [NSError git_errorForMkStr:gitError];
-		return NO;
-	}
-	
-	return git_odb_exists(self.git_odb, &oid) ? YES : NO;
+
+	GTOID *oid = [[GTOID alloc] initWithSHA:sha error:error];
+	if (oid == nil) return NO;
+
+	return [self containsObjectWithOID:oid];
+}
+
+- (BOOL)containsObjectWithOID:(GTOID *)oid {
+	return git_odb_exists(self.git_odb, oid.git_oid) ? YES : NO;
 }
 
 @end

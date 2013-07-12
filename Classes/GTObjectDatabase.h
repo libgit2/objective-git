@@ -51,4 +51,11 @@
 
 - (BOOL)containsObjectWithSha:(NSString *)sha error:(NSError **)error;
 
+// Checks if the object database contains an object with a given OID.
+//
+// oid - Object ID to check
+//
+// Returns YES if the object exists or NO otherwise.
+- (BOOL)containsObjectWithOID:(GTOID *)oid;
+
 @end
