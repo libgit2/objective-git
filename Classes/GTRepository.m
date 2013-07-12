@@ -506,7 +506,7 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 		return nil;
 	}
 	
-	return (id)[self lookupObjectByOid: [GTOID oidWithGitOid: &mergeBase] objectType:GTObjectTypeCommit error:error];
+	return (id)[self lookupObjectByOid:[GTOID oidWithGitOid:&mergeBase] objectType:GTObjectTypeCommit error:error];
 }
 
 - (GTObjectDatabase *)objectDatabaseWithError:(NSError **)error {
