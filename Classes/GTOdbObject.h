@@ -30,5 +30,8 @@
 - (GTObjectType)type;
 - (size_t)length;
 - (NSData *)data;
+
+// The object ID of this object.
+@property (nonatomic, readonly) GTOID *OID;
 	
 @end
