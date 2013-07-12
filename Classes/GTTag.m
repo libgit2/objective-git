@@ -60,6 +60,21 @@
 	return [NSString git_stringWithOid:&oid];
 }
 
+- (BOOL)createLightweightTagInRepository:(GTRepository *)repository name:(NSString *)tagName target:(GTObject *)target error:(NSError **)error {
+	NSParameterAssert(repository != nil);
+	NSParameterAssert(tagName != nil);
+	NSParameterAssert(target != nil);
+	
+	git_oid oid;
+	int gitError = git_tag_create_lightweight(&oid, repository.git_repository, tagName.UTF8String, target.git_object, 0);
+	if (gitError < GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Cannot create lightweight tag"];
+		return NO;
+	}
+
+	return YES;
+}
+
 - (NSString *)message {
 	return [NSString stringWithUTF8String:git_tag_message(self.git_tag)];
 }

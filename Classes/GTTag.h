@@ -41,6 +41,20 @@
 + (GTTag *)tagInRepository:(GTRepository *)theRepo name:(NSString *)tagName target:(GTObject *)theTarget tagger:(GTSignature *)theTagger message:(NSString *)theMessage error:(NSError **)error;
 + (NSString *)shaByCreatingTagInRepository:(GTRepository *)theRepo name:(NSString *)tagName target:(GTObject *)theTarget tagger:(GTSignature *)theTagger message:(NSString *)theMessage error:(NSError **)error;
 
+// Creates a new lightweight tag.
+//
+// repository	-	Repository where to store the lightweight tag
+// name			-	Name for the tag; this name is validated
+//					for consistency. It should also not conflict with an
+//					already existing tag name
+// target		-	Object to which this tag points. This object
+//					must belong to the given repository.
+// error		-	Will be filled with a NSError instance on failuer.
+//					May be NULL.
+//
+// Returns YES on success or NO otherwise.
+- (BOOL)createLightweightTagInRepository:(GTRepository *)repository name:(NSString *)tagName target:(GTObject *)target error:(NSError **)error;
+
 // The underlying `git_object` as a `git_tag` object.
 - (git_tag *)git_tag __attribute__((objc_returns_inner_pointer));
 
