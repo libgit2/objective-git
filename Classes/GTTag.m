@@ -33,6 +33,7 @@
 #import "GTReference.h"
 #import "GTRepository.h"
 #import "NSString+Git.h"
+#import "GTOID.h"
 
 @implementation GTTag
 
@@ -48,7 +49,7 @@
 	return sha ? (GTTag *)[theRepo lookupObjectBySha:sha objectType:GTObjectTypeTag error:error] : nil;
 }
 
-+ (NSString *)shaByCreatingTagInRepository:(GTRepository *)theRepo name:(NSString *)tagName target:(GTObject *)theTarget tagger:(GTSignature *)theTagger message:(NSString *)theMessage error:(NSError **)error {
++ (GTOID *)OIDByCreatingTagInRepository:(GTRepository *)theRepo name:(NSString *)tagName target:(GTObject *)theTarget tagger:(GTSignature *)theTagger message:(NSString *)theMessage error:(NSError **)error {
 	git_oid oid;
 	int gitError = git_tag_create(&oid, theRepo.git_repository, [tagName UTF8String], theTarget.git_object, theTagger.git_signature, [theMessage UTF8String], 0);
 	if(gitError < GIT_OK) {
@@ -56,8 +57,12 @@
 			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to create tag in repository"];
 		return nil;
 	}
-	
-	return [NSString git_stringWithOid:&oid];
+
+	return [GTOID oidWithGitOid:&oid];
+}
+
++ (NSString *)shaByCreatingTagInRepository:(GTRepository *)theRepo name:(NSString *)tagName target:(GTObject *)theTarget tagger:(GTSignature *)theTagger message:(NSString *)theMessage error:(NSError *__autoreleasing *)error {
+	return [self OIDByCreatingTagInRepository:theRepo name:tagName target:theTarget tagger:theTagger message:theMessage error:error].SHA;
 }
 
 - (NSString *)message {
