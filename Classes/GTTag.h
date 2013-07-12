@@ -73,7 +73,7 @@
 //					May be NULL.
 //
 // Returns YES on success or NO otherwise.
-- (BOOL)createLightweightTagInRepository:(GTRepository *)repository name:(NSString *)tagName target:(GTObject *)target error:(NSError **)error;
++ (BOOL)createLightweightTagInRepository:(GTRepository *)repository name:(NSString *)tagName target:(GTObject *)target error:(NSError **)error;
 
 // The underlying `git_object` as a `git_tag` object.
 - (git_tag *)git_tag __attribute__((objc_returns_inner_pointer));
