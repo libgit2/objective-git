@@ -52,7 +52,7 @@ typedef enum {
 @property (nonatomic, readonly) NSString *sha;
 @property (nonatomic, readonly) NSString *shortSha;
 @property (nonatomic, readonly, strong) GTRepository *repository;
-@property (nonatomic, readonly) GTOID *oid;
+@property (nonatomic, readonly) GTOID *OID;
 
 // Convenience initializers
 - (id)initWithObj:(git_object *)theObject inRepository:(GTRepository *)theRepo;

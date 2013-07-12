@@ -119,12 +119,12 @@
 	return [NSString stringWithUTF8String:git_object_type2string(git_object_type(self.git_object))];
 }
 
-- (GTOID *)oid {
+- (GTOID *)OID {
 	return [GTOID oidWithGitOid:git_object_id(self.git_object)];
 }
 
 - (NSString *)sha {
-	return self.oid.SHA;
+	return self.OID.SHA;
 }
 
 - (NSString *)shortSha {
@@ -135,7 +135,7 @@
 	GTObjectDatabase *database = [self.repository objectDatabaseWithError:error];
 	if (database == nil) return nil;
 
-	return [database objectWithOid:self.oid error:error];
+	return [database objectWithOid:self.OID error:error];
 }
 
 @end
