@@ -642,5 +642,4 @@ static int submoduleEnumerationCallback(git_submodule *git_submodule, const char
 	return oid ? (GTTag *)[self lookupObjectByOid:oid objectType:GTObjectTypeTag error:error] : nil;
 }
 
-
 @end
