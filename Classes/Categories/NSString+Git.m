@@ -29,15 +29,9 @@
 
 #import "NSString+Git.h"
 #import "NSError+Git.h"
+#import "GTOID.h"
 
 @implementation NSString (Git)
-
-+ (NSString *)git_stringWithOid:(const git_oid *)oid {
-	char hex[41];
-	git_oid_fmt(hex, oid);
-	hex[40] = 0;
-	return [NSString stringWithUTF8String:hex];
-}
 
 - (BOOL)git_isHexString {
     // Verify that self only has hexadecimal digits
@@ -59,28 +53,6 @@
     }
         
 	return [self substringToIndex:magicUniqueLength];
-}
-
-- (BOOL)git_getOid:(git_oid *)oid error:(NSError **)error {
-    if ([self git_isHexString] == NO) {
-        if (error != NULL) {
-            *error = [NSError errorWithDomain:GTGitErrorDomain 
-                                         code:GITERR_INVALID
-                                     userInfo:
-                      [NSDictionary dictionaryWithObject:@"unabled to create oid from non-sha string" 
-                                                  forKey:NSLocalizedDescriptionKey]];
-        }
-        return NO;
-    }
-    
-	int gitError = git_oid_fromstr(oid, [self UTF8String]);
-	if(gitError < GIT_OK) {
-		if(error != NULL) {
-			*error = [NSError git_errorForMkStr:gitError];
-        }
-		return NO;
-	}
-	return YES;
 }
 
 @end
