@@ -95,11 +95,11 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 	NSParameterAssert(target != nil);
 	NSParameterAssert(repo != nil);
 
-	git_oid oid;
-	int gitError = git_oid_fromstr(&oid, target.UTF8String);
-	git_reference *ref = NULL;
-	if (gitError == GIT_OK) {
-		gitError = git_reference_create(&ref, repo.git_repository, refName.UTF8String, &oid, 0);
+	GTOID *oid = [GTOID oidWithSHA:target];
+	int gitError = GIT_OK;
+	git_reference *ref;
+	if (oid != nil) {
+		gitError = git_reference_create(&ref, repo.git_repository, refName.UTF8String, oid.git_oid, 0);
 	} else {
 		gitError = git_reference_symbolic_create(&ref, repo.git_repository, refName.UTF8String, target.UTF8String, 0);
 	}
@@ -199,14 +199,10 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 	int gitError;
 	git_reference *newRef = NULL;
 	if (git_reference_type(self.git_reference) == GIT_REF_OID) {
-		git_oid oid;
-		gitError = git_oid_fromstr(&oid, newTarget.UTF8String);
-		if (gitError != GIT_OK) {
-			if(error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:[NSString stringWithFormat:@"Failed to create OID from string: %@", newTarget]];
-			return nil;
-		}
+		GTOID *oid = [[GTOID alloc] initWithSHA:newTarget error:error];
+		if (oid == nil) return nil;
 		
-		gitError = git_reference_set_target(&newRef, self.git_reference, &oid);
+		gitError = git_reference_set_target(&newRef, self.git_reference, oid.git_oid);
 	} else {
 		gitError = git_reference_symbolic_set_target(&newRef, self.git_reference, newTarget.UTF8String);
 	}
