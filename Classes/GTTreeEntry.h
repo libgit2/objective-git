@@ -45,6 +45,8 @@
 - (NSInteger)attributes;
 - (NSString *)sha;
 
+@property (nonatomic, readonly) GTOID *OID;
+
 // Turn entry into an GTObject
 //
 // error(out) - will be filled if an error occurs

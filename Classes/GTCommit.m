@@ -34,6 +34,7 @@
 #import "GTRepository.h"
 #import "NSString+Git.h"
 #import "NSDate+GTTimeAdditions.h"
+#import "GTOID.h"
 
 @implementation GTCommit
 
@@ -48,11 +49,11 @@
 #pragma mark API
 
 + (GTCommit *)commitInRepository:(GTRepository *)theRepo updateRefNamed:(NSString *)refName author:(GTSignature *)authorSig committer:(GTSignature *)committerSig message:(NSString *)newMessage tree:(GTTree *)theTree parents:(NSArray *)theParents error:(NSError **)error {
-	NSString *sha = [GTCommit shaByCreatingCommitInRepository:theRepo updateRefNamed:refName author:authorSig committer:committerSig message:newMessage tree:theTree parents:theParents error:error];
-	return sha ? (GTCommit *)[theRepo lookupObjectBySha:sha objectType:GTObjectTypeCommit error:error] : nil;
+	GTOID *oid = [GTCommit OIDByCreatingCommitInRepository:theRepo updateRefNamed:refName author:authorSig committer:committerSig message:newMessage tree:theTree parents:theParents error:error];
+	return oid ? (GTCommit *)[theRepo lookupObjectByOid:oid objectType:GTObjectTypeCommit error:error] : nil;
 }
 
-+ (NSString *)shaByCreatingCommitInRepository:(GTRepository *)theRepo updateRefNamed:(NSString *)refName author:(GTSignature *)authorSig committer:(GTSignature *)committerSig message:(NSString *)newMessage tree:(GTTree *)theTree parents:(NSArray *)theParents error:(NSError **)error {
++ (GTOID *)OIDByCreatingCommitInRepository:(GTRepository *)theRepo updateRefNamed:(NSString *)refName author:(GTSignature *)authorSig committer:(GTSignature *)committerSig message:(NSString *)newMessage tree:(GTTree *)theTree parents:(NSArray *)theParents error:(NSError **)error {
 	NSUInteger count = theParents ? theParents.count : 0;
 	const git_commit **parentCommits = NULL;
 	if(count > 0) {
@@ -66,7 +67,7 @@
 	int gitError = git_commit_create(
 									 &oid, 
 									 theRepo.git_repository, 
-									 refName ? [refName UTF8String] : NULL, 
+									 refName.UTF8String,
 									 authorSig.git_signature, 
 									 committerSig.git_signature, 
 									 NULL,
@@ -74,15 +75,21 @@
 									 theTree.git_tree, 
 									 (int)count, 
 									 parentCommits);
+
+	free(parentCommits);
+
 	if(gitError < GIT_OK) {
-		if(parentCommits != NULL) free(parentCommits);
 		if(error != NULL)
 			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to create commit in repository"];
 		return nil;
 	}
-	if(parentCommits != NULL) free(parentCommits);
-	
-	return [NSString git_stringWithOid:&oid];
+
+	return [GTOID oidWithGitOid:&oid];
+}
+
++ (NSString *)shaByCreatingCommitInRepository:(GTRepository *)theRepo updateRefNamed:(NSString *)refName author:(GTSignature *)authorSig committer:(GTSignature *)committerSig message:(NSString *)newMessage tree:(GTTree *)theTree parents:(NSArray *)theParents error:(NSError *__autoreleasing *)error;
+{
+	return [self OIDByCreatingCommitInRepository:theRepo updateRefNamed:refName author:authorSig committer:committerSig message:newMessage tree:theTree parents:theParents error:error].SHA;
 }
 
 - (NSString *)message {
