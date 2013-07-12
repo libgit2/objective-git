@@ -54,41 +54,4 @@
 	STAssertEqualObjects(@"schacon@gmail.com", c.email, nil);
 }
 
-- (void)testCreateTagWithSameNameFails {
-	
-	NSError *error = nil;
-	NSString *sha = @"0c37a5391bbff43c37f0d0371823a5509eed5b1d";
-	GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&error];
-	GTTag *tag = (GTTag *)[repo lookupObjectBySha:sha error:&error];
-	
-	GTOID *oid = [repo OIDByCreatingTagNamed:tag.name target:tag.target tagger:tag.tagger message:@"new message" error:&error];
-	STAssertNil(oid, @"Expect to fail");
-	STAssertNotNil(error, nil);
-}
-
-- (void)testCreateTag {
-	NSError *error = nil;
-	NSString *sha = @"0c37a5391bbff43c37f0d0371823a5509eed5b1d";
-	GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&error];
-	GTTag *tag = (GTTag *)[repo lookupObjectBySha:sha error:&error];
-
-	GTOID *newOID = [repo OIDByCreatingTagNamed:@"a_new_tag" target:tag.target tagger:tag.tagger message:@"my tag\n" error:&error];
-	STAssertNotNil(newOID, [error localizedDescription]);
-	
-	tag = (GTTag *)[repo lookupObjectByOid:newOID error:&error];
-	STAssertNil(error, [error localizedDescription]);
-	STAssertNotNil(tag, nil);
-	STAssertEqualObjects(newOID.SHA, tag.sha, nil);
-	STAssertEqualObjects(@"tag", tag.type, nil);
-	STAssertEqualObjects(@"my tag\n", tag.message, nil);
-	STAssertEqualObjects(@"a_new_tag", tag.name, nil);
-	STAssertEqualObjects(@"5b5b025afb0b4c913b4c338a42934a3863bf3644", tag.target.sha, nil);
-	STAssertEqualObjects(@"commit", tag.targetType, nil);
-
-	rm_loose(self.class, newOID.SHA);
-	NSFileManager *m = [[NSFileManager alloc] init];
-	NSURL *tagPath = [[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] URLByAppendingPathComponent:@"refs/tags/a_new_tag"];
-	[m removeItemAtURL:tagPath error:&error];
-}
-
 @end
