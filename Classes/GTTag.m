@@ -44,22 +44,6 @@
 
 #pragma mark API
 
-+ (GTTag *)tagInRepository:(GTRepository *)theRepo name:(NSString *)tagName target:(GTObject *)theTarget tagger:(GTSignature *)theTagger message:(NSString *)theMessage error:(NSError **)error {
-	return [theRepo createTagNamed:tagName target:theTarget tagger:theTagger message:theMessage error:error];
-}
-
-+ (GTOID *)OIDByCreatingTagInRepository:(GTRepository *)theRepo name:(NSString *)tagName target:(GTObject *)theTarget tagger:(GTSignature *)theTagger message:(NSString *)theMessage error:(NSError **)error {
-	return [theRepo OIDByCreatingTagNamed:tagName target:theTarget tagger:theTagger message:theMessage error:error];
-}
-
-+ (NSString *)shaByCreatingTagInRepository:(GTRepository *)theRepo name:(NSString *)tagName target:(GTObject *)theTarget tagger:(GTSignature *)theTagger message:(NSString *)theMessage error:(NSError **)error {
-	return [theRepo OIDByCreatingTagNamed:tagName target:theTarget tagger:theTagger message:theMessage error:error].SHA;
-}
-
-+ (BOOL)createLightweightTagInRepository:(GTRepository *)repository name:(NSString *)tagName target:(GTObject *)target error:(NSError **)error {
-	return [repository createLightweightTagNamed:tagName target:target error:error];
-}
-
 - (NSString *)message {
 	return [NSString stringWithUTF8String:git_tag_message(self.git_tag)];
 }

@@ -61,7 +61,8 @@
 	GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&error];
 	GTTag *tag = (GTTag *)[repo lookupObjectBySha:sha error:&error];
 	
-	[GTTag shaByCreatingTagInRepository:repo name:tag.name target:tag.target tagger:tag.tagger message:@"new message" error:&error];
+	GTOID *oid = [repo OIDByCreatingTagNamed:tag.name target:tag.target tagger:tag.tagger message:@"new message" error:&error];
+	STAssertNil(oid, @"Expect to fail");
 	STAssertNotNil(error, nil);
 }
 
@@ -71,20 +72,20 @@
 	GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&error];
 	GTTag *tag = (GTTag *)[repo lookupObjectBySha:sha error:&error];
 
-	NSString *newSha = [GTTag shaByCreatingTagInRepository:repo name:@"a_new_tag" target:tag.target tagger:tag.tagger message:@"my tag\n" error:&error];
-	STAssertNotNil(newSha, [error localizedDescription]);
+	GTOID *newOID = [repo OIDByCreatingTagNamed:@"a_new_tag" target:tag.target tagger:tag.tagger message:@"my tag\n" error:&error];
+	STAssertNotNil(newOID, [error localizedDescription]);
 	
-	tag = (GTTag *)[repo lookupObjectBySha:newSha error:&error];
+	tag = (GTTag *)[repo lookupObjectByOid:newOID error:&error];
 	STAssertNil(error, [error localizedDescription]);
 	STAssertNotNil(tag, nil);
-	STAssertEqualObjects(newSha, tag.sha, nil);
+	STAssertEqualObjects(newOID.SHA, tag.sha, nil);
 	STAssertEqualObjects(@"tag", tag.type, nil);
 	STAssertEqualObjects(@"my tag\n", tag.message, nil);
 	STAssertEqualObjects(@"a_new_tag", tag.name, nil);
 	STAssertEqualObjects(@"5b5b025afb0b4c913b4c338a42934a3863bf3644", tag.target.sha, nil);
 	STAssertEqualObjects(@"commit", tag.targetType, nil);
 
-	rm_loose(self.class, newSha);
+	rm_loose(self.class, newOID.SHA);
 	NSFileManager *m = [[NSFileManager alloc] init];
 	NSURL *tagPath = [[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] URLByAppendingPathComponent:@"refs/tags/a_new_tag"];
 	[m removeItemAtURL:tagPath error:&error];
