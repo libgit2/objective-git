@@ -39,7 +39,27 @@
 @property (nonatomic, readonly, strong) GTSignature *tagger;
 
 + (GTTag *)tagInRepository:(GTRepository *)theRepo name:(NSString *)tagName target:(GTObject *)theTarget tagger:(GTSignature *)theTagger message:(NSString *)theMessage error:(NSError **)error;
+
+// Creates an annotated tag by using OIDByCreatingTagInRepository:name:target:tagger:message:error: and
+// reutrning the SHA as a string.
 + (NSString *)shaByCreatingTagInRepository:(GTRepository *)theRepo name:(NSString *)tagName target:(GTObject *)theTarget tagger:(GTSignature *)theTagger message:(NSString *)theMessage error:(NSError **)error;
+
+// Creates an annotated tag. Existing tags are not overwritten.
+//
+// theRepo		- The repository to create the tag in.
+// tagName		- Name for the tag; this name is validated
+//				  for consistency. It should also not conflict with an
+//				  already existing tag name
+// theTarget	- Object to which this tag points. This object
+//				  must belong to the given repository.
+// tagger		- Signature of the tagger for this tag, and
+//				  of the tagging time
+// message		- Full message for this tag
+// error		- Will be filled with a NSError object in case of error.
+//				  May be NULL.
+//
+// Returns the object ID of the newly created tag or nil on error.
++ (GTOID *)OIDByCreatingTagInRepository:(GTRepository *)theRepo name:(NSString *)tagName target:(GTObject *)theTarget tagger:(GTSignature *)theTagger message:(NSString *)theMessage error:(NSError **)error;
 
 // The underlying `git_object` as a `git_tag` object.
 - (git_tag *)git_tag __attribute__((objc_returns_inner_pointer));
