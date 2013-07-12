@@ -167,7 +167,7 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 		git_oid *oid = (git_oid *)git_reference_target(self.git_reference);
 		if (oid == NULL) return nil;
 
-		return [self.repository lookupObjectByOid:oid error:NULL];
+		return [self.repository lookupObjectByOid:[GTOID oidWithGitOid: oid] error:NULL];
 	} else if (self.referenceType == GTReferenceTypeSymbolic) {
 		NSString *refName = @(git_reference_symbolic_target(self.git_reference));
 		if (refName == NULL) return nil;
