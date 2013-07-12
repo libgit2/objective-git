@@ -194,7 +194,7 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 		return nil;
 	}
 
-	return [NSString git_stringWithOid:&oid];
+	return [GTOID oidWithGitOid:&oid].SHA;
 }
 
 - (GTObject *)lookupObjectByOid:(GTOID *)oid objectType:(GTObjectType)type error:(NSError **)error {

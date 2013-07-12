@@ -33,10 +33,6 @@
 
 @implementation NSString (Git)
 
-+ (NSString *)git_stringWithOid:(const git_oid *)oid {
-	return [[GTOID oidWithGitOid: oid] SHA];
-}
-
 - (BOOL)git_isHexString {
     // Verify that self only has hexadecimal digits
     for (NSUInteger i = 0; i < [self length]; ++i) {
@@ -57,26 +53,6 @@
     }
         
 	return [self substringToIndex:magicUniqueLength];
-}
-
-- (BOOL)git_getOid:(git_oid *)oid error:(NSError **)error {
-    if ([self git_isHexString] == NO) {
-        if (error != NULL) {
-            *error = [NSError errorWithDomain:GTGitErrorDomain 
-                                         code:GITERR_INVALID
-                                     userInfo:
-                      [NSDictionary dictionaryWithObject:@"unabled to create oid from non-sha string" 
-                                                  forKey:NSLocalizedDescriptionKey]];
-        }
-        return NO;
-    }
-    
-	GTOID *gtoid = [[GTOID alloc] initWithSHA:self error:error];
-	if (gtoid == nil) return NO;
-
-	git_oid_cpy(oid, gtoid.git_oid);
-
-	return YES;
 }
 
 @end
