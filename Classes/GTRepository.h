@@ -263,13 +263,13 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 
 // Creates a new lightweight tag in this repository.
 //
-// name         - Name for the tag; this name is validated
-//                for consistency. It should also not conflict with an
-//                already existing tag name
-// target       - Object to which this tag points. This object
-//                must belong to this repository.
-// error        - Will be filled with a NSError instance on failuer.
-//                May be NULL.
+// name   - Name for the tag; this name is validated
+//          for consistency. It should also not conflict with an
+//          already existing tag name
+// target - Object to which this tag points. This object
+//          must belong to this repository.
+// error  - Will be filled with a NSError instance on failuer.
+//          May be NULL.
 //
 // Returns YES on success or NO otherwise.
 - (BOOL)createLightweightTagNamed:(NSString *)tagName target:(GTObject *)target error:(NSError **)error;
