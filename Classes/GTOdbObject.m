@@ -62,4 +62,5 @@
 - (GTOID *)OID {
 	return [GTOID oidWithGitOid:git_odb_object_id(self.git_odb_object)];
 }
+
 @end
