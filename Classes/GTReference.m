@@ -252,6 +252,10 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 	return [[GTReflog alloc] initWithReference:self];
 }
 
++ (BOOL)isValidReferenceName: (NSString *)refName {
+	return git_reference_is_valid_name(refName.UTF8String) == 1;
+}
+
 #pragma mark NSObject
 
 - (NSString *)description {
