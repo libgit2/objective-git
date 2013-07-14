@@ -109,20 +109,17 @@
 }
 
 - (GTIndexEntry *)entryWithName:(NSString *)name {
-	return [self entryWithName: name error: nil];
+	return [self entryWithName:name error:NULL];
 }
 
 - (GTIndexEntry *)entryWithName:(NSString *)name error:(NSError **)error {
 	size_t pos = 0;
 	int gitError = git_index_find(&pos, self.git_index, name.UTF8String);
-	if (gitError != 0) {
-		if (error != NULL) {
-			NSString *desc = [NSString stringWithFormat: @"%@ not found in index", name];
-			*error = [NSError git_errorFor: gitError withAdditionalDescription: desc];
-		}
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:[NSString stringWithFormat: @"%@ not found in index", name]];
 		return NULL;
 	}
-	return [GTIndexEntry indexEntryWithEntry: git_index_get_byindex(self.git_index, pos)];
+	return [self entryAtIndex:pos];
 }
 
 - (BOOL)addEntry:(GTIndexEntry *)entry error:(NSError **)error {
