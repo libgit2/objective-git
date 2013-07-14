@@ -209,7 +209,7 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to set reference target."];
-		return NO;
+		return nil;
 	}
 
 	return [[self.class alloc] initWithGitReference:newRef repository:self.repository];
