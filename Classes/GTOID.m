@@ -7,7 +7,11 @@
 //
 
 #import "GTOID.h"
+#import "GTOID+Private.h"
+
 #import "NSError+Git.h"
+#import "GTObject.h"
+#import "GTRepository.h"
 
 @interface GTOID () {
 	git_oid _git_oid;
@@ -111,6 +115,39 @@
 - (id)copyWithZone:(NSZone *)zone {
 	// Optimization: Since this class is immutable we don't need to create an actual copy.
 	return self;
+}
+
+#pragma mark Lookup
+
+- (GTObject *)lookupObjectInRepository: (GTRepository *)repo type: (GTObjectType)type error: (NSError **)error {
+	git_object *obj;
+
+	int gitError = [self lookupObject:&obj repository:repo.git_repository type:(git_otype)type];
+	if (gitError < GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to lookup object in repository."];
+		return nil;
+	}
+
+    return [GTObject objectWithObj:obj inRepository:repo];
+}
+
+- (int)lookupObject:(git_object **)object repository:(git_repository *)repo type:(git_otype)type {
+	return git_object_lookup(object, repo, self.git_oid, type);
+}
+
+- (int)readObject:(git_odb_object **)object database:(git_odb *)db {
+	return git_odb_read(object, db, self.git_oid);
+}
+
+- (BOOL)isFullOID {
+	return YES;
+}
+
+- (GTOID *)completeOIDInRepository:(GTRepository *)repository error:(NSError **)error {
+	if (self.isFullOID) return self;
+	GTObject *object = [self lookupObjectInRepository:repository type:GTObjectTypeAny error:error];
+	if (object == nil) return nil;
+	return object.OID;
 }
 
 @end

@@ -51,4 +51,17 @@ describe(@"-mergeBaseBetweenFirstOID:secondOID:error:", ^{
 	});
 });
 
+it(@"should be able to look up objects by oid prefix",^{
+	NSError *error = nil;
+	GTObject *object1 = [repository lookupObjectByOid:[GTOID oidWithSHA:@"1d69f3c0aeaf0d62e25591987b93b8ffc53abd77"] error:&error];
+	expect(object1).notTo.beNil();
+	expect(error).to.beNil();
+
+	GTObject *object2 = [repository lookupObjectByOid:[GTPartialOID oidWithSHA:@"1d69f3c0aea"] error:&error];
+	expect(object2).notTo.beNil();
+	expect(error).to.beNil();
+
+	expect(object1).to.equal(object2);
+});
+
 SpecEnd

@@ -42,6 +42,7 @@
 #import "GTTag.h"
 #import "NSError+Git.h"
 #import "NSString+Git.h"
+#import "GTOID+Private.h"
 
 // The type of block passed to -enumerateSubmodulesRecursively:usingBlock:.
 typedef void (^GTRepositorySubmoduleEnumerationBlock)(GTSubmodule *submodule, BOOL *stop);
@@ -198,15 +199,7 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 }
 
 - (GTObject *)lookupObjectByOid:(GTOID *)oid objectType:(GTObjectType)type error:(NSError **)error {
-	git_object *obj;
-
-	int gitError = git_object_lookup(&obj, self.git_repository, oid.git_oid, (git_otype)type);
-	if (gitError < GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to lookup object in repository."];
-		return nil;
-	}
-
-    return [GTObject objectWithObj:obj inRepository:self];
+	return [oid lookupObjectInRepository:self type:type error:error];
 }
 
 - (GTObject *)lookupObjectByOid:(GTOID *)oid error:(NSError **)error {
@@ -499,8 +492,14 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 	NSParameterAssert(firstOID != nil);
 	NSParameterAssert(secondOID != nil);
 
+	GTOID *firstFullOID = [firstOID completeOIDInRepository:self error:error];
+	if (firstFullOID == nil) return nil;
+
+	GTOID *secondFullOID = [secondOID completeOIDInRepository:self error:error];
+	if (secondFullOID == nil) return nil;
+
 	git_oid mergeBase;
-	int errorCode = git_merge_base(&mergeBase, self.git_repository, firstOID.git_oid, secondOID.git_oid);
+	int errorCode = git_merge_base(&mergeBase, self.git_repository, firstFullOID.git_oid, secondFullOID.git_oid);
 	if (errorCode < GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:errorCode withAdditionalDescription:@"Failed to find merge base between commits."];
 		return nil;

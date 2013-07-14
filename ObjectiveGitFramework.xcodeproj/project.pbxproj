@@ -62,6 +62,12 @@
 		04DB466E133AB5EB00D9C624 /* GTReference.m in Sources */ = {isa = PBXBuildFile; fileRef = BD441E07131ED0C300187010 /* GTReference.m */; };
 		04DB466F133AB5EB00D9C624 /* GTBranch.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F50F57132054D800584FBE /* GTBranch.m */; };
 		04DB4672133AB5FE00D9C624 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DB4671133AB5FE00D9C624 /* libz.dylib */; };
+		2632D9111792ABFC00A71953 /* GTOID+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 2632D9101792ABFC00A71953 /* GTOID+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		2632D9121792ABFC00A71953 /* GTOID+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 2632D9101792ABFC00A71953 /* GTOID+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		2632D91B1792AFD000A71953 /* GTPartialOID.h in Headers */ = {isa = PBXBuildFile; fileRef = 2632D9191792AFD000A71953 /* GTPartialOID.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2632D91C1792AFD000A71953 /* GTPartialOID.h in Headers */ = {isa = PBXBuildFile; fileRef = 2632D9191792AFD000A71953 /* GTPartialOID.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2632D91D1792AFD000A71953 /* GTPartialOID.m in Sources */ = {isa = PBXBuildFile; fileRef = 2632D91A1792AFD000A71953 /* GTPartialOID.m */; };
+		2632D91E1792AFD000A71953 /* GTPartialOID.m in Sources */ = {isa = PBXBuildFile; fileRef = 2632D91A1792AFD000A71953 /* GTPartialOID.m */; };
 		3011D86B1668E48500CE3409 /* GTDiffFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 3011D8691668E48500CE3409 /* GTDiffFile.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3011D86C1668E48500CE3409 /* GTDiffFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 3011D8691668E48500CE3409 /* GTDiffFile.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3011D86D1668E48500CE3409 /* GTDiffFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 3011D86A1668E48500CE3409 /* GTDiffFile.m */; };
@@ -318,6 +324,9 @@
 		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		2632D9101792ABFC00A71953 /* GTOID+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTOID+Private.h"; sourceTree = "<group>"; };
+		2632D9191792AFD000A71953 /* GTPartialOID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTPartialOID.h; sourceTree = "<group>"; };
+		2632D91A1792AFD000A71953 /* GTPartialOID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTPartialOID.m; sourceTree = "<group>"; };
 		3011D8691668E48500CE3409 /* GTDiffFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTDiffFile.h; sourceTree = "<group>"; };
 		3011D86A1668E48500CE3409 /* GTDiffFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTDiffFile.m; sourceTree = "<group>"; };
 		3011D86F1668E78500CE3409 /* GTDiffHunk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTDiffHunk.h; sourceTree = "<group>"; };
@@ -708,7 +717,10 @@
 				8821547A17147A5F00D76B76 /* GTReflogEntry+Private.h */,
 				8821547517147A5200D76B76 /* GTReflogEntry.m */,
 				8821547B17147B3600D76B76 /* GTOID.h */,
+				2632D9101792ABFC00A71953 /* GTOID+Private.h */,
 				8821547C17147B3600D76B76 /* GTOID.m */,
+				2632D9191792AFD000A71953 /* GTPartialOID.h */,
+				2632D91A1792AFD000A71953 /* GTPartialOID.m */,
 				D09C2E341755F16200065E36 /* GTSubmodule.h */,
 				D09C2E351755F16200065E36 /* GTSubmodule.m */,
 			);
@@ -838,11 +850,12 @@
 				8821547717147A5200D76B76 /* GTReflogEntry.h in Headers */,
 				3011D8781668F29600CE3409 /* GTDiffDelta.h in Headers */,
 				8821547E17147B3600D76B76 /* GTOID.h in Headers */,
+				2632D91C1792AFD000A71953 /* GTPartialOID.h in Headers */,
 				8821546A1714740500D76B76 /* GTReflog.h in Headers */,
 				6A74CA3616A942C000E1A3C5 /* GTConfiguration+Private.h in Headers */,
 				30B1E7EF1703522100D0814D /* NSDate+GTTimeAdditions.h in Headers */,
+				2632D9121792ABFC00A71953 /* GTOID+Private.h in Headers */,
 				D09C2E371755F16200065E36 /* GTSubmodule.h in Headers */,
-				4D2679A0178DAF31002A2795 /* GTTreeEntry+Private.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -880,9 +893,11 @@
 				3011D8771668F29600CE3409 /* GTDiffDelta.h in Headers */,
 				882154691714740500D76B76 /* GTReflog.h in Headers */,
 				8821547D17147B3600D76B76 /* GTOID.h in Headers */,
+				2632D91B1792AFD000A71953 /* GTPartialOID.h in Headers */,
 				8821547617147A5200D76B76 /* GTReflogEntry.h in Headers */,
 				30B1E7EE1703522100D0814D /* NSDate+GTTimeAdditions.h in Headers */,
 				D09C2E361755F16200065E36 /* GTSubmodule.h in Headers */,
+				2632D9111792ABFC00A71953 /* GTOID+Private.h in Headers */,
 				4D26799F178DAF31002A2795 /* GTTreeEntry+Private.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1152,6 +1167,7 @@
 				8821548017147B3600D76B76 /* GTOID.m in Sources */,
 				5BE6128B1745EE3400266D8C /* GTTreeBuilder.m in Sources */,
 				D09C2E391755F16200065E36 /* GTSubmodule.m in Sources */,
+				2632D91E1792AFD000A71953 /* GTPartialOID.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1223,6 +1239,7 @@
 				8821547F17147B3600D76B76 /* GTOID.m in Sources */,
 				5BE6128A1745EE3400266D8C /* GTTreeBuilder.m in Sources */,
 				D09C2E381755F16200065E36 /* GTSubmodule.m in Sources */,
+				2632D91D1792AFD000A71953 /* GTPartialOID.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
