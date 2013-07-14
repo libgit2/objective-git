@@ -66,4 +66,8 @@
 	return git_object_lookup_prefix(object, repo, self.git_oid, self.length, type);
 }
 
+- (int)readObject:(git_odb_object **)object database:(git_odb *)db {
+	return git_odb_read_prefix(object, db, self.git_oid, self.length);
+}
+
 @end

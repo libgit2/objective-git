@@ -22,4 +22,7 @@
 // Internal lookup method. Compare git_object_lookup and git_object_lookup_prefix
 - (int)lookupObject:(git_object **)object repository:(git_repository *)repo type:(git_otype)type;
 
+// Internal read method. Compare git_odb_read/git_odb_read_prefix
+- (int)readObject:(git_odb_object **)object database:(git_odb *)db;
+
 @end

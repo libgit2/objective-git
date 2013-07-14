@@ -135,6 +135,10 @@
 	return git_object_lookup(object, repo, self.git_oid, type);
 }
 
+- (int)readObject:(git_odb_object **)object database:(git_odb *)db {
+	return git_odb_read(object, db, self.git_oid);
+}
+
 - (BOOL)isFullOID {
 	return YES;
 }

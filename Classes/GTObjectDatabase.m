@@ -29,6 +29,7 @@
 #import "GTOdbObject.h"
 #import "NSString+Git.h"
 #import "GTOID.h"
+#import "GTOID+Private.h"
 
 #import "git2/odb_backend.h"
 
@@ -70,7 +71,7 @@
 
 - (GTOdbObject *)objectWithOid:(GTOID *)oid error:(NSError **)error {
 	git_odb_object *obj;
-	int gitError = git_odb_read(&obj, self.git_odb, oid.git_oid);
+	int gitError = [oid readObject:&obj database:self.git_odb];
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to read raw object."];
 		return nil;
