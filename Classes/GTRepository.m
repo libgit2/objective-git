@@ -492,8 +492,14 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 	NSParameterAssert(firstOID != nil);
 	NSParameterAssert(secondOID != nil);
 
+	GTOID *firstFullOID = [firstOID completeOIDInRepository:self error:error];
+	if (firstFullOID == nil) return nil;
+
+	GTOID *secondFullOID = [secondOID completeOIDInRepository:self error:error];
+	if (secondFullOID == nil) return nil;
+
 	git_oid mergeBase;
-	int errorCode = git_merge_base(&mergeBase, self.git_repository, firstOID.git_oid, secondOID.git_oid);
+	int errorCode = git_merge_base(&mergeBase, self.git_repository, firstFullOID.git_oid, secondFullOID.git_oid);
 	if (errorCode < GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:errorCode withAdditionalDescription:@"Failed to find merge base between commits."];
 		return nil;
