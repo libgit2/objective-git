@@ -175,7 +175,7 @@
 - (BOOL)deleteWithError:(NSError **)error {
 	int gitError = git_branch_delete(self.reference.git_reference);
 	if (gitError != GIT_OK) {
-		if(error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to delete branch."];
+		if(error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to delete branch %@", self.name];
 		return NO;
 	}
 
@@ -199,13 +199,13 @@
 
 	if (gitError != GIT_OK) {
 		if (success != NULL) *success = NO;
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:[NSString stringWithFormat:@"Failed to create reference to tracking branch from %@", self]];
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to create reference to tracking branch from %@", self];
 		return nil;
 	}
 
 	if (trackingRef == NULL) {
 		if (success != NULL) *success = NO;
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:[NSString stringWithFormat:@"Got a NULL remote ref for %@", self]];
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Got a NULL remote ref for %@", self];
 		return nil;
 	}
 
@@ -230,7 +230,7 @@
 
 	int errorCode = git_graph_ahead_behind(ahead, behind, self.repository.git_repository, branch.reference.git_oid, self.reference.git_oid);
 	if (errorCode != GIT_OK && error != NULL) {
-		*error = [NSError git_errorFor:errorCode withAdditionalDescription:[NSString stringWithFormat:@"Calculating ahead/behind with %@ to %@", self, branch]];
+		*error = [NSError git_errorFor:errorCode withAdditionalDescription:@"Failed to calculate ahead/behind count of %@ relative to %@", self, branch];
 		return NO;
 	}
 

@@ -102,7 +102,7 @@ typedef struct {
 	git_repository *r;
 	int gitError = git_repository_init(&r, path, 0);
 	if (gitError < GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to initialize repository."];
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to initialize empty repository at URL %@.", localFileURL];
 	}
 
 	return gitError == GIT_OK;
@@ -132,7 +132,7 @@ typedef struct {
 	git_repository *r;
 	int gitError = git_repository_open(&r, localFileURL.path.UTF8String);
 	if (gitError < GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to open repository."];
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to open repository at URL %@.", localFileURL];
 		return nil;
 	}
 
@@ -177,7 +177,7 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 	git_repository *repository;
 	int gitError = git_clone(&repository, remoteURL, workingDirectoryPath, &cloneOptions);
 	if (gitError < GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to clone repository."];
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to clone repository from %@ to %@", originURL, workdirURL];
 		return nil;
 	}
 
@@ -202,7 +202,7 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 
 	int gitError = git_object_lookup(&obj, self.git_repository, oid.git_oid, (git_otype)type);
 	if (gitError < GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to lookup object in repository."];
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to lookup object %@ in repository.", oid.SHA];
 		return nil;
 	}
 
@@ -228,7 +228,7 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 	git_object *obj;
 	int gitError = git_revparse_single(&obj, self.git_repository, spec.UTF8String);
 	if (gitError < GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to lookup object by refspec."];
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to lookup object by refspec %@.", spec];
 		return nil;
 	}
 	return [GTObject objectWithObj:obj inRepository:self];
@@ -441,7 +441,7 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
     int result = git_reset(self.git_repository, commit.git_object, (git_reset_t)resetType);
     if (result == GIT_OK) return YES;
     
-    if (error != NULL) *error = [NSError git_errorFor:result withAdditionalDescription:@"Failed to reset repository."];
+    if (error != NULL) *error = [NSError git_errorFor:result withAdditionalDescription:@"Failed to reset repository to commit %@.", commit.SHA];
     
     return NO;
 }
@@ -502,7 +502,7 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 	git_oid mergeBase;
 	int errorCode = git_merge_base(&mergeBase, self.git_repository, firstOID.git_oid, secondOID.git_oid);
 	if (errorCode < GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:errorCode withAdditionalDescription:@"Failed to find merge base between commits."];
+		if (error != NULL) *error = [NSError git_errorFor:errorCode withAdditionalDescription:@"Failed to find merge base between commits %@ and %@.", firstOID.SHA, secondOID.SHA];
 		return nil;
 	}
 	
@@ -517,7 +517,7 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 	git_config *config = NULL;
 	int gitError = git_repository_config(&config, self.git_repository);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Faied to get config for repository."];
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to get config for repository."];
 		return nil;
 	}
 
@@ -583,7 +583,7 @@ static int submoduleEnumerationCallback(git_submodule *git_submodule, const char
 	git_submodule *submodule;
 	int gitError = git_submodule_lookup(&submodule, self.git_repository, name.UTF8String);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to look up specified submodule."];
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to look up submodule %@.", name];
 		return nil;
 	}
 

@@ -72,7 +72,7 @@
 	git_odb_object *obj;
 	int gitError = git_odb_read(&obj, self.git_odb, oid.git_oid);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to read raw object."];
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to read raw object with OID %@", oid.SHA];
 		return nil;
 	}
 

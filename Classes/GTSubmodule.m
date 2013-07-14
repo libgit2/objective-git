@@ -90,7 +90,7 @@
 	unsigned status;
 	int gitError = git_submodule_status(&status, self.git_submodule);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to get submodule status."];
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to get submodule %@ status.", self.name];
 		return GTSubmoduleStatusUnknown;
 	}
 
@@ -102,7 +102,7 @@
 - (BOOL)reload:(NSError **)error {
 	int gitError = git_submodule_reload(self.git_submodule);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to reload submodule."];
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to reload submodule %@.", self.name];
 		return NO;
 	}
 
@@ -112,7 +112,7 @@
 - (BOOL)sync:(NSError **)error {
 	int gitError = git_submodule_sync(self.git_submodule);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to synchronize submodule."];
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to synchronize submodule %@.", self.name];
 		return NO;
 	}
 
@@ -123,7 +123,7 @@
 	git_repository *repo;
 	int gitError = git_submodule_open(&repo, self.git_submodule);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to open submodule repository."];
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to open submodule %@ repository.", self.name];
 		return nil;
 	}
 
@@ -133,7 +133,7 @@
 - (BOOL)writeToParentConfigurationDestructively:(BOOL)overwrite error:(NSError **)error {
 	int gitError = git_submodule_init(self.git_submodule, (overwrite ? 1 : 0));
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to initialize submodule."];
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to initialize submodule %@.", self.name];
 		return NO;
 	}
 
