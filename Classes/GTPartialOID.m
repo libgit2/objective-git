@@ -44,6 +44,10 @@
 	return [self initWithGitOid:git_oid length:GIT_OID_HEXSZ];
 }
 
+- (BOOL)isFullOID {
+	return self.length == GIT_OID_HEXSZ;
+}
+
 #pragma mark NSObject
 
 - (BOOL)isEqual:(GTPartialOID *)object {

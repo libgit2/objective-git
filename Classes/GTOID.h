@@ -65,4 +65,7 @@
 // Returns the underlying git_oid struct.
 - (const git_oid *)git_oid __attribute__((objc_returns_inner_pointer));
 
+// Is this a full object ID?
+@property (readonly, nonatomic) BOOL isFullOID;
+
 @end

@@ -135,4 +135,8 @@
 	return git_object_lookup(object, repo, self.git_oid, type);
 }
 
+- (BOOL)isFullOID {
+	return YES;
+}
+
 @end
