@@ -62,6 +62,8 @@
 		04DB466E133AB5EB00D9C624 /* GTReference.m in Sources */ = {isa = PBXBuildFile; fileRef = BD441E07131ED0C300187010 /* GTReference.m */; };
 		04DB466F133AB5EB00D9C624 /* GTBranch.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F50F57132054D800584FBE /* GTBranch.m */; };
 		04DB4672133AB5FE00D9C624 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DB4671133AB5FE00D9C624 /* libz.dylib */; };
+		2632D9111792ABFC00A71953 /* GTOID+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 2632D9101792ABFC00A71953 /* GTOID+Private.h */; };
+		2632D9121792ABFC00A71953 /* GTOID+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 2632D9101792ABFC00A71953 /* GTOID+Private.h */; };
 		3011D86B1668E48500CE3409 /* GTDiffFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 3011D8691668E48500CE3409 /* GTDiffFile.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3011D86C1668E48500CE3409 /* GTDiffFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 3011D8691668E48500CE3409 /* GTDiffFile.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3011D86D1668E48500CE3409 /* GTDiffFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 3011D86A1668E48500CE3409 /* GTDiffFile.m */; };
@@ -318,6 +320,7 @@
 		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		2632D9101792ABFC00A71953 /* GTOID+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTOID+Private.h"; sourceTree = "<group>"; };
 		3011D8691668E48500CE3409 /* GTDiffFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTDiffFile.h; sourceTree = "<group>"; };
 		3011D86A1668E48500CE3409 /* GTDiffFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTDiffFile.m; sourceTree = "<group>"; };
 		3011D86F1668E78500CE3409 /* GTDiffHunk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTDiffHunk.h; sourceTree = "<group>"; };
@@ -708,6 +711,7 @@
 				8821547A17147A5F00D76B76 /* GTReflogEntry+Private.h */,
 				8821547517147A5200D76B76 /* GTReflogEntry.m */,
 				8821547B17147B3600D76B76 /* GTOID.h */,
+				2632D9101792ABFC00A71953 /* GTOID+Private.h */,
 				8821547C17147B3600D76B76 /* GTOID.m */,
 				D09C2E341755F16200065E36 /* GTSubmodule.h */,
 				D09C2E351755F16200065E36 /* GTSubmodule.m */,
@@ -842,7 +846,7 @@
 				6A74CA3616A942C000E1A3C5 /* GTConfiguration+Private.h in Headers */,
 				30B1E7EF1703522100D0814D /* NSDate+GTTimeAdditions.h in Headers */,
 				D09C2E371755F16200065E36 /* GTSubmodule.h in Headers */,
-				4D2679A0178DAF31002A2795 /* GTTreeEntry+Private.h in Headers */,
+				2632D9121792ABFC00A71953 /* GTOID+Private.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -884,6 +888,7 @@
 				30B1E7EE1703522100D0814D /* NSDate+GTTimeAdditions.h in Headers */,
 				D09C2E361755F16200065E36 /* GTSubmodule.h in Headers */,
 				4D26799F178DAF31002A2795 /* GTTreeEntry+Private.h in Headers */,
+				2632D9111792ABFC00A71953 /* GTOID+Private.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

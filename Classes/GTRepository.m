@@ -42,6 +42,7 @@
 #import "GTTag.h"
 #import "NSError+Git.h"
 #import "NSString+Git.h"
+#import "GTOID+Private.h"
 
 // The type of block passed to -enumerateSubmodulesRecursively:usingBlock:.
 typedef void (^GTRepositorySubmoduleEnumerationBlock)(GTSubmodule *submodule, BOOL *stop);
@@ -198,15 +199,7 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 }
 
 - (GTObject *)lookupObjectByOid:(GTOID *)oid objectType:(GTObjectType)type error:(NSError **)error {
-	git_object *obj;
-
-	int gitError = git_object_lookup(&obj, self.git_repository, oid.git_oid, (git_otype)type);
-	if (gitError < GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to lookup object in repository."];
-		return nil;
-	}
-
-    return [GTObject objectWithObj:obj inRepository:self];
+	return [oid lookupObjectInRepository:self type:type error:error];
 }
 
 - (GTObject *)lookupObjectByOid:(GTOID *)oid error:(NSError **)error {

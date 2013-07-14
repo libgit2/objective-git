@@ -7,7 +7,11 @@
 //
 
 #import "GTOID.h"
+#import "GTOID+Private.h"
+
 #import "NSError+Git.h"
+#import "GTObject.h"
+#import "GTRepository.h"
 
 @interface GTOID () {
 	git_oid _git_oid;
@@ -111,6 +115,20 @@
 - (id)copyWithZone:(NSZone *)zone {
 	// Optimization: Since this class is immutable we don't need to create an actual copy.
 	return self;
+}
+
+#pragma mark Lookup
+
+- (GTObject *)lookupObjectInRepository: (GTRepository *)repo type: (GTObjectType)type error: (NSError **)error {
+	git_object *obj;
+
+	int gitError = git_object_lookup(&obj, repo.git_repository, self.git_oid, (git_otype)type);
+	if (gitError < GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to lookup object in repository."];
+		return nil;
+	}
+
+    return [GTObject objectWithObj:obj inRepository:repo];
 }
 
 @end
