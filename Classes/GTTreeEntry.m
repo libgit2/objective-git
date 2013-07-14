@@ -44,7 +44,7 @@
 #pragma mark NSObject
 
 - (NSString *)description {
-	return [NSString stringWithFormat:@"<%@: %p> name: %@, type: %@, sha: %@, attributes: %lu", NSStringFromClass(self.class), self, self.name, self.typeString, self.sha, (unsigned long)self.attributes];
+	return [NSString stringWithFormat:@"<%@: %p> name: %@, type: %@, sha: %@, attributes: %lu", NSStringFromClass(self.class), self, self.name, self.typeString, self.SHA, (unsigned long)self.attributes];
 }
 
 - (NSUInteger)hash {
@@ -88,7 +88,7 @@
 	return [GTOID oidWithGitOid:git_tree_entry_id(self.git_tree_entry)];
 }
 
-- (NSString *)sha {
+- (NSString *)SHA {
 	return self.OID.SHA;
 }
 

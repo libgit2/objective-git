@@ -167,7 +167,7 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 		git_oid *oid = (git_oid *)git_reference_target(self.git_reference);
 		if (oid == NULL) return nil;
 
-		return [self.repository lookupObjectByOid:[GTOID oidWithGitOid: oid] error:NULL];
+		return [self.repository lookupObjectByOID:[GTOID oidWithGitOid: oid] error:NULL];
 	} else if (self.referenceType == GTReferenceTypeSymbolic) {
 		NSString *refName = @(git_reference_symbolic_target(self.git_reference));
 		if (refName == NULL) return nil;
@@ -190,7 +190,7 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 }
 
 - (NSString *)targetSHA {
-	return [self.resolvedTarget sha];
+	return [self.resolvedTarget SHA];
 }
 
 - (GTReference *)referenceByUpdatingTarget:(NSString *)newTarget error:(NSError **)error {
