@@ -93,7 +93,8 @@ typedef enum {
 
 // Add or update an entry to the builder.
 //
-// oid      - The OID of a git object aleady stored in the repository.
+// oid      - The OID of a git object aleady stored in the repository. Needs to
+//            be a full OID.
 // filename - Filename for the object in the index.
 // filemode - Filemode for the object in the index.
 // error    - The error if one occurred.
