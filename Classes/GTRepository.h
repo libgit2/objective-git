@@ -288,8 +288,8 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 - (BOOL)checkout:(NSString *)newTarget
               strategy:(GTCheckoutStrategy)strategy
          progressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))progressBlock
-           notifyBlock:(int (^)(GTCheckoutNotify why, NSString* path, GTDiffFile* baseline, GTDiffFile* target, GTDiffFile* workdir))notifyBlock
+           notifyBlock:(int (^)(GTCheckoutNotify why, NSString *path, GTDiffFile *baseline, GTDiffFile *target, GTDiffFile *workdir))notifyBlock
            notifyFlags:(GTCheckoutNotify)notifyFlags
-             withError:(NSError **)error;
+             error:(NSError **)error;
 
 @end
