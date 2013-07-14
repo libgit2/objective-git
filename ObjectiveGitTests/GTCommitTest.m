@@ -92,7 +92,7 @@
 	
 	NSError *error = nil;
 	NSString *sha = @"8496071c1b46c854b31185ea97743be6a8774479";
-	GTCommit *obj = (GTCommit *)[repo lookupObjectBySha:sha error:&error];
+	GTCommit *obj = [repo lookupObjectBySha:sha error:&error];
 	STAssertNotNil(obj, [error localizedDescription]);
 	
 	NSString *newSha = [GTCommit shaByCreatingCommitInRepository:repo 

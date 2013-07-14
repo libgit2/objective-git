@@ -46,7 +46,7 @@
 - (void)testCanReadBlobData {
 	
 	NSError *error = nil;
-	GTBlob *blob = (GTBlob *)[repo lookupObjectBySha:sha error:&error];
+	GTBlob *blob = [repo lookupObjectBySha:sha error:&error];
 	STAssertEquals(9, (int)blob.size, nil);
 	STAssertEqualObjects(@"new file\n", blob.content, nil);
 	STAssertEqualObjects(@"blob", blob.type, nil);
