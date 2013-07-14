@@ -8,6 +8,8 @@
 
 #import "git2.h"
 
+@class GTRepository;
+
 // Represents an object ID.
 @interface GTOID : NSObject <NSCopying>
 
@@ -67,5 +69,13 @@
 
 // Is this a full object ID?
 @property (readonly, nonatomic) BOOL isFullOID;
+
+// Turns a partial object ID into a complete ID
+//
+// repository - The repository to look up this object ID in.
+// error      - Will be filled with a NSError object on failure. May be NULL.
+//
+// Returns the complete GTOID or nil on error.
+- (GTOID *)completeOIDInRepository:(GTRepository *)repository error:(NSError **)error;
 
 @end

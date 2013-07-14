@@ -139,4 +139,11 @@
 	return YES;
 }
 
+- (GTOID *)completeOIDInRepository:(GTRepository *)repository error:(NSError **)error {
+	if (self.isFullOID) return self;
+	GTObject *object = [self lookupObjectInRepository:repository type:GTObjectTypeAny error:error];
+	if (object == nil) return nil;
+	return object.OID;
+}
+
 @end
