@@ -122,13 +122,17 @@
 - (GTObject *)lookupObjectInRepository: (GTRepository *)repo type: (GTObjectType)type error: (NSError **)error {
 	git_object *obj;
 
-	int gitError = git_object_lookup(&obj, repo.git_repository, self.git_oid, (git_otype)type);
+	int gitError = [self lookupObject:&obj repository:repo.git_repository type:(git_otype)type];
 	if (gitError < GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to lookup object in repository."];
 		return nil;
 	}
 
     return [GTObject objectWithObj:obj inRepository:repo];
+}
+
+- (int)lookupObject:(git_object **)object repository:(git_repository *)repo type:(git_otype)type {
+	return git_object_lookup(object, repo, self.git_oid, type);
 }
 
 @end

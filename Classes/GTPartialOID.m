@@ -58,15 +58,8 @@
 
 #pragma mark Lookup
 
-- (GTObject *)lookupObjectInRepository:(GTRepository *)repo type:(GTObjectType)type error:(NSError **)error {
-	git_object *object = NULL;
-	int gitError = git_object_lookup_prefix(&object, repo.git_repository, self.git_oid, self.length, (git_otype)type );
-	if (gitError < GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Cannot lookup object with OID prefix"];
-		return nil;
-	}
-
-	return [GTObject objectWithObj:object inRepository:repo];
+- (int)lookupObject:(git_object **)object repository:(git_repository *)repo type:(git_otype)type {
+	return git_object_lookup_prefix(object, repo, self.git_oid, self.length, type);
 }
 
 @end

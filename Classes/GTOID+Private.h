@@ -19,4 +19,7 @@
 // Returns the looked-up object or nil on error.
 - (GTObject *)lookupObjectInRepository:(GTRepository *)repo type:(GTObjectType)type error:(NSError **)error;
 
+// Internal lookup method. Compare git_object_lookup and git_object_lookup_prefix
+- (int)lookupObject:(git_object **)object repository:(git_repository *)repo type:(git_otype)type;
+
 @end
