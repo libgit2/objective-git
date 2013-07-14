@@ -130,7 +130,10 @@
 }
 
 - (BOOL)containsObjectWithOID:(GTOID *)oid {
-	return git_odb_exists(self.git_odb, oid.git_oid) ? YES : NO;
+	GTOID *fullOID = [oid completeOIDInRepository:self.repository error:NULL];
+	if (fullOID == nil) return NO;
+	
+	return git_odb_exists(self.git_odb, fullOID.git_oid) ? YES : NO;
 }
 
 @end
