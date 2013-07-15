@@ -287,11 +287,22 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 // Returns the index, or nil if an error occurred.
 - (GTIndex *)indexWithError:(NSError **)error;
 
-- (BOOL)checkout:(NSString *)newTarget
-              strategy:(GTCheckoutStrategyType)strategy
-         progressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))progressBlock
-           notifyBlock:(int (^)(GTCheckoutNotifyFlags why, NSString *path, GTDiffFile *baseline, GTDiffFile *target, GTDiffFile *workdir))notifyBlock
-           notifyFlags:(GTCheckoutNotifyFlags)notifyFlags
-             error:(NSError **)error;
+// Checkout a reference or a commit
+//
+// newTarget     - Full name of the reference to checkout, or a commit SHA.
+// strategy      - The checkout strategy to use.
+// notifyFlags   - Flags that indicate which notifications should cause `notifyBlock`
+//                 to be called.
+// error         - The error if one occurred. Can be NULL.
+// notifyBlock   - The block to call back for notification handling. Can be nil.
+// progressBlock - The block to call back for progress updates. Can be nil.
+//
+// Returns YES if operation was successful, NO otherwise
+- (BOOL)checkout:(NSString *)target
+		strategy:(GTCheckoutStrategyType)strategy
+	 notifyFlags:(GTCheckoutNotifyFlags)notifyFlags
+		   error:(NSError **)error
+   progressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))progressBlock
+	 notifyBlock:(int (^)(GTCheckoutNotifyFlags why, NSString *path, GTDiffFile *baseline, GTDiffFile *target, GTDiffFile *workdir))notifyBlock;
 
 @end

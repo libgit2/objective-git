@@ -630,15 +630,15 @@ static int checkoutNotifyCallback(git_checkout_notify_t why, const char *path, c
 	return block((GTCheckoutNotifyFlags)why, nsPath, gtBaseline, gtTarget, gtWorkdir);
 }
 
-- (BOOL)checkout:(NSString *)newTarget strategy:(GTCheckoutStrategyType)strategy progressBlock:(GTCheckoutProgressBlock)progressBlock notifyBlock:(GTCheckoutNotifyBlock)notifyBlock notifyFlags:(GTCheckoutNotifyFlags)notifyFlags error:(NSError **)error {
-	int gitError = GIT_OK;
+- (BOOL)checkout:(NSString *)target strategy:(GTCheckoutStrategyType)strategy notifyFlags:(GTCheckoutNotifyFlags)notifyFlags error:(NSError **)error progressBlock:(GTCheckoutProgressBlock)progressBlock notifyBlock:(GTCheckoutNotifyBlock)notifyBlock {
+	NSParameterAssert(target != nil);
 
+	int gitError = GIT_OK;
 	// Try to resolve the target to either a reference or a commitish
-	GTCommit *targetCommit = nil;
 	GTReference *targetReference = nil;
-	targetCommit = (GTCommit *)[self lookupObjectBySHA:newTarget objectType:GTObjectTypeCommit error:error];
+	GTCommit *targetCommit = (GTCommit *)[self lookupObjectBySHA:target objectType:GTObjectTypeCommit error:error];
 	if (targetCommit == nil) {
-		targetReference = [GTReference referenceByLookingUpReferencedNamed:newTarget inRepository:self error:error];
+		targetReference = [GTReference referenceByLookingUpReferencedNamed:target inRepository:self error:error];
 	}
 	if (targetReference == nil && targetCommit == nil) return NO;
 
