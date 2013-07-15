@@ -96,29 +96,29 @@
 // Returns a new GTIndexEntry, or nil if an error occurred.
 - (GTIndexEntry *)entryWithName:(NSString *)name error:(NSError **)error;
 
-// Add an entry to the index
+// Add an entry to the index.
 //
-// entry - The entry to add
-// error - The error if one occurred
+// entry - The entry to add.
+// error - The error if one occurred.
 //
-// Returns YES if successful, NO otherwise
+// Returns YES if successful, NO otherwise.
 - (BOOL)addEntry:(GTIndexEntry *)entry error:(NSError **)error;
 
 // Add an entry by path to the index.
 // Will fail if the receiver's repository is nil.
 //
-// file  - The path (relative to the root of the repository) of the file to add
-// error - The error if one occurred
+// file  - The path (relative to the root of the repository) of the file to add.
+// error - The error if one occurred.
 //
-// Returns YES if successful, NO otherwise
+// Returns YES if successful, NO otherwise.
 - (BOOL)addFile:(NSString *)file error:(NSError **)error;
 
-// Write the index to the repository
+// Write the index to the repository.
 // Will fail if the receiver's repository is nil.
 //
-// error - The error if one occurred
+// error - The error if one occurred.
 //
-// Returns YES if successful, NO otherwise
+// Returns YES if successful, NO otherwise.
 - (BOOL)write:(NSError **)error;
 
 @end
