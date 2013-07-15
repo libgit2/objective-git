@@ -80,7 +80,7 @@
 	
 	int gitError = git_revwalk_push(self.walk, oid.git_oid);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to push SHA onto rev walker."];
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to push SHA %@ onto rev walker.", sha];
 		return NO;
 	}
 	
@@ -92,7 +92,7 @@
 
 	int gitError = git_revwalk_push_glob(self.walk, refGlob.UTF8String);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to push glob onto rev walker."];
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to push glob %@ onto rev walker.", refGlob];
 		return NO;
 	}
 	
@@ -107,7 +107,7 @@
 
 	int gitError = git_revwalk_hide(self.walk, oid.git_oid);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to hide SHA on rev walker."];
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to hide SHA %@ on rev walker.", sha];
 		return NO;
 	}
 
@@ -119,7 +119,7 @@
 
 	int gitError = git_revwalk_hide_glob(self.walk, refGlob.UTF8String);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to push glob onto rev walker."];
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to push glob %@ onto rev walker.", refGlob];
 		return NO;
 	}
 	
@@ -146,7 +146,7 @@
 	}
 	
 	// Ignore error if we can't lookup object and just return nil.
-	GTCommit *commit = (id)[self.repository lookupObjectByOID:[GTOID oidWithGitOid:&oid] objectType:GTObjectTypeCommit error:error];
+	GTCommit *commit = [self.repository lookupObjectByOID:[GTOID oidWithGitOid:&oid] objectType:GTObjectTypeCommit error:error];
 	if (success != NULL) *success = (commit != nil);
 	return commit;
 }

@@ -89,10 +89,9 @@
 }
 
 - (void)testCanWriteCommitData {
-	
 	NSError *error = nil;
 	NSString *commitSHA = @"8496071c1b46c854b31185ea97743be6a8774479";
-	GTCommit *obj = (GTCommit *)[repo lookupObjectBySHA:commitSHA error:&error];
+	GTCommit *obj = [repo lookupObjectBySHA:commitSHA error:&error];
 	STAssertNotNil(obj, [error localizedDescription]);
 	
 	NSString *newSha = [GTCommit shaByCreatingCommitInRepository:repo 
@@ -110,7 +109,6 @@
 }
 
 - (void)testCanWriteNewCommitData {
-	
 	NSString *treeSHA = @"c4dc1555e4d4fa0e0c9c3fc46734c7c35b3ce90b";
 	NSError *error = nil;
 	GTObject *obj = [repo lookupObjectBySHA:treeSHA error:&error];

@@ -51,4 +51,13 @@ describe(@"-mergeBaseBetweenFirstOID:secondOID:error:", ^{
 	});
 });
 
+describe(@"-allTagsWithError:", ^{
+	it(@"should return all tags", ^{
+		NSError *error = nil;
+		NSArray *tags = [repository allTagsWithError:&error];
+		expect(tags).notTo.beNil();
+		expect(tags.count).to.equal(0);
+	});
+});
+
 SpecEnd

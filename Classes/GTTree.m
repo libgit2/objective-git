@@ -100,7 +100,7 @@ static int treewalk_cb(const char *root, const git_tree_entry *git_entry, void *
 
 	int gitError = git_tree_walk(self.git_tree, (git_treewalk_mode)option, treewalk_cb, &enumStruct);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to enumerate tree"];
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to enumerate tree %@", self.SHA];
 	}
 	return gitError != GIT_OK;
 }
@@ -127,7 +127,7 @@ static int treewalk_cb(const char *root, const git_tree_entry *git_entry, void *
 	git_index *index;
 	int result = git_merge_trees(&index, self.repository.git_repository, ancestorTree.git_tree, self.git_tree, otherTree.git_tree, NULL);
 	if (result != GIT_OK || index == NULL) {
-		if (error != NULL) *error = [NSError git_errorFor:result withAdditionalDescription:@"Couldn't merge trees"];
+		if (error != NULL) *error = [NSError git_errorFor:result withAdditionalDescription:@"Failed to merge tree %@ with tree %@", self.SHA, otherTree.SHA];
 		return nil;
 	}
 
