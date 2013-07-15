@@ -52,15 +52,16 @@ NSString * const GTGitErrorDomain = @"GTGitErrorDomain";
 
 	NSString *formattedReason = [[NSString alloc] initWithFormat:desc arguments:args];
 
-	NSError *underError = [self git_errorFor:code];
+	va_end(args);
 
-	NSDictionary *userInfo = @{
+	NSMutableDictionary *userInfo = @{
 		NSLocalizedFailureReasonErrorKey: formattedReason,
 		NSLocalizedDescriptionKey: desc,
-		NSUnderlyingErrorKey: underError,
-	};
+	}.mutableCopy;
 
-	va_end(args);
+	NSError *underError = [self git_errorFor:code];
+	if (underError != nil) userInfo[NSUnderlyingErrorKey] = underError;
+
 	return [NSError errorWithDomain:GTGitErrorDomain code:code userInfo:userInfo];
 }
 
