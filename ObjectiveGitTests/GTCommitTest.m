@@ -45,15 +45,15 @@
 
 - (void)testCanReadCommitData {
 	
-	NSString *sha = @"8496071c1b46c854b31185ea97743be6a8774479";
+	NSString *commitSHA = @"8496071c1b46c854b31185ea97743be6a8774479";
 	NSError *error = nil;
-	GTObject *obj = [repo lookupObjectBySha:sha error:&error];
+	GTObject *obj = [repo lookupObjectBySHA:commitSHA error:&error];
 	
 	STAssertNil(error, [error localizedDescription]);
 	STAssertNotNil(obj, nil);
 	STAssertTrue([obj isKindOfClass:[GTCommit class]], nil);
 	STAssertEqualObjects(obj.type, @"commit", nil);
-	STAssertEqualObjects(obj.sha, sha, nil);
+	STAssertEqualObjects(obj.SHA, commitSHA, nil);
 	
 	GTCommit *commit = (GTCommit *)obj;
 	STAssertEqualObjects(commit.message, @"testing\n", nil);
@@ -71,15 +71,15 @@
 	STAssertEqualObjects(committer.email, @"schacon@gmail.com", nil);
 	STAssertEquals((int)[committer.time timeIntervalSince1970], 1273360386, nil);
 	
-	STAssertEqualObjects(commit.tree.sha, @"181037049a54a1eb5fab404658a3a250b44335d7", nil);
+	STAssertEqualObjects(commit.tree.SHA, @"181037049a54a1eb5fab404658a3a250b44335d7", nil);
 	STAssertTrue([commit.parents count] == 0, nil);
 }
 
 - (void)testCanHaveMultipleParents {
 	
-	NSString *sha = @"a4a7dce85cf63874e984719f4fdd239f5145052f";
+	NSString *commitSHA = @"a4a7dce85cf63874e984719f4fdd239f5145052f";
 	NSError *error = nil;
-	GTObject *obj = [repo lookupObjectBySha:sha error:&error];
+	GTObject *obj = [repo lookupObjectBySHA:commitSHA error:&error];
 	
 	STAssertNil(error, [error localizedDescription]);
 	STAssertNotNil(obj, nil);
@@ -91,8 +91,8 @@
 - (void)testCanWriteCommitData {
 	
 	NSError *error = nil;
-	NSString *sha = @"8496071c1b46c854b31185ea97743be6a8774479";
-	GTCommit *obj = (GTCommit *)[repo lookupObjectBySha:sha error:&error];
+	NSString *commitSHA = @"8496071c1b46c854b31185ea97743be6a8774479";
+	GTCommit *obj = (GTCommit *)[repo lookupObjectBySHA:commitSHA error:&error];
 	STAssertNotNil(obj, [error localizedDescription]);
 	
 	NSString *newSha = [GTCommit shaByCreatingCommitInRepository:repo 
@@ -111,9 +111,9 @@
 
 - (void)testCanWriteNewCommitData {
 	
-	NSString *tsha = @"c4dc1555e4d4fa0e0c9c3fc46734c7c35b3ce90b";
+	NSString *treeSHA = @"c4dc1555e4d4fa0e0c9c3fc46734c7c35b3ce90b";
 	NSError *error = nil;
-	GTObject *obj = [repo lookupObjectBySha:tsha error:&error];
+	GTObject *obj = [repo lookupObjectBySHA:treeSHA error:&error];
 	
 	STAssertNil(error, [error localizedDescription]);
 	STAssertNotNil(obj, nil);
@@ -125,16 +125,16 @@
 						   time:[NSDate date]];
 	GTCommit *commit = [GTCommit commitInRepository:repo updateRefNamed:nil author:person committer:person message:@"new message" tree:tree parents:nil error:&error];
 	STAssertNotNil(commit, [error localizedDescription]);
-	NSLog(@"wrote sha %@", commit.sha);
+	NSLog(@"wrote sha %@", commit.SHA);
 	
-	rm_loose(self.class, commit.sha);
+	rm_loose(self.class, commit.SHA);
 }
 
 - (void)testCanHandleNilWrites {
 	
 	NSString *tsha = @"c4dc1555e4d4fa0e0c9c3fc46734c7c35b3ce90b";
 	NSError *error = nil;
-	GTObject *obj = [repo lookupObjectBySha:tsha error:&error];
+	GTObject *obj = [repo lookupObjectBySHA:tsha error:&error];
 	
 	STAssertNil(error, [error localizedDescription]);
 	STAssertNotNil(obj, nil);
@@ -146,9 +146,9 @@
 							time:[NSDate date]];
 	GTCommit *commit = [GTCommit commitInRepository:repo updateRefNamed:nil author:person committer:person message:nil tree:tree parents:nil error:&error];
 	STAssertNotNil(commit, [error localizedDescription]);
-	NSLog(@"wrote sha %@", commit.sha);
+	NSLog(@"wrote sha %@", commit.SHA);
 	
-	rm_loose(self.class, commit.sha);
+	rm_loose(self.class, commit.SHA);
 }
 
 @end
