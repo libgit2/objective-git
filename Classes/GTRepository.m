@@ -624,7 +624,7 @@ static int checkoutNotifyCallback(git_checkout_notify_t why, const char *path, c
 	return block((GTCheckoutNotify)why, nsPath, gtBaseline, gtTarget, gtWorkdir);
 }
 
-- (BOOL)checkout:(NSString *)newTarget strategy:(GTCheckoutStrategy)strategy progressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))progressBlock notifyBlock:(int (^)(GTCheckoutNotify why, NSString *path, GTDiffFile *baseline, GTDiffFile *target, GTDiffFile *workdir))notifyBlock notifyFlags:(GTCheckoutNotify)notifyFlags error:(NSError **)error {
+- (BOOL)checkout:(NSString *)newTarget strategy:(GTCheckoutStrategyType)strategy progressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))progressBlock notifyBlock:(int (^)(GTCheckoutNotifyFlags why, NSString *path, GTDiffFile *baseline, GTDiffFile *target, GTDiffFile *workdir))notifyBlock notifyFlags:(GTCheckoutNotifyFlags)notifyFlags error:(NSError **)error {
 	int gitError = GIT_OK;
 
 	// Try to resolve the target to either a reference or a commitish

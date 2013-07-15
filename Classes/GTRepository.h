@@ -75,16 +75,18 @@ typedef enum {
 	GTCheckoutStrategyDontUpdateIndex = GIT_CHECKOUT_DONT_UPDATE_INDEX, /** Normally checkout updates index entries as it goes; this stops that */
 	GTCheckoutStrategyNoRefresh = GIT_CHECKOUT_NO_REFRESH, /** Don't refresh index/config/etc before doing checkout */
 	GTCheckoutStrategyDisablePathspecMatch = GIT_CHECKOUT_DISABLE_PATHSPEC_MATCH /** Treat pathspec as simple list of exact match file paths */
-} GTCheckoutStrategy;
+} GTCheckoutStrategyType;
 
 typedef enum {
-    GTCheckoutNotifyNone = GIT_CHECKOUT_NOTIFY_NONE,
-    GTCheckoutNotifyConflict = GIT_CHECKOUT_NOTIFY_CONFLICT,
-    GTCheckoutNotifyDirty = GIT_CHECKOUT_NOTIFY_DIRTY,
-    GTCheckoutNotifyUpdated = GIT_CHECKOUT_NOTIFY_UPDATED,
-    GTCheckoutNotifyUntracked = GIT_CHECKOUT_NOTIFY_UNTRACKED,
-    GTCheckoutNotifyIgnored = GIT_CHECKOUT_NOTIFY_IGNORED,
-} GTCheckoutNotify;
+    GTCheckoutNotifyNone = GIT_CHECKOUT_NOTIFY_NONE, // Do not invoke the notification block
+    GTCheckoutNotifyConflict = GIT_CHECKOUT_NOTIFY_CONFLICT, // Invoke the notification block in case of conflicts
+    GTCheckoutNotifyDirty = GIT_CHECKOUT_NOTIFY_DIRTY, // Invoke the notification block in case of dirty files
+    GTCheckoutNotifyUpdated = GIT_CHECKOUT_NOTIFY_UPDATED, // Invoke the notification block for each updated file
+    GTCheckoutNotifyUntracked = GIT_CHECKOUT_NOTIFY_UNTRACKED, // Invoke the notification block for each untracked file
+    GTCheckoutNotifyIgnored = GIT_CHECKOUT_NOTIFY_IGNORED, // Invoke the notification block for each ignored file
+
+	GTCheckoutNotifyAll = GIT_CHECKOUT_NOTIFY_ALL, // Invoke the notification block for everything
+} GTCheckoutNotifyFlags;
 
 
 typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus status, BOOL *stop);
@@ -286,10 +288,10 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 - (GTIndex *)indexWithError:(NSError **)error;
 
 - (BOOL)checkout:(NSString *)newTarget
-              strategy:(GTCheckoutStrategy)strategy
+              strategy:(GTCheckoutStrategyType)strategy
          progressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))progressBlock
-           notifyBlock:(int (^)(GTCheckoutNotify why, NSString *path, GTDiffFile *baseline, GTDiffFile *target, GTDiffFile *workdir))notifyBlock
-           notifyFlags:(GTCheckoutNotify)notifyFlags
+           notifyBlock:(int (^)(GTCheckoutNotifyFlags why, NSString *path, GTDiffFile *baseline, GTDiffFile *target, GTDiffFile *workdir))notifyBlock
+           notifyFlags:(GTCheckoutNotifyFlags)notifyFlags
              error:(NSError **)error;
 
 @end
