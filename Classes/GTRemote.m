@@ -82,45 +82,84 @@
 	return @(URLString);
 }
 
-static int fetch_cred_acquire_cb(git_cred **cred, const char *url, const char *username_from_url, unsigned int allowed_types, void *payload) {
-	GTRemote *myself = (__bridge GTRemote *)payload;
-	NSLog(@"fetch_cred_acquire_cb: %@: url: %s, username: %s, types: %d", myself, url, username_from_url, allowed_types);
-	switch (allowed_types) {
-		case GIT_CREDTYPE_USERPASS_PLAINTEXT:
-			break;
-		case GIT_CREDTYPE_SSH_KEYFILE_PASSPHRASE:
-			break;
-		case GIT_CREDTYPE_SSH_PUBLICKEY:
-			break;
+#pragma mark Fetch
+
+typedef int  (^GTCredentialAcquireBlock)(git_cred **cred, GTCredentialType allowedTypes, NSURL *url);
+
+typedef void (^GTRemoteFetchProgressBlock)(NSString *message, int length);
+
+typedef int  (^GTRemoteFetchCompletionBlock)(GTRemoteCompletionType type);
+
+typedef int  (^GTRemoteFetchUpdateTipsBlock)(GTReference *ref, GTOID *a, GTOID *b);
+
+typedef struct {
+	__unsafe_unretained GTRemote *myself;
+	__unsafe_unretained GTCredentialAcquireBlock credBlock;
+	__unsafe_unretained GTRemoteFetchProgressBlock progressBlock;
+	__unsafe_unretained GTRemoteFetchCompletionBlock completionBlock;
+	__unsafe_unretained GTRemoteFetchUpdateTipsBlock updateTipsBlock;
+} GTRemoteFetchInfo;
+
+static int fetch_cred_acquire_cb(git_cred **cred, const char *urlStr, const char *username_from_url, unsigned int allowed_types, void *payload) {
+	GTRemoteFetchInfo *info = (GTRemoteFetchInfo *)payload;
+
+	if (info->credBlock == nil) {
+		NSString *errorMsg = [NSString stringWithFormat:@"No credential block passed, but authentication was requested for remote %@", info->myself.name];
+		giterr_set_str(GIT_EUSER, errorMsg.UTF8String);
+		return GIT_ERROR;
 	}
-	return GIT_OK;
+
+	NSURL *url = [NSURL URLWithString:@(urlStr)];
+	NSCAssert(url != nil, @"Failed to convert %s to an URL", urlStr);
+
+	return info->credBlock(cred, (GTCredentialType)allowed_types, url);
 }
 
-static void fetch_progress(const char *str, int len, void *data) {
-	GTRemote *myself = (__bridge GTRemote *)data;
-	NSLog(@"fetch_progress: %@: str: %s, len: %d", myself, str, len);
+static void fetch_progress(const char *str, int len, void *payload) {
+	GTRemoteFetchInfo *info = (GTRemoteFetchInfo *)payload;
+
+	if (info->progressBlock == nil) return;
+
+	info->progressBlock(@(str), len);
 }
 
-static int fetch_completion(git_remote_completion_type type, void *data) {
-	GTRemote *myself = (__bridge GTRemote *)data;
-	NSLog(@"fetch_completion: %@: %d", myself, type);
-	return GIT_OK;
+static int fetch_completion(git_remote_completion_type type, void *payload) {
+	GTRemoteFetchInfo *info = (GTRemoteFetchInfo *)payload;
+
+	if (info->completionBlock == nil) return GIT_OK;
+
+	return info->completionBlock((GTRemoteCompletionType)type);
 }
 
-static int fetch_update_tips(const char *refname, const git_oid *a, const git_oid *b, void *data) {
-	GTRemote *myself = (__bridge GTRemote *)data;
+static int fetch_update_tips(const char *refname, const git_oid *a, const git_oid *b, void *payload) {
+	GTRemoteFetchInfo *info = (GTRemoteFetchInfo *)payload;
+	if (info->updateTipsBlock == nil) return GIT_OK;
+
+	NSError *error = nil;
+	GTReference *ref = [GTReference referenceByLookingUpReferencedNamed:@(refname) inRepository:info->myself.repository error:&error];
+	if (ref == nil) {
+		NSLog(@"Error resolving reference %s: %@", refname, error);
+	}
+
 	GTOID *oid_a = [[GTOID alloc] initWithGitOid:a];
 	GTOID *oid_b = [[GTOID alloc] initWithGitOid:b];
-	NSLog(@"fetch_update_tips: %@: refname: %s, OID a: %@, b: %@", myself, refname, oid_a, oid_b);
-	return GIT_OK;
+	return info->updateTipsBlock(ref, oid_a, oid_b);
 }
 
-- (BOOL)fetchWithError:(NSError **)error {
+- (BOOL)fetchWithError:(NSError **)error credentials:(GTCredentialAcquireBlock)credBlock progress:(GTRemoteFetchProgressBlock)progressBlock completion:(GTRemoteFetchCompletionBlock)completionBlock updateTips:(GTRemoteFetchUpdateTipsBlock)updateTipsBlock {
+	GTRemoteFetchInfo payload = {
+		.myself = self,
+		.credBlock = credBlock,
+		.progressBlock = progressBlock,
+		.completionBlock = completionBlock,
+		.updateTipsBlock = updateTipsBlock,
+	};
+
 	git_remote_callbacks remote_callbacks = GIT_REMOTE_CALLBACKS_INIT;
 	remote_callbacks.progress = fetch_progress;
 	remote_callbacks.completion = fetch_completion;
 	remote_callbacks.update_tips = fetch_update_tips;
-	remote_callbacks.payload = (__bridge void *)(self);
+	remote_callbacks.payload = &payload;
 
 	int gitError = git_remote_set_callbacks(self.git_remote, &remote_callbacks);
 	if (gitError != GIT_OK) {

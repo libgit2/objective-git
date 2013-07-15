@@ -9,6 +9,20 @@
 #import "git2.h"
 
 @class GTRepository;
+@class GTOID;
+@class GTReference;
+
+typedef enum {
+	GTCredentialTypeUserPassPlaintext = GIT_CREDTYPE_USERPASS_PLAINTEXT,
+	GTCredentialTypeSSHKeyFilePassPhrase = GIT_CREDTYPE_SSH_KEYFILE_PASSPHRASE,
+	GTCredentialTypeSSHPublicKey = GIT_CREDTYPE_SSH_PUBLICKEY,
+} GTCredentialType;
+
+typedef enum {
+	GTRemoteCompletionTypeDownload = GIT_REMOTE_COMPLETION_DOWNLOAD,
+	GTRemoteCompletionTypeIndexing = GIT_REMOTE_COMPLETION_INDEXING,
+	GTRemoteCompletionTypeError = GIT_REMOTE_COMPLETION_ERROR,
+} GTRemoteCompletionType;
 
 @interface GTRemote : NSObject
 
@@ -23,5 +37,7 @@
 
 // The underlying `git_remote` object.
 - (git_remote *)git_remote __attribute__((objc_returns_inner_pointer));
+
+- (BOOL)fetchWithError:(NSError **)error credentials:(int (^)(git_cred **cred, GTCredentialType allowedTypes, NSURL *url))credBlock progress:(void (^)(NSString *message, int length))progressBlock completion:(int (^)(GTRemoteCompletionType type))completionBlock updateTips:(int (^)(GTReference *ref, GTOID *a, GTOID *b))updateTipsBlock;
 
 @end
