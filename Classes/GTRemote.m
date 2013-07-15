@@ -11,7 +11,9 @@
 #import "GTOID.h"
 #import "NSError+Git.h"
 
-@interface GTRemote ()
+@interface GTRemote () {
+	GTRepository *repository;
+}
 @property (nonatomic, readonly, assign) git_remote *git_remote;
 @end
 
@@ -45,6 +47,8 @@
 	int gitError = git_remote_load(&_git_remote, repo.git_repository, name.UTF8String);
 	if (gitError != GIT_OK) return nil;
 
+	repository = repo;
+
 	return self;
 }
 
@@ -55,6 +59,13 @@
 	_git_remote = remote;
 
 	return self;
+}
+
+- (GTRepository *)repository {
+	if (repository == nil) {
+		repository = [[GTRepository alloc] initWithGitRepository:git_remote_owner(self.git_remote)];
+	}
+	return repository;
 }
 
 - (NSString *)name {

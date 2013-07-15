@@ -12,6 +12,7 @@
 
 @interface GTRemote : NSObject
 
+@property (nonatomic, readonly, strong) GTRepository *repository;
 @property (nonatomic, readonly, copy) NSString *name;
 @property (nonatomic, readonly, copy) NSString *URLString;
 
