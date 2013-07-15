@@ -75,6 +75,6 @@
 //         May be NULL.
 //
 // Returns the found object or nil on error.
-- (GTObject *)objectByPeelingTagError:(NSError **)error;
+- (id)objectByPeelingTagError:(NSError **)error;
 
 @end

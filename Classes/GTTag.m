@@ -93,7 +93,7 @@
 	return (git_tag *) self.git_object;
 }
 
-- (GTObject *)objectByPeelingTagError:(NSError **)error {
+- (id)objectByPeelingTagError:(NSError **)error {
 	git_object *target = nil;
 	int gitError = git_tag_peel(&target, self.git_tag);
 	if (gitError < GIT_OK) {
