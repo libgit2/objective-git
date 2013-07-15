@@ -435,6 +435,10 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 	return (BOOL) git_repository_head_detached(self.git_repository);
 }
 
+- (BOOL)isHeadOrphaned {
+	return (BOOL)git_repository_head_orphan(self.git_repository);
+}
+
 - (BOOL)resetToCommit:(GTCommit *)commit withResetType:(GTRepositoryResetType)resetType error:(NSError **)error {
     NSParameterAssert(commit != nil);
     
