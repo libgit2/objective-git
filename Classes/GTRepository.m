@@ -625,12 +625,18 @@ static int checkoutNotifyCallback(git_checkout_notify_t why, const char *path, c
 }
 
 - (BOOL)checkout:(NSString *)newTarget strategy:(GTCheckoutStrategy)strategy progressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))progressBlock notifyBlock:(int (^)(GTCheckoutNotify why, NSString *path, GTDiffFile *baseline, GTDiffFile *target, GTDiffFile *workdir))notifyBlock notifyFlags:(GTCheckoutNotify)notifyFlags error:(NSError **)error {
-	GTReference * head = [self headReferenceWithError:error];
-	if (head == nil) {
-		head = [GTReference referenceByCreatingReferenceNamed:@"HEAD" fromReferenceTarget:newTarget inRepository:self error:error];
-		if (head == nil) return NO;
-	} else {
-		if (![head setTarget:newTarget error:error]) return NO;
+
+	GTCommit *targetCommit = nil;
+	GTReference *targetReference = [GTReference referenceByLookingUpReferencedNamed:newTarget inRepository:self error:error];
+	if (targetReference == nil) {
+		targetCommit = (GTCommit *)[self lookupObjectBySHA:newTarget objectType:GTObjectTypeCommit error:error];
+	}
+	if (targetReference == nil && targetCommit == nil) return NO;
+
+	if (targetReference) {
+		git_repository_set_head(self.git_repository, targetReference.name.UTF8String);
+	} else if (targetCommit) {
+		git_repository_set_head_detached(self.git_repository, targetCommit.OID.git_oid);
 	}
 
 	git_checkout_opts checkoutOptions = GIT_CHECKOUT_OPTS_INIT;
