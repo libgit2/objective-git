@@ -36,16 +36,16 @@
 	
 	NSError *error = nil;
 	GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&error];
-	NSString *sha = @"0c37a5391bbff43c37f0d0371823a5509eed5b1d";
-	GTTag *tag = (GTTag *)[repo lookupObjectBySha:sha error:&error];
+	NSString *tagSHA = @"0c37a5391bbff43c37f0d0371823a5509eed5b1d";
+	GTTag *tag = (GTTag *)[repo lookupObjectBySHA:tagSHA error:&error];
 	
 	STAssertNil(error, [error localizedDescription]);
 	STAssertNotNil(tag, nil);
-	STAssertEqualObjects(sha, tag.sha, nil);
+	STAssertEqualObjects(tagSHA, tag.SHA, nil);
 	STAssertEqualObjects(@"tag", tag.type, nil);
 	STAssertEqualObjects(@"test tag message\n", tag.message, nil);
 	STAssertEqualObjects(@"v1.0", tag.name, nil);
-	STAssertEqualObjects(@"5b5b025afb0b4c913b4c338a42934a3863bf3644", tag.target.sha, nil);
+	STAssertEqualObjects(@"5b5b025afb0b4c913b4c338a42934a3863bf3644", tag.target.SHA, nil);
 	STAssertEqualObjects(@"commit", tag.targetType, nil);
 	
 	GTSignature *c = tag.tagger;

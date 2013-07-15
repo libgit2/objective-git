@@ -47,7 +47,16 @@ describe(@"-mergeBaseBetweenFirstOID:secondOID:error:", ^{
 
 		GTCommit *mergeBase = [repository mergeBaseBetweenFirstOID:masterBranch.reference.OID secondOID:otherBranch.reference.OID error:&error];
 		expect(mergeBase).notTo.beNil();
-		expect(mergeBase.sha).to.equal(@"f7ecd8f4404d3a388efbff6711f1bdf28ffd16a0");
+		expect(mergeBase.SHA).to.equal(@"f7ecd8f4404d3a388efbff6711f1bdf28ffd16a0");
+	});
+});
+
+describe(@"-allTagsWithError:", ^{
+	it(@"should return all tags", ^{
+		NSError *error = nil;
+		NSArray *tags = [repository allTagsWithError:&error];
+		expect(tags).notTo.beNil();
+		expect(tags.count).to.equal(0);
 	});
 });
 
