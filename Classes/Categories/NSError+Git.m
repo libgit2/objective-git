@@ -54,10 +54,10 @@ NSString * const GTGitErrorDomain = @"GTGitErrorDomain";
 
 	va_end(args);
 
-	NSMutableDictionary *userInfo = @{
+	NSMutableDictionary *userInfo = [@{
 		NSLocalizedFailureReasonErrorKey: formattedReason,
 		NSLocalizedDescriptionKey: desc,
-	}.mutableCopy;
+	} mutableCopy];
 
 	NSError *underError = [self git_errorFor:code];
 	if (underError != nil) userInfo[NSUnderlyingErrorKey] = underError;
