@@ -30,7 +30,7 @@
 - (void)setString:(NSString *)s forKey:(NSString *)key;
 - (NSString *)stringForKey:(NSString *)key;
 
-- (void)setBoolForKey:(BOOL)b forKey:(NSString *)key;
+- (void)setBool:(BOOL)b forKey:(NSString *)key;
 - (BOOL)boolForKey:(NSString *)key;
 
 - (void)setInt32:(int32_t)i forKey:(NSString *)key;
