@@ -44,7 +44,7 @@
 - (void)testCanLookupEmptyStringFails {
 	
 	NSError *error = nil;
-	GTObject *obj = [repo lookupObjectBySha:@"" error:&error];
+	GTObject *obj = [repo lookupObjectBySHA:@"" error:&error];
 	
 	STAssertNotNil(error, nil);
 	STAssertNil(obj, nil);
@@ -54,7 +54,7 @@
 - (void)testCanLookupBadObjectFails {
 	
 	NSError *error = nil;
-	GTObject *obj = [repo lookupObjectBySha:@"a496071c1b46c854b31185ea97743be6a8774479" error:&error];
+	GTObject *obj = [repo lookupObjectBySHA:@"a496071c1b46c854b31185ea97743be6a8774479" error:&error];
 	
 	STAssertNotNil(error, nil);
 	STAssertNil(obj, nil);
@@ -64,19 +64,19 @@
 - (void)testCanLookupAnObject {
 	
 	NSError *error = nil;
-	GTObject *obj = [repo lookupObjectBySha:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error];
+	GTObject *obj = [repo lookupObjectBySHA:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error];
 	
 	STAssertNil(error, [error localizedDescription]);
 	STAssertNotNil(obj, nil);
 	STAssertEqualObjects(obj.type, @"commit", nil);
-	STAssertEqualObjects(obj.sha, @"8496071c1b46c854b31185ea97743be6a8774479", nil);
+	STAssertEqualObjects(obj.SHA, @"8496071c1b46c854b31185ea97743be6a8774479", nil);
 }
 
 - (void)testTwoObjectsAreTheSame {
 	
 	NSError *error = nil;
-	GTObject *obj1 = [repo lookupObjectBySha:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error];
-	GTObject *obj2 = [repo lookupObjectBySha:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error];
+	GTObject *obj1 = [repo lookupObjectBySHA:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error];
+	GTObject *obj2 = [repo lookupObjectBySHA:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error];
 	
 	STAssertNotNil(obj1, nil);
 	STAssertNotNil(obj2, nil);
@@ -86,7 +86,7 @@
 - (void)testCanReadRawDataFromObject {
 	
 	NSError *error = nil;
-	GTObject *obj = [repo lookupObjectBySha:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error];
+	GTObject *obj = [repo lookupObjectBySHA:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error];
 	
 	STAssertNotNil(obj, nil);
 	

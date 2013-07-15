@@ -30,7 +30,7 @@
 @interface GTBlobTest : SenTestCase {
 	
 	GTRepository *repo;
-	NSString *sha;
+	NSString *blobSHA;
 }
 @end
 
@@ -40,17 +40,17 @@
 	
 	NSError *error = nil;
     repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&error];
-	sha = @"fa49b077972391ad58037050f2a75f74e3671e92";
+	blobSHA = @"fa49b077972391ad58037050f2a75f74e3671e92";
 }
 
 - (void)testCanReadBlobData {
 	
 	NSError *error = nil;
-	GTBlob *blob = (GTBlob *)[repo lookupObjectBySha:sha error:&error];
+	GTBlob *blob = (GTBlob *)[repo lookupObjectBySHA:blobSHA error:&error];
 	STAssertEquals(9, (int)blob.size, nil);
 	STAssertEqualObjects(@"new file\n", blob.content, nil);
 	STAssertEqualObjects(@"blob", blob.type, nil);
-	STAssertEqualObjects(sha, blob.sha, nil);
+	STAssertEqualObjects(blobSHA, blob.SHA, nil);
 }
 
 // todo
@@ -75,10 +75,10 @@
 	
 	NSError *error = nil;
     GTBlob *blob = [GTBlob blobWithString:@"a new blob content" inRepository:repo error:&error];
-    NSString *newSha = [blob sha];
-	STAssertNotNil(newSha, [error localizedDescription]);
+    NSString *newSHA = [blob SHA];
+	STAssertNotNil(newSHA, [error localizedDescription]);
 	
-	rm_loose(self.class, newSha);
+	rm_loose(self.class, newSHA);
 }
 
 - (void)testCanWriteNewBlobData2 {
@@ -87,7 +87,7 @@
     GTBlob *blob = [GTBlob blobWithString:@"a new blob content" inRepository:repo error:&error];
 	STAssertNotNil(blob, [error localizedDescription]);
 	
-	rm_loose(self.class, blob.sha);
+	rm_loose(self.class, blob.SHA);
 }
 
 //- (void)testCanGetCompleteContentWithNulls {

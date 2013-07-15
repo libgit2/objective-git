@@ -38,7 +38,7 @@ typedef enum {
 
 @property (nonatomic, readonly) NSString *name;
 @property (nonatomic, readonly) NSString *shortName;
-@property (nonatomic, readonly) NSString *sha;
+@property (nonatomic, readonly) NSString *SHA;
 @property (nonatomic, readonly) NSString *remoteName;
 @property (nonatomic, readonly) GTBranchType branchType;
 @property (nonatomic, readonly, strong) GTRepository *repository;
