@@ -614,17 +614,23 @@ static int submoduleEnumerationCallback(git_submodule *git_submodule, const char
 
 #pragma mark Checkout
 
+// The type of block passed to -checkout:strategy:progressBlock:notifyBlock:notifyFlags:error: for progress reporting
+typedef void (^GTCheckoutProgressBlock)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps);
+
+// The type of block passed to -checkout:strategy:progressBlock:notifyBlock:notifyFlags:error: for notification reporting
+typedef int  (^GTCheckoutNotifyBlock)(GTCheckoutNotifyFlags why, NSString *path, GTDiffFile *baseline, GTDiffFile *target, GTDiffFile *workdir);
+
 static int checkoutNotifyCallback(git_checkout_notify_t why, const char *path, const git_diff_file *baseline, const git_diff_file *target, const git_diff_file *workdir, void *payload) {
 	if (payload == NULL) return 0;
-	int (^block)(GTCheckoutNotify why, NSString* path, GTDiffFile* baseline, GTDiffFile* target, GTDiffFile* workdir) = (__bridge id)payload;
+	GTCheckoutNotifyBlock block = (__bridge id)payload;
 	NSString *nsPath = (path != NULL ? @(path) : nil);
 	GTDiffFile *gtBaseline = baseline ? [[GTDiffFile alloc] initWithGitDiffFile:*baseline] : nil;
 	GTDiffFile *gtTarget = target ? [[GTDiffFile alloc] initWithGitDiffFile:*target] : nil;
 	GTDiffFile *gtWorkdir = workdir ? [[GTDiffFile alloc] initWithGitDiffFile:*workdir] : nil;
-	return block((GTCheckoutNotify)why, nsPath, gtBaseline, gtTarget, gtWorkdir);
+	return block((GTCheckoutNotifyFlags)why, nsPath, gtBaseline, gtTarget, gtWorkdir);
 }
 
-- (BOOL)checkout:(NSString *)newTarget strategy:(GTCheckoutStrategyType)strategy progressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))progressBlock notifyBlock:(int (^)(GTCheckoutNotifyFlags why, NSString *path, GTDiffFile *baseline, GTDiffFile *target, GTDiffFile *workdir))notifyBlock notifyFlags:(GTCheckoutNotifyFlags)notifyFlags error:(NSError **)error {
+- (BOOL)checkout:(NSString *)newTarget strategy:(GTCheckoutStrategyType)strategy progressBlock:(GTCheckoutProgressBlock)progressBlock notifyBlock:(GTCheckoutNotifyBlock)notifyBlock notifyFlags:(GTCheckoutNotifyFlags)notifyFlags error:(NSError **)error {
 	int gitError = GIT_OK;
 
 	// Try to resolve the target to either a reference or a commitish
