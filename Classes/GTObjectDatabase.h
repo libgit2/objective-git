@@ -46,9 +46,8 @@
 - (GTOdbObject *)objectWithOid:(GTOID *)oid error:(NSError **)error;
 - (GTOdbObject *)objectWithSha:(NSString *)sha error:(NSError **)error;
 
-- (GTOID *)oidByInsertingString:(NSString *)data objectType:(GTObjectType)type error:(NSError **)error;
-- (NSString *)shaByInsertingString:(NSString *)data objectType:(GTObjectType)type error:(NSError **)error;
-- (GTOdbObject *)objectByInsertingData:(NSData *)data objectType:(GTObjectType)type error:(NSError **)error;
+- (GTOID *)oidByInsertingData:(NSData *)data forType:(GTObjectType)type error:(NSError **)error;
+- (GTOID *)oidByInsertingString:(NSString *)string forType:(GTObjectType)type error:(NSError **)error;
 
 - (BOOL)containsObjectWithSha:(NSString *)sha error:(NSError **)error;
 

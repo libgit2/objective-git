@@ -89,28 +89,24 @@
     return [self objectWithOid:oid error:error];
 }
 
-- (GTOID *)oidByWritingDataOfLength:(size_t)length type:(GTObjectType)type error:(NSError **)error block:(int (^)(git_odb_stream *stream))block {
-	NSParameterAssert(length != 0);
-	NSParameterAssert(block != nil);
+- (GTOID *)oidByInsertingData:(NSData *)data forType:(GTObjectType)type error:(NSError **)error; {
+	NSParameterAssert(data != 0);
+
 	git_odb_stream *stream;
 	git_oid oid;
-	size_t writtenBytes = 0;
 	
-	int gitError = git_odb_open_wstream(&stream, self.git_odb, length, (git_otype) type);
+	int gitError = git_odb_open_wstream(&stream, self.git_odb, data.length, (git_otype) type);
 	if(gitError < GIT_OK) {
 		if(error != NULL)
 			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to open write stream on odb."];
 		return nil;
 	}
 
-	while (length < writtenBytes) {
-		gitError = block(stream);
-		if(gitError < GIT_OK) {
-			if(error != NULL)
-				*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to write to stream on odb."];
-			return nil;
-		}
-		writtenBytes += gitError;
+	gitError = stream->write(stream, data.bytes, data.length);
+	if(gitError < GIT_OK) {
+		if(error != NULL)
+			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to write to stream on odb."];
+		return nil;
 	}
 
 	gitError = stream->finalize_write(&oid, stream);
@@ -125,24 +121,8 @@
 	return [GTOID oidWithGitOid:&oid];
 }
 
-- (GTOID *)oidByInsertingString:(NSString *)string objectType:(GTObjectType)type error:(NSError **)error {
-	return [self oidByWritingDataOfLength:[string length] type:type error:error block:^int(git_odb_stream *stream) {
-		return stream->write(stream, string.UTF8String, [string lengthOfBytesUsingEncoding:NSUTF8StringEncoding]);
-	}];
-}
-
-- (NSString *)shaByInsertingString:(NSString *)string objectType:(GTObjectType)type error:(NSError **)error {
-	GTOID *oid = [self oidByWritingDataOfLength:string.length type:type error:error block:^int(git_odb_stream *stream) {
-		return stream->write(stream, string.UTF8String, string.length);
-	}];
-	return [oid SHA];
-}
-
-- (GTOdbObject *)objectByInsertingData:(NSData *)data objectType:(GTObjectType)type error:(NSError **)error {
-	GTOID *oid = [self oidByWritingDataOfLength:data.length type:type error:error block:^int(git_odb_stream *stream) {
-		return stream->write(stream, data.bytes, data.length);
-	}];
-	return [self objectWithOid:oid error:error];
+- (GTOID *)oidByInsertingString:(NSString *)string forType:(GTObjectType)type error:(NSError **)error {
+	return [self oidByInsertingData:[string dataUsingEncoding:NSUTF8StringEncoding] forType:type error:error];
 }
 
 - (BOOL)containsObjectWithSha:(NSString *)sha error:(NSError **)error {
