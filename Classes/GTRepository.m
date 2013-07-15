@@ -48,6 +48,8 @@
 // The type of block passed to -enumerateSubmodulesRecursively:usingBlock:.
 typedef void (^GTRepositorySubmoduleEnumerationBlock)(GTSubmodule *submodule, BOOL *stop);
 
+typedef void (^GTRepositoryTagEnumerationBlock)(GTTag *tag, BOOL *stop);
+
 // Used as a payload for submodule enumeration.
 //
 // recursive        - Whether submodule enumeration should recurse.
@@ -200,7 +202,7 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 	return [GTOID oidWithGitOid:&oid].SHA;
 }
 
-- (GTObject *)lookupObjectByOID:(GTOID *)oid objectType:(GTObjectType)type error:(NSError **)error {
+- (id)lookupObjectByOID:(GTOID *)oid objectType:(GTObjectType)type error:(NSError **)error {
 	git_object *obj;
 
 	int gitError = git_object_lookup(&obj, self.git_repository, oid.git_oid, (git_otype)type);
@@ -212,22 +214,22 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
     return [GTObject objectWithObj:obj inRepository:self];
 }
 
-- (GTObject *)lookupObjectByOID:(GTOID *)oid error:(NSError **)error {
+- (id)lookupObjectByOID:(GTOID *)oid error:(NSError **)error {
 	return [self lookupObjectByOID:oid objectType:GTObjectTypeAny error:error];
 }
 
-- (GTObject *)lookupObjectBySHA:(NSString *)sha objectType:(GTObjectType)type error:(NSError **)error {
+- (id)lookupObjectBySHA:(NSString *)sha objectType:(GTObjectType)type error:(NSError **)error {
 	GTOID *oid = [[GTOID alloc] initWithSHA:sha error:error];
 	if (!oid) return nil;
 
 	return [self lookupObjectByOID:oid objectType:type error:error];
 }
 
-- (GTObject *)lookupObjectBySHA:(NSString *)sha error:(NSError **)error {
+- (id)lookupObjectBySHA:(NSString *)sha error:(NSError **)error {
 	return [self lookupObjectBySHA:sha objectType:GTObjectTypeAny error:error];
 }
 
-- (GTObject *)lookupObjectByRefspec:(NSString *)spec error:(NSError **)error {
+- (id)lookupObjectByRefspec:(NSString *)spec error:(NSError **)error {
 	git_object *obj;
 	int gitError = git_revparse_single(&obj, self.git_repository, spec.UTF8String);
 	if (gitError < GIT_OK) {
@@ -356,6 +358,45 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 	}
 
     return allBranches;
+}
+
+struct GTRepositoryTagEnumerationInfo {
+	__unsafe_unretained GTRepository *myself;
+	__unsafe_unretained GTRepositoryTagEnumerationBlock block;
+};
+
+static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *payload) {
+	struct GTRepositoryTagEnumerationInfo *info = payload;
+	GTTag *tag = (GTTag *)[info->myself lookupObjectByOID:[GTOID oidWithGitOid:oid] objectType:GTObjectTypeTag error:NULL];
+
+	BOOL stop = NO;
+	info->block(tag, &stop);
+
+	return stop ? GIT_EUSER : 0;
+}
+
+- (BOOL)enumerateTags:(NSError **)error block:(GTRepositoryTagEnumerationBlock)block {
+	NSParameterAssert(block != nil);
+
+	struct GTRepositoryTagEnumerationInfo payload = {
+		.myself = self,
+		.block = block,
+	};
+	int gitError = git_tag_foreach(self.git_repository, GTRepositoryForeachTagCallback, &payload);
+	if (gitError != GIT_OK && gitError != GIT_EUSER) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to enumerate tags"];
+		return NO;
+	}
+
+	return YES;
+}
+
+- (NSArray *)allTagsWithError:(NSError **)error {
+	NSMutableArray *tagArray = [NSMutableArray array];
+	BOOL success = [self enumerateTags:error block:^(GTTag *tag, BOOL *stop) {
+		[tagArray addObject:tag];
+	}];
+	return success == YES ? tagArray : nil;
 }
 
 - (NSUInteger)numberOfCommitsInCurrentBranch:(NSError **)error {
@@ -509,7 +550,7 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 		return nil;
 	}
 	
-	return (id)[self lookupObjectByOID:[GTOID oidWithGitOid:&mergeBase] objectType:GTObjectTypeCommit error:error];
+	return [self lookupObjectByOID:[GTOID oidWithGitOid:&mergeBase] objectType:GTObjectTypeCommit error:error];
 }
 
 - (GTObjectDatabase *)objectDatabaseWithError:(NSError **)error {

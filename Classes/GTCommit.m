@@ -50,7 +50,7 @@
 
 + (GTCommit *)commitInRepository:(GTRepository *)theRepo updateRefNamed:(NSString *)refName author:(GTSignature *)authorSig committer:(GTSignature *)committerSig message:(NSString *)newMessage tree:(GTTree *)theTree parents:(NSArray *)theParents error:(NSError **)error {
 	GTOID *oid = [GTCommit OIDByCreatingCommitInRepository:theRepo updateRefNamed:refName author:authorSig committer:committerSig message:newMessage tree:theTree parents:theParents error:error];
-	return oid ? (GTCommit *)[theRepo lookupObjectByOID:oid objectType:GTObjectTypeCommit error:error] : nil;
+	return oid ? [theRepo lookupObjectByOID:oid objectType:GTObjectTypeCommit error:error] : nil;
 }
 
 + (GTOID *)OIDByCreatingCommitInRepository:(GTRepository *)theRepo updateRefNamed:(NSString *)refName author:(GTSignature *)authorSig committer:(GTSignature *)committerSig message:(NSString *)newMessage tree:(GTTree *)theTree parents:(NSArray *)theParents error:(NSError **)error {
