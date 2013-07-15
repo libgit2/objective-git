@@ -63,7 +63,7 @@ typedef enum {
     GTRepositoryResetTypeHard = GIT_RESET_HARD
 } GTRepositoryResetType;
 
-typedef enum : git_checkout_strategy_t {
+typedef enum {
     GTCheckoutStrategyNone = GIT_CHECKOUT_NONE, /** default is a dry run, no actual updates */
     GTCheckoutStrategySafe = GIT_CHECKOUT_SAFE, /** Allow safe updates that cannot overwrite uncommitted data */
     GTCheckoutStrategySafeCreate = GIT_CHECKOUT_SAFE_CREATE, /** Allow safe updates plus creation of missing files */
@@ -77,7 +77,7 @@ typedef enum : git_checkout_strategy_t {
 	GTCheckoutStrategyDisablePathspecMatch = GIT_CHECKOUT_DISABLE_PATHSPEC_MATCH /** Treat pathspec as simple list of exact match file paths */
 } GTCheckoutStrategy;
 
-typedef enum : git_checkout_notify_t {
+typedef enum {
     GTCheckoutNotifyNone = GIT_CHECKOUT_NOTIFY_NONE,
     GTCheckoutNotifyConflict = GIT_CHECKOUT_NOTIFY_CONFLICT,
     GTCheckoutNotifyDirty = GIT_CHECKOUT_NOTIFY_DIRTY,
