@@ -134,6 +134,6 @@ typedef enum {
 // refName - The name to be checked.
 //
 // Returns YES if the name is valid or NO otherwise.
-+ (BOOL)isValidReferenceName: (NSString *)refName;
++ (BOOL)isValidReferenceName:(NSString *)refName;
 
 @end
