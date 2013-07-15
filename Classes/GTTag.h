@@ -69,4 +69,12 @@
 - (GTObject *)target;
 - (NSString *)targetType;
 
+// Recursively peel a tag until a non tag GTObject is found
+//
+// errro - Will be filled with a NSError object on failure.
+//         May be NULL.
+//
+// Returns the found object or nil on error.
+- (id)objectByPeelingTagError:(NSError **)error;
+
 @end
