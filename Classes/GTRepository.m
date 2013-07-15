@@ -194,16 +194,9 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 	return [GTRepository repositoryWithURL:url error:error];
 }
 
-+ (NSString *)hash:(NSString *)data objectType:(GTObjectType)type error:(NSError **)error {
-	git_oid oid;
-
-	int gitError = git_odb_hash(&oid, [data UTF8String], [data length], (git_otype) type);
-	if (gitError < GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to get hash for object."];
-		return nil;
-	}
-
-	return [GTOID oidWithGitOid:&oid].SHA;
++ (NSString *)hash:(NSString *)string objectType:(GTObjectType)type error:(NSError **)error {
+	GTOID *oid = [[GTOID alloc] initWithData:[string dataUsingEncoding:NSUTF8StringEncoding] type:type error:error];
+	return oid.SHA;
 }
 
 - (id)lookupObjectByOID:(GTOID *)oid objectType:(GTObjectType)type error:(NSError **)error {
