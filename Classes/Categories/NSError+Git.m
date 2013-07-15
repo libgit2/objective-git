@@ -35,7 +35,7 @@ NSString * const GTGitErrorDomain = @"GTGitErrorDomain";
 
 @implementation NSError (Git)
 
-+ (NSError *)git_errorFor:(NSInteger)code withAdditionalDescription:(NSString *)desc, ... {
++ (NSError *)git_errorFor:(int)code withAdditionalDescription:(NSString *)desc, ... {
 	va_list args;
 	va_start(args, desc);
 
@@ -46,7 +46,7 @@ NSString * const GTGitErrorDomain = @"GTGitErrorDomain";
 	return error;
 }
 
-+ (NSError *)git_errorFor:(NSInteger)code description:(NSString *)desc failureReason:(NSString *)reason, ... {
++ (NSError *)git_errorFor:(int)code description:(NSString *)desc failureReason:(NSString *)reason, ... {
 	va_list args;
 	va_start(args, reason);
 
@@ -65,15 +65,15 @@ NSString * const GTGitErrorDomain = @"GTGitErrorDomain";
 	return [NSError errorWithDomain:GTGitErrorDomain code:code userInfo:userInfo];
 }
 
-+ (NSError *)git_errorFor:(NSInteger)code {
++ (NSError *)git_errorFor:(int)code {
 	return [NSError errorWithDomain:GTGitErrorDomain code:code userInfo:[NSDictionary dictionaryWithObject:[self gitLastErrorDescriptionWithCode:code] forKey:NSLocalizedDescriptionKey]];
 }
 
-+ (NSError *)git_errorForMkStr:(NSInteger)code {
++ (NSError *)git_errorForMkStr:(int)code {
 	return [NSError git_errorFor:code withAdditionalDescription:@"Failed to create object id from sha1."];
 }
 
-+ (NSString *)gitLastErrorDescriptionWithCode:(NSInteger)code {
++ (NSString *)gitLastErrorDescriptionWithCode:(int)code {
 	const git_error *gitLastError = giterr_last();
 	if (gitLastError == NULL && code == GITERR_OS) {
 		return [NSString stringWithUTF8String:strerror(errno)];
