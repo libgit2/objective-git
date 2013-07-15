@@ -51,4 +51,20 @@ describe(@"-mergeBaseBetweenFirstOID:secondOID:error:", ^{
 	});
 });
 
+describe(@"-checkout:", ^{
+	it(@"should allow references", ^{
+		NSError *error = nil;
+		BOOL result = [repository checkout:@"refs/heads/other-branch" strategy:GTCheckoutStrategyAllowConflicts progressBlock:nil notifyBlock:nil notifyFlags:GTCheckoutNotifyNone error:&error];
+		expect(result).to.beTruthy();
+		expect(error.localizedDescription).to.beNil();
+	});
+
+	it(@"should allow commits", ^{
+		NSError *error = nil;
+		BOOL result = [repository checkout:@"1d69f3c0aeaf0d62e25591987b93b8ffc53abd77" strategy:GTCheckoutStrategyAllowConflicts progressBlock:nil notifyBlock:nil notifyFlags:GTCheckoutNotifyNone error:&error];
+		expect(result).to.beTruthy();
+		expect(error.localizedDescription).to.beNil();
+	});
+});
+
 SpecEnd

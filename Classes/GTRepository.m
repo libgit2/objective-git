@@ -625,18 +625,30 @@ static int checkoutNotifyCallback(git_checkout_notify_t why, const char *path, c
 }
 
 - (BOOL)checkout:(NSString *)newTarget strategy:(GTCheckoutStrategy)strategy progressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))progressBlock notifyBlock:(int (^)(GTCheckoutNotify why, NSString *path, GTDiffFile *baseline, GTDiffFile *target, GTDiffFile *workdir))notifyBlock notifyFlags:(GTCheckoutNotify)notifyFlags error:(NSError **)error {
+	int gitError = GIT_OK;
 
+	// Try to resolve the target to either a reference or a commitish
 	GTCommit *targetCommit = nil;
-	GTReference *targetReference = [GTReference referenceByLookingUpReferencedNamed:newTarget inRepository:self error:error];
-	if (targetReference == nil) {
-		targetCommit = (GTCommit *)[self lookupObjectBySHA:newTarget objectType:GTObjectTypeCommit error:error];
+	GTReference *targetReference = nil;
+	targetCommit = (GTCommit *)[self lookupObjectBySHA:newTarget objectType:GTObjectTypeCommit error:error];
+	if (targetCommit == nil) {
+		targetReference = [GTReference referenceByLookingUpReferencedNamed:newTarget inRepository:self error:error];
 	}
 	if (targetReference == nil && targetCommit == nil) return NO;
 
+	// Reset the error because one of the above failed
+	if (error != NULL) *error = NULL;
+
+	// Now move our HEAD
+	// I think this should be moved in instance methods
 	if (targetReference) {
-		git_repository_set_head(self.git_repository, targetReference.name.UTF8String);
+		gitError = git_repository_set_head(self.git_repository, targetReference.name.UTF8String);
 	} else if (targetCommit) {
-		git_repository_set_head_detached(self.git_repository, targetCommit.OID.git_oid);
+		gitError = git_repository_set_head_detached(self.git_repository, targetCommit.OID.git_oid);
+	}
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to move HEAD"];
+		return NO;
 	}
 
 	git_checkout_opts checkoutOptions = GIT_CHECKOUT_OPTS_INIT;
@@ -649,7 +661,7 @@ static int checkoutNotifyCallback(git_checkout_notify_t why, const char *path, c
 	checkoutOptions.notify_flags = notifyFlags;
 	checkoutOptions.notify_payload = (__bridge void *)notifyBlock;
 
-	int gitError = git_checkout_head(self.git_repository, &checkoutOptions);
+	gitError = git_checkout_head(self.git_repository, &checkoutOptions);
 	if (gitError < GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to checkout tree."];
 	}
