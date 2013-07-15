@@ -116,7 +116,7 @@
 	size_t pos = 0;
 	int gitError = git_index_find(&pos, self.git_index, name.UTF8String);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:[NSString stringWithFormat: @"%@ not found in index", name]];
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"%@ not found in index", name];
 		return NULL;
 	}
 	return [self entryAtIndex:pos];
