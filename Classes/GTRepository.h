@@ -147,6 +147,9 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 - (NSArray *)remoteBranchesWithError:(NSError **)error;
 - (NSArray *)branchesWithPrefix:(NSString *)prefix error:(NSError **)error;
 
+// Convenience method to return all tags in the repository
+- (NSArray *)allTagsWithError:(NSError **)error;
+
 // Count all commits in the current branch (HEAD)
 //
 // error(out) - will be filled if an error occurs
