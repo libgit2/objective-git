@@ -292,10 +292,14 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 }
 
 - (GTReference *)headReferenceWithError:(NSError **)error {
-	GTReference *headSymRef = [GTReference referenceByLookingUpReferencedNamed:@"HEAD" inRepository:self error:error];
-	if (headSymRef == nil) return nil;
+	git_reference *headRef;
+	int gitError = git_repository_head(&headRef, self.git_repository);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to get HEAD"];
+		return nil;
+	}
 
-	return [GTReference referenceByResolvingSymbolicReference:headSymRef error:error];
+	return [[GTReference alloc] initWithGitReference:headRef repository:self];
 }
 
 - (NSArray *)localBranchesWithError:(NSError **)error {
