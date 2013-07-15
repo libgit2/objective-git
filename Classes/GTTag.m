@@ -54,7 +54,7 @@
 	int gitError = git_tag_create(&oid, theRepo.git_repository, [tagName UTF8String], theTarget.git_object, theTagger.git_signature, [theMessage UTF8String], 0);
 	if(gitError < GIT_OK) {
 		if(error != NULL)
-			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to create tag in repository"];
+			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to create tag %@ in repository", tagName];
 		return nil;
 	}
 
