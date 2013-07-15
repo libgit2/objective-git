@@ -37,7 +37,7 @@ extern NSString * const GTGitErrorDomain;
 // code - the libgit2 error code
 //
 // returns the created error object
-+ (NSError *)git_errorFor:(NSInteger)code;
++ (NSError *)git_errorFor:(int)code;
 
 // Creates an error for the given libgit2 error code.
 //
@@ -51,12 +51,12 @@ extern NSString * const GTGitErrorDomain;
 // reason - The error failure reason.
 //
 // Returns the created error object.
-+ (NSError *)git_errorFor:(NSInteger)code description:(NSString *)desc failureReason:(NSString *)reason, ...  NS_FORMAT_FUNCTION(3,4);
++ (NSError *)git_errorFor:(int)code description:(NSString *)desc failureReason:(NSString *)reason, ...  NS_FORMAT_FUNCTION(3,4);
 
 // Creates an error for the given libgit2 error code. You should prefer `git_errorFor:description:failureReason:` above.
-+ (NSError *)git_errorFor:(NSInteger)code withAdditionalDescription:(NSString *)desc, ... NS_FORMAT_FUNCTION(2,3);
++ (NSError *)git_errorFor:(int)code withAdditionalDescription:(NSString *)desc, ... NS_FORMAT_FUNCTION(2,3);
 
 /* Error helpers for common libgit2 errors */
-+ (NSError *)git_errorForMkStr:(NSInteger)code;
++ (NSError *)git_errorForMkStr:(int)code;
 
 @end
