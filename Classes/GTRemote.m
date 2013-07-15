@@ -190,4 +190,12 @@ static int fetch_update_tips(const char *refname, const git_oid *a, const git_oi
 	return YES;
 }
 
+- (void)stop {
+	git_remote_stop(self.git_remote);
+}
+
+- (BOOL)isConnected {
+	return (BOOL)git_remote_connected(self.git_remote) == 0;
+}
+
 @end
