@@ -113,13 +113,13 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 + (NSString *)hash:(NSString *)data objectType:(GTObjectType)type error:(NSError **)error;
 
 // Lookup objects in the repo by oid or sha1
-- (GTObject *)lookupObjectByOID:(GTOID *)oid objectType:(GTObjectType)type error:(NSError **)error;
-- (GTObject *)lookupObjectByOID:(GTOID *)oid error:(NSError **)error;
-- (GTObject *)lookupObjectBySHA:(NSString *)sha objectType:(GTObjectType)type error:(NSError **)error;
-- (GTObject *)lookupObjectBySHA:(NSString *)sha error:(NSError **)error;
+- (id)lookupObjectByOID:(GTOID *)oid objectType:(GTObjectType)type error:(NSError **)error;
+- (id)lookupObjectByOID:(GTOID *)oid error:(NSError **)error;
+- (id)lookupObjectBySHA:(NSString *)sha objectType:(GTObjectType)type error:(NSError **)error;
+- (id)lookupObjectBySHA:(NSString *)sha error:(NSError **)error;
 
 // Lookup an object in the repo using a revparse spec
-- (GTObject *)lookupObjectByRefspec:(NSString *)spec error:(NSError **)error;
+- (id)lookupObjectByRefspec:(NSString *)spec error:(NSError **)error;
 
 // List all references in the repository
 //
