@@ -32,6 +32,7 @@
 #import "NSError+Git.h"
 #import "NSString+Git.h"
 #import "GTRepository.h"
+#import "GTRepository+Private.h"
 #import "GTOID.h"
 
 @interface GTEnumerator ()
@@ -146,7 +147,7 @@
 	}
 	
 	// Ignore error if we can't lookup object and just return nil.
-	GTCommit *commit = [self.repository lookupObjectByOID:[GTOID oidWithGitOid:&oid] objectType:GTObjectTypeCommit error:error];
+	GTCommit *commit = [self.repository lookupObjectByGitOid:&oid objectType:GTObjectTypeCommit error:error];
 	if (success != NULL) *success = (commit != nil);
 	return commit;
 }
