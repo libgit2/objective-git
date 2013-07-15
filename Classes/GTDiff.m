@@ -162,7 +162,7 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 + (GTDiff *)diffWorkingDirectoryToHEADInRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error {
 	NSParameterAssert(repository != nil);
 
-	GTCommit *HEADCommit = (GTCommit *)[repository lookupObjectByRefspec:@"HEAD" error:NULL];
+	GTCommit *HEADCommit = [repository lookupObjectByRefspec:@"HEAD" error:NULL];
 	GTDiff *HEADIndexDiff = [GTDiff diffIndexFromTree:HEADCommit.tree inRepository:repository options:options error:error];
 	if (HEADIndexDiff == nil) return nil;
 
