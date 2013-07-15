@@ -680,7 +680,7 @@ static int submoduleEnumerationCallback(git_submodule *git_submodule, const char
 
 - (GTTag *)createTagNamed:(NSString *)tagName target:(GTObject *)theTarget tagger:(GTSignature *)theTagger message:(NSString *)theMessage error:(NSError **)error {
 	GTOID *oid = [self OIDByCreatingTagNamed:tagName target:theTarget tagger:theTagger message:theMessage error:error];
-	return oid ? (GTTag *)[self lookupObjectByOid:oid objectType:GTObjectTypeTag error:error] : nil;
+	return oid ? (GTTag *)[self lookupObjectByOID:oid objectType:GTObjectTypeTag error:error] : nil;
 }
 
 @end
