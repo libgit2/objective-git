@@ -364,7 +364,7 @@ struct GTRepositoryTagEnumerationInfo {
 
 static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *payload) {
 	struct GTRepositoryTagEnumerationInfo *info = payload;
-	GTTag *tag = (GTTag *)[info->myself lookupObjectByOid:oid objectType:GTObjectTypeTag error:NULL];
+	GTTag *tag = (GTTag *)[info->myself lookupObjectByOID:[GTOID oidWithGitOid:oid] objectType:GTObjectTypeTag error:NULL];
 
 	BOOL stop = NO;
 	info->block(tag, &stop);
@@ -390,10 +390,10 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 
 - (NSArray *)allTagsWithError:(NSError **)error {
 	NSMutableArray *tagArray = [NSMutableArray array];
-	BOOL err = [self enumerateTags:error block:^(GTTag *tag, BOOL *stop) {
+	BOOL success = [self enumerateTags:error block:^(GTTag *tag, BOOL *stop) {
 		[tagArray addObject:tag];
 	}];
-	return err == YES ? tagArray : nil;
+	return success == YES ? tagArray : nil;
 }
 
 - (NSUInteger)numberOfCommitsInCurrentBranch:(NSError **)error {
