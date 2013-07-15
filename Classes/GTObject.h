@@ -77,7 +77,7 @@ typedef enum {
 //         May be NULL.
 //
 // Returns the found object or nil on error.
-- (GTObject *)objectByPeelingToType:(GTObjectType)type error:(NSError **)error;
+- (id)objectByPeelingToType:(GTObjectType)type error:(NSError **)error;
 
 @end
 
