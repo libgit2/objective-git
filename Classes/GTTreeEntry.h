@@ -43,7 +43,7 @@
 
 - (NSString *)name;
 - (NSInteger)attributes;
-- (NSString *)sha;
+- (NSString *)SHA;
 
 @property (nonatomic, readonly) GTOID *OID;
 

@@ -47,7 +47,7 @@ describe(@"-mergeBaseBetweenFirstOID:secondOID:error:", ^{
 
 		GTCommit *mergeBase = [repository mergeBaseBetweenFirstOID:masterBranch.reference.OID secondOID:otherBranch.reference.OID error:&error];
 		expect(mergeBase).notTo.beNil();
-		expect(mergeBase.sha).to.equal(@"f7ecd8f4404d3a388efbff6711f1bdf28ffd16a0");
+		expect(mergeBase.SHA).to.equal(@"f7ecd8f4404d3a388efbff6711f1bdf28ffd16a0");
 	});
 });
 

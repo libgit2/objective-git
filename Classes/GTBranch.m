@@ -33,18 +33,18 @@
 @implementation GTBranch
 
 - (NSString *)description {
-  return [NSString stringWithFormat:@"<%@: %p> name: %@, shortName: %@, sha: %@, remoteName: %@, repository: %@", NSStringFromClass([self class]), self, self.name, self.shortName, self.sha, self.remoteName, self.repository];
+  return [NSString stringWithFormat:@"<%@: %p> name: %@, shortName: %@, sha: %@, remoteName: %@, repository: %@", NSStringFromClass([self class]), self, self.name, self.shortName, self.SHA, self.remoteName, self.repository];
 }
 
 - (BOOL)isEqual:(GTBranch *)otherBranch {
 	if (otherBranch == self) return YES;
 	if (![otherBranch isKindOfClass:self.class]) return NO;
 
-	return [self.name isEqual:otherBranch.name] && [self.sha isEqual:otherBranch.sha];
+	return [self.name isEqual:otherBranch.name] && [self.SHA isEqual:otherBranch.SHA];
 }
 
 - (NSUInteger)hash {
-	return self.name.hash ^ self.sha.hash;
+	return self.name.hash ^ self.SHA.hash;
 }
 
 
@@ -109,7 +109,7 @@
 	return @(name);
 }
 
-- (NSString *)sha {
+- (NSString *)SHA {
 	return self.reference.targetSHA;
 }
 
@@ -128,19 +128,19 @@
 }
 
 - (GTCommit *)targetCommitAndReturnError:(NSError **)error {
-	if (self.sha == nil) {
+	if (self.SHA == nil) {
 		if (error != NULL) *error = GTReference.invalidReferenceError;
 		return nil;
 	}
 
-	return [self.repository lookupObjectBySha:self.sha objectType:GTObjectTypeCommit error:error];
+	return [self.repository lookupObjectBySHA:self.SHA objectType:GTObjectTypeCommit error:error];
 }
 
 - (NSUInteger)numberOfCommitsWithError:(NSError **)error {
 	GTEnumerator *enumerator = [[GTEnumerator alloc] initWithRepository:self.repository error:error];
 	if (enumerator == nil) return NSNotFound;
 
-	if (![enumerator pushSHA:self.sha error:error]) return NSNotFound;
+	if (![enumerator pushSHA:self.SHA error:error]) return NSNotFound;
 	return [enumerator countRemainingObjects:error];
 }
 
@@ -163,10 +163,10 @@
 	
 	[enumerator resetWithOptions:GTEnumeratorOptionsTimeSort];
 	
-	BOOL success = [enumerator pushSHA:self.sha error:error];
+	BOOL success = [enumerator pushSHA:self.SHA error:error];
 	if (!success) return nil;
 
-	success = [enumerator hideSHA:mergeBase.sha error:error];
+	success = [enumerator hideSHA:mergeBase.SHA error:error];
 	if (!success) return nil;
 
 	return [enumerator allObjectsWithError:error];

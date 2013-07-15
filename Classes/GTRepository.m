@@ -197,7 +197,7 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 	return [GTOID oidWithGitOid:&oid].SHA;
 }
 
-- (id)lookupObjectByOid:(GTOID *)oid objectType:(GTObjectType)type error:(NSError **)error {
+- (id)lookupObjectByOID:(GTOID *)oid objectType:(GTObjectType)type error:(NSError **)error {
 	git_object *obj;
 
 	int gitError = git_object_lookup(&obj, self.git_repository, oid.git_oid, (git_otype)type);
@@ -209,19 +209,19 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
     return [GTObject objectWithObj:obj inRepository:self];
 }
 
-- (id)lookupObjectByOid:(GTOID *)oid error:(NSError **)error {
-	return [self lookupObjectByOid:oid objectType:GTObjectTypeAny error:error];
+- (id)lookupObjectByOID:(GTOID *)oid error:(NSError **)error {
+	return [self lookupObjectByOID:oid objectType:GTObjectTypeAny error:error];
 }
 
-- (id)lookupObjectBySha:(NSString *)sha objectType:(GTObjectType)type error:(NSError **)error {
+- (id)lookupObjectBySHA:(NSString *)sha objectType:(GTObjectType)type error:(NSError **)error {
 	GTOID *oid = [[GTOID alloc] initWithSHA:sha error:error];
 	if (!oid) return nil;
 
-	return [self lookupObjectByOid:oid objectType:type error:error];
+	return [self lookupObjectByOID:oid objectType:type error:error];
 }
 
-- (id)lookupObjectBySha:(NSString *)sha error:(NSError **)error {
-	return [self lookupObjectBySha:sha objectType:GTObjectTypeAny error:error];
+- (id)lookupObjectBySHA:(NSString *)sha error:(NSError **)error {
+	return [self lookupObjectBySHA:sha objectType:GTObjectTypeAny error:error];
 }
 
 - (id)lookupObjectByRefspec:(NSString *)spec error:(NSError **)error {
@@ -506,7 +506,7 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 		return nil;
 	}
 	
-	return [self lookupObjectByOid:[GTOID oidWithGitOid:&mergeBase] objectType:GTObjectTypeCommit error:error];
+	return [self lookupObjectByOID:[GTOID oidWithGitOid:&mergeBase] objectType:GTObjectTypeCommit error:error];
 }
 
 - (GTObjectDatabase *)objectDatabaseWithError:(NSError **)error {

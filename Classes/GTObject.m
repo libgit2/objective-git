@@ -45,7 +45,7 @@
 @implementation GTObject
 
 - (NSString *)description {
-  return [NSString stringWithFormat:@"<%@: %p> type: %@, shortSha: %@, sha: %@", NSStringFromClass([self class]), self, self.type, self.shortSha, self.sha];
+  return [NSString stringWithFormat:@"<%@: %p> type: %@, shortSha: %@, sha: %@", NSStringFromClass([self class]), self, self.type, self.shortSHA, self.SHA];
 }
 
 - (void)dealloc {
@@ -56,7 +56,7 @@
 }
 
 - (NSUInteger)hash {
-	return [self.sha hash];
+	return [self.SHA hash];
 }
 
 - (BOOL)isEqual:(id)otherObject {
@@ -123,12 +123,12 @@
 	return [GTOID oidWithGitOid:git_object_id(self.git_object)];
 }
 
-- (NSString *)sha {
+- (NSString *)SHA {
 	return self.OID.SHA;
 }
 
-- (NSString *)shortSha {
-	return [self.sha git_shortUniqueShaString];
+- (NSString *)shortSHA {
+	return [self.SHA git_shortUniqueShaString];
 }
 
 - (GTOdbObject *)odbObjectWithError:(NSError **)error {

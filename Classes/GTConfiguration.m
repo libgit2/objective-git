@@ -62,7 +62,7 @@
 	return [NSString stringWithUTF8String:string];
 }
 
-- (void)setBoolForKey:(BOOL)b forKey:(NSString *)key {
+- (void)setBool:(BOOL)b forKey:(NSString *)key {
 	git_config_set_bool(self.git_config, key.UTF8String, b);
 }
 
