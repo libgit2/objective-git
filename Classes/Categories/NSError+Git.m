@@ -47,9 +47,7 @@ NSString * const GTGitErrorDomain = @"GTGitErrorDomain";
 	};
 
 	va_end(args);
-	return [NSError errorWithDomain:GTGitErrorDomain
-							   code:code
-						   userInfo:userInfo];
+	return [NSError errorWithDomain:GTGitErrorDomain code:code userInfo:userInfo];
 }
 
 + (NSError *)git_errorFor:(NSInteger)code {
