@@ -83,7 +83,7 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 	git_reference *ref = NULL;
 	int gitError = git_reference_lookup(&ref, repo.git_repository, refName.UTF8String);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to lookup reference."];
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to lookup reference %@.", refName];
 		return nil;
 	}
 
@@ -105,7 +105,7 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 	}
 
 	if (gitError != GIT_OK) {
-		if(error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to create symbolic reference."];
+		if(error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to create symbolic reference to %@.", target];
 		return nil;
 	}
 
@@ -118,7 +118,7 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 	git_reference *ref = NULL;
 	int gitError = git_reference_resolve(&ref, symbolicRef.git_reference);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to resolve reference."];
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to resolve reference %@.", symbolicRef.name];
 		return nil;
 	}
 
@@ -151,7 +151,7 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 	git_reference *newRef = NULL;
 	int gitError = git_reference_rename(&newRef, self.git_reference, newName.UTF8String, 0);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to rename reference."];
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to rename reference %@ to %@.", self.name, newName];
 		return NO;
 	}
 
@@ -208,8 +208,8 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 	}
 
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to set reference target."];
-		return NO;
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to update reference %@ to target %@.", self.name, newTarget];
+		return nil;
 	}
 
 	return [[self.class alloc] initWithGitReference:newRef repository:self.repository];
@@ -218,7 +218,7 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 - (BOOL)deleteWithError:(NSError **)error {
 	int gitError = git_reference_delete(self.git_reference);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to delete reference."];
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to delete reference %@.", self.name];
 		return NO;
 	}
 

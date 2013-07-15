@@ -58,7 +58,7 @@
 	git_index *index = NULL;
 	int status = git_index_open(&index, fileURL.path.fileSystemRepresentation);
 	if (status != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:status withAdditionalDescription:@"Failed to initialize index."];
+		if (error != NULL) *error = [NSError git_errorFor:status withAdditionalDescription:@"Failed to initialize index with URL %@", fileURL];
 		return nil;
 	}
 
@@ -116,7 +116,7 @@
 	size_t pos = 0;
 	int gitError = git_index_find(&pos, self.git_index, name.UTF8String);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:[NSString stringWithFormat: @"%@ not found in index", name]];
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"%@ not found in index", name];
 		return NULL;
 	}
 	return [self entryAtIndex:pos];
@@ -135,7 +135,7 @@
 - (BOOL)addFile:(NSString *)file error:(NSError **)error {
 	int status = git_index_add_bypath(self.git_index, file.UTF8String);
 	if (status != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:status withAdditionalDescription:@"Failed to add entry to index."];
+		if (error != NULL) *error = [NSError git_errorFor:status withAdditionalDescription:@"Failed to add file %@ to index.", file];
 		return NO;
 	}
 
