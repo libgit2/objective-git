@@ -39,11 +39,21 @@ extern NSString * const GTGitErrorDomain;
 // returns the created error object
 + (NSError *)git_errorFor:(NSInteger)code;
 
-// Creates an error for the given libgit2 error code. The returned error's NSLocalizedDescriptionKey is the given description and the NSLocalizedFailureReasonErrorKey is libgit2's description of the last error.
+// Creates an error for the given libgit2 error code.
 //
-// code - the libgit2 error code
+// This uses the passed `desc` as the error's description,
+// builds the failure reason from the `reason` string,
+// and sets the underlying error to the one returned from `git_errorFor:` above.
+// This error object and the underlying one share the same error code and domain.
 //
-// returns the created error object
+// code   - The libgit2 error code.
+// desc   - The error description.
+// reason - The error failure reason.
+//
+// Returns the created error object.
++ (NSError *)git_errorFor:(NSInteger)code description:(NSString *)desc failureReason:(NSString *)reason, ...  NS_FORMAT_FUNCTION(3,4);
+
+// Creates an error for the given libgit2 error code. You should prefer `git_errorFor:description:failureReason:` above.
 + (NSError *)git_errorFor:(NSInteger)code withAdditionalDescription:(NSString *)desc, ... NS_FORMAT_FUNCTION(2,3);
 
 /* Error helpers for common libgit2 errors */

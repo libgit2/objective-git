@@ -40,10 +40,24 @@ NSString * const GTGitErrorDomain = @"GTGitErrorDomain";
 	va_start(args, desc);
 
 	NSString *formattedDesc = [[NSString alloc] initWithFormat:desc arguments:args];
+	NSError *error = [self git_errorFor:code description:formattedDesc failureReason:nil];
+
+	va_end(args);
+	return error;
+}
+
++ (NSError *)git_errorFor:(NSInteger)code description:(NSString *)desc failureReason:(NSString *)reason, ... {
+	va_list args;
+	va_start(args, reason);
+
+	NSString *formattedReason = [[NSString alloc] initWithFormat:desc arguments:args];
+
+	NSError *underError = [self git_errorFor:code];
 
 	NSDictionary *userInfo = @{
-		NSLocalizedFailureReasonErrorKey: [self gitLastErrorDescriptionWithCode:code],
-		NSLocalizedDescriptionKey: formattedDesc,
+		NSLocalizedFailureReasonErrorKey: formattedReason,
+		NSLocalizedDescriptionKey: desc,
+		NSUnderlyingErrorKey: underError,
 	};
 
 	va_end(args);
