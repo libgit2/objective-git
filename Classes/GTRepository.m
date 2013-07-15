@@ -679,4 +679,8 @@ static int checkoutNotifyCallback(git_checkout_notify_t why, const char *path, c
 	return [self checkout:target strategy:strategy notifyFlags:GTCheckoutNotifyNone error:error progressBlock:progressBlock notifyBlock:nil];
 }
 
+- (BOOL)checkout:(NSString *)target strategy:(GTCheckoutStrategyType)strategy error:(NSError **)error {
+	return [self checkout:target strategy:strategy notifyFlags:GTCheckoutNotifyNone error:error progressBlock:nil notifyBlock:nil];
+}
+
 @end

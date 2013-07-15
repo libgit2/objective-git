@@ -311,4 +311,8 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 		   error:(NSError **)error
    progressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))progressBlock;
 
+// Convenience wrapper for checkout:strategy:notifyFlags:error:notifyBlock:progressBlock without notifications or progress
+- (BOOL)checkout:(NSString *)target
+		strategy:(GTCheckoutStrategyType)strategy
+		   error:(NSError **)error;
 @end
