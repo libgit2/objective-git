@@ -36,6 +36,7 @@
 #import "GTTree.h"
 #import "GTBlob.h"
 #import "GTTag.h"
+#import "GTOID.h"
 
 @interface GTObject ()
 @property (nonatomic, readonly, assign) git_object *git_object;
@@ -44,7 +45,7 @@
 @implementation GTObject
 
 - (NSString *)description {
-  return [NSString stringWithFormat:@"<%@: %p> type: %@, shortSha: %@, sha: %@", NSStringFromClass([self class]), self, self.type, self.shortSha, self.sha];
+  return [NSString stringWithFormat:@"<%@: %p> type: %@, shortSha: %@, sha: %@", NSStringFromClass([self class]), self, self.type, self.shortSHA, self.SHA];
 }
 
 - (void)dealloc {
@@ -55,7 +56,7 @@
 }
 
 - (NSUInteger)hash {
-	return [self.sha hash];
+	return [self.SHA hash];
 }
 
 - (BOOL)isEqual:(id)otherObject {
@@ -118,19 +119,34 @@
 	return [NSString stringWithUTF8String:git_object_type2string(git_object_type(self.git_object))];
 }
 
-- (NSString *)sha {
-	return [NSString git_stringWithOid:git_object_id(self.git_object)];
+- (GTOID *)OID {
+	return [GTOID oidWithGitOid:git_object_id(self.git_object)];
 }
 
-- (NSString *)shortSha {
-	return [self.sha git_shortUniqueShaString];
+- (NSString *)SHA {
+	return self.OID.SHA;
+}
+
+- (NSString *)shortSHA {
+	return [self.SHA git_shortUniqueShaString];
 }
 
 - (GTOdbObject *)odbObjectWithError:(NSError **)error {
 	GTObjectDatabase *database = [self.repository objectDatabaseWithError:error];
 	if (database == nil) return nil;
 
-	return [database objectWithOid:git_object_id(self.git_object) error:error];
+	return [database objectWithOid:self.OID error:error];
+}
+
+- (id)objectByPeelingToType:(GTObjectType)type error:(NSError **)error {
+	git_object *peeled = NULL;
+	int gitError = git_object_peel(&peeled, self.git_object, (git_otype)type);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Cannot peel object"];
+		return nil;
+	}
+
+	return [GTObject objectWithObj:peeled inRepository:self.repository];
 }
 
 @end

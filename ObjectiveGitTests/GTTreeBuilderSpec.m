@@ -30,7 +30,7 @@ it(@"should be possible to make a new tree builder from an existing tree", ^{
 	GTRepository *repo = [self fixtureRepositoryNamed:@"testrepo.git"];
 	expect(repo).notTo.beNil();
 	
-	GTTree *tree = (GTTree *)[repo lookupObjectBySha:testTreeSHA error:NULL];
+	GTTree *tree = (GTTree *)[repo lookupObjectBySHA:testTreeSHA error:NULL];
 	expect(tree).notTo.beNil();
 	
 	GTTreeBuilder *builder = [[GTTreeBuilder alloc] initWithTree:tree error:&error];
@@ -79,7 +79,7 @@ describe(@"GTTreeBuilder building", ^{
 		expect(blob).notTo.beNil();
 		expect(error).to.beNil();
 		
-		[builder addEntryWithSHA:blob.sha filename:@"hi.txt" filemode:GTFileModeBlob error:&error];
+		[builder addEntryWithSHA:blob.SHA filename:@"hi.txt" filemode:GTFileModeBlob error:&error];
 		
 		expect(builder.entryCount).to.equal(1);
 		
@@ -97,7 +97,7 @@ describe(@"GTTreeBuilder building", ^{
 		expect(error).to.beNil();
 		
 		GTTreeEntry *foundEntry = [builder entryWithName:filename];
-		expect(foundEntry.sha).to.equal(entry.sha);
+		expect(foundEntry.SHA).to.equal(entry.SHA);
 	});
 
 	it(@"should be possible to write a builder to a repository", ^{
@@ -108,13 +108,13 @@ describe(@"GTTreeBuilder building", ^{
 		expect(blob).notTo.beNil();
 		expect(error).to.beNil();
 		
-		[builder addEntryWithSHA:blob.sha filename:@"hi.txt" filemode:GTFileModeBlob error:&error];
+		[builder addEntryWithSHA:blob.SHA filename:@"hi.txt" filemode:GTFileModeBlob error:&error];
 		
 		GTTree *writtenTree = [builder writeTreeToRepository:repo error:&error];
 		expect(writtenTree).notTo.beNil();
 		expect(error).to.beNil();
 		
-		GTTree *readTree = (GTTree *)[repo lookupObjectBySha:writtenTree.sha objectType:GTObjectTypeTree error:&error];
+		GTTree *readTree = (GTTree *)[repo lookupObjectBySHA:writtenTree.SHA objectType:GTObjectTypeTree error:&error];
 		expect(readTree).notTo.beNil();
 		expect(error).to.beNil();
 		

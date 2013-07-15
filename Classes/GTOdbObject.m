@@ -8,6 +8,7 @@
 
 #import "GTOdbObject.h"
 #import "NSString+Git.h"
+#import "GTOID.h"
 
 @interface GTOdbObject ()
 @property (nonatomic, assign, readonly) git_odb_object *git_odb_object;
@@ -43,7 +44,7 @@
 }
 
 - (NSString *)shaHash {
-	return [NSString git_stringWithOid:git_odb_object_id(self.git_odb_object)];
+	return self.OID.SHA;
 }
 
 - (GTObjectType)type {
@@ -56,6 +57,10 @@
 
 - (NSData *)data {
 	return [NSData dataWithBytes:git_odb_object_data(self.git_odb_object) length:self.length];
+}
+
+- (GTOID *)OID {
+	return [GTOID oidWithGitOid:git_odb_object_id(self.git_odb_object)];
 }
 
 @end

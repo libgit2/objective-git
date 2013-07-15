@@ -58,7 +58,7 @@
 	git_index *index = NULL;
 	int status = git_index_open(&index, fileURL.path.fileSystemRepresentation);
 	if (status != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:status withAdditionalDescription:@"Failed to initialize index."];
+		if (error != NULL) *error = [NSError git_errorFor:status withAdditionalDescription:@"Failed to initialize index with URL %@", fileURL];
 		return nil;
 	}
 
@@ -93,7 +93,7 @@
 		if (error != NULL) *error = [NSError git_errorFor:status withAdditionalDescription:@"Failed to refresh index."];
 		return NO;
 	}
-	
+
 	return YES;
 }
 
@@ -104,16 +104,22 @@
 - (GTIndexEntry *)entryAtIndex:(NSUInteger)index {
 	const git_index_entry *entry = git_index_get_byindex(self.git_index, (unsigned int)index);
 	if (entry == NULL) return nil;
-	
+
 	return [[GTIndexEntry alloc] initWithGitIndexEntry:entry];
 }
 
 - (GTIndexEntry *)entryWithName:(NSString *)name {
-	int index = git_index_find(0, self.git_index, name.UTF8String);
-	const git_index_entry *entry = git_index_get_byindex(self.git_index, (unsigned int)index);
-	if (entry == NULL) return nil;
+	return [self entryWithName:name error:NULL];
+}
 
-	return [[GTIndexEntry alloc] initWithGitIndexEntry:entry];
+- (GTIndexEntry *)entryWithName:(NSString *)name error:(NSError **)error {
+	size_t pos = 0;
+	int gitError = git_index_find(&pos, self.git_index, name.UTF8String);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"%@ not found in index", name];
+		return NULL;
+	}
+	return [self entryAtIndex:pos];
 }
 
 - (BOOL)addEntry:(GTIndexEntry *)entry error:(NSError **)error {
@@ -122,17 +128,17 @@
 		if (error != NULL) *error = [NSError git_errorFor:status withAdditionalDescription:@"Failed to add entry to index."];
 		return NO;
 	}
-	
+
 	return YES;
 }
 
 - (BOOL)addFile:(NSString *)file error:(NSError **)error {
 	int status = git_index_add_bypath(self.git_index, file.UTF8String);
 	if (status != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:status withAdditionalDescription:@"Failed to add entry to index."];
+		if (error != NULL) *error = [NSError git_errorFor:status withAdditionalDescription:@"Failed to add file %@ to index.", file];
 		return NO;
 	}
-	
+
 	return YES;
 }
 
@@ -142,7 +148,7 @@
 		if (error != NULL) *error = [NSError git_errorFor:status withAdditionalDescription:@"Failed to write index."];
 		return NO;
 	}
-	
+
 	return YES;
 }
 
@@ -151,7 +157,7 @@
 	for (NSUInteger i = 0; i < self.entryCount; i++) {
 		[entries addObject:[self entryAtIndex:i]];
 	}
-	
+
 	return entries;
 }
 

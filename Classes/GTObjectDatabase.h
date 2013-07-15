@@ -25,6 +25,7 @@
 
 #import "GTObject.h"
 
+@class GTOID;
 
 @interface GTObjectDatabase : NSObject
 
@@ -42,12 +43,20 @@
 // The underlying `git_odb` object.
 - (git_odb *)git_odb __attribute__((objc_returns_inner_pointer));
 
-- (GTOdbObject *)objectWithOid:(const git_oid *)oid error:(NSError **)error;
+- (GTOdbObject *)objectWithOid:(GTOID *)oid error:(NSError **)error;
 - (GTOdbObject *)objectWithSha:(NSString *)sha error:(NSError **)error;
 
+- (GTOID *)oidByInsertingString:(NSString *)data objectType:(GTObjectType)type error:(NSError **)error;
 - (NSString *)shaByInsertingString:(NSString *)data objectType:(GTObjectType)type error:(NSError **)error;
 - (GTOdbObject *)objectByInsertingData:(NSData *)data objectType:(GTObjectType)type error:(NSError **)error;
 
 - (BOOL)containsObjectWithSha:(NSString *)sha error:(NSError **)error;
+
+// Checks if the object database contains an object with a given OID.
+//
+// oid - Object ID to check
+//
+// Returns YES if the object exists or NO otherwise.
+- (BOOL)containsObjectWithOID:(GTOID *)oid;
 
 @end

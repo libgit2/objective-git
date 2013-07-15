@@ -33,6 +33,7 @@
 #import "GTRepository.h"
 #import "NSError+Git.h"
 #import "NSString+Git.h"
+#import "GTOID.h"
 
 @interface GTTreeEntry ()
 @property (nonatomic, assign, readonly) const git_tree_entry *git_tree_entry;
@@ -43,11 +44,11 @@
 #pragma mark NSObject
 
 - (NSString *)description {
-	return [NSString stringWithFormat:@"<%@: %p> name: %@, type: %@, sha: %@, attributes: %lu", NSStringFromClass(self.class), self, self.name, self.typeString, self.sha, (unsigned long)self.attributes];
+	return [NSString stringWithFormat:@"<%@: %p> name: %@, type: %@, sha: %@, attributes: %lu", NSStringFromClass(self.class), self, self.name, self.typeString, self.SHA, (unsigned long)self.attributes];
 }
 
 - (NSUInteger)hash {
-	return [self.sha hash];
+	return self.OID.hash;
 }
 
 - (BOOL)isEqual:(id)object {
@@ -83,8 +84,12 @@
 	return git_tree_entry_filemode(self.git_tree_entry);
 }
 
-- (NSString *)sha {
-	return [NSString git_stringWithOid:git_tree_entry_id(self.git_tree_entry)];
+- (GTOID *)OID {
+	return [GTOID oidWithGitOid:git_tree_entry_id(self.git_tree_entry)];
+}
+
+- (NSString *)SHA {
+	return self.OID.SHA;
 }
 
 - (GTObjectType)type {

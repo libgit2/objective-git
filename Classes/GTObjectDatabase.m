@@ -29,6 +29,7 @@
 #import "GTOdbObject.h"
 #import "GTOID.h"
 #import "NSString+Git.h"
+#import "GTOID.h"
 
 #import "git2/odb_backend.h"
 
@@ -68,11 +69,11 @@
 	return self;
 }
 
-- (GTOdbObject *)objectWithOid:(const git_oid *)oid error:(NSError **)error {
+- (GTOdbObject *)objectWithOid:(GTOID *)oid error:(NSError **)error {
 	git_odb_object *obj;
-	int gitError = git_odb_read(&obj, self.git_odb, oid);
+	int gitError = git_odb_read(&obj, self.git_odb, oid.git_oid);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to read raw object."];
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to read raw object with OID %@", oid.SHA];
 		return nil;
 	}
 
@@ -80,14 +81,12 @@
 }
 
 - (GTOdbObject *)objectWithSha:(NSString *)sha error:(NSError **)error {
-	git_oid oid;
-	int gitError = git_oid_fromstr(&oid, [sha UTF8String]);
-	if(gitError < GIT_OK) {
-		if (error != NULL)
-			*error = [NSError git_errorForMkStr:gitError];
+	GTOID *oid = [[GTOID alloc] initWithSHA:sha error:error];
+	if (oid == nil) {
 		return nil;
 	}
-    return [self objectWithOid:&oid error:error];
+
+    return [self objectWithOid:oid error:error];
 }
 
 - (GTOID *)oidByWritingDataOfLength:(size_t)length type:(GTObjectType)type error:(NSError **)error block:(int (^)(git_odb_stream *stream))block {
@@ -126,6 +125,12 @@
 	return [GTOID oidWithGitOid:&oid];
 }
 
+- (GTOID *)oidByInsertingString:(NSString *)string objectType:(GTObjectType)type error:(NSError **)error {
+	return [self oidByWritingDataOfLength:[string length] type:type error:error block:^int(git_odb_stream *stream) {
+		return stream->write(stream, string.UTF8String, [string lengthOfBytesUsingEncoding:NSUTF8StringEncoding]);
+	}];
+}
+
 - (NSString *)shaByInsertingString:(NSString *)string objectType:(GTObjectType)type error:(NSError **)error {
 	GTOID *oid = [self oidByWritingDataOfLength:string.length type:type error:error block:^int(git_odb_stream *stream) {
 		return stream->write(stream, string.UTF8String, string.length);
@@ -137,20 +142,19 @@
 	GTOID *oid = [self oidByWritingDataOfLength:data.length type:type error:error block:^int(git_odb_stream *stream) {
 		return stream->write(stream, data.bytes, data.length);
 	}];
-	return [self objectWithOid:oid.git_oid error:error];
+	return [self objectWithOid:oid error:error];
 }
 
 - (BOOL)containsObjectWithSha:(NSString *)sha error:(NSError **)error {
-	git_oid oid;
-	
-	int gitError = git_oid_fromstr(&oid, [sha UTF8String]);
-	if(gitError < GIT_OK) {
-		if(error != NULL)
-			*error = [NSError git_errorForMkStr:gitError];
-		return NO;
-	}
-	
-	return git_odb_exists(self.git_odb, &oid) ? YES : NO;
+
+	GTOID *oid = [[GTOID alloc] initWithSHA:sha error:error];
+	if (oid == nil) return NO;
+
+	return [self containsObjectWithOID:oid];
+}
+
+- (BOOL)containsObjectWithOID:(GTOID *)oid {
+	return git_odb_exists(self.git_odb, oid.git_oid) ? YES : NO;
 }
 
 @end

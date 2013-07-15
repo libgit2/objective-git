@@ -32,6 +32,7 @@
 #import "NSError+Git.h"
 #import "NSString+Git.h"
 #import "GTRepository.h"
+#import "GTOID.h"
 
 @interface GTEnumerator ()
 
@@ -74,13 +75,12 @@
 - (BOOL)pushSHA:(NSString *)sha error:(NSError **)error {
 	NSParameterAssert(sha != nil);
 
-	git_oid oid;
-	BOOL success = [sha git_getOid:&oid error:error];
-	if (!success) return NO;
+	GTOID *oid = [[GTOID alloc] initWithSHA:sha error:error];
+	if (oid == nil) return NO;
 	
-	int gitError = git_revwalk_push(self.walk, &oid);
+	int gitError = git_revwalk_push(self.walk, oid.git_oid);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to push SHA onto rev walker."];
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to push SHA %@ onto rev walker.", sha];
 		return NO;
 	}
 	
@@ -92,7 +92,7 @@
 
 	int gitError = git_revwalk_push_glob(self.walk, refGlob.UTF8String);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to push glob onto rev walker."];
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to push glob %@ onto rev walker.", refGlob];
 		return NO;
 	}
 	
@@ -102,13 +102,12 @@
 - (BOOL)hideSHA:(NSString *)sha error:(NSError **)error {
 	NSParameterAssert(sha != nil);
 
-	git_oid oid;
-	BOOL success = [sha git_getOid:&oid error:error];
-	if (!success) return NO;
-	
-	int gitError = git_revwalk_hide(self.walk, &oid);
+	GTOID *oid = [[GTOID alloc] initWithSHA:sha error:error];
+	if (oid == nil) return NO;
+
+	int gitError = git_revwalk_hide(self.walk, oid.git_oid);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to hide SHA on rev walker."];
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to hide SHA %@ on rev walker.", sha];
 		return NO;
 	}
 
@@ -120,7 +119,7 @@
 
 	int gitError = git_revwalk_hide_glob(self.walk, refGlob.UTF8String);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to push glob onto rev walker."];
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to push glob %@ onto rev walker.", refGlob];
 		return NO;
 	}
 	
@@ -147,7 +146,7 @@
 	}
 	
 	// Ignore error if we can't lookup object and just return nil.
-	GTCommit *commit = (id)[self.repository lookupObjectByOid:&oid objectType:GTObjectTypeCommit error:error];
+	GTCommit *commit = [self.repository lookupObjectByOID:[GTOID oidWithGitOid:&oid] objectType:GTObjectTypeCommit error:error];
 	if (success != NULL) *success = (commit != nil);
 	return commit;
 }

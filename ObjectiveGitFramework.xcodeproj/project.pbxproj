@@ -845,7 +845,6 @@
 				6A74CA3616A942C000E1A3C5 /* GTConfiguration+Private.h in Headers */,
 				30B1E7EF1703522100D0814D /* NSDate+GTTimeAdditions.h in Headers */,
 				D09C2E371755F16200065E36 /* GTSubmodule.h in Headers */,
-				4D2679A0178DAF31002A2795 /* GTTreeEntry+Private.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
