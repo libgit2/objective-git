@@ -59,7 +59,7 @@ describe(@"transformations", ^{
 		reference = [GTReference referenceByCreatingReferenceNamed:testRefName fromReferenceTarget:testRefTarget inRepository:repository error:&error];
 		expect(reference).notTo.beNil();
 		expect(reference.name).to.equal(testRefName);
-		expect(reference.targetSHA).to.equal(testRefTarget);
+		expect(reference.SHA).to.equal(testRefTarget);
 	});
 
 	it(@"should be able to be renamed", ^{
@@ -67,7 +67,7 @@ describe(@"transformations", ^{
 		GTReference *renamedRef = [reference referenceByRenaming:newRefName error:NULL];
 		expect(renamedRef).notTo.beNil();
 		expect(renamedRef.name).to.equal(newRefName);
-		expect(renamedRef.targetSHA).to.equal(testRefTarget);
+		expect(renamedRef.SHA).to.equal(testRefTarget);
 	});
 
 	it(@"should be able to change the target", ^{
@@ -75,7 +75,7 @@ describe(@"transformations", ^{
 		GTReference *updatedRef = [reference referenceByUpdatingTarget:@"5b5b025afb0b4c913b4c338a42934a3863bf3644" error:NULL];
 		expect(updatedRef).notTo.beNil();
 		expect(updatedRef.name).to.equal(testRefName);
-		expect(updatedRef.targetSHA).to.equal(newRefTarget);
+		expect(updatedRef.SHA).to.equal(newRefTarget);
 	});
 });
 

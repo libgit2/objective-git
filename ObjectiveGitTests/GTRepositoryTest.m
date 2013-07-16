@@ -92,7 +92,7 @@
 	NSError *error = nil;
 	GTReference *head = [repo headReferenceWithError:&error];
 	STAssertNil(error, [error localizedDescription]);
-	STAssertEqualObjects(head.targetSHA, @"36060c58702ed4c2a40832c51758d5344201d89a", nil);
+	STAssertEqualObjects(head.SHA, @"36060c58702ed4c2a40832c51758d5344201d89a", nil);
 	STAssertEquals(head.referenceType, GTReferenceTypeOid, nil);
 }
 
@@ -105,16 +105,16 @@
     GTRepository *aRepo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&err];
     STAssertNotNil(aRepo, @"Repository failed to initialise");
     GTReference *originalHead = [aRepo headReferenceWithError:NULL];
-    NSString *resetTargetSha = @"8496071c1b46c854b31185ea97743be6a8774479";
+    NSString *resetSHA = @"8496071c1b46c854b31185ea97743be6a8774479";
 
-	GTCommit *commit = (GTCommit *)[aRepo lookupObjectBySHA:resetTargetSha error:NULL];
+	GTCommit *commit = (GTCommit *)[aRepo lookupObjectBySHA:resetSHA error:NULL];
     
     BOOL success = [aRepo resetToCommit:commit withResetType:GTRepositoryResetTypeSoft error:&err];
     STAssertTrue(success, @"Failed to reset, error given: %@", err);
     GTReference *head = [aRepo headReferenceWithError:&err];
-    STAssertEqualObjects(head.targetSHA, resetTargetSha, @"Reset failed to move head to given commit");
+    STAssertEqualObjects(head.SHA, resetSHA, @"Reset failed to move head to given commit");
     
-    GTCommit *originalHeadCommit = (GTCommit *)[aRepo lookupObjectBySHA:originalHead.targetSHA error:NULL];
+    GTCommit *originalHeadCommit = (GTCommit *)[aRepo lookupObjectBySHA:originalHead.SHA error:NULL];
     [aRepo resetToCommit:originalHeadCommit withResetType:GTRepositoryResetTypeSoft error:NULL];
     head = [aRepo headReferenceWithError:&err];
     STAssertEqualObjects(head.unresolvedTarget, originalHead.unresolvedTarget, @"Reset failed to move head back to the original position");
@@ -171,7 +171,7 @@
 
 	GTReference *head = [repo headReferenceWithError:&err];
 	STAssertNotNil(head, err.localizedDescription);
-	STAssertEqualObjects(head.targetSHA, @"36060c58702ed4c2a40832c51758d5344201d89a", nil);
+	STAssertEqualObjects(head.SHA, @"36060c58702ed4c2a40832c51758d5344201d89a", nil);
 	STAssertEquals(head.referenceType, GTReferenceTypeOid, nil);
 }
 
@@ -199,7 +199,7 @@
 
 	GTReference *head = [repo headReferenceWithError:&err];
 	STAssertNotNil(head, err.localizedDescription);
-	STAssertEqualObjects(head.targetSHA, @"36060c58702ed4c2a40832c51758d5344201d89a", nil);
+	STAssertEqualObjects(head.SHA, @"36060c58702ed4c2a40832c51758d5344201d89a", nil);
 	STAssertEquals(head.referenceType, GTReferenceTypeOid, nil);
 }
 

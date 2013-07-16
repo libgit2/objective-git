@@ -64,6 +64,16 @@ typedef enum {
 + (id)referenceByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error;
 - (id)initByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error;
 
+// Build a temporary GTReference
+// This creates a reference to the given OID, without creating a reference in
+// the repository. This can be used for eg. detached checkouts.
+//
+// oid        - The OID to point to.
+// repository - The repository where the OID is to be resolved.
+//
+// Returns a GTReference pointing to the target OID.
++ (id)temporaryReferenceToOID:(GTOID *)oid inRepository:(GTRepository *)repository;
+
 - (id)initWithGitReference:(git_reference *)ref repository:(GTRepository *)repository;
 
 // The underlying `git_reference` object.
@@ -79,7 +89,7 @@ typedef enum {
 @property (nonatomic, readonly, copy) GTReference *resolvedReference;
 
 // The SHA of the target object
-@property (nonatomic, readonly, copy) NSString *targetSHA;
+@property (nonatomic, readonly, copy) NSString *SHA;
 
 // Updates the on-disk reference to point to the target and returns the updated
 // reference.

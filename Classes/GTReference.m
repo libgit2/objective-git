@@ -27,6 +27,7 @@
 #import "GTOID.h"
 #import "GTReflog+Private.h"
 #import "GTRepository.h"
+#import "GTTemporaryReference.h"
 #import "NSError+Git.h"
 #import "NSString+Git.h"
 
@@ -74,6 +75,10 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 
 + (id)referenceByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error {	
 	return [[self alloc] initByResolvingSymbolicReference:symbolicRef error:error];
+}
+
++ (id)temporaryReferenceToOID:(GTOID *)oid inRepository:(GTRepository *)repository {
+	return [GTTemporaryReference temporaryReferenceToOID:oid inRepository:repository];
 }
 
 - (id)initByLookingUpReferenceNamed:(NSString *)refName inRepository:(GTRepository *)repo error:(NSError **)error {
@@ -127,13 +132,22 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 
 - (id)initWithGitReference:(git_reference *)ref repository:(GTRepository *)repo {
 	NSParameterAssert(ref != NULL);
-	NSParameterAssert(repo != nil);
+
+	self = [self initWithRepository:repo];
+	if (self == nil) return nil;
+
+	_git_reference = ref;
+
+	return self;
+}
+
+- (id)initWithRepository:(GTRepository *)repository {
+	NSParameterAssert(repository != nil);
 
 	self = [super init];
 	if (self == nil) return nil;
 
-	_git_reference = ref;
-	_repository = repo;
+	_repository = repository;
 
 	return self;
 }
@@ -189,7 +203,7 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 	return [self.class referenceByResolvingSymbolicReference:self error:NULL];
 }
 
-- (NSString *)targetSHA {
+- (NSString *)SHA {
 	return [self.resolvedTarget SHA];
 }
 
