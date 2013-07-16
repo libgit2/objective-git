@@ -65,6 +65,7 @@
 #pragma mark API
 
 - (id)initWithEntry:(const git_tree_entry *)theEntry parentTree:(GTTree *)parent {
+	NSParameterAssert(theEntry != NULL);
 	if((self = [super init])) {
 		_git_tree_entry = theEntry;
 		_tree = parent;
