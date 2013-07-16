@@ -54,7 +54,7 @@
 	int gitError = git_tag_create(&oid, theRepo.git_repository, [tagName UTF8String], theTarget.git_object, theTagger.git_signature, [theMessage UTF8String], 0);
 	if(gitError < GIT_OK) {
 		if(error != NULL)
-			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to create tag in repository"];
+			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to create tag %@ in repository", tagName];
 		return nil;
 	}
 
@@ -91,6 +91,17 @@
 
 - (git_tag *)git_tag {
 	return (git_tag *) self.git_object;
+}
+
+- (id)objectByPeelingTagError:(NSError **)error {
+	git_object *target = nil;
+	int gitError = git_tag_peel(&target, self.git_tag);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Cannot peel tag"];
+		return nil;
+	}
+
+	return [[GTObject alloc] initWithObj:target inRepository:self.repository];
 }
 
 @end

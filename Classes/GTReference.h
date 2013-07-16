@@ -129,4 +129,11 @@ typedef enum {
 // An error indicating that the git_reference is no longer valid.
 + (NSError *)invalidReferenceError;
 
+// Checks if a reference name is acceptable.
+//
+// refName - The name to be checked.
+//
+// Returns YES if the name is valid or NO otherwise.
++ (BOOL)isValidReferenceName:(NSString *)refName;
+
 @end

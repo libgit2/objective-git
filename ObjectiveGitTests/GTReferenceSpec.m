@@ -79,4 +79,32 @@ describe(@"transformations", ^{
 	});
 });
 
+describe(@"valid names",^{
+	it(@"should accept uppercase top-level names", ^{
+		expect([GTReference isValidReferenceName:@"HEAD"]).to.beTruthy();
+		expect([GTReference isValidReferenceName:@"ORIG_HEAD"]).to.beTruthy();
+	});
+
+	it(@"should not accept lowercase top-level names",^{
+		expect([GTReference isValidReferenceName:@"head"]).notTo.beTruthy();
+	});
+
+	it(@"should accept names with the refs/ prefix",^{
+		expect([GTReference isValidReferenceName:@"refs/stuff"]).to.beTruthy();
+		expect([GTReference isValidReferenceName:@"refs/multiple/components"]).to.beTruthy();
+	});
+
+	it(@"should not accept names with invalid parts",^{
+		expect([GTReference isValidReferenceName:@"refs/stuff~"]).notTo.beTruthy();
+		expect([GTReference isValidReferenceName:@"refs/stuff^"]).notTo.beTruthy();
+		expect([GTReference isValidReferenceName:@"refs/stuff:"]).notTo.beTruthy();
+		expect([GTReference isValidReferenceName:@"refs/stuff\\"]).notTo.beTruthy();
+		expect([GTReference isValidReferenceName:@"refs/stuff?"]).notTo.beTruthy();
+		expect([GTReference isValidReferenceName:@"refs/stuff["]).notTo.beTruthy();
+		expect([GTReference isValidReferenceName:@"refs/stuff*"]).notTo.beTruthy();
+		expect([GTReference isValidReferenceName:@"refs/stuff.."]).notTo.beTruthy();
+		expect([GTReference isValidReferenceName:@"refs/stuff@{"]).notTo.beTruthy();
+	});
+});
+
 SpecEnd
