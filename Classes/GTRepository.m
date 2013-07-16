@@ -407,8 +407,8 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 	// make sure the ref is up to date before we branch off it, otherwise we could branch off an older sha
 	ref = [ref reloadedReferenceWithError:error];
 	if (ref == nil) return nil;
-
-	GTReference *newRef = [GTReference referenceByCreatingReferenceNamed:[NSString stringWithFormat:@"%@%@", [GTBranch localNamePrefix], name] fromReferenceTarget:ref.unresolvedTarget inRepository:self error:error];
+	
+	GTReference *newRef = [GTReference referenceByCreatingReferenceNamed:[NSString stringWithFormat:@"%@%@", [GTBranch localNamePrefix], name] fromReferenceTarget:[ref.resolvedTarget SHA] inRepository:self error:error];
 	if (newRef == nil) return nil;
 	
 	return [GTBranch branchWithReference:newRef repository:self];
