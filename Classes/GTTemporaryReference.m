@@ -9,11 +9,12 @@
 #import "GTTemporaryReference.h"
 
 @interface GTTemporaryReference () {
-	GTOID *_oid;
+	GTOID *_OID;
 }
 @end
 
 @implementation GTTemporaryReference
+
 + (id)temporaryReferenceToOID:(GTOID *)oid {
 	return [[self alloc] initWithOID:oid];
 }
@@ -24,7 +25,7 @@
 	self = [super init];
 	if (self == nil) return nil;
 
-	_oid = oid;
+	_OID = oid;
 
 	return self;
 }
@@ -34,7 +35,7 @@
 }
 
 - (const git_oid *)git_oid {
-	return self.oid.git_oid;
+	return self.OID.git_oid;
 }
 
 - (GTReferenceType)referenceType {
@@ -46,7 +47,7 @@
 }
 
 - (id)resolvedTarget {
-	return [self.repository lookupObjectByOID:self.oid error:NULL];
+	return [self.repository lookupObjectByOID:self.OID error:NULL];
 }
 
 - (GTReference *)resolvedReference {
@@ -84,7 +85,7 @@
 #pragma mark NSObject
 
 - (NSUInteger)hash {
-	return self.oid.hash;
+	return self.OID.hash;
 }
 
 - (BOOL)isEqual:(GTReference *)reference {
