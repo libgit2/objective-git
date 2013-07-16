@@ -68,10 +68,11 @@ typedef enum {
 // This creates a reference to the given OID, without creating a reference in
 // the repository. This can be used for eg. detached checkouts.
 //
-// oid - The OID the reference should point to.
+// oid        - The OID to point to.
+// repository - The repository where the OID is to be resolved.
 //
 // Returns a GTReference pointing to the target OID.
-+ (id)temporaryReferenceToOID:(GTOID *)oid;
++ (id)temporaryReferenceToOID:(GTOID *)oid inRepository:(GTRepository *)repository;
 
 - (id)initWithGitReference:(git_reference *)ref repository:(GTRepository *)repository;
 

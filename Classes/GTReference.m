@@ -77,8 +77,8 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 	return [[self alloc] initByResolvingSymbolicReference:symbolicRef error:error];
 }
 
-+ (id)temporaryReferenceToOID:(GTOID *)oid {
-	return [GTTemporaryReference temporaryReferenceToOID:oid];
++ (id)temporaryReferenceToOID:(GTOID *)oid inRepository:(GTRepository *)repository {
+	return [GTTemporaryReference temporaryReferenceToOID:oid inRepository:repository];
 }
 
 - (id)initByLookingUpReferenceNamed:(NSString *)refName inRepository:(GTRepository *)repo error:(NSError **)error {
