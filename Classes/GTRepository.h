@@ -76,6 +76,7 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 @property (nonatomic, readonly, getter=isHEADOrphaned) BOOL HEADOrphaned; // Is HEAD orphaned? i.e., not pointing to anything.
 
 + (BOOL)initializeEmptyRepositoryAtURL:(NSURL *)localFileURL error:(NSError **)error;
++ (BOOL)initializeEmptyRepositoryAtURL:(NSURL *)localFileURL bare:(BOOL)bare error:(NSError **)error;
 
 + (id)repositoryWithURL:(NSURL *)localFileURL error:(NSError **)error;
 - (id)initWithURL:(NSURL *)localFileURL error:(NSError **)error;

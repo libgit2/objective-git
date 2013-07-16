@@ -55,21 +55,6 @@
 	}
 }
 
-- (void)testCreateRepositoryInDirectory {
-	
-	NSError *error = nil;
-	NSURL *newRepoURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"unit_test"]];
-
-	[self removeDirectoryAtURL:newRepoURL];
-	
-    STAssertTrue([GTRepository initializeEmptyRepositoryAtURL:newRepoURL error:&error], nil);
-	GTRepository *newRepo = [GTRepository repositoryWithURL:newRepoURL error:&error];
-	
-	STAssertNil(error, [error localizedDescription]);
-	STAssertNotNil(newRepo, nil);
-	STAssertNotNil(newRepo.fileURL, nil);
-}
-
 - (void)testFailsToOpenNonExistentRepo {
 	
 	NSError *error = nil;
