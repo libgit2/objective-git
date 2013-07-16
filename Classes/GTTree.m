@@ -55,7 +55,7 @@ typedef struct GTTreeEnumerationStruct {
 }
 
 - (GTTreeEntry *)createEntryWithEntry:(const git_tree_entry *)entry {
-	return (entry != NULL) ? [GTTreeEntry entryWithEntry:entry parentTree:self] : nil;
+	return (entry != NULL ? [GTTreeEntry entryWithEntry:entry parentTree:self] : nil);
 }
 
 - (GTTreeEntry *)entryAtIndex:(NSUInteger)index {
