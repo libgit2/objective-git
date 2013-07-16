@@ -488,11 +488,11 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 	return self.git_repository && git_repository_is_bare(self.git_repository);
 }
 
-- (BOOL)isHeadDetached {
+- (BOOL)isHEADDetached {
 	return (BOOL) git_repository_head_detached(self.git_repository);
 }
 
-- (BOOL)isHeadOrphaned {
+- (BOOL)isHEADOrphaned {
 	return (BOOL)git_repository_head_orphan(self.git_repository);
 }
 
