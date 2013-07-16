@@ -64,6 +64,8 @@ typedef enum {
 + (id)referenceByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error;
 - (id)initByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error;
 
++ (id)temporaryReferenceToOID:(GTOID *)oid;
+
 - (id)initWithGitReference:(git_reference *)ref repository:(GTRepository *)repository;
 
 // The underlying `git_reference` object.

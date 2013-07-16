@@ -27,6 +27,7 @@
 #import "GTOID.h"
 #import "GTReflog+Private.h"
 #import "GTRepository.h"
+#import "GTTemporaryReference.h"
 #import "NSError+Git.h"
 #import "NSString+Git.h"
 
@@ -74,6 +75,10 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 
 + (id)referenceByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error {	
 	return [[self alloc] initByResolvingSymbolicReference:symbolicRef error:error];
+}
+
++ (id)temporaryReferenceToOID:(GTOID *)oid {
+	return [GTTemporaryReference temporaryReferenceToOID:oid];
 }
 
 - (id)initByLookingUpReferenceNamed:(NSString *)refName inRepository:(GTRepository *)repo error:(NSError **)error {
