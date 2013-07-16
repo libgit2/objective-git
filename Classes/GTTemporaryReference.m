@@ -53,7 +53,6 @@
 	return nil;
 }
 
-//- (NSString *)SHA
 - (GTReflog *)reflog {
 	return nil;
 }
