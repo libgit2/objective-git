@@ -58,12 +58,12 @@
 }
 
 - (GTReference *)referenceByRenaming:(NSString *)newName error:(NSError **)error {
-	if (error != NULL) *error = [NSError git_errorFor:GIT_ENOTFOUND description:@"Failed to rename reference" failureReason:@"Temporary references can't be renamed"];
+    NSAssert(NO, @"Temporary references can't be renamed");
 	return nil;
 }
 
 - (GTReference *)referenceByUpdatingTarget:(NSString *)newTarget error:(NSError **)error {
-	if (error != NULL) *error = [NSError git_errorFor:GIT_ENOTFOUND description:@"Failed to update reference" failureReason:@"Temporary references can't be updated"];
+	NSAssert(NO, @"Temporary references can't be updated");
 	return nil;
 }
 
@@ -72,12 +72,12 @@
 }
 
 - (GTReference *)resolvedReferenceWithError:(NSError **)error {
-	if (error != NULL) *error = [NSError git_errorFor:GIT_ENOTFOUND description:@"Failed to resolve reference" failureReason:@"Temporary references can't be resolved"];
+	NSAssert(NO, @"Temporary references can't be resolved");
 	return nil;
 }
 
 - (GTReference *)reloadedReferenceWithError:(NSError **)error {
-	if (error != NULL) *error = [NSError git_errorFor:GIT_ENOTFOUND description:@"Failed to reload reference" failureReason:@"Temporary references can't be reloaded"];
+	NSAssert(NO, @"Temporary references can't be reloaded");
 	return nil;
 }
 
