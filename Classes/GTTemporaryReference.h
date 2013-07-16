@@ -10,7 +10,7 @@
 
 @interface GTTemporaryReference : GTReference
 
-+ (id)temporaryReferenceToOID:(GTOID *)oid;
-- (id)initWithOID:(GTOID *)oid;
++ (id)temporaryReferenceToOID:(GTOID *)oid inRepository:(GTRepository *)repository;
+- (id)initWithOID:(GTOID *)oid inRepository:(GTRepository *)repository;
 
 @end

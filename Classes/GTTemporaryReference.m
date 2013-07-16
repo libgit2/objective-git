@@ -7,6 +7,7 @@
 //
 
 #import "GTTemporaryReference.h"
+#import "GTReference+Private.h"
 
 @interface GTTemporaryReference () {
 	GTOID *_OID;
@@ -15,14 +16,14 @@
 
 @implementation GTTemporaryReference
 
-+ (id)temporaryReferenceToOID:(GTOID *)oid {
-	return [[self alloc] initWithOID:oid];
++ (id)temporaryReferenceToOID:(GTOID *)oid inRepository:(GTRepository *)repository {
+	return [[self alloc] initWithOID:oid inRepository:repository];
 }
 
-- (id)initWithOID:(GTOID *)oid {
+- (id)initWithOID:(GTOID *)oid inRepository:(GTRepository *)repository {
 	NSParameterAssert(oid != nil);
 
-	self = [super init];
+	self = [super initWithRepository:repository];
 	if (self == nil) return nil;
 
 	_OID = oid;
