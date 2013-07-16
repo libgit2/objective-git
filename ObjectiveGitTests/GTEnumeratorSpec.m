@@ -29,7 +29,7 @@ it(@"should walk from repository HEAD", ^{
 	GTReference *HEADRef = [repo headReferenceWithError:NULL];
 	expect(HEADRef).notTo.beNil();
 	
-	[enumerator pushSHA:HEADRef.targetSHA error:NULL];
+	[enumerator pushSHA:HEADRef.SHA error:NULL];
 	NSUInteger count = [enumerator allObjects].count;
 	expect(count).to.equal(3);
 	expect(error).to.beNil();

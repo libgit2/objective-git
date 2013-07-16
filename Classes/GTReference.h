@@ -79,7 +79,7 @@ typedef enum {
 @property (nonatomic, readonly, copy) GTReference *resolvedReference;
 
 // The SHA of the target object
-@property (nonatomic, readonly, copy) NSString *targetSHA;
+@property (nonatomic, readonly, copy) NSString *SHA;
 
 // Updates the on-disk reference to point to the target and returns the updated
 // reference.

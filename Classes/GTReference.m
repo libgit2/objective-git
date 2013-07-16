@@ -189,7 +189,7 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 	return [self.class referenceByResolvingSymbolicReference:self error:NULL];
 }
 
-- (NSString *)targetSHA {
+- (NSString *)SHA {
 	return [self.resolvedTarget SHA];
 }
 
