@@ -64,6 +64,13 @@ typedef enum {
 + (id)referenceByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error;
 - (id)initByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error;
 
+// Build a temporary GTReference
+// This creates a reference to the given OID, without creating a reference in
+// the repository. This can be used for eg. detached checkouts.
+//
+// oid - The OID the reference should point to.
+//
+// Returns a GTReference pointing to the target OID.
 + (id)temporaryReferenceToOID:(GTOID *)oid;
 
 - (id)initWithGitReference:(git_reference *)ref repository:(GTRepository *)repository;
