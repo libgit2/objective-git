@@ -42,8 +42,8 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 
 @implementation GTDiff
 
-+ (git_diff_options *)optionsStructFromDictionary:(NSDictionary *)dictionary {
-	if (dictionary == nil || dictionary.count < 1) return nil;
++ (int)handleParsedOptionsDictionary:(NSDictionary *)dictionary usingBlock:(int (^)(git_diff_options *optionsStruct))block {
+	NSParameterAssert(block != nil);
 	
 	git_diff_options newOptions = GIT_DIFF_OPTIONS_INIT;
 	
@@ -56,21 +56,18 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 	NSNumber *interHunkLinesNumber = dictionary[GTDiffOptionsInterHunkLinesKey];
 	if (interHunkLinesNumber != nil) newOptions.interhunk_lines = (uint16_t)interHunkLinesNumber.unsignedIntegerValue;
 	
-	// We cast to char* below to work around a current bug in libgit2, which is
-	// fixed in https://github.com/libgit2/libgit2/pull/1118
-	
 	NSString *oldPrefix = dictionary[GTDiffOptionsOldPrefixKey];
-	if (oldPrefix != nil) newOptions.old_prefix = (char *)oldPrefix.UTF8String;
+	if (oldPrefix != nil) newOptions.old_prefix = oldPrefix.UTF8String;
 	
 	NSString *newPrefix = dictionary[GTDiffOptionsNewPrefixKey];
-	if (newPrefix != nil) newOptions.new_prefix = (char *)newPrefix.UTF8String;
+	if (newPrefix != nil) newOptions.new_prefix = newPrefix.UTF8String;
 	
 	NSNumber *maxSizeNumber = dictionary[GTDiffOptionsMaxSizeKey];
 	if (maxSizeNumber != nil) newOptions.max_size = (uint16_t)maxSizeNumber.unsignedIntegerValue;
 	
 	NSArray *pathSpec = dictionary[GTDiffOptionsPathSpecArrayKey];
-	if (pathSpec != nil) {
-		char **cStrings = malloc(sizeof(*cStrings) * pathSpec.count);
+	char *cStrings[pathSpec.count];
+	if (pathSpec.count > 0) {
 		for (NSUInteger idx = 0; idx < pathSpec.count; idx ++) {
 			cStrings[idx] = (char *)[pathSpec[idx] cStringUsingEncoding:NSUTF8StringEncoding];
 		}
@@ -78,17 +75,11 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 		git_strarray optionsPathSpec = {.strings = cStrings, .count = pathSpec.count};
 		newOptions.pathspec = optionsPathSpec;
 	}
-	
-	git_diff_options *returnOptions = malloc(sizeof(*returnOptions));
-	memcpy(returnOptions, &newOptions, sizeof(*returnOptions));
-	
-	return returnOptions;
-}
 
-+ (void)freeOptionsStruct:(git_diff_options *)options {
-	if (options == NULL) return;
-	free(options->pathspec.strings);
-	free(options);
+	git_diff_options *optionsPtr = &newOptions;
+	if (dictionary.count < 1) optionsPtr = nil;
+
+	return block(optionsPtr);
 }
 
 + (GTDiff *)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree inRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error {
@@ -96,10 +87,10 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 	NSParameterAssert(newTree == nil || [newTree.repository isEqual:repository]);
 	NSParameterAssert(oldTree == nil || [oldTree.repository isEqual:repository]);
 	
-	git_diff_options *optionsStruct = [self optionsStructFromDictionary:options];
-	git_diff_list *diffList;
-	int returnValue = git_diff_tree_to_tree(&diffList, repository.git_repository, oldTree.git_tree, newTree.git_tree, optionsStruct);
-	[self freeOptionsStruct:optionsStruct];
+	__block git_diff_list *diffList;
+	int returnValue = [self handleParsedOptionsDictionary:options usingBlock:^(git_diff_options *optionsStruct) {
+		return git_diff_tree_to_tree(&diffList, repository.git_repository, oldTree.git_tree, newTree.git_tree, optionsStruct);
+	}];
 	if (returnValue != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:returnValue withAdditionalDescription:@"Failed to create diff between %@ and %@", oldTree.SHA, newTree.SHA];
 		return nil;
@@ -113,10 +104,10 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 	NSParameterAssert(repository != nil);
 	NSParameterAssert(tree == nil || [tree.repository isEqual:repository]);
 
-	git_diff_options *optionsStruct = [self optionsStructFromDictionary:options];
-	git_diff_list *diffList;
-	int returnValue = git_diff_tree_to_index(&diffList, repository.git_repository, tree.git_tree, NULL, optionsStruct);
-	[self freeOptionsStruct:optionsStruct];
+	__block git_diff_list *diffList;
+	int returnValue = [self handleParsedOptionsDictionary:options usingBlock:^(git_diff_options *optionsStruct) {
+		return git_diff_tree_to_index(&diffList, repository.git_repository, tree.git_tree, NULL, optionsStruct);
+	}];
 	if (returnValue != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:returnValue withAdditionalDescription:@"Failed to create diff between index and %@", tree.SHA];
 		return nil;
@@ -129,10 +120,10 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 + (GTDiff *)diffIndexToWorkingDirectoryInRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error {
 	NSParameterAssert(repository != nil);
 	
-	git_diff_options *optionsStruct = [self optionsStructFromDictionary:options];
-	git_diff_list *diffList;
-	int returnValue = git_diff_index_to_workdir(&diffList, repository.git_repository, NULL, optionsStruct);
-	[self freeOptionsStruct:optionsStruct];
+	__block git_diff_list *diffList;
+	int returnValue = [self handleParsedOptionsDictionary:options usingBlock:^(git_diff_options *optionsStruct) {
+		return git_diff_index_to_workdir(&diffList, repository.git_repository, NULL, optionsStruct);
+	}];
 	if (returnValue != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:returnValue withAdditionalDescription:@"Failed to create diff between working directory and index"];
 		return nil;
@@ -146,10 +137,10 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 	NSParameterAssert(repository != nil);
 	NSParameterAssert(tree == nil || [tree.repository isEqual:repository]);
 
-	git_diff_options *optionsStruct = [self optionsStructFromDictionary:options];
-	git_diff_list *diffList;
-	int returnValue = git_diff_tree_to_workdir(&diffList, repository.git_repository, tree.git_tree, optionsStruct);
-	[self freeOptionsStruct:optionsStruct];
+	__block git_diff_list *diffList;
+	int returnValue = [self handleParsedOptionsDictionary:options usingBlock:^(git_diff_options *optionsStruct) {
+		return git_diff_tree_to_workdir(&diffList, repository.git_repository, tree.git_tree, optionsStruct);
+	}];
 	if (returnValue != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:returnValue withAdditionalDescription:@"Failed to create diff between working directory and %@", tree.SHA];
 		return nil;
