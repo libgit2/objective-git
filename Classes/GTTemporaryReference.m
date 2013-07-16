@@ -30,6 +30,10 @@
 	return self;
 }
 
+- (GTOID *)OID {
+	return _OID;
+}
+
 - (git_reference *)git_reference {
 	return NULL;
 }
