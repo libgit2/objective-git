@@ -69,7 +69,8 @@
 }
 
 - (BOOL)deleteWithError:(NSError **)error {
-	return YES;
+	NSAssert(NO, @"Temporary references can't be deleted");
+	return NO;
 }
 
 - (GTReference *)resolvedReferenceWithError:(NSError **)error {
