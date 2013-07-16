@@ -149,54 +149,56 @@ static int fetch_update_tips(const char *refname, const git_oid *a, const git_oi
 }
 
 - (BOOL)fetchWithError:(NSError **)error credentials:(GTCredentialAcquireBlock)credBlock progress:(GTRemoteFetchProgressBlock)progressBlock completion:(GTRemoteFetchCompletionBlock)completionBlock updateTips:(GTRemoteFetchUpdateTipsBlock)updateTipsBlock {
-	GTRemoteFetchInfo payload = {
-		.myself = self,
-		.credBlock = credBlock,
-		.progressBlock = progressBlock,
-		.completionBlock = completionBlock,
-		.updateTipsBlock = updateTipsBlock,
-	};
+	@synchronized (self) {
+		GTRemoteFetchInfo payload = {
+			.myself = self,
+			.credBlock = credBlock,
+			.progressBlock = progressBlock,
+			.completionBlock = completionBlock,
+			.updateTipsBlock = updateTipsBlock,
+		};
 
-	git_remote_callbacks remote_callbacks = GIT_REMOTE_CALLBACKS_INIT;
-	remote_callbacks.progress = fetch_progress;
-	remote_callbacks.completion = fetch_completion;
-	remote_callbacks.update_tips = fetch_update_tips;
-	remote_callbacks.payload = &payload;
+		git_remote_callbacks remote_callbacks = GIT_REMOTE_CALLBACKS_INIT;
+		remote_callbacks.progress = fetch_progress;
+		remote_callbacks.completion = fetch_completion;
+		remote_callbacks.update_tips = fetch_update_tips;
+		remote_callbacks.payload = &payload;
 
-	NSString *errorMsg = nil;
-	int gitError = git_remote_set_callbacks(self.git_remote, &remote_callbacks);
-	if (gitError != GIT_OK) {
-		errorMsg = @"Failed to set remote callbacks for fetch";
-		goto error;
+		NSString *errorMsg = nil;
+		int gitError = git_remote_set_callbacks(self.git_remote, &remote_callbacks);
+		if (gitError != GIT_OK) {
+			errorMsg = @"Failed to set remote callbacks for fetch";
+			goto error;
+		}
+
+		git_remote_set_cred_acquire_cb(self.git_remote, fetch_cred_acquire_cb, (__bridge void *)(self));
+
+		gitError = git_remote_connect(self.git_remote, GIT_DIRECTION_FETCH);
+		if (gitError != GIT_OK) {
+			errorMsg = @"Failed to connect remote";
+			goto error;
+		}
+
+		gitError = git_remote_download(self.git_remote, NULL, NULL);
+		if (gitError != GIT_OK) {
+			errorMsg = @"Failed to fetch remote";
+			goto error;
+		}
+
+		gitError = git_remote_update_tips(self.git_remote);
+		if (gitError != GIT_OK) {
+			errorMsg = @"Failed to update tips";
+			goto error;
+		}
+
+	error:
+		// Cleanup
+		git_remote_set_callbacks(self.git_remote, NULL);
+		git_remote_set_cred_acquire_cb(self.git_remote, NULL, NULL);
+
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:errorMsg];
+		return gitError == GIT_OK;
 	}
-
-	git_remote_set_cred_acquire_cb(self.git_remote, fetch_cred_acquire_cb, (__bridge void *)(self));
-
-	gitError = git_remote_connect(self.git_remote, GIT_DIRECTION_FETCH);
-	if (gitError != GIT_OK) {
-		errorMsg = @"Failed to connect remote";
-		goto error;
-	}
-
-	gitError = git_remote_download(self.git_remote, NULL, NULL);
-	if (gitError != GIT_OK) {
-		errorMsg = @"Failed to fetch remote";
-		goto error;
-	}
-
-	gitError = git_remote_update_tips(self.git_remote);
-	if (gitError != GIT_OK) {
-		errorMsg = @"Failed to update tips";
-		goto error;
-	}
-
-error:
-	// Cleanup
-	git_remote_set_callbacks(self.git_remote, NULL);
-	git_remote_set_cred_acquire_cb(self.git_remote, NULL, NULL);
-
-	if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:errorMsg];
-	return gitError == GIT_OK;
 }
 
 - (void)cancelOperation {
