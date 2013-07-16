@@ -12,12 +12,13 @@
 #import "NSError+Git.h"
 
 @interface GTRemote () {
-	GTRepository *repository;
+	GTRepository *_repository;
 }
 @property (nonatomic, readonly, assign) git_remote *git_remote;
 @end
 
 @implementation GTRemote
+@synthesize repository;
 
 - (void)dealloc {
 	if (_git_remote != NULL) git_remote_free(_git_remote);
@@ -41,18 +42,22 @@
 }
 
 - (instancetype)initWithName:(NSString *)name inRepository:(GTRepository *)repo {
+	NSParameterAssert(name != nil);
+	NSParameterAssert(repository != nil);
+
 	self = [super init];
 	if (self == nil) return nil;
 
 	int gitError = git_remote_load(&_git_remote, repo.git_repository, name.UTF8String);
 	if (gitError != GIT_OK) return nil;
 
-	repository = repo;
+	_repository = repo;
 
 	return self;
 }
 
 - (id)initWithGitRemote:(git_remote *)remote {
+	NSParameterAssert(remote != NULL);
 	self = [super init];
 	if (self == nil) return nil;
 
@@ -62,10 +67,10 @@
 }
 
 - (GTRepository *)repository {
-	if (repository == nil) {
-		repository = [[GTRepository alloc] initWithGitRepository:git_remote_owner(self.git_remote)];
+	if (_repository == nil) {
+		_repository = [[GTRepository alloc] initWithGitRepository:git_remote_owner(self.git_remote)];
 	}
-	return repository;
+	return _repository;
 }
 
 - (NSString *)name {
@@ -84,7 +89,7 @@
 
 #pragma mark Fetch
 
-typedef int  (^GTCredentialAcquireBlock)(git_cred **cred, GTCredentialType allowedTypes, NSURL *url);
+typedef int  (^GTCredentialAcquireBlock)(git_cred **cred, GTCredentialType allowedTypes, NSString *url, NSString *username);
 
 typedef void (^GTRemoteFetchProgressBlock)(NSString *message, int length);
 
@@ -100,7 +105,7 @@ typedef struct {
 	__unsafe_unretained GTRemoteFetchUpdateTipsBlock updateTipsBlock;
 } GTRemoteFetchInfo;
 
-static int fetch_cred_acquire_cb(git_cred **cred, const char *urlStr, const char *username_from_url, unsigned int allowed_types, void *payload) {
+static int fetch_cred_acquire_cb(git_cred **cred, const char *url, const char *username_from_url, unsigned int allowed_types, void *payload) {
 	GTRemoteFetchInfo *info = (GTRemoteFetchInfo *)payload;
 
 	if (info->credBlock == nil) {
@@ -109,10 +114,7 @@ static int fetch_cred_acquire_cb(git_cred **cred, const char *urlStr, const char
 		return GIT_ERROR;
 	}
 
-	NSURL *url = [NSURL URLWithString:@(urlStr)];
-	NSCAssert(url != nil, @"Failed to convert %s to an URL", urlStr);
-
-	return info->credBlock(cred, (GTCredentialType)allowed_types, url);
+	return info->credBlock(cred, (GTCredentialType)allowed_types, @(url), @(username_from_url));
 }
 
 static void fetch_progress(const char *str, int len, void *payload) {
@@ -190,7 +192,7 @@ static int fetch_update_tips(const char *refname, const git_oid *a, const git_oi
 	return YES;
 }
 
-- (void)stop {
+- (void)cancelOperation {
 	git_remote_stop(self.git_remote);
 }
 

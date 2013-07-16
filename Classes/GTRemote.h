@@ -29,7 +29,7 @@ typedef enum {
 @property (nonatomic, readonly, strong) GTRepository *repository;
 @property (nonatomic, readonly, copy) NSString *name;
 @property (nonatomic, readonly, copy) NSString *URLString;
-@property (nonatomic, readonly, getter = isConnected) BOOL connected;
+@property (nonatomic, readonly, getter=isConnected) BOOL connected;
 
 
 + (instancetype)remoteWithName:(NSString *)name inRepository:(GTRepository *)repo;
@@ -40,8 +40,7 @@ typedef enum {
 // The underlying `git_remote` object.
 - (git_remote *)git_remote __attribute__((objc_returns_inner_pointer));
 
-- (BOOL)fetchWithError:(NSError **)error credentials:(int (^)(git_cred **cred, GTCredentialType allowedTypes, NSURL *url))credBlock progress:(void (^)(NSString *message, int length))progressBlock completion:(int (^)(GTRemoteCompletionType type))completionBlock updateTips:(int (^)(GTReference *ref, GTOID *a, GTOID *b))updateTipsBlock;
+- (BOOL)fetchWithError:(NSError **)error credentials:(int (^)(git_cred **cred, GTCredentialType allowedTypes, NSString *url, NSString *username))credBlock progress:(void (^)(NSString *message, int length))progressBlock completion:(int (^)(GTRemoteCompletionType type))completionBlock updateTips:(int (^)(GTReference *ref, GTOID *a, GTOID *b))updateTipsBlock;
 
-- (void)stop;
-
+- (void)cancelOperation;
 @end
