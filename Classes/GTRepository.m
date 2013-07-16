@@ -366,17 +366,8 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 	// make sure the ref is up to date before we branch off it, otherwise we could branch off an older sha
 	ref = [ref reloadedReferenceWithError:error];
 	if (ref == nil) return nil;
-
-	NSString *unresolvedSHA = nil;
 	
-	if ([ref.unresolvedTarget respondsToSelector:@selector(targetSHA)]) {
-		unresolvedSHA = [ref.unresolvedTarget targetSHA];
-	} else if ([ref.unresolvedTarget respondsToSelector:@selector(SHA)]) {
-		unresolvedSHA = [ref.unresolvedTarget SHA];
-	}
-	if (unresolvedSHA == nil) return nil;
-	
-	GTReference *newRef = [GTReference referenceByCreatingReferenceNamed:[NSString stringWithFormat:@"%@%@", [GTBranch localNamePrefix], name] fromReferenceTarget:unresolvedSHA inRepository:self error:error];
+	GTReference *newRef = [GTReference referenceByCreatingReferenceNamed:[NSString stringWithFormat:@"%@%@", [GTBranch localNamePrefix], name] fromReferenceTarget:[ref.resolvedTarget SHA] inRepository:self error:error];
 	if (newRef == nil) return nil;
 	
 	return [GTBranch branchWithReference:newRef repository:self];

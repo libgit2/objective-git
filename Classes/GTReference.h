@@ -73,7 +73,7 @@ typedef enum {
 @property (nonatomic, readonly, copy) id unresolvedTarget;
 
 // The resolved object to which the reference points.
-@property (nonatomic, readonly, copy) id resolvedTarget;
+@property (nonatomic, readonly, copy) GTObject *resolvedTarget;
 
 // The last direct reference in a chain
 @property (nonatomic, readonly, copy) GTReference *resolvedReference;

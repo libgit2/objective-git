@@ -177,7 +177,7 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 	return nil;
 }
 
-- (id)resolvedTarget {
+- (GTObject *)resolvedTarget {
 	git_object *obj;
 	git_reference_peel(&obj, self.git_reference, GIT_OBJ_ANY);
 	if (obj == NULL) return nil;
