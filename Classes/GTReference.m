@@ -132,13 +132,22 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 
 - (id)initWithGitReference:(git_reference *)ref repository:(GTRepository *)repo {
 	NSParameterAssert(ref != NULL);
-	NSParameterAssert(repo != nil);
+
+	self = [self initWithRepository:repo];
+	if (self == nil) return nil;
+
+	_git_reference = ref;
+
+	return self;
+}
+
+- (id)initWithRepository:(GTRepository *)repository {
+	NSParameterAssert(repository != nil);
 
 	self = [super init];
 	if (self == nil) return nil;
 
-	_git_reference = ref;
-	_repository = repo;
+	_repository = repository;
 
 	return self;
 }
