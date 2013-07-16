@@ -99,10 +99,19 @@ typedef struct {
 }
 
 + (BOOL)initializeEmptyRepositoryAtURL:(NSURL *)localFileURL error:(NSError **)error {
+	return [self initializeEmptyRepositoryAtURL:localFileURL bare:NO error:error];
+}
+
++ (BOOL)initializeEmptyRepositoryAtURL:(NSURL *)localFileURL bare:(BOOL)bare error:(NSError **)error {
+	if (![localFileURL isFileURL] || localFileURL.path == nil) {
+		if (error != NULL) *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileWriteUnsupportedSchemeError userInfo:@{ NSLocalizedDescriptionKey: NSLocalizedString(@"Invalid file path URL to initialize repository.", @"") }];
+		return NO;
+	}
+
 	const char *path = localFileURL.path.UTF8String;
 
 	git_repository *r;
-	int gitError = git_repository_init(&r, path, 0);
+	int gitError = git_repository_init(&r, path, bare);
 	if (gitError < GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to initialize empty repository at URL %@.", localFileURL];
 	}
