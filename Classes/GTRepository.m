@@ -665,9 +665,9 @@ static int checkoutNotifyCallback(git_checkout_notify_t why, const char *path, c
 	if (payload == NULL) return 0;
 	GTCheckoutNotifyBlock block = (__bridge id)payload;
 	NSString *nsPath = (path != NULL ? @(path) : nil);
-	GTDiffFile *gtBaseline = baseline ? [[GTDiffFile alloc] initWithGitDiffFile:*baseline] : nil;
-	GTDiffFile *gtTarget = target ? [[GTDiffFile alloc] initWithGitDiffFile:*target] : nil;
-	GTDiffFile *gtWorkdir = workdir ? [[GTDiffFile alloc] initWithGitDiffFile:*workdir] : nil;
+	GTDiffFile *gtBaseline = (baseline != NULL ? [[GTDiffFile alloc] initWithGitDiffFile:*baseline] : nil);
+	GTDiffFile *gtTarget = (target != NULL ? [[GTDiffFile alloc] initWithGitDiffFile:*target] : nil);
+	GTDiffFile *gtWorkdir = (workdir != NULL ? [[GTDiffFile alloc] initWithGitDiffFile:*workdir] : nil);
 	return block((GTCheckoutNotifyFlags)why, nsPath, gtBaseline, gtTarget, gtWorkdir);
 }
 

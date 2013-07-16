@@ -63,29 +63,34 @@ typedef enum {
 	GTRepositoryResetTypeHard = GIT_RESET_HARD
 } GTRepositoryResetType;
 
+// Checkout strategies used by the various -checkout... methods
+// See git_checkout_strategy_t
 typedef enum {
-	GTCheckoutStrategyNone = GIT_CHECKOUT_NONE, /** default is a dry run, no actual updates */
-	GTCheckoutStrategySafe = GIT_CHECKOUT_SAFE, /** Allow safe updates that cannot overwrite uncommitted data */
-	GTCheckoutStrategySafeCreate = GIT_CHECKOUT_SAFE_CREATE, /** Allow safe updates plus creation of missing files */
-	GTCheckoutStrategyForce = GIT_CHECKOUT_FORCE, /** Allow all updates to force working directory to look like index */
-	GTCheckoutStrategyAllowConflicts = GIT_CHECKOUT_ALLOW_CONFLICTS, /** Allow checkout to make safe updates even if conflicts are found */
-	GTCheckoutStrategyRemoveUntracked = GIT_CHECKOUT_REMOVE_UNTRACKED, /** Remove untracked files not in index (that are not ignored) */
-	GTCheckoutStrategyRemoveIgnored = GIT_CHECKOUT_REMOVE_IGNORED, /** Remove ignored files not in index */
-	GTCheckoutStrategyUpdateOnly = GIT_CHECKOUT_UPDATE_ONLY, /** Only update existing files, don't create new ones */
-	GTCheckoutStrategyDontUpdateIndex = GIT_CHECKOUT_DONT_UPDATE_INDEX, /** Normally checkout updates index entries as it goes; this stops that */
-	GTCheckoutStrategyNoRefresh = GIT_CHECKOUT_NO_REFRESH, /** Don't refresh index/config/etc before doing checkout */
-	GTCheckoutStrategyDisablePathspecMatch = GIT_CHECKOUT_DISABLE_PATHSPEC_MATCH /** Treat pathspec as simple list of exact match file paths */
+	GTCheckoutStrategyNone = GIT_CHECKOUT_NONE,
+	GTCheckoutStrategySafe = GIT_CHECKOUT_SAFE,
+	GTCheckoutStrategySafeCreate = GIT_CHECKOUT_SAFE_CREATE,
+	GTCheckoutStrategyForce = GIT_CHECKOUT_FORCE,
+	GTCheckoutStrategyAllowConflicts = GIT_CHECKOUT_ALLOW_CONFLICTS,
+	GTCheckoutStrategyRemoveUntracked = GIT_CHECKOUT_REMOVE_UNTRACKED,
+	GTCheckoutStrategyRemoveIgnored = GIT_CHECKOUT_REMOVE_IGNORED,
+	GTCheckoutStrategyUpdateOnly = GIT_CHECKOUT_UPDATE_ONLY,
+	GTCheckoutStrategyDontUpdateIndex = GIT_CHECKOUT_DONT_UPDATE_INDEX,
+	GTCheckoutStrategyNoRefresh = GIT_CHECKOUT_NO_REFRESH,
+	GTCheckoutStrategyDisablePathspecMatch = GIT_CHECKOUT_DISABLE_PATHSPEC_MATCH,
+	GTCheckoutStrategySkipLockedDirectories = GIT_CHECKOUT_SKIP_LOCKED_DIRECTORIES,
 } GTCheckoutStrategyType;
 
+// Checkout notification flags used by the various -checkout... methods
+// See git_checkout_notify_t
 typedef enum {
-	GTCheckoutNotifyNone = GIT_CHECKOUT_NOTIFY_NONE, // Do not invoke the notification block
-	GTCheckoutNotifyConflict = GIT_CHECKOUT_NOTIFY_CONFLICT, // Invoke the notification block in case of conflicts
-	GTCheckoutNotifyDirty = GIT_CHECKOUT_NOTIFY_DIRTY, // Invoke the notification block in case of dirty files
-	GTCheckoutNotifyUpdated = GIT_CHECKOUT_NOTIFY_UPDATED, // Invoke the notification block for each updated file
-	GTCheckoutNotifyUntracked = GIT_CHECKOUT_NOTIFY_UNTRACKED, // Invoke the notification block for each untracked file
-	GTCheckoutNotifyIgnored = GIT_CHECKOUT_NOTIFY_IGNORED, // Invoke the notification block for each ignored file
+	GTCheckoutNotifyNone = GIT_CHECKOUT_NOTIFY_NONE,
+	GTCheckoutNotifyConflict = GIT_CHECKOUT_NOTIFY_CONFLICT,
+	GTCheckoutNotifyDirty = GIT_CHECKOUT_NOTIFY_DIRTY,
+	GTCheckoutNotifyUpdated = GIT_CHECKOUT_NOTIFY_UPDATED,
+	GTCheckoutNotifyUntracked = GIT_CHECKOUT_NOTIFY_UNTRACKED,
+	GTCheckoutNotifyIgnored = GIT_CHECKOUT_NOTIFY_IGNORED,
 
-	GTCheckoutNotifyAll = GIT_CHECKOUT_NOTIFY_ALL, // Invoke the notification block for everything
+	GTCheckoutNotifyAll = GIT_CHECKOUT_NOTIFY_ALL,
 } GTCheckoutNotifyFlags;
 
 
