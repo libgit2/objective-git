@@ -13,6 +13,4 @@
 + (id)temporaryReferenceToOID:(GTOID *)oid;
 - (id)initWithOID:(GTOID *)oid;
 
-@property (nonatomic, readonly, strong) GTOID *oid;
-
 @end
