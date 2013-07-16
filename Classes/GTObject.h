@@ -68,5 +68,16 @@ typedef enum {
 // returns a GTOdbObject or nil if an error occurred.
 - (GTOdbObject *)odbObjectWithError:(NSError **)error;
 
+// Recursively peel an object until an object of the specified type is met.
+//
+// type  - The type of the requested object. If you pass GTObjectTypeAny
+//         the object will be peeled until the type changes (e.g. a tag will
+//         be chased until the referenced object is no longer a tag).
+// error - Will be filled with a NSError object on failure.
+//         May be NULL.
+//
+// Returns the found object or nil on error.
+- (id)objectByPeelingToType:(GTObjectType)type error:(NSError **)error;
+
 @end
 
