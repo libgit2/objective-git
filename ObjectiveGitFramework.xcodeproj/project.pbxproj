@@ -1285,7 +1285,7 @@
 					"$(OBJROOT)/UninstalledProducts/include",
 				);
 				OTHER_LDFLAGS = (
-					"-lgit2-iOS",
+					"-lgit2-ios",
 					"-all_load",
 				);
 				PRODUCT_NAME = "ObjectiveGit-iOS";
@@ -1303,7 +1303,7 @@
 					"$(OBJROOT)/UninstalledProducts/include",
 				);
 				OTHER_LDFLAGS = (
-					"-lgit2-iOS",
+					"-lgit2-ios",
 					"-all_load",
 				);
 				PRODUCT_NAME = "ObjectiveGit-iOS";
@@ -1459,7 +1459,7 @@
 					"$(OBJROOT)/UninstalledProducts/include",
 				);
 				OTHER_LDFLAGS = (
-					"-lgit2-iOS",
+					"-lgit2-ios",
 					"-all_load",
 				);
 				PRODUCT_NAME = "ObjectiveGit-iOS";
