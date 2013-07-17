@@ -658,7 +658,7 @@ static int submoduleEnumerationCallback(git_submodule *git_submodule, const char
 
 	git_oid oid;
 	int gitError = git_tag_create_lightweight(&oid, self.git_repository, tagName.UTF8String, target.git_object, 0);
-	if (gitError < GIT_OK) {
+	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Cannot create lightweight tag"];
 		return NO;
 	}
@@ -669,9 +669,8 @@ static int submoduleEnumerationCallback(git_submodule *git_submodule, const char
 - (GTOID *)OIDByCreatingTagNamed:(NSString *)tagName target:(GTObject *)theTarget tagger:(GTSignature *)theTagger message:(NSString *)theMessage error:(NSError **)error {
 	git_oid oid;
 	int gitError = git_tag_create(&oid, self.git_repository, [tagName UTF8String], theTarget.git_object, theTagger.git_signature, [theMessage UTF8String], 0);
-	if(gitError < GIT_OK) {
-		if(error != NULL)
-			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to create tag in repository"];
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to create tag in repository"];
 		return nil;
 	}
 
@@ -680,7 +679,7 @@ static int submoduleEnumerationCallback(git_submodule *git_submodule, const char
 
 - (GTTag *)createTagNamed:(NSString *)tagName target:(GTObject *)theTarget tagger:(GTSignature *)theTagger message:(NSString *)theMessage error:(NSError **)error {
 	GTOID *oid = [self OIDByCreatingTagNamed:tagName target:theTarget tagger:theTagger message:theMessage error:error];
-	return oid ? (GTTag *)[self lookupObjectByOID:oid objectType:GTObjectTypeTag error:error] : nil;
+	return oid ? [self lookupObjectByOID:oid objectType:GTObjectTypeTag error:error] : nil;
 }
 
 @end
