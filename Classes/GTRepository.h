@@ -72,9 +72,11 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 @property (nonatomic, readonly, strong) NSURL *gitDirectoryURL;
 @property (nonatomic, readonly, getter=isBare) BOOL bare; // Is this a 'bare' repository?  i.e. created with git clone --bare
 @property (nonatomic, readonly, getter=isEmpty) BOOL empty; // Is this repository empty? Will only be YES for a freshly `git init`'d repo.
-@property (nonatomic, readonly, getter=isHeadDetached) BOOL headDetached; // Is HEAD detached? i.e., not pointing to any permanent ref.
+@property (nonatomic, readonly, getter=isHEADDetached) BOOL HEADDetached; // Is HEAD detached? i.e., not pointing to a valid reference.
+@property (nonatomic, readonly, getter=isHEADOrphaned) BOOL HEADOrphaned; // Is HEAD orphaned? i.e., not pointing to anything.
 
 + (BOOL)initializeEmptyRepositoryAtURL:(NSURL *)localFileURL error:(NSError **)error;
++ (BOOL)initializeEmptyRepositoryAtURL:(NSURL *)localFileURL bare:(BOOL)bare error:(NSError **)error;
 
 + (id)repositoryWithURL:(NSURL *)localFileURL error:(NSError **)error;
 - (id)initWithURL:(NSURL *)localFileURL error:(NSError **)error;
