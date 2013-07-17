@@ -164,10 +164,9 @@ static int fetch_update_tips(const char *refname, const git_oid *a, const git_oi
 		remote_callbacks.update_tips = fetch_update_tips;
 		remote_callbacks.payload = &payload;
 
-		NSString *errorMsg = nil;
 		int gitError = git_remote_set_callbacks(self.git_remote, &remote_callbacks);
 		if (gitError != GIT_OK) {
-			errorMsg = @"Failed to set remote callbacks for fetch";
+			if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to set remote callbacks for fetch"];
 			goto error;
 		}
 
@@ -175,19 +174,19 @@ static int fetch_update_tips(const char *refname, const git_oid *a, const git_oi
 
 		gitError = git_remote_connect(self.git_remote, GIT_DIRECTION_FETCH);
 		if (gitError != GIT_OK) {
-			errorMsg = @"Failed to connect remote";
+			if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to connect remote"];
 			goto error;
 		}
 
 		gitError = git_remote_download(self.git_remote, NULL, NULL);
 		if (gitError != GIT_OK) {
-			errorMsg = @"Failed to fetch remote";
+			if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to fetch remote"];
 			goto error;
 		}
 
 		gitError = git_remote_update_tips(self.git_remote);
 		if (gitError != GIT_OK) {
-			errorMsg = @"Failed to update tips";
+			if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to update tips"];
 			goto error;
 		}
 
@@ -196,7 +195,6 @@ static int fetch_update_tips(const char *refname, const git_oid *a, const git_oi
 		git_remote_set_callbacks(self.git_remote, NULL);
 		git_remote_set_cred_acquire_cb(self.git_remote, NULL, NULL);
 
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:errorMsg];
 		return gitError == GIT_OK;
 	}
 }
