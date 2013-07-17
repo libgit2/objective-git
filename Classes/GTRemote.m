@@ -208,6 +208,7 @@ static int fetch_update_tips(const char *refname, const git_oid *a, const git_oi
 
 	error:
 		// Cleanup
+		git_remote_disconnect(self.git_remote);
 		git_remote_set_callbacks(self.git_remote, NULL);
 		git_remote_set_cred_acquire_cb(self.git_remote, NULL, NULL);
 
