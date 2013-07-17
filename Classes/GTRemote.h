@@ -24,6 +24,14 @@ typedef enum {
 	GTRemoteCompletionTypeError = GIT_REMOTE_COMPLETION_ERROR,
 } GTRemoteCompletionType;
 
+// Auto Tag settings. See git_remote_autotag_option_t.
+typedef enum {
+	GTRemoteDownloadTagsAuto = GIT_REMOTE_DOWNLOAD_TAGS_AUTO,
+	GTRemoteDownloadTagsNone = GIT_REMOTE_DOWNLOAD_TAGS_NONE,
+	GTRemoteDownloadTagsAll = GIT_REMOTE_DOWNLOAD_TAGS_ALL,
+} GTRemoteAutotagOption;
+
+
 @interface GTRemote : NSObject
 
 @property (nonatomic, readonly, strong) GTRepository *repository;
@@ -32,6 +40,7 @@ typedef enum {
 @property (nonatomic, copy) NSString *pushURLString;
 @property (nonatomic, readonly, getter=isConnected) BOOL connected;
 @property (nonatomic) BOOL updatesFetchHead;
+@property (nonatomic) GTRemoteAutotagOption autoTag;
 
 // Tests if a URL is valid
 + (BOOL)isValidURL:(NSString *)url;
