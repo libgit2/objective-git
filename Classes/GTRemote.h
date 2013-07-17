@@ -31,6 +31,7 @@ typedef enum {
 @property (nonatomic, copy) NSString *URLString;
 @property (nonatomic, copy) NSString *pushURLString;
 @property (nonatomic, readonly, getter=isConnected) BOOL connected;
+@property (nonatomic) BOOL updatesFetchHead;
 
 // Tests if a URL is valid
 + (BOOL)isValidURL:(NSString *)url;

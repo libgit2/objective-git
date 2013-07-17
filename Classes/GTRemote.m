@@ -120,6 +120,14 @@
 	git_remote_set_pushurl(self.git_remote, pushURLString.UTF8String);
 }
 
+- (BOOL)updatesFetchHead {
+	return git_remote_update_fetchhead(self.git_remote) == 0;
+}
+
+- (void)setUpdatesFetchHead:(BOOL)updatesFetchHead {
+	git_remote_set_update_fetchhead(self.git_remote, updatesFetchHead);
+}
+
 #pragma mark Renaming
 
 typedef int (^GTRemoteRenameBlock)(NSString *refspec);
