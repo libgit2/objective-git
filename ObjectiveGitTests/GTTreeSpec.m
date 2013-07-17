@@ -50,4 +50,9 @@ it(@"should give quick access to its contents", ^{
 	expect(treeContents).to.contain(subdir);
 });
 
+it(@"should return nil for non-existent entries", ^{
+	expect([tree entryAtIndex:99]).to.beNil();
+	expect([tree entryWithName:@"_does not exist"]).to.beNil();
+});
+
 SpecEnd

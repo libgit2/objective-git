@@ -17,6 +17,34 @@ beforeEach(^{
 	expect(repository).notTo.beNil();
 });
 
+describe(@"-initializeEmptyRepositoryAtURL:bare:error:", ^{
+	it(@"should initialize a repository with a working directory by default", ^{
+		__block NSError *error = nil;
+		NSURL *newRepoURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"unit_test"]];
+		[[NSFileManager defaultManager] removeItemAtURL:newRepoURL error:NULL];
+
+		expect([GTRepository initializeEmptyRepositoryAtURL:newRepoURL error:&error]).to.beTruthy();
+		GTRepository *newRepo = [GTRepository repositoryWithURL:newRepoURL error:&error];
+		expect(newRepo).toNot.beNil();
+		expect(error).to.beNil();
+		expect(newRepo.fileURL).toNot.beNil(); // working directory
+		expect(newRepo.bare).to.beFalsy();
+	});
+
+	it(@"should initialize a bare repository", ^{
+		__block NSError *error = nil;
+		NSURL *newRepoURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"unit_test"]];
+		[[NSFileManager defaultManager] removeItemAtURL:newRepoURL error:NULL];
+
+		expect([GTRepository initializeEmptyRepositoryAtURL:newRepoURL bare:YES error:&error]).to.beTruthy();
+		GTRepository *newRepo = [GTRepository repositoryWithURL:newRepoURL error:&error];
+		expect(newRepo).toNot.beNil();
+		expect(error).to.beNil();
+		expect(newRepo.fileURL).to.beNil(); // working directory
+		expect(newRepo.bare).to.beTruthy();
+	});
+});
+
 describe(@"-preparedMessage", ^{
 	it(@"should return nil by default", ^{
 		__block NSError *error = nil;

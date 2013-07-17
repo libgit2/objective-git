@@ -99,10 +99,19 @@ typedef struct {
 }
 
 + (BOOL)initializeEmptyRepositoryAtURL:(NSURL *)localFileURL error:(NSError **)error {
+	return [self initializeEmptyRepositoryAtURL:localFileURL bare:NO error:error];
+}
+
++ (BOOL)initializeEmptyRepositoryAtURL:(NSURL *)localFileURL bare:(BOOL)bare error:(NSError **)error {
+	if (![localFileURL isFileURL] || localFileURL.path == nil) {
+		if (error != NULL) *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileWriteUnsupportedSchemeError userInfo:@{ NSLocalizedDescriptionKey: NSLocalizedString(@"Invalid file path URL to initialize repository.", @"") }];
+		return NO;
+	}
+
 	const char *path = localFileURL.path.UTF8String;
 
 	git_repository *r;
-	int gitError = git_repository_init(&r, path, 0);
+	int gitError = git_repository_init(&r, path, bare);
 	if (gitError < GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to initialize empty repository at URL %@.", localFileURL];
 	}
@@ -127,7 +136,7 @@ typedef struct {
 
 - (id)initWithURL:(NSURL *)localFileURL error:(NSError **)error {
 	if (![localFileURL isFileURL] || localFileURL.path == nil) {
-		if (error != NULL) *error = [NSError errorWithDomain:NSCocoaErrorDomain code:kCFURLErrorUnsupportedURL userInfo:@{ NSLocalizedDescriptionKey: NSLocalizedString(@"Invalid file path URL to open.", @"") }];
+		if (error != NULL) *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileReadUnsupportedSchemeError userInfo:@{ NSLocalizedDescriptionKey: NSLocalizedString(@"Invalid file path URL to open.", @"") }];
 		return nil;
 	}
 
@@ -199,16 +208,28 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 	return [GTOID oidWithGitOid:&oid].SHA;
 }
 
-- (id)lookupObjectByOID:(GTOID *)oid objectType:(GTObjectType)type error:(NSError **)error {
+- (id)lookupObjectByGitOid:(const git_oid *)oid objectType:(GTObjectType)type error:(NSError **)error {
 	git_object *obj;
 
-	int gitError = git_object_lookup(&obj, self.git_repository, oid.git_oid, (git_otype)type);
+	int gitError = git_object_lookup(&obj, self.git_repository, oid, (git_otype)type);
 	if (gitError < GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to lookup object %@ in repository.", oid.SHA];
+		if (error != NULL) {
+			char oid_str[GIT_OID_HEXSZ];
+			git_oid_fmt(oid_str, oid);
+			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to lookup object %s in repository.", oid_str];
+		}
 		return nil;
 	}
 
     return [GTObject objectWithObj:obj inRepository:self];
+}
+
+- (id)lookupObjectByGitOid:(const git_oid *)oid error:(NSError **)error {
+	return [self lookupObjectByGitOid:oid objectType:GTObjectTypeAny error:error];
+}
+
+- (id)lookupObjectByOID:(GTOID *)oid objectType:(GTObjectType)type error:(NSError **)error {
+	return [self lookupObjectByGitOid:oid.git_oid objectType:type error:error];
 }
 
 - (id)lookupObjectByOID:(GTOID *)oid error:(NSError **)error {
@@ -294,10 +315,14 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 }
 
 - (GTReference *)headReferenceWithError:(NSError **)error {
-	GTReference *headSymRef = [GTReference referenceByLookingUpReferencedNamed:@"HEAD" inRepository:self error:error];
-	if (headSymRef == nil) return nil;
+	git_reference *headRef;
+	int gitError = git_repository_head(&headRef, self.git_repository);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to get HEAD"];
+		return nil;
+	}
 
-	return [GTReference referenceByResolvingSymbolicReference:headSymRef error:error];
+	return [[GTReference alloc] initWithGitReference:headRef repository:self];
 }
 
 - (NSArray *)localBranchesWithError:(NSError **)error {
@@ -364,7 +389,7 @@ struct GTRepositoryTagEnumerationInfo {
 
 static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *payload) {
 	struct GTRepositoryTagEnumerationInfo *info = payload;
-	GTTag *tag = (GTTag *)[info->myself lookupObjectByOID:[GTOID oidWithGitOid:oid] objectType:GTObjectTypeTag error:NULL];
+	GTTag *tag = (GTTag *)[info->myself lookupObjectByGitOid:oid objectType:GTObjectTypeTag error:NULL];
 
 	BOOL stop = NO;
 	info->block(tag, &stop);
@@ -407,8 +432,8 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 	// make sure the ref is up to date before we branch off it, otherwise we could branch off an older sha
 	ref = [ref reloadedReferenceWithError:error];
 	if (ref == nil) return nil;
-
-	GTReference *newRef = [GTReference referenceByCreatingReferenceNamed:[NSString stringWithFormat:@"%@%@", [GTBranch localNamePrefix], name] fromReferenceTarget:ref.unresolvedTarget inRepository:self error:error];
+	
+	GTReference *newRef = [GTReference referenceByCreatingReferenceNamed:[NSString stringWithFormat:@"%@%@", [GTBranch localNamePrefix], name] fromReferenceTarget:[ref.resolvedTarget SHA] inRepository:self error:error];
 	if (newRef == nil) return nil;
 	
 	return [GTBranch branchWithReference:newRef repository:self];
@@ -472,8 +497,12 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 	return self.git_repository && git_repository_is_bare(self.git_repository);
 }
 
-- (BOOL)isHeadDetached {
+- (BOOL)isHEADDetached {
 	return (BOOL) git_repository_head_detached(self.git_repository);
+}
+
+- (BOOL)isHEADOrphaned {
+	return (BOOL)git_repository_head_orphan(self.git_repository);
 }
 
 - (BOOL)resetToCommit:(GTCommit *)commit withResetType:(GTRepositoryResetType)resetType error:(NSError **)error {
@@ -547,7 +576,7 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 		return nil;
 	}
 	
-	return [self lookupObjectByOID:[GTOID oidWithGitOid:&mergeBase] objectType:GTObjectTypeCommit error:error];
+	return [self lookupObjectByGitOid:&mergeBase objectType:GTObjectTypeCommit error:error];
 }
 
 - (GTObjectDatabase *)objectDatabaseWithError:(NSError **)error {
