@@ -87,6 +87,13 @@
 	return @(URLString);
 }
 
+- (NSString *)pushURLString {
+	const char *pushURLString = git_remote_pushurl(self.git_remote);
+	if (pushURLString == NULL) return nil;
+
+	return @(pushURLString);
+}
+
 #pragma mark Fetch
 
 typedef int  (^GTCredentialAcquireBlock)(git_cred **cred, GTCredentialType allowedTypes, NSString *url, NSString *username);
