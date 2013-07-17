@@ -40,6 +40,7 @@
 @class GTOdbObject;
 @class GTSignature;
 @class GTSubmodule;
+@class GTTag;
 
 // Options returned from the enumerateFileStatusUsingBlock: function
 enum {
@@ -264,5 +265,50 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 //
 // Returns the index, or nil if an error occurred.
 - (GTIndex *)indexWithError:(NSError **)error;
+
+// Creates a new lightweight tag in this repository.
+//
+// name   - Name for the tag; this name is validated
+//          for consistency. It should also not conflict with an
+//          already existing tag name
+// target - Object to which this tag points. This object
+//          must belong to this repository.
+// error  - Will be filled with a NSError instance on failuer.
+//          May be NULL.
+//
+// Returns YES on success or NO otherwise.
+- (BOOL)createLightweightTagNamed:(NSString *)tagName target:(GTObject *)target error:(NSError **)error;
+
+// Creates an annotated tag in this repo. Existing tags are not overwritten.
+//
+// tagName   - Name for the tag; this name is validated
+//             for consistency. It should also not conflict with an
+//             already existing tag name
+// theTarget - Object to which this tag points. This object
+//             must belong to this repository.
+// tagger    - Signature of the tagger for this tag, and
+//             of the tagging time
+// message   - Full message for this tag
+// error     - Will be filled with a NSError object in case of error.
+//             May be NULL.
+//
+// Returns the object ID of the newly created tag or nil on error.
+- (GTOID *)OIDByCreatingTagNamed:(NSString *)tagName target:(GTObject *)theTarget tagger:(GTSignature *)theTagger message:(NSString *)theMessage error:(NSError **)error;
+
+// Creates an annotated tag in this repo. Existing tags are not overwritten.
+//
+// tagName   - Name for the tag; this name is validated
+//             for consistency. It should also not conflict with an
+//             already existing tag name
+// theTarget - Object to which this tag points. This object
+//             must belong to this repository.
+// tagger    - Signature of the tagger for this tag, and
+//             of the tagging time
+// message   - Full message for this tag
+// error     - Will be filled with a NSError object in case of error.
+//             May be NULL.
+//
+// Returns the newly created tag or nil on error.
+- (GTTag *)createTagNamed:(NSString *)tagName target:(GTObject *)theTarget tagger:(GTSignature *)theTagger message:(NSString *)theMessage error:(NSError **)error;
 
 @end
