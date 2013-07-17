@@ -91,11 +91,11 @@
 
 typedef int  (^GTCredentialAcquireBlock)(git_cred **cred, GTCredentialType allowedTypes, NSString *url, NSString *username);
 
-typedef void (^GTRemoteFetchProgressBlock)(NSString *message, int length);
+typedef void (^GTRemoteFetchProgressBlock)(NSString *message, int length, BOOL *stop);
 
-typedef int  (^GTRemoteFetchCompletionBlock)(GTRemoteCompletionType type);
+typedef int  (^GTRemoteFetchCompletionBlock)(GTRemoteCompletionType type, BOOL *stop);
 
-typedef int  (^GTRemoteFetchUpdateTipsBlock)(GTReference *ref, GTOID *a, GTOID *b);
+typedef int  (^GTRemoteFetchUpdateTipsBlock)(GTReference *ref, GTOID *a, GTOID *b, BOOL *stop);
 
 typedef struct {
 	__unsafe_unretained GTRemote *myself;
@@ -122,7 +122,9 @@ static void fetch_progress(const char *str, int len, void *payload) {
 
 	if (info->progressBlock == nil) return;
 
-	info->progressBlock(@(str), len);
+	BOOL stop = NO;
+	info->progressBlock(@(str), len, &stop);
+	if (stop == YES) git_remote_stop(info->myself.git_remote);
 }
 
 static int fetch_completion(git_remote_completion_type type, void *payload) {
@@ -130,7 +132,9 @@ static int fetch_completion(git_remote_completion_type type, void *payload) {
 
 	if (info->completionBlock == nil) return GIT_OK;
 
-	return info->completionBlock((GTRemoteCompletionType)type);
+	BOOL stop = NO;
+	return info->completionBlock((GTRemoteCompletionType)type, &stop);
+	if (stop == YES) git_remote_stop(info->myself.git_remote);
 }
 
 static int fetch_update_tips(const char *refname, const git_oid *a, const git_oid *b, void *payload) {
@@ -145,7 +149,12 @@ static int fetch_update_tips(const char *refname, const git_oid *a, const git_oi
 
 	GTOID *oid_a = [[GTOID alloc] initWithGitOid:a];
 	GTOID *oid_b = [[GTOID alloc] initWithGitOid:b];
-	return info->updateTipsBlock(ref, oid_a, oid_b);
+
+	BOOL stop = NO;
+	int result = info->updateTipsBlock(ref, oid_a, oid_b, &stop);
+	if (stop == YES) git_remote_stop(info->myself.git_remote);
+
+	return result;
 }
 
 - (BOOL)fetchWithError:(NSError **)error credentials:(GTCredentialAcquireBlock)credBlock progress:(GTRemoteFetchProgressBlock)progressBlock completion:(GTRemoteFetchCompletionBlock)completionBlock updateTips:(GTRemoteFetchUpdateTipsBlock)updateTipsBlock {
