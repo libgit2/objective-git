@@ -94,6 +94,41 @@
 	return @(pushURLString);
 }
 
+#pragma mark Renaming
+
+typedef int (^GTRemoteRenameBlock)(NSString *refspec);
+
+typedef struct {
+	__unsafe_unretained GTRemote *myself;
+	__unsafe_unretained GTRemoteRenameBlock renameBlock;
+} GTRemoteRenameInfo;
+
+static int remote_rename_problem_cb(const char *problematic_refspec, void *payload) {
+	GTRemoteRenameInfo *info = (GTRemoteRenameInfo *)payload;
+	if (info->renameBlock == nil) return GIT_OK;
+
+	return info->renameBlock(@(problematic_refspec));
+}
+
+- (BOOL)rename:(NSString *)name failureBlock:(GTRemoteRenameBlock)renameBlock error:(NSError **)error {
+	NSParameterAssert(name != nil);
+
+	GTRemoteRenameInfo info = {
+		.myself = self,
+		.renameBlock = renameBlock,
+	};
+
+	int gitError = git_remote_rename(self.git_remote, name.UTF8String, remote_rename_problem_cb, &info);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to rename remote" failureReason:@"Couldn't rename remote %@ to %@", self.name, name];
+	}
+	return gitError == GIT_OK;
+}
+
+- (BOOL)rename:(NSString *)name error:(NSError **)error {
+	return [self rename:name failureBlock:nil error:error];
+}
+
 #pragma mark Fetch
 
 typedef int  (^GTCredentialAcquireBlock)(git_cred **cred, GTCredentialType allowedTypes, NSString *url, NSString *username);

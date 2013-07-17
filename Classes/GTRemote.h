@@ -41,6 +41,14 @@ typedef enum {
 // The underlying `git_remote` object.
 - (git_remote *)git_remote __attribute__((objc_returns_inner_pointer));
 
+// Rename the remote.
+//
+// name - The new name for the remote.
+// error - Will be set if an error occurs.
+//
+// Return YES if successful, NO otherwise.
+- (BOOL)rename:(NSString *)name error:(NSError **)error;
+
 - (BOOL)fetchWithError:(NSError **)error credentials:(int (^)(git_cred **cred, GTCredentialType allowedTypes, NSString *url, NSString *username))credBlock progress:(void (^)(NSString *message, int length, BOOL *stop))progressBlock completion:(int (^)(GTRemoteCompletionType type, BOOL *stop))completionBlock updateTips:(int (^)(GTReference *ref, GTOID *a, GTOID *b, BOOL *stop))updateTipsBlock;
 
 @end
