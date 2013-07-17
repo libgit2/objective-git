@@ -37,6 +37,24 @@
 
 #pragma mark API
 
++ (BOOL)isValidURL:(NSString *)url {
+	NSParameterAssert(url != nil);
+
+	return git_remote_valid_url(url.UTF8String) == GIT_OK;
+}
+
++ (BOOL)isSupportedURL:(NSString *)url {
+	NSParameterAssert(url != nil);
+
+	return git_remote_supported_url(url.UTF8String) == GIT_OK;
+}
+
++ (BOOL)isValidName:(NSString *)name {
+	NSParameterAssert(name != nil);
+
+	return git_remote_is_valid_name(name.UTF8String) == GIT_OK;
+}
+
 + (instancetype)remoteWithName:(NSString *)name inRepository:(GTRepository *)repo {
 	return [[self alloc] initWithName:name inRepository:repo];
 }

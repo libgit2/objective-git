@@ -32,6 +32,14 @@ typedef enum {
 @property (nonatomic, copy) NSString *pushURLString;
 @property (nonatomic, readonly, getter=isConnected) BOOL connected;
 
+// Tests if a URL is valid
++ (BOOL)isValidURL:(NSString *)url;
+
+// Tests if a URL is supported
++ (BOOL)isSupportedURL:(NSString *)url;
+
+// Tests if a name is valid
++ (BOOL)isValidName:(NSString *)name;
 
 + (instancetype)remoteWithName:(NSString *)name inRepository:(GTRepository *)repo;
 - (instancetype)initWithName:(NSString *)name inRepository:(GTRepository *)repo;
