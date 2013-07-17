@@ -88,4 +88,14 @@ describe(@"-allTagsWithError:", ^{
 	});
 });
 
+describe(@"-stashChangesWithMessage:flags:error:", ^{
+	it(@"should fail if there's nothing to stash (with default options)", ^{
+		NSError *error = nil;
+		GTCommit *stash = [repository stashChangesWithMessage:nil flags:GTRepositoryStashFlagDefault error:&error];
+		expect(stash).to.beNil();
+		expect(error).notTo.beNil();
+		expect(error.code).to.equal(GIT_ENOTFOUND);
+	});
+});
+
 SpecEnd
