@@ -87,11 +87,19 @@
 	return @(URLString);
 }
 
+- (void)setURLString:(NSString *)URLString {
+	git_remote_set_url(self.git_remote, URLString.UTF8String);
+}
+
 - (NSString *)pushURLString {
 	const char *pushURLString = git_remote_pushurl(self.git_remote);
 	if (pushURLString == NULL) return nil;
 
 	return @(pushURLString);
+}
+
+- (void)setPushURLString:(NSString *)pushURLString {
+	git_remote_set_pushurl(self.git_remote, pushURLString.UTF8String);
 }
 
 #pragma mark Renaming

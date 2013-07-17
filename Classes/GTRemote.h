@@ -28,8 +28,8 @@ typedef enum {
 
 @property (nonatomic, readonly, strong) GTRepository *repository;
 @property (nonatomic, readonly, copy) NSString *name;
-@property (nonatomic, readonly, copy) NSString *URLString;
-@property (nonatomic, readonly, copy) NSString *pushURLString;
+@property (nonatomic, copy) NSString *URLString;
+@property (nonatomic, copy) NSString *pushURLString;
 @property (nonatomic, readonly, getter=isConnected) BOOL connected;
 
 
