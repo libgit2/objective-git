@@ -295,9 +295,9 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 // Returns the index, or nil if an error occurred.
 - (GTIndex *)indexWithError:(NSError **)error;
 
-// Checkout a reference or a commit
+// Checkout a commit
 //
-// newTarget     - Full name of the reference to checkout, or a commit SHA.
+// targetCommit  - The commit to checkout.
 // strategy      - The checkout strategy to use.
 // notifyFlags   - Flags that indicate which notifications should cause `notifyBlock`
 //                 to be called.
@@ -306,11 +306,25 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 // progressBlock - The block to call back for progress updates. Can be nil.
 //
 // Returns YES if operation was successful, NO otherwise
-- (BOOL)checkout:(NSString *)target strategy:(GTCheckoutStrategyType)strategy notifyFlags:(GTCheckoutNotifyFlags)notifyFlags error:(NSError **)error progressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))progressBlock notifyBlock:(int (^)(GTCheckoutNotifyFlags why, NSString *path, GTDiffFile *baseline, GTDiffFile *target, GTDiffFile *workdir))notifyBlock;
+- (BOOL)checkoutCommit:(GTCommit *)targetCommit strategy:(GTCheckoutStrategyType)strategy notifyFlags:(GTCheckoutNotifyFlags)notifyFlags error:(NSError **)error progressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))progressBlock notifyBlock:(int (^)(GTCheckoutNotifyFlags why, NSString *path, GTDiffFile *baseline, GTDiffFile *target, GTDiffFile *workdir))notifyBlock;
 
-// Convenience wrapper for checkout:strategy:notifyFlags:error:notifyBlock:progressBlock without notifications
-- (BOOL)checkout:(NSString *)target strategy:(GTCheckoutStrategyType)strategy error:(NSError **)error progressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))progressBlock;
+// Checkout a reference
+//
+// targetCommit  - The reference to checkout.
+// strategy      - The checkout strategy to use.
+// notifyFlags   - Flags that indicate which notifications should cause `notifyBlock`
+//                 to be called.
+// error         - The error if one occurred. Can be NULL.
+// notifyBlock   - The block to call back for notification handling. Can be nil.
+// progressBlock - The block to call back for progress updates. Can be nil.
+//
+// Returns YES if operation was successful, NO otherwise
+- (BOOL)checkoutReference:(GTReference *)targetReference strategy:(GTCheckoutStrategyType)strategy notifyFlags:(GTCheckoutNotifyFlags)notifyFlags error:(NSError **)error progressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))progressBlock notifyBlock:(int (^)(GTCheckoutNotifyFlags why, NSString *path, GTDiffFile *baseline, GTDiffFile *target, GTDiffFile *workdir))notifyBlock;
 
-// Convenience wrapper for checkout:strategy:notifyFlags:error:notifyBlock:progressBlock without notifications or progress
-- (BOOL)checkout:(NSString *)target strategy:(GTCheckoutStrategyType)strategy error:(NSError **)error;
+// Convenience wrapper for checkoutCommit:strategy:notifyFlags:error:notifyBlock:progressBlock without notifications
+- (BOOL)checkoutCommit:(GTCommit *)target strategy:(GTCheckoutStrategyType)strategy error:(NSError **)error progressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))progressBlock;
+
+// Convenience wrapper for checkoutReference:strategy:notifyFlags:error:notifyBlock:progressBlock without notifications
+- (BOOL)checkoutReference:(GTReference *)target strategy:(GTCheckoutStrategyType)strategy error:(NSError **)error progressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))progressBlock;
+
 @end

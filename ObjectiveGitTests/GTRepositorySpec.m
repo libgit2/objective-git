@@ -63,14 +63,20 @@ describe(@"-allTagsWithError:", ^{
 describe(@"-checkout:strategy:error:progressBlock:", ^{
 	it(@"should allow references", ^{
 		NSError *error = nil;
-		BOOL result = [repository checkout:@"refs/heads/other-branch" strategy:GTCheckoutStrategyAllowConflicts error:&error progressBlock:nil];
+		GTReference *ref = [GTReference referenceByLookingUpReferencedNamed:@"refs/heads/other-branch" inRepository:repository error:&error];
+		expect(ref).to.beTruthy();
+		expect(error.localizedDescription).to.beNil();
+		BOOL result = [repository checkoutReference:ref strategy:GTCheckoutStrategyAllowConflicts error:&error progressBlock:nil];
 		expect(result).to.beTruthy();
 		expect(error.localizedDescription).to.beNil();
 	});
 
 	it(@"should allow commits", ^{
 		NSError *error = nil;
-		BOOL result = [repository checkout:@"1d69f3c0aeaf0d62e25591987b93b8ffc53abd77" strategy:GTCheckoutStrategyAllowConflicts error:&error progressBlock:nil];
+		GTCommit *commit = [repository lookupObjectBySHA:@"1d69f3c0aeaf0d62e25591987b93b8ffc53abd77" objectType:GTObjectTypeCommit error:&error];
+		expect(commit).to.beTruthy();
+		expect(error.localizedDescription).to.beNil();
+		BOOL result = [repository checkoutCommit:commit strategy:GTCheckoutStrategyAllowConflicts error:&error progressBlock:nil];
 		expect(result).to.beTruthy();
 		expect(error.localizedDescription).to.beNil();
 	});

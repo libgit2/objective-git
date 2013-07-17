@@ -671,32 +671,29 @@ static int checkoutNotifyCallback(git_checkout_notify_t why, const char *path, c
 	return block((GTCheckoutNotifyFlags)why, nsPath, gtBaseline, gtTarget, gtWorkdir);
 }
 
-- (BOOL)checkout:(NSString *)target strategy:(GTCheckoutStrategyType)strategy notifyFlags:(GTCheckoutNotifyFlags)notifyFlags error:(NSError **)error progressBlock:(GTCheckoutProgressBlock)progressBlock notifyBlock:(GTCheckoutNotifyBlock)notifyBlock {
-	NSParameterAssert(target != nil);
+- (BOOL)moveHEADToReference:(GTReference *)reference error:(NSError **)error {
+	NSParameterAssert(reference != nil);
 
-	int gitError = GIT_OK;
-	// Try to resolve the target to either a reference or a commitish
-	GTReference *targetReference = nil;
-	GTCommit *targetCommit = (GTCommit *)[self lookupObjectBySHA:target objectType:GTObjectTypeCommit error:error];
-	if (targetCommit == nil) {
-		targetReference = [GTReference referenceByLookingUpReferencedNamed:target inRepository:self error:error];
-	}
-	if (targetReference == nil && targetCommit == nil) return NO;
-
-	// Reset the error because one of the above failed
-	if (error != NULL) *error = NULL;
-
-	// Now move our HEAD
-	// I think this should be moved in instance methods
-	if (targetReference) {
-		gitError = git_repository_set_head(self.git_repository, targetReference.name.UTF8String);
-	} else if (targetCommit) {
-		gitError = git_repository_set_head_detached(self.git_repository, targetCommit.OID.git_oid);
-	}
+	int gitError = git_repository_set_head(self.git_repository, reference.name.UTF8String);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to move HEAD"];
-		return NO;
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to move HEAD to reference %@", reference.name];
 	}
+
+	return gitError == GIT_OK;
+}
+
+- (BOOL)moveHEADToCommit:(GTCommit *)commit error:(NSError **)error {
+	NSParameterAssert(commit != nil);
+
+	int gitError = git_repository_set_head_detached(self.git_repository, commit.OID.git_oid);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to move HEAD to commit %@", commit.SHA];
+	}
+
+	return gitError == GIT_OK;
+}
+
+- (BOOL)performCheckoutWithStrategy:(GTCheckoutStrategyType)strategy notifyFlags:(GTCheckoutNotifyFlags)notifyFlags error:(NSError **)error progressBlock:(GTCheckoutProgressBlock)progressBlock notifyBlock:(GTCheckoutNotifyBlock)notifyBlock {
 
 	git_checkout_opts checkoutOptions = GIT_CHECKOUT_OPTS_INIT;
 
@@ -708,20 +705,34 @@ static int checkoutNotifyCallback(git_checkout_notify_t why, const char *path, c
 	checkoutOptions.notify_flags = notifyFlags;
 	checkoutOptions.notify_payload = (__bridge void *)notifyBlock;
 
-	gitError = git_checkout_head(self.git_repository, &checkoutOptions);
+	int gitError = git_checkout_head(self.git_repository, &checkoutOptions);
 	if (gitError < GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to checkout tree."];
 	}
-
+	
 	return gitError == GIT_OK;
 }
 
-- (BOOL)checkout:(NSString *)target strategy:(GTCheckoutStrategyType)strategy error:(NSError **)error progressBlock:(GTCheckoutProgressBlock)progressBlock {
-	return [self checkout:target strategy:strategy notifyFlags:GTCheckoutNotifyNone error:error progressBlock:progressBlock notifyBlock:nil];
+- (BOOL)checkoutCommit:(GTCommit *)targetCommit strategy:(GTCheckoutStrategyType)strategy notifyFlags:(GTCheckoutNotifyFlags)notifyFlags error:(NSError **)error progressBlock:(GTCheckoutProgressBlock)progressBlock notifyBlock:(GTCheckoutNotifyBlock)notifyBlock {
+	BOOL success = [self moveHEADToCommit:targetCommit error:error];
+	if (success == NO) return NO;
+	
+	return [self performCheckoutWithStrategy:strategy notifyFlags:notifyFlags error:error progressBlock:progressBlock notifyBlock:notifyBlock];
 }
 
-- (BOOL)checkout:(NSString *)target strategy:(GTCheckoutStrategyType)strategy error:(NSError **)error {
-	return [self checkout:target strategy:strategy notifyFlags:GTCheckoutNotifyNone error:error progressBlock:nil notifyBlock:nil];
+- (BOOL)checkoutReference:(GTReference *)targetReference strategy:(GTCheckoutStrategyType)strategy notifyFlags:(GTCheckoutNotifyFlags)notifyFlags error:(NSError **)error progressBlock:(GTCheckoutProgressBlock)progressBlock notifyBlock:(GTCheckoutNotifyBlock)notifyBlock {	
+	BOOL success = [self moveHEADToReference:targetReference error:error];
+	if (success == NO) return NO;
+	
+	return [self performCheckoutWithStrategy:strategy notifyFlags:notifyFlags error:error progressBlock:progressBlock notifyBlock:notifyBlock];
+}
+
+- (BOOL)checkoutCommit:(GTCommit *)target strategy:(GTCheckoutStrategyType)strategy error:(NSError **)error progressBlock:(GTCheckoutProgressBlock)progressBlock {
+	return [self checkoutCommit:target strategy:strategy notifyFlags:GTCheckoutNotifyNone error:error progressBlock:progressBlock notifyBlock:nil];
+}
+
+- (BOOL)checkoutReference:(GTReference *)target strategy:(GTCheckoutStrategyType)strategy error:(NSError **)error progressBlock:(GTCheckoutProgressBlock)progressBlock {
+	return [self checkoutReference:target strategy:strategy notifyFlags:GTCheckoutNotifyNone error:error progressBlock:progressBlock notifyBlock:nil];
 }
 
 @end
