@@ -42,5 +42,4 @@ typedef enum {
 
 - (BOOL)fetchWithError:(NSError **)error credentials:(int (^)(git_cred **cred, GTCredentialType allowedTypes, NSString *url, NSString *username))credBlock progress:(void (^)(NSString *message, int length, BOOL *stop))progressBlock completion:(int (^)(GTRemoteCompletionType type, BOOL *stop))completionBlock updateTips:(int (^)(GTReference *ref, GTOID *a, GTOID *b, BOOL *stop))updateTipsBlock;
 
-- (void)cancelOperation;
 @end
