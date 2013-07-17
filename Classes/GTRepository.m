@@ -679,4 +679,36 @@ static int submoduleEnumerationCallback(git_submodule *git_submodule, const char
 	return [[GTSignature alloc] initWithName:name email:email time:[NSDate date]];
 }
 
+#pragma mark Tagging
+
+- (BOOL)createLightweightTagNamed:(NSString *)tagName target:(GTObject *)target error:(NSError **)error {
+	NSParameterAssert(tagName != nil);
+	NSParameterAssert(target != nil);
+
+	git_oid oid;
+	int gitError = git_tag_create_lightweight(&oid, self.git_repository, tagName.UTF8String, target.git_object, 0);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Cannot create lightweight tag"];
+		return NO;
+	}
+
+	return YES;
+}
+
+- (GTOID *)OIDByCreatingTagNamed:(NSString *)tagName target:(GTObject *)theTarget tagger:(GTSignature *)theTagger message:(NSString *)theMessage error:(NSError **)error {
+	git_oid oid;
+	int gitError = git_tag_create(&oid, self.git_repository, [tagName UTF8String], theTarget.git_object, theTagger.git_signature, [theMessage UTF8String], 0);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to create tag in repository"];
+		return nil;
+	}
+
+	return [GTOID oidWithGitOid:&oid];
+}
+
+- (GTTag *)createTagNamed:(NSString *)tagName target:(GTObject *)theTarget tagger:(GTSignature *)theTagger message:(NSString *)theMessage error:(NSError **)error {
+	GTOID *oid = [self OIDByCreatingTagNamed:tagName target:theTarget tagger:theTagger message:theMessage error:error];
+	return oid ? [self lookupObjectByOID:oid objectType:GTObjectTypeTag error:error] : nil;
+}
+
 @end
