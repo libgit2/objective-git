@@ -113,10 +113,9 @@ static int filter_callback(const git_tree_entry *entry, void *payload) {
 - (GTTreeEntry *)addEntryWithOID:(GTOID *)oid filename:(NSString *)filename filemode:(GTFileMode)filemode error:(NSError **)error {
 	NSParameterAssert(oid != nil);
 	NSParameterAssert(filename != nil);
-	const git_oid *gitOid = oid.git_oid;
 
 	const git_tree_entry *entry = NULL;
-	int status = git_treebuilder_insert(&entry, self.git_treebuilder, filename.UTF8String, gitOid, (git_filemode_t)filemode);
+	int status = git_treebuilder_insert(&entry, self.git_treebuilder, filename.UTF8String, oid.git_oid, (git_filemode_t)filemode);
 	
 	if (status != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:status withAdditionalDescription:@"Failed to add entry %@ to tree builder.", oid.SHA];
