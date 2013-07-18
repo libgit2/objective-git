@@ -40,6 +40,8 @@
 @class GTOdbObject;
 @class GTSignature;
 @class GTSubmodule;
+@class GTDiffFile;
+@class GTTag;
 @class GTTreeBuilder;
 
 // Options returned from the enumerateFileStatusUsingBlock: function
@@ -58,10 +60,41 @@ enum {
 typedef unsigned int GTRepositoryFileStatus;
 
 typedef enum {
-    GTRepositoryResetTypeSoft = GIT_RESET_SOFT,
-    GTRepositoryResetTypeMixed = GIT_RESET_MIXED,
-    GTRepositoryResetTypeHard = GIT_RESET_HARD
+	GTRepositoryResetTypeSoft = GIT_RESET_SOFT,
+	GTRepositoryResetTypeMixed = GIT_RESET_MIXED,
+	GTRepositoryResetTypeHard = GIT_RESET_HARD
 } GTRepositoryResetType;
+
+// Checkout strategies used by the various -checkout... methods
+// See git_checkout_strategy_t
+typedef enum {
+	GTCheckoutStrategyNone = GIT_CHECKOUT_NONE,
+	GTCheckoutStrategySafe = GIT_CHECKOUT_SAFE,
+	GTCheckoutStrategySafeCreate = GIT_CHECKOUT_SAFE_CREATE,
+	GTCheckoutStrategyForce = GIT_CHECKOUT_FORCE,
+	GTCheckoutStrategyAllowConflicts = GIT_CHECKOUT_ALLOW_CONFLICTS,
+	GTCheckoutStrategyRemoveUntracked = GIT_CHECKOUT_REMOVE_UNTRACKED,
+	GTCheckoutStrategyRemoveIgnored = GIT_CHECKOUT_REMOVE_IGNORED,
+	GTCheckoutStrategyUpdateOnly = GIT_CHECKOUT_UPDATE_ONLY,
+	GTCheckoutStrategyDontUpdateIndex = GIT_CHECKOUT_DONT_UPDATE_INDEX,
+	GTCheckoutStrategyNoRefresh = GIT_CHECKOUT_NO_REFRESH,
+	GTCheckoutStrategyDisablePathspecMatch = GIT_CHECKOUT_DISABLE_PATHSPEC_MATCH,
+	GTCheckoutStrategySkipLockedDirectories = GIT_CHECKOUT_SKIP_LOCKED_DIRECTORIES,
+} GTCheckoutStrategyType;
+
+// Checkout notification flags used by the various -checkout... methods
+// See git_checkout_notify_t
+typedef enum {
+	GTCheckoutNotifyNone = GIT_CHECKOUT_NOTIFY_NONE,
+	GTCheckoutNotifyConflict = GIT_CHECKOUT_NOTIFY_CONFLICT,
+	GTCheckoutNotifyDirty = GIT_CHECKOUT_NOTIFY_DIRTY,
+	GTCheckoutNotifyUpdated = GIT_CHECKOUT_NOTIFY_UPDATED,
+	GTCheckoutNotifyUntracked = GIT_CHECKOUT_NOTIFY_UNTRACKED,
+	GTCheckoutNotifyIgnored = GIT_CHECKOUT_NOTIFY_IGNORED,
+
+	GTCheckoutNotifyAll = GIT_CHECKOUT_NOTIFY_ALL,
+} GTCheckoutNotifyFlags;
+
 
 typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus status, BOOL *stop);
 
@@ -73,9 +106,11 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 @property (nonatomic, readonly, strong) NSURL *gitDirectoryURL;
 @property (nonatomic, readonly, getter=isBare) BOOL bare; // Is this a 'bare' repository?  i.e. created with git clone --bare
 @property (nonatomic, readonly, getter=isEmpty) BOOL empty; // Is this repository empty? Will only be YES for a freshly `git init`'d repo.
-@property (nonatomic, readonly, getter=isHeadDetached) BOOL headDetached; // Is HEAD detached? i.e., not pointing to any permanent ref.
+@property (nonatomic, readonly, getter=isHEADDetached) BOOL HEADDetached; // Is HEAD detached? i.e., not pointing to a valid reference.
+@property (nonatomic, readonly, getter=isHEADOrphaned) BOOL HEADOrphaned; // Is HEAD orphaned? i.e., not pointing to anything.
 
 + (BOOL)initializeEmptyRepositoryAtURL:(NSURL *)localFileURL error:(NSError **)error;
++ (BOOL)initializeEmptyRepositoryAtURL:(NSURL *)localFileURL bare:(BOOL)bare error:(NSError **)error;
 
 + (id)repositoryWithURL:(NSURL *)localFileURL error:(NSError **)error;
 - (id)initWithURL:(NSURL *)localFileURL error:(NSError **)error;
@@ -271,6 +306,83 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 //
 // Returns the index, or nil if an error occurred.
 - (GTIndex *)indexWithError:(NSError **)error;
+
+// Creates a new lightweight tag in this repository.
+//
+// name   - Name for the tag; this name is validated
+//          for consistency. It should also not conflict with an
+//          already existing tag name
+// target - Object to which this tag points. This object
+//          must belong to this repository.
+// error  - Will be filled with a NSError instance on failuer.
+//          May be NULL.
+//
+// Returns YES on success or NO otherwise.
+- (BOOL)createLightweightTagNamed:(NSString *)tagName target:(GTObject *)target error:(NSError **)error;
+
+// Creates an annotated tag in this repo. Existing tags are not overwritten.
+//
+// tagName   - Name for the tag; this name is validated
+//             for consistency. It should also not conflict with an
+//             already existing tag name
+// theTarget - Object to which this tag points. This object
+//             must belong to this repository.
+// tagger    - Signature of the tagger for this tag, and
+//             of the tagging time
+// message   - Full message for this tag
+// error     - Will be filled with a NSError object in case of error.
+//             May be NULL.
+//
+// Returns the object ID of the newly created tag or nil on error.
+- (GTOID *)OIDByCreatingTagNamed:(NSString *)tagName target:(GTObject *)theTarget tagger:(GTSignature *)theTagger message:(NSString *)theMessage error:(NSError **)error;
+
+// Creates an annotated tag in this repo. Existing tags are not overwritten.
+//
+// tagName   - Name for the tag; this name is validated
+//             for consistency. It should also not conflict with an
+//             already existing tag name
+// theTarget - Object to which this tag points. This object
+//             must belong to this repository.
+// tagger    - Signature of the tagger for this tag, and
+//             of the tagging time
+// message   - Full message for this tag
+// error     - Will be filled with a NSError object in case of error.
+//             May be NULL.
+//
+// Returns the newly created tag or nil on error.
+- (GTTag *)createTagNamed:(NSString *)tagName target:(GTObject *)theTarget tagger:(GTSignature *)theTagger message:(NSString *)theMessage error:(NSError **)error;
+
+// Checkout a commit
+//
+// targetCommit  - The commit to checkout.
+// strategy      - The checkout strategy to use.
+// notifyFlags   - Flags that indicate which notifications should cause `notifyBlock`
+//                 to be called.
+// error         - The error if one occurred. Can be NULL.
+// notifyBlock   - The block to call back for notification handling. Can be nil.
+// progressBlock - The block to call back for progress updates. Can be nil.
+//
+// Returns YES if operation was successful, NO otherwise
+- (BOOL)checkoutCommit:(GTCommit *)targetCommit strategy:(GTCheckoutStrategyType)strategy notifyFlags:(GTCheckoutNotifyFlags)notifyFlags error:(NSError **)error progressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))progressBlock notifyBlock:(int (^)(GTCheckoutNotifyFlags why, NSString *path, GTDiffFile *baseline, GTDiffFile *target, GTDiffFile *workdir))notifyBlock;
+
+// Checkout a reference
+//
+// targetCommit  - The reference to checkout.
+// strategy      - The checkout strategy to use.
+// notifyFlags   - Flags that indicate which notifications should cause `notifyBlock`
+//                 to be called.
+// error         - The error if one occurred. Can be NULL.
+// notifyBlock   - The block to call back for notification handling. Can be nil.
+// progressBlock - The block to call back for progress updates. Can be nil.
+//
+// Returns YES if operation was successful, NO otherwise
+- (BOOL)checkoutReference:(GTReference *)targetReference strategy:(GTCheckoutStrategyType)strategy notifyFlags:(GTCheckoutNotifyFlags)notifyFlags error:(NSError **)error progressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))progressBlock notifyBlock:(int (^)(GTCheckoutNotifyFlags why, NSString *path, GTDiffFile *baseline, GTDiffFile *target, GTDiffFile *workdir))notifyBlock;
+
+// Convenience wrapper for checkoutCommit:strategy:notifyFlags:error:notifyBlock:progressBlock without notifications
+- (BOOL)checkoutCommit:(GTCommit *)target strategy:(GTCheckoutStrategyType)strategy error:(NSError **)error progressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))progressBlock;
+
+// Convenience wrapper for checkoutReference:strategy:notifyFlags:error:notifyBlock:progressBlock without notifications
+- (BOOL)checkoutReference:(GTReference *)target strategy:(GTCheckoutStrategyType)strategy error:(NSError **)error progressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))progressBlock;
 
 - (GTCommit *)buildCommitWithMessage:(NSString *)message parents:(NSArray *)parents error:(NSError **)error block:(void (^)(GTTreeBuilder *builder))builderBlock;
 

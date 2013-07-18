@@ -146,7 +146,7 @@ describe(@"clean, checked out submodule", ^{
 		expect(submoduleRepo.fileURL).to.equal([repo.fileURL URLByAppendingPathComponent:@"Test_App"]);
 		expect(submoduleRepo.bare).to.beFalsy();
 		expect(submoduleRepo.empty).to.beFalsy();
-		expect(submoduleRepo.headDetached).to.beTruthy();
+		expect(submoduleRepo.HEADDetached).to.beTruthy();
 		expect([submoduleRepo isWorkingDirectoryClean]).to.beTruthy();
 	});
 
@@ -228,7 +228,7 @@ describe(@"dirty, checked out submodule", ^{
 		expect(submoduleRepo.fileURL).to.equal([repo.fileURL URLByAppendingPathComponent:@"Test_App2"]);
 		expect(submoduleRepo.bare).to.beFalsy();
 		expect(submoduleRepo.empty).to.beFalsy();
-		expect(submoduleRepo.headDetached).to.beTruthy();
+		expect(submoduleRepo.HEADDetached).to.beTruthy();
 		expect([submoduleRepo isWorkingDirectoryClean]).to.beFalsy();
 	});
 
