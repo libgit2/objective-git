@@ -42,6 +42,8 @@
 #import "GTTag.h"
 #import "NSError+Git.h"
 #import "NSString+Git.h"
+#import "GTDiffFile.h"
+
 
 // The type of block passed to -enumerateSubmodulesRecursively:usingBlock:.
 typedef void (^GTRepositorySubmoduleEnumerationBlock)(GTSubmodule *submodule, BOOL *stop);
@@ -58,6 +60,7 @@ typedef struct {
 	__unsafe_unretained GTRepository *parentRepository;
 	__unsafe_unretained GTRepositorySubmoduleEnumerationBlock block;
 } GTRepositorySubmoduleEnumerationInfo;
+
 
 @interface GTRepository ()
 @property (nonatomic, assign, readonly) git_repository *git_repository;
@@ -128,7 +131,7 @@ typedef struct {
 
 	self = [super init];
 	if (self == nil) return nil;
-	
+
 	_git_repository = repository;
 
 	return self;
@@ -166,12 +169,12 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 }
 
 + (id)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL barely:(BOOL)barely withCheckout:(BOOL)withCheckout error:(NSError **)error transferProgressBlock:(void (^)(const git_transfer_progress *))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))checkoutProgressBlock {
-	
+
 	git_clone_options cloneOptions = GIT_CLONE_OPTIONS_INIT;
 	if (barely) {
 		cloneOptions.bare = 1;
 	}
-	
+
 	if (withCheckout) {
 		git_checkout_opts checkoutOptions = GIT_CHECKOUT_OPTS_INIT;
 		checkoutOptions.checkout_strategy = GIT_CHECKOUT_SAFE_CREATE;
@@ -179,10 +182,10 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 		checkoutOptions.progress_payload = (__bridge void *)checkoutProgressBlock;
 		cloneOptions.checkout_opts = checkoutOptions;
 	}
-	
+
 	cloneOptions.fetch_progress_cb = transferProgressCallback;
 	cloneOptions.fetch_progress_payload = (__bridge void *)transferProgressBlock;
-	
+
 	const char *remoteURL = originURL.absoluteString.UTF8String;
 	const char *workingDirectoryPath = workdirURL.path.UTF8String;
 	git_repository *repository;
@@ -435,7 +438,7 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 	
 	GTReference *newRef = [GTReference referenceByCreatingReferenceNamed:[NSString stringWithFormat:@"%@%@", [GTBranch localNamePrefix], name] fromReferenceTarget:[ref.resolvedTarget SHA] inRepository:self error:error];
 	if (newRef == nil) return nil;
-	
+
 	return [GTBranch branchWithReference:newRef repository:self];
 }
 
@@ -469,7 +472,7 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 	for (NSUInteger i = 0; i < array.count; i++) {
 		NSString *refName = @(array.strings[i]);
 		if (refName == nil) continue;
-		
+
 		[references addObject:refName];
 	}
 
@@ -507,12 +510,12 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 
 - (BOOL)resetToCommit:(GTCommit *)commit withResetType:(GTRepositoryResetType)resetType error:(NSError **)error {
     NSParameterAssert(commit != nil);
-    
+
     int result = git_reset(self.git_repository, commit.git_object, (git_reset_t)resetType);
     if (result == GIT_OK) return YES;
-    
+
     if (error != NULL) *error = [NSError git_errorFor:result withAdditionalDescription:@"Failed to reset repository to commit %@.", commit.SHA];
-    
+
     return NO;
 }
 
@@ -709,6 +712,88 @@ static int submoduleEnumerationCallback(git_submodule *git_submodule, const char
 - (GTTag *)createTagNamed:(NSString *)tagName target:(GTObject *)theTarget tagger:(GTSignature *)theTagger message:(NSString *)theMessage error:(NSError **)error {
 	GTOID *oid = [self OIDByCreatingTagNamed:tagName target:theTarget tagger:theTagger message:theMessage error:error];
 	return oid ? [self lookupObjectByOID:oid objectType:GTObjectTypeTag error:error] : nil;
+}
+
+#pragma mark Checkout
+
+// The type of block passed to -checkout:strategy:progressBlock:notifyBlock:notifyFlags:error: for progress reporting
+typedef void (^GTCheckoutProgressBlock)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps);
+
+// The type of block passed to -checkout:strategy:progressBlock:notifyBlock:notifyFlags:error: for notification reporting
+typedef int  (^GTCheckoutNotifyBlock)(GTCheckoutNotifyFlags why, NSString *path, GTDiffFile *baseline, GTDiffFile *target, GTDiffFile *workdir);
+
+static int checkoutNotifyCallback(git_checkout_notify_t why, const char *path, const git_diff_file *baseline, const git_diff_file *target, const git_diff_file *workdir, void *payload) {
+	if (payload == NULL) return 0;
+	GTCheckoutNotifyBlock block = (__bridge id)payload;
+	NSString *nsPath = (path != NULL ? @(path) : nil);
+	GTDiffFile *gtBaseline = (baseline != NULL ? [[GTDiffFile alloc] initWithGitDiffFile:*baseline] : nil);
+	GTDiffFile *gtTarget = (target != NULL ? [[GTDiffFile alloc] initWithGitDiffFile:*target] : nil);
+	GTDiffFile *gtWorkdir = (workdir != NULL ? [[GTDiffFile alloc] initWithGitDiffFile:*workdir] : nil);
+	return block((GTCheckoutNotifyFlags)why, nsPath, gtBaseline, gtTarget, gtWorkdir);
+}
+
+- (BOOL)moveHEADToReference:(GTReference *)reference error:(NSError **)error {
+	NSParameterAssert(reference != nil);
+	
+	int gitError = git_repository_set_head(self.git_repository, reference.name.UTF8String);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to move HEAD to reference %@", reference.name];
+	}
+	
+	return gitError == GIT_OK;
+}
+
+- (BOOL)moveHEADToCommit:(GTCommit *)commit error:(NSError **)error {
+	NSParameterAssert(commit != nil);
+	
+	int gitError = git_repository_set_head_detached(self.git_repository, commit.OID.git_oid);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to move HEAD to commit %@", commit.SHA];
+	}
+	
+	return gitError == GIT_OK;
+}
+
+- (BOOL)performCheckoutWithStrategy:(GTCheckoutStrategyType)strategy notifyFlags:(GTCheckoutNotifyFlags)notifyFlags error:(NSError **)error progressBlock:(GTCheckoutProgressBlock)progressBlock notifyBlock:(GTCheckoutNotifyBlock)notifyBlock {
+	
+	git_checkout_opts checkoutOptions = GIT_CHECKOUT_OPTS_INIT;
+	
+	checkoutOptions.checkout_strategy = strategy;
+	checkoutOptions.progress_cb = checkoutProgressCallback;
+	checkoutOptions.progress_payload = (__bridge void *)progressBlock;
+	
+	checkoutOptions.notify_cb = checkoutNotifyCallback;
+	checkoutOptions.notify_flags = notifyFlags;
+	checkoutOptions.notify_payload = (__bridge void *)notifyBlock;
+	
+	int gitError = git_checkout_head(self.git_repository, &checkoutOptions);
+	if (gitError < GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to checkout tree."];
+	}
+	
+	return gitError == GIT_OK;
+}
+
+- (BOOL)checkoutCommit:(GTCommit *)targetCommit strategy:(GTCheckoutStrategyType)strategy notifyFlags:(GTCheckoutNotifyFlags)notifyFlags error:(NSError **)error progressBlock:(GTCheckoutProgressBlock)progressBlock notifyBlock:(GTCheckoutNotifyBlock)notifyBlock {
+	BOOL success = [self moveHEADToCommit:targetCommit error:error];
+	if (success == NO) return NO;
+	
+	return [self performCheckoutWithStrategy:strategy notifyFlags:notifyFlags error:error progressBlock:progressBlock notifyBlock:notifyBlock];
+}
+
+- (BOOL)checkoutReference:(GTReference *)targetReference strategy:(GTCheckoutStrategyType)strategy notifyFlags:(GTCheckoutNotifyFlags)notifyFlags error:(NSError **)error progressBlock:(GTCheckoutProgressBlock)progressBlock notifyBlock:(GTCheckoutNotifyBlock)notifyBlock {
+	BOOL success = [self moveHEADToReference:targetReference error:error];
+	if (success == NO) return NO;
+	
+	return [self performCheckoutWithStrategy:strategy notifyFlags:notifyFlags error:error progressBlock:progressBlock notifyBlock:notifyBlock];
+}
+
+- (BOOL)checkoutCommit:(GTCommit *)target strategy:(GTCheckoutStrategyType)strategy error:(NSError **)error progressBlock:(GTCheckoutProgressBlock)progressBlock {
+	return [self checkoutCommit:target strategy:strategy notifyFlags:GTCheckoutNotifyNone error:error progressBlock:progressBlock notifyBlock:nil];
+}
+
+- (BOOL)checkoutReference:(GTReference *)target strategy:(GTCheckoutStrategyType)strategy error:(NSError **)error progressBlock:(GTCheckoutProgressBlock)progressBlock {
+	return [self checkoutReference:target strategy:strategy notifyFlags:GTCheckoutNotifyNone error:error progressBlock:progressBlock notifyBlock:nil];
 }
 
 @end
