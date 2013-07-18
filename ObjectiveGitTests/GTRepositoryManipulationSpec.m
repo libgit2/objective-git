@@ -27,29 +27,37 @@ afterAll(^{
 });
 
 describe(@"GTRepository", ^{
-	it(@"allows commits to be created easily", ^{
+	it(@"can create initial commits", ^{
 		NSError *error = nil;
 		GTTreeBuilder *builder = [[GTTreeBuilder alloc] initWithTree:nil error:&error];
 		expect(builder).toNot.beNil();
 
-		[builder addEntryWithData:[@"Test contents" dataUsingEncoding:NSUTF8StringEncoding] filename:@"Test file.txt" filemode:GTFileModeBlob error:&error];
-		expect(error.localizedDescription).to.beNil();
+		[builder addEntryWithData:[@"Another file contents" dataUsingEncoding:NSUTF8StringEncoding] filename:@"Test file 2.txt" filemode:GTFileModeBlob error:&error];
+		expect(error.description).to.beNil();
 
-		[builder addEntryWithData:[@"Another file contents" dataUsingEncoding:NSUTF8StringEncoding] filename:@"subdir/Test file 2.txt" filemode:GTFileModeBlob error:&error];
-		expect(error.localizedDescription).to.beNil();
+		GTTree *subtree = [builder writeTreeToRepository:repository error:&error];
+		expect(subtree).notTo.beNil();
+		expect(error.description).to.beNil();
+
+		[builder clear];
+
+		[builder addEntryWithData:[@"Test contents" dataUsingEncoding:NSUTF8StringEncoding] filename:@"Test file.txt" filemode:GTFileModeBlob error:&error];
+		expect(error.description).to.beNil();
+
+		[builder addEntryWithOID:subtree.OID filename:@"subdir" filemode:GTFileModeTree error:&error];
+		expect(error.description).to.beNil();
 
 		GTTree *tree = [builder writeTreeToRepository:repository error:&error];
 		expect(tree).notTo.beNil();
-		expect(error.localizedDescription).to.beNil();
+		expect(error.description).to.beNil();
+
+		GTCommit *initialCommit = [repository commitWithTree:tree message:@"Initial commit" parents:nil byUpdatingReferenceNamed:@"refs/heads/master" error:&error];
+		expect(initialCommit).notTo.beNil();
+		expect(error.description).to.beNil();
 
 		GTReference *ref = [repository headReferenceWithError:&error];
 		expect(ref).notTo.beNil();
-		expect(error.localizedDescription).to.beNil();
-
-		GTSignature *sign = [repository userSignatureForNow];
-		GTCommit *initialCommit = [GTCommit commitInRepository:repository updateReference:ref author:sign committer:sign message:@"Initial commit" tree:tree parents:nil error:&error];
-		expect(initialCommit).notTo.beNil();
-		expect(error.localizedDescription).to.beNil();
+		expect(error.description).to.beNil();
 	});
 });
 
