@@ -27,6 +27,8 @@ afterAll(^{
 });
 
 describe(@"GTRepository", ^{
+	__block NSMutableArray *commits = [NSMutableArray array];
+
 	it(@"can create initial commits", ^{
 		NSError *error = nil;
 		GTTreeBuilder *builder = [[GTTreeBuilder alloc] initWithTree:nil error:&error];
@@ -54,10 +56,31 @@ describe(@"GTRepository", ^{
 		GTCommit *initialCommit = [repository commitWithTree:tree message:@"Initial commit" parents:nil byUpdatingReferenceNamed:@"refs/heads/master" error:&error];
 		expect(initialCommit).notTo.beNil();
 		expect(error.description).to.beNil();
+		[commits addObject:initialCommit];
 
 		GTReference *ref = [repository headReferenceWithError:&error];
 		expect(ref).notTo.beNil();
 		expect(error.description).to.beNil();
+	});
+
+	it(@"can create more commits", ^{
+		NSError *error = nil;
+		GTCommit *initialCommit = commits.lastObject;
+		GTTreeBuilder *builder = [[GTTreeBuilder alloc] initWithTree:initialCommit.tree error:&error];
+		expect(builder).toNot.beNil();
+
+		[builder addEntryWithData:[@"Better test contents" dataUsingEncoding:NSUTF8StringEncoding] filename:@"Test file.txt" filemode:GTFileModeBlob error:&error];
+		expect(error.description).to.beNil();
+
+		GTTree *tree = [builder writeTreeToRepository:repository error:&error];
+		expect(tree).notTo.beNil();
+		expect(error.description).to.beNil();
+
+		GTCommit *secondCommit = [repository commitWithTree:tree message:@"Initial commit" parents:@[commits.lastObject] byUpdatingReferenceNamed:@"refs/heads/master" error:&error];
+		expect(secondCommit).notTo.beNil();
+		expect(error.description).to.beNil();
+
+		[commits addObject:secondCommit];
 	});
 });
 
