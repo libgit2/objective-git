@@ -41,6 +41,7 @@
 @class GTSignature;
 @class GTSubmodule;
 @class GTDiffFile;
+@class GTTag;
 
 // Options returned from the enumerateFileStatusUsingBlock: function
 enum {
@@ -104,9 +105,11 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 @property (nonatomic, readonly, strong) NSURL *gitDirectoryURL;
 @property (nonatomic, readonly, getter=isBare) BOOL bare; // Is this a 'bare' repository?  i.e. created with git clone --bare
 @property (nonatomic, readonly, getter=isEmpty) BOOL empty; // Is this repository empty? Will only be YES for a freshly `git init`'d repo.
-@property (nonatomic, readonly, getter=isHeadDetached) BOOL headDetached; // Is HEAD detached? i.e., not pointing to any permanent ref.
+@property (nonatomic, readonly, getter=isHEADDetached) BOOL HEADDetached; // Is HEAD detached? i.e., not pointing to a valid reference.
+@property (nonatomic, readonly, getter=isHEADOrphaned) BOOL HEADOrphaned; // Is HEAD orphaned? i.e., not pointing to anything.
 
 + (BOOL)initializeEmptyRepositoryAtURL:(NSURL *)localFileURL error:(NSError **)error;
++ (BOOL)initializeEmptyRepositoryAtURL:(NSURL *)localFileURL bare:(BOOL)bare error:(NSError **)error;
 
 + (id)repositoryWithURL:(NSURL *)localFileURL error:(NSError **)error;
 - (id)initWithURL:(NSURL *)localFileURL error:(NSError **)error;
@@ -294,6 +297,51 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 //
 // Returns the index, or nil if an error occurred.
 - (GTIndex *)indexWithError:(NSError **)error;
+
+// Creates a new lightweight tag in this repository.
+//
+// name   - Name for the tag; this name is validated
+//          for consistency. It should also not conflict with an
+//          already existing tag name
+// target - Object to which this tag points. This object
+//          must belong to this repository.
+// error  - Will be filled with a NSError instance on failuer.
+//          May be NULL.
+//
+// Returns YES on success or NO otherwise.
+- (BOOL)createLightweightTagNamed:(NSString *)tagName target:(GTObject *)target error:(NSError **)error;
+
+// Creates an annotated tag in this repo. Existing tags are not overwritten.
+//
+// tagName   - Name for the tag; this name is validated
+//             for consistency. It should also not conflict with an
+//             already existing tag name
+// theTarget - Object to which this tag points. This object
+//             must belong to this repository.
+// tagger    - Signature of the tagger for this tag, and
+//             of the tagging time
+// message   - Full message for this tag
+// error     - Will be filled with a NSError object in case of error.
+//             May be NULL.
+//
+// Returns the object ID of the newly created tag or nil on error.
+- (GTOID *)OIDByCreatingTagNamed:(NSString *)tagName target:(GTObject *)theTarget tagger:(GTSignature *)theTagger message:(NSString *)theMessage error:(NSError **)error;
+
+// Creates an annotated tag in this repo. Existing tags are not overwritten.
+//
+// tagName   - Name for the tag; this name is validated
+//             for consistency. It should also not conflict with an
+//             already existing tag name
+// theTarget - Object to which this tag points. This object
+//             must belong to this repository.
+// tagger    - Signature of the tagger for this tag, and
+//             of the tagging time
+// message   - Full message for this tag
+// error     - Will be filled with a NSError object in case of error.
+//             May be NULL.
+//
+// Returns the newly created tag or nil on error.
+- (GTTag *)createTagNamed:(NSString *)tagName target:(GTObject *)theTarget tagger:(GTSignature *)theTagger message:(NSString *)theMessage error:(NSError **)error;
 
 // Checkout a commit
 //
