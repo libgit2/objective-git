@@ -29,16 +29,27 @@ afterAll(^{
 describe(@"GTRepository", ^{
 	it(@"allows commits to be created easily", ^{
 		NSError *error = nil;
-		__block NSError *builderError;
-		GTCommit *initial = [repository buildCommitWithMessage:@"Initial commit" parents:nil error:&error block:^(GTTreeBuilder *builder) {
-			expect(builder).toNot.beNil();
-			[builder addEntryWithData:[@"Test contents" dataUsingEncoding:NSUTF8StringEncoding] filename:@"Test file.txt" filemode:GTFileModeBlob error:&builderError];
-			expect(builderError.description).to.beNil();
-			[builder addEntryWithData:[@"Another file contents" dataUsingEncoding:NSUTF8StringEncoding] filename:@"subdir/Test file 2.txt" filemode:GTFileModeBlob error:&builderError];
-			expect(builderError.description).to.beNil();
-		}];
-		expect(initial).notTo.beNil();
-		expect(error.description).to.beNil();
+		GTTreeBuilder *builder = [[GTTreeBuilder alloc] initWithTree:nil error:&error];
+		expect(builder).toNot.beNil();
+
+		[builder addEntryWithData:[@"Test contents" dataUsingEncoding:NSUTF8StringEncoding] filename:@"Test file.txt" filemode:GTFileModeBlob error:&error];
+		expect(error.localizedDescription).to.beNil();
+
+		[builder addEntryWithData:[@"Another file contents" dataUsingEncoding:NSUTF8StringEncoding] filename:@"subdir/Test file 2.txt" filemode:GTFileModeBlob error:&error];
+		expect(error.localizedDescription).to.beNil();
+
+		GTTree *tree = [builder writeTreeToRepository:repository error:&error];
+		expect(tree).notTo.beNil();
+		expect(error.localizedDescription).to.beNil();
+
+		GTReference *ref = [repository headReferenceWithError:&error];
+		expect(ref).notTo.beNil();
+		expect(error.localizedDescription).to.beNil();
+
+		GTSignature *sign = [repository userSignatureForNow];
+		GTCommit *initialCommit = [GTCommit commitInRepository:repository updateReference:ref author:sign committer:sign message:@"Initial commit" tree:tree parents:nil error:&error];
+		expect(initialCommit).notTo.beNil();
+		expect(error.localizedDescription).to.beNil();
 	});
 });
 
