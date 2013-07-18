@@ -796,20 +796,9 @@ static int checkoutNotifyCallback(git_checkout_notify_t why, const char *path, c
 	return [self checkoutReference:target strategy:strategy notifyFlags:GTCheckoutNotifyNone error:error progressBlock:progressBlock notifyBlock:nil];
 }
 
-- (GTCommit *)buildCommitWithMessage:(NSString *)message parents:(NSArray *)parents error:(NSError **)error block:(void (^)(GTTreeBuilder *builder))builderBlock {
-	GTReference *headRef = [self headReferenceWithError:error];
-	if (!headRef) return NO;
-	
-	GTTreeBuilder *builder = [[GTTreeBuilder alloc] initWithTree:nil error:error];
-	if (builder == nil) return NO;
-	
-	builderBlock(builder);
-	
-	GTTree *tree = [builder writeTreeToRepository:self error:error];
-	if (tree == nil) return NO;
-	
+- (GTCommit *)commitWithTree:(GTTree *)tree message:(NSString *)message parents:(NSArray *)parents byUpdatingReferenceNamed:(NSString *)refName error:(NSError **)error {
 	GTSignature *sign = [self userSignatureForNow];
-	return [GTCommit commitInRepository:self updateRefNamed:headRef.name author:sign committer:sign message:message tree:tree parents:parents error:error];
+	return [GTCommit commitInRepository:self updateRefNamed:refName author:sign committer:sign message:message tree:tree parents:parents error:error];
 }
 
 @end
