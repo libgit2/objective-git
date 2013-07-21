@@ -10,17 +10,19 @@
 SpecBegin(NSErrorGit)
 
 describe(@"NSError+Git initialisation", ^{
-	it(@"should be instantiable with a description", ^{
+	it(@"should be instantiable with an additional description", ^{
 		NSError *error = [NSError git_errorFor:0 withAdditionalDescription:@""];
 		expect(error).toNot.beNil();
 	});
 	
-	it(@"should not crash with escaped urls in description", ^{
-		//regression - this NSError creation is used in + (id)repositoryWithURL:(NSURL *)localFileURL error:(NSError **)error
-		NSURL *localFileURL = [NSURL fileURLWithPath:@"/Peter Pan/"];
-		NSError *error = [NSError git_errorFor:0 withAdditionalDescription:@"Failed to open repository at URL %@.", localFileURL];
-		
+	it(@"should be instantiable without a failure reason", ^{
+		NSError *error = [NSError git_errorFor:0 description:@"" failureReason:nil];
 		expect(error).toNot.beNil();
+	});
+	
+	it(@"should use its format specifier", ^{
+		NSError *error = [NSError git_errorFor:0 description:@"" failureReason:@"%d",42];
+		expect(error.userInfo[NSLocalizedFailureReasonErrorKey]).to.equal(@"42");
 	});
 });
 
