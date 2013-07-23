@@ -217,8 +217,8 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 	int gitError = git_object_lookup(&obj, self.git_repository, oid, (git_otype)type);
 	if (gitError < GIT_OK) {
 		if (error != NULL) {
-			char oid_str[GIT_OID_HEXSZ];
-			git_oid_fmt(oid_str, oid);
+			char oid_str[GIT_OID_HEXSZ+1];
+			git_oid_tostr(oid_str, sizeof(oid_str), oid);
 			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to lookup object %s in repository.", oid_str];
 		}
 		return nil;
