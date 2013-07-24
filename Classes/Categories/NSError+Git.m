@@ -47,17 +47,22 @@ NSString * const GTGitErrorDomain = @"GTGitErrorDomain";
 }
 
 + (NSError *)git_errorFor:(int)code description:(NSString *)desc failureReason:(NSString *)reason, ... {
-	va_list args;
-	va_start(args, reason);
+	NSMutableDictionary *userInfo = [NSMutableDictionary new];
 
-	NSString *formattedReason = [[NSString alloc] initWithFormat:desc arguments:args];
+	if (nil != desc) {
+		userInfo[NSLocalizedDescriptionKey] = desc;
+	}
+	
+	if (nil != reason) {
+		va_list args;
+		va_start(args, reason);
+		
+		NSString *formattedReason = [[NSString alloc] initWithFormat:reason arguments:args];
+		if (formattedReason != nil) userInfo[NSLocalizedFailureReasonErrorKey] = formattedReason;
+		
+		va_end(args);
+	}
 
-	va_end(args);
-
-	NSMutableDictionary *userInfo = [@{
-		NSLocalizedFailureReasonErrorKey: formattedReason,
-		NSLocalizedDescriptionKey: desc,
-	} mutableCopy];
 
 	NSError *underError = [self git_errorFor:code];
 	if (underError != nil) userInfo[NSUnderlyingErrorKey] = underError;
@@ -66,7 +71,9 @@ NSString * const GTGitErrorDomain = @"GTGitErrorDomain";
 }
 
 + (NSError *)git_errorFor:(int)code {
-	return [NSError errorWithDomain:GTGitErrorDomain code:code userInfo:[NSDictionary dictionaryWithObject:[self gitLastErrorDescriptionWithCode:code] forKey:NSLocalizedDescriptionKey]];
+	NSString *gitLastError = [self gitLastErrorDescriptionWithCode:code];
+	NSDictionary *userInfo = (gitLastError ? @{ NSLocalizedDescriptionKey : gitLastError } : nil );
+	return [NSError errorWithDomain:GTGitErrorDomain code:code userInfo:userInfo];
 }
 
 + (NSError *)git_errorForMkStr:(int)code {
