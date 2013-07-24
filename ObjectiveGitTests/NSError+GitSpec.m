@@ -11,7 +11,7 @@ SpecBegin(NSErrorGit)
 
 describe(@"NSError+Git initialisation", ^{
 	it(@"should be instantiable with an additional description", ^{
-		NSError *error = [NSError git_errorFor:0 withAdditionalDescription:@""];
+		NSError *error = [NSError git_errorFor:0 withAdditionalDescription:@"Description"];
 		expect(error).toNot.beNil();
 	});
 	
