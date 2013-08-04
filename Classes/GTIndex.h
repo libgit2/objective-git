@@ -31,6 +31,7 @@
 
 @class GTIndexEntry;
 @class GTRepository;
+@class GTTree;
 
 @interface GTIndex : NSObject
 
@@ -120,5 +121,13 @@
 //
 // Returns YES if successful, NO otherwise.
 - (BOOL)write:(NSError **)error;
+
+// Write the index to the repository as a tree.
+// Will fail if the receiver's repository is nil.
+//
+// error - The error if one occurred.
+//
+// Returns a new GTTree, or nil if an error occurred.
+- (GTTree *)writeTree:(NSError **)error;
 
 @end
