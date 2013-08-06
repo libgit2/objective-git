@@ -37,4 +37,13 @@ it(@"can read entry properties", ^{
 	expect(entry.staged).to.beFalsy();
 });
 
+it(@"can write to the repository and return a tree", ^{
+	GTRepository *repository = [self fixtureRepositoryNamed:@"testrepo.git"];
+	GTIndex *index = [repository indexWithError:NULL];
+	GTTree *tree = [index writeTree:NULL];
+	expect(tree).notTo.beNil();
+	expect(tree.entryCount).to.equal(2);
+	expect(tree.repository).to.equal(repository);
+});
+
 SpecEnd
