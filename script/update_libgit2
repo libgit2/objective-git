@@ -13,7 +13,7 @@ then
     exit 0
 fi
 
-cd "libgit2"
+cd "../libgit2"
 
 if [ -d "build" ]; then
     rm -rf "build"
