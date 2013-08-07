@@ -15,7 +15,7 @@ fi
 
 ios_version="6.1";
 
-cd "../libgit2"
+cd "libgit2"
 
 # armv7 build
 
