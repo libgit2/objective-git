@@ -8,6 +8,20 @@
 
 #import "GTStatusDelta.h"
 
+#import "GTDiffFile.h"
+
 @implementation GTStatusDelta
+
+- (instancetype)initWithGitDiffDelta:(git_diff_delta *)delta {
+	self = [super init];
+	if (self == nil) return nil;
+	
+	_oldFile = [[GTDiffFile alloc] initWithGitDiffFile:delta->old_file];
+	_newFile = [[GTDiffFile alloc] initWithGitDiffFile:delta->new_file];
+	_status = (GTStatusDeltaStatus)delta->status;
+	_similarity = delta->similarity;
+	
+	return self;
+}
 
 @end
