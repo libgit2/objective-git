@@ -42,6 +42,7 @@
 @class GTSubmodule;
 @class GTDiffFile;
 @class GTTag;
+@class GTStatusDelta;
 
 // Options returned from the enumerateFileStatusUsingBlock: function
 enum {
@@ -95,7 +96,7 @@ typedef enum {
 } GTCheckoutNotifyFlags;
 
 
-typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus status, BOOL *stop);
+typedef void (^GTRepositoryStatusBlock)(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop);
 
 @interface GTRepository : NSObject
 
