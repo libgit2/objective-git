@@ -13,7 +13,7 @@
 #import "GTTree.h"
 #import "GTCommit.h"
 
-#import "NSArray+Pathspec.h"
+#import "NSArray+StringArray.h"
 #import "NSError+Git.h"
 
 NSString *const GTDiffOptionsFlagsKey = @"GTDiffOptionsFlagsKey";

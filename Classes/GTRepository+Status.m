@@ -10,7 +10,7 @@
 
 #import "GTStatusDelta.h"
 
-#import "NSArray+Pathspec.h"
+#import "NSArray+StringArray.h"
 
 NSString *const GTRepositoryStatusOptionsShowKey = @"GTRepositoryStatusOptionsShow";
 NSString *const GTRepositoryStatusOptionsFlagsKey = @"GTRepositoryStatusOptionsFlags";

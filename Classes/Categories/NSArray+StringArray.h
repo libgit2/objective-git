@@ -1,5 +1,5 @@
 //
-//  NSArray+Pathspec.h
+//  NSArray+StringArray.h
 //  ObjectiveGitFramework
 //
 //  Created by Danny Greg on 08/08/2013.
@@ -10,7 +10,7 @@
 
 #import "git2.h"
 
-@interface NSArray (Pathspec)
+@interface NSArray (StringArray)
 
 - (git_strarray)git_StringArray;
 
