@@ -89,6 +89,16 @@
 		30DCBA5E17B45213009B0EBD /* GTStatusDelta.m in Sources */ = {isa = PBXBuildFile; fileRef = 30DCBA5B17B45213009B0EBD /* GTStatusDelta.m */; };
 		30DCBA5F17B45213009B0EBD /* GTStatusDelta.m in Sources */ = {isa = PBXBuildFile; fileRef = 30DCBA5B17B45213009B0EBD /* GTStatusDelta.m */; };
 		30DCBA6017B45213009B0EBD /* GTStatusDelta.m in Sources */ = {isa = PBXBuildFile; fileRef = 30DCBA5B17B45213009B0EBD /* GTStatusDelta.m */; };
+		30DCBA6317B45A78009B0EBD /* GTRepository+Status.h in Headers */ = {isa = PBXBuildFile; fileRef = 30DCBA6117B45A78009B0EBD /* GTRepository+Status.h */; };
+		30DCBA6417B45A78009B0EBD /* GTRepository+Status.h in Headers */ = {isa = PBXBuildFile; fileRef = 30DCBA6117B45A78009B0EBD /* GTRepository+Status.h */; };
+		30DCBA6517B45A78009B0EBD /* GTRepository+Status.m in Sources */ = {isa = PBXBuildFile; fileRef = 30DCBA6217B45A78009B0EBD /* GTRepository+Status.m */; };
+		30DCBA6617B45A78009B0EBD /* GTRepository+Status.m in Sources */ = {isa = PBXBuildFile; fileRef = 30DCBA6217B45A78009B0EBD /* GTRepository+Status.m */; };
+		30DCBA6717B45A78009B0EBD /* GTRepository+Status.m in Sources */ = {isa = PBXBuildFile; fileRef = 30DCBA6217B45A78009B0EBD /* GTRepository+Status.m */; };
+		30DCBA6A17B4630C009B0EBD /* NSArray+Pathspec.h in Headers */ = {isa = PBXBuildFile; fileRef = 30DCBA6817B4630C009B0EBD /* NSArray+Pathspec.h */; };
+		30DCBA6B17B4630C009B0EBD /* NSArray+Pathspec.h in Headers */ = {isa = PBXBuildFile; fileRef = 30DCBA6817B4630C009B0EBD /* NSArray+Pathspec.h */; };
+		30DCBA6C17B4630C009B0EBD /* NSArray+Pathspec.m in Sources */ = {isa = PBXBuildFile; fileRef = 30DCBA6917B4630C009B0EBD /* NSArray+Pathspec.m */; };
+		30DCBA6D17B4630C009B0EBD /* NSArray+Pathspec.m in Sources */ = {isa = PBXBuildFile; fileRef = 30DCBA6917B4630C009B0EBD /* NSArray+Pathspec.m */; };
+		30DCBA6E17B4630C009B0EBD /* NSArray+Pathspec.m in Sources */ = {isa = PBXBuildFile; fileRef = 30DCBA6917B4630C009B0EBD /* NSArray+Pathspec.m */; };
 		30FDC07F16835A8100654BF0 /* GTDiffLine.h in Headers */ = {isa = PBXBuildFile; fileRef = 30FDC07D16835A8100654BF0 /* GTDiffLine.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		30FDC08016835A8100654BF0 /* GTDiffLine.h in Headers */ = {isa = PBXBuildFile; fileRef = 30FDC07D16835A8100654BF0 /* GTDiffLine.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		30FDC08116835A8100654BF0 /* GTDiffLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 30FDC07E16835A8100654BF0 /* GTDiffLine.m */; };
@@ -339,6 +349,10 @@
 		30B1E7FF1703871900D0814D /* GTTimeAdditionsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTTimeAdditionsSpec.m; sourceTree = "<group>"; };
 		30DCBA5A17B45213009B0EBD /* GTStatusDelta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTStatusDelta.h; sourceTree = "<group>"; };
 		30DCBA5B17B45213009B0EBD /* GTStatusDelta.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTStatusDelta.m; sourceTree = "<group>"; };
+		30DCBA6117B45A78009B0EBD /* GTRepository+Status.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTRepository+Status.h"; sourceTree = "<group>"; };
+		30DCBA6217B45A78009B0EBD /* GTRepository+Status.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GTRepository+Status.m"; sourceTree = "<group>"; };
+		30DCBA6817B4630C009B0EBD /* NSArray+Pathspec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Pathspec.h"; sourceTree = "<group>"; };
+		30DCBA6917B4630C009B0EBD /* NSArray+Pathspec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Pathspec.m"; sourceTree = "<group>"; };
 		30FDC07D16835A8100654BF0 /* GTDiffLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTDiffLine.h; sourceTree = "<group>"; };
 		30FDC07E16835A8100654BF0 /* GTDiffLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTDiffLine.m; sourceTree = "<group>"; };
 		32DBCF5E0370ADEE00C91783 /* ObjectiveGitFramework_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectiveGitFramework_Prefix.pch; sourceTree = "<group>"; };
@@ -675,6 +689,8 @@
 				BDE4C062130EFE2C00851650 /* GTRepository.h */,
 				4DE864341794A37E00371A65 /* GTRepository+Private.h */,
 				BDE4C063130EFE2C00851650 /* GTRepository.m */,
+				30DCBA6117B45A78009B0EBD /* GTRepository+Status.h */,
+				30DCBA6217B45A78009B0EBD /* GTRepository+Status.m */,
 				30DCBA5A17B45213009B0EBD /* GTStatusDelta.h */,
 				30DCBA5B17B45213009B0EBD /* GTStatusDelta.m */,
 				BDD8AE6D13131B8800CB5D40 /* GTEnumerator.h */,
@@ -739,6 +755,8 @@
 				55C8057313874CDF004DCB0F /* NSString+Git.m */,
 				30B1E7EC1703522100D0814D /* NSDate+GTTimeAdditions.h */,
 				30B1E7ED1703522100D0814D /* NSDate+GTTimeAdditions.m */,
+				30DCBA6817B4630C009B0EBD /* NSArray+Pathspec.h */,
+				30DCBA6917B4630C009B0EBD /* NSArray+Pathspec.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -824,6 +842,7 @@
 			files = (
 				3E0A23E5159E0FDB00A6068F /* GTObjectDatabase.h in Headers */,
 				04DB464E133AB5E200D9C624 /* NSError+Git.h in Headers */,
+				30DCBA6B17B4630C009B0EBD /* NSArray+Pathspec.h in Headers */,
 				55C8057F13875C62004DCB0F /* NSData+Git.h in Headers */,
 				55C8058013875C6E004DCB0F /* NSString+Git.h in Headers */,
 				04DB464F133AB5E200D9C624 /* GTRepository.h in Headers */,
@@ -851,6 +870,7 @@
 				30FDC08016835A8100654BF0 /* GTDiffLine.h in Headers */,
 				8821547717147A5200D76B76 /* GTReflogEntry.h in Headers */,
 				3011D8781668F29600CE3409 /* GTDiffDelta.h in Headers */,
+				30DCBA6417B45A78009B0EBD /* GTRepository+Status.h in Headers */,
 				8821547E17147B3600D76B76 /* GTOID.h in Headers */,
 				8821546A1714740500D76B76 /* GTReflog.h in Headers */,
 				6A74CA3616A942C000E1A3C5 /* GTConfiguration+Private.h in Headers */,
@@ -873,6 +893,7 @@
 				BDD62924131C03D600DE34D1 /* GTTag.h in Headers */,
 				BDFAF9C3131C1845000508BC /* GTIndex.h in Headers */,
 				BDFAF9C9131C1868000508BC /* GTIndexEntry.h in Headers */,
+				30DCBA6A17B4630C009B0EBD /* NSArray+Pathspec.h in Headers */,
 				BD441E08131ED0C300187010 /* GTReference.h in Headers */,
 				88F6D9D91320451F00CC0BA8 /* ObjectiveGit.h in Headers */,
 				88F6D9FA1320467100CC0BA8 /* GTCommit.h in Headers */,
@@ -885,6 +906,7 @@
 				88EB7E4D14AEBA600046FEA4 /* GTConfiguration.h in Headers */,
 				BDE4C064130EFE2C00851650 /* NSError+Git.h in Headers */,
 				55C8057D13875C11004DCB0F /* NSData+Git.h in Headers */,
+				30DCBA6317B45A78009B0EBD /* GTRepository+Status.h in Headers */,
 				883CD6AB1600EBC600F57354 /* GTRemote.h in Headers */,
 				55C8057E13875C1B004DCB0F /* NSString+Git.h in Headers */,
 				30A3D6541667F11C00C49A39 /* GTDiff.h in Headers */,
@@ -1150,6 +1172,7 @@
 				04DB466A133AB5EB00D9C624 /* GTBlob.m in Sources */,
 				04DB466B133AB5EB00D9C624 /* GTTag.m in Sources */,
 				04DB466C133AB5EB00D9C624 /* GTIndex.m in Sources */,
+				30DCBA6717B45A78009B0EBD /* GTRepository+Status.m in Sources */,
 				04DB466D133AB5EB00D9C624 /* GTIndexEntry.m in Sources */,
 				04DB466E133AB5EB00D9C624 /* GTReference.m in Sources */,
 				04DB466F133AB5EB00D9C624 /* GTBranch.m in Sources */,
@@ -1168,6 +1191,7 @@
 				8821547917147A5200D76B76 /* GTReflogEntry.m in Sources */,
 				8821548017147B3600D76B76 /* GTOID.m in Sources */,
 				5BE6128B1745EE3400266D8C /* GTTreeBuilder.m in Sources */,
+				30DCBA6E17B4630C009B0EBD /* NSArray+Pathspec.m in Sources */,
 				D09C2E391755F16200065E36 /* GTSubmodule.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1190,7 +1214,9 @@
 				88A994BA16FCE7D400402C7B /* GTBranchSpec.m in Sources */,
 				88A994CB16FCED1D00402C7B /* GTTestCase.m in Sources */,
 				30B1E8001703871900D0814D /* GTTimeAdditionsSpec.m in Sources */,
+				30DCBA6617B45A78009B0EBD /* GTRepository+Status.m in Sources */,
 				88C0BC5917038CF3009E99AA /* GTConfigurationSpec.m in Sources */,
+				30DCBA6D17B4630C009B0EBD /* NSArray+Pathspec.m in Sources */,
 				30DCBA5F17B45213009B0EBD /* GTStatusDelta.m in Sources */,
 				88215483171499BE00D76B76 /* GTReflogSpec.m in Sources */,
 				88948AC91779243600809CDA /* GTObjectDatabaseSpec.m in Sources */,
@@ -1215,6 +1241,7 @@
 				BDD8AE7013131B8800CB5D40 /* GTEnumerator.m in Sources */,
 				BD6C235313146E6600992935 /* GTCommit.m in Sources */,
 				30DCBA5E17B45213009B0EBD /* GTStatusDelta.m in Sources */,
+				30DCBA6517B45A78009B0EBD /* GTRepository+Status.m in Sources */,
 				BD6C235413146E6A00992935 /* GTObject.m in Sources */,
 				BD6C254613148DD300992935 /* GTSignature.m in Sources */,
 				BD6B0412131496B8001909D0 /* GTTree.m in Sources */,
@@ -1227,6 +1254,7 @@
 				88F50F5A132054D800584FBE /* GTBranch.m in Sources */,
 				AA046114134F4D2000DF526B /* GTOdbObject.m in Sources */,
 				55C8055013861FE7004DCB0F /* GTObjectDatabase.m in Sources */,
+				30DCBA6C17B4630C009B0EBD /* NSArray+Pathspec.m in Sources */,
 				55C8057A13875578004DCB0F /* NSString+Git.m in Sources */,
 				88EB7E4E14AEBA600046FEA4 /* GTConfiguration.m in Sources */,
 				883CD6AC1600EBC600F57354 /* GTRemote.m in Sources */,
