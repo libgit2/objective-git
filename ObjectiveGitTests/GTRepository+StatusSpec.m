@@ -65,6 +65,20 @@ describe(@"Checking status", ^{
 			expect(indexToWorkingDirectory.status).to.equal(GTStatusDeltaStatusRenamed);
 		}];
 	});
+	
+	it(@"should recognise ignored files", ^{ //at least in the default options
+		[repository enumerateFileStatusWithOptions:nil usingBlock:^(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop) {
+			if (![indexToWorkingDirectory.newFile.path isEqualToString:@".DS_Store"]) return;
+			expect(indexToWorkingDirectory.status).to.equal(GTStatusDeltaStatusIgnored);
+		}];
+	});
+	
+	it(@"should skip ignored files if asked", ^{
+		NSDictionary *options = @{ GTRepositoryStatusOptionsFlagsKey: @(0) };
+		[repository enumerateFileStatusWithOptions:options usingBlock:^(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop) {
+			expect(indexToWorkingDirectory.status).toNot.equal(GTStatusDeltaStatusIgnored);
+		}];
+	});
 });
 
 SpecEnd
