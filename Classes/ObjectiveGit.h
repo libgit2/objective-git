@@ -46,6 +46,7 @@
 #import <ObjectiveGit/GTReflogEntry.h>
 #import <ObjectiveGit/GTOID.h>
 #import <ObjectiveGit/GTSubmodule.h>
+#import <ObjectiveGit/GTStatusDelta.h>
 
 #import <ObjectiveGit/GTObjectDatabase.h>
 #import <ObjectiveGit/GTOdbObject.h>
