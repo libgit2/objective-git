@@ -28,7 +28,7 @@ typedef enum {
 
 @property (nonatomic, readonly, copy) GTDiffFile *oldFile;
 
-@property (nonatomic, readonly, copy) GTDiffFile *newFile;
+@property (nonatomic, readonly, copy) GTDiffFile *newFile __attribute__((ns_returns_not_retained));
 
 @property (nonatomic, readonly) GTStatusDeltaStatus status;
 
