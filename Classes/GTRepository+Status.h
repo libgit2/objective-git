@@ -42,7 +42,7 @@ typedef void (^GTRepositoryStatusBlock)(GTStatusDelta *headToIndex, GTStatusDelt
 // For each file in the repository calls your block with the URL of the file and the status of that file in the repository,
 //
 // block - the block that gets called for each file
-- (void)enumerateFileStatusWithOptios:(NSDictionary *)options usingBlock:(GTRepositoryStatusBlock)block;
+- (void)enumerateFileStatusWithOptions:(NSDictionary *)options usingBlock:(GTRepositoryStatusBlock)block;
 
 // Return YES if the working directory is clean (no modified, new, or deleted files in index)
 - (BOOL)isWorkingDirectoryClean;
