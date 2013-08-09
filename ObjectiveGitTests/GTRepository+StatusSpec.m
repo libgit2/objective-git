@@ -10,11 +10,13 @@ SpecBegin(GTRepositoryStatus)
 
 describe(@"Checking status", ^{
 	__block GTRepository *repository = nil;
+	__block NSURL *targetFileURL = nil;
+
 	NSData *testData = [@"test" dataUsingEncoding:NSUTF8StringEncoding];
-	NSURL *targetFileURL = [repository.fileURL URLByAppendingPathComponent:@"main.m"];
 	
 	beforeEach(^{
 		repository = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_APP_REPO_PATH(self.class)] error:NULL];
+		targetFileURL = [repository.fileURL URLByAppendingPathComponent:@"main.m"];
 		expect(repository).toNot.beNil();
 	});
 	
@@ -43,6 +45,24 @@ describe(@"Checking status", ^{
 		[repository enumerateFileStatusWithOptions:nil usingBlock:^(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop) {
 			if (![indexToWorkingDirectory.newFile.path isEqualToString:targetFileURL.lastPathComponent]) return;
 			expect(indexToWorkingDirectory.status).to.equal(GTStatusDeltaStatusDeleted);
+		}];
+	});
+	
+	it(@"should recognise copied files", ^{
+		NSURL *copyLocation = [repository.fileURL URLByAppendingPathComponent:@"main2.m"];
+		[NSFileManager.defaultManager copyItemAtURL:targetFileURL toURL:copyLocation error:NULL];
+		[repository enumerateFileStatusWithOptions:nil usingBlock:^(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop) {
+			if (![indexToWorkingDirectory.newFile.path isEqualToString:copyLocation.lastPathComponent]) return;
+			expect(indexToWorkingDirectory.status).to.equal(GTStatusDeltaStatusCopied);
+		}];
+	});
+	
+	it(@"should recognise renamed files", ^{
+		NSURL *moveLocation = [repository.fileURL URLByAppendingPathComponent:@"main-moved.m"];
+		[NSFileManager.defaultManager moveItemAtURL:targetFileURL toURL:moveLocation error:NULL];
+		[repository enumerateFileStatusWithOptions:nil usingBlock:^(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop) {
+			if (![indexToWorkingDirectory.newFile.path isEqualToString:moveLocation.lastPathComponent]) return;
+			expect(indexToWorkingDirectory.status).to.equal(GTStatusDeltaStatusRenamed);
 		}];
 	});
 });
