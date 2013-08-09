@@ -12,6 +12,6 @@
 
 @interface NSArray (StringArray)
 
-- (git_strarray)git_StringArray;
+- (git_strarray *)git_StringArray;
 
 @end
