@@ -26,6 +26,7 @@
 #import "git2.h"
 
 #import <ObjectiveGit/GTRepository.h>
+#import <ObjectiveGit/GTRepository+Status.h>
 #import <ObjectiveGit/GTEnumerator.h>
 #import <ObjectiveGit/GTCommit.h>
 #import <ObjectiveGit/GTSignature.h>
@@ -52,6 +53,7 @@
 #import <ObjectiveGit/NSError+Git.h>
 #import <ObjectiveGit/NSData+Git.h>
 #import <ObjectiveGit/NSString+Git.h>
+#import <ObjectiveGit/NSArray+StringArray.h>
 
 #import <ObjectiveGit/GTDiff.h>
 #import <ObjectiveGit/GTDiffDelta.h>
