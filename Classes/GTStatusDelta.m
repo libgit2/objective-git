@@ -14,7 +14,7 @@
 
 - (instancetype)initWithGitDiffDelta:(git_diff_delta *)delta {
 	self = [super init];
-	if (self == nil) return nil;
+	if (self == nil || delta == NULL) return nil;
 	
 	_oldFile = [[GTDiffFile alloc] initWithGitDiffFile:delta->old_file];
 	_newFile = [[GTDiffFile alloc] initWithGitDiffFile:delta->new_file];
