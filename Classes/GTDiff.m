@@ -8,7 +8,6 @@
 
 #import "GTDiff.h"
 
-#import "GTDiffDelta.h"
 #import "GTRepository.h"
 #import "GTTree.h"
 #import "GTCommit.h"
