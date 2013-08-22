@@ -11,24 +11,20 @@
 @implementation NSArray (StringArray)
 
 - (git_strarray *)git_StringArray {
-	git_strarray *returnArray = malloc(sizeof(git_strarray));
-	returnArray->count = 0;
-	returnArray->strings = NULL;
-	if (self.count < 1) return returnArray;
+	if (self.count < 1) return NULL;
 	
-	NSUInteger actualStringCount = 0;
-	char **cStrings = (char **)malloc(self.count * sizeof(char *));
+	char *cStrings[self.count];
 	for (NSUInteger idx = 0; idx < self.count; idx ++) {
 		NSString *string = self[idx];
-		if (![string isKindOfClass:NSString.class]) continue;
+		NSAssert([string isKindOfClass:NSString.class], @"A string array must only contain NSStrings");
 		
 		cStrings[idx] = (char *)[string cStringUsingEncoding:NSUTF8StringEncoding];
-		actualStringCount ++;
 	}
 	
-	returnArray->strings = cStrings;
-	returnArray->count = actualStringCount;
-	return returnArray;
+	git_strarray strArray = {.strings = cStrings, .count = self.count};
+	git_strarray *copiedString = malloc(sizeof(git_strarray));
+	git_strarray_copy(copiedString, &strArray);
+	return copiedString;
 }
 
 @end

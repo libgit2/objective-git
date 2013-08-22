@@ -14,7 +14,11 @@
 
 // Creates and returns a `git_strarray` given an `NSArray` of `NSString`s.
 //
-// If any object in the array is not an `NSString` it is skipped over.
+// Must only be called with an array of `NSString`s, otherwise an assertion will
+// fail.
+//
+// Returns a `git_strarray` which must be freed using `git_strarray_free` after
+// use.
 - (git_strarray *)git_StringArray;
 
 @end
