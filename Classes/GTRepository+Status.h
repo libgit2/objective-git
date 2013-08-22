@@ -61,6 +61,9 @@ extern NSString *const GTRepositoryStatusOptionsPathSpecArrayKey;
 
 @interface GTRepository (Status)
 
+// Return YES if the working directory is clean (no modified, new, or deleted files in index)
+@property (nonatomic, readonly, getter = isWorkingDirectoryClean) BOOL workingDirectoryClean;
+
 // For each file in the repository calls your block with the URL of the file and the status of that file in the repository,
 //
 // block                   - the block that gets called for each file
@@ -69,8 +72,5 @@ extern NSString *const GTRepositoryStatusOptionsPathSpecArrayKey;
 //                           directory.
 // stop                    - If set to `YES`, the iteration will cease.
 - (void)enumerateFileStatusWithOptions:(NSDictionary *)options usingBlock:(void(^)(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop))block;
-
-// Return YES if the working directory is clean (no modified, new, or deleted files in index)
-- (BOOL)isWorkingDirectoryClean;
 
 @end
