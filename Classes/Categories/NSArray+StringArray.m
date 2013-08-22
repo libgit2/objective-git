@@ -14,7 +14,7 @@
 	if (self.count < 1) return NULL;
 	
 	char *cStrings[self.count];
-	for (NSUInteger idx = 0; idx < self.count; idx ++) {
+	for (NSUInteger idx = 0; idx < self.count; idx++) {
 		NSString *string = self[idx];
 		NSAssert([string isKindOfClass:NSString.class], @"A string array must only contain NSStrings");
 		
