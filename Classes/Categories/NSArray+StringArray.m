@@ -18,7 +18,7 @@
 		NSString *string = self[idx];
 		NSAssert([string isKindOfClass:NSString.class], @"A string array must only contain NSStrings");
 		
-		cStrings[idx] = (char *)string.UTF8String;
+		cStrings[idx] = strdup(string.UTF8String);
 	}
 	
 	git_strarray strArray = {.strings = cStrings, .count = self.count};
