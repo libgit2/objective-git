@@ -51,6 +51,8 @@ NSString *const GTRepositoryStatusOptionsPathSpecArrayKey = @"GTRepositoryStatus
 		
 		if (stop) break;
 	}
+	
+	git_strarray_free(&gitOptions.pathspec);
 }
 
 - (BOOL)isWorkingDirectoryClean {
