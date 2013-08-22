@@ -12,6 +12,9 @@
 
 @class GTDiffFile;
 
+// An enum representing the status of the file.
+//
+// See diff.h for documentation of individual flags.
 typedef enum {
 	GTStatusDeltaStatusUnmodified = GIT_DELTA_UNMODIFIED,
 	GTStatusDeltaStatusAdded = GIT_DELTA_ADDED,
@@ -24,16 +27,26 @@ typedef enum {
 	GTStatusDeltaStatusTypeChange = GIT_DELTA_TYPECHANGE,
 } GTStatusDeltaStatus;
 
+// Represents the status of a file in a repository.
 @interface GTStatusDelta : NSObject
 
+// The file as it was prior to the change represented by this status delta.
 @property (nonatomic, readonly, copy) GTDiffFile *oldFile;
 
+// The file after the change represented by this status delta
 @property (nonatomic, readonly, copy) GTDiffFile *newFile __attribute__((ns_returns_not_retained));
 
+// The status of the file.
 @property (nonatomic, readonly) GTStatusDeltaStatus status;
 
+// An unsigned integer between 0 and 100 describing how similar the old and new
+// files are (where 0 is not at all and 100 is identical).
+//
+// Only useful when the status is `GTStatusDeltaStatusRenamed` or
+// `GTStatusDeltaStatusCopied`.
 @property (nonatomic, readonly) NSUInteger similarity;
 
+// Designated initialiser.
 - (instancetype)initWithGitDiffDelta:(git_diff_delta *)delta;
 
 @end
