@@ -8,6 +8,16 @@
 
 #import "GTRepository.h"
 
+// An `NSNumber` wrapped `GTRepositoryStatusOptionsShow` bitmask.
+//
+// For extending the reporting of status. Using the flags documented below this
+// decides what files are sent when enumerating the status.
+extern NSString *const GTRepositoryStatusOptionsShowKey;
+
+// An enum, for use as documented, with the `GTRepositoryStatusOptionsShowKey`
+// key.
+//
+// See status.h for documentation of each individual flag.
 typedef enum {
 	GTRepositoryStatusOptionsShowIndexAndWorkingDirectory = GIT_STATUS_SHOW_INDEX_AND_WORKDIR,
 	GTRepositoryStatusOptionsShowIndexOnly = GIT_STATUS_SHOW_INDEX_ONLY,
@@ -15,8 +25,18 @@ typedef enum {
 	GTRepositoryStatusOptionsShowIndexThenWorkingDirectory = GIT_STATUS_SHOW_INDEX_THEN_WORKDIR,
 } GTRepositoryStatusOptionsShow;
 
-extern NSString *const GTRepositoryStatusOptionsShowKey;
+// An `NSNumber` wrapped `GTRepositoryStatusOptionsFlags` bitmask containing any
+// of the flags documented below.
+//
+// Defaults to GTRepositoryStatusOptionsFlagsIncludeIgnored,
+// GTRepositoryStatusOptionsFlagsIncludeUntracked and
+// GTRepositoryStatusOptionsFlagsRecurseUntrackedDirectories.
+extern NSString *const GTRepositoryStatusOptionsFlagsKey;
 
+// An enum, for use as documented, with the `GTRepositoryStatusOptionsFlagsKey`
+// key.
+//
+// See status.h for documentation of each individual flag.
 typedef enum {
 	GTRepositoryStatusOptionsFlagsIncludeUntracked = GIT_STATUS_OPT_INCLUDE_UNTRACKED,
 	GTRepositoryStatusOptionsFlagsIncludeIgnored = GIT_STATUS_OPT_INCLUDE_IGNORED,
@@ -31,10 +51,20 @@ typedef enum {
 	GTRepositoryStatusOptionsFlagsSortCaseInsensitively = GIT_STATUS_OPT_SORT_CASE_INSENSITIVELY,
 } GTRepositoryStatusOptionsFlags;
 
-extern NSString *const GTRepositoryStatusOptionsFlagsKey;
-
+// An `NSArray` of `NSStrings`s to limit the status to specific paths inside the
+// repository.  The entries in the array represent either single paths or
+// filename patterns with wildcard matching a la standard shell glob (see
+// http://linux.die.net/man/7/glob for wildcard matching rules).
+//
+// Defaults to including all files.
 extern NSString *const GTRepositoryStatusOptionsPathSpecArrayKey;
 
+// The block type passed in when iterating over a status.
+//
+// headToIndex             - The status delta between HEAD and the index.
+// indexToWorkingDirectory - The status delta between the index and working
+//                           directory.
+// stop                    - If set to `YES`, the iteration will cease.
 typedef void (^GTRepositoryStatusBlock)(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop);
 
 @interface GTRepository (Status)
