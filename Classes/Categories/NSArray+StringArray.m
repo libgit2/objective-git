@@ -10,7 +10,7 @@
 
 @implementation NSArray (StringArray)
 
-- (git_strarray *)git_StringArray {
+- (git_strarray *)git_strarray {
 	if (self.count < 1) return NULL;
 	
 	char *cStrings[self.count];

@@ -19,6 +19,6 @@
 //
 // Returns a `git_strarray` which must be freed using `git_strarray_free` after
 // use.
-- (git_strarray *)git_StringArray;
+- (git_strarray *)git_strarray;
 
 @end
