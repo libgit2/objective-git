@@ -18,7 +18,7 @@ NSString *const GTRepositoryStatusOptionsPathSpecArrayKey = @"GTRepositoryStatus
 
 @implementation GTRepository (Status)
 
-- (void)enumerateFileStatusWithOptions:(NSDictionary *)options usingBlock:(GTRepositoryStatusBlock)block {
+- (void)enumerateFileStatusWithOptions:(NSDictionary *)options usingBlock:(void(^)(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop))block {
 	NSParameterAssert(block != NULL);
 	
 	git_status_options gitOptions = GIT_STATUS_OPTIONS_INIT;

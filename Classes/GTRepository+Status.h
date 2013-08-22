@@ -59,20 +59,16 @@ typedef enum {
 // Defaults to including all files.
 extern NSString *const GTRepositoryStatusOptionsPathSpecArrayKey;
 
-// The block type passed in when iterating over a status.
-//
-// headToIndex             - The status delta between HEAD and the index.
-// indexToWorkingDirectory - The status delta between the index and working
-//                           directory.
-// stop                    - If set to `YES`, the iteration will cease.
-typedef void (^GTRepositoryStatusBlock)(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop);
-
 @interface GTRepository (Status)
 
 // For each file in the repository calls your block with the URL of the file and the status of that file in the repository,
 //
-// block - the block that gets called for each file
-- (void)enumerateFileStatusWithOptions:(NSDictionary *)options usingBlock:(GTRepositoryStatusBlock)block;
+// block                   - the block that gets called for each file
+// headToIndex             - The status delta between HEAD and the index.
+// indexToWorkingDirectory - The status delta between the index and working
+//                           directory.
+// stop                    - If set to `YES`, the iteration will cease.
+- (void)enumerateFileStatusWithOptions:(NSDictionary *)options usingBlock:(void(^)(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop))block;
 
 // Return YES if the working directory is clean (no modified, new, or deleted files in index)
 - (BOOL)isWorkingDirectoryClean;
