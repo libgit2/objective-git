@@ -24,16 +24,14 @@ NSString *const GTRepositoryStatusOptionsPathSpecArrayKey = @"GTRepositoryStatus
 	git_status_options gitOptions = GIT_STATUS_OPTIONS_INIT;
 	gitOptions.flags = GIT_STATUS_OPT_DEFAULTS;
 	
-	if (options != nil) {
-		NSArray *pathSpec = options[GTRepositoryStatusOptionsPathSpecArrayKey];
-		if (pathSpec != nil) gitOptions.pathspec = *[pathSpec git_strarray];
+	NSArray *pathSpec = options[GTRepositoryStatusOptionsPathSpecArrayKey];
+	if (pathSpec != nil) gitOptions.pathspec = *[pathSpec git_strarray];
 		
-		NSNumber *flagsNumber = options[GTRepositoryStatusOptionsFlagsKey];
-		if (flagsNumber != nil) gitOptions.flags = flagsNumber.unsignedIntValue;
+	NSNumber *flagsNumber = options[GTRepositoryStatusOptionsFlagsKey];
+	if (flagsNumber != nil) gitOptions.flags = flagsNumber.unsignedIntValue;
 		
-		NSNumber *showNumber = options[GTRepositoryStatusOptionsShowKey];
-		if (showNumber != nil) gitOptions.show = showNumber.unsignedIntValue;
-	}
+	NSNumber *showNumber = options[GTRepositoryStatusOptionsShowKey];
+	if (showNumber != nil) gitOptions.show = showNumber.unsignedIntValue;
 	
 	git_status_list *statusList;
 	int error = git_status_list_new(&statusList, self.git_repository, &gitOptions);
