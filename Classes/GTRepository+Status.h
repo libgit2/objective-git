@@ -27,10 +27,6 @@ typedef enum {
 
 // An `NSNumber` wrapped `GTRepositoryStatusOptionsFlags` bitmask containing any
 // of the flags documented below.
-//
-// Defaults to GTRepositoryStatusOptionsFlagsIncludeIgnored,
-// GTRepositoryStatusOptionsFlagsIncludeUntracked and
-// GTRepositoryStatusOptionsFlagsRecurseUntrackedDirectories.
 extern NSString *const GTRepositoryStatusOptionsFlagsKey;
 
 // An enum, for use as documented, with the `GTRepositoryStatusOptionsFlagsKey`
@@ -66,6 +62,13 @@ extern NSString *const GTRepositoryStatusOptionsPathSpecArrayKey;
 
 // For each file in the repository calls your block with the URL of the file and the status of that file in the repository,
 //
+// options                 - A dictionary of options using the constants above
+//                           for keys. If no flags are passed in using
+//                           `GTRepositoryStatusOptionsFlagsKey` the defaults of
+//                           GTRepositoryStatusOptionsFlagsIncludeIgnored,
+//                           GTRepositoryStatusOptionsFlagsIncludeUntracked and
+//                           GTRepositoryStatusOptionsFlagsRecurseUntrackedDirectories
+//                           are used.
 // block                   - the block that gets called for each file
 // headToIndex             - The status delta between HEAD and the index.
 // indexToWorkingDirectory - The status delta between the index and working
