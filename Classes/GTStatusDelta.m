@@ -12,7 +12,7 @@
 
 @implementation GTStatusDelta
 
-- (instancetype)initWithGitDiffDelta:(git_diff_delta *)delta {
+- (instancetype)initWithGitDiffDelta:(const git_diff_delta *)delta {
 	self = [super init];
 	if (self == nil || delta == NULL) return nil;
 	

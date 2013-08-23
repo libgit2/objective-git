@@ -47,6 +47,6 @@ typedef enum {
 @property (nonatomic, readonly) NSUInteger similarity;
 
 // Designated initialiser.
-- (instancetype)initWithGitDiffDelta:(git_diff_delta *)delta;
+- (instancetype)initWithGitDiffDelta:(const git_diff_delta *)delta;
 
 @end
