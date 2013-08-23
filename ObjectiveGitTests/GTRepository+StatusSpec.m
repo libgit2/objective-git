@@ -37,7 +37,7 @@ describe(@"Checking status", ^{
 	
 	void(^expectSubpathToHaveWorkDirStatus)(NSString *, GTStatusDeltaStatus) = ^(NSString *subpath, GTStatusDeltaStatus expectedWorkDirStatus) {
 		__block NSError *err = nil;
-		expect([repository enumerateFileStatusWithOptions:nil error:&err usingBlock:^(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop) {\
+		expect([repository enumerateFileStatusWithOptions:nil error:&err usingBlock:^(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop) {
 			if (![indexToWorkingDirectory.newFile.path isEqualToString:subpath]) return;
 			expect(indexToWorkingDirectory.status).to.equal(expectedWorkDirStatus);
 		}]).to.beTruthy();
