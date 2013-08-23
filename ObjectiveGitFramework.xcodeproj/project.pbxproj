@@ -96,7 +96,7 @@
 		30DCBA6517B45A78009B0EBD /* GTRepository+Status.m in Sources */ = {isa = PBXBuildFile; fileRef = 30DCBA6217B45A78009B0EBD /* GTRepository+Status.m */; };
 		30DCBA6617B45A78009B0EBD /* GTRepository+Status.m in Sources */ = {isa = PBXBuildFile; fileRef = 30DCBA6217B45A78009B0EBD /* GTRepository+Status.m */; };
 		30DCBA6717B45A78009B0EBD /* GTRepository+Status.m in Sources */ = {isa = PBXBuildFile; fileRef = 30DCBA6217B45A78009B0EBD /* GTRepository+Status.m */; };
-		30DCBA7117B4791A009B0EBD /* NSArray+StringArray.h in Headers */ = {isa = PBXBuildFile; fileRef = 30DCBA6F17B4791A009B0EBD /* NSArray+StringArray.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		30DCBA7117B4791A009B0EBD /* NSArray+StringArray.h in Headers */ = {isa = PBXBuildFile; fileRef = 30DCBA6F17B4791A009B0EBD /* NSArray+StringArray.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		30DCBA7217B4791A009B0EBD /* NSArray+StringArray.h in Headers */ = {isa = PBXBuildFile; fileRef = 30DCBA6F17B4791A009B0EBD /* NSArray+StringArray.h */; };
 		30DCBA7317B4791A009B0EBD /* NSArray+StringArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 30DCBA7017B4791A009B0EBD /* NSArray+StringArray.m */; };
 		30DCBA7417B4791A009B0EBD /* NSArray+StringArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 30DCBA7017B4791A009B0EBD /* NSArray+StringArray.m */; };
@@ -919,7 +919,6 @@
 				30FDC07F16835A8100654BF0 /* GTDiffLine.h in Headers */,
 				3011D8771668F29600CE3409 /* GTDiffDelta.h in Headers */,
 				882154691714740500D76B76 /* GTReflog.h in Headers */,
-				30DCBA7117B4791A009B0EBD /* NSArray+StringArray.h in Headers */,
 				8821547D17147B3600D76B76 /* GTOID.h in Headers */,
 				30DCBA6317B45A78009B0EBD /* GTRepository+Status.h in Headers */,
 				8821547617147A5200D76B76 /* GTReflogEntry.h in Headers */,
@@ -927,6 +926,7 @@
 				30B1E7EE1703522100D0814D /* NSDate+GTTimeAdditions.h in Headers */,
 				D09C2E361755F16200065E36 /* GTSubmodule.h in Headers */,
 				4D26799F178DAF31002A2795 /* GTTreeEntry+Private.h in Headers */,
+				30DCBA7117B4791A009B0EBD /* NSArray+StringArray.h in Headers */,
 				4DE864351794A37E00371A65 /* GTRepository+Private.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
