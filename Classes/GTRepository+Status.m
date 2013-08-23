@@ -10,6 +10,7 @@
 
 #import "GTStatusDelta.h"
 
+#import "NSError+Git.h"
 #import "NSArray+StringArray.h"
 
 NSString *const GTRepositoryStatusOptionsShowKey = @"GTRepositoryStatusOptionsShow";
@@ -18,7 +19,7 @@ NSString *const GTRepositoryStatusOptionsPathSpecArrayKey = @"GTRepositoryStatus
 
 @implementation GTRepository (Status)
 
-- (void)enumerateFileStatusWithOptions:(NSDictionary *)options usingBlock:(void(^)(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop))block {
+- (BOOL)enumerateFileStatusWithOptions:(NSDictionary *)options error:(NSError **)error usingBlock:(void(^)(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop))block {
 	NSParameterAssert(block != NULL);
 	
 	git_status_options gitOptions = GIT_STATUS_OPTIONS_INIT;
@@ -34,11 +35,14 @@ NSString *const GTRepositoryStatusOptionsPathSpecArrayKey = @"GTRepositoryStatus
 	if (showNumber != nil) gitOptions.show = showNumber.unsignedIntValue;
 	
 	git_status_list *statusList;
-	int error = git_status_list_new(&statusList, self.git_repository, &gitOptions);
-	if (error != GIT_OK) return; //?
+	int err = git_status_list_new(&statusList, self.git_repository, &gitOptions);
+	if (err != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:err withAdditionalDescription:NSLocalizedString(@"Could not create status list.", nil)];
+		return NO;
+	}
 	
 	size_t statusCount = git_status_list_entrycount(statusList);
-	if (statusCount < 1) return;
+	if (statusCount < 1) return YES;
 	
 	BOOL stop = NO;
 	for (size_t idx = 0; idx < statusCount; idx ++) {
@@ -52,11 +56,13 @@ NSString *const GTRepositoryStatusOptionsPathSpecArrayKey = @"GTRepositoryStatus
 	
 	git_status_list_free(statusList);
 	git_strarray_free(&gitOptions.pathspec);
+	
+	return YES;
 }
 
 - (BOOL)isWorkingDirectoryClean {
 	__block BOOL clean = YES;
-	[self enumerateFileStatusWithOptions:nil usingBlock:^(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop) {
+	[self enumerateFileStatusWithOptions:nil error:NULL usingBlock:^(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop) {
 		GTStatusDeltaStatus headToIndexStatus = headToIndex.status;
 		GTStatusDeltaStatus indexToWorkDirStatus = indexToWorkingDirectory.status;
 		
