@@ -11,6 +11,7 @@ SpecBegin(GTRepositoryStatus)
 describe(@"Checking status", ^{
 	__block GTRepository *repository = nil;
 	__block NSURL *targetFileURL = nil;
+	__block NSError *err;
 
 	NSData *testData = [@"test" dataUsingEncoding:NSUTF8StringEncoding];
 	
@@ -58,25 +59,29 @@ describe(@"Checking status", ^{
 	});
 	
 	it(@"should recognise modified files", ^{
-		[NSFileManager.defaultManager removeItemAtURL:targetFileURL error:NULL];
-		[testData writeToURL:targetFileURL atomically:YES];
+		expect([NSFileManager.defaultManager removeItemAtURL:targetFileURL error:&err]).to.beTruthy();
+		expect(err).to.beNil();
+		expect([testData writeToURL:targetFileURL atomically:YES]).to.beTruthy();
 		expectSubpathToHaveMatchingStatus(targetFileURL.lastPathComponent, GTStatusDeltaStatusModified);
 	});
 	
 	it(@"should recognise deleted files", ^{
-		[NSFileManager.defaultManager removeItemAtURL:targetFileURL error:NULL];
+		expect([NSFileManager.defaultManager removeItemAtURL:targetFileURL error:&err]).to.beTruthy();
+		expect(err).to.beNil();
 		expectSubpathToHaveMatchingStatus(targetFileURL.lastPathComponent, GTStatusDeltaStatusDeleted);
 	});
 	
 	it(@"should recognise copied files", ^{
 		NSURL *copyLocation = [repository.fileURL URLByAppendingPathComponent:@"main2.m"];
-		[NSFileManager.defaultManager copyItemAtURL:targetFileURL toURL:copyLocation error:NULL];
+		expect([NSFileManager.defaultManager copyItemAtURL:targetFileURL toURL:copyLocation error:&err]).to.beTruthy();
+		expect(err).to.beNil();
 		expectSubpathToHaveMatchingStatus(copyLocation.lastPathComponent, GTStatusDeltaStatusCopied);
 	});
 	
 	it(@"should recognise renamed files", ^{
 		NSURL *moveLocation = [repository.fileURL URLByAppendingPathComponent:@"main-moved.m"];
-		[NSFileManager.defaultManager moveItemAtURL:targetFileURL toURL:moveLocation error:NULL];
+		expect([NSFileManager.defaultManager moveItemAtURL:targetFileURL toURL:moveLocation error:&err]).to.beTruthy();
+		expect(err).to.beNil();
 		expectSubpathToHaveMatchingStatus(moveLocation.lastPathComponent, GTStatusDeltaStatusRenamed);
 	});
 	
