@@ -38,7 +38,8 @@ describe(@"Checking status", ^{
 	
 	void(^expectSubpathToHaveWorkDirStatus)(NSString *, GTStatusDeltaStatus) = ^(NSString *subpath, GTStatusDeltaStatus expectedWorkDirStatus) {
 		__block NSError *err = nil;
-		expect([repository enumerateFileStatusWithOptions:nil error:&err usingBlock:^(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop) {
+		NSDictionary *renamedOptions = @{ GTRepositoryStatusOptionsFlagsKey: @(GTRepositoryStatusOptionsFlagsIncludeIgnored | GTRepositoryStatusOptionsFlagsIncludeUntracked | GTRepositoryStatusOptionsFlagsRecurseUntrackedDirectories | GTRepositoryStatusOptionsFlagsRenamesIndexToWorkingDirectory) };
+		expect([repository enumerateFileStatusWithOptions:renamedOptions error:&err usingBlock:^(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop) {
 			if (![indexToWorkingDirectory.newFile.path isEqualToString:subpath]) return;
 			expect(indexToWorkingDirectory.status).to.equal(expectedWorkDirStatus);
 		}]).to.beTruthy();
@@ -70,7 +71,7 @@ describe(@"Checking status", ^{
 		expect(err).to.beNil();
 		expectSubpathToHaveMatchingStatus(targetFileURL.lastPathComponent, GTStatusDeltaStatusDeleted);
 	});
-	
+		
 	it(@"should recognise copied files", ^{
 		NSURL *copyLocation = [repository.fileURL URLByAppendingPathComponent:@"main2.m"];
 		expect([NSFileManager.defaultManager copyItemAtURL:targetFileURL toURL:copyLocation error:&err]).to.beTruthy();
@@ -82,7 +83,7 @@ describe(@"Checking status", ^{
 		NSURL *moveLocation = [repository.fileURL URLByAppendingPathComponent:@"main-moved.m"];
 		expect([NSFileManager.defaultManager moveItemAtURL:targetFileURL toURL:moveLocation error:&err]).to.beTruthy();
 		expect(err).to.beNil();
-		expectSubpathToHaveMatchingStatus(moveLocation.lastPathComponent, GTStatusDeltaStatusRenamed);
+		expectSubpathToHaveWorkDirStatus(moveLocation.lastPathComponent, GTStatusDeltaStatusRenamed);
 	});
 	
 	it(@"should recognise ignored files", ^{ //at least in the default options
