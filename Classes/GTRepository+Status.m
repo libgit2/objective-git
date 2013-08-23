@@ -45,7 +45,7 @@ NSString *const GTRepositoryStatusOptionsPathSpecArrayKey = @"GTRepositoryStatus
 	if (statusCount < 1) return YES;
 	
 	BOOL stop = NO;
-	for (size_t idx = 0; idx < statusCount; idx ++) {
+	for (size_t idx = 0; idx < statusCount; idx++) {
 		const git_status_entry *entry = git_status_byindex(statusList, idx);
 		GTStatusDelta *headToIndex = [[GTStatusDelta alloc] initWithGitDiffDelta:entry->head_to_index];
 		GTStatusDelta *indexToWorkDir = [[GTStatusDelta alloc] initWithGitDiffDelta:entry->index_to_workdir];
