@@ -33,7 +33,7 @@ describe(@"Checking status", ^{
 		expect([repository enumerateFileStatusWithOptions:renamedOptions error:&err usingBlock:^(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop) {
 			if (![headToIndex.newFile.path isEqualToString:subpath]) return;
 			expect(headToIndex.status).to.equal(expectedIndexStatus);
-		}]).to.beTruthy;
+		}]).to.beTruthy();
 		expect(err).to.beNil();
 	};
 	
