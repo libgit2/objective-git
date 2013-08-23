@@ -29,7 +29,8 @@ describe(@"Checking status", ^{
 		
 		expect(git_index_update_all(index.git_index, NULL, NULL, NULL)).to.equal(GIT_OK);
 		
-		expect([repository enumerateFileStatusWithOptions:nil error:&err usingBlock:^(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop) {
+		NSDictionary *renamedOptions = @{ GTRepositoryStatusOptionsFlagsKey: @(GTRepositoryStatusOptionsFlagsIncludeIgnored | GTRepositoryStatusOptionsFlagsIncludeUntracked | GTRepositoryStatusOptionsFlagsRecurseUntrackedDirectories | GTRepositoryStatusOptionsFlagsRenamesHeadToIndex) };
+		expect([repository enumerateFileStatusWithOptions:renamedOptions error:&err usingBlock:^(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop) {
 			if (![headToIndex.newFile.path isEqualToString:subpath]) return;
 			expect(headToIndex.status).to.equal(expectedIndexStatus);
 		}]).to.beTruthy;
@@ -76,7 +77,7 @@ describe(@"Checking status", ^{
 		NSURL *copyLocation = [repository.fileURL URLByAppendingPathComponent:@"main2.m"];
 		expect([NSFileManager.defaultManager copyItemAtURL:targetFileURL toURL:copyLocation error:&err]).to.beTruthy();
 		expect(err).to.beNil();
-		expectSubpathToHaveMatchingStatus(copyLocation.lastPathComponent, GTStatusDeltaStatusCopied);
+		updateIndexForSubpathAndExpectStatus(copyLocation.lastPathComponent, GTStatusDeltaStatusCopied);
 	});
 	
 	it(@"should recognise renamed files", ^{
