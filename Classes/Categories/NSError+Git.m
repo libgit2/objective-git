@@ -36,6 +36,8 @@ NSString * const GTGitErrorDomain = @"GTGitErrorDomain";
 @implementation NSError (Git)
 
 + (NSError *)git_errorFor:(int)code withAdditionalDescription:(NSString *)desc, ... {
+	NSParameterAssert(desc != nil);
+
 	va_list args;
 	va_start(args, desc);
 
@@ -47,10 +49,12 @@ NSString * const GTGitErrorDomain = @"GTGitErrorDomain";
 }
 
 + (NSError *)git_errorFor:(int)code description:(NSString *)desc failureReason:(NSString *)reason, ... {
+	NSParameterAssert(reason != nil);
+
 	va_list args;
 	va_start(args, reason);
 
-	NSString *formattedReason = [[NSString alloc] initWithFormat:desc arguments:args];
+	NSString *formattedReason = [[NSString alloc] initWithFormat:reason arguments:args];
 
 	va_end(args);
 
