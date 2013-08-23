@@ -43,7 +43,9 @@ NSString *repositoryFixturePathForName(NSString *repositoryName, Class cls) {
 BOOL setupRepositoryFixtureIfNeeded(NSString *repositoryName, Class cls) {
 	NSString *path = repositoryFixturePathForName(repositoryName, cls);
 	BOOL isDirectory = NO;
-	if ([NSFileManager.defaultManager fileExistsAtPath:path isDirectory:&isDirectory] && isDirectory) return YES;
+	if ([NSFileManager.defaultManager fileExistsAtPath:path isDirectory:&isDirectory] && isDirectory) {
+		[NSFileManager.defaultManager removeItemAtPath:path error:NULL];
+	}
 	
 	if (![NSFileManager.defaultManager createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:NULL]) return NO;
 	
