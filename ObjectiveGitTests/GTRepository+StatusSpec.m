@@ -21,24 +21,27 @@ describe(@"Checking status", ^{
 	});
 	
 	void(^updateIndexForSubpathAndExpectStatus)(NSString *, GTStatusDeltaStatus) = ^(NSString *subpath, GTStatusDeltaStatus expectedIndexStatus) {
-		NSError *err = nil;
+		__block NSError *err = nil;
 		GTIndex *index = [repository indexWithError:&err];
 		expect(err).to.beNil();
 		expect(index).toNot.beNil();
 		
 		expect(git_index_update_all(index.git_index, NULL, NULL, NULL)).to.equal(GIT_OK);
 		
-		[repository enumerateFileStatusWithOptions:nil usingBlock:^(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop) {
+		expect([repository enumerateFileStatusWithOptions:nil error:&err usingBlock:^(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop) {
 			if (![headToIndex.newFile.path isEqualToString:subpath]) return;
 			expect(headToIndex.status).to.equal(expectedIndexStatus);
-		}];
+		}]).to.beTruthy;
+		expect(err).to.beNil();
 	};
 	
 	void(^expectSubpathToHaveWorkDirStatus)(NSString *, GTStatusDeltaStatus) = ^(NSString *subpath, GTStatusDeltaStatus expectedWorkDirStatus) {
-		[repository enumerateFileStatusWithOptions:nil usingBlock:^(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop) {\
+		__block NSError *err = nil;
+		expect([repository enumerateFileStatusWithOptions:nil error:&err usingBlock:^(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop) {\
 			if (![indexToWorkingDirectory.newFile.path isEqualToString:subpath]) return;
 			expect(indexToWorkingDirectory.status).to.equal(expectedWorkDirStatus);
-		}];
+		}]).to.beTruthy();
+		expect(err).to.beNil();
 	};
 	
 	void(^expectSubpathToHaveMatchingStatus)(NSString *, GTStatusDeltaStatus) = ^(NSString *subpath, GTStatusDeltaStatus status) {
@@ -82,10 +85,12 @@ describe(@"Checking status", ^{
 	});
 	
 	it(@"should skip ignored files if asked", ^{
+		__block NSError *err = nil;
 		NSDictionary *options = @{ GTRepositoryStatusOptionsFlagsKey: @(0) };
-		[repository enumerateFileStatusWithOptions:options usingBlock:^(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop) {
+		expect([repository enumerateFileStatusWithOptions:options error:&err usingBlock:^(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop) {
 			expect(indexToWorkingDirectory.status).toNot.equal(GTStatusDeltaStatusIgnored);
-		}];
+		}]).to.beTruthy();
+		expect(err).to.beNil();
 	});
 });
 
