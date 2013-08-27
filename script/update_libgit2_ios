@@ -29,8 +29,9 @@ cd build
 cmake -DCMAKE_C_COMPILER_WORKS:BOOL=ON \
       -DBUILD_SHARED_LIBS:BOOL=OFF \
       -DCMAKE_C_COMPILER=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/llvm-gcc-4.2/bin/llvm-gcc-4.2 \
-      -DOPENSSL_SSL_LIBRARY:FILEPATH= \
-      -DOPENSSL_CRYPTO_LIBRARY:FILEPATH= \
+      -DOPENSSL_SSL_LIBRARY:FILEPATH=../ios-openssl/lib/libssl.a \
+      -DOPENSSL_CRYPTO_LIBRARY:FILEPATH=../ios-openssl/lib/libcrypto.a \
+      -DOPENSSL_INCLUDE_DIR:PATH=../ios-openssl/include/ \
       -DCMAKE_OSX_DEPLOYMENT_TARGET:STRING= \
       -DCMAKE_OSX_ARCHITECTURES:STRING="armv7;armv7s" \
       -DBUILD_CLAR:BOOL=OFF \
@@ -58,8 +59,9 @@ cd build
 cmake -DCMAKE_C_COMPILER_WORKS:BOOL=ON \
       -DBUILD_SHARED_LIBS:BOOL=OFF \
       -DCMAKE_C_COMPILER=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/llvm-gcc-4.2/bin/llvm-gcc-4.2 \
-      -DOPENSSL_SSL_LIBRARY:FILEPATH= \
-      -DOPENSSL_CRYPTO_LIBRARY:FILEPATH= \
+      -DOPENSSL_SSL_LIBRARY:FILEPATH=../ios-openssl/lib/libssl.a \
+      -DOPENSSL_CRYPTO_LIBRARY:FILEPATH=../ios-openssl/lib/libcrypto.a \
+      -DOPENSSL_INCLUDE_DIR:PATH=../ios-openssl/include/ \
       -DCMAKE_OSX_DEPLOYMENT_TARGET:STRING= \
       -DCMAKE_OSX_ARCHITECTURES:STRING=i386 \
       -DBUILD_CLAR:BOOL=OFF \

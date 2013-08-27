@@ -10,3 +10,6 @@
 [submodule "Configuration"]
 	path = Configuration
 	url = https://github.com/jspahrsummers/xcconfigs.git
+[submodule "openssl"]
+	path = openssl
+	url = https://github.com/openssl/openssl.git
