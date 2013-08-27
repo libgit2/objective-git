@@ -40,7 +40,7 @@ build()
    cp -r openssl /tmp/
    pushd .
    cd "/tmp/openssl"
-   ./Configure BSD-generic32 --openssldir="/tmp/openssl-${ARCH}" &> "/tmp/openssl-${ARCH}.log"
+   ./Configure BSD-generic32 no-gost --openssldir="/tmp/openssl-${ARCH}" &> "/tmp/openssl-${ARCH}.log"
    perl -i -pe 's|static volatile sig_atomic_t intr_signal|static volatile int intr_signal|' crypto/ui/ui_openssl.c
    perl -i -pe "s|^CC= gcc|CC= ${GCC} -arch ${ARCH}|g" Makefile
    perl -i -pe "s|^CFLAG= (.*)|CFLAG= -isysroot ${SDK} \$1|g" Makefile
