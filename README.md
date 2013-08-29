@@ -52,6 +52,7 @@ not allowing third-party dynamic frameworks. A work-around for this is as follow
 5. Build Settings - User Header Search Paths
 5.1. Add $(BUILT_PRODUCTS_DIR)/usr/local/include
 5.2. Add $(SRCROOT)../Libs/objective-git/libgit2/include
+6. Build Settings - Other Linker Flags - Add -all_load
 
 ## Todo
 
