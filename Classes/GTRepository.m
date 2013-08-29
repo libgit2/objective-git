@@ -185,6 +185,7 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 
 	cloneOptions.fetch_progress_cb = transferProgressCallback;
 	cloneOptions.fetch_progress_payload = (__bridge void *)transferProgressBlock;
+	cloneOptions.transport_flags = GIT_TRANSPORTFLAGS_NO_CHECK_CERT;
 
 	const char *remoteURL = originURL.absoluteString.UTF8String;
 	const char *workingDirectoryPath = workdirURL.path.UTF8String;
