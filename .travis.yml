@@ -1,6 +1,6 @@
 language: objective-c
 install:
- - sudo brew install cmake
+ - brew install cmake
 script: script/cibuild
 notifications:
   email: false
