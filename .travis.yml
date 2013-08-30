@@ -1,7 +1,6 @@
 language: objective-c
 install:
- - sudo apt-get -qq update
- - sudo apt-get -qq install cmake libssh2-1-dev openssh-client openssh-server
+ - sudo brew install cmake
 script: script/cibuild
 notifications:
   email: false
