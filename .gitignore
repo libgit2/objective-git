@@ -25,3 +25,5 @@ ObjectiveGitTests/fixtures/Fixtures/*
 
 ios-openssl/include
 ios-openssl/lib
+
+libssh2-ios

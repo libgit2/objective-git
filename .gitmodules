@@ -13,3 +13,6 @@
 [submodule "openssl"]
 	path = openssl
 	url = https://github.com/openssl/openssl.git
+[submodule "libssh2"]
+	path = libssh2
+	url = git://git.libssh2.org/libssh2.git

@@ -18,6 +18,18 @@
 			name = "OpenSSL-iOS";
 			productName = "OpenSSL-iOS";
 		};
+		6A3C609017D5963700382DFF /* libssh2-iOS */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 6A3C609217D5963700382DFF /* Build configuration list for PBXAggregateTarget "libssh2-iOS" */;
+			buildPhases = (
+				6A3C609117D5963700382DFF /* ShellScript */,
+			);
+			dependencies = (
+				6A3C609D17D5964E00382DFF /* PBXTargetDependency */,
+			);
+			name = "libssh2-iOS";
+			productName = "libssh2-iOS";
+		};
 		D0A330ED16027F1E00A616FA /* libgit2 */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = D0A330EE16027F1E00A616FA /* Build configuration list for PBXAggregateTarget "libgit2" */;
@@ -37,6 +49,7 @@
 			);
 			dependencies = (
 				6A28265B17C69D6300C6A948 /* PBXTargetDependency */,
+				6A3C609F17D5965700382DFF /* PBXTargetDependency */,
 			);
 			name = "libgit2-iOS";
 			productName = "libgit2-iOS";
@@ -119,6 +132,7 @@
 		5BE612931745EEBC00266D8C /* GTTreeBuilderSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BE612921745EEBC00266D8C /* GTTreeBuilderSpec.m */; };
 		6A1F2FD517C6A8F3003DFADE /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A1F2FD317C6A8F3003DFADE /* libcrypto.a */; };
 		6A1F2FD617C6A8F3003DFADE /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A1F2FD417C6A8F3003DFADE /* libssl.a */; };
+		6A502B8717D6892D00BAF4A5 /* libssh2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A502B8617D6892D00BAF4A5 /* libssh2.a */; };
 		6A74CA3216A9429700E1A3C5 /* GTRemote.m in Sources */ = {isa = PBXBuildFile; fileRef = 883CD6AA1600EBC600F57354 /* GTRemote.m */; };
 		6A74CA3416A942AA00E1A3C5 /* NSData+Git.m in Sources */ = {isa = PBXBuildFile; fileRef = BD6C2267131459E700992935 /* NSData+Git.m */; };
 		6A74CA3616A942C000E1A3C5 /* GTConfiguration+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 883CD6AE1600F01000F57354 /* GTConfiguration+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -227,6 +241,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = 6A28265217C69CB400C6A948;
 			remoteInfo = "OpenSSL-iOS";
+		};
+		6A3C609C17D5964E00382DFF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6A28265217C69CB400C6A948;
+			remoteInfo = "OpenSSL-iOS";
+		};
+		6A3C609E17D5965700382DFF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6A3C609017D5963700382DFF;
+			remoteInfo = "libssh2-iOS";
 		};
 		88F05A9F16011F9000B7AD1D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -368,6 +396,8 @@
 		5BE612921745EEBC00266D8C /* GTTreeBuilderSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTTreeBuilderSpec.m; sourceTree = "<group>"; };
 		6A1F2FD317C6A8F3003DFADE /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = "ios-openssl/lib/libcrypto.a"; sourceTree = "<group>"; };
 		6A1F2FD417C6A8F3003DFADE /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = "ios-openssl/lib/libssl.a"; sourceTree = "<group>"; };
+		6A3C60A017D5987600382DFF /* update_libssh2_ios */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = update_libssh2_ios; path = script/update_libssh2_ios; sourceTree = SOURCE_ROOT; };
+		6A502B8617D6892D00BAF4A5 /* libssh2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssh2.a; path = lib/libssh2.a; sourceTree = "<group>"; };
 		79262F0E13C697BE00A4B1EA /* git2 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = git2; path = libgit2/include/git2; sourceTree = "<group>"; };
 		79262F8A13C69B1600A4B1EA /* git2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = git2.h; path = libgit2/include/git2.h; sourceTree = "<group>"; };
 		8803DA861313145700E6E818 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -487,6 +517,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A502B8717D6892D00BAF4A5 /* libssh2.a in Frameworks */,
 				6A1F2FD517C6A8F3003DFADE /* libcrypto.a in Frameworks */,
 				6A1F2FD617C6A8F3003DFADE /* libssl.a in Frameworks */,
 				04DB4672133AB5FE00D9C624 /* libz.dylib in Frameworks */,
@@ -574,6 +605,7 @@
 				04DB4671133AB5FE00D9C624 /* libz.dylib */,
 				6A1F2FD317C6A8F3003DFADE /* libcrypto.a */,
 				6A1F2FD417C6A8F3003DFADE /* libssl.a */,
+				6A502B8617D6892D00BAF4A5 /* libssh2.a */,
 				887DAFF615CB1C8000F30D0D /* Security.framework */,
 				1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */,
 			);
@@ -830,6 +862,7 @@
 		E46931A6172740D300F2077D /* Scripts */ = {
 			isa = PBXGroup;
 			children = (
+				6A3C60A017D5987600382DFF /* update_libssh2_ios */,
 				E46931A7172740D300F2077D /* update_libgit2 */,
 				E46931A8172740D300F2077D /* update_libgit2_ios */,
 			);
@@ -1026,6 +1059,7 @@
 				D0A330ED16027F1E00A616FA /* libgit2 */,
 				D0A330F216027F3600A616FA /* libgit2-iOS */,
 				6A28265217C69CB400C6A948 /* OpenSSL-iOS */,
+				6A3C609017D5963700382DFF /* libssh2-iOS */,
 			);
 		};
 /* End PBXProject section */
@@ -1122,6 +1156,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "ios-openssl/build.sh";
+		};
+		6A3C609117D5963700382DFF /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = script/update_libssh2_ios;
 		};
 		D0A330F116027F2300A616FA /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1284,6 +1331,16 @@
 			target = 6A28265217C69CB400C6A948 /* OpenSSL-iOS */;
 			targetProxy = 6A28265A17C69D6300C6A948 /* PBXContainerItemProxy */;
 		};
+		6A3C609D17D5964E00382DFF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6A28265217C69CB400C6A948 /* OpenSSL-iOS */;
+			targetProxy = 6A3C609C17D5964E00382DFF /* PBXContainerItemProxy */;
+		};
+		6A3C609F17D5965700382DFF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6A3C609017D5963700382DFF /* libssh2-iOS */;
+			targetProxy = 6A3C609E17D5965700382DFF /* PBXContainerItemProxy */;
+		};
 		88F05AA016011F9000B7AD1D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 8DC2EF4F0486A6940098B216 /* ObjectiveGit */;
@@ -1339,10 +1396,12 @@
 				HEADER_SEARCH_PATHS = (
 					libgit2/include,
 					"$(OBJROOT)/UninstalledProducts/include",
+					"libssh2-ios/include/libssh2",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					.,
-					"$(SRCROOT)/ios-openssl/lib",
+					"ios-openssl/lib",
+					"libssh2-ios/lib",
 				);
 				OTHER_LDFLAGS = (
 					"-lgit2-iOS",
@@ -1361,10 +1420,12 @@
 				HEADER_SEARCH_PATHS = (
 					libgit2/include,
 					"$(OBJROOT)/UninstalledProducts/include",
+					"libssh2-ios/include/libssh2",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					.,
-					"$(SRCROOT)/ios-openssl/lib",
+					"ios-openssl/lib",
+					"libssh2-ios/lib",
 				);
 				OTHER_LDFLAGS = (
 					"-lgit2-iOS",
@@ -1467,6 +1528,30 @@
 			};
 			name = Profile;
 		};
+		6A3C609317D5963700382DFF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0D81865174421EB00995A2E /* iOS-StaticLibrary.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "libssh2-iOS";
+			};
+			name = Debug;
+		};
+		6A3C609417D5963700382DFF /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0D81865174421EB00995A2E /* iOS-StaticLibrary.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "libssh2-iOS";
+			};
+			name = Release;
+		};
+		6A3C609517D5963700382DFF /* Profile */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0D81865174421EB00995A2E /* iOS-StaticLibrary.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "libssh2-iOS";
+			};
+			name = Profile;
+		};
 		88F05A8016011E5400B7AD1D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D0D81867174421EB00995A2E /* Mac-Application.xcconfig */;
@@ -1545,10 +1630,12 @@
 				HEADER_SEARCH_PATHS = (
 					libgit2/include,
 					"$(OBJROOT)/UninstalledProducts/include",
+					"libssh2-ios/include/libssh2",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					.,
-					"$(SRCROOT)/ios-openssl/lib",
+					"ios-openssl/lib",
+					"libssh2-ios/lib",
 				);
 				OTHER_LDFLAGS = (
 					"-lgit2-iOS",
@@ -1664,6 +1751,16 @@
 				6A28265517C69CB400C6A948 /* Debug */,
 				6A28265617C69CB400C6A948 /* Release */,
 				6A28265717C69CB400C6A948 /* Profile */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6A3C609217D5963700382DFF /* Build configuration list for PBXAggregateTarget "libssh2-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6A3C609317D5963700382DFF /* Debug */,
+				6A3C609417D5963700382DFF /* Release */,
+				6A3C609517D5963700382DFF /* Profile */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
