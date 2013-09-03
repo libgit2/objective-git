@@ -175,10 +175,12 @@ static int remote_rename_problem_cb(const char *problematic_refspec, void *paylo
 
 typedef int  (^GTCredentialAcquireBlock)(git_cred **cred, GTCredentialType allowedTypes, NSString *url, NSString *username);
 
+typedef int  (^GTRemoteTransferProgressBlock)(const git_transfer_progress *stats, BOOL *stop);
 
 typedef struct {
 	__unsafe_unretained GTRemote *myself;
 	__unsafe_unretained GTCredentialAcquireBlock credBlock;
+	__unsafe_unretained GTRemoteTransferProgressBlock progressBlock;
 } GTRemoteFetchInfo;
 
 static int fetch_cred_acquire_cb(git_cred **cred, const char *url, const char *username_from_url, unsigned int allowed_types, void *payload) {
@@ -193,11 +195,21 @@ static int fetch_cred_acquire_cb(git_cred **cred, const char *url, const char *u
 	return info->credBlock(cred, (GTCredentialType)allowed_types, @(url), @(username_from_url));
 }
 
-- (BOOL)fetchWithError:(NSError **)error credentials:(GTCredentialAcquireBlock)credBlock {
+int transfer_progress_cb(const git_transfer_progress *stats, void *payload) {
+	GTRemoteFetchInfo *info = (GTRemoteFetchInfo *)payload;
+	BOOL stop = NO;
+
+	if (info->progressBlock != nil) info->progressBlock(stats, &stop);
+
+	return stop ? -1 : 0;
+}
+
+- (BOOL)fetchWithError:(NSError **)error credentials:(GTCredentialAcquireBlock)credBlock progress:(GTRemoteTransferProgressBlock)progressBlock {
 	@synchronized (self) {
 		GTRemoteFetchInfo payload = {
 			.myself = self,
 			.credBlock = credBlock,
+			.progressBlock = progressBlock,
 		};
 
 		git_remote_set_cred_acquire_cb(self.git_remote, fetch_cred_acquire_cb, &payload);
@@ -208,7 +220,7 @@ static int fetch_cred_acquire_cb(git_cred **cred, const char *url, const char *u
 			goto error;
 		}
 
-		gitError = git_remote_download(self.git_remote, NULL, NULL);
+		gitError = git_remote_download(self.git_remote, transfer_progress_cb, &payload);
 		if (gitError != GIT_OK) {
 			if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to fetch remote"];
 			goto error;

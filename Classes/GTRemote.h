@@ -67,6 +67,6 @@ typedef enum {
 // Return YES if successful, NO otherwise.
 - (BOOL)rename:(NSString *)name error:(NSError **)error;
 
-- (BOOL)fetchWithError:(NSError **)error credentials:(int (^)(git_cred **cred, GTCredentialType allowedTypes, NSString *url, NSString *username))credBlock;
+- (BOOL)fetchWithError:(NSError **)error credentials:(int (^)(git_cred **cred, GTCredentialType allowedTypes, NSString *url, NSString *username))credBlock progress:(int (^)(const git_transfer_progress *stats, BOOL *stop))progressBlock;
 
 @end
