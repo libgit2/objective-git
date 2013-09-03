@@ -61,7 +61,7 @@
 
 - (instancetype)initWithName:(NSString *)name inRepository:(GTRepository *)repo {
 	NSParameterAssert(name != nil);
-	NSParameterAssert(repository != nil);
+	NSParameterAssert(repo != nil);
 
 	self = [super init];
 	if (self == nil) return nil;
