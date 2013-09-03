@@ -200,7 +200,7 @@ static int fetch_cred_acquire_cb(git_cred **cred, const char *url, const char *u
 			.credBlock = credBlock,
 		};
 
-		git_remote_set_cred_acquire_cb(self.git_remote, fetch_cred_acquire_cb, (__bridge void *)(self));
+		git_remote_set_cred_acquire_cb(self.git_remote, fetch_cred_acquire_cb, &payload);
 
 		int gitError = git_remote_connect(self.git_remote, GIT_DIRECTION_FETCH);
 		if (gitError != GIT_OK) {
