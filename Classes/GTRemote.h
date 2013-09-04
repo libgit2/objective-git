@@ -72,7 +72,6 @@ typedef enum {
 // Load a remote from a repository.
 //
 // name - The name for the new remote.
-// url  - The origin URL for the remote.
 // repo - The repository the remote should be created in.
 //
 // Returns the loaded remote, or nil if an error occurred.
