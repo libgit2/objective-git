@@ -51,8 +51,10 @@ typedef enum {
 // Tests if a name is valid
 + (BOOL)isValidName:(NSString *)name;
 
++ (instancetype)createRemoteWithName:(NSString *)name url:(NSString *)url inRepository:(GTRepository *)repo;
 + (instancetype)remoteWithName:(NSString *)name inRepository:(GTRepository *)repo;
-- (instancetype)initWithName:(NSString *)name inRepository:(GTRepository *)repo;
+
+- (instancetype)initWithName:(NSString *)name url:(NSString *)url inRepository:(GTRepository *)repo error:(NSError **)error;
 
 - (id)initWithGitRemote:(git_remote *)remote;
 

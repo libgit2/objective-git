@@ -55,19 +55,41 @@
 	return git_remote_is_valid_name(name.UTF8String) == GIT_OK;
 }
 
-+ (instancetype)remoteWithName:(NSString *)name inRepository:(GTRepository *)repo {
-	return [[self alloc] initWithName:name inRepository:repo];
++ (instancetype)createRemoteWithName:(NSString *)name url:(NSString *)url inRepository:(GTRepository *)repo {
+	NSParameterAssert(url != nil);
+
+	return [[self alloc] initWithName:name url:url inRepository:repo error:NULL];
 }
 
-- (instancetype)initWithName:(NSString *)name inRepository:(GTRepository *)repo {
++ (instancetype)remoteWithName:(NSString *)name inRepository:(GTRepository *)repo {
+	return [[self alloc] initWithName:name url:nil inRepository:repo error:NULL];
+}
+
+- (instancetype)initWithName:(NSString *)name url:(NSString *)url inRepository:(GTRepository *)repo error:(NSError **)error {
 	NSParameterAssert(name != nil);
 	NSParameterAssert(repo != nil);
 
 	self = [super init];
 	if (self == nil) return nil;
+	int gitError = GIT_OK;
 
-	int gitError = git_remote_load(&_git_remote, repo.git_repository, name.UTF8String);
-	if (gitError != GIT_OK) return nil;
+	if (url) {
+		// An URL was provided, try to create a new remote
+		gitError = git_remote_create(&_git_remote, repo.git_repository, name.UTF8String, url.UTF8String);
+		if (gitError != GIT_OK) {
+			if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Remote creation failed" failureReason:nil];
+
+			return nil;
+		}
+	} else {
+		// No URL provided, we're loading an existing remote
+		gitError = git_remote_load(&_git_remote, repo.git_repository, name.UTF8String);
+		if (gitError != GIT_OK) {
+			if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Remote loading failed" failureReason:nil];
+
+			return nil;
+		}
+	}
 
 	_repository = repo;
 
