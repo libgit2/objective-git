@@ -43,7 +43,7 @@ typedef enum {
 + (BOOL)isSupportedURL:(NSString *)url;
 
 // Tests if a name is valid
-+ (BOOL)isValidName:(NSString *)name;
++ (BOOL)isValidRemoteName:(NSString *)name;
 
 // Create a new remote in a repository.
 //

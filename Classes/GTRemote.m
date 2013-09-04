@@ -47,7 +47,7 @@
 	return git_remote_supported_url(url.UTF8String) == GIT_OK;
 }
 
-+ (BOOL)isValidName:(NSString *)name {
++ (BOOL)isValidRemoteName:(NSString *)name {
 	NSParameterAssert(name != nil);
 
 	return git_remote_is_valid_name(name.UTF8String) == GIT_OK;
