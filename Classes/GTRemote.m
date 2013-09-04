@@ -149,11 +149,11 @@
 	git_remote_set_update_fetchhead(self.git_remote, updatesFetchHead);
 }
 
-- (GTRemoteAutotagOption)autoTag {
-	return (GTRemoteAutotagOption)git_remote_autotag(self.git_remote);
+- (GTRemoteAutoTagOption)autoTag {
+	return (GTRemoteAutoTagOption)git_remote_autotag(self.git_remote);
 }
 
-- (void)setAutoTag:(GTRemoteAutotagOption)autoTag {
+- (void)setAutoTag:(GTRemoteAutoTagOption)autoTag {
 	git_remote_set_autotag(self.git_remote, (git_remote_autotag_option_t)autoTag);
 }
 

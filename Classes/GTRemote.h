@@ -29,7 +29,7 @@ typedef enum {
 	GTRemoteDownloadTagsAuto = GIT_REMOTE_DOWNLOAD_TAGS_AUTO,
 	GTRemoteDownloadTagsNone = GIT_REMOTE_DOWNLOAD_TAGS_NONE,
 	GTRemoteDownloadTagsAll = GIT_REMOTE_DOWNLOAD_TAGS_ALL,
-} GTRemoteAutotagOption;
+} GTRemoteAutoTagOption;
 
 
 @interface GTRemote : NSObject
@@ -40,7 +40,7 @@ typedef enum {
 @property (nonatomic, copy) NSString *pushURLString;
 @property (nonatomic, readonly, getter=isConnected) BOOL connected;
 @property (nonatomic) BOOL updatesFetchHead;
-@property (nonatomic) GTRemoteAutotagOption autoTag;
+@property (nonatomic) GTRemoteAutoTagOption autoTag;
 
 // Tests if a URL is valid
 + (BOOL)isValidURL:(NSString *)url;
