@@ -11,14 +11,12 @@
 #import "GTOID.h"
 #import "NSError+Git.h"
 
-@interface GTRemote () {
-	GTRepository *_repository;
-}
+@interface GTRemote ()
 @property (nonatomic, readonly, assign) git_remote *git_remote;
+@property (nonatomic, strong) GTRepository *repository;
 @end
 
 @implementation GTRemote
-@synthesize repository;
 
 - (void)dealloc {
 	if (_git_remote != NULL) git_remote_free(_git_remote);
