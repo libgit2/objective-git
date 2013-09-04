@@ -35,16 +35,16 @@
 
 #pragma mark API
 
-+ (BOOL)isValidURL:(NSString *)url {
-	NSParameterAssert(url != nil);
++ (BOOL)isValidURL:(NSString *)URL {
+	NSParameterAssert(URL != nil);
 
-	return git_remote_valid_url(url.UTF8String) == GIT_OK;
+	return git_remote_valid_url(URL.UTF8String) == GIT_OK;
 }
 
-+ (BOOL)isSupportedURL:(NSString *)url {
-	NSParameterAssert(url != nil);
++ (BOOL)isSupportedURL:(NSString *)URL {
+	NSParameterAssert(URL != nil);
 
-	return git_remote_supported_url(url.UTF8String) == GIT_OK;
+	return git_remote_supported_url(URL.UTF8String) == GIT_OK;
 }
 
 + (BOOL)isValidRemoteName:(NSString *)name {
@@ -53,17 +53,17 @@
 	return git_remote_is_valid_name(name.UTF8String) == GIT_OK;
 }
 
-+ (instancetype)createRemoteWithName:(NSString *)name url:(NSString *)url inRepository:(GTRepository *)repo {
-	NSParameterAssert(url != nil);
++ (instancetype)createRemoteWithName:(NSString *)name url:(NSString *)URL inRepository:(GTRepository *)repo {
+	NSParameterAssert(URL != nil);
 
-	return [[self alloc] initWithName:name url:url inRepository:repo error:NULL];
+	return [[self alloc] initWithName:name url:URL inRepository:repo error:NULL];
 }
 
 + (instancetype)remoteWithName:(NSString *)name inRepository:(GTRepository *)repo {
 	return [[self alloc] initWithName:name url:nil inRepository:repo error:NULL];
 }
 
-- (instancetype)initWithName:(NSString *)name url:(NSString *)url inRepository:(GTRepository *)repo error:(NSError **)error {
+- (instancetype)initWithName:(NSString *)name url:(NSString *)URL inRepository:(GTRepository *)repo error:(NSError **)error {
 	NSParameterAssert(name != nil);
 	NSParameterAssert(repo != nil);
 
@@ -71,9 +71,9 @@
 	if (self == nil) return nil;
 	int gitError = GIT_OK;
 
-	if (url) {
+	if (URL) {
 		// An URL was provided, try to create a new remote
-		gitError = git_remote_create(&_git_remote, repo.git_repository, name.UTF8String, url.UTF8String);
+		gitError = git_remote_create(&_git_remote, repo.git_repository, name.UTF8String, URL.UTF8String);
 		if (gitError != GIT_OK) {
 			if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Remote creation failed" failureReason:nil];
 
@@ -194,7 +194,7 @@ static int remote_rename_problem_cb(const char *problematic_refspec, void *paylo
 
 #pragma mark Fetch
 
-typedef int  (^GTCredentialAcquireBlock)(git_cred **cred, GTCredentialType allowedTypes, NSString *url, NSString *username);
+typedef int  (^GTCredentialAcquireBlock)(git_cred **cred, GTCredentialType allowedTypes, NSString *URL, NSString *username);
 
 typedef void (^GTRemoteTransferProgressBlock)(const git_transfer_progress *stats, BOOL *stop);
 
@@ -213,7 +213,10 @@ static int fetch_cred_acquire_cb(git_cred **cred, const char *url, const char *u
 		return GIT_ERROR;
 	}
 
-	return info->credBlock(cred, (GTCredentialType)allowed_types, @(url), @(username_from_url));
+	NSString *URL = url ? @(url) : nil;
+	NSString *userName = username_from_url ? @(username_from_url) : nil;
+
+	return info->credBlock(cred, (GTCredentialType)allowed_types, URL, userName);
 }
 
 int transfer_progress_cb(const git_transfer_progress *stats, void *payload) {

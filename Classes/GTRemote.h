@@ -37,10 +37,10 @@ typedef enum {
 @property (nonatomic) GTRemoteAutoTagOption autoTag;
 
 // Tests if a URL is valid
-+ (BOOL)isValidURL:(NSString *)url;
++ (BOOL)isValidURL:(NSString *)URL;
 
 // Tests if a URL is supported
-+ (BOOL)isSupportedURL:(NSString *)url;
++ (BOOL)isSupportedURL:(NSString *)URL;
 
 // Tests if a name is valid
 + (BOOL)isValidRemoteName:(NSString *)name;
@@ -48,11 +48,11 @@ typedef enum {
 // Create a new remote in a repository.
 //
 // name - The name for the new remote.
-// url  - The origin URL for the remote.
+// URL  - The origin URL for the remote.
 // repo - The repository the remote should be created in.
 //
 // Returns a new remote, or nil if an error occurred
-+ (instancetype)createRemoteWithName:(NSString *)name url:(NSString *)url inRepository:(GTRepository *)repo;
++ (instancetype)createRemoteWithName:(NSString *)name url:(NSString *)URL inRepository:(GTRepository *)repo;
 
 // Load a remote from a repository.
 //
@@ -70,10 +70,10 @@ typedef enum {
 // This is the designated initializer for `GTRemote`.
 //
 // name  - The name of the remote.
-// url   - Optional url for the remote.
+// URL   - Optional URL for the remote.
 // repo  - The repository containing the remote.
 // error - Will be set if an error occurs.
-- (instancetype)initWithName:(NSString *)name url:(NSString *)url inRepository:(GTRepository *)repo error:(NSError **)error;
+- (instancetype)initWithName:(NSString *)name url:(NSString *)URL inRepository:(GTRepository *)repo error:(NSError **)error;
 
 // Initialize a remote from a `git_remote`.
 - (id)initWithGitRemote:(git_remote *)remote inRepository:(GTRepository *)repo;
@@ -96,6 +96,6 @@ typedef enum {
 // progressBlock - A block that will be called during the operation to report its progression.
 //
 // Returns YES if successful, NO otherwise.
-- (BOOL)fetchWithError:(NSError **)error credentials:(int (^)(git_cred **cred, GTCredentialType allowedTypes, NSString *url, NSString *username))credBlock progress:(void (^)(const git_transfer_progress *stats, BOOL *stop))progressBlock;
+- (BOOL)fetchWithError:(NSError **)error credentials:(int (^)(git_cred **cred, GTCredentialType allowedTypes, NSString *URL, NSString *username))credBlock progress:(void (^)(const git_transfer_progress *stats, BOOL *stop))progressBlock;
 
 @end
