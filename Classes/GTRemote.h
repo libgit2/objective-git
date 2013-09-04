@@ -82,7 +82,7 @@ typedef enum {
 - (instancetype)initWithName:(NSString *)name url:(NSString *)url inRepository:(GTRepository *)repo error:(NSError **)error;
 
 // Initialize a remote from a `git_remote`.
-- (id)initWithGitRemote:(git_remote *)remote;
+- (id)initWithGitRemote:(git_remote *)remote inRepository:(GTRepository *)repo;
 
 // The underlying `git_remote` object.
 - (git_remote *)git_remote __attribute__((objc_returns_inner_pointer));

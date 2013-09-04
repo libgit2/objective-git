@@ -96,14 +96,16 @@
 	return self;
 }
 
-- (id)initWithGitRemote:(git_remote *)remote {
+- (id)initWithGitRemote:(git_remote *)remote inRepository:(GTRepository *)repo {
 	NSParameterAssert(remote != NULL);
+	NSParameterAssert(repo != nil);
+
 	self = [super init];
 	if (self == nil) return nil;
 
 	_git_remote = remote;
 
-	_repository = [[GTRepository alloc] initWithGitRepository:git_remote_owner(self.git_remote)];
+	_repository = repo;
 
 	return self;
 }
