@@ -12,13 +12,15 @@
 @class GTOID;
 @class GTReference;
 
+// An enum describing the authentication data needed for accessing the remote.
+// See `git_credtype_t`.
 typedef enum {
 	GTCredentialTypeUserPassPlaintext = GIT_CREDTYPE_USERPASS_PLAINTEXT,
 	GTCredentialTypeSSHKeyFilePassPhrase = GIT_CREDTYPE_SSH_KEYFILE_PASSPHRASE,
 	GTCredentialTypeSSHPublicKey = GIT_CREDTYPE_SSH_PUBLICKEY,
 } GTCredentialType;
 
-// Auto Tag settings. See git_remote_autotag_option_t.
+// Auto Tag settings. See `git_remote_autotag_option_t`.
 typedef enum {
 	GTRemoteDownloadTagsAuto = GIT_REMOTE_DOWNLOAD_TAGS_AUTO,
 	GTRemoteDownloadTagsNone = GIT_REMOTE_DOWNLOAD_TAGS_NONE,
@@ -28,12 +30,25 @@ typedef enum {
 
 @interface GTRemote : NSObject
 
+// The repository owning this remote.
 @property (nonatomic, readonly, strong) GTRepository *repository;
+
+// The name of the remote.
 @property (nonatomic, readonly, copy) NSString *name;
+
+// The fetch URL for the remote.
 @property (nonatomic, copy) NSString *URLString;
+
+// The push URL for the remote, if provided.
 @property (nonatomic, copy) NSString *pushURLString;
+
+// Whether the remote is connected or not.
 @property (nonatomic, readonly, getter=isConnected) BOOL connected;
+
+// Whether the remote updates FETCH_HEAD when fetched.
 @property (nonatomic) BOOL updatesFetchHead;
+
+// The auto-tag setting for the remote.
 @property (nonatomic) GTRemoteAutoTagOption autoTag;
 
 // Tests if a URL is valid
