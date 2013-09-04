@@ -196,7 +196,7 @@ static int remote_rename_problem_cb(const char *problematic_refspec, void *paylo
 
 typedef int  (^GTCredentialAcquireBlock)(git_cred **cred, GTCredentialType allowedTypes, NSString *url, NSString *username);
 
-typedef int  (^GTRemoteTransferProgressBlock)(const git_transfer_progress *stats, BOOL *stop);
+typedef void (^GTRemoteTransferProgressBlock)(const git_transfer_progress *stats, BOOL *stop);
 
 typedef struct {
 	__unsafe_unretained GTRemote *myself;

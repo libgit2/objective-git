@@ -102,6 +102,6 @@ typedef enum {
 // progressBlock - A block that will be called during the operation to report its progression.
 //
 // Returns YES if successful, NO otherwise.
-- (BOOL)fetchWithError:(NSError **)error credentials:(int (^)(git_cred **cred, GTCredentialType allowedTypes, NSString *url, NSString *username))credBlock progress:(int (^)(const git_transfer_progress *stats, BOOL *stop))progressBlock;
+- (BOOL)fetchWithError:(NSError **)error credentials:(int (^)(git_cred **cred, GTCredentialType allowedTypes, NSString *url, NSString *username))credBlock progress:(void (^)(const git_transfer_progress *stats, BOOL *stop))progressBlock;
 
 @end
