@@ -167,7 +167,7 @@ typedef struct {
 } GTRemoteRenameInfo;
 
 static int remote_rename_problem_cb(const char *problematic_refspec, void *payload) {
-	GTRemoteRenameInfo *info = (GTRemoteRenameInfo *)payload;
+	GTRemoteRenameInfo *info = payload;
 	if (info->renameBlock == nil) return GIT_OK;
 
 	return info->renameBlock(@(problematic_refspec));
@@ -205,7 +205,7 @@ typedef struct {
 } GTRemoteFetchInfo;
 
 static int fetch_cred_acquire_cb(git_cred **cred, const char *url, const char *username_from_url, unsigned int allowed_types, void *payload) {
-	GTRemoteFetchInfo *info = (GTRemoteFetchInfo *)payload;
+	GTRemoteFetchInfo *info = payload;
 
 	if (info->credBlock == nil) {
 		NSString *errorMsg = [NSString stringWithFormat:@"No credential block passed, but authentication was requested for remote %@", info->myself.name];
@@ -220,7 +220,7 @@ static int fetch_cred_acquire_cb(git_cred **cred, const char *url, const char *u
 }
 
 int transfer_progress_cb(const git_transfer_progress *stats, void *payload) {
-	GTRemoteFetchInfo *info = (GTRemoteFetchInfo *)payload;
+	GTRemoteFetchInfo *info = payload;
 	BOOL stop = NO;
 
 	if (info->progressBlock != nil) info->progressBlock(stats, &stop);
