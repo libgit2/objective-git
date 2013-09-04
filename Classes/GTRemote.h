@@ -18,12 +18,6 @@ typedef enum {
 	GTCredentialTypeSSHPublicKey = GIT_CREDTYPE_SSH_PUBLICKEY,
 } GTCredentialType;
 
-typedef enum {
-	GTRemoteCompletionTypeDownload = GIT_REMOTE_COMPLETION_DOWNLOAD,
-	GTRemoteCompletionTypeIndexing = GIT_REMOTE_COMPLETION_INDEXING,
-	GTRemoteCompletionTypeError = GIT_REMOTE_COMPLETION_ERROR,
-} GTRemoteCompletionType;
-
 // Auto Tag settings. See git_remote_autotag_option_t.
 typedef enum {
 	GTRemoteDownloadTagsAuto = GIT_REMOTE_DOWNLOAD_TAGS_AUTO,
