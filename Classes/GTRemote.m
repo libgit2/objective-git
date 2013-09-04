@@ -81,13 +81,12 @@
 
 	_git_remote = remote;
 
+	_repository = [[GTRepository alloc] initWithGitRepository:git_remote_owner(self.git_remote)];
+
 	return self;
 }
 
 - (GTRepository *)repository {
-	if (_repository == nil) {
-		_repository = [[GTRepository alloc] initWithGitRepository:git_remote_owner(self.git_remote)];
-	}
 	return _repository;
 }
 
