@@ -168,7 +168,7 @@ typedef struct {
 
 static int remote_rename_problem_cb(const char *problematic_refspec, void *payload) {
 	GTRemoteRenameInfo *info = payload;
-	if (info->renameBlock == nil) return GIT_OK;
+	if (info->renameBlock == nil) return GIT_ERROR;
 
 	return info->renameBlock(@(problematic_refspec));
 }
