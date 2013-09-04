@@ -238,30 +238,31 @@ int transfer_progress_cb(const git_transfer_progress *stats, void *payload) {
 
 		git_remote_set_cred_acquire_cb(self.git_remote, fetch_cred_acquire_cb, &payload);
 
-		int gitError = git_remote_connect(self.git_remote, GIT_DIRECTION_FETCH);
-		if (gitError != GIT_OK) {
-			if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to connect remote"];
-			goto error;
+		@try {
+			int gitError = git_remote_connect(self.git_remote, GIT_DIRECTION_FETCH);
+			if (gitError != GIT_OK) {
+				if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to connect remote"];
+				return NO;
+			}
+
+			gitError = git_remote_download(self.git_remote, transfer_progress_cb, &payload);
+			if (gitError != GIT_OK) {
+				if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to fetch remote"];
+				return NO;
+			}
+
+			gitError = git_remote_update_tips(self.git_remote);
+			if (gitError != GIT_OK) {
+				if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to update tips"];
+				return NO;
+			}
+		}
+		@finally {
+			git_remote_disconnect(self.git_remote);
+			git_remote_set_cred_acquire_cb(self.git_remote, NULL, NULL);
 		}
 
-		gitError = git_remote_download(self.git_remote, transfer_progress_cb, &payload);
-		if (gitError != GIT_OK) {
-			if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to fetch remote"];
-			goto error;
-		}
-
-		gitError = git_remote_update_tips(self.git_remote);
-		if (gitError != GIT_OK) {
-			if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to update tips"];
-			goto error;
-		}
-
-	error:
-		// Cleanup
-		git_remote_disconnect(self.git_remote);
-		git_remote_set_cred_acquire_cb(self.git_remote, NULL, NULL);
-
-		return gitError == GIT_OK;
+		return YES;
 	}
 }
 
