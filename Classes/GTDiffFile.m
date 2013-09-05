@@ -7,6 +7,7 @@
 //
 
 #import "GTDiffFile.h"
+#import "GTOID.h"
 
 @implementation GTDiffFile
 
@@ -18,6 +19,7 @@
 	_flags = (GTDiffFileFlag)file.flags;
 	_mode = file.mode;
 	_path = [NSString stringWithUTF8String:file.path];
+	_OID = [[GTOID alloc] initWithGitOid:&file.oid];
 	
 	return self;
 }
