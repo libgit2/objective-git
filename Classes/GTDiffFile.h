@@ -34,7 +34,7 @@ typedef enum {
 // The mode of the file.
 @property (nonatomic, readonly) mode_t mode;
 
-// The OID
+// The OID for the file.
 @property (nonatomic, readonly) GTOID *OID;
 
 // Designated initialiser.

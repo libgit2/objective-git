@@ -19,7 +19,7 @@
 	_flags = (GTDiffFileFlag)file.flags;
 	_mode = file.mode;
 	_path = [NSString stringWithUTF8String:file.path];
-	_OID = [[GTOID alloc] initWithGitOid:&(file.oid)];
+	_OID = [[GTOID alloc] initWithGitOid:&file.oid];
 	
 	return self;
 }
