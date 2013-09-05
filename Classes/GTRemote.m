@@ -53,14 +53,14 @@
 	return git_remote_is_valid_name(name.UTF8String) == GIT_OK;
 }
 
-+ (instancetype)createRemoteWithName:(NSString *)name url:(NSString *)URL inRepository:(GTRepository *)repo {
++ (instancetype)createRemoteWithName:(NSString *)name url:(NSString *)URL inRepository:(GTRepository *)repo error:(NSError **)error {
 	NSParameterAssert(URL != nil);
 
-	return [[self alloc] initWithName:name url:URL inRepository:repo error:NULL];
+	return [[self alloc] initWithName:name url:URL inRepository:repo error:error];
 }
 
-+ (instancetype)remoteWithName:(NSString *)name inRepository:(GTRepository *)repo {
-	return [[self alloc] initWithName:name url:nil inRepository:repo error:NULL];
++ (instancetype)remoteWithName:(NSString *)name inRepository:(GTRepository *)repo error:(NSError **)error {
+	return [[self alloc] initWithName:name url:nil inRepository:repo error:error];
 }
 
 - (instancetype)initWithName:(NSString *)name url:(NSString *)URL inRepository:(GTRepository *)repo error:(NSError **)error {

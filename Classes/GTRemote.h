@@ -65,17 +65,19 @@ typedef enum {
 // name - The name for the new remote.
 // URL  - The origin URL for the remote.
 // repo - The repository the remote should be created in.
+// error - Will be set if an error occurs.
 //
 // Returns a new remote, or nil if an error occurred
-+ (instancetype)createRemoteWithName:(NSString *)name url:(NSString *)URL inRepository:(GTRepository *)repo;
++ (instancetype)createRemoteWithName:(NSString *)name url:(NSString *)URL inRepository:(GTRepository *)repo error:(NSError **)error;
 
 // Load a remote from a repository.
 //
 // name - The name for the new remote.
 // repo - The repository the remote should be created in.
+// error - Will be set if an error occurs.
 //
 // Returns the loaded remote, or nil if an error occurred.
-+ (instancetype)remoteWithName:(NSString *)name inRepository:(GTRepository *)repo;
++ (instancetype)remoteWithName:(NSString *)name inRepository:(GTRepository *)repo error:(NSError **)error;
 
 // Initializes a GTRemote object.
 //
