@@ -158,7 +158,6 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 
 // List all references in the repository
 //
-// repository - The GTRepository to list references in
 // error(out) - will be filled if an error occurs
 //
 // returns an array of NSStrings holding the names of the references
