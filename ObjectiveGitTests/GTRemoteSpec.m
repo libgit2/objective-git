@@ -41,9 +41,12 @@ beforeEach(^{
 	masterRepo = [self fixtureRepositoryNamed:@"testrepo.git"];
 	expect(masterRepo).notTo.beNil();
 
-	NSURL *masterRepoURL = [masterRepo fileURL];
+	NSURL *masterRepoURL = [masterRepo gitDirectoryURL];
 	NSURL *fixturesURL = [masterRepoURL URLByDeletingLastPathComponent];
 	fetchingRepoURL = [fixturesURL URLByAppendingPathComponent:@"fetchrepo"];
+
+	// Make sure there's no leftover
+	[[NSFileManager defaultManager] removeItemAtURL:fetchingRepoURL error:nil];
 
 	NSError *error = nil;
 	fetchingRepo = [GTRepository cloneFromURL:masterRepoURL toWorkingDirectory:fetchingRepoURL barely:NO withCheckout:YES error:&error transferProgressBlock:nil checkoutProgressBlock:nil];
@@ -55,6 +58,7 @@ beforeEach(^{
 	expect(remoteNames.count).to.beGreaterThanOrEqualTo(@(1));
 
 	remoteName = [remoteNames objectAtIndex:0];
+	expect(remoteName).notTo.beNil();
 });
 
 afterEach(^{
