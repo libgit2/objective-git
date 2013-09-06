@@ -148,4 +148,25 @@ describe(@"-checkout:strategy:error:progressBlock:", ^{
 	});
 });
 
+describe(@"-remoteNamesWithError:", ^{
+	it(@"allows access to remote names", ^{
+		NSError *error = nil;
+		NSArray *remoteNames = [repository remoteNamesWithError:&error];
+		expect(error.localizedDescription).to.beNil();
+		expect(remoteNames).notTo.beNil();
+	});
+
+	it(@"returns remote names if there are any", ^{
+		NSError *error = nil;
+		NSString *remoteName = @"testremote";
+		GTRemote *remote = [GTRemote createRemoteWithName:remoteName url:@"git://user@example.com/testrepo" inRepository:repository error:&error];
+		expect(error.localizedDescription).to.beNil();
+		expect(remote).notTo.beNil();
+
+		NSArray *remoteNames = [repository remoteNamesWithError:&error];
+		expect(error.localizedDescription).to.beNil();
+		expect(remoteNames).to.contain(remoteName);
+	});
+});
+
 SpecEnd

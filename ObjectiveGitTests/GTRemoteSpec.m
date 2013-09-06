@@ -47,7 +47,6 @@ beforeEach(^{
 	 * But this errors.
 	 */
 	
-	
 	NSURL *masterRepoURL = [masterRepo fileURL];
 	NSURL *fixturesURL = [masterRepoURL URLByDeletingLastPathComponent];
 	NSURL *fetchingURLRepo = [fixturesURL URLByAppendingPathComponent:@"fetchrepo"];
@@ -55,7 +54,7 @@ beforeEach(^{
 	NSError *error = nil;
 	fetchingRepo = [GTRepository cloneFromURL:masterRepoURL toWorkingDirectory:fetchingURLRepo barely:NO withCheckout:YES error:&error transferProgressBlock:nil checkoutProgressBlock:nil];
 	expect(fetchingRepo).notTo.beNil();
-	expect(error.description).to.beNil();
+	expect(error.localizedDescription).to.beNil();
 });
 
 SpecEnd
