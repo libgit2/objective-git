@@ -70,10 +70,13 @@ NSString * const GTGitErrorDomain = @"GTGitErrorDomain";
 
 + (NSError *)git_errorFor:(int)code {
 	NSString *gitError = [self gitLastErrorDescriptionWithCode:code];
+	NSDictionary *userInfo = nil;
 
-	if (!gitError) return nil;
+	if (gitError) {
+		userInfo = [NSDictionary dictionaryWithObject:gitError forKey:NSLocalizedDescriptionKey];
+	}
 
-	return [NSError errorWithDomain:GTGitErrorDomain code:code userInfo:[NSDictionary dictionaryWithObject:gitError forKey:NSLocalizedDescriptionKey]];
+	return [NSError errorWithDomain:GTGitErrorDomain code:code userInfo:userInfo];
 }
 
 + (NSError *)git_errorForMkStr:(int)code {
