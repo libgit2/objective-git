@@ -385,6 +385,27 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
     return allBranches;
 }
 
+- (NSArray *)remoteNamesWithError:(NSError **)error {
+	git_strarray array;
+	int gitError = git_remote_list(&array, self.git_repository);
+	if (gitError < GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to list all remotes."];
+		return nil;
+	}
+
+	NSMutableArray *remotes = [NSMutableArray arrayWithCapacity:array.count];
+	for (NSUInteger i = 0; i < array.count; i++) {
+		NSString *remoteName = @(array.strings[i]);
+		if (remoteName == nil) continue;
+
+		[remotes addObject:remoteName];
+	}
+
+	git_strarray_free(&array);
+
+	return remotes;
+}
+
 struct GTRepositoryTagEnumerationInfo {
 	__unsafe_unretained GTRepository *myself;
 	__unsafe_unretained GTRepositoryTagEnumerationBlock block;

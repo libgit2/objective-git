@@ -182,6 +182,13 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 - (NSArray *)remoteBranchesWithError:(NSError **)error;
 - (NSArray *)branchesWithPrefix:(NSString *)prefix error:(NSError **)error;
 
+// List all remotes in the repository
+//
+// error(out) - will be filled if an error occurs
+//
+// returns an array of NSStrings holding the names of the references, or nil if an error occurred
+- (NSArray *)remoteNamesWithError:(NSError **)error;
+
 // Convenience method to return all tags in the repository
 - (NSArray *)allTagsWithError:(NSError **)error;
 
