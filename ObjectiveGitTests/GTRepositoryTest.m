@@ -147,7 +147,7 @@
 
 	[self removeDirectoryAtURL:workdirURL];
 
-	repo = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL barely:NO withCheckout:YES error:&err transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
+	repo = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL withCheckout:YES options:NULL error:&err transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
 
 	STAssertNotNil(repo, err.localizedDescription);
 	STAssertFalse([repo isBare], @"Standard repo should not be bare");
@@ -171,11 +171,12 @@
 	};
 	NSURL *originURL = [NSURL fileURLWithPath:TEST_REPO_PATH(self.class)]; //[NSURL URLWithString: @"https://github.com/libgit2/TestGitRepository"];
 	NSURL *workdirURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"unit_test"]];
+	NSDictionary *options = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:1] forKey:@"bare"];
 	NSError *err;
 
 	[self removeDirectoryAtURL:workdirURL];
 
-	repo = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL barely:YES withCheckout:YES error:&err transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
+	repo = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL withCheckout:YES options:options error:&err transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
 
 	STAssertNotNil(repo, err.localizedDescription);
 	STAssertTrue([repo isBare], @"Bare repo should be bare");

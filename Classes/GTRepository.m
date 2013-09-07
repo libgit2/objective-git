@@ -168,12 +168,15 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 	return 0;
 }
 
-+ (id)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL barely:(BOOL)barely withCheckout:(BOOL)withCheckout error:(NSError **)error transferProgressBlock:(void (^)(const git_transfer_progress *))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))checkoutProgressBlock {
++ (id)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL withCheckout:(BOOL)withCheckout options:(NSDictionary *)options error:(NSError **)error transferProgressBlock:(void (^)(const git_transfer_progress *))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))checkoutProgressBlock {
 
 	git_clone_options cloneOptions = GIT_CLONE_OPTIONS_INIT;
-	if (barely) {
-		cloneOptions.bare = 1;
-	}
+
+    NSNumber *bare = options[@"bare"];
+	if (bare != nil) cloneOptions.bare = bare.intValue;
+
+    NSNumber *transportFlags = options[@"transportFlags"];
+    if (transportFlags != nil) cloneOptions.transport_flags = transportFlags.intValue;
 
 	if (withCheckout) {
 		git_checkout_opts checkoutOptions = GIT_CHECKOUT_OPTS_INIT;
