@@ -74,7 +74,7 @@ typedef struct {
 
 - (BOOL)isEqual:(GTRepository *)repo {
 	if (![repo isKindOfClass:GTRepository.class]) return NO;
-	return [self.fileURL isEqual:repo.fileURL];
+	return [self.gitDirectoryURL isEqual:repo.gitDirectoryURL];
 }
 
 - (void)dealloc {

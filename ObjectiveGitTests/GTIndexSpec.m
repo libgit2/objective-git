@@ -13,7 +13,7 @@ SpecBegin(GTIndex)
 __block GTIndex *index;
 
 beforeEach(^{
-	NSURL *indexURL = [[self fixtureRepositoryNamed:@"testrepo.git"].fileURL URLByAppendingPathComponent:@"testrepo.git/index"];
+	NSURL *indexURL = [[self fixtureRepositoryNamed:@"testrepo.git"].gitDirectoryURL URLByAppendingPathComponent:@"index"];
 	index = [[GTIndex alloc] initWithFileURL:indexURL error:NULL];
 	expect(index).notTo.beNil();
 
