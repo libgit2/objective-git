@@ -38,7 +38,7 @@
 @implementation GTTag
 
 - (NSString *)description {
-  return [NSString stringWithFormat:@"<%@: %p> name: %@, message: %@, targetType: %d", NSStringFromClass([self class]), self, [self name], [self message],  [self targetType]];
+  return [NSString stringWithFormat:@"<%@: %p> name: %@, message: %@, targetType: %d", NSStringFromClass([self class]), self,self.name, self.message, self.targetType];
 }
 
 
