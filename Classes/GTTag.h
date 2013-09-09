@@ -36,14 +36,19 @@
 
 @interface GTTag : GTObject {}
 
+// The author of the tag.
 @property (nonatomic, readonly, strong) GTSignature *tagger;
 
+// The message the of the tag.
 @property (nonatomic, readonly, strong) NSString *message;
 
+// The name of the tag.
 @property (nonatomic, readonly, strong) NSString *name;
 
+// The 'tagged' object.
 @property (nonatomic, readonly, strong) GTObject *target;
 
+// The type of the 'tagged' object.
 @property (nonatomic, readonly, strong) NSString *targetType;
 
 // Recursively peel a tag until a non tag GTObject is found
