@@ -39,10 +39,10 @@
 // The author of the tag.
 @property (nonatomic, readonly, strong) GTSignature *tagger;
 
-// The message the of the tag.
+// The description given when the tag was created.
 @property (nonatomic, readonly, strong) NSString *message;
 
-// The name of the tag.
+// The label of the tag. Generally a version number.
 @property (nonatomic, readonly, strong) NSString *name;
 
 // The 'tagged' object.
