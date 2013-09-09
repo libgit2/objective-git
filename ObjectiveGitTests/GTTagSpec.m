@@ -24,17 +24,16 @@ beforeEach(^{
 
 it(@"can read tag data", ^{
 	
-	expect(@"tag").to.equal(tag.type);
-	expect(@"test tag message\n").to.equal(tag.message);
-	expect(@"v1.0").to.equal(tag.name);
-	expect(@"5b5b025afb0b4c913b4c338a42934a3863bf3644").to.equal(tag.target.SHA);
+	expect(tag.type).to.equal(@"tag");
+	expect(tag.name).to.equal(@"v1.0");
+	expect(tag.message).to.equal(@"test tag message\n");
+	expect(tag.target.SHA).to.equal(@"5b5b025afb0b4c913b4c338a42934a3863bf3644");
 	expect(GTObjectTypeCommit).to.equal(tag.targetType);
 	
 	GTSignature *signature = tag.tagger;
-	expect(@"Scott Chacon").to.equal(signature.name);
-	expect(1288114383).to.equal((int)[signature.time timeIntervalSince1970]);
-	expect(@"schacon@gmail.com").to.equal(signature.email);
-	
+	expect(signature.name).to.equal(@"Scott Chacon");
+	expect((int)[signature.time timeIntervalSince1970]).to.equal(1288114383);
+	expect(signature.email).to.equal(@"schacon@gmail.com");
 	
 });
 
