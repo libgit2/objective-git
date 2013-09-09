@@ -38,13 +38,13 @@
 
 @property (nonatomic, readonly, strong) GTSignature *tagger;
 
-@property (nonatomic,strong) NSString *message;
+@property (nonatomic, readonly, strong) NSString *message;
 
-@property (nonatomic,strong) NSString *name;
+@property (nonatomic, readonly, strong) NSString *name;
 
-@property (nonatomic,strong) GTObject *target;
+@property (nonatomic, readonly, strong) GTObject *target;
 
-@property (nonatomic,strong) NSString *targetType;
+@property (nonatomic, readonly, strong) NSString *targetType;
 
 // Recursively peel a tag until a non tag GTObject is found
 //
