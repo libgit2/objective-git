@@ -38,7 +38,7 @@
 @implementation GTTag
 
 - (NSString *)description {
-  return [NSString stringWithFormat:@"<%@: %p> name: %@, message: %@, targetType: %@", NSStringFromClass([self class]), self, [self name], [self message],  [self targetType]];
+  return [NSString stringWithFormat:@"<%@: %p> name: %@, message: %@, targetType: %d", NSStringFromClass([self class]), self, [self name], [self message],  [self targetType]];
 }
 
 
@@ -60,8 +60,8 @@
     return [GTObject objectWithObj:(git_object *)t inRepository:self.repository];
 }
 
-- (NSString *)targetType {
-	return @(git_object_type2string(git_tag_target_type(self.git_tag)));
+- (GTObjectType)targetType {
+	return (GTObjectType)git_tag_target_type(self.git_tag);
 }
 
 - (GTSignature *)tagger {

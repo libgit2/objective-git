@@ -49,7 +49,7 @@
 @property (nonatomic, readonly, strong) GTObject *target;
 
 // The type of the 'tagged' object.
-@property (nonatomic, readonly, strong) NSString *targetType;
+@property (nonatomic, readonly) GTObjectType targetType;
 
 // Recursively peel a tag until a non tag GTObject is found
 //

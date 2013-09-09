@@ -28,7 +28,7 @@ it(@"can read tag data", ^{
 	expect(@"test tag message\n").to.equal(tag.message);
 	expect(@"v1.0").to.equal(tag.name);
 	expect(@"5b5b025afb0b4c913b4c338a42934a3863bf3644").to.equal(tag.target.SHA);
-	expect(@"commit").to.equal(tag.targetType);
+	expect(GTObjectTypeCommit).to.equal(tag.targetType);
 	
 	GTSignature *signature = tag.tagger;
 	expect(@"Scott Chacon").to.equal(signature.name);
