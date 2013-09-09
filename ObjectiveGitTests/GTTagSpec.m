@@ -23,7 +23,6 @@ beforeEach(^{
 });
 
 it(@"can read tag data", ^{
-	
 	expect(tag.type).to.equal(@"tag");
 	expect(tag.name).to.equal(@"v1.0");
 	expect(tag.message).to.equal(@"test tag message\n");
@@ -34,7 +33,6 @@ it(@"can read tag data", ^{
 	expect(signature.name).to.equal(@"Scott Chacon");
 	expect((int)[signature.time timeIntervalSince1970]).to.equal(1288114383);
 	expect(signature.email).to.equal(@"schacon@gmail.com");
-	
 });
 
 SpecEnd

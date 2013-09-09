@@ -62,6 +62,4 @@
 // The underlying `git_object` as a `git_tag` object.
 - (git_tag *)git_tag __attribute__((objc_returns_inner_pointer));
 
-
-
 @end
