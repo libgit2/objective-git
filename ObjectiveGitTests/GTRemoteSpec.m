@@ -104,7 +104,6 @@ describe(@"-fetchWithError:credentials:progress:", ^{
 
 		GTEnumerator *commitEnum = [[GTEnumerator alloc] initWithRepository:masterRepo error:nil];
 		[commitEnum pushSHA:[currentReference targetSHA] error:nil];
-		[commitEnum nextObject]; // Skip the commit we're currently on
 		GTCommit *parent = [commitEnum nextObject];
 
 		GTCommit *testCommit = [GTCommit commitInRepository:masterRepo updateRefNamed:currentReference.name author:[masterRepo userSignatureForNow] committer:[masterRepo userSignatureForNow] message:@"Test commit" tree:testTree parents:@[parent] error:nil];
