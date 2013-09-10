@@ -41,7 +41,6 @@
   return [NSString stringWithFormat:@"<%@: %p> name: %@, message: %@, targetType: %d", NSStringFromClass([self class]), self,self.name, self.message, self.targetType];
 }
 
-
 #pragma mark API
 
 - (NSString *)message {
@@ -55,9 +54,9 @@
 - (GTObject *)target {
 	git_object *t;
 	int gitError = git_tag_target(&t, self.git_tag);
-	if(gitError < GIT_OK) return nil;
+	if (gitError < GIT_OK) return nil;
 	
-    return [GTObject objectWithObj:(git_object *)t inRepository:self.repository];
+	return [GTObject objectWithObj:(git_object *)t inRepository:self.repository];
 }
 
 - (GTObjectType)targetType {
