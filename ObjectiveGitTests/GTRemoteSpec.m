@@ -29,10 +29,10 @@ beforeEach(^{
 	NSError *error = nil;
 	fetchingRepo = [GTRepository cloneFromURL:masterRepoURL toWorkingDirectory:fetchingRepoURL barely:NO withCheckout:YES error:&error transferProgressBlock:nil checkoutProgressBlock:nil];
 	expect(fetchingRepo).notTo.beNil();
-	expect(error.localizedDescription).to.beNil();
+	expect(error).to.beNil();
 
 	remoteNames = [fetchingRepo remoteNamesWithError:&error];
-	expect(error.localizedDescription).to.beNil();
+	expect(error).to.beNil();
 	expect(remoteNames.count).to.beGreaterThanOrEqualTo(1);
 
 	remoteName = remoteNames[0];
@@ -47,7 +47,7 @@ describe(@"-remoteWithName:inRepository:error", ^{
 		NSError *error = nil;
 
 		GTRemote *originRemote = [GTRemote remoteWithName:remoteName inRepository:fetchingRepo error:&error];
-		expect(error.localizedDescription).to.beNil();
+		expect(error).to.beNil();
 		expect(originRemote).notTo.beNil();
 	});
 
@@ -55,7 +55,7 @@ describe(@"-remoteWithName:inRepository:error", ^{
 		NSError *error = nil;
 
 		GTRemote *originRemote = [GTRemote remoteWithName:@"blork" inRepository:fetchingRepo error:&error];
-		expect(error.localizedDescription).notTo.beNil();
+		expect(error).notTo.beNil();
 		expect(originRemote).to.beNil();
 	});
 });
@@ -64,11 +64,11 @@ describe(@"-createRemoteWithName:url:inRepository:error", ^{
 	it(@"should allow creating new remotes", ^{
 		NSError *error = nil;
 		GTRemote *remote = [GTRemote createRemoteWithName:@"newremote" url:@"git://user@example.com/testrepo.git" inRepository:fetchingRepo	error:&error];
-		expect(error.localizedDescription).to.beNil();
+		expect(error).to.beNil();
 		expect(remote).notTo.beNil();
 
 		GTRemote *newRemote = [GTRemote remoteWithName:@"newremote" inRepository:fetchingRepo error:&error];
-		expect(error.localizedDescription).to.beNil();
+		expect(error).to.beNil();
 		expect(newRemote).notTo.beNil();
 	});
 });
@@ -79,7 +79,7 @@ describe(@"-fetchWithError:credentials:progress:", ^{
 		GTRemote *remote = [GTRemote remoteWithName:remoteName inRepository:fetchingRepo error:nil]; // Tested above
 
 		BOOL result = [remote fetchWithError:&error credentials:nil progress:nil];
-		expect(error.localizedDescription).to.beNil();
+		expect(error).to.beNil();
 		expect(result).to.beTruthy();
 	});
 
@@ -118,19 +118,19 @@ describe(@"-fetchWithError:credentials:progress:", ^{
 			receivedObjects += stats->received_objects;
 			NSLog(@"%d", receivedObjects);
 		}];
-		expect(error.localizedDescription).to.beNil();
+		expect(error).to.beNil();
 		expect(res).to.beTruthy();
 		expect(receivedObjects).to.equal(10);
 
 		GTCommit *fetchedCommit = [fetchingRepo lookupObjectByOID:testOID objectType:GTObjectTypeCommit error:&error];
-		expect(error.localizedDescription).to.beNil();
+		expect(error).to.beNil();
 		expect(fetchedCommit).notTo.beNil();
 
 		GTTreeEntry *entry = [[fetchedCommit tree] entryWithName:fileName];
 		expect(entry).notTo.beNil();
 
 		GTBlob *fileData = (GTBlob *)[entry toObjectAndReturnError:&error];
-		expect(error.localizedDescription).to.beNil();
+		expect(error).to.beNil();
 		expect(fileData).notTo.beNil();
 		expect(fileData.content).to.equal(testData);
 	});
