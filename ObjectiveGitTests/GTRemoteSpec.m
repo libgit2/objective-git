@@ -9,6 +9,7 @@
 
 SpecBegin(GTRemote)
 
+__block NSURL *masterRepoURL;
 __block NSURL *fetchingRepoURL;
 __block GTRepository *masterRepo;
 __block GTRepository *fetchingRepo;
@@ -18,7 +19,7 @@ __block NSString *remoteName;
 beforeEach(^{
 	masterRepo = [self fixtureRepositoryNamed:@"testrepo.git"];
 
-	NSURL *masterRepoURL = masterRepo.gitDirectoryURL;
+	masterRepoURL = masterRepo.gitDirectoryURL;
 	NSURL *fixturesURL = masterRepoURL.URLByDeletingLastPathComponent;
 	fetchingRepoURL = [fixturesURL URLByAppendingPathComponent:@"fetchrepo"];
 
@@ -80,6 +81,58 @@ describe(@"-fetchWithError:credentials:progress:", ^{
 		BOOL result = [remote fetchWithError:&error credentials:nil progress:nil];
 		expect(error.localizedDescription).to.beNil();
 		expect(result).to.beTruthy();
+	});
+
+	it(@"brings in new commits", ^{
+		NSError *error = nil;
+
+		// Create a new commit in the master repo
+		NSString *testData = @"Test";
+		NSString *fileName = @"test.txt";
+		BOOL res = [testData writeToURL:[masterRepoURL URLByAppendingPathComponent:fileName] atomically:YES encoding:NSUTF8StringEncoding error:nil];
+		expect(res).to.beTruthy();
+
+		GTOID *testOID = [[masterRepo objectDatabaseWithError:nil] oidByInsertingString:testData objectType:GTObjectTypeBlob error:nil];
+		GTTreeBuilder *treeBuilder = [[GTTreeBuilder alloc] initWithTree:nil error:nil];
+		[treeBuilder addEntryWithOID:testOID filename:fileName filemode:GTFileModeBlob error:nil];
+
+		GTTree *testTree = [treeBuilder writeTreeToRepository:masterRepo error:nil];
+
+		// We need the parent commit to make the new one
+		GTBranch *currentBranch = [masterRepo currentBranchWithError:nil];
+		GTReference *currentReference = [currentBranch reference];
+
+		GTEnumerator *commitEnum = [[GTEnumerator alloc] initWithRepository:masterRepo error:nil];
+		[commitEnum pushSHA:[currentReference targetSHA] error:nil];
+		[commitEnum nextObject]; // Skip the commit we're currently on
+		GTCommit *parent = [commitEnum nextObject];
+
+		GTCommit *testCommit = [GTCommit commitInRepository:masterRepo updateRefNamed:currentReference.name author:[masterRepo userSignatureForNow] committer:[masterRepo userSignatureForNow] message:@"Test commit" tree:testTree parents:@[parent] error:nil];
+		expect(testCommit).notTo.beNil();
+
+		// Now issue a fetch from the fetching repo
+		GTRemote *remote = [GTRemote remoteWithName:remoteName inRepository:fetchingRepo error:nil];
+
+		__block unsigned int receivedObjects = 0;
+		res = [remote fetchWithError:&error credentials:nil progress:^(const git_transfer_progress *stats, BOOL *stop) {
+			receivedObjects += stats->received_objects;
+			NSLog(@"%d", receivedObjects);
+		}];
+		expect(error.localizedDescription).to.beNil();
+		expect(res).to.beTruthy();
+		expect(receivedObjects).to.equal(10);
+
+		GTCommit *fetchedCommit = [fetchingRepo lookupObjectByOID:testOID objectType:GTObjectTypeCommit error:&error];
+		expect(error.localizedDescription).to.beNil();
+		expect(fetchedCommit).notTo.beNil();
+
+		GTTreeEntry *entry = [[fetchedCommit tree] entryWithName:fileName];
+		expect(entry).notTo.beNil();
+
+		GTBlob *fileData = (GTBlob *)[entry toObjectAndReturnError:&error];
+		expect(error.localizedDescription).to.beNil();
+		expect(fileData).notTo.beNil();
+		expect(fileData.content).to.equal(testData);
 	});
 });
 
