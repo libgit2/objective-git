@@ -157,6 +157,10 @@
 	git_remote_set_autotag(self.git_remote, (git_remote_autotag_option_t)autoTag);
 }
 
+- (BOOL)isConnected {
+	return (BOOL)git_remote_connected(self.git_remote) == 0;
+}
+
 #pragma mark Renaming
 
 typedef int (^GTRemoteRenameBlock)(NSString *refspec);
@@ -266,8 +270,5 @@ int transfer_progress_cb(const git_transfer_progress *stats, void *payload) {
 	}
 }
 
-- (BOOL)isConnected {
-	return (BOOL)git_remote_connected(self.git_remote) == 0;
-}
 
 @end
