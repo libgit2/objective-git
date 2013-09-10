@@ -395,6 +395,8 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 
 	NSMutableArray *remotes = [NSMutableArray arrayWithCapacity:array.count];
 	for (NSUInteger i = 0; i < array.count; i++) {
+		if (array.strings[i] == NULL) continue;
+
 		NSString *remoteName = @(array.strings[i]);
 		if (remoteName == nil) continue;
 
