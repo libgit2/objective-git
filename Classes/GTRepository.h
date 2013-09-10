@@ -183,7 +183,7 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 
 // List all remotes in the repository
 //
-// error(out) - will be filled if an error occurs
+// error - will be filled if an error occurs
 //
 // returns an array of NSStrings holding the names of the references, or nil if an error occurred
 - (NSArray *)remoteNamesWithError:(NSError **)error;

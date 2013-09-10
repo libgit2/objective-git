@@ -46,6 +46,7 @@ typedef enum {
 @property (nonatomic, readonly, getter=isConnected) BOOL connected;
 
 // Whether the remote updates FETCH_HEAD when fetched.
+// Defaults to YES.
 @property (nonatomic) BOOL updatesFetchHead;
 
 // The auto-tag setting for the remote.
@@ -78,18 +79,6 @@ typedef enum {
 //
 // Returns the loaded remote, or nil if an error occurred.
 + (instancetype)remoteWithName:(NSString *)name inRepository:(GTRepository *)repo error:(NSError **)error;
-
-// Initializes a GTRemote object.
-//
-// Depending on the presence or absence of the `url` parameter, it will either
-// create a new remote or load an exisiting one, respectively.
-// This is the designated initializer for `GTRemote`.
-//
-// name  - The name of the remote.
-// URL   - Optional URL for the remote.
-// repo  - The repository containing the remote.
-// error - Will be set if an error occurs.
-- (instancetype)initWithName:(NSString *)name url:(NSString *)URL inRepository:(GTRepository *)repo error:(NSError **)error;
 
 // Initialize a remote from a `git_remote`.
 - (id)initWithGitRemote:(git_remote *)remote inRepository:(GTRepository *)repo;

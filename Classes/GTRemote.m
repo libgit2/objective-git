@@ -54,44 +54,34 @@
 }
 
 + (instancetype)createRemoteWithName:(NSString *)name url:(NSString *)URL inRepository:(GTRepository *)repo error:(NSError **)error {
+	NSParameterAssert(name != nil);
 	NSParameterAssert(URL != nil);
+	NSParameterAssert(repo != nil);
 
-	return [[self alloc] initWithName:name url:URL inRepository:repo error:error];
+	git_remote *remote;
+	int gitError = git_remote_create(&remote, repo.git_repository, name.UTF8String, URL.UTF8String);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Remote creation failed" failureReason:nil];
+
+		return nil;
+	}
+
+	return [[self alloc] initWithGitRemote:remote inRepository:repo];
 }
 
 + (instancetype)remoteWithName:(NSString *)name inRepository:(GTRepository *)repo error:(NSError **)error {
-	return [[self alloc] initWithName:name url:nil inRepository:repo error:error];
-}
-
-- (instancetype)initWithName:(NSString *)name url:(NSString *)URL inRepository:(GTRepository *)repo error:(NSError **)error {
 	NSParameterAssert(name != nil);
 	NSParameterAssert(repo != nil);
 
-	self = [super init];
-	if (self == nil) return nil;
-	int gitError = GIT_OK;
+	git_remote *remote;
+	int gitError = git_remote_load(&remote, repo.git_repository, name.UTF8String);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Remote loading failed" failureReason:nil];
 
-	if (URL) {
-		// An URL was provided, try to create a new remote
-		gitError = git_remote_create(&_git_remote, repo.git_repository, name.UTF8String, URL.UTF8String);
-		if (gitError != GIT_OK) {
-			if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Remote creation failed" failureReason:nil];
-
-			return nil;
-		}
-	} else {
-		// No URL provided, we're loading an existing remote
-		gitError = git_remote_load(&_git_remote, repo.git_repository, name.UTF8String);
-		if (gitError != GIT_OK) {
-			if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Remote loading failed" failureReason:nil];
-
-			return nil;
-		}
+		return nil;
 	}
 
-	_repository = repo;
-
-	return self;
+	return [[self alloc] initWithGitRemote:remote inRepository:repo];
 }
 
 - (id)initWithGitRemote:(git_remote *)remote inRepository:(GTRepository *)repo {
@@ -158,7 +148,7 @@
 }
 
 - (BOOL)isConnected {
-	return (BOOL)git_remote_connected(self.git_remote) == 0;
+	return git_remote_connected(self.git_remote) == 0;
 }
 
 #pragma mark Renaming
@@ -217,8 +207,8 @@ static int fetch_cred_acquire_cb(git_cred **cred, const char *url, const char *u
 		return GIT_ERROR;
 	}
 
-	NSString *URL = url ? @(url) : nil;
-	NSString *userName = username_from_url ? @(username_from_url) : nil;
+	NSString *URL = (url != NULL ? @(url) : nil);
+	NSString *userName = (username_from_url != NULL ? @(username_from_url) : nil);
 
 	return info->credBlock(cred, (GTCredentialType)allowed_types, URL, userName);
 }
@@ -260,8 +250,7 @@ int transfer_progress_cb(const git_transfer_progress *stats, void *payload) {
 				if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to update tips"];
 				return NO;
 			}
-		}
-		@finally {
+		} @finally {
 			git_remote_disconnect(self.git_remote);
 			git_remote_set_cred_acquire_cb(self.git_remote, NULL, NULL);
 		}
