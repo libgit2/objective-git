@@ -55,7 +55,6 @@
 	git_object *t;
 	int gitError = git_tag_target(&t, self.git_tag);
 	if (gitError < GIT_OK) return nil;
-	
 	return [GTObject objectWithObj:(git_object *)t inRepository:self.repository];
 }
 
