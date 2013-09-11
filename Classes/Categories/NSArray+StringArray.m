@@ -21,7 +21,7 @@
 		cStrings[idx] = strdup(string.UTF8String);
 	}
 	
-	git_strarray strArray = {.strings = cStrings, .count = self.count};
+	git_strarray strArray = { .strings = cStrings, .count = self.count };
 	git_strarray *copiedString = malloc(sizeof(git_strarray));
 	git_strarray_copy(copiedString, &strArray);
 	return copiedString;
