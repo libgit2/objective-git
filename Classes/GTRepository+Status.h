@@ -56,7 +56,7 @@ extern NSString *const GTRepositoryStatusOptionsPathSpecArrayKey;
 
 @interface GTRepository (Status)
 
-// Return YES if the working directory is clean (no modified, new, or deleted files in index)
+// `YES` if the working directory has no modified, new, or deleted files.
 @property (nonatomic, readonly, getter = isWorkingDirectoryClean) BOOL workingDirectoryClean;
 
 // For each file in the repository, calls your block with the URL of the file
