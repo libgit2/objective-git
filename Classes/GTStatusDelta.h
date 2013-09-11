@@ -46,7 +46,7 @@ typedef enum {
 // `GTStatusDeltaStatusCopied`.
 @property (nonatomic, readonly) NSUInteger similarity;
 
-// Designated initialiser.
+// Designated initializer.
 - (instancetype)initWithGitDiffDelta:(const git_diff_delta *)delta;
 
 @end
