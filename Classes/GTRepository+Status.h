@@ -80,8 +80,8 @@ extern NSString *const GTRepositoryStatusOptionsPathSpecArrayKey;
 //                           between the index and the working directory. If
 //                           `stop` is set to `YES`, the iteration will cease.
 //
-// Returns `NO` in case of a failure or `YES` if the enumeration could be
-// completed successfully
+// Returns `NO` in case of a failure or `YES` if the enumeration completed
+// successfully.
 - (BOOL)enumerateFileStatusWithOptions:(NSDictionary *)options error:(NSError **)error usingBlock:(void(^)(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop))block;
 
 @end
