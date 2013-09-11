@@ -22,3 +22,6 @@ project.xcworkspace
 */xcuserdata/
 
 ObjectiveGitTests/fixtures/Fixtures/*
+
+ios-openssl/include
+ios-openssl/lib

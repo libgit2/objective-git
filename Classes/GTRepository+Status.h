@@ -22,7 +22,6 @@ typedef enum {
 	GTRepositoryStatusOptionsShowIndexAndWorkingDirectory = GIT_STATUS_SHOW_INDEX_AND_WORKDIR,
 	GTRepositoryStatusOptionsShowIndexOnly = GIT_STATUS_SHOW_INDEX_ONLY,
 	GTRepositoryStatusOptionsShowWorkingDirectoryOnly = GIT_STATUS_SHOW_WORKDIR_ONLY,
-	GTRepositoryStatusOptionsShowIndexThenWorkingDirectory = GIT_STATUS_SHOW_INDEX_THEN_WORKDIR,
 } GTRepositoryStatusOptionsShow;
 
 // An `NSNumber` wrapped `GTRepositoryStatusOptionsFlags` bitmask containing any
