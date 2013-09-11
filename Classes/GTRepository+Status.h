@@ -61,6 +61,10 @@ extern NSString *const GTRepositoryStatusOptionsPathSpecArrayKey;
 
 // For each file in the repository calls your block with the URL of the file and the status of that file in the repository,
 //
+// This will show all file statuses unless a pathspec is specified in the
+// options dictionary (using the `GTRepositoryStatusOptionsPathSpecArrayKey`
+// key).
+//
 // options                 - A dictionary of options using the constants above
 //                           for keys. If no flags are passed in using
 //                           `GTRepositoryStatusOptionsFlagsKey` the defaults of
