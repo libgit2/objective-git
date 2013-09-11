@@ -73,11 +73,11 @@ extern NSString *const GTRepositoryStatusOptionsPathSpecArrayKey;
 //                           GTRepositoryStatusOptionsFlagsRecurseUntrackedDirectories
 //                           are used.
 // error                   - Will optionally be set in the event of a failure.
-// block                   - the block that gets called for each file
-// headToIndex             - The status delta between HEAD and the index.
-// indexToWorkingDirectory - The status delta between the index and working
-//                           directory.
-// stop                    - If set to `YES`, the iteration will cease.
+// block                   - the block that gets called for each file.
+//                           `headToIndex` is the delta between the HEAD and
+//                           index. `indexToWorkingDirectory` is the same but
+//                           between the index and the working directory. If
+//                           `stop` is set to `YES`, the iteration will cease.
 //
 // Returns `NO` in case of a failure or `YES` if the enumeration could be
 // completed successfully
