@@ -16,7 +16,7 @@
 	char *cStrings[self.count];
 	for (NSUInteger idx = 0; idx < self.count; idx++) {
 		NSString *string = self[idx];
-		NSAssert([string isKindOfClass:NSString.class], @"A string array must only contain NSStrings");
+		NSAssert([string isKindOfClass:NSString.class], @"A string array must only contain NSStrings. %@ is not a string.", string);
 		
 		cStrings[idx] = strdup(string.UTF8String);
 	}
