@@ -74,7 +74,7 @@ extern NSString *const GTRepositoryStatusOptionsPathSpecArrayKey;
 //                           GTRepositoryStatusOptionsFlagsRecurseUntrackedDirectories
 //                           are used.
 // error                   - Will optionally be set in the event of a failure.
-// block                   - the block that gets called for each file.
+// block                   - Rhe block that gets called for each file.
 //                           `headToIndex` is the delta between the HEAD and
 //                           index. `indexToWorkingDirectory` is the same but
 //                           between the index and the working directory. If
