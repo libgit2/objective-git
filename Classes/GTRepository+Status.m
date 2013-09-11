@@ -26,7 +26,7 @@ NSString *const GTRepositoryStatusOptionsPathSpecArrayKey = @"GTRepositoryStatus
 	gitOptions.flags = GIT_STATUS_OPT_DEFAULTS;
 	
 	NSArray *pathSpec = options[GTRepositoryStatusOptionsPathSpecArrayKey];
-	if (pathSpec != nil) gitOptions.pathspec = *[pathSpec git_strarray];
+	if (pathSpec != nil) gitOptions.pathspec = *pathSpec.git_strarray;
 		
 	NSNumber *flagsNumber = options[GTRepositoryStatusOptionsFlagsKey];
 	if (flagsNumber != nil) gitOptions.flags = flagsNumber.unsignedIntValue;
