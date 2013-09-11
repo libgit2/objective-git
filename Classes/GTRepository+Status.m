@@ -67,7 +67,6 @@ NSString *const GTRepositoryStatusOptionsPathSpecArrayKey = @"GTRepositoryStatus
 		GTStatusDeltaStatus indexToWorkDirStatus = indexToWorkingDirectory.status;
 		
 		// first, have items been deleted?
-		// (not sure why we would get WT_DELETED AND INDEX_NEW in this situation, but that's what I got experimentally. WD-rpw, 02-23-2012
 		if (indexToWorkDirStatus == GTStatusDeltaStatusDeleted || headToIndexStatus == GTStatusDeltaStatusDeleted) {
 			clean = NO;
 			*stop = YES;
