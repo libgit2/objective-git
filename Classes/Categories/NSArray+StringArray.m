@@ -10,10 +10,10 @@
 
 @implementation NSArray (StringArray)
 
-- (git_strarray *)git_strarray {
-	if (self.count < 1) return NULL;
+- (git_strarray)git_strarray {
+	if (self.count < 1) return (git_strarray){ .strings = NULL, .count = 0 };
 	
-	char *cStrings[self.count];
+	char **cStrings = (char **)malloc(self.count * sizeof(char *));
 	for (NSUInteger idx = 0; idx < self.count; idx++) {
 		NSString *string = self[idx];
 		NSAssert([string isKindOfClass:NSString.class], @"A string array must only contain NSStrings. %@ is not a string.", string);
@@ -22,9 +22,7 @@
 	}
 	
 	git_strarray strArray = { .strings = cStrings, .count = self.count };
-	git_strarray *copiedString = malloc(sizeof(git_strarray));
-	git_strarray_copy(copiedString, &strArray);
-	return copiedString;
+	return strArray;
 }
 
 @end

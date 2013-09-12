@@ -66,7 +66,7 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 	if (maxSizeNumber != nil) newOptions.max_size = (uint16_t)maxSizeNumber.unsignedIntegerValue;
 	
 	NSArray *pathSpec = dictionary[GTDiffOptionsPathSpecArrayKey];
-	if (pathSpec != nil) newOptions.pathspec = *pathSpec.git_strarray;
+	if (pathSpec != nil) newOptions.pathspec = pathSpec.git_strarray;
 
 	git_diff_options *optionsPtr = &newOptions;
 	if (dictionary.count < 1) optionsPtr = nil;
