@@ -46,6 +46,15 @@ describe(@"String arrays", ^{
 		git_strarray_copy(&copiedArray, &strArray);
 		validateStrArray(copiedArray);
 	});
+	
+	it(@"should stay valid outside of an autorelease pool", ^{
+		git_strarray dontAutoreleaseThis;
+		@autoreleasepool {
+			dontAutoreleaseThis = originalArray.git_strarray;
+		}
+		
+		validateStrArray(dontAutoreleaseThis);
+	});
 });
 
 SpecEnd
