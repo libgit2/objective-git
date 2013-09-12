@@ -5,7 +5,7 @@
 
 set -x
 
-if [ -f "ios-openssl/lib/libssl.a" ] && [ -f "ios-openssl/lib/libcrypto.a" ] && [ -d "ios-openssl/include" ]
+if [ -f "External/ios-openssl/lib/libssl.a" ] && [ -f "External/ios-openssl/lib/libcrypto.a" ] && [ -d "External/ios-openssl/include" ]
 then
     echo "No update needed."
     exit 0
@@ -27,7 +27,7 @@ IPHONESIMULATOR_GCC="${IPHONESIMULATOR_PLATFORM}/Developer/usr/bin/gcc"
 
 # Clean up whatever was left from our previous build
 
-rm -rf ios-openssl/include ios-openssl/lib
+rm -rf External/ios-openssl/include External/ios-openssl/lib
 rm -rf "/tmp/openssl"
 rm -rf "/tmp/openssl-*.log"
 
@@ -37,7 +37,7 @@ build()
    GCC=$2
    SDK=$3
    rm -rf "/tmp/openssl"
-   cp -r openssl /tmp/
+   cp -r External/openssl /tmp/
    pushd .
    cd "/tmp/openssl"
    ./Configure BSD-generic32 no-gost --openssldir="/tmp/openssl-${ARCH}" &> "/tmp/openssl-${ARCH}.log"
@@ -56,20 +56,20 @@ build "i386" "${IPHONESIMULATOR_GCC}" "${IPHONESIMULATOR_SDK}"
 
 #
 
-mkdir ios-openssl/include
-cp -r /tmp/openssl-i386/include/openssl ios-openssl/include/
+mkdir External/ios-openssl/include
+cp -r /tmp/openssl-i386/include/openssl External/ios-openssl/include/
 
-mkdir ios-openssl/lib
+mkdir External/ios-openssl/lib
 lipo \
 	"/tmp/openssl-armv7/lib/libcrypto.a" \
 	"/tmp/openssl-armv7s/lib/libcrypto.a" \
 	"/tmp/openssl-i386/lib/libcrypto.a" \
-	-create -output ios-openssl/lib/libcrypto.a
+	-create -output External/ios-openssl/lib/libcrypto.a
 lipo \
 	"/tmp/openssl-armv7/lib/libssl.a" \
 	"/tmp/openssl-armv7s/lib/libssl.a" \
 	"/tmp/openssl-i386/lib/libssl.a" \
-	-create -output ios-openssl/lib/libssl.a
+	-create -output External/ios-openssl/lib/libssl.a
 
 rm -rf "/tmp/openssl"
 rm -rf "/tmp/openssl-*.log"
