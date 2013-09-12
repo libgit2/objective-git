@@ -9,23 +9,42 @@
 SpecBegin(StringArray)
 
 describe(@"String arrays", ^{
-	it(@"should return null for an empty array", ^{
-		NSArray *emptyArray = [NSArray array];
-		expect([emptyArray git_strarray]).to.beNull();
+	__block NSArray *originalArray = nil;
+	__block git_strarray strArray;
+	
+	beforeEach(^{
+		originalArray = @[ @"First", @"Second", @"Third", @"Fourth", @"Fifth", @"Sixth" ];
+		strArray = originalArray.git_strarray;
 	});
 	
-	it(@"should correctly translate the strings", ^{
-		NSArray *originalArray = @[ @"First", @"Second", @"Third", @"Fourth", @"Fifth", @"Sixth" ];
-		git_strarray *strArray = [originalArray git_strarray];
-		expect(strArray->count).to.equal(originalArray.count);
+	afterEach(^{
+		git_strarray_free(&strArray);
+	});
+	
+	it(@"should return null for an empty array", ^{
+		NSArray *emptyArray = [NSArray array];
+		expect(emptyArray.git_strarray.count).to.equal(0);
+		expect(emptyArray.git_strarray.strings).to.beNil();
+	});
+
+	void (^validateStrArray)(git_strarray) = ^ (git_strarray arrayToValidate) {
+		expect(arrayToValidate.count).to.equal(originalArray.count);
 		
 		for (NSUInteger idx = 0; idx < originalArray.count; idx++) {
 			const char *UTF8String = [originalArray[idx] UTF8String];
-			const char *convertedString = strArray->strings[idx];
+			const char *convertedString = arrayToValidate.strings[idx];
 			expect(strcmp(UTF8String, convertedString)).to.equal(0);
 		}
-		
-		git_strarray_free(strArray);
+	};
+	
+	it(@"should correctly translate the strings", ^{
+		validateStrArray(strArray);
+	});
+	
+	it(@"should be able to be copied", ^{
+		git_strarray copiedArray;
+		git_strarray_copy(&copiedArray, &strArray);
+		validateStrArray(copiedArray);
 	});
 });
 
