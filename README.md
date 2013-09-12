@@ -31,9 +31,9 @@ chances are that you will want to also grab its submodules, e.g. as follows:
 
 To compile [libgit2] with [libssh2] you need to install the following dependencies via [Homebrew]:
 
-Mac OS X: `$ brew install libssh2`
+Mac OS X: `brew install libssh2`
 
-iOS: `$ brew install libtool autoconf automake`
+iOS: `brew install libtool autoconf automake`
 
 [libssh2]: http://www.libssh2.org/
 [Homebrew]: http://brew.sh/
