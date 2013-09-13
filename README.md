@@ -31,9 +31,8 @@ chances are that you will want to also grab its submodules, e.g. as follows:
 
 To compile [libgit2] with [libssh2] you need to install the following dependencies via [Homebrew]:
 
-Mac OS X: `brew install libssh2`
-
-iOS: `brew install libtool autoconf automake`
+ * Mac OS X: `brew install libssh2`
+ * iOS: `brew install libtool autoconf automake`
 
 [libssh2]: http://www.libssh2.org/
 [Homebrew]: http://brew.sh/
@@ -61,7 +60,7 @@ not allowing third-party dynamic frameworks. A work-around for this is as follow
 1. In your target's build settings:
     1. Set "Always Search User Paths" to YES
     1. Add `$(BUILT_PRODUCTS_DIR)/usr/local/include` and
-       `$(SRCROOT)../Libs/objective-git/External/libgit2/include` to the "User Header
+       `path/to/objective-git/External/libgit2/include` to the "User Header
        Search Paths"
     1. Add `-all_load` to the "Other Linker Flags"
 
