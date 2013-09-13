@@ -131,13 +131,18 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 // originURL             - The URL to clone from.
 // workdirURL            - A URL to the desired working directory on the local machine.
 // withCheckout          - if NO, don't checkout the remote HEAD
-// options               - A NSDictionary with NSString keys, used for specifying clone options. Possible keys are @"bare" and @"transportFlags" 
+// options               - A NSDictionary with NSString keys, used for specifying clone options. Possible keys are:
+//                          - @"bare" - BOOL value, if YES, create a bare clone, for example: [NSNumber numberWithBool:YES], defaults to NO
+//                          - @"checkout" - BOOL value, if NO, don't checkout the remote HEAD, for example: [NSNumber numberWithBool:NO], defaults to YES
+//                          - @"transportFlags" - int value, two possible values:
+//                            - GIT_TRANSPORTFLAGS_NONE (0), for example: [NSNumber numberWithInt:GIT_TRANSPORTFLAGS_NONE], this is the default value
+//                            - GIT_TRANSPORTFLAGS_NO_CHECK_CERT (1), for example: [NSNumber numberWithInt:GIT_TRANSPORTFLAGS_NO_CHECK_CERT], if you pass this flag and the connection is secured with SSL/TLS, the authenticity of the server certificate will not be verified
 // error                 - A pointer to fill in case of trouble.
 // transferProgressBlock - This block is called with network transfer updates.
 // checkoutProgressBlock - This block is called with checkout updates (if withCheckout is YES).
 //
 // returns nil (and fills the error parameter) if an error occurred, or a GTRepository object if successful.
-+ (id)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL withCheckout:(BOOL)withCheckout options:(NSDictionary *)options error:(NSError **)error transferProgressBlock:(void (^)(const git_transfer_progress *))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))checkoutProgressBlock;
++ (id)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL options:(NSDictionary *)options error:(NSError **)error transferProgressBlock:(void (^)(const git_transfer_progress *))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))checkoutProgressBlock;
 
 // Helper for getting the sha1 has of a raw object
 //
