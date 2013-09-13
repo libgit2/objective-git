@@ -1,0 +1,74 @@
+#!/bin/sh
+
+set -e
+
+if [ -f "External/libssh2-ios/lib/libssh2.a" ]; then
+    echo "No update needed."
+    exit 0
+fi
+
+PATH="/usr/local/bin:$PATH"
+
+SDKVERSION="6.1"
+CURRENTPATH=`pwd`
+ARCHS="i386 armv7 armv7s"
+DEVELOPER="/Applications/Xcode.app/Contents/Developer"
+
+mkdir -p External/libssh2-ios/lib External/libssh2-ios/lib External/libssh2-ios/src
+
+for ARCH in ${ARCHS}; do
+
+    if [ "${ARCH}" == "i386" ]; then
+        PLATFORM="iPhoneSimulator"
+    else
+        PLATFORM="iPhoneOS"
+    fi
+
+    echo "Building libssh2 for ${PLATFORM} ${SDKVERSION} ${ARCH}"
+    echo "Please stand by..."
+
+    cp -R External/libssh2 External/libssh2-ios/src/
+    cd External/libssh2-ios/src/libssh2
+
+    export DEVROOT="${DEVELOPER}/Platforms/${PLATFORM}.platform/Developer"
+    export SDKROOT="${DEVROOT}/SDKs/${PLATFORM}${SDKVERSION}.sdk"
+    export LD=${DEVROOT}/usr/bin/ld
+
+    if [ "${ARCH}" == "i386" ]; then
+        export CC=${DEVROOT}/usr/bin/gcc
+        export CPP=${DEVROOT}/usr/bin/cpp
+        export CXX=${DEVROOT}/usr/bin/g++
+        export CXXCPP=$DEVROOT/usr/bin/cpp
+    else
+        export CC=${DEVROOT}/usr/bin/gcc
+        export CXX=${DEVROOT}/usr/bin/g++
+    fi
+
+    export AR=${DEVROOT}/usr/bin/ar
+    export AS=${DEVROOT}/usr/bin/as
+    export NM=${DEVROOT}/usr/bin/nm
+    export RANLIB=$DEVROOT/usr/bin/ranlib
+    export LDFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -L${CURRENTPATH}/External/libssh2-ios/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk/lib"
+    export CFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -I${CURRENTPATH}/External/libssh2-ios/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk/include"
+    export CXXFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -I${CURRENTPATH}/External/libssh2-ios/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk/include"
+
+    echo ${CURRENTPATH}/External/libssh2-ios/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk
+
+    mkdir -p "${CURRENTPATH}/External/libssh2-ios/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk"
+    LOG="${CURRENTPATH}/External/libssh2-ios/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk/build-libssh2.log"
+    ./buildconf >> "${LOG}" 2>&1
+    ./configure --host=${ARCH}-apple-darwin --prefix="${CURRENTPATH}/External/libssh2-ios/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk" -with-openssl --with-libssl-prefix=${CURRENTPATH}/External/ios-openssl --disable-shared --enable-static  >> "${LOG}" 2>&1
+    make >> "${LOG}" 2>&1
+    make install >> "${LOG}" 2>&1
+
+    cd ${CURRENTPATH}
+    rm -rf External/libssh2-ios/src/libssh2
+done
+
+echo "Build library..."
+
+lipo -create ${CURRENTPATH}/External/libssh2-ios/bin/iPhoneSimulator${SDKVERSION}-i386.sdk/lib/libssh2.a ${CURRENTPATH}/External/libssh2-ios/bin/iPhoneOS${SDKVERSION}-armv7.sdk/lib/libssh2.a ${CURRENTPATH}/External/libssh2-ios/bin/iPhoneOS${SDKVERSION}-armv7s.sdk/lib/libssh2.a -output ${CURRENTPATH}/External/libssh2-ios/lib/libssh2.a
+mkdir -p ${CURRENTPATH}/External/libssh2-ios/include/libssh2
+cp -R ${CURRENTPATH}/External/libssh2-ios/bin/iPhoneSimulator${SDKVERSION}-i386.sdk/include/libssh2* ${CURRENTPATH}/External/libssh2-ios/include/libssh2/
+
+echo "Building done."
