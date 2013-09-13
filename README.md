@@ -61,7 +61,7 @@ not allowing third-party dynamic frameworks. A work-around for this is as follow
 1. In your target's build settings:
     1. Set "Always Search User Paths" to YES
     1. Add `$(BUILT_PRODUCTS_DIR)/usr/local/include` and
-       `$(SRCROOT)../Libs/objective-git/libgit2/include` to the "User Header
+       `$(SRCROOT)../Libs/objective-git/External/libgit2/include` to the "User Header
        Search Paths"
     1. Add `-all_load` to the "Other Linker Flags"
 
