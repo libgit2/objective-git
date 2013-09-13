@@ -17,8 +17,8 @@ beforeEach(^{
 	GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&error];
 	NSString *tagSHA = @"0c37a5391bbff43c37f0d0371823a5509eed5b1d";
 	tag = (GTTag *)[repo lookupObjectBySHA:tagSHA error:&error];
-	expect(error).to.beFalsy;
-	expect(tag).to.beTruthy;
+	expect(error).to.beFalsy();
+	expect(tag).to.beTruthy();
 	expect(tagSHA).to.equal(tag.SHA);
 });
 
