@@ -27,6 +27,16 @@ chances are that you will want to also grab its submodules, e.g. as follows:
 [libgit2]: https://github.com/libgit2/libgit2
 [submodule]: http://book.git-scm.com/5_submodules.html
 
+## libssh2
+
+To compile [libgit2] with [libssh2] you need to install the following dependencies via [Homebrew]:
+
+ * Mac OS X: `brew install libssh2`
+ * iOS: `brew install libtool autoconf automake`
+
+[libssh2]: http://www.libssh2.org/
+[Homebrew]: http://brew.sh/
+
 ## Inclusion in Mac OS X projects
 
 It is simple enough to add the ObjectiveGit framework to a desktop application project. An example of this is the [CommitViewer] example on GitHub. In summary:
@@ -50,7 +60,7 @@ not allowing third-party dynamic frameworks. A work-around for this is as follow
 1. In your target's build settings:
     1. Set "Always Search User Paths" to YES
     1. Add `$(BUILT_PRODUCTS_DIR)/usr/local/include` and
-       `$(SRCROOT)../Libs/objective-git/libgit2/include` to the "User Header
+       `path/to/objective-git/External/libgit2/include` to the "User Header
        Search Paths"
     1. Add `-all_load` to the "Other Linker Flags"
 
