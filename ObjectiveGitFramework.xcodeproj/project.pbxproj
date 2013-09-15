@@ -1395,7 +1395,7 @@
 			buildSettings = {
 				GCC_PREFIX_HEADER = ObjectiveGitFramework_Prefix.pch;
 				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
+					External/libgit2/include,
 					"$(OBJROOT)/UninstalledProducts/include",
 					"External/libssh2-ios/include/libssh2",
 				);
@@ -1420,7 +1420,7 @@
 			buildSettings = {
 				GCC_PREFIX_HEADER = ObjectiveGitFramework_Prefix.pch;
 				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
+					External/libgit2/include,
 					"$(OBJROOT)/UninstalledProducts/include",
 					"External/libssh2-ios/include/libssh2",
 				);
@@ -1658,7 +1658,7 @@
 			buildSettings = {
 				GCC_PREFIX_HEADER = ObjectiveGitFramework_Prefix.pch;
 				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
+					External/libgit2/include,
 					"$(OBJROOT)/UninstalledProducts/include",
 					"External/libssh2-ios/include/libssh2",
 				);
