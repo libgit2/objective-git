@@ -1400,10 +1400,9 @@
 					"External/libssh2-ios/include/libssh2",
 				);
 				LIBRARY_SEARCH_PATHS = (
-					.,
+					"$(inherited)",
 					"External/ios-openssl/lib",
 					"External/libssh2-ios/lib",
-					External,
 				);
 				OTHER_LDFLAGS = (
 					"-lgit2-iOS",
@@ -1411,6 +1410,7 @@
 				);
 				PRODUCT_NAME = "ObjectiveGit-iOS";
 				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/ObjectiveGit;
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;
 		};
@@ -1425,10 +1425,9 @@
 					"External/libssh2-ios/include/libssh2",
 				);
 				LIBRARY_SEARCH_PATHS = (
-					.,
+					"$(inherited)",
 					"External/ios-openssl/lib",
 					"External/libssh2-ios/lib",
-					External,
 				);
 				OTHER_LDFLAGS = (
 					"-lgit2-iOS",
@@ -1436,6 +1435,7 @@
 				);
 				PRODUCT_NAME = "ObjectiveGit-iOS";
 				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/ObjectiveGit;
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;
 		};
@@ -1447,12 +1447,11 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				GCC_PREFIX_HEADER = ObjectiveGitFramework_Prefix.pch;
-				HEADER_SEARCH_PATHS = /usr/local/include;
-				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = (
-					.,
-					External,
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/include,
 				);
+				INFOPLIST_FILE = Info.plist;
 				OTHER_LDFLAGS = (
 					"-lgit2",
 					"-force_load",
@@ -1460,6 +1459,7 @@
 					/usr/local/lib/libssh2.a,
 				);
 				PRODUCT_NAME = ObjectiveGit;
+				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
@@ -1472,12 +1472,11 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				GCC_PREFIX_HEADER = ObjectiveGitFramework_Prefix.pch;
-				HEADER_SEARCH_PATHS = /usr/local/include;
-				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = (
-					.,
-					External,
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/include,
 				);
+				INFOPLIST_FILE = Info.plist;
 				OTHER_LDFLAGS = (
 					"-lgit2",
 					"-force_load",
@@ -1485,6 +1484,7 @@
 					/usr/local/lib/libssh2.a,
 				);
 				PRODUCT_NAME = ObjectiveGit;
+				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Release;
@@ -1496,9 +1496,12 @@
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_STRICT_ALIASING = NO;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO;
-				HEADER_SEARCH_PATHS = libgit2/include;
+				HEADER_SEARCH_PATHS = External/libgit2/include;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				LIBRARY_SEARCH_PATHS = .;
+				LIBRARY_SEARCH_PATHS = (
+					.,
+					External,
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				TEST_AFTER_BUILD = NO;
 			};
@@ -1511,9 +1514,12 @@
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_STRICT_ALIASING = NO;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO;
-				HEADER_SEARCH_PATHS = libgit2/include;
+				HEADER_SEARCH_PATHS = External/libgit2/include;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				LIBRARY_SEARCH_PATHS = .;
+				LIBRARY_SEARCH_PATHS = (
+					.,
+					External,
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				TEST_AFTER_BUILD = NO;
 			};
@@ -1574,7 +1580,7 @@
 				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
 				GCC_PREFIX_HEADER = "ObjectiveGitTests/ObjectiveGitTests-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
-					libgit2/include,
+					"$(inherited)",
 					ObjectiveGitTests/specta/src,
 					"ObjectiveGitTests/expecta/src/**",
 				);
@@ -1592,7 +1598,7 @@
 				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
 				GCC_PREFIX_HEADER = "ObjectiveGitTests/ObjectiveGitTests-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
-					libgit2/include,
+					"$(inherited)",
 					ObjectiveGitTests/specta/src,
 					"ObjectiveGitTests/expecta/src/**",
 				);
@@ -1610,9 +1616,12 @@
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_STRICT_ALIASING = NO;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO;
-				HEADER_SEARCH_PATHS = libgit2/include;
+				HEADER_SEARCH_PATHS = External/libgit2/include;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				LIBRARY_SEARCH_PATHS = .;
+				LIBRARY_SEARCH_PATHS = (
+					.,
+					External,
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				TEST_AFTER_BUILD = NO;
 			};
@@ -1626,12 +1635,11 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				GCC_PREFIX_HEADER = ObjectiveGitFramework_Prefix.pch;
-				HEADER_SEARCH_PATHS = /usr/local/include;
-				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = (
-					.,
-					External,
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/include,
 				);
+				INFOPLIST_FILE = Info.plist;
 				OTHER_LDFLAGS = (
 					"-lgit2",
 					"-force_load",
@@ -1639,6 +1647,7 @@
 					/usr/local/lib/libssh2.a,
 				);
 				PRODUCT_NAME = ObjectiveGit;
+				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Profile;
@@ -1654,10 +1663,9 @@
 					"External/libssh2-ios/include/libssh2",
 				);
 				LIBRARY_SEARCH_PATHS = (
-					.,
+					"$(inherited)",
 					"External/ios-openssl/lib",
 					"External/libssh2-ios/lib",
-					External,
 				);
 				OTHER_LDFLAGS = (
 					"-lgit2-iOS",
@@ -1665,6 +1673,7 @@
 				);
 				PRODUCT_NAME = "ObjectiveGit-iOS";
 				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/ObjectiveGit;
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Profile;
 		};
@@ -1675,7 +1684,7 @@
 				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
 				GCC_PREFIX_HEADER = "ObjectiveGitTests/ObjectiveGitTests-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
-					libgit2/include,
+					"$(inherited)",
 					ObjectiveGitTests/specta/src,
 					"ObjectiveGitTests/expecta/src/**",
 				);
