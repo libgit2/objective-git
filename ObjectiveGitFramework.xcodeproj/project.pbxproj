@@ -492,14 +492,14 @@
 		D09C2E341755F16200065E36 /* GTSubmodule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTSubmodule.h; sourceTree = "<group>"; };
 		D09C2E351755F16200065E36 /* GTSubmodule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTSubmodule.m; sourceTree = "<group>"; };
 		D09C2E50175602A500065E36 /* fixtures.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; name = fixtures.zip; path = fixtures/fixtures.zip; sourceTree = "<group>"; };
+		D0A463D617E57C45000F5021 /* Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
+		D0A463D817E57C45000F5021 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		D0A463D917E57C45000F5021 /* Profile.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Profile.xcconfig; sourceTree = "<group>"; };
+		D0A463DA17E57C45000F5021 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		D0A463DB17E57C45000F5021 /* Test.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Test.xcconfig; sourceTree = "<group>"; };
+		D0A463DD17E57C45000F5021 /* Application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Application.xcconfig; sourceTree = "<group>"; };
+		D0A463DE17E57C45000F5021 /* StaticLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = StaticLibrary.xcconfig; sourceTree = "<group>"; };
 		D0AC906B172F941F00347DC4 /* GTRepositorySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTRepositorySpec.m; sourceTree = "<group>"; };
-		D0D81859174421EB00995A2E /* Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
-		D0D8185B174421EB00995A2E /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
-		D0D8185C174421EB00995A2E /* Profile.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Profile.xcconfig; sourceTree = "<group>"; };
-		D0D8185D174421EB00995A2E /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
-		D0D8185E174421EB00995A2E /* Test.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Test.xcconfig; sourceTree = "<group>"; };
-		D0D81860174421EB00995A2E /* Application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Application.xcconfig; sourceTree = "<group>"; };
-		D0D81861174421EB00995A2E /* StaticLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = StaticLibrary.xcconfig; sourceTree = "<group>"; };
 		D0D81863174421EB00995A2E /* iOS-Application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "iOS-Application.xcconfig"; sourceTree = "<group>"; };
 		D0D81864174421EB00995A2E /* iOS-Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "iOS-Base.xcconfig"; sourceTree = "<group>"; };
 		D0D81865174421EB00995A2E /* iOS-StaticLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "iOS-StaticLibrary.xcconfig"; sourceTree = "<group>"; };
@@ -802,46 +802,46 @@
 			path = Categories;
 			sourceTree = "<group>";
 		};
+		D0A463D517E57C45000F5021 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				D0A463D617E57C45000F5021 /* Common.xcconfig */,
+				D0A463D717E57C45000F5021 /* Configurations */,
+				D0A463DC17E57C45000F5021 /* Targets */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		D0A463D717E57C45000F5021 /* Configurations */ = {
+			isa = PBXGroup;
+			children = (
+				D0A463D817E57C45000F5021 /* Debug.xcconfig */,
+				D0A463D917E57C45000F5021 /* Profile.xcconfig */,
+				D0A463DA17E57C45000F5021 /* Release.xcconfig */,
+				D0A463DB17E57C45000F5021 /* Test.xcconfig */,
+			);
+			path = Configurations;
+			sourceTree = "<group>";
+		};
+		D0A463DC17E57C45000F5021 /* Targets */ = {
+			isa = PBXGroup;
+			children = (
+				D0A463DD17E57C45000F5021 /* Application.xcconfig */,
+				D0A463DE17E57C45000F5021 /* StaticLibrary.xcconfig */,
+			);
+			path = Targets;
+			sourceTree = "<group>";
+		};
 		D0D81857174421EB00995A2E /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
-				D0D81858174421EB00995A2E /* Base */,
+				D0A463D517E57C45000F5021 /* Base */,
 				D0D81862174421EB00995A2E /* iOS */,
 				D0D81866174421EB00995A2E /* Mac OS X */,
 				D0D8186C174421EB00995A2E /* README.md */,
 			);
 			name = Configuration;
 			path = External/Configuration;
-			sourceTree = "<group>";
-		};
-		D0D81858174421EB00995A2E /* Base */ = {
-			isa = PBXGroup;
-			children = (
-				D0D81859174421EB00995A2E /* Common.xcconfig */,
-				D0D8185A174421EB00995A2E /* Configurations */,
-				D0D8185F174421EB00995A2E /* Targets */,
-			);
-			path = Base;
-			sourceTree = "<group>";
-		};
-		D0D8185A174421EB00995A2E /* Configurations */ = {
-			isa = PBXGroup;
-			children = (
-				D0D8185B174421EB00995A2E /* Debug.xcconfig */,
-				D0D8185C174421EB00995A2E /* Profile.xcconfig */,
-				D0D8185D174421EB00995A2E /* Release.xcconfig */,
-				D0D8185E174421EB00995A2E /* Test.xcconfig */,
-			);
-			path = Configurations;
-			sourceTree = "<group>";
-		};
-		D0D8185F174421EB00995A2E /* Targets */ = {
-			isa = PBXGroup;
-			children = (
-				D0D81860174421EB00995A2E /* Application.xcconfig */,
-				D0D81861174421EB00995A2E /* StaticLibrary.xcconfig */,
-			);
-			path = Targets;
 			sourceTree = "<group>";
 		};
 		D0D81862174421EB00995A2E /* iOS */ = {
@@ -1497,7 +1497,7 @@
 		};
 		1DEB91B208733DA50010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D0D8185B174421EB00995A2E /* Debug.xcconfig */;
+			baseConfigurationReference = D0A463D817E57C45000F5021 /* Debug.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_STRICT_ALIASING = NO;
@@ -1512,7 +1512,7 @@
 		};
 		1DEB91B308733DA50010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D0D8185D174421EB00995A2E /* Release.xcconfig */;
+			baseConfigurationReference = D0A463DA17E57C45000F5021 /* Release.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_STRICT_ALIASING = NO;
@@ -1611,7 +1611,7 @@
 		};
 		D03FC3D71602E97F00BCFA73 /* Profile */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D0D8185C174421EB00995A2E /* Profile.xcconfig */;
+			baseConfigurationReference = D0A463D917E57C45000F5021 /* Profile.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_STRICT_ALIASING = NO;
