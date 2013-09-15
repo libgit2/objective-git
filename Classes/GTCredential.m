@@ -1,5 +1,5 @@
 //
-//  GTCred.m
+//  GTCredential.m
 //  ObjectiveGitFramework
 //
 //  Created by Etienne on 10/09/13.
@@ -7,14 +7,14 @@
 //
 
 #import <ObjectiveGit/NSError+Git.h>
-#import "GTCred.h"
-#import "GTCred+Private.h"
+#import "GTCredential.h"
+#import "GTCredential+Private.h"
 
-@interface GTCred ()
+@interface GTCredential ()
 @property (nonatomic, assign, readonly) git_cred *git_cred;
 @end
 
-@implementation GTCred
+@implementation GTCredential
 
 + (instancetype)credentialWithUserName:(NSString *)userName password:(NSString *)password error:(NSError **)error {
 	git_cred *cred;
@@ -76,11 +76,11 @@
 
 @end
 
-int GTCredAcquireCallback(git_cred **git_cred, const char *url, const char *username_from_url, unsigned int allowed_types, void *payload) {
+int GTCredentialAcquireCallback(git_cred **git_cred, const char *url, const char *username_from_url, unsigned int allowed_types, void *payload) {
 	NSCParameterAssert(git_cred != NULL);
 	NSCParameterAssert(payload != NULL);
 
-    GTCredAcquireCallbackInfo *info = payload;
+    GTCredentialAcquireCallbackInfo *info = payload;
 
     if (info->credBlock == nil) {
         NSString *errorMsg = [NSString stringWithFormat:@"No credentials provided, but authentication was requested."];
@@ -91,7 +91,7 @@ int GTCredAcquireCallback(git_cred **git_cred, const char *url, const char *user
     NSString *URL = (url != NULL ? @(url) : nil);
     NSString *userName = (username_from_url != NULL ? @(username_from_url) : nil);
 
-	GTCred *cred = info->credBlock((GTCredentialType)allowed_types, URL, userName);
+	GTCredential *cred = info->credBlock((GTCredentialType)allowed_types, URL, userName);
 	if (!cred) {
         NSString *errorMsg = [NSString stringWithFormat:@"No credentials provided, but authentication was requested."];
         giterr_set_str(GIT_EUSER, errorMsg.UTF8String);

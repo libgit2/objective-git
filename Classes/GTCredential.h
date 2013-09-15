@@ -1,5 +1,5 @@
 //
-//  GTCred.h
+//  GTCredential.h
 //  ObjectiveGitFramework
 //
 //  Created by Etienne on 10/09/13.
@@ -16,11 +16,11 @@ typedef enum {
     GTCredentialTypeSSHPublicKey = GIT_CREDTYPE_SSH_PUBLICKEY,
 } GTCredentialType;
 
-@class GTCred;
+@class GTCredential;
 // A typedef block for the various methods that require authentication
-typedef GTCred *(^GTCredBlock)(GTCredentialType allowedTypes, NSString *URL, NSString *username);
+typedef GTCredential *(^GTCredentialBlock)(GTCredentialType allowedTypes, NSString *URL, NSString *username);
 
-@interface GTCred : NSObject
+@interface GTCredential : NSObject
 
 // Create a credential object from a username/password pair.
 //
