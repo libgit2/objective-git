@@ -44,6 +44,9 @@
 #import "NSString+Git.h"
 #import "GTDiffFile.h"
 
+NSString *const GTRepositoryCloneOptionsBare = @"GTRepositoryCloneOptionsBare";
+NSString *const GTRepositoryCloneOptionsCheckout = @"GTRepositoryCloneOptionsCheckout";
+NSString *const GTRepositoryCloneOptionsTransportFlags = @"GTRepositoryCloneOptionsTransportFlags";
 
 // The type of block passed to -enumerateSubmodulesRecursively:usingBlock:.
 typedef void (^GTRepositorySubmoduleEnumerationBlock)(GTSubmodule *submodule, BOOL *stop);
@@ -172,13 +175,13 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 
 	git_clone_options cloneOptions = GIT_CLONE_OPTIONS_INIT;
 
-	NSNumber *bare = options[@"bare"];
+	NSNumber *bare = options[GTRepositoryCloneOptionsBare];
 	cloneOptions.bare = bare == nil ? 0 : bare.boolValue;
 
-	NSNumber *transportFlags = options[@"transportFlags"];
+	NSNumber *transportFlags = options[GTRepositoryCloneOptionsTransportFlags];
 	cloneOptions.transport_flags = transportFlags == nil ? 0 : transportFlags.intValue;
 
-	NSNumber *checkout = options[@"checkout"];
+	NSNumber *checkout = options[GTRepositoryCloneOptionsCheckout];
 	BOOL withCheckout = checkout == nil ? YES : checkout.boolValue;
 
 	if (withCheckout) {

@@ -94,6 +94,25 @@ typedef enum {
 	GTCheckoutNotifyAll = GIT_CHECKOUT_NOTIFY_ALL,
 } GTCheckoutNotifyFlags;
 
+// Transport flags sent as options to +cloneFromURL... method
+typedef enum {
+	GTTransportFlagsNone = GIT_TRANSPORTFLAGS_NONE,
+	// If you pass this flag and the connection is secured with SSL/TLS,
+	// the authenticity of the server certificate will not be verified.
+	GTTransportFlagsNoCheckCert = GIT_TRANSPORTFLAGS_NO_CHECK_CERT,
+} GTTransportFlags;
+
+// An `NSNumber` wrapped `GTTransportFlags`, documented above.
+// Default value is `GTTransportFlagsNone`.
+extern NSString *const GTRepositoryCloneOptionsTransportFlags;
+
+// An `NSNumber` wrapped `BOOL`, if YES, create a bare clone.
+// Default value is `NO`.
+extern NSString *const GTRepositoryCloneOptionsBare;
+
+// An `NSNumber` wrapped `BOOL`, if NO, don't checkout the remote HEAD.
+// Default value is `YES`.
+extern NSString *const GTRepositoryCloneOptionsCheckout;
 
 typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus status, BOOL *stop);
 
@@ -131,12 +150,8 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 // originURL             - The URL to clone from.
 // workdirURL            - A URL to the desired working directory on the local machine.
 // withCheckout          - if NO, don't checkout the remote HEAD
-// options               - A NSDictionary with NSString keys, used for specifying clone options. Possible keys are:
-//                          - @"bare" - BOOL value, if YES, create a bare clone, for example: [NSNumber numberWithBool:YES], defaults to NO
-//                          - @"checkout" - BOOL value, if NO, don't checkout the remote HEAD, for example: [NSNumber numberWithBool:NO], defaults to YES
-//                          - @"transportFlags" - int value, two possible values:
-//                            - GIT_TRANSPORTFLAGS_NONE (0), for example: [NSNumber numberWithInt:GIT_TRANSPORTFLAGS_NONE], this is the default value
-//                            - GIT_TRANSPORTFLAGS_NO_CHECK_CERT (1), for example: [NSNumber numberWithInt:GIT_TRANSPORTFLAGS_NO_CHECK_CERT], if you pass this flag and the connection is secured with SSL/TLS, the authenticity of the server certificate will not be verified
+// options               - A dictionary containing any of the above options key constants, or
+//                         nil to use the defaults.
 // error                 - A pointer to fill in case of trouble.
 // transferProgressBlock - This block is called with network transfer updates.
 // checkoutProgressBlock - This block is called with checkout updates (if withCheckout is YES).
