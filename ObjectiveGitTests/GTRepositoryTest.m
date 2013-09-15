@@ -171,7 +171,7 @@
 	};
 	NSURL *originURL = [NSURL fileURLWithPath:TEST_REPO_PATH(self.class)]; //[NSURL URLWithString: @"https://github.com/libgit2/TestGitRepository"];
 	NSURL *workdirURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"unit_test"]];
-	NSDictionary *options = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] forKey:@"bare"];
+	NSDictionary *options = @{ GTRepositoryCloneOptionsBare: @YES };
 	NSError *err;
 
 	[self removeDirectoryAtURL:workdirURL];
