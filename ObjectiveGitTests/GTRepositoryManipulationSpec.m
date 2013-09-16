@@ -22,7 +22,7 @@ beforeAll(^{
 
 afterAll(^{
 	NSError *error = nil;
-	[[NSFileManager defaultManager] removeItemAtURL:repositoryURL error:&error];
+	[NSFileManager.defaultManager removeItemAtURL:repositoryURL error:&error];
 	expect(error.description).to.beNil();
 });
 
