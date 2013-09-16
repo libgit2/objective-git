@@ -106,7 +106,7 @@ static int filter_callback(const git_tree_entry *entry, void *payload) {
 	GTOID *oid = [GTOID oidByHashingData:data type:GTObjectTypeBlob error:error];
 	if (!oid) return nil;
 
-	self.objectData[filename] = @{@"data": data, @"oid":oid, @"filemode":@(filemode)};
+	self.objectData[filename] = @{ @"data": data, @"oid": oid, @"filemode": @(filemode) };
 
 	return [self addEntryWithOID:oid filename:filename filemode:filemode error:error];
 }
