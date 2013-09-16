@@ -94,13 +94,7 @@
 
 	git_odb_stream *stream;
 	git_oid oid;
-	int gitError = git_odb_hash(&oid, data.bytes, data.length, (git_otype)type);
-	if (gitError < GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to create an OID for input data."];
-		return nil;
-	}
-
-	gitError = git_odb_open_wstream(&stream, self.git_odb, data.length, (git_otype)type);
+	int gitError = git_odb_open_wstream(&stream, self.git_odb, data.length, (git_otype)type);
 	if (gitError < GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to open write stream on odb."];
 		return nil;
