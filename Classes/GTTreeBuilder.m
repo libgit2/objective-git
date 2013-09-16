@@ -61,7 +61,7 @@
 		return nil;
 	}
 
-	_objectData	= @{}.mutableCopy;
+	_objectData	= [NSMutableDictionary dictionary];
 
 	return self;
 }
