@@ -1416,6 +1416,10 @@
 					"External/ios-openssl/lib",
 					"External/libssh2-ios/lib",
 				);
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-DGIT_SSH",
+				);
 				OTHER_LDFLAGS = (
 					"-lgit2-iOS",
 					"-all_load",
@@ -1441,6 +1445,10 @@
 					"External/ios-openssl/lib",
 					"External/libssh2-ios/lib",
 				);
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-DGIT_SSH",
+				);
 				OTHER_LDFLAGS = (
 					"-lgit2-iOS",
 					"-all_load",
@@ -1464,6 +1472,10 @@
 					/usr/local/include,
 				);
 				INFOPLIST_FILE = Info.plist;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-DGIT_SSH",
+				);
 				OTHER_LDFLAGS = (
 					"-lgit2",
 					"-force_load",
@@ -1489,6 +1501,10 @@
 					/usr/local/include,
 				);
 				INFOPLIST_FILE = Info.plist;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-DGIT_SSH",
+				);
 				OTHER_LDFLAGS = (
 					"-lgit2",
 					"-force_load",
@@ -1652,6 +1668,10 @@
 					/usr/local/include,
 				);
 				INFOPLIST_FILE = Info.plist;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-DGIT_SSH",
+				);
 				OTHER_LDFLAGS = (
 					"-lgit2",
 					"-force_load",
@@ -1678,6 +1698,10 @@
 					"$(inherited)",
 					"External/ios-openssl/lib",
 					"External/libssh2-ios/lib",
+				);
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-DGIT_SSH",
 				);
 				OTHER_LDFLAGS = (
 					"-lgit2-iOS",
