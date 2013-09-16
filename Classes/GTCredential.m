@@ -10,6 +10,30 @@
 #import "GTCredential.h"
 #import "GTCredential+Private.h"
 
+typedef GTCredential *(^GTCredentialProviderBlock)(GTCredentialType allowedTypes, NSString *URL, NSString *userName);
+
+@interface GTCredentialProvider ()
+@property (assign) GTCredentialProviderBlock credBlock;
+@end
+
+@implementation GTCredentialProvider
++ (instancetype)providerWithBlock:(GTCredential *(^)(GTCredentialType type, NSString *URL, NSString *userName))credentialBlock {
+	NSParameterAssert(credentialBlock != nil);
+	GTCredentialProvider *provider = [[self alloc] init];
+
+	provider.credBlock = credentialBlock;
+
+	return provider;
+}
+
+- (GTCredential *)credentialForType:(GTCredentialType)type URL:(NSString *)URL userName:(NSString *)userName {
+	NSAssert(self.credBlock != nil, @"Provider asked for credentials without block being set.");
+
+	return self.credBlock(type, URL, userName);
+}
+
+@end
+
 @interface GTCredential ()
 @property (nonatomic, assign, readonly) git_cred *git_cred;
 @end
@@ -81,9 +105,10 @@ int GTCredentialAcquireCallback(git_cred **git_cred, const char *url, const char
 	NSCParameterAssert(payload != NULL);
 
     GTCredentialAcquireCallbackInfo *info = payload;
+	GTCredentialProvider *provider = info->credProvider;
 
-    if (info->credBlock == nil) {
-        NSString *errorMsg = [NSString stringWithFormat:@"No credentials provided, but authentication was requested."];
+    if (provider == nil) {
+        NSString *errorMsg = [NSString stringWithFormat:@"No GTCredentialProvider set, but authentication was requested."];
         giterr_set_str(GIT_EUSER, errorMsg.UTF8String);
         return GIT_ERROR;
     }
@@ -91,9 +116,9 @@ int GTCredentialAcquireCallback(git_cred **git_cred, const char *url, const char
     NSString *URL = (url != NULL ? @(url) : nil);
     NSString *userName = (username_from_url != NULL ? @(username_from_url) : nil);
 
-	GTCredential *cred = info->credBlock((GTCredentialType)allowed_types, URL, userName);
+	GTCredential *cred = [provider credentialForType:(GTCredentialType)allowed_types URL:URL userName:userName];
 	if (!cred) {
-        NSString *errorMsg = [NSString stringWithFormat:@"No credentials provided, but authentication was requested."];
+        NSString *errorMsg = [NSString stringWithFormat:@"GTCredentialProvider failed to provide credentials."];
         giterr_set_str(GIT_EUSER, errorMsg.UTF8String);
         return GIT_ERROR;
 	}
