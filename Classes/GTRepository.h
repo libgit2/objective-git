@@ -404,6 +404,8 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 // Convenience wrapper for checkoutReference:strategy:notifyFlags:error:notifyBlock:progressBlock without notifications
 - (BOOL)checkoutReference:(GTReference *)target strategy:(GTCheckoutStrategyType)strategy error:(NSError **)error progressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))progressBlock;
 
+// Creates a new commit
+// See `+[GTCommit commitInRepository:...`].
 - (GTCommit *)commitWithTree:(GTTree *)tree message:(NSString *)message parents:(NSArray *)parents byUpdatingReferenceNamed:(NSString *)refName error:(NSError **)error;
 
 @end
