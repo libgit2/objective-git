@@ -106,7 +106,7 @@ describe(@"-OIDByCreatingTagNamed:target:tagger:message:error", ^{
 		expect(tag.message).to.equal(@"my tag\n");
 		expect(tag.name).to.equal(@"a_new_tag");
 		expect(tag.target.SHA).to.equal(@"5b5b025afb0b4c913b4c338a42934a3863bf3644");
-		expect(tag.targetType).to.equal(@"commit");
+		expect(tag.targetType).to.equal(GTObjectTypeCommit);
 
 		rm_loose(self.class, newOID.SHA);
 		NSFileManager *m = [[NSFileManager alloc] init];

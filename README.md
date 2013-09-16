@@ -27,16 +27,25 @@ chances are that you will want to also grab its submodules, e.g. as follows:
 [libgit2]: https://github.com/libgit2/libgit2
 [submodule]: http://book.git-scm.com/5_submodules.html
 
+## libssh2
+
+To compile [libgit2] with [libssh2] you need to install the following dependencies via [Homebrew]:
+
+ * Mac OS X: `brew install libssh2`
+ * iOS: `brew install libtool autoconf automake`
+
+[libssh2]: http://www.libssh2.org/
+[Homebrew]: http://brew.sh/
+
 ## Inclusion in Mac OS X projects
 
 It is simple enough to add the ObjectiveGit framework to a desktop application project. An example of this is the [CommitViewer] example on GitHub. In summary:
 
-1. Drag the ObjectiveGit.xcodeproj file into the project navigator
-2. Add the ObjectiveGit framework as a target dependency of your application
-3. Link your application with the ObjectiveGit framework.
-4. Add a new Copy Files build phase, set the destination to Frameworks and and the ObjectiveGit framework to that - this will package the framework with your application as an embedded private framework.
-5. Don't forget to `#import <ObjectiveGit/ObjectiveGit.h>` as you would with any other framework.
-
+1. Drag the ObjectiveGit.xcodeproj file into the project navigator.
+1. Add the ObjectiveGit framework as a target dependency of your application.
+1. Link your application with the ObjectiveGit framework.
+1. Add a new Copy Files build phase, set the destination to Frameworks and add the ObjectiveGit framework to that - this will package the framework with your application as an embedded private framework.
+1. Don't forget to `#import <ObjectiveGit/ObjectiveGit.h>` as you would with any other framework.
 
 [CommitViewer]: https://github.com/Abizern/CommitViewer
 
@@ -46,12 +55,14 @@ Inclusion of Objective Git in iOS projects is somewhat cumbersome on account of 
 not allowing third-party dynamic frameworks. A work-around for this is as follows:
 
 1. Drag the ObjectiveGitFramework.xcodeproj file into the Project Navigator.
-2. Add ObjectiveGit-iOS as a target dependency of your application.
-3. Link your application to `libObjectiveGit-iOS.a` library
-4. Build Settings - Always Search User Paths - set to YES
-5. Build Settings - User Header Search Paths
-5.1. Add $(BUILT_PRODUCTS_DIR)/usr/local/include
-5.2. Add $(SRCROOT)../Libs/objective-git/libgit2/include
+1. Add ObjectiveGit-iOS as a target dependency of your application.
+1. Link your application to `libObjectiveGit-iOS.a`.
+1. In your target's build settings:
+    1. Set "Always Search User Paths" to YES
+    1. Add `$(BUILT_PRODUCTS_DIR)/usr/local/include` and
+       `path/to/objective-git/External/libgit2/include` to the "User Header
+       Search Paths"
+    1. Add `-all_load` to the "Other Linker Flags"
 
 ## Todo
 

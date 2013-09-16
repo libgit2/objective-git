@@ -13,7 +13,7 @@ SpecBegin(GTIndex)
 __block GTIndex *index;
 
 beforeEach(^{
-	NSURL *indexURL = [[self fixtureRepositoryNamed:@"testrepo.git"].fileURL URLByAppendingPathComponent:@"testrepo.git/index"];
+	NSURL *indexURL = [[self fixtureRepositoryNamed:@"testrepo.git"].gitDirectoryURL URLByAppendingPathComponent:@"index"];
 	index = [[GTIndex alloc] initWithFileURL:indexURL error:NULL];
 	expect(index).notTo.beNil();
 
@@ -35,6 +35,15 @@ it(@"can read entry properties", ^{
 	expect(entry).notTo.beNil();
 	expect(entry.path).to.equal(@"README");
 	expect(entry.staged).to.beFalsy();
+});
+
+it(@"can write to the repository and return a tree", ^{
+	GTRepository *repository = [self fixtureRepositoryNamed:@"testrepo.git"];
+	GTIndex *index = [repository indexWithError:NULL];
+	GTTree *tree = [index writeTree:NULL];
+	expect(tree).notTo.beNil();
+	expect(tree.entryCount).to.equal(2);
+	expect(tree.repository).to.equal(repository);
 });
 
 SpecEnd

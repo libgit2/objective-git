@@ -95,6 +95,25 @@ typedef enum {
 	GTCheckoutNotifyAll = GIT_CHECKOUT_NOTIFY_ALL,
 } GTCheckoutNotifyFlags;
 
+// Transport flags sent as options to +cloneFromURL... method
+typedef enum {
+	GTTransportFlagsNone = GIT_TRANSPORTFLAGS_NONE,
+	// If you pass this flag and the connection is secured with SSL/TLS,
+	// the authenticity of the server certificate will not be verified.
+	GTTransportFlagsNoCheckCert = GIT_TRANSPORTFLAGS_NO_CHECK_CERT,
+} GTTransportFlags;
+
+// An `NSNumber` wrapped `GTTransportFlags`, documented above.
+// Default value is `GTTransportFlagsNone`.
+extern NSString *const GTRepositoryCloneOptionsTransportFlags;
+
+// An `NSNumber` wrapped `BOOL`, if YES, create a bare clone.
+// Default value is `NO`.
+extern NSString *const GTRepositoryCloneOptionsBare;
+
+// An `NSNumber` wrapped `BOOL`, if NO, don't checkout the remote HEAD.
+// Default value is `YES`.
+extern NSString *const GTRepositoryCloneOptionsCheckout;
 
 typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus status, BOOL *stop);
 
@@ -131,14 +150,15 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 //
 // originURL             - The URL to clone from.
 // workdirURL            - A URL to the desired working directory on the local machine.
-// barely                - If YES, create a bare clone
 // withCheckout          - if NO, don't checkout the remote HEAD
+// options               - A dictionary containing any of the above options key constants, or
+//                         nil to use the defaults.
 // error                 - A pointer to fill in case of trouble.
 // transferProgressBlock - This block is called with network transfer updates.
 // checkoutProgressBlock - This block is called with checkout updates (if withCheckout is YES).
 //
 // returns nil (and fills the error parameter) if an error occurred, or a GTRepository object if successful.
-+ (id)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL barely:(BOOL)barely withCheckout:(BOOL)withCheckout error:(NSError **)error transferProgressBlock:(void (^)(const git_transfer_progress *))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))checkoutProgressBlock;
++ (id)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL options:(NSDictionary *)options error:(NSError **)error transferProgressBlock:(void (^)(const git_transfer_progress *))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))checkoutProgressBlock;
 
 // Create a new repository
 //

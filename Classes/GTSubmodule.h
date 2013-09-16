@@ -16,7 +16,7 @@
 //
 // These flags are mutually exclusive.
 typedef enum {
-	GTSubmoduleIgnoreDefault = GIT_SUBMODULE_IGNORE_DEFAULT,
+	GTSubmoduleIgnoreReset = GIT_SUBMODULE_IGNORE_RESET,
 	GTSubmoduleIgnoreNone = GIT_SUBMODULE_IGNORE_NONE,
 	GTSubmoduleIgnoreUntracked = GIT_SUBMODULE_IGNORE_UNTRACKED,
 	GTSubmoduleIgnoreDirty = GIT_SUBMODULE_IGNORE_DIRTY,

@@ -26,7 +26,7 @@
 // simply with the delta it originates from and which hunk index it represents.
 - (instancetype)initWithDelta:(GTDiffDelta *)delta hunkIndex:(NSUInteger)hunkIndex;
 
-// Perfoms the given block on each ine in the hunk.
+// Perfoms the given block on each line in the hunk.
 //
 // Note that this method blocks during the enumeration.
 //

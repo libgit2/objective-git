@@ -45,6 +45,9 @@
 #import "NSString+Git.h"
 #import "GTDiffFile.h"
 
+NSString *const GTRepositoryCloneOptionsBare = @"GTRepositoryCloneOptionsBare";
+NSString *const GTRepositoryCloneOptionsCheckout = @"GTRepositoryCloneOptionsCheckout";
+NSString *const GTRepositoryCloneOptionsTransportFlags = @"GTRepositoryCloneOptionsTransportFlags";
 
 // The type of block passed to -enumerateSubmodulesRecursively:usingBlock:.
 typedef void (^GTRepositorySubmoduleEnumerationBlock)(GTSubmodule *submodule, BOOL *stop);
@@ -75,7 +78,7 @@ typedef struct {
 
 - (BOOL)isEqual:(GTRepository *)repo {
 	if (![repo isKindOfClass:GTRepository.class]) return NO;
-	return [self.fileURL isEqual:repo.fileURL];
+	return [self.gitDirectoryURL isEqual:repo.gitDirectoryURL];
 }
 
 - (void)dealloc {
@@ -169,12 +172,18 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 	return 0;
 }
 
-+ (id)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL barely:(BOOL)barely withCheckout:(BOOL)withCheckout error:(NSError **)error transferProgressBlock:(void (^)(const git_transfer_progress *))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))checkoutProgressBlock {
++ (id)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL options:(NSDictionary *)options error:(NSError **)error transferProgressBlock:(void (^)(const git_transfer_progress *))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))checkoutProgressBlock {
 
 	git_clone_options cloneOptions = GIT_CLONE_OPTIONS_INIT;
-	if (barely) {
-		cloneOptions.bare = 1;
-	}
+
+	NSNumber *bare = options[GTRepositoryCloneOptionsBare];
+	cloneOptions.bare = bare == nil ? 0 : bare.boolValue;
+
+	NSNumber *transportFlags = options[GTRepositoryCloneOptionsTransportFlags];
+	cloneOptions.transport_flags = transportFlags == nil ? 0 : transportFlags.intValue;
+
+	NSNumber *checkout = options[GTRepositoryCloneOptionsCheckout];
+	BOOL withCheckout = checkout == nil ? YES : checkout.boolValue;
 
 	if (withCheckout) {
 		git_checkout_opts checkoutOptions = GIT_CHECKOUT_OPTS_INIT;
@@ -217,8 +226,8 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 	int gitError = git_object_lookup(&obj, self.git_repository, oid, (git_otype)type);
 	if (gitError < GIT_OK) {
 		if (error != NULL) {
-			char oid_str[GIT_OID_HEXSZ];
-			git_oid_fmt(oid_str, oid);
+			char oid_str[GIT_OID_HEXSZ+1];
+			git_oid_tostr(oid_str, sizeof(oid_str), oid);
 			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to lookup object %s in repository.", oid_str];
 		}
 		return nil;
