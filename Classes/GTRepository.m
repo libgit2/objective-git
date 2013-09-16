@@ -40,6 +40,7 @@
 #import "GTSignature.h"
 #import "GTSubmodule.h"
 #import "GTTag.h"
+#import "GTTreeBuilder.h"
 #import "NSError+Git.h"
 #import "NSString+Git.h"
 #import "GTDiffFile.h"
@@ -207,17 +208,16 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 	return [[self alloc] initWithGitRepository:repository];
 }
 
++ (instancetype)createRepositoryAtURL:(NSURL *)url error:(NSError **)error {
+	BOOL success = [GTRepository initializeEmptyRepositoryAtURL:url error:error];
+	if (!success) return nil;
+	
+	return [GTRepository repositoryWithURL:url error:error];
+}
 
-+ (NSString *)hash:(NSString *)data objectType:(GTObjectType)type error:(NSError **)error {
-	git_oid oid;
-
-	int gitError = git_odb_hash(&oid, [data UTF8String], [data length], (git_otype) type);
-	if (gitError < GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to get hash for object."];
-		return nil;
-	}
-
-	return [GTOID oidWithGitOid:&oid].SHA;
++ (NSString *)hash:(NSString *)string objectType:(GTObjectType)type error:(NSError **)error {
+	GTOID *oid = [GTOID oidByHashingData:[string dataUsingEncoding:NSUTF8StringEncoding] type:type error:error];
+	return oid.SHA;
 }
 
 - (id)lookupObjectByGitOid:(const git_oid *)oid objectType:(GTObjectType)type error:(NSError **)error {
@@ -803,6 +803,11 @@ static int checkoutNotifyCallback(git_checkout_notify_t why, const char *path, c
 
 - (BOOL)checkoutReference:(GTReference *)target strategy:(GTCheckoutStrategyType)strategy error:(NSError **)error progressBlock:(GTCheckoutProgressBlock)progressBlock {
 	return [self checkoutReference:target strategy:strategy notifyFlags:GTCheckoutNotifyNone error:error progressBlock:progressBlock notifyBlock:nil];
+}
+
+- (GTCommit *)commitWithTree:(GTTree *)tree message:(NSString *)message parents:(NSArray *)parents byUpdatingReferenceNamed:(NSString *)refName error:(NSError **)error {
+	GTSignature *sign = [self userSignatureForNow];
+	return [GTCommit commitInRepository:self updateRefNamed:refName author:sign committer:sign message:message tree:tree parents:parents error:error];
 }
 
 @end

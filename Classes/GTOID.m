@@ -114,3 +114,19 @@
 }
 
 @end
+
+@implementation GTOID (GTObjectDatabase)
+
++ (instancetype)oidByHashingData:(NSData *)data type:(GTObjectType)type error:(NSError **)error {
+	NSParameterAssert(data != nil);
+
+	git_oid oid;
+	int gitError = git_odb_hash(&oid, data.bytes, data.length, (git_otype)type);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to hash"];
+		return nil;
+	}
+	return [[self alloc] initWithGitOid:&oid];
+}
+
+@end

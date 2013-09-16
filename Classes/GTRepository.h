@@ -42,6 +42,7 @@
 @class GTSubmodule;
 @class GTDiffFile;
 @class GTTag;
+@class GTTree;
 
 // Options returned from the enumerateFileStatusUsingBlock: function
 enum {
@@ -158,6 +159,14 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 //
 // returns nil (and fills the error parameter) if an error occurred, or a GTRepository object if successful.
 + (id)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL options:(NSDictionary *)options error:(NSError **)error transferProgressBlock:(void (^)(const git_transfer_progress *))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))checkoutProgressBlock;
+
+// Create a new repository
+//
+// url    - The URL to create the repository to
+// error  - A pointer to fill in case of trouble
+//
+// returns nil (and fills the error parameter) if an error occurred, or a GTRepository object if successful
++ (instancetype)createRepositoryAtURL:(NSURL *)url error:(NSError **)error;
 
 // Helper for getting the sha1 has of a raw object
 //
@@ -394,5 +403,9 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 
 // Convenience wrapper for checkoutReference:strategy:notifyFlags:error:notifyBlock:progressBlock without notifications
 - (BOOL)checkoutReference:(GTReference *)target strategy:(GTCheckoutStrategyType)strategy error:(NSError **)error progressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))progressBlock;
+
+// Creates a new commit
+// See `+[GTCommit commitInRepository:...`].
+- (GTCommit *)commitWithTree:(GTTree *)tree message:(NSString *)message parents:(NSArray *)parents byUpdatingReferenceNamed:(NSString *)refName error:(NSError **)error;
 
 @end
