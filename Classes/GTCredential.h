@@ -59,13 +59,14 @@ typedef enum {
 
 // Create a credential object from a SSH keyfile
 //
-// userName   - The username to authenticate as.
-// publicKey  - The public key for that user.
-// privateKey - The private key for that user.
-// passPhrase - The passPhrase for the private key. Optional if the private key has no password.
+// userName       - The username to authenticate as.
+// publicKeyPath  - The path to the public key for that user.
+//                  Can be omitted to reconstruct the public key from the private key.
+// privateKeyPath - The path to the private key for that user.
+// passPhrase     - The passPhrase for the private key. Optional if the private key has no password.
 //
 // Return a new GTCred instance, or nil if an error occurred
-+ (instancetype)credentialWithUserName:(NSString *)userName publicKey:(NSString *)publicKey privateKey:(NSString *)privateKey passPhrase:(NSString *)passPhrase error:(NSError **)error;
++ (instancetype)credentialWithUserName:(NSString *)userName publicKeyPath:(NSString *)publicKeyPath privateKeyPath:(NSString *)privateKeyPath passPhrase:(NSString *)passPhrase error:(NSError **)error;
 
 // PARTIALIMPL
 + (instancetype)credentialWithUserName:(NSString *)userName publicKey:(NSString *)publicKey signBlock:(void (^)(void))signBlock error:(NSError **)error;

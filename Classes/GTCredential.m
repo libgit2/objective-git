@@ -51,11 +51,11 @@ typedef GTCredential *(^GTCredentialProviderBlock)(GTCredentialType allowedTypes
     return [[self alloc] initWithGitCred:cred];
 }
 
-+ (instancetype)credentialWithUserName:(NSString *)userName publicKey:(NSString *)publicKey privateKey:(NSString *)privateKey passPhrase:(NSString *)passPhrase error:(NSError **)error {
-	NSParameterAssert(privateKey != nil);
++ (instancetype)credentialWithUserName:(NSString *)userName publicKeyPath:(NSString *)publicKeyPath privateKeyPath:(NSString *)privateKeyPath passPhrase:(NSString *)passPhrase error:(NSError **)error {
+	NSParameterAssert(privateKeyPath != nil);
 
 	git_cred *cred;
-	int gitError = git_cred_ssh_keyfile_passphrase_new(&cred, userName.UTF8String, publicKey.UTF8String, privateKey.UTF8String, passPhrase.UTF8String);
+	int gitError = git_cred_ssh_keyfile_passphrase_new(&cred, userName.UTF8String, publicKeyPath.fileSystemRepresentation, privateKeyPath.fileSystemRepresentation, passPhrase.UTF8String);
 	if (gitError != GIT_OK) {
 		if (error) *error = [NSError git_errorFor:gitError description:@"Failed to create credentials object" failureReason:@"There was an error creating a credential object for username %@ with the provided public/private key pair.", userName];
 		return nil;
