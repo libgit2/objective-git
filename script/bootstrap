@@ -15,3 +15,10 @@ do
     echo "*** Installing $lib with Homebrew..."
     brew install "$lib"
 done
+
+brew_prefix=`brew --prefix`
+if [ "$brew_prefix" != "/usr/local" ]
+then
+    echo -e "\n*** Since your Homebrew prefix is $brew_prefix and not /usr/local, you may experience issues linking ObjectiveGit."
+    echo "*** To remedy any such issues, soft link the library dependencies above into /usr/local so Xcode can find them."
+fi
