@@ -79,6 +79,16 @@ typedef enum {
 // Returns the matching entry or nil if it doesn't exist.
 - (GTTreeEntry *)entryWithName:(NSString *)filename;
 
+// Add or update an entry to the builder.
+//
+// Note: `data` won't be added to the repository until the tree gets written.
+//
+// data		- The data for the entry.
+// filename - The file name for the object.
+// filemode - The file mode for the object.
+// error	- The error if one occurred.
+//
+// Returns the added entry, or nil if an error occurred
 - (GTTreeEntry *)addEntryWithData:(NSData *)data filename:(NSString *)filename filemode:(GTFileMode)filemode error:(NSError **)error;
 
 // Add or update an entry to the builder.
