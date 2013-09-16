@@ -10,7 +10,7 @@
 
 SpecBegin(GTRepositoryManipulation)
 
-NSURL *repositoryURL = [NSURL fileURLWithPath:@"/tmp/Objective-Git/test-repo" isDirectory:YES];
+NSURL *repositoryURL = [NSURL fileURLWithPath:[[NSTemporaryDirectory() stringByAppendingPathComponent:@"Objective-Git"] stringByAppendingPathComponent:@"test-repo"] isDirectory:YES];
 __block GTRepository *repository;
 
 beforeAll(^{
