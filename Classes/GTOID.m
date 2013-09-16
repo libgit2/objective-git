@@ -117,21 +117,16 @@
 
 @implementation GTOID (GTObjectDatabase)
 
-- (id)initWithData:(NSData *)data type:(GTObjectType)type error:(NSError **)error {
++ (instancetype)oidByHashingData:(NSData *)data type:(GTObjectType)type error:(NSError **)error {
 	NSParameterAssert(data != nil);
-	self = [super init];
-	if (self == nil) return nil;
 
-	int gitError = git_odb_hash(&_git_oid, data.bytes, data.length, (git_otype)type);
+	git_oid oid;
+	int gitError = git_odb_hash(&oid, data.bytes, data.length, (git_otype)type);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to hash"];
 		return nil;
 	}
-	return self;
-}
-
-+ (instancetype)oidByHashingData:(NSData *)data type:(GTObjectType)type {
-	return [[self alloc] initWithData:data type:type error:NULL];
+	return [[self alloc] initWithGitOid:&oid];
 }
 
 @end

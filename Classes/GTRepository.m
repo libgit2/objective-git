@@ -216,7 +216,7 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 }
 
 + (NSString *)hash:(NSString *)string objectType:(GTObjectType)type error:(NSError **)error {
-	GTOID *oid = [[GTOID alloc] initWithData:[string dataUsingEncoding:NSUTF8StringEncoding] type:type error:error];
+	GTOID *oid = [GTOID oidByHashingData:[string dataUsingEncoding:NSUTF8StringEncoding] type:type error:error];
 	return oid.SHA;
 }
 
