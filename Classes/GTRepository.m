@@ -209,8 +209,8 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 }
 
 + (instancetype)createRepositoryAtURL:(NSURL *)url error:(NSError **)error {
-	BOOL err = [GTRepository initializeEmptyRepositoryAtURL:url error:error];
-	if (!err) return nil;
+	BOOL success = [GTRepository initializeEmptyRepositoryAtURL:url error:error];
+	if (!success) return nil;
 	
 	return [GTRepository repositoryWithURL:url error:error];
 }
