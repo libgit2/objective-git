@@ -90,7 +90,7 @@
 }
 
 - (GTOID *)OIDByInsertingData:(NSData *)data forType:(GTObjectType)type error:(NSError **)error; {
-	NSParameterAssert(data != 0);
+	NSParameterAssert(data != nil);
 
 	git_odb_stream *stream;
 	git_oid oid;
