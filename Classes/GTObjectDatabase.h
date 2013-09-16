@@ -43,13 +43,13 @@
 // The underlying `git_odb` object.
 - (git_odb *)git_odb __attribute__((objc_returns_inner_pointer));
 
-- (GTOdbObject *)objectWithOid:(GTOID *)oid error:(NSError **)error;
-- (GTOdbObject *)objectWithSha:(NSString *)sha error:(NSError **)error;
+- (GTOdbObject *)objectWithOID:(GTOID *)OID error:(NSError **)error;
+- (GTOdbObject *)objectWithSHA:(NSString *)SHA error:(NSError **)error;
 
-- (GTOID *)oidByInsertingData:(NSData *)data forType:(GTObjectType)type error:(NSError **)error;
-- (GTOID *)oidByInsertingString:(NSString *)string forType:(GTObjectType)type error:(NSError **)error;
+- (GTOID *)OIDByInsertingData:(NSData *)data forType:(GTObjectType)type error:(NSError **)error;
+- (GTOID *)OIDByInsertingString:(NSString *)string forType:(GTObjectType)type error:(NSError **)error;
 
-- (BOOL)containsObjectWithSha:(NSString *)sha error:(NSError **)error;
+- (BOOL)containsObjectWithSHA:(NSString *)SHA error:(NSError **)error;
 
 // Checks if the object database contains an object with a given OID.
 //

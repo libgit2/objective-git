@@ -69,7 +69,7 @@
 	return self;
 }
 
-- (GTOdbObject *)objectWithOid:(GTOID *)oid error:(NSError **)error {
+- (GTOdbObject *)objectWithOID:(GTOID *)oid error:(NSError **)error {
 	git_odb_object *obj;
 	int gitError = git_odb_read(&obj, self.git_odb, oid.git_oid);
 	if (gitError != GIT_OK) {
@@ -80,16 +80,16 @@
 	return [[GTOdbObject alloc] initWithOdbObj:obj repository:self.repository];
 }
 
-- (GTOdbObject *)objectWithSha:(NSString *)sha error:(NSError **)error {
+- (GTOdbObject *)objectWithSHA:(NSString *)sha error:(NSError **)error {
 	GTOID *oid = [[GTOID alloc] initWithSHA:sha error:error];
 	if (oid == nil) {
 		return nil;
 	}
 
-    return [self objectWithOid:oid error:error];
+    return [self objectWithOID:oid error:error];
 }
 
-- (GTOID *)oidByInsertingData:(NSData *)data forType:(GTObjectType)type error:(NSError **)error; {
+- (GTOID *)OIDByInsertingData:(NSData *)data forType:(GTObjectType)type error:(NSError **)error; {
 	NSParameterAssert(data != 0);
 
 	git_odb_stream *stream;
@@ -117,11 +117,11 @@
 	return [GTOID oidWithGitOid:&oid];
 }
 
-- (GTOID *)oidByInsertingString:(NSString *)string forType:(GTObjectType)type error:(NSError **)error {
-	return [self oidByInsertingData:[string dataUsingEncoding:NSUTF8StringEncoding] forType:type error:error];
+- (GTOID *)OIDByInsertingString:(NSString *)string forType:(GTObjectType)type error:(NSError **)error {
+	return [self OIDByInsertingData:[string dataUsingEncoding:NSUTF8StringEncoding] forType:type error:error];
 }
 
-- (BOOL)containsObjectWithSha:(NSString *)sha error:(NSError **)error {
+- (BOOL)containsObjectWithSHA:(NSString *)sha error:(NSError **)error {
 
 	GTOID *oid = [[GTOID alloc] initWithSHA:sha error:error];
 	if (oid == nil) return NO;
