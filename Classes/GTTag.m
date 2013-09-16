@@ -38,30 +38,28 @@
 @implementation GTTag
 
 - (NSString *)description {
-  return [NSString stringWithFormat:@"<%@: %p> name: %@, message: %@, targetType: %@", NSStringFromClass([self class]), self, [self name], [self message],  [self targetType]];
+  return [NSString stringWithFormat:@"<%@: %p> name: %@, message: %@, targetType: %d", NSStringFromClass([self class]), self,self.name, self.message, self.targetType];
 }
-
 
 #pragma mark API
 
 - (NSString *)message {
-	return [NSString stringWithUTF8String:git_tag_message(self.git_tag)];
+	return @(git_tag_message(self.git_tag));
 }
 
 - (NSString *)name {
-	return [NSString stringWithUTF8String:git_tag_name(self.git_tag)];
+	return @(git_tag_name(self.git_tag));
 }
 
 - (GTObject *)target {
 	git_object *t;
-	// todo: might want to actually return an error here
 	int gitError = git_tag_target(&t, self.git_tag);
-	if(gitError < GIT_OK) return nil;
-    return [GTObject objectWithObj:(git_object *)t inRepository:self.repository];
+	if (gitError < GIT_OK) return nil;
+	return [GTObject objectWithObj:(git_object *)t inRepository:self.repository];
 }
 
-- (NSString *)targetType {
-	return [NSString stringWithUTF8String:git_object_type2string(git_tag_target_type(self.git_tag))];
+- (GTObjectType)targetType {
+	return (GTObjectType)git_tag_target_type(self.git_tag);
 }
 
 - (GTSignature *)tagger {
