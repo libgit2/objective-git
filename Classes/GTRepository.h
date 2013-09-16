@@ -114,6 +114,9 @@ extern NSString *const GTRepositoryCloneOptionsBare;
 // Default value is `YES`.
 extern NSString *const GTRepositoryCloneOptionsCheckout;
 
+// A `GTCredentialProvider`, that will be used to authenticate against the remote.
+extern NSString *const GTRepositoryCloneOptionsCredentialProvider;
+
 typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus status, BOOL *stop);
 
 @interface GTRepository : NSObject
