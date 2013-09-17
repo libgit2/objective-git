@@ -13,7 +13,7 @@
 typedef enum {
     GTCredentialTypeUserPassPlaintext = GIT_CREDTYPE_USERPASS_PLAINTEXT,
     GTCredentialTypeSSHKeyFilePassPhrase = GIT_CREDTYPE_SSH_KEYFILE_PASSPHRASE,
-    GTCredentialTypeSSHPublicKey = GIT_CREDTYPE_SSH_PUBLICKEY,
+    GTCredentialTypeSSHPublicKey = GIT_CREDTYPE_SSH_PUBLICKEY_SIGN,
 } GTCredentialType;
 
 @class GTCredential;
@@ -60,15 +60,15 @@ typedef enum {
 
 // Create a credential object from a SSH keyfile
 //
-// userName       - The username to authenticate as.
-// publicKeyPath  - The path to the public key for that user.
+// userName      - The username to authenticate as.
+// publicKeyURL  - The URL to the public key for that user.
 //                  Can be omitted to reconstruct the public key from the private key.
-// privateKeyPath - The path to the private key for that user.
-// passPhrase     - The passPhrase for the private key. Optional if the private key has no password.
-// error          - If not NULL, set to any errors that occur.
+// privateKeyURL - The URL to the private key for that user.
+// passphrase    - The passPhrase for the private key. Optional if the private key has no password.
+// error         - If not NULL, set to any errors that occur.
 //
 // Return a new GTCredential instance, or nil if an error occurred
-+ (instancetype)credentialWithUserName:(NSString *)userName publicKeyPath:(NSString *)publicKeyPath privateKeyPath:(NSString *)privateKeyPath passPhrase:(NSString *)passPhrase error:(NSError **)error;
++ (instancetype)credentialWithUserName:(NSString *)userName publicKeyURL:(NSURL *)publicKeyURL privateKeyURL:(NSURL *)privateKeyURL passphrase:(NSString *)passphrase error:(NSError **)error;
 
 // Create a credential object from a public key
 //
