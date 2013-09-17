@@ -13,7 +13,7 @@
 typedef enum {
     GTCredentialTypeUserPassPlaintext = GIT_CREDTYPE_USERPASS_PLAINTEXT,
     GTCredentialTypeSSHKeyFilePassPhrase = GIT_CREDTYPE_SSH_KEYFILE_PASSPHRASE,
-    GTCredentialTypeSSHPublicKey = GIT_CREDTYPE_SSH_PUBLICKEY_SIGN,
+    GTCredentialTypeSSHPublicKey = GIT_CREDTYPE_SSH_PUBLICKEY,
 } GTCredentialType;
 
 @class GTCredential;
