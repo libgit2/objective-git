@@ -110,10 +110,6 @@ int GTCredentialSignCallback(LIBSSH2_SESSION *session, unsigned char **sig, size
 	return self;
 }
 
-- (BOOL)hasUserName {
-	return git_cred_has_username(self.git_cred) == 1;
-}
-
 @end
 
 int GTCredentialAcquireCallback(git_cred **git_cred, const char *url, const char *username_from_url, unsigned int allowed_types, void *payload) {

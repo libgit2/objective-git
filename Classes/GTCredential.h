@@ -86,6 +86,4 @@ typedef enum {
 // The underlying `git_cred` object.
 - (git_cred *)git_cred __attribute__((objc_returns_inner_pointer));
 
-@property (readonly) BOOL hasUserName;
-
 @end
