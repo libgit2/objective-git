@@ -14,7 +14,7 @@
 typedef GTCredential *(^GTCredentialProviderBlock)(GTCredentialType allowedTypes, NSString *URL, NSString *userName);
 
 @interface GTCredentialProvider ()
-@property (assign) GTCredentialProviderBlock credBlock;
+@property (copy) GTCredentialProviderBlock credBlock;
 @end
 
 @implementation GTCredentialProvider
