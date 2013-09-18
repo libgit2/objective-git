@@ -100,6 +100,13 @@
 		3011D8781668F29600CE3409 /* GTDiffDelta.h in Headers */ = {isa = PBXBuildFile; fileRef = 3011D8751668F29600CE3409 /* GTDiffDelta.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3011D8791668F29600CE3409 /* GTDiffDelta.m in Sources */ = {isa = PBXBuildFile; fileRef = 3011D8761668F29600CE3409 /* GTDiffDelta.m */; };
 		3011D87A1668F29600CE3409 /* GTDiffDelta.m in Sources */ = {isa = PBXBuildFile; fileRef = 3011D8761668F29600CE3409 /* GTDiffDelta.m */; };
+		306123AC17EA5261006591D4 /* EXTScope.h in Headers */ = {isa = PBXBuildFile; fileRef = 306123A917EA5261006591D4 /* EXTScope.h */; };
+		306123AD17EA5261006591D4 /* EXTScope.h in Headers */ = {isa = PBXBuildFile; fileRef = 306123A917EA5261006591D4 /* EXTScope.h */; };
+		306123AE17EA5261006591D4 /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = 306123AA17EA5261006591D4 /* EXTScope.m */; };
+		306123AF17EA5261006591D4 /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = 306123AA17EA5261006591D4 /* EXTScope.m */; };
+		306123B017EA5261006591D4 /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = 306123AA17EA5261006591D4 /* EXTScope.m */; };
+		306123B117EA5261006591D4 /* metamacros.h in Headers */ = {isa = PBXBuildFile; fileRef = 306123AB17EA5261006591D4 /* metamacros.h */; };
+		306123B217EA5261006591D4 /* metamacros.h in Headers */ = {isa = PBXBuildFile; fileRef = 306123AB17EA5261006591D4 /* metamacros.h */; };
 		30865A91167F503400B1AB6E /* GTDiffSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 30865A90167F503400B1AB6E /* GTDiffSpec.m */; };
 		30A3D6541667F11C00C49A39 /* GTDiff.h in Headers */ = {isa = PBXBuildFile; fileRef = 30A3D6521667F11C00C49A39 /* GTDiff.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		30A3D6551667F11C00C49A39 /* GTDiff.h in Headers */ = {isa = PBXBuildFile; fileRef = 30A3D6521667F11C00C49A39 /* GTDiff.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -387,6 +394,9 @@
 		3011D8701668E78500CE3409 /* GTDiffHunk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTDiffHunk.m; sourceTree = "<group>"; };
 		3011D8751668F29600CE3409 /* GTDiffDelta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTDiffDelta.h; sourceTree = "<group>"; };
 		3011D8761668F29600CE3409 /* GTDiffDelta.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTDiffDelta.m; sourceTree = "<group>"; };
+		306123A917EA5261006591D4 /* EXTScope.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTScope.h; sourceTree = "<group>"; };
+		306123AA17EA5261006591D4 /* EXTScope.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXTScope.m; sourceTree = "<group>"; };
+		306123AB17EA5261006591D4 /* metamacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = metamacros.h; sourceTree = "<group>"; };
 		30865A90167F503400B1AB6E /* GTDiffSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTDiffSpec.m; sourceTree = "<group>"; };
 		30A3D6521667F11C00C49A39 /* GTDiff.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTDiff.h; sourceTree = "<group>"; };
 		30A3D6531667F11C00C49A39 /* GTDiff.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTDiff.m; sourceTree = "<group>"; };
@@ -597,6 +607,7 @@
 		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				306123A817EA5261006591D4 /* extobjc */,
 				1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */,
 				1058C7B2FEA5585E11CA2CBB /* Other Frameworks */,
 			);
@@ -639,6 +650,17 @@
 				BDD9C3FF133BA604003708E7 /* UIKit.framework */,
 			);
 			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		306123A817EA5261006591D4 /* extobjc */ = {
+			isa = PBXGroup;
+			children = (
+				306123A917EA5261006591D4 /* EXTScope.h */,
+				306123AA17EA5261006591D4 /* EXTScope.m */,
+				306123AB17EA5261006591D4 /* metamacros.h */,
+			);
+			name = extobjc;
+			path = External/libextobjc/extobjc;
 			sourceTree = "<group>";
 		};
 		30FDC07C16835A6F00654BF0 /* Diff */ = {
@@ -899,11 +921,13 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				306123B217EA5261006591D4 /* metamacros.h in Headers */,
 				3E0A23E5159E0FDB00A6068F /* GTObjectDatabase.h in Headers */,
 				04DB464E133AB5E200D9C624 /* NSError+Git.h in Headers */,
 				55C8057F13875C62004DCB0F /* NSData+Git.h in Headers */,
 				55C8058013875C6E004DCB0F /* NSString+Git.h in Headers */,
 				04DB464F133AB5E200D9C624 /* GTRepository.h in Headers */,
+				306123AD17EA5261006591D4 /* EXTScope.h in Headers */,
 				04DB4652133AB5E200D9C624 /* GTEnumerator.h in Headers */,
 				04DB4653133AB5E200D9C624 /* GTTree.h in Headers */,
 				5BE612891745EE3400266D8C /* GTTreeBuilder.h in Headers */,
@@ -959,6 +983,7 @@
 				BDB2B1301386F34300C88D55 /* GTObjectDatabase.h in Headers */,
 				88F6D9FC1320467800CC0BA8 /* GTSignature.h in Headers */,
 				88F50F59132054D800584FBE /* GTBranch.h in Headers */,
+				306123AC17EA5261006591D4 /* EXTScope.h in Headers */,
 				79262F8B13C69B1600A4B1EA /* git2.h in Headers */,
 				88EB7E4D14AEBA600046FEA4 /* GTConfiguration.h in Headers */,
 				BDE4C064130EFE2C00851650 /* NSError+Git.h in Headers */,
@@ -978,6 +1003,7 @@
 				30B1E7EE1703522100D0814D /* NSDate+GTTimeAdditions.h in Headers */,
 				D09C2E361755F16200065E36 /* GTSubmodule.h in Headers */,
 				4D26799F178DAF31002A2795 /* GTTreeEntry+Private.h in Headers */,
+				306123B117EA5261006591D4 /* metamacros.h in Headers */,
 				4DE864351794A37E00371A65 /* GTRepository+Private.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1255,6 +1281,7 @@
 				04DB4668133AB5EB00D9C624 /* GTTree.m in Sources */,
 				04DB4669133AB5EB00D9C624 /* GTTreeEntry.m in Sources */,
 				04DB466A133AB5EB00D9C624 /* GTBlob.m in Sources */,
+				306123B017EA5261006591D4 /* EXTScope.m in Sources */,
 				04DB466B133AB5EB00D9C624 /* GTTag.m in Sources */,
 				04DB466C133AB5EB00D9C624 /* GTIndex.m in Sources */,
 				04DB466D133AB5EB00D9C624 /* GTIndexEntry.m in Sources */,
@@ -1303,6 +1330,7 @@
 				88215483171499BE00D76B76 /* GTReflogSpec.m in Sources */,
 				88948AC91779243600809CDA /* GTObjectDatabaseSpec.m in Sources */,
 				D0AC906C172F941F00347DC4 /* GTRepositorySpec.m in Sources */,
+				306123AF17EA5261006591D4 /* EXTScope.m in Sources */,
 				8832811F173D8816006D7DCF /* GTIndexSpec.m in Sources */,
 				D0F4E28A17C7F24200BBDE30 /* NSErrorGitSpec.m in Sources */,
 				88328128173D8A64006D7DCF /* GTTreeSpec.m in Sources */,
@@ -1328,6 +1356,7 @@
 				BD6C254613148DD300992935 /* GTSignature.m in Sources */,
 				BD6B0412131496B8001909D0 /* GTTree.m in Sources */,
 				BD6B0418131496CC001909D0 /* GTTreeEntry.m in Sources */,
+				306123AE17EA5261006591D4 /* EXTScope.m in Sources */,
 				BDD6279A1318391200DE34D1 /* GTBlob.m in Sources */,
 				BDD62925131C03D600DE34D1 /* GTTag.m in Sources */,
 				BDFAF9C4131C1845000508BC /* GTIndex.m in Sources */,
