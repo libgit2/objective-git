@@ -13,6 +13,8 @@
 #import "NSError+Git.h"
 #import "NSArray+StringArray.h"
 
+#import "EXTScope.h"
+
 NSString *const GTRepositoryStatusOptionsShowKey = @"GTRepositoryStatusOptionsShow";
 NSString *const GTRepositoryStatusOptionsFlagsKey = @"GTRepositoryStatusOptionsFlags";
 NSString *const GTRepositoryStatusOptionsPathSpecArrayKey = @"GTRepositoryStatusOptionsPathSpecArray";
@@ -22,7 +24,7 @@ NSString *const GTRepositoryStatusOptionsPathSpecArrayKey = @"GTRepositoryStatus
 - (BOOL)enumerateFileStatusWithOptions:(NSDictionary *)options error:(NSError **)error usingBlock:(void(^)(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop))block {
 	NSParameterAssert(block != NULL);
 	
-	git_status_options gitOptions = GIT_STATUS_OPTIONS_INIT;
+	__block git_status_options gitOptions = GIT_STATUS_OPTIONS_INIT;
 	gitOptions.flags = GIT_STATUS_OPT_DEFAULTS;
 	
 	NSArray *pathSpec = options[GTRepositoryStatusOptionsPathSpecArrayKey];
@@ -34,7 +36,13 @@ NSString *const GTRepositoryStatusOptionsPathSpecArrayKey = @"GTRepositoryStatus
 	NSNumber *showNumber = options[GTRepositoryStatusOptionsShowKey];
 	if (showNumber != nil) gitOptions.show = showNumber.unsignedIntValue;
 	
-	git_status_list *statusList;
+	__block git_status_list *statusList;
+	@onExit {
+		git_status_list_free(statusList);
+		if (&gitOptions.pathspec) git_strarray_free(&gitOptions.pathspec);
+
+	};
+	
 	int err = git_status_list_new(&statusList, self.git_repository, &gitOptions);
 	if (err != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:err withAdditionalDescription:NSLocalizedString(@"Could not create status list.", nil)];
@@ -53,9 +61,6 @@ NSString *const GTRepositoryStatusOptionsPathSpecArrayKey = @"GTRepositoryStatus
 		
 		if (stop) break;
 	}
-	
-	git_status_list_free(statusList);
-	if (&gitOptions.pathspec) git_strarray_free(&gitOptions.pathspec);
 	
 	return YES;
 }
