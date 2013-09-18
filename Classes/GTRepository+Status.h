@@ -8,6 +8,8 @@
 
 #import "GTRepository.h"
 
+@class GTStatusDelta;
+
 // An `NSNumber` wrapped `GTRepositoryStatusOptionsShow` bitmask.
 //
 // For extending the reporting of status. Using the flags documented below this

@@ -42,7 +42,6 @@
 @class GTSubmodule;
 @class GTDiffFile;
 @class GTTag;
-@class GTStatusDelta;
 
 typedef enum {
 	GTRepositoryResetTypeSoft = GIT_RESET_SOFT,
@@ -99,8 +98,6 @@ extern NSString *const GTRepositoryCloneOptionsBare;
 // An `NSNumber` wrapped `BOOL`, if NO, don't checkout the remote HEAD.
 // Default value is `YES`.
 extern NSString *const GTRepositoryCloneOptionsCheckout;
-
-typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus status, BOOL *stop);
 
 @interface GTRepository : NSObject
 
