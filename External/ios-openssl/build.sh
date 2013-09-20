@@ -15,15 +15,15 @@ fi
 
 DEVELOPER="/Applications/Xcode.app/Contents/Developer"
 
-SDK_VERSION="6.1"
+SDK_VERSION="7.0"
+
+CLANG="${DEVELOPER}/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang"
 
 IPHONEOS_PLATFORM="${DEVELOPER}/Platforms/iPhoneOS.platform"
 IPHONEOS_SDK="${IPHONEOS_PLATFORM}/Developer/SDKs/iPhoneOS${SDK_VERSION}.sdk"
-IPHONEOS_GCC="${IPHONEOS_PLATFORM}/Developer/usr/bin/gcc"
 
 IPHONESIMULATOR_PLATFORM="${DEVELOPER}/Platforms/iPhoneSimulator.platform"
 IPHONESIMULATOR_SDK="${IPHONESIMULATOR_PLATFORM}/Developer/SDKs/iPhoneSimulator${SDK_VERSION}.sdk"
-IPHONESIMULATOR_GCC="${IPHONESIMULATOR_PLATFORM}/Developer/usr/bin/gcc"
 
 # Clean up whatever was left from our previous build
 
@@ -34,15 +34,14 @@ rm -rf "/tmp/openssl-*.log"
 build()
 {
    ARCH=$1
-   GCC=$2
-   SDK=$3
+   SDK=$2
    rm -rf "/tmp/openssl"
    cp -r External/openssl /tmp/
    pushd .
    cd "/tmp/openssl"
    ./Configure BSD-generic32 no-gost --openssldir="/tmp/openssl-${ARCH}" &> "/tmp/openssl-${ARCH}.log"
    perl -i -pe 's|static volatile sig_atomic_t intr_signal|static volatile int intr_signal|' crypto/ui/ui_openssl.c
-   perl -i -pe "s|^CC= gcc|CC= ${GCC} -arch ${ARCH}|g" Makefile
+   perl -i -pe "s|^CC= gcc|CC= ${CLANG} -arch ${ARCH}|g" Makefile
    perl -i -pe "s|^CFLAG= (.*)|CFLAG= -isysroot ${SDK} \$1|g" Makefile
    make &> "/tmp/openssl-${ARCH}.log"
    make install &> "/tmp/openssl-${ARCH}.log"
@@ -50,9 +49,9 @@ build()
    rm -rf "/tmp/openssl"
 }
 
-build "armv7" "${IPHONEOS_GCC}" "${IPHONEOS_SDK}"
-build "armv7s" "${IPHONEOS_GCC}" "${IPHONEOS_SDK}"
-build "i386" "${IPHONESIMULATOR_GCC}" "${IPHONESIMULATOR_SDK}"
+build "armv7" "${IPHONEOS_SDK}"
+build "armv7s" "${IPHONEOS_SDK}"
+build "i386" "${IPHONESIMULATOR_SDK}"
 
 #
 
