@@ -7,9 +7,7 @@ if [ -f "External/libssh2-ios/lib/libssh2.a" ]; then
     exit 0
 fi
 
-PATH="/usr/local/bin:$PATH"
-
-SDKVERSION="6.1"
+SDKVERSION="7.0"
 CURRENTPATH=`pwd`
 ARCHS="i386 armv7 armv7s"
 DEVELOPER="/Applications/Xcode.app/Contents/Developer"
@@ -32,25 +30,11 @@ for ARCH in ${ARCHS}; do
 
     export DEVROOT="${DEVELOPER}/Platforms/${PLATFORM}.platform/Developer"
     export SDKROOT="${DEVROOT}/SDKs/${PLATFORM}${SDKVERSION}.sdk"
-    export LD=${DEVROOT}/usr/bin/ld
-
-    if [ "${ARCH}" == "i386" ]; then
-        export CC=${DEVROOT}/usr/bin/gcc
-        export CPP=${DEVROOT}/usr/bin/cpp
-        export CXX=${DEVROOT}/usr/bin/g++
-        export CXXCPP=$DEVROOT/usr/bin/cpp
-    else
-        export CC=${DEVROOT}/usr/bin/gcc
-        export CXX=${DEVROOT}/usr/bin/g++
-    fi
-
-    export AR=${DEVROOT}/usr/bin/ar
-    export AS=${DEVROOT}/usr/bin/as
-    export NM=${DEVROOT}/usr/bin/nm
-    export RANLIB=$DEVROOT/usr/bin/ranlib
-    export LDFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -L${CURRENTPATH}/External/libssh2-ios/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk/lib"
-    export CFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -I${CURRENTPATH}/External/libssh2-ios/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk/include"
-    export CXXFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -I${CURRENTPATH}/External/libssh2-ios/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk/include"
+    export CLANG="${DEVELOPER}/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang"
+    export CC=${CLANG}
+    export CPP="${CLANG} -E"
+    export CFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -miphoneos-version-min=${SDKVERSION}"
+    export CPPFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT}"
 
     echo ${CURRENTPATH}/External/libssh2-ios/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk
 
