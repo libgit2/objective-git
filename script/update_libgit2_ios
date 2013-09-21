@@ -13,7 +13,7 @@ then
     exit 0
 fi
 
-ios_version="6.1";
+ios_version="7.0";
 
 cd "External/libgit2"
 
@@ -28,7 +28,7 @@ cd build
 
 cmake -DCMAKE_C_COMPILER_WORKS:BOOL=ON \
       -DBUILD_SHARED_LIBS:BOOL=OFF \
-      -DCMAKE_C_COMPILER=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/llvm-gcc-4.2/bin/llvm-gcc-4.2 \
+      -DCMAKE_C_COMPILER=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang \
       -DOPENSSL_SSL_LIBRARY:FILEPATH=../../External/ios-openssl/lib/libssl.a \
       -DOPENSSL_CRYPTO_LIBRARY:FILEPATH=../../External/ios-openssl/lib/libcrypto.a \
       -DOPENSSL_INCLUDE_DIR:PATH=../../External/ios-openssl/include/ \
@@ -60,7 +60,7 @@ cd build
 
 cmake -DCMAKE_C_COMPILER_WORKS:BOOL=ON \
       -DBUILD_SHARED_LIBS:BOOL=OFF \
-      -DCMAKE_C_COMPILER=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/llvm-gcc-4.2/bin/llvm-gcc-4.2 \
+      -DCMAKE_C_COMPILER=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang \
       -DOPENSSL_SSL_LIBRARY:FILEPATH=../../External/ios-openssl/lib/libssl.a \
       -DOPENSSL_CRYPTO_LIBRARY:FILEPATH=../../External/ios-openssl/lib/libcrypto.a \
       -DOPENSSL_INCLUDE_DIR:PATH=../../External/ios-openssl/include/ \
