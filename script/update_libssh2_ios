@@ -32,7 +32,7 @@ for ARCH in ${ARCHS}; do
 
     export DEVROOT="${DEVELOPER}/Platforms/${PLATFORM}.platform/Developer"
     export SDKROOT="${DEVROOT}/SDKs/${PLATFORM}${SDKVERSION}.sdk"
-    export CLANG="${DEVELOPER}/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang"
+    export CLANG=`/usr/bin/xcrun --find clang`
     export CC=${CLANG}
     export CPP="${CLANG} -E"
     export CFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -miphoneos-version-min=${SDKVERSION}"

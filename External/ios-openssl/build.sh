@@ -17,7 +17,7 @@ DEVELOPER="/Applications/Xcode.app/Contents/Developer"
 
 SDK_VERSION="7.0"
 
-CLANG="${DEVELOPER}/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang"
+CLANG=`/usr/bin/xcrun --find clang`
 
 IPHONEOS_PLATFORM="${DEVELOPER}/Platforms/iPhoneOS.platform"
 IPHONEOS_SDK="${IPHONEOS_PLATFORM}/Developer/SDKs/iPhoneOS${SDK_VERSION}.sdk"
