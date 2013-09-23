@@ -32,7 +32,7 @@ done
 brew_prefix=`brew --prefix`
 if [ "$brew_prefix" != "/usr/local" ]
 then
-    echo "Soft linking libraries into /usr/local/lib"
+    echo "Adding soft links into /usr/local/lib"
     
     products="libssh2.a libtool autoconf automake"
     
