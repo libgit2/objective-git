@@ -37,9 +37,10 @@ cmake -DCMAKE_C_COMPILER_WORKS:BOOL=ON \
       -DCMAKE_LIBRARY_PATH:PATH=../../External/libssh2-ios/lib/ \
       -DCMAKE_INCLUDE_PATH:PATH=../../External/libssh2-ios/include/libssh2/ \
       -DCMAKE_OSX_DEPLOYMENT_TARGET:STRING= \
-      -DCMAKE_OSX_ARCHITECTURES:STRING="armv7;armv7s" \
+      -DCMAKE_OSX_ARCHITECTURES:STRING="armv7;armv7s;arm64" \
       -DBUILD_CLAR:BOOL=OFF \
       -DCMAKE_OSX_SYSROOT=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS${ios_version}.sdk/ \
+      -DCMAKE_C_FLAGS="-miphoneos-version-min=${ios_version}" \
       ..
 cmake --build .
 
