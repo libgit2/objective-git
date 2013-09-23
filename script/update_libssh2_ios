@@ -11,7 +11,7 @@ PATH="/usr/local/bin:$PATH"
 
 SDKVERSION="7.0"
 CURRENTPATH=`pwd`
-ARCHS="i386 armv7 armv7s"
+ARCHS="i386 armv7 armv7s arm64"
 DEVELOPER="/Applications/Xcode.app/Contents/Developer"
 
 mkdir -p External/libssh2-ios/lib External/libssh2-ios/lib External/libssh2-ios/src
@@ -22,6 +22,12 @@ for ARCH in ${ARCHS}; do
         PLATFORM="iPhoneSimulator"
     else
         PLATFORM="iPhoneOS"
+    fi
+
+    if [ "${ARCH}" == "arm64" ]; then
+        HOST="aarch64-apple-darwin"
+    else
+        HOST="${ARCH}-apple-darwin"
     fi
 
     echo "Building libssh2 for ${PLATFORM} ${SDKVERSION} ${ARCH}"
@@ -36,7 +42,7 @@ for ARCH in ${ARCHS}; do
     export CC=${CLANG}
     export CPP="${CLANG} -E"
     export CFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -miphoneos-version-min=${SDKVERSION}"
-    export CPPFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT}"
+    export CPPFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -miphoneos-version-min=${SDKVERSION}"
 
     echo ${CURRENTPATH}/External/libssh2-ios/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk
 
