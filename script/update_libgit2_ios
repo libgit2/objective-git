@@ -7,6 +7,8 @@ set -e
 # ~/.MacOSX/environemnt.plist
 PATH="/usr/local/bin:$PATH"
 
+CLANG=`/usr/bin/xcrun --find clang`
+
 if [ "External/libgit2-ios.a" -nt "External/libgit2" ]
 then
     echo "No update needed."
@@ -28,7 +30,7 @@ cd build
 
 cmake -DCMAKE_C_COMPILER_WORKS:BOOL=ON \
       -DBUILD_SHARED_LIBS:BOOL=OFF \
-      -DCMAKE_C_COMPILER=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang \
+      -DCMAKE_C_COMPILER=$CLANG \
       -DOPENSSL_SSL_LIBRARY:FILEPATH=../../External/ios-openssl/lib/libssl.a \
       -DOPENSSL_CRYPTO_LIBRARY:FILEPATH=../../External/ios-openssl/lib/libcrypto.a \
       -DOPENSSL_INCLUDE_DIR:PATH=../../External/ios-openssl/include/ \
@@ -60,7 +62,7 @@ cd build
 
 cmake -DCMAKE_C_COMPILER_WORKS:BOOL=ON \
       -DBUILD_SHARED_LIBS:BOOL=OFF \
-      -DCMAKE_C_COMPILER=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang \
+      -DCMAKE_C_COMPILER=$CLANG \
       -DOPENSSL_SSL_LIBRARY:FILEPATH=../../External/ios-openssl/lib/libssl.a \
       -DOPENSSL_CRYPTO_LIBRARY:FILEPATH=../../External/ios-openssl/lib/libcrypto.a \
       -DOPENSSL_INCLUDE_DIR:PATH=../../External/ios-openssl/include/ \
