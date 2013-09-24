@@ -39,6 +39,10 @@ then
     sudo mkdir -p /usr/local/lib
     for lib in $products
     do
-        sudo ln -sF "$brew_prefix/lib/$lib" "/usr/local/lib/$lib"
+        destination="/usr/local/lib/$lib"
+        if [ ! -e "$destination" ]
+        then
+            sudo ln -s "$brew_prefix/lib/$lib" "$destination"
+        fi
     done    
 fi
