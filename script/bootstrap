@@ -34,7 +34,7 @@ if [ "$brew_prefix" != "/usr/local" ]
 then
     echo "*** Adding soft links into /usr/local/lib…"
     
-    products="libssh2.a libtool autoconf automake"
+    products="libssh2.a"
     
     sudo mkdir -p /usr/local/lib
     for lib in $products
