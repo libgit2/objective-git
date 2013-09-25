@@ -1472,10 +1472,6 @@
 					/usr/local/include,
 				);
 				INFOPLIST_FILE = Info.plist;
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"-DGIT_SSH",
-				);
 				OTHER_LDFLAGS = (
 					"-lgit2",
 					"-force_load",
@@ -1501,10 +1497,6 @@
 					/usr/local/include,
 				);
 				INFOPLIST_FILE = Info.plist;
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"-DGIT_SSH",
-				);
 				OTHER_LDFLAGS = (
 					"-lgit2",
 					"-force_load",
@@ -1531,6 +1523,10 @@
 					External,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-DGIT_SSH",
+				);
 				TEST_AFTER_BUILD = NO;
 			};
 			name = Debug;
@@ -1549,6 +1545,10 @@
 					External,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-DGIT_SSH",
+				);
 				TEST_AFTER_BUILD = NO;
 			};
 			name = Release;
@@ -1651,6 +1651,10 @@
 					External,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-DGIT_SSH",
+				);
 				TEST_AFTER_BUILD = NO;
 			};
 			name = Profile;
@@ -1668,10 +1672,6 @@
 					/usr/local/include,
 				);
 				INFOPLIST_FILE = Info.plist;
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"-DGIT_SSH",
-				);
 				OTHER_LDFLAGS = (
 					"-lgit2",
 					"-force_load",
