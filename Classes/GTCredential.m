@@ -72,7 +72,7 @@ typedef GTCredential *(^GTCredentialProviderBlock)(GTCredentialType allowedTypes
 	NSParameterAssert(cred != nil);
 	self = [self init];
 
-	if (!self) return nil;
+	if (self == nil) return nil;
 
 	_git_cred = cred;
 
@@ -98,7 +98,7 @@ int GTCredentialAcquireCallback(git_cred **git_cred, const char *url, const char
 	NSString *userName = (username_from_url != NULL ? @(username_from_url) : nil);
 
 	GTCredential *cred = [provider credentialForType:(GTCredentialType)allowed_types URL:URL userName:userName];
-	if (!cred) {
+	if (cred == nil) {
 		NSString *errorMsg = @"GTCredentialProvider failed to provide credentials.";
 		giterr_set_str(GIT_EUSER, errorMsg.UTF8String);
 		return GIT_ERROR;
