@@ -1467,10 +1467,6 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				GCC_PREFIX_HEADER = ObjectiveGitFramework_Prefix.pch;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					/usr/local/include,
-				);
 				INFOPLIST_FILE = Info.plist;
 				OTHER_LDFLAGS = (
 					"-lgit2",
@@ -1492,10 +1488,6 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				GCC_PREFIX_HEADER = ObjectiveGitFramework_Prefix.pch;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					/usr/local/include,
-				);
 				INFOPLIST_FILE = Info.plist;
 				OTHER_LDFLAGS = (
 					"-lgit2",
@@ -1516,7 +1508,10 @@
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_STRICT_ALIASING = NO;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO;
-				HEADER_SEARCH_PATHS = External/libgit2/include;
+				HEADER_SEARCH_PATHS = (
+					External/libgit2/include,
+					/usr/local/include,
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					.,
@@ -1538,7 +1533,10 @@
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_STRICT_ALIASING = NO;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO;
-				HEADER_SEARCH_PATHS = External/libgit2/include;
+				HEADER_SEARCH_PATHS = (
+					External/libgit2/include,
+					/usr/local/include,
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					.,
@@ -1644,7 +1642,10 @@
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_STRICT_ALIASING = NO;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO;
-				HEADER_SEARCH_PATHS = External/libgit2/include;
+				HEADER_SEARCH_PATHS = (
+					External/libgit2/include,
+					/usr/local/include,
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					.,
@@ -1667,10 +1668,6 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				GCC_PREFIX_HEADER = ObjectiveGitFramework_Prefix.pch;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					/usr/local/include,
-				);
 				INFOPLIST_FILE = Info.plist;
 				OTHER_LDFLAGS = (
 					"-lgit2",
