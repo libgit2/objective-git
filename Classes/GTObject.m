@@ -142,7 +142,7 @@
 	git_object *peeled = NULL;
 	int gitError = git_object_peel(&peeled, self.git_object, (git_otype)type);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Cannot peel object"];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Cannot peel object"];
 		return nil;
 	}
 
