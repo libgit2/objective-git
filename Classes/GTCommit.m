@@ -80,7 +80,7 @@
 
 	if(gitError < GIT_OK) {
 		if(error != NULL)
-			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to create commit in repository"];
+			*error = [NSError git_errorFor:gitError description:@"Failed to create commit in repository"];
 		return nil;
 	}
 

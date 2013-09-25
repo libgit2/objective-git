@@ -34,7 +34,7 @@ NSString * const GTGitErrorDomain = @"GTGitErrorDomain";
 
 @implementation NSError (Git)
 
-+ (NSError *)git_errorFor:(int)code withAdditionalDescription:(NSString *)desc, ... {
++ (NSError *)git_errorFor:(int)code description:(NSString *)desc, ... {
 	NSString *formattedDesc = nil;
 	if (desc != nil) {
 		va_list args;
