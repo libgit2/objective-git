@@ -70,19 +70,6 @@ typedef enum {
 // Return a new GTCredential instance, or nil if an error occurred
 + (instancetype)credentialWithUserName:(NSString *)userName publicKeyURL:(NSURL *)publicKeyURL privateKeyURL:(NSURL *)privateKeyURL passphrase:(NSString *)passphrase error:(NSError **)error;
 
-// Create a credential object from a public key
-//
-// userName  - The username to authenticate as.
-// publicKey - The data of public key of the user.
-// error     - If not NULL, set to any errors that occur.
-// signBlock - A block that will be called to authentify that the user owns the private key.
-//             You should return the contents of data, signed with the private key.
-//             session - A pointer to the underlying LIBSSH2_SESSION.
-//             data    - The data to sign.
-//
-// Returns a new GTCredential instance, or nil if an error occurred.
-+ (instancetype)credentialWithUserName:(NSString *)userName publicKey:(NSData *)publicKey error:(NSError **)error signBlock:(NSData *(^)(void *session, NSData *data))signBlock ;
-
 // The underlying `git_cred` object.
 - (git_cred *)git_cred __attribute__((objc_returns_inner_pointer));
 

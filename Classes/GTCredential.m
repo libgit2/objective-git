@@ -68,37 +68,6 @@ typedef GTCredential *(^GTCredentialProviderBlock)(GTCredentialType allowedTypes
 	return [[self alloc] initWithGitCred:cred];
 }
 
-typedef NSData *(^GTCredentialSignBlock)(void *session, NSData *data);
-
-struct GTCredentialSignPayload {
-	__unsafe_unretained GTCredentialSignBlock signBlock;
-};
-
-int GTCredentialSignCallback(LIBSSH2_SESSION *session, unsigned char **sig, size_t *sig_len, const unsigned char *data, size_t data_len, void **abstract) {
-	struct GTCredentialSignPayload *payload = *abstract;
-	NSData *dataObject = [NSData dataWithBytesNoCopy:(void *)data length:data_len];
-
-	NSData *signData = payload->signBlock(session, dataObject);
-
-	memcpy(sig, signData.bytes, signData.length);
-	*sig_len = signData.length;
-
-	return signData != nil ? 0 : -1;
-}
-
-+ (instancetype)credentialWithUserName:(NSString *)userName publicKey:(NSData *)publicKey error:(NSError **)error signBlock:(GTCredentialSignBlock)signBlock {
-	struct GTCredentialSignPayload payload = { .signBlock = signBlock };
-
-	git_cred *cred;
-	int gitError = git_cred_ssh_publickey_new(&cred, userName.UTF8String, publicKey.bytes, publicKey.length, GTCredentialSignCallback, &payload);
-	if (gitError != GIT_OK) {
-		if (error) *error = [NSError git_errorFor:gitError description:@"Failed to create credentials object" failureReason:@"There was an error creating a credential object for username %@ with the provided public key and sign block.", userName];
-		return nil;
-	}
-
-	return [[self alloc] initWithGitCred:cred];
-}
-
 - (instancetype)initWithGitCred:(git_cred *)cred {
 	NSParameterAssert(cred != nil);
 	self = [self init];
