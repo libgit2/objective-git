@@ -11,7 +11,7 @@
 SpecBegin(NSErrorGit)
 
 it(@"should create an error with a nil description", ^{
-	NSError *error = [NSError git_errorFor:GIT_OK withAdditionalDescription:nil];
+	NSError *error = [NSError git_errorFor:GIT_OK description:nil];
 	expect(error).notTo.beNil();
 
 	expect(error.domain).to.equal(GTGitErrorDomain);
@@ -23,7 +23,7 @@ it(@"should create an error with a nil description", ^{
 });
 
 it(@"should create an error with a formatted description", ^{
-	NSError *error = [NSError git_errorFor:GIT_OK withAdditionalDescription:@"foo %@ bar %@", @1, @"buzz"];
+	NSError *error = [NSError git_errorFor:GIT_OK description:@"foo %@ bar %@", @1, @"buzz"];
 	expect(error).notTo.beNil();
 
 	expect(error.domain).to.equal(GTGitErrorDomain);
