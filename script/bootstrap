@@ -32,6 +32,17 @@ done
 brew_prefix=`brew --prefix`
 if [ "$brew_prefix" != "/usr/local" ]
 then
-    echo -e "\n*** Since your Homebrew prefix is $brew_prefix and not /usr/local, you may experience issues linking ObjectiveGit."
-    echo "*** To remedy any such issues, soft link the library dependencies above into /usr/local so Xcode can find them."
+    echo "*** Adding soft links into /usr/local/lib…"
+    
+    products="libssh2.a"
+    
+    sudo mkdir -p /usr/local/lib
+    for lib in $products
+    do
+        destination="/usr/local/lib/$lib"
+        if [ ! -e "$destination" ]
+        then
+            sudo ln -s "$brew_prefix/lib/$lib" "$destination"
+        fi
+    done    
 fi
