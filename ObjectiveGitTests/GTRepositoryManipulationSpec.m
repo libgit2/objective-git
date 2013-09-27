@@ -14,10 +14,8 @@ NSURL *repositoryURL = [NSURL fileURLWithPath:[[NSTemporaryDirectory() stringByA
 __block GTRepository *repository;
 
 beforeAll(^{
-	NSError *error = nil;
-	repository = [GTRepository createRepositoryAtURL:repositoryURL error:&error];
+	repository = [GTRepository initializeEmptyRepositoryAtFileURL:repositoryURL error:NULL];
 	expect(repository).notTo.beNil();
-	expect(error.description).to.beNil();
 });
 
 afterAll(^{
