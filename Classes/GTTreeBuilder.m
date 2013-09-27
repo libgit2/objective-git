@@ -38,7 +38,7 @@
 
 @interface GTTreeBuilder ()
 @property (nonatomic, assign, readonly) git_treebuilder *git_treebuilder;
-@property (nonatomic, retain, readonly) NSMutableDictionary	*objectData;
+@property (nonatomic, retain, readonly) NSMutableDictionary *objectData;
 @end
 
 @implementation GTTreeBuilder
@@ -140,7 +140,7 @@ static int filter_callback(const git_tree_entry *entry, void *payload) {
 
 	[self.objectData removeObjectForKey:filename];
 	
-	return (status == GIT_OK);
+	return status == GIT_OK;
 }
 
 - (GTTree *)writeTreeToRepository:(GTRepository *)repository error:(NSError **)error {
@@ -151,9 +151,7 @@ static int filter_callback(const git_tree_entry *entry, void *payload) {
 		for (GTOID *oid in self.objectData) {
 			NSDictionary *info = self.objectData[oid];
 
-			GTOID *dataOID = [odb OIDByInsertingData:info[@"data"]
-											 forType:GTObjectTypeBlob
-											   error:error];
+			GTOID *dataOID = [odb OIDByInsertingData:info[@"data"] forType:GTObjectTypeBlob error:error];
 			if (dataOID == nil) return nil;
 		}
 	}
