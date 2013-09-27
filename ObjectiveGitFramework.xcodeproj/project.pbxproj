@@ -160,6 +160,10 @@
 		88328128173D8A64006D7DCF /* GTTreeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88328127173D8A64006D7DCF /* GTTreeSpec.m */; };
 		883CD6AB1600EBC600F57354 /* GTRemote.h in Headers */ = {isa = PBXBuildFile; fileRef = 883CD6A91600EBC600F57354 /* GTRemote.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		883CD6AC1600EBC600F57354 /* GTRemote.m in Sources */ = {isa = PBXBuildFile; fileRef = 883CD6AA1600EBC600F57354 /* GTRemote.m */; };
+		885C27BE17F638F60085457B /* GTTreeBuilderTransientEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = 885C27BC17F638F60085457B /* GTTreeBuilderTransientEntry.h */; };
+		885C27BF17F638F60085457B /* GTTreeBuilderTransientEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = 885C27BC17F638F60085457B /* GTTreeBuilderTransientEntry.h */; };
+		885C27C017F638F60085457B /* GTTreeBuilderTransientEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 885C27BD17F638F60085457B /* GTTreeBuilderTransientEntry.m */; };
+		885C27C117F638F60085457B /* GTTreeBuilderTransientEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 885C27BD17F638F60085457B /* GTTreeBuilderTransientEntry.m */; };
 		887DAFFC15CB1CBD00F30D0D /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 887DAFFB15CB1CBD00F30D0D /* libcrypto.dylib */; };
 		887DAFFD15CB1CE200F30D0D /* libssl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 887DAFF915CB1C9F00F30D0D /* libssl.dylib */; };
 		88948AC91779243600809CDA /* GTObjectDatabaseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88948AC81779243600809CDA /* GTObjectDatabaseSpec.m */; };
@@ -418,6 +422,8 @@
 		883CD6A91600EBC600F57354 /* GTRemote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTRemote.h; sourceTree = "<group>"; };
 		883CD6AA1600EBC600F57354 /* GTRemote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTRemote.m; sourceTree = "<group>"; };
 		883CD6AE1600F01000F57354 /* GTConfiguration+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GTConfiguration+Private.h"; sourceTree = "<group>"; };
+		885C27BC17F638F60085457B /* GTTreeBuilderTransientEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTTreeBuilderTransientEntry.h; sourceTree = "<group>"; };
+		885C27BD17F638F60085457B /* GTTreeBuilderTransientEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTTreeBuilderTransientEntry.m; sourceTree = "<group>"; };
 		887DAFF615CB1C8000F30D0D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		887DAFF915CB1C9F00F30D0D /* libssl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libssl.dylib; path = usr/lib/libssl.dylib; sourceTree = SDKROOT; };
 		887DAFFB15CB1CBD00F30D0D /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = usr/lib/libcrypto.dylib; sourceTree = SDKROOT; };
@@ -750,6 +756,8 @@
 				BD6B0416131496CC001909D0 /* GTTreeEntry.m */,
 				5BE612861745EE3300266D8C /* GTTreeBuilder.h */,
 				5BE612871745EE3300266D8C /* GTTreeBuilder.m */,
+				885C27BC17F638F60085457B /* GTTreeBuilderTransientEntry.h */,
+				885C27BD17F638F60085457B /* GTTreeBuilderTransientEntry.m */,
 				BDD62922131C03D600DE34D1 /* GTTag.h */,
 				BDD62923131C03D600DE34D1 /* GTTag.m */,
 				BDFAF9C1131C1845000508BC /* GTIndex.h */,
@@ -889,6 +897,7 @@
 				04DB4653133AB5E200D9C624 /* GTTree.h in Headers */,
 				5BE612891745EE3400266D8C /* GTTreeBuilder.h in Headers */,
 				04DB4654133AB5E200D9C624 /* GTTreeEntry.h in Headers */,
+				885C27BF17F638F60085457B /* GTTreeBuilderTransientEntry.h in Headers */,
 				04DB4655133AB5E200D9C624 /* GTBlob.h in Headers */,
 				04DB4656133AB5E200D9C624 /* GTTag.h in Headers */,
 				04DB4657133AB5E200D9C624 /* GTIndex.h in Headers */,
@@ -940,6 +949,7 @@
 				88F50F59132054D800584FBE /* GTBranch.h in Headers */,
 				79262F8B13C69B1600A4B1EA /* git2.h in Headers */,
 				88EB7E4D14AEBA600046FEA4 /* GTConfiguration.h in Headers */,
+				885C27BE17F638F60085457B /* GTTreeBuilderTransientEntry.h in Headers */,
 				BDE4C064130EFE2C00851650 /* NSError+Git.h in Headers */,
 				55C8057D13875C11004DCB0F /* NSData+Git.h in Headers */,
 				883CD6AB1600EBC600F57354 /* GTRemote.h in Headers */,
@@ -1245,6 +1255,7 @@
 				3011D86E1668E48500CE3409 /* GTDiffFile.m in Sources */,
 				3011D8741668E78500CE3409 /* GTDiffHunk.m in Sources */,
 				3011D87A1668F29600CE3409 /* GTDiffDelta.m in Sources */,
+				885C27C117F638F60085457B /* GTTreeBuilderTransientEntry.m in Sources */,
 				30FDC08216835A8100654BF0 /* GTDiffLine.m in Sources */,
 				30B1E7F11703522100D0814D /* NSDate+GTTimeAdditions.m in Sources */,
 				8821546C1714740500D76B76 /* GTReflog.m in Sources */,
@@ -1314,6 +1325,7 @@
 				88EB7E4E14AEBA600046FEA4 /* GTConfiguration.m in Sources */,
 				883CD6AC1600EBC600F57354 /* GTRemote.m in Sources */,
 				88F05AC61601209A00B7AD1D /* ObjectiveGit.m in Sources */,
+				885C27C017F638F60085457B /* GTTreeBuilderTransientEntry.m in Sources */,
 				30A3D6561667F11C00C49A39 /* GTDiff.m in Sources */,
 				3011D86D1668E48500CE3409 /* GTDiffFile.m in Sources */,
 				3011D8731668E78500CE3409 /* GTDiffHunk.m in Sources */,

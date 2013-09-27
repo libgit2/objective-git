@@ -32,7 +32,7 @@ describe(@"committing", ^{
 		GTTreeBuilder *builder = [[GTTreeBuilder alloc] initWithTree:nil error:&error];
 		expect(builder).toNot.beNil();
 
-		[builder addEntryWithData:[@"Another file contents" dataUsingEncoding:NSUTF8StringEncoding] filename:@"Test file 2.txt" filemode:GTFileModeBlob error:&error];
+		[builder addEntryWithData:[@"Another file contents" dataUsingEncoding:NSUTF8StringEncoding] fileName:@"Test file 2.txt" fileMode:GTFileModeBlob error:&error];
 		expect(error.description).to.beNil();
 
 		GTTree *subtree = [builder writeTreeToRepository:repository error:&error];
@@ -41,10 +41,10 @@ describe(@"committing", ^{
 
 		[builder clear];
 
-		[builder addEntryWithData:[@"Test contents" dataUsingEncoding:NSUTF8StringEncoding] filename:@"Test file.txt" filemode:GTFileModeBlob error:&error];
+		[builder addEntryWithData:[@"Test contents" dataUsingEncoding:NSUTF8StringEncoding] fileName:@"Test file.txt" fileMode:GTFileModeBlob error:&error];
 		expect(error.description).to.beNil();
 
-		[builder addEntryWithOID:subtree.OID filename:@"subdir" filemode:GTFileModeTree error:&error];
+		[builder addEntryWithOID:subtree.OID fileName:@"subdir" fileMode:GTFileModeTree error:&error];
 		expect(error.description).to.beNil();
 
 		GTTree *tree = [builder writeTreeToRepository:repository error:&error];
@@ -67,7 +67,7 @@ describe(@"committing", ^{
 		GTTreeBuilder *builder = [[GTTreeBuilder alloc] initWithTree:initialCommit.tree error:&error];
 		expect(builder).toNot.beNil();
 
-		[builder addEntryWithData:[@"Better test contents" dataUsingEncoding:NSUTF8StringEncoding] filename:@"Test file.txt" filemode:GTFileModeBlob error:&error];
+		[builder addEntryWithData:[@"Better test contents" dataUsingEncoding:NSUTF8StringEncoding] fileName:@"Test file.txt" fileMode:GTFileModeBlob error:&error];
 		expect(error.description).to.beNil();
 
 		GTTree *tree = [builder writeTreeToRepository:repository error:&error];

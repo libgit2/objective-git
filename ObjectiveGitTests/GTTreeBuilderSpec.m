@@ -49,7 +49,7 @@ describe(@"GTTreeBuilder building", ^{
 	});
 	
 	it(@"should be possible to add an entry to a builder", ^{
-		GTTreeEntry *entry = [builder addEntryWithSHA:testTreeSHA filename:@"tree" filemode:GTFileModeTree error:&error];
+		GTTreeEntry *entry = [builder addEntryWithSHA:testTreeSHA fileName:@"tree" fileMode:GTFileModeTree error:&error];
 		expect(entry).notTo.beNil();
 		expect(error).to.beNil();
 		
@@ -57,14 +57,14 @@ describe(@"GTTreeBuilder building", ^{
 	});
 	
 	it(@"should be possible to remove an entry from a builder", ^{
-		NSString *filename = @"tree";
-		GTTreeEntry *entry = [builder addEntryWithSHA:testTreeSHA filename:filename filemode:GTFileModeTree error:&error];
+		NSString *fileName = @"tree";
+		GTTreeEntry *entry = [builder addEntryWithSHA:testTreeSHA fileName:fileName fileMode:GTFileModeTree error:&error];
 		expect(entry).notTo.beNil();
 		expect(error).to.beNil();
 		
 		expect(builder.entryCount).to.equal(1);
 		
-		BOOL success = [builder removeEntryWithFilename:filename error:&error];
+		BOOL success = [builder removeEntryWithFileName:fileName error:&error];
 		expect(success).to.beTruthy();
 		expect(error).to.beNil();
 		
@@ -79,7 +79,7 @@ describe(@"GTTreeBuilder building", ^{
 		expect(blob).notTo.beNil();
 		expect(error).to.beNil();
 		
-		[builder addEntryWithSHA:blob.SHA filename:@"hi.txt" filemode:GTFileModeBlob error:&error];
+		[builder addEntryWithSHA:blob.SHA fileName:@"hi.txt" fileMode:GTFileModeBlob error:&error];
 		
 		expect(builder.entryCount).to.equal(1);
 		
@@ -91,12 +91,12 @@ describe(@"GTTreeBuilder building", ^{
 	});
 
 	it(@"should be possible to find an entry by file name in a builder", ^{
-		NSString *filename = @"tree";
-		GTTreeEntry *entry = [builder addEntryWithSHA:testTreeSHA filename:filename filemode:GTFileModeTree error:&error];
+		NSString *fileName = @"tree";
+		GTTreeEntry *entry = [builder addEntryWithSHA:testTreeSHA fileName:fileName fileMode:GTFileModeTree error:&error];
 		expect(entry).notTo.beNil();
 		expect(error).to.beNil();
 		
-		GTTreeEntry *foundEntry = [builder entryWithName:filename];
+		GTTreeEntry *foundEntry = [builder entryWithFileName:fileName];
 		expect(foundEntry.SHA).to.equal(entry.SHA);
 	});
 
@@ -108,7 +108,7 @@ describe(@"GTTreeBuilder building", ^{
 		expect(blob).notTo.beNil();
 		expect(error).to.beNil();
 		
-		[builder addEntryWithSHA:blob.SHA filename:@"hi.txt" filemode:GTFileModeBlob error:&error];
+		[builder addEntryWithSHA:blob.SHA fileName:@"hi.txt" fileMode:GTFileModeBlob error:&error];
 		
 		GTTree *writtenTree = [builder writeTreeToRepository:repo error:&error];
 		expect(writtenTree).notTo.beNil();
