@@ -70,12 +70,12 @@
 
 @interface GTOID (GTObjectDatabase)
 
-// Returns an OID corresponding to the passed data and object type
+// Returns an OID corresponding to the passed data and object type.
 //
-// data - the data to hash
-// type - the type of the git object
+// data - The data to hash. Cannot be nil.
+// type - The type of the git object.
 //
-// Returns a new OID, or nil if an error occurred
-+ (instancetype)oidByHashingData:(NSData *)data type:(GTObjectType)type error:(NSError **)error;
+// Returns a new OID, or nil if an error occurred.
++ (instancetype)OIDByHashingData:(NSData *)data type:(GTObjectType)type error:(NSError **)error;
 
 @end
