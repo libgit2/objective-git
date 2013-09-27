@@ -82,9 +82,7 @@
 
 - (GTOdbObject *)objectWithSHA:(NSString *)sha error:(NSError **)error {
 	GTOID *oid = [[GTOID alloc] initWithSHA:sha error:error];
-	if (oid == nil) {
-		return nil;
-	}
+	if (oid == nil) return nil;
 
     return [self objectWithOID:oid error:error];
 }
@@ -122,7 +120,6 @@
 }
 
 - (BOOL)containsObjectWithSHA:(NSString *)sha error:(NSError **)error {
-
 	GTOID *oid = [[GTOID alloc] initWithSHA:sha error:error];
 	if (oid == nil) return NO;
 
@@ -130,7 +127,7 @@
 }
 
 - (BOOL)containsObjectWithOID:(GTOID *)oid {
-	return git_odb_exists(self.git_odb, oid.git_oid) ? YES : NO;
+	return (BOOL)git_odb_exists(self.git_odb, oid.git_oid);
 }
 
 @end
