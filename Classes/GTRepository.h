@@ -412,8 +412,23 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 // Convenience wrapper for checkoutReference:strategy:notifyFlags:error:notifyBlock:progressBlock without notifications
 - (BOOL)checkoutReference:(GTReference *)target strategy:(GTCheckoutStrategyType)strategy error:(NSError **)error progressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))progressBlock;
 
-// Creates a new commit
-// See `+[GTCommit commitInRepository:...`].
-- (GTCommit *)commitWithTree:(GTTree *)tree message:(NSString *)message parents:(NSArray *)parents byUpdatingReferenceNamed:(NSString *)refName error:(NSError **)error;
+// Creates a new commit.
+//
+// tree      - The tree used for the commit. Cannot be nil.
+// message   - The commit message. May be nil.
+// author    - The author of the commit. Cannot be nil.
+// committer - The committer of the commit. Cannot be nil.
+// parents   - An array of GTCommits. May be nil, which means the commit has no
+//             parents.
+// refName   - The ref name which will be updated to point at the new commit.
+//             May be nil.
+// error     - The error if one occurred.
+//
+// Returns the newly created commit, or nil if an error occurred.
+- (GTCommit *)createCommitWithTree:(GTTree *)tree message:(NSString *)message author:(GTSignature *)author committer:(GTSignature *)committer parents:(NSArray *)parents byUpdatingReferenceNamed:(NSString *)refName error:(NSError **)error;
+
+// Creates a new commit using +createCommitWithTree:message:author:committer:parents:byUpdatingReferenceNamed:error:
+// with -userSignatureForNow as both the author and committer.
+- (GTCommit *)createCommitWithTree:(GTTree *)tree message:(NSString *)message parents:(NSArray *)parents byUpdatingReferenceNamed:(NSString *)refName error:(NSError **)error;
 
 @end

@@ -44,6 +44,7 @@
 #import "NSError+Git.h"
 #import "NSString+Git.h"
 #import "GTDiffFile.h"
+#import "GTTree.h"
 
 NSString *const GTRepositoryCloneOptionsBare = @"GTRepositoryCloneOptionsBare";
 NSString *const GTRepositoryCloneOptionsCheckout = @"GTRepositoryCloneOptionsCheckout";
@@ -804,9 +805,37 @@ static int checkoutNotifyCallback(git_checkout_notify_t why, const char *path, c
 	return [self checkoutReference:target strategy:strategy notifyFlags:GTCheckoutNotifyNone error:error progressBlock:progressBlock notifyBlock:nil];
 }
 
-- (GTCommit *)commitWithTree:(GTTree *)tree message:(NSString *)message parents:(NSArray *)parents byUpdatingReferenceNamed:(NSString *)refName error:(NSError **)error {
-	GTSignature *sign = [self userSignatureForNow];
-	return [GTCommit commitInRepository:self updateRefNamed:refName author:sign committer:sign message:message tree:tree parents:parents error:error];
+- (GTCommit *)createCommitWithTree:(GTTree *)tree message:(NSString *)message parents:(NSArray *)parents byUpdatingReferenceNamed:(NSString *)refName error:(NSError **)error {
+	NSParameterAssert(tree != nil);
+
+	GTSignature *signature = [self userSignatureForNow];
+	return [self createCommitWithTree:tree message:message author:signature committer:signature parents:parents byUpdatingReferenceNamed:refName error:error];
+}
+
+- (GTCommit *)createCommitWithTree:(GTTree *)tree message:(NSString *)message author:(GTSignature *)author committer:(GTSignature *)committer parents:(NSArray *)parents byUpdatingReferenceNamed:(NSString *)refName error:(NSError **)error {
+	NSParameterAssert(tree != nil);
+	NSParameterAssert(author != nil);
+	NSParameterAssert(committer != nil);
+
+	const git_commit **parentCommits = NULL;
+	if (parents.count > 0) {
+		parentCommits = calloc(parents.count, sizeof(git_commit *));
+		for (NSUInteger i = 0; i < parents.count; i++){
+			parentCommits[i] = [parents[i] git_commit];
+		}
+	}
+
+	git_oid oid;
+	int gitError = git_commit_create(&oid, self.git_repository, refName.UTF8String, author.git_signature, committer.git_signature, "UTF-8", message ? message.UTF8String : "", tree.git_tree, (int)parents.count, parentCommits);
+
+	free(parentCommits);
+
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to create commit in repository"];
+		return nil;
+	}
+
+	return [self lookupObjectByGitOid:&oid objectType:GTObjectTypeCommit error:error];
 }
 
 @end

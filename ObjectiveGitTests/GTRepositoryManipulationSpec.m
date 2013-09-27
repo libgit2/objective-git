@@ -26,8 +26,8 @@ afterAll(^{
 	expect(error.description).to.beNil();
 });
 
-describe(@"GTRepository", ^{
-	__block NSMutableArray *commits = [NSMutableArray array];
+describe(@"committing", ^{
+	NSMutableArray *commits = [NSMutableArray array];
 
 	it(@"can create initial commits", ^{
 		NSError *error = nil;
@@ -53,7 +53,7 @@ describe(@"GTRepository", ^{
 		expect(tree).notTo.beNil();
 		expect(error.description).to.beNil();
 
-		GTCommit *initialCommit = [repository commitWithTree:tree message:@"Initial commit" parents:nil byUpdatingReferenceNamed:@"refs/heads/master" error:&error];
+		GTCommit *initialCommit = [repository createCommitWithTree:tree message:@"Initial commit" parents:nil byUpdatingReferenceNamed:@"refs/heads/master" error:&error];
 		expect(initialCommit).notTo.beNil();
 		expect(error.description).to.beNil();
 		[commits addObject:initialCommit];
@@ -76,7 +76,7 @@ describe(@"GTRepository", ^{
 		expect(tree).notTo.beNil();
 		expect(error.description).to.beNil();
 
-		GTCommit *secondCommit = [repository commitWithTree:tree message:@"Initial commit" parents:@[commits.lastObject] byUpdatingReferenceNamed:@"refs/heads/master" error:&error];
+		GTCommit *secondCommit = [repository createCommitWithTree:tree message:@"Initial commit" parents:@[ commits.lastObject ] byUpdatingReferenceNamed:@"refs/heads/master" error:&error];
 		expect(secondCommit).notTo.beNil();
 		expect(error.description).to.beNil();
 
