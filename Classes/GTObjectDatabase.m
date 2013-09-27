@@ -87,9 +87,9 @@
     return [self objectWithOID:oid error:error];
 }
 
-#pragma mark Insertion
+#pragma mark Writing
 
-- (GTOID *)insertData:(NSData *)data forType:(GTObjectType)type error:(NSError **)error {
+- (GTOID *)writeData:(NSData *)data type:(GTObjectType)type error:(NSError **)error {
 	NSParameterAssert(data != nil);
 
 	git_odb_stream *stream;
@@ -117,10 +117,10 @@
 	return [GTOID oidWithGitOid:&oid];
 }
 
-- (GTOID *)insertString:(NSString *)string forType:(GTObjectType)type error:(NSError **)error {
+- (GTOID *)writeString:(NSString *)string type:(GTObjectType)type error:(NSError **)error {
 	NSParameterAssert(string != nil);
 
-	return [self insertData:[string dataUsingEncoding:NSUTF8StringEncoding] forType:type error:error];
+	return [self writeData:[string dataUsingEncoding:NSUTF8StringEncoding] type:type error:error];
 }
 
 - (BOOL)containsObjectWithSHA:(NSString *)sha error:(NSError **)error {

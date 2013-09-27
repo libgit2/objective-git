@@ -151,7 +151,7 @@ static int filter_callback(const git_tree_entry *entry, void *payload) {
 		for (GTOID *oid in self.objectData) {
 			NSDictionary *info = self.objectData[oid];
 
-			GTOID *dataOID = [odb insertData:info[@"data"] forType:GTObjectTypeBlob error:error];
+			GTOID *dataOID = [odb writeData:info[@"data"] type:GTObjectTypeBlob error:error];
 			if (dataOID == nil) return nil;
 		}
 	}
