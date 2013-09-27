@@ -279,7 +279,8 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 
 // Stash the repository's changes.
 //
-// message   - Optional message to be attributed to the item in the stash.
+// message   - Message to be attributed to the item in the stash. This may be
+//             nil.
 // stashFlag - The flags of stash to be used.
 // error     - If not NULL, it will be set on return to any error that occurred
 //
@@ -292,7 +293,7 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 //         message along with its OID. Setting `stop` to YES will cause enumeration
 //         to stop after the block returns.
 //
-- (void)enumerateStashesUsingBlock:(void (^)(size_t index, NSString *message, GTOID *oid, BOOL *stop))block;
+- (void)enumerateStashesUsingBlock:(void (^)(NSUInteger index, NSString *message, GTOID *oid, BOOL *stop))block;
 
 // Drop a stash from the repository's list of stashes
 //
@@ -300,7 +301,7 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 // error - If not NULL, set to any error that occurs
 //
 // Returns YES if the stash was successfully dropped, NO otherwise
-- (BOOL)dropStashAtIndex:(size_t)index error:(NSError **)error;
+- (BOOL)dropStashAtIndex:(NSUInteger)index error:(NSError **)error;
 
 // Reloads all cached information about the receiver's submodules.
 //
