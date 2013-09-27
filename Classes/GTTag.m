@@ -74,7 +74,7 @@
 	git_object *target = nil;
 	int gitError = git_tag_peel(&target, self.git_tag);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Cannot peel tag"];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Cannot peel tag"];
 		return nil;
 	}
 

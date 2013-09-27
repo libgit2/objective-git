@@ -57,7 +57,7 @@
 
 	int status = git_treebuilder_create(&_git_treebuilder, treeOrNil.git_tree);
 	if (status != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:status withAdditionalDescription:@"Failed to create tree builder with tree %@.", treeOrNil.SHA];
+		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to create tree builder with tree %@.", treeOrNil.SHA];
 		return nil;
 	}
 
@@ -119,7 +119,7 @@ static int filter_callback(const git_tree_entry *entry, void *payload) {
 	int status = git_treebuilder_insert(&entry, self.git_treebuilder, filename.UTF8String, oid.git_oid, (git_filemode_t)filemode);
 	
 	if (status != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:status withAdditionalDescription:@"Failed to add entry %@ to tree builder.", oid.SHA];
+		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to add entry %@ to tree builder.", oid.SHA];
 		return nil;
 	}
 	
@@ -135,7 +135,7 @@ static int filter_callback(const git_tree_entry *entry, void *payload) {
 - (BOOL)removeEntryWithFilename:(NSString *)filename error:(NSError **)error {
 	int status = git_treebuilder_remove(self.git_treebuilder, filename.UTF8String);
 	if (status != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:status withAdditionalDescription:@"Failed to remove entry with name %@ from tree builder.", filename];
+		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to remove entry with name %@ from tree builder.", filename];
 	}
 
 	[self.objectData removeObjectForKey:filename];
@@ -161,14 +161,14 @@ static int filter_callback(const git_tree_entry *entry, void *payload) {
 	git_oid treeOid;
 	int status = git_treebuilder_write(&treeOid, repository.git_repository, self.git_treebuilder);
 	if (status != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:status withAdditionalDescription:@"Failed to write tree in repository."];
+		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to write tree in repository."];
 		return nil;
 	}
 	
 	git_object *object = NULL;
 	status = git_object_lookup(&object, repository.git_repository, &treeOid, GIT_OBJ_TREE);
 	if (status != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:status withAdditionalDescription:@"Failed to lookup tree in repository."];
+		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to lookup tree in repository."];
 		return nil;
 	}
 	

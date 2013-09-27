@@ -120,7 +120,7 @@ typedef struct {
 	git_repository *r;
 	int gitError = git_repository_init(&r, path, bare);
 	if (gitError < GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to initialize empty repository at URL %@.", localFileURL];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to initialize empty repository at URL %@.", localFileURL];
 	}
 
 	return gitError == GIT_OK;
@@ -150,7 +150,7 @@ typedef struct {
 	git_repository *r;
 	int gitError = git_repository_open(&r, localFileURL.path.UTF8String);
 	if (gitError < GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to open repository at URL %@.", localFileURL];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to open repository at URL %@.", localFileURL];
 		return nil;
 	}
 
@@ -201,7 +201,7 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 	git_repository *repository;
 	int gitError = git_clone(&repository, remoteURL, workingDirectoryPath, &cloneOptions);
 	if (gitError < GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to clone repository from %@ to %@", originURL, workdirURL];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to clone repository from %@ to %@", originURL, workdirURL];
 		return nil;
 	}
 
@@ -216,8 +216,7 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 }
 
 + (NSString *)hash:(NSString *)string objectType:(GTObjectType)type error:(NSError **)error {
-	GTOID *oid = [GTOID oidByHashingData:[string dataUsingEncoding:NSUTF8StringEncoding] type:type error:error];
-	return oid.SHA;
+	return [GTOID OIDByHashingData:[string dataUsingEncoding:NSUTF8StringEncoding] type:type error:error].SHA;
 }
 
 - (id)lookupObjectByGitOid:(const git_oid *)oid objectType:(GTObjectType)type error:(NSError **)error {
@@ -228,7 +227,7 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 		if (error != NULL) {
 			char oid_str[GIT_OID_HEXSZ+1];
 			git_oid_tostr(oid_str, sizeof(oid_str), oid);
-			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to lookup object %s in repository.", oid_str];
+			*error = [NSError git_errorFor:gitError description:@"Failed to lookup object %s in repository.", oid_str];
 		}
 		return nil;
 	}
@@ -263,7 +262,7 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 	git_object *obj;
 	int gitError = git_revparse_single(&obj, self.git_repository, spec.UTF8String);
 	if (gitError < GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to lookup object by refspec %@.", spec];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to lookup object by refspec %@.", spec];
 		return nil;
 	}
 	return [GTObject objectWithObj:obj inRepository:self];
@@ -330,7 +329,7 @@ static int file_status_callback(const char *relativeFilePath, unsigned int gitSt
 	git_reference *headRef;
 	int gitError = git_repository_head(&headRef, self.git_repository);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to get HEAD"];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to get HEAD"];
 		return nil;
 	}
 
@@ -418,7 +417,7 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 	};
 	int gitError = git_tag_foreach(self.git_repository, GTRepositoryForeachTagCallback, &payload);
 	if (gitError != GIT_OK && gitError != GIT_EUSER) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to enumerate tags"];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to enumerate tags"];
 		return NO;
 	}
 
@@ -473,7 +472,7 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 	git_strarray array;
 	int gitError = git_reference_list(&array, self.git_repository);
 	if (gitError < GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to list all references."];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to list all references."];
 		return nil;
 	}
 
@@ -513,8 +512,8 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 	return (BOOL) git_repository_head_detached(self.git_repository);
 }
 
-- (BOOL)isHEADOrphaned {
-	return (BOOL)git_repository_head_orphan(self.git_repository);
+- (BOOL)isHEADUnborn {
+	return (BOOL)git_repository_head_unborn(self.git_repository);
 }
 
 - (BOOL)resetToCommit:(GTCommit *)commit withResetType:(GTRepositoryResetType)resetType error:(NSError **)error {
@@ -523,7 +522,7 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
     int result = git_reset(self.git_repository, commit.git_object, (git_reset_t)resetType);
     if (result == GIT_OK) return YES;
 
-    if (error != NULL) *error = [NSError git_errorFor:result withAdditionalDescription:@"Failed to reset repository to commit %@.", commit.SHA];
+    if (error != NULL) *error = [NSError git_errorFor:result description:@"Failed to reset repository to commit %@.", commit.SHA];
 
     return NO;
 }
@@ -536,7 +535,7 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 		}
 
 		if (error != NULL) {
-			*error = [NSError git_errorFor:errorCode withAdditionalDescription:@"Failed to read prepared message."];
+			*error = [NSError git_errorFor:errorCode description:@"Failed to read prepared message."];
 		}
 	};
 
@@ -584,7 +583,7 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 	git_oid mergeBase;
 	int errorCode = git_merge_base(&mergeBase, self.git_repository, firstOID.git_oid, secondOID.git_oid);
 	if (errorCode < GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:errorCode withAdditionalDescription:@"Failed to find merge base between commits %@ and %@.", firstOID.SHA, secondOID.SHA];
+		if (error != NULL) *error = [NSError git_errorFor:errorCode description:@"Failed to find merge base between commits %@ and %@.", firstOID.SHA, secondOID.SHA];
 		return nil;
 	}
 	
@@ -599,7 +598,7 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 	git_config *config = NULL;
 	int gitError = git_repository_config(&config, self.git_repository);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to get config for repository."];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to get config for repository."];
 		return nil;
 	}
 
@@ -610,7 +609,7 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 	git_index *index = NULL;
 	int gitError = git_repository_index(&index, self.git_repository);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to get index for repository."];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to get index for repository."];
 		return NO;
 	}
 
@@ -638,7 +637,7 @@ static int submoduleEnumerationCallback(git_submodule *git_submodule, const char
 - (BOOL)reloadSubmodules:(NSError **)error {
 	int gitError = git_submodule_reload_all(self.git_repository);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to reload submodules."];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to reload submodules."];
 		return NO;
 	}
 
@@ -665,7 +664,7 @@ static int submoduleEnumerationCallback(git_submodule *git_submodule, const char
 	git_submodule *submodule;
 	int gitError = git_submodule_lookup(&submodule, self.git_repository, name.UTF8String);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to look up submodule %@.", name];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to look up submodule %@.", name];
 		return nil;
 	}
 
@@ -700,7 +699,7 @@ static int submoduleEnumerationCallback(git_submodule *git_submodule, const char
 	git_oid oid;
 	int gitError = git_tag_create_lightweight(&oid, self.git_repository, tagName.UTF8String, target.git_object, 0);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Cannot create lightweight tag"];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Cannot create lightweight tag"];
 		return NO;
 	}
 
@@ -711,7 +710,7 @@ static int submoduleEnumerationCallback(git_submodule *git_submodule, const char
 	git_oid oid;
 	int gitError = git_tag_create(&oid, self.git_repository, [tagName UTF8String], theTarget.git_object, theTagger.git_signature, [theMessage UTF8String], 0);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to create tag in repository"];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to create tag in repository"];
 		return nil;
 	}
 
@@ -746,7 +745,7 @@ static int checkoutNotifyCallback(git_checkout_notify_t why, const char *path, c
 	
 	int gitError = git_repository_set_head(self.git_repository, reference.name.UTF8String);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to move HEAD to reference %@", reference.name];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to move HEAD to reference %@", reference.name];
 	}
 	
 	return gitError == GIT_OK;
@@ -757,7 +756,7 @@ static int checkoutNotifyCallback(git_checkout_notify_t why, const char *path, c
 	
 	int gitError = git_repository_set_head_detached(self.git_repository, commit.OID.git_oid);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to move HEAD to commit %@", commit.SHA];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to move HEAD to commit %@", commit.SHA];
 	}
 	
 	return gitError == GIT_OK;
@@ -777,7 +776,7 @@ static int checkoutNotifyCallback(git_checkout_notify_t why, const char *path, c
 	
 	int gitError = git_checkout_head(self.git_repository, &checkoutOptions);
 	if (gitError < GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to checkout tree."];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to checkout tree."];
 	}
 	
 	return gitError == GIT_OK;

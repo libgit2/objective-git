@@ -62,7 +62,7 @@
 
 	int gitError = git_repository_odb(&_git_odb, repo.git_repository);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to get ODB for repo."];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to get ODB for repo."];
 		return nil;
 	}
 
@@ -73,7 +73,7 @@
 	git_odb_object *obj;
 	int gitError = git_odb_read(&obj, self.git_odb, oid.git_oid);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to read raw object with OID %@", oid.SHA];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to read raw object with OID %@", oid.SHA];
 		return nil;
 	}
 
@@ -96,19 +96,19 @@
 	git_oid oid;
 	int gitError = git_odb_open_wstream(&stream, self.git_odb, data.length, (git_otype)type);
 	if (gitError < GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to open write stream on odb."];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to open write stream on odb."];
 		return nil;
 	}
 
 	gitError = stream->write(stream, data.bytes, data.length);
 	if (gitError < GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to write to stream on odb."];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to write to stream on odb."];
 		return nil;
 	}
 
 	gitError = stream->finalize_write(stream, &oid);
 	if (gitError < GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to finalize write on odb."];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to finalize write on odb."];
 		return nil;
 	}
 
