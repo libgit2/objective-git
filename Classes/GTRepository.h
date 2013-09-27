@@ -282,23 +282,23 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 // message   - Message to be attributed to the item in the stash. This may be
 //             nil.
 // stashFlag - The flags of stash to be used.
-// error     - If not NULL, it will be set on return to any error that occurred
+// error     - If not NULL, set to any error that occurred.
 //
-// Returns commit of the stashed changes if successful, nil otherwise
+// Returns a commit representing the stashed changes if successful, or nil
+// otherwise.
 - (GTCommit *)stashChangesWithMessage:(NSString *)message flags:(GTRepositoryStashFlag)flags error:(NSError **)error;
 
-// Enumerate over all the stashes in the repository
+// Enumerate over all the stashes in the repository.
 //
 // block - A block to execute for each stash found, giving the stash's index and
 //         message along with its OID. Setting `stop` to YES will cause enumeration
 //         to stop after the block returns.
-//
 - (void)enumerateStashesUsingBlock:(void (^)(NSUInteger index, NSString *message, GTOID *oid, BOOL *stop))block;
 
-// Drop a stash from the repository's list of stashes
+// Drop a stash from the repository's list of stashes.
 //
-// index - The index of the stash to drop
-// error - If not NULL, set to any error that occurs
+// index - The index of the stash to drop.
+// error - If not NULL, set to any error that occurs.
 //
 // Returns YES if the stash was successfully dropped, NO otherwise
 - (BOOL)dropStashAtIndex:(NSUInteger)index error:(NSError **)error;
