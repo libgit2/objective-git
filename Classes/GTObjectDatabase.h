@@ -46,8 +46,25 @@
 - (GTOdbObject *)objectWithOID:(GTOID *)OID error:(NSError **)error;
 - (GTOdbObject *)objectWithSHA:(NSString *)SHA error:(NSError **)error;
 
-- (GTOID *)OIDByInsertingData:(NSData *)data forType:(GTObjectType)type error:(NSError **)error;
-- (GTOID *)OIDByInsertingString:(NSString *)string forType:(GTObjectType)type error:(NSError **)error;
+// Inserts the data into the object database.
+//
+// data  - The data to insert. Cannot be nil.
+// type  - The type of object to create with the data.
+// error - The error if one occurred.
+//
+// Returns the OID for the object which was inserted, or nil if an error
+// occurred.
+- (GTOID *)insertData:(NSData *)data forType:(GTObjectType)type error:(NSError **)error;
+
+// Inserts the string into the object database.
+//
+// string  - The data to insert. Cannot be nil.
+// type    - The type of object to create with the string.
+// error   - The error if one occurred.
+//
+// Returns the OID for the object which was inserted, or nil if an error
+// occurred.
+- (GTOID *)insertString:(NSString *)string forType:(GTObjectType)type error:(NSError **)error;
 
 - (BOOL)containsObjectWithSHA:(NSString *)SHA error:(NSError **)error;
 
