@@ -95,24 +95,24 @@
 	git_odb_stream *stream;
 	git_oid oid;
 	int gitError = git_odb_open_wstream(&stream, self.git_odb, data.length, (git_otype)type);
-	if (gitError < GIT_OK) {
+	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to open write stream on odb."];
 		return nil;
 	}
 
-	gitError = stream->write(stream, data.bytes, data.length);
-	if (gitError < GIT_OK) {
+	gitError = git_odb_stream_write(stream, data.bytes, data.length);
+	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to write to stream on odb."];
 		return nil;
 	}
 
-	gitError = stream->finalize_write(stream, &oid);
-	if (gitError < GIT_OK) {
+	gitError = git_odb_stream_finalize_write(&oid, stream);
+	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to finalize write on odb."];
 		return nil;
 	}
 
-	stream->free(stream);
+	git_odb_stream_free(stream);
 
 	return [GTOID oidWithGitOid:&oid];
 }
