@@ -9,3 +9,40 @@ echo "*** Updating submodules..."
 git submodule sync --quiet
 git submodule update --init
 git submodule foreach --recursive --quiet "git submodule sync --quiet && git submodule update --init"
+
+installed=`brew list`
+deps="libssh2 libtool autoconf automake"
+
+for lib in $deps
+do
+    # Skip packages that are already installed.
+    echo "$installed" | grep -q "$lib" && code=$? || code=$?
+    if [ "$code" -eq "0" ]
+    then
+        continue
+    elif [ "$code" -ne "1" ]
+    then
+        exit $code
+    fi
+
+    echo "*** Installing $lib with Homebrew..."
+    brew install "$lib"
+done
+
+brew_prefix=`brew --prefix`
+if [ "$brew_prefix" != "/usr/local" ]
+then
+    echo "*** Adding soft links into /usr/local/lib…"
+    
+    products="libssh2.a"
+    
+    sudo mkdir -p /usr/local/lib
+    for lib in $products
+    do
+        destination="/usr/local/lib/$lib"
+        if [ ! -e "$destination" ]
+        then
+            sudo ln -s "$brew_prefix/lib/$lib" "$destination"
+        fi
+    done    
+fi

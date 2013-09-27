@@ -33,6 +33,7 @@
 #import "GTRepository.h"
 #import "NSError+Git.h"
 #import "NSString+Git.h"
+#import "GTOID.h"
 
 @interface GTTreeEntry ()
 @property (nonatomic, assign, readonly) const git_tree_entry *git_tree_entry;
@@ -43,11 +44,11 @@
 #pragma mark NSObject
 
 - (NSString *)description {
-	return [NSString stringWithFormat:@"<%@: %p> name: %@, type: %@, sha: %@, attributes: %lu", NSStringFromClass([self class]), self, [self name], [self typeString], [self sha], (unsigned long)[self attributes]];
+	return [NSString stringWithFormat:@"<%@: %p> name: %@, type: %@, sha: %@, attributes: %lu", NSStringFromClass(self.class), self, self.name, self.typeString, self.SHA, (unsigned long)self.attributes];
 }
 
 - (NSUInteger)hash {
-	return [self.sha hash];
+	return self.OID.hash;
 }
 
 - (BOOL)isEqual:(id)object {
@@ -64,6 +65,7 @@
 #pragma mark API
 
 - (id)initWithEntry:(const git_tree_entry *)theEntry parentTree:(GTTree *)parent {
+	NSParameterAssert(theEntry != NULL);
 	if((self = [super init])) {
 		_git_tree_entry = theEntry;
 		_tree = parent;
@@ -83,12 +85,15 @@
 	return git_tree_entry_filemode(self.git_tree_entry);
 }
 
-- (NSString *)sha {
-	return [NSString git_stringWithOid:git_tree_entry_id(self.git_tree_entry)];
+- (GTOID *)OID {
+	return [GTOID oidWithGitOid:git_tree_entry_id(self.git_tree_entry)];
 }
 
+- (NSString *)SHA {
+	return self.OID.SHA;
+}
 
-- (GTObjectType)_type {
+- (GTObjectType)type {
 	return (GTObjectType)git_tree_entry_type(self.git_tree_entry);
 }
 
@@ -118,7 +123,7 @@
     int gitError = git_tree_entry_to_object(&obj, treeEntry.repository.git_repository, treeEntry.git_tree_entry);
     if (gitError < GIT_OK) {
         if (error != NULL) {
-            *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to get object for tree entry."];
+            *error = [NSError git_errorFor:gitError description:@"Failed to get object for tree entry."];
         }
         return nil;
     }

@@ -15,13 +15,13 @@ describe(@"GTDiff initialisation", ^{
 	__block GTCommit *secondCommit = nil;
 	
 	beforeEach(^{
-		repository = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:NULL];
+		repository = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_APP_REPO_PATH(self.class)] error:NULL];
 		expect(repository).toNot.beNil();
 		
-		firstCommit = (GTCommit *)[repository lookupObjectBySha:@"5b5b025afb0b4c913b4c338a42934a3863bf3644" objectType:GTObjectTypeCommit error:NULL];
+		firstCommit = (GTCommit *)[repository lookupObjectBySHA:@"8e0e65988d3007867a9f59ca8639ba975ef97e69" objectType:GTObjectTypeCommit error:NULL];
 		expect(firstCommit).toNot.beNil();
 		
-		secondCommit = (GTCommit *)[repository lookupObjectBySha:@"36060c58702ed4c2a40832c51758d5344201d89a" objectType:GTObjectTypeCommit error:NULL];
+		secondCommit = (GTCommit *)[repository lookupObjectBySHA:@"a5840674db1a58cac0b2e7d046b627837a16f217" objectType:GTObjectTypeCommit error:NULL];
 		expect(secondCommit).toNot.beNil();
 	});
 	
@@ -70,9 +70,9 @@ describe(@"GTDiff diffing", ^{
 		expect(repository).toNot.beNil();
 		
 		setupDiffFromCommitSHAsAndOptions = [^(NSString *firstCommitSHA, NSString *secondCommitSHA, NSDictionary *options) {
-			firstCommit = (GTCommit *)[repository lookupObjectBySha:firstCommitSHA objectType:GTObjectTypeCommit error:NULL];
+			firstCommit = (GTCommit *)[repository lookupObjectBySHA:firstCommitSHA objectType:GTObjectTypeCommit error:NULL];
 			expect(firstCommit).toNot.beNil();
-			secondCommit = (GTCommit *)[repository lookupObjectBySha:secondCommitSHA objectType:GTObjectTypeCommit error:NULL];
+			secondCommit = (GTCommit *)[repository lookupObjectBySHA:secondCommitSHA objectType:GTObjectTypeCommit error:NULL];
 			expect(secondCommit).toNot.beNil();
 			
 			diff = [GTDiff diffOldTree:firstCommit.tree withNewTree:secondCommit.tree inRepository:repository options:options error:NULL];

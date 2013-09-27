@@ -33,18 +33,18 @@
 @implementation GTBranch
 
 - (NSString *)description {
-  return [NSString stringWithFormat:@"<%@: %p> name: %@, shortName: %@, sha: %@, remoteName: %@, repository: %@", NSStringFromClass([self class]), self, self.name, self.shortName, self.sha, self.remoteName, self.repository];
+  return [NSString stringWithFormat:@"<%@: %p> name: %@, shortName: %@, sha: %@, remoteName: %@, repository: %@", NSStringFromClass([self class]), self, self.name, self.shortName, self.SHA, self.remoteName, self.repository];
 }
 
 - (BOOL)isEqual:(GTBranch *)otherBranch {
 	if (otherBranch == self) return YES;
 	if (![otherBranch isKindOfClass:self.class]) return NO;
 
-	return [self.name isEqual:otherBranch.name] && [self.sha isEqual:otherBranch.sha];
+	return [self.name isEqual:otherBranch.name] && [self.SHA isEqual:otherBranch.SHA];
 }
 
 - (NSUInteger)hash {
-	return self.name.hash ^ self.sha.hash;
+	return self.name.hash ^ self.SHA.hash;
 }
 
 
@@ -109,8 +109,8 @@
 	return @(name);
 }
 
-- (NSString *)sha {
-	return self.reference.target;
+- (NSString *)SHA {
+	return self.reference.targetSHA;
 }
 
 - (NSString *)remoteName {
@@ -128,19 +128,19 @@
 }
 
 - (GTCommit *)targetCommitAndReturnError:(NSError **)error {
-	if (self.sha == nil) {
+	if (self.SHA == nil) {
 		if (error != NULL) *error = GTReference.invalidReferenceError;
 		return nil;
 	}
 
-	return (GTCommit *)[self.repository lookupObjectBySha:self.sha objectType:GTObjectTypeCommit error:error];
+	return [self.repository lookupObjectBySHA:self.SHA objectType:GTObjectTypeCommit error:error];
 }
 
 - (NSUInteger)numberOfCommitsWithError:(NSError **)error {
 	GTEnumerator *enumerator = [[GTEnumerator alloc] initWithRepository:self.repository error:error];
 	if (enumerator == nil) return NSNotFound;
 
-	if (![enumerator pushSHA:self.sha error:error]) return NSNotFound;
+	if (![enumerator pushSHA:self.SHA error:error]) return NSNotFound;
 	return [enumerator countRemainingObjects:error];
 }
 
@@ -163,10 +163,10 @@
 	
 	[enumerator resetWithOptions:GTEnumeratorOptionsTimeSort];
 	
-	BOOL success = [enumerator pushSHA:self.sha error:error];
+	BOOL success = [enumerator pushSHA:self.SHA error:error];
 	if (!success) return nil;
 
-	success = [enumerator hideSHA:mergeBase.sha error:error];
+	success = [enumerator hideSHA:mergeBase.SHA error:error];
 	if (!success) return nil;
 
 	return [enumerator allObjectsWithError:error];
@@ -175,7 +175,7 @@
 - (BOOL)deleteWithError:(NSError **)error {
 	int gitError = git_branch_delete(self.reference.git_reference);
 	if (gitError != GIT_OK) {
-		if(error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to delete branch."];
+		if(error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to delete branch %@", self.name];
 		return NO;
 	}
 
@@ -199,13 +199,13 @@
 
 	if (gitError != GIT_OK) {
 		if (success != NULL) *success = NO;
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:[NSString stringWithFormat:@"Failed to create reference to tracking branch from %@", self]];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to create reference to tracking branch from %@", self];
 		return nil;
 	}
 
 	if (trackingRef == NULL) {
 		if (success != NULL) *success = NO;
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:[NSString stringWithFormat:@"Got a NULL remote ref for %@", self]];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Got a NULL remote ref for %@", self];
 		return nil;
 	}
 
@@ -230,7 +230,7 @@
 
 	int errorCode = git_graph_ahead_behind(ahead, behind, self.repository.git_repository, branch.reference.git_oid, self.reference.git_oid);
 	if (errorCode != GIT_OK && error != NULL) {
-		*error = [NSError git_errorFor:errorCode withAdditionalDescription:[NSString stringWithFormat:@"Calculating ahead/behind with %@ to %@", self, branch]];
+		*error = [NSError git_errorFor:errorCode description:@"Failed to calculate ahead/behind count of %@ relative to %@", self, branch];
 		return NO;
 	}
 

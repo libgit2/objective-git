@@ -31,6 +31,7 @@
 
 @class GTIndexEntry;
 @class GTRepository;
+@class GTTree;
 
 @interface GTIndex : NSObject
 
@@ -78,21 +79,55 @@
 // written to the datastore by calling -write:.
 - (void)clear;
 
-// Get entry at the given index.
+// Get the entry at the given index.
+//
+// index - The index of the entry to get. Must be within 0 and self.entryCount.
+//
+// Returns a new GTIndexEntry, or nil if an error occurred.
 - (GTIndexEntry *)entryAtIndex:(NSUInteger)index;
 
 // Get the entry with the given name.
 - (GTIndexEntry *)entryWithName:(NSString *)name;
 
-// Add entries to the index
+// Get the entry with the given name.
+//
+// name  - The name of the entry to get. Cannot be nil.
+// error - The error if one occurred.
+//
+// Returns a new GTIndexEntry, or nil if an error occurred.
+- (GTIndexEntry *)entryWithName:(NSString *)name error:(NSError **)error;
+
+// Add an entry to the index.
+//
+// entry - The entry to add.
+// error - The error if one occurred.
+//
+// Returns YES if successful, NO otherwise.
 - (BOOL)addEntry:(GTIndexEntry *)entry error:(NSError **)error;
+
+// Add an entry by path to the index.
+// Will fail if the receiver's repository is nil.
+//
+// file  - The path (relative to the root of the repository) of the file to add.
+// error - The error if one occurred.
+//
+// Returns YES if successful, NO otherwise.
 - (BOOL)addFile:(NSString *)file error:(NSError **)error;
 
-// Write the index to the datastore
+// Write the index to the repository.
+// Will fail if the receiver's repository is nil.
 //
-// error(out) - will be filled if an error occurs
+// error - The error if one occurred.
 //
-// returns YES if the write was successful.
+// Returns YES if successful, NO otherwise.
 - (BOOL)write:(NSError **)error;
+
+// Write the index to the repository as a tree.
+// Will fail if the receiver's repository is nil.
+//
+// error - The error if one occurred.
+//
+// Returns a new GTTree, or nil if an error occurred.
+- (GTTree *)writeTree:(NSError **)error;
 
 @end

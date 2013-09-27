@@ -29,7 +29,7 @@ it(@"should walk from repository HEAD", ^{
 	GTReference *HEADRef = [repo headReferenceWithError:NULL];
 	expect(HEADRef).notTo.beNil();
 	
-	[enumerator pushSHA:HEADRef.target error:NULL];
+	[enumerator pushSHA:HEADRef.targetSHA error:NULL];
 	NSUInteger count = [enumerator allObjects].count;
 	expect(count).to.equal(3);
 	expect(error).to.beNil();
@@ -55,7 +55,7 @@ describe(@"with a rev list", ^{
 			NSMutableArray *SHAs = [NSMutableArray array];
 			for (GTCommit *commit in enumerator) {
 				expect(commit).to.beKindOf(GTCommit.class);
-				[SHAs addObject:commit.sha];
+				[SHAs addObject:commit.SHA];
 			}
 
 			expect(SHAs).to.equal(expectedSHAs);
@@ -113,7 +113,7 @@ describe(@"globbing", ^{
 		verifyEnumerator = ^{
 			NSMutableArray *SHAs = [NSMutableArray array];
 			for (GTCommit *commit in enumerator) {
-				[SHAs addObject:commit.sha];
+				[SHAs addObject:commit.SHA];
 			}
 
 			expect(SHAs).to.equal(expectedSHAs);

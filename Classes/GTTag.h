@@ -27,26 +27,37 @@
 //  THE SOFTWARE.
 //
 
-
 #import "GTObject.h"
 
 @class GTSignature;
 @class GTRepository;
 
-
 @interface GTTag : GTObject {}
 
+// The author of the tag.
 @property (nonatomic, readonly, strong) GTSignature *tagger;
 
-+ (GTTag *)tagInRepository:(GTRepository *)theRepo name:(NSString *)tagName target:(GTObject *)theTarget tagger:(GTSignature *)theTagger message:(NSString *)theMessage error:(NSError **)error;
-+ (NSString *)shaByCreatingTagInRepository:(GTRepository *)theRepo name:(NSString *)tagName target:(GTObject *)theTarget tagger:(GTSignature *)theTagger message:(NSString *)theMessage error:(NSError **)error;
+// The description given when the tag was created.
+@property (nonatomic, readonly, strong) NSString *message;
+
+// The label of the tag. Generally a version number.
+@property (nonatomic, readonly, strong) NSString *name;
+
+// The 'tagged' object.
+@property (nonatomic, readonly, strong) GTObject *target;
+
+// The type of the 'tagged' object.
+@property (nonatomic, readonly) GTObjectType targetType;
+
+// Recursively peel a tag until a non tag GTObject is found
+//
+// errro - Will be filled with a NSError object on failure.
+//         May be NULL.
+//
+// Returns the found object or nil on error.
+- (id)objectByPeelingTagError:(NSError **)error;
 
 // The underlying `git_object` as a `git_tag` object.
 - (git_tag *)git_tag __attribute__((objc_returns_inner_pointer));
-
-- (NSString *)message;
-- (NSString *)name;
-- (GTObject *)target;
-- (NSString *)targetType;
 
 @end

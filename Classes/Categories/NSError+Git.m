@@ -32,29 +32,56 @@
 
 NSString * const GTGitErrorDomain = @"GTGitErrorDomain";
 
-
 @implementation NSError (Git)
 
-+ (NSError *)git_errorFor:(NSInteger)code withAdditionalDescription:(NSString *)desc {
-	return [NSError errorWithDomain:GTGitErrorDomain code:code userInfo:[NSDictionary dictionaryWithObjectsAndKeys:desc, NSLocalizedDescriptionKey, [self gitLastErrorDescriptionWithCode:code], NSLocalizedFailureReasonErrorKey, nil]];
-}
++ (NSError *)git_errorFor:(int)code description:(NSString *)desc, ... {
+	NSString *formattedDesc = nil;
+	if (desc != nil) {
+		va_list args;
+		va_start(args, desc);
 
-+ (NSError *)git_errorFor:(NSInteger)code {
-	return [NSError errorWithDomain:GTGitErrorDomain code:code userInfo:[NSDictionary dictionaryWithObject:[self gitLastErrorDescriptionWithCode:code] forKey:NSLocalizedDescriptionKey]];
-}
-
-+ (NSError *)git_errorForMkStr: (NSInteger)code {	
-	return [NSError git_errorFor:code withAdditionalDescription:@"Failed to create object id from sha1."];
-}
-
-+ (NSString *)gitLastErrorDescriptionWithCode:(NSInteger)code {
-	const git_error *gitLastError = giterr_last();
-	if(gitLastError == NULL && code == GITERR_OS) {
-		return [NSString stringWithUTF8String:strerror(errno)];
+		formattedDesc = [[NSString alloc] initWithFormat:desc arguments:args];
+		va_end(args);
 	}
-	
-	if(gitLastError != NULL) {
-		return [NSString stringWithUTF8String:gitLastError->message];
+
+	return [self git_errorFor:code description:formattedDesc failureReason:nil];
+}
+
++ (NSError *)git_errorFor:(int)code description:(NSString *)desc failureReason:(NSString *)reason, ... {
+	NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+
+	if (desc != nil) userInfo[NSLocalizedDescriptionKey] = desc;
+	if (reason != nil) {
+		va_list args;
+		va_start(args, reason);
+
+		NSString *formattedReason = [[NSString alloc] initWithFormat:reason arguments:args];
+		va_end(args);
+
+		userInfo[NSLocalizedFailureReasonErrorKey] = formattedReason;
+	}
+
+	NSError *underError = [self git_errorFor:code];
+	if (underError != nil) userInfo[NSUnderlyingErrorKey] = underError;
+
+	return [NSError errorWithDomain:GTGitErrorDomain code:code userInfo:userInfo];
+}
+
++ (NSError *)git_errorFor:(int)code {
+	NSDictionary *userInfo = nil;
+
+	NSString *description = [self git_descriptionForErrorCode:code];
+	if (description != nil) userInfo = @{ NSLocalizedDescriptionKey: description };
+
+	return [NSError errorWithDomain:GTGitErrorDomain code:code userInfo:userInfo];
+}
+
++ (NSString *)git_descriptionForErrorCode:(int)code {
+	const git_error *gitLastError = giterr_last();
+	if (gitLastError != NULL) {
+		return @(gitLastError->message);
+	} else if (code == GITERR_OS) {
+		return @(strerror(errno));
 	} else {
 		return nil;
 	}

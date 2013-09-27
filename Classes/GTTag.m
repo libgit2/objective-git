@@ -33,51 +33,33 @@
 #import "GTReference.h"
 #import "GTRepository.h"
 #import "NSString+Git.h"
+#import "GTOID.h"
 
 @implementation GTTag
 
 - (NSString *)description {
-  return [NSString stringWithFormat:@"<%@: %p> name: %@, message: %@, targetType: %@", NSStringFromClass([self class]), self, [self name], [self message],  [self targetType]];
+  return [NSString stringWithFormat:@"<%@: %p> name: %@, message: %@, targetType: %d", NSStringFromClass([self class]), self,self.name, self.message, self.targetType];
 }
-
 
 #pragma mark API
 
-+ (GTTag *)tagInRepository:(GTRepository *)theRepo name:(NSString *)tagName target:(GTObject *)theTarget tagger:(GTSignature *)theTagger message:(NSString *)theMessage error:(NSError **)error {
-	NSString *sha = [GTTag shaByCreatingTagInRepository:theRepo name:tagName target:theTarget tagger:theTagger message:theMessage error:error];
-	return sha ? (GTTag *)[theRepo lookupObjectBySha:sha objectType:GTObjectTypeTag error:error] : nil;
-}
-
-+ (NSString *)shaByCreatingTagInRepository:(GTRepository *)theRepo name:(NSString *)tagName target:(GTObject *)theTarget tagger:(GTSignature *)theTagger message:(NSString *)theMessage error:(NSError **)error {
-	git_oid oid;
-	int gitError = git_tag_create(&oid, theRepo.git_repository, [tagName UTF8String], theTarget.git_object, theTagger.git_signature, [theMessage UTF8String], 0);
-	if(gitError < GIT_OK) {
-		if(error != NULL)
-			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to create tag in repository"];
-		return nil;
-	}
-	
-	return [NSString git_stringWithOid:&oid];
-}
-
 - (NSString *)message {
-	return [NSString stringWithUTF8String:git_tag_message(self.git_tag)];
+	return @(git_tag_message(self.git_tag));
 }
 
 - (NSString *)name {
-	return [NSString stringWithUTF8String:git_tag_name(self.git_tag)];
+	return @(git_tag_name(self.git_tag));
 }
 
 - (GTObject *)target {
 	git_object *t;
-	// todo: might want to actually return an error here
 	int gitError = git_tag_target(&t, self.git_tag);
-	if(gitError < GIT_OK) return nil;
-    return [GTObject objectWithObj:(git_object *)t inRepository:self.repository];
+	if (gitError < GIT_OK) return nil;
+	return [GTObject objectWithObj:(git_object *)t inRepository:self.repository];
 }
 
-- (NSString *)targetType {
-	return [NSString stringWithUTF8String:git_object_type2string(git_tag_target_type(self.git_tag))];
+- (GTObjectType)targetType {
+	return (GTObjectType)git_tag_target_type(self.git_tag);
 }
 
 - (GTSignature *)tagger {
@@ -86,6 +68,17 @@
 
 - (git_tag *)git_tag {
 	return (git_tag *) self.git_object;
+}
+
+- (id)objectByPeelingTagError:(NSError **)error {
+	git_object *target = nil;
+	int gitError = git_tag_peel(&target, self.git_tag);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Cannot peel tag"];
+		return nil;
+	}
+
+	return [[GTObject alloc] initWithObj:target inRepository:self.repository];
 }
 
 @end

@@ -43,7 +43,9 @@
 
 - (NSString *)name;
 - (NSInteger)attributes;
-- (NSString *)sha;
+- (NSString *)SHA;
+
+@property (nonatomic, readonly) GTOID *OID;
 
 // Turn entry into an GTObject
 //

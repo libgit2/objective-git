@@ -62,7 +62,7 @@
 	return [NSString stringWithUTF8String:string];
 }
 
-- (void)setBoolForKey:(BOOL)b forKey:(NSString *)key {
+- (void)setBool:(BOOL)b forKey:(NSString *)key {
 	git_config_set_bool(self.git_config, key.UTF8String, b);
 }
 
@@ -142,7 +142,7 @@ static int configCallback(const git_config_entry *entry, void *payload) {
 - (BOOL)refresh:(NSError **)error {
 	int success = git_config_refresh(self.git_config);
 	if (success != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:success withAdditionalDescription:@"Couldn't reload the configuration from disk."];
+		if (error != NULL) *error = [NSError git_errorFor:success description:@"Couldn't reload the configuration from disk."];
 
 		return NO;
 	}

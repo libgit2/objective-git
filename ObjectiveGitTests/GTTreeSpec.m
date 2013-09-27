@@ -19,12 +19,12 @@ beforeEach(^{
 	GTRepository *repo = [self fixtureRepositoryNamed:@"testrepo.git"];
 	expect(repo).notTo.beNil();
 
-	tree = (GTTree *)[repo lookupObjectBySha:testTreeSHA error:NULL];
+	tree = (GTTree *)[repo lookupObjectBySHA:testTreeSHA error:NULL];
 	expect(tree).notTo.beNil();
 });
 
 it(@"should be able to read tree properties", ^{
-	expect(tree.sha).to.equal(testTreeSHA);
+	expect(tree.SHA).to.equal(testTreeSHA);
 	expect(tree.entryCount).to.equal(3);
 });
 
@@ -32,7 +32,7 @@ it(@"should be able to read tree entry properties", ^{
 	GTTreeEntry *entry = [tree entryAtIndex:0];
 	expect(entry).notTo.beNil();
 	expect(entry.name).to.equal(@"README");
-	expect(entry.sha).to.equal(@"1385f264afb75a56a5bec74243be9b367ba4ca08");
+	expect(entry.SHA).to.equal(@"1385f264afb75a56a5bec74243be9b367ba4ca08");
 });
 
 it(@"should give quick access to its contents", ^{
@@ -48,6 +48,11 @@ it(@"should give quick access to its contents", ^{
 	expect(treeContents).to.contain(readme);
 	expect(treeContents).to.contain(newTxt);
 	expect(treeContents).to.contain(subdir);
+});
+
+it(@"should return nil for non-existent entries", ^{
+	expect([tree entryAtIndex:99]).to.beNil();
+	expect([tree entryWithName:@"_does not exist"]).to.beNil();
 });
 
 SpecEnd

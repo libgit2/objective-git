@@ -32,6 +32,7 @@
 #import "GTTreeEntry.h"
 #import "GTRepository.h"
 #import "NSError+Git.h"
+#import "GTOID.h"
 
 @interface GTTreeBuilder ()
 @property (nonatomic, assign, readonly) git_treebuilder *git_treebuilder;
@@ -53,7 +54,7 @@
 
 	int status = git_treebuilder_create(&_git_treebuilder, treeOrNil.git_tree);
 	if (status != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:status withAdditionalDescription:@"Failed to create tree builder."];
+		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to create tree builder with tree %@.", treeOrNil.SHA];
 		return nil;
 	}
 
@@ -93,32 +94,31 @@ static int filter_callback(const git_tree_entry *entry, void *payload) {
 	return [GTTreeEntry entryWithEntry:entry parentTree:nil];
 }
 
-- (GTTreeEntry *)addEntryWithSHA:(NSString *)sha filename:(NSString *)filename filemode:(GTFileMode)filemode error:(NSError **)error {
-	NSParameterAssert(sha != nil);
+- (GTTreeEntry *)addEntryWithOID:(GTOID *)oid filename:(NSString *)filename filemode:(GTFileMode)filemode error:(NSError **)error {
+	NSParameterAssert(oid != nil);
 	NSParameterAssert(filename != nil);
-	
-	git_oid oid;	
-	int gitError = git_oid_fromstr(&oid, sha.UTF8String);
-	if (gitError < GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorForMkStr:gitError];
-		return nil;
-	}	
-	
+
 	const git_tree_entry *entry = NULL;
-	int status = git_treebuilder_insert(&entry, self.git_treebuilder, filename.UTF8String, &oid, (git_filemode_t)filemode);
+	int status = git_treebuilder_insert(&entry, self.git_treebuilder, filename.UTF8String, oid.git_oid, (git_filemode_t)filemode);
 	
 	if (status != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:status withAdditionalDescription:@"Failed to add entry to tree builder."];
+		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to add entry %@ to tree builder.", oid.SHA];
 		return nil;
 	}
 	
 	return [GTTreeEntry entryWithEntry:entry parentTree:nil];
 }
 
+- (GTTreeEntry *)addEntryWithSHA:(NSString *)sha filename:(NSString *)filename filemode:(GTFileMode)filemode error:(NSError *__autoreleasing *)error {
+	GTOID *oid = [[GTOID alloc] initWithSHA:sha error:error];
+	if (oid == nil) return nil;
+	return [self addEntryWithOID:oid filename:filename filemode:filemode error:error];
+}
+
 - (BOOL)removeEntryWithFilename:(NSString *)filename error:(NSError **)error {
 	int status = git_treebuilder_remove(self.git_treebuilder, filename.UTF8String);
 	if (status != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:status withAdditionalDescription:@"Failed to remove entry from tree builder by filename."];
+		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to remove entry with name %@ from tree builder.", filename];
 	}
 	
 	return (status == GIT_OK);
@@ -128,14 +128,14 @@ static int filter_callback(const git_tree_entry *entry, void *payload) {
 	git_oid treeOid;
 	int status = git_treebuilder_write(&treeOid, repository.git_repository, self.git_treebuilder);
 	if (status != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:status withAdditionalDescription:@"Failed to write as tree in repository."];
+		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to write tree in repository."];
 		return nil;
 	}
 	
 	git_object *object = NULL;
 	status = git_object_lookup(&object, repository.git_repository, &treeOid, GIT_OBJ_TREE);
 	if (status != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:status withAdditionalDescription:@"Failed to lookup tree in repository."];
+		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to lookup tree in repository."];
 		return nil;
 	}
 	

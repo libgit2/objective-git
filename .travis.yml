@@ -1,0 +1,13 @@
+language: objective-c
+install:
+- brew install cmake
+script: script/cibuild
+notifications:
+  email: false
+  campfire:
+    on_success: always
+    on_failure: always
+    template:
+      - "Build %{build_url} of %{repository}: %{message}"
+    rooms:
+      secure: IxO/lskcwkcrvbgq9UsI4rjD7auSbbc52QdOcEzh5klXf6KkmIRSrJDUbsRGJ6GahlB0ELfgTcr0ycqsYhW5M9mNwzWR1cerbedA2HT0sOy7uvgGQwAY+iiikCsIMuYQJ1qvb6DrrpgyejQWXW5cOEVbNuoPV45DE0lsPUHcpyg=

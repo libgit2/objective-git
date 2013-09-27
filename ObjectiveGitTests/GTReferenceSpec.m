@@ -59,7 +59,7 @@ describe(@"transformations", ^{
 		reference = [GTReference referenceByCreatingReferenceNamed:testRefName fromReferenceTarget:testRefTarget inRepository:repository error:&error];
 		expect(reference).notTo.beNil();
 		expect(reference.name).to.equal(testRefName);
-		expect(reference.target).to.equal(testRefTarget);
+		expect(reference.targetSHA).to.equal(testRefTarget);
 	});
 
 	it(@"should be able to be renamed", ^{
@@ -67,7 +67,7 @@ describe(@"transformations", ^{
 		GTReference *renamedRef = [reference referenceByRenaming:newRefName error:NULL];
 		expect(renamedRef).notTo.beNil();
 		expect(renamedRef.name).to.equal(newRefName);
-		expect(renamedRef.target).to.equal(testRefTarget);
+		expect(renamedRef.targetSHA).to.equal(testRefTarget);
 	});
 
 	it(@"should be able to change the target", ^{
@@ -75,7 +75,35 @@ describe(@"transformations", ^{
 		GTReference *updatedRef = [reference referenceByUpdatingTarget:@"5b5b025afb0b4c913b4c338a42934a3863bf3644" error:NULL];
 		expect(updatedRef).notTo.beNil();
 		expect(updatedRef.name).to.equal(testRefName);
-		expect(updatedRef.target).to.equal(newRefTarget);
+		expect(updatedRef.targetSHA).to.equal(newRefTarget);
+	});
+});
+
+describe(@"valid names",^{
+	it(@"should accept uppercase top-level names", ^{
+		expect([GTReference isValidReferenceName:@"HEAD"]).to.beTruthy();
+		expect([GTReference isValidReferenceName:@"ORIG_HEAD"]).to.beTruthy();
+	});
+
+	it(@"should not accept lowercase top-level names",^{
+		expect([GTReference isValidReferenceName:@"head"]).notTo.beTruthy();
+	});
+
+	it(@"should accept names with the refs/ prefix",^{
+		expect([GTReference isValidReferenceName:@"refs/stuff"]).to.beTruthy();
+		expect([GTReference isValidReferenceName:@"refs/multiple/components"]).to.beTruthy();
+	});
+
+	it(@"should not accept names with invalid parts",^{
+		expect([GTReference isValidReferenceName:@"refs/stuff~"]).notTo.beTruthy();
+		expect([GTReference isValidReferenceName:@"refs/stuff^"]).notTo.beTruthy();
+		expect([GTReference isValidReferenceName:@"refs/stuff:"]).notTo.beTruthy();
+		expect([GTReference isValidReferenceName:@"refs/stuff\\"]).notTo.beTruthy();
+		expect([GTReference isValidReferenceName:@"refs/stuff?"]).notTo.beTruthy();
+		expect([GTReference isValidReferenceName:@"refs/stuff["]).notTo.beTruthy();
+		expect([GTReference isValidReferenceName:@"refs/stuff*"]).notTo.beTruthy();
+		expect([GTReference isValidReferenceName:@"refs/stuff.."]).notTo.beTruthy();
+		expect([GTReference isValidReferenceName:@"refs/stuff@{"]).notTo.beTruthy();
 	});
 });
 

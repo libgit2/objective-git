@@ -27,12 +27,27 @@
 #import "GTOID.h"
 #import "GTReflog+Private.h"
 #import "GTRepository.h"
+#import "GTRepository+Private.h"
 #import "NSError+Git.h"
 #import "NSString+Git.h"
 
 @interface GTReference ()
 @property (nonatomic, readonly, assign) git_reference *git_reference;
 @end
+
+static NSString *referenceTypeToString(GTReferenceType type) {
+	switch (type) {
+		case GTReferenceTypeInvalid:
+			return @"invalid";
+
+		case GTReferenceTypeOid:
+			return @"direct";
+
+		case GTReferenceTypeSymbolic:
+			return @"symbolic";
+	}
+	return @"unknown";
+}
 
 @implementation GTReference
 
@@ -69,7 +84,7 @@
 	git_reference *ref = NULL;
 	int gitError = git_reference_lookup(&ref, repo.git_repository, refName.UTF8String);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to lookup reference."];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to lookup reference %@.", refName];
 		return nil;
 	}
 
@@ -81,17 +96,17 @@
 	NSParameterAssert(target != nil);
 	NSParameterAssert(repo != nil);
 
-	git_oid oid;
-	int gitError = git_oid_fromstr(&oid, target.UTF8String);
-	git_reference *ref = NULL;
-	if (gitError == GIT_OK) {
-		gitError = git_reference_create(&ref, repo.git_repository, refName.UTF8String, &oid, 0);
+	GTOID *oid = [GTOID oidWithSHA:target];
+	int gitError = GIT_OK;
+	git_reference *ref;
+	if (oid != nil) {
+		gitError = git_reference_create(&ref, repo.git_repository, refName.UTF8String, oid.git_oid, 0);
 	} else {
 		gitError = git_reference_symbolic_create(&ref, repo.git_repository, refName.UTF8String, target.UTF8String, 0);
 	}
 
 	if (gitError != GIT_OK) {
-		if(error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to create symbolic reference."];
+		if(error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to create symbolic reference to %@.", target];
 		return nil;
 	}
 
@@ -104,7 +119,7 @@
 	git_reference *ref = NULL;
 	int gitError = git_reference_resolve(&ref, symbolicRef.git_reference);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to resolve reference."];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to resolve reference %@.", symbolicRef.name];
 		return nil;
 	}
 
@@ -137,23 +152,46 @@
 	git_reference *newRef = NULL;
 	int gitError = git_reference_rename(&newRef, self.git_reference, newName.UTF8String, 0);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to rename reference."];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to rename reference %@ to %@.", self.name, newName];
 		return NO;
 	}
 
 	return [[self.class alloc] initWithGitReference:newRef repository:self.repository];
 }
 
-- (NSString *)type {
-	return @(git_object_type2string((git_otype)git_reference_type(self.git_reference)));
+- (GTReferenceType)referenceType {
+	return (GTReferenceType)git_reference_type(self.git_reference);
 }
 
-- (NSString *)target {
-	if (git_reference_type(self.git_reference) == GIT_REF_OID) {
-		return [NSString git_stringWithOid:git_reference_target(self.git_reference)];
-	} else {
-		return @(git_reference_symbolic_target(self.git_reference));
+- (id)unresolvedTarget {
+	if (self.referenceType == GTReferenceTypeOid) {
+		const git_oid *oid = git_reference_target(self.git_reference);
+		if (oid == NULL) return nil;
+
+		return [self.repository lookupObjectByGitOid:oid error:NULL];
+	} else if (self.referenceType == GTReferenceTypeSymbolic) {
+		NSString *refName = @(git_reference_symbolic_target(self.git_reference));
+		if (refName == NULL) return nil;
+
+		return [self.class referenceByLookingUpReferencedNamed:refName inRepository:self.repository error:NULL];
 	}
+	return nil;
+}
+
+- (id)resolvedTarget {
+	git_object *obj;
+	git_reference_peel(&obj, self.git_reference, GIT_OBJ_ANY);
+	if (obj == NULL) return nil;
+
+	return [GTObject objectWithObj:obj inRepository:self.repository];
+}
+
+- (GTReference *)resolvedReference {
+	return [self.class referenceByResolvingSymbolicReference:self error:NULL];
+}
+
+- (NSString *)targetSHA {
+	return [self.resolvedTarget SHA];
 }
 
 - (GTReference *)referenceByUpdatingTarget:(NSString *)newTarget error:(NSError **)error {
@@ -162,21 +200,17 @@
 	int gitError;
 	git_reference *newRef = NULL;
 	if (git_reference_type(self.git_reference) == GIT_REF_OID) {
-		git_oid oid;
-		gitError = git_oid_fromstr(&oid, newTarget.UTF8String);
-		if (gitError != GIT_OK) {
-			if(error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:[NSString stringWithFormat:@"Failed to create OID from string: %@", newTarget]];
-			return nil;
-		}
+		GTOID *oid = [[GTOID alloc] initWithSHA:newTarget error:error];
+		if (oid == nil) return nil;
 		
-		gitError = git_reference_set_target(&newRef, self.git_reference, &oid);
+		gitError = git_reference_set_target(&newRef, self.git_reference, oid.git_oid);
 	} else {
 		gitError = git_reference_symbolic_set_target(&newRef, self.git_reference, newTarget.UTF8String);
 	}
 
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to set reference target."];
-		return NO;
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to update reference %@ to target %@.", self.name, newTarget];
+		return nil;
 	}
 
 	return [[self.class alloc] initWithGitReference:newRef repository:self.repository];
@@ -185,7 +219,7 @@
 - (BOOL)deleteWithError:(NSError **)error {
 	int gitError = git_reference_delete(self.git_reference);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to delete reference."];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to delete reference %@.", self.name];
 		return NO;
 	}
 
@@ -212,17 +246,21 @@
 }
 
 + (NSError *)invalidReferenceError {
-	return [NSError git_errorFor:GTReferenceErrorCodeInvalidReference withAdditionalDescription:@"Invalid git_reference."];
+	return [NSError git_errorFor:GTReferenceErrorCodeInvalidReference description:@"Invalid git_reference."];
 }
 
 - (GTReflog *)reflog {
 	return [[GTReflog alloc] initWithReference:self];
 }
 
++ (BOOL)isValidReferenceName:(NSString *)refName {
+	return git_reference_is_valid_name(refName.UTF8String) == 1;
+}
+
 #pragma mark NSObject
 
 - (NSString *)description {
-  return [NSString stringWithFormat:@"<%@: %p>{ OID: %@, type: %@, remote: %i }", self.class, self, self.OID, self.type, (int)self.remote];
+  return [NSString stringWithFormat:@"<%@: %p>{ OID: %@, type: %@, remote: %i }", self.class, self, self.OID, referenceTypeToString(self.referenceType), (int)self.remote];
 }
 
 - (NSUInteger)hash {
@@ -233,7 +271,7 @@
 	if (self == reference) return YES;
 	if (![reference isKindOfClass:GTReference.class]) return NO;
 
-	return [self.repository isEqual:reference.repository] && [self.name isEqual:reference.name] && [self.target isEqual:reference.target];
+	return [self.repository isEqual:reference.repository] && [self.name isEqual:reference.name] && [self.unresolvedTarget isEqual:reference.unresolvedTarget];
 }
 
 @end

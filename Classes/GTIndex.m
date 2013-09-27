@@ -30,6 +30,10 @@
 #import "GTIndex.h"
 #import "GTIndexEntry.h"
 #import "NSError+Git.h"
+#import "GTRepository.h"
+#import "GTRepository+Private.h"
+#import "GTOID.h"
+#import "GTTree.h"
 
 @interface GTIndex ()
 @property (nonatomic, assign, readonly) git_index *git_index;
@@ -58,7 +62,7 @@
 	git_index *index = NULL;
 	int status = git_index_open(&index, fileURL.path.fileSystemRepresentation);
 	if (status != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:status withAdditionalDescription:@"Failed to initialize index."];
+		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to initialize index with URL %@", fileURL];
 		return nil;
 	}
 
@@ -90,10 +94,10 @@
 - (BOOL)refresh:(NSError **)error {
 	int status = git_index_read(self.git_index);
 	if (status != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:status withAdditionalDescription:@"Failed to refresh index."];
+		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to refresh index."];
 		return NO;
 	}
-	
+
 	return YES;
 }
 
@@ -104,46 +108,64 @@
 - (GTIndexEntry *)entryAtIndex:(NSUInteger)index {
 	const git_index_entry *entry = git_index_get_byindex(self.git_index, (unsigned int)index);
 	if (entry == NULL) return nil;
-	
+
 	return [[GTIndexEntry alloc] initWithGitIndexEntry:entry];
 }
 
 - (GTIndexEntry *)entryWithName:(NSString *)name {
-	int index = git_index_find(0, self.git_index, name.UTF8String);
-	const git_index_entry *entry = git_index_get_byindex(self.git_index, (unsigned int)index);
-	if (entry == NULL) return nil;
+	return [self entryWithName:name error:NULL];
+}
 
-	return [[GTIndexEntry alloc] initWithGitIndexEntry:entry];
+- (GTIndexEntry *)entryWithName:(NSString *)name error:(NSError **)error {
+	size_t pos = 0;
+	int gitError = git_index_find(&pos, self.git_index, name.UTF8String);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"%@ not found in index", name];
+		return NULL;
+	}
+	return [self entryAtIndex:pos];
 }
 
 - (BOOL)addEntry:(GTIndexEntry *)entry error:(NSError **)error {
 	int status = git_index_add(self.git_index, entry.git_index_entry);
 	if (status != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:status withAdditionalDescription:@"Failed to add entry to index."];
+		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to add entry to index."];
 		return NO;
 	}
-	
+
 	return YES;
 }
 
 - (BOOL)addFile:(NSString *)file error:(NSError **)error {
 	int status = git_index_add_bypath(self.git_index, file.UTF8String);
 	if (status != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:status withAdditionalDescription:@"Failed to add entry to index."];
+		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to add file %@ to index.", file];
 		return NO;
 	}
-	
+
 	return YES;
 }
 
 - (BOOL)write:(NSError **)error {
 	int status = git_index_write(self.git_index);
 	if (status != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:status withAdditionalDescription:@"Failed to write index."];
+		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to write index."];
 		return NO;
 	}
-	
+
 	return YES;
+}
+
+- (GTTree *)writeTree:(NSError **)error {
+	git_oid oid;
+  
+	int status = git_index_write_tree(&oid, self.git_index);
+	if (status != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to write index."];
+		return NULL;
+	}
+
+	return [self.repository lookupObjectByGitOid:&oid objectType:GTObjectTypeTree error:NULL];
 }
 
 - (NSArray *)entries {
@@ -151,7 +173,7 @@
 	for (NSUInteger i = 0; i < self.entryCount; i++) {
 		[entries addObject:[self entryAtIndex:i]];
 	}
-	
+
 	return entries;
 }
 

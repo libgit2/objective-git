@@ -146,7 +146,7 @@ describe(@"clean, checked out submodule", ^{
 		expect(submoduleRepo.fileURL).to.equal([repo.fileURL URLByAppendingPathComponent:@"Test_App"]);
 		expect(submoduleRepo.bare).to.beFalsy();
 		expect(submoduleRepo.empty).to.beFalsy();
-		expect(submoduleRepo.headDetached).to.beTruthy();
+		expect(submoduleRepo.HEADDetached).to.beTruthy();
 		expect([submoduleRepo isWorkingDirectoryClean]).to.beTruthy();
 	});
 
@@ -154,17 +154,17 @@ describe(@"clean, checked out submodule", ^{
 		GTRepository *submoduleRepo = [submodule submoduleRepository:NULL];
 		expect(submoduleRepo).notTo.beNil();
 
-		GTCommit *newHEAD = (id)[submoduleRepo lookupObjectBySha:@"82dc47f6ba3beecab33080a1136d8913098e1801" objectType:GTObjectTypeCommit error:NULL];
+		GTCommit *newHEAD = (id)[submoduleRepo lookupObjectBySHA:@"82dc47f6ba3beecab33080a1136d8913098e1801" objectType:GTObjectTypeCommit error:NULL];
 		expect(newHEAD).notTo.beNil();
 		expect([submoduleRepo resetToCommit:newHEAD withResetType:GTRepositoryResetTypeHard error:NULL]).to.beTruthy();
 
-		expect(submodule.workingDirectoryOID.SHA).notTo.equal(newHEAD.sha);
+		expect(submodule.workingDirectoryOID.SHA).notTo.equal(newHEAD.SHA);
 
 		__block NSError *error = nil;
 		expect([submodule reload:&error]).to.beTruthy();
 		expect(error).to.beNil();
 
-		expect(submodule.workingDirectoryOID.SHA).to.equal(newHEAD.sha);
+		expect(submodule.workingDirectoryOID.SHA).to.equal(newHEAD.SHA);
 	});
 });
 
@@ -228,7 +228,7 @@ describe(@"dirty, checked out submodule", ^{
 		expect(submoduleRepo.fileURL).to.equal([repo.fileURL URLByAppendingPathComponent:@"Test_App2"]);
 		expect(submoduleRepo.bare).to.beFalsy();
 		expect(submoduleRepo.empty).to.beFalsy();
-		expect(submoduleRepo.headDetached).to.beTruthy();
+		expect(submoduleRepo.HEADDetached).to.beTruthy();
 		expect([submoduleRepo isWorkingDirectoryClean]).to.beFalsy();
 	});
 

@@ -29,24 +29,43 @@
 
 extern NSString * const GTGitErrorDomain;
 
-
 @interface NSError (Git)
 
-// Creates an error for the given libgit2 error code. The returned error's NSLocalizedDescriptionKey is filled with `git_lasterror` or `strerror` if an OS error occurs.
+// Describes the given libgit2 error code, using any message provided by libgit2
+// or the OS.
 //
-// code - the libgit2 error code
+// code - The error code returned from libgit2.
 //
-// returns the created error object
-+ (NSError *)git_errorFor:(NSInteger)code;
+// Returns a non-nil NSError.
++ (NSError *)git_errorFor:(int)code;
 
-// Creates an error for the given libgit2 error code. The returned error's NSLocalizedDescriptionKey is the given description and the NSLocalizedFailureReasonErrorKey is libgit2's description of the last error.
+// Describes the given libgit2 error code, using `desc` as the error's
+// description, and a failure reason from `reason` and the arguments that
+// follow.
 //
-// code - the libgit2 error code
+// The created error will also have an `NSUnderlyingErrorKey` that contains the
+// result of +git_errorFor: on the same error code.
 //
-// returns the created error object
-+ (NSError *)git_errorFor:(NSInteger)code withAdditionalDescription:(NSString *)desc;
+// code   - The error code returned from libgit2.
+// desc   - The description to use in the created NSError. This may be nil.
+// reason - A format string to use for the created NSError's failure reason.
+//          This may be nil.
+// ...    - Format arguments to insert into `reason`.
+//
+// Returns a non-nil NSError.
++ (NSError *)git_errorFor:(int)code description:(NSString *)desc failureReason:(NSString *)reason, ... NS_FORMAT_FUNCTION(3, 4);
 
-/* Error helpers for common libgit2 errors */
-+ (NSError *)git_errorForMkStr:(NSInteger)code;
+// Describes the given libgit2 error code, using `desc` and the arguments that
+// follow as the error's description.
+//
+// The created error will also have an `NSUnderlyingErrorKey` that contains the
+// result of +git_errorFor: on the same error code.
+//
+// code - The error code returned from libgit2.
+// desc - A format string to use for the created NSError's description. This may be nil.
+// ...  - Format arguments to insert into `desc`.
+//
+// Returns a non-nil NSError.
++ (NSError *)git_errorFor:(int)code description:(NSString *)desc, ... NS_FORMAT_FUNCTION(2, 3);
 
 @end

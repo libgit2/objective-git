@@ -55,21 +55,6 @@
 	}
 }
 
-- (void)testCreateRepositoryInDirectory {
-	
-	NSError *error = nil;
-	NSURL *newRepoURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"unit_test"]];
-
-	[self removeDirectoryAtURL:newRepoURL];
-	
-    STAssertTrue([GTRepository initializeEmptyRepositoryAtURL:newRepoURL error:&error], nil);
-	GTRepository *newRepo = [GTRepository repositoryWithURL:newRepoURL error:&error];
-	
-	STAssertNil(error, [error localizedDescription]);
-	STAssertNotNil(newRepo, nil);
-	STAssertNotNil(newRepo.fileURL, nil);
-}
-
 - (void)testFailsToOpenNonExistentRepo {
 	
 	NSError *error = nil;
@@ -92,8 +77,8 @@
 	NSError *error = nil;
 	GTReference *head = [repo headReferenceWithError:&error];
 	STAssertNil(error, [error localizedDescription]);
-	STAssertEqualObjects(head.target, @"36060c58702ed4c2a40832c51758d5344201d89a", nil);
-	STAssertEqualObjects(head.type, @"commit", nil);
+	STAssertEqualObjects(head.targetSHA, @"36060c58702ed4c2a40832c51758d5344201d89a", nil);
+	STAssertEquals(head.referenceType, GTReferenceTypeOid, nil);
 }
 
 - (void)testIsEmpty {
@@ -107,17 +92,17 @@
     GTReference *originalHead = [aRepo headReferenceWithError:NULL];
     NSString *resetTargetSha = @"8496071c1b46c854b31185ea97743be6a8774479";
 
-	GTCommit *commit = (GTCommit *)[aRepo lookupObjectBySha:resetTargetSha error:NULL];
+	GTCommit *commit = (GTCommit *)[aRepo lookupObjectBySHA:resetTargetSha error:NULL];
     
     BOOL success = [aRepo resetToCommit:commit withResetType:GTRepositoryResetTypeSoft error:&err];
     STAssertTrue(success, @"Failed to reset, error given: %@", err);
     GTReference *head = [aRepo headReferenceWithError:&err];
-    STAssertEqualObjects(head.target, resetTargetSha, @"Reset failed to move head to given commit");
+    STAssertEqualObjects(head.targetSHA, resetTargetSha, @"Reset failed to move head to given commit");
     
-    GTCommit *originalHeadCommit = (GTCommit *)[aRepo lookupObjectBySha:originalHead.target error:NULL];
+    GTCommit *originalHeadCommit = (GTCommit *)[aRepo lookupObjectBySHA:originalHead.targetSHA error:NULL];
     [aRepo resetToCommit:originalHeadCommit withResetType:GTRepositoryResetTypeSoft error:NULL];
     head = [aRepo headReferenceWithError:&err];
-    STAssertEqualObjects(head.target, originalHead.target, @"Reset failed to move head back to the original position");
+    STAssertEqualObjects(head.unresolvedTarget, originalHead.unresolvedTarget, @"Reset failed to move head back to the original position");
 }
 
 - (void)expectSHA:(NSString*)sha forRefspec:(NSString*)refspec {
@@ -127,7 +112,7 @@
 	if (sha != nil) {
 		STAssertEquals((NSInteger)GIT_OK, err.code, @"git_revparse_single didn't return 0: %d", err.code);
 		STAssertNotNil(obj, @"Couldn't find object for %@", refspec);
-		STAssertEqualObjects(sha, obj.sha, @"Revparse '%@': expected %@, got %@", refspec, sha, obj.sha);
+		STAssertEqualObjects(sha, obj.SHA, @"Revparse '%@': expected %@, got %@", refspec, sha, obj.SHA);
 	} else {
 		STAssertTrue(err.code != (NSInteger)GIT_OK, @"Expected error code, got 0");
 		STAssertNil(obj, @"Got object when expected none for %@", refspec);
@@ -162,7 +147,7 @@
 
 	[self removeDirectoryAtURL:workdirURL];
 
-	repo = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL barely:NO withCheckout:YES error:&err transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
+	repo = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:NULL error:&err transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
 
 	STAssertNotNil(repo, err.localizedDescription);
 	STAssertFalse([repo isBare], @"Standard repo should not be bare");
@@ -171,8 +156,8 @@
 
 	GTReference *head = [repo headReferenceWithError:&err];
 	STAssertNotNil(head, err.localizedDescription);
-	STAssertEqualObjects(head.target, @"36060c58702ed4c2a40832c51758d5344201d89a", nil);
-	STAssertEqualObjects(head.type, @"commit", nil);
+	STAssertEqualObjects(head.targetSHA, @"36060c58702ed4c2a40832c51758d5344201d89a", nil);
+	STAssertEquals(head.referenceType, GTReferenceTypeOid, nil);
 }
 
 - (void)testCanCloneBarely {
@@ -186,11 +171,12 @@
 	};
 	NSURL *originURL = [NSURL fileURLWithPath:TEST_REPO_PATH(self.class)]; //[NSURL URLWithString: @"https://github.com/libgit2/TestGitRepository"];
 	NSURL *workdirURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"unit_test"]];
+	NSDictionary *options = @{ GTRepositoryCloneOptionsBare: @YES };
 	NSError *err;
 
 	[self removeDirectoryAtURL:workdirURL];
 
-	repo = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL barely:YES withCheckout:YES error:&err transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
+	repo = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:options error:&err transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
 
 	STAssertNotNil(repo, err.localizedDescription);
 	STAssertTrue([repo isBare], @"Bare repo should be bare");
@@ -199,8 +185,8 @@
 
 	GTReference *head = [repo headReferenceWithError:&err];
 	STAssertNotNil(head, err.localizedDescription);
-	STAssertEqualObjects(head.target, @"36060c58702ed4c2a40832c51758d5344201d89a", nil);
-	STAssertEqualObjects(head.type, @"commit", nil);
+	STAssertEqualObjects(head.targetSHA, @"36060c58702ed4c2a40832c51758d5344201d89a", nil);
+	STAssertEquals(head.referenceType, GTReferenceTypeOid, nil);
 }
 
 //- (void) testCanGetRemotes {

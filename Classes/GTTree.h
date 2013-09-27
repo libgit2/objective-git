@@ -34,8 +34,8 @@
 @class GTIndex;
 
 typedef enum GTTreeEnumerationOptions {
-	GTTreeEnumerationOptionPre = GIT_TREEWALK_PRE,
-	GTTreeEnumerationOptionPost = GIT_TREEWALK_POST,
+	GTTreeEnumerationOptionPre = GIT_TREEWALK_PRE, // Walk the tree in pre-order (subdirectories come first)
+	GTTreeEnumerationOptionPost = GIT_TREEWALK_POST, // Walk the tree in post-order (subdirectories come last)
 } GTTreeEnumerationOptions;
 
 @interface GTTree : GTObject
@@ -66,10 +66,12 @@ typedef enum GTTreeEnumerationOptions {
 //           `GTTreeEnumerationOptionPost` (for post-order walks).
 // error   - The error if one occurred.
 // block   - A block that will be called back with a path to the root of the tree
-//           and the current entry.
+//           and the current entry. Cannot be nil.
+//           Return a negative value to stop the walk, a positive one to skip the
+//           descendents of the entry, or 0 to continue the enumeration.
 //
-// returns an error code if one occurred, 0 otherwise
-- (int)enumerateContentsWithOptions:(GTTreeEnumerationOptions)options error:(NSError **)error block:(int(^)(NSString *root, GTTreeEntry *entry))block;
+// returns YES if the enumeration completed successfully, NO otherwise
+- (BOOL)enumerateContentsWithOptions:(GTTreeEnumerationOptions)options error:(NSError **)error block:(int(^)(NSString *root, GTTreeEntry *entry))block;
 
 // Returns the contents of the tree, as an array of GTTreeEntries
 - (NSArray *)contents;

@@ -36,6 +36,7 @@
 #import "GTTree.h"
 #import "GTBlob.h"
 #import "GTTag.h"
+#import "GTOID.h"
 
 @interface GTObject ()
 @property (nonatomic, readonly, assign) git_object *git_object;
@@ -44,7 +45,7 @@
 @implementation GTObject
 
 - (NSString *)description {
-  return [NSString stringWithFormat:@"<%@: %p> type: %@, shortSha: %@, sha: %@", NSStringFromClass([self class]), self, self.type, self.shortSha, self.sha];
+  return [NSString stringWithFormat:@"<%@: %p> type: %@, shortSha: %@, sha: %@", NSStringFromClass([self class]), self, self.type, self.shortSHA, self.SHA];
 }
 
 - (void)dealloc {
@@ -55,7 +56,7 @@
 }
 
 - (NSUInteger)hash {
-	return [self.sha hash];
+	return [self.SHA hash];
 }
 
 - (BOOL)isEqual:(id)otherObject {
@@ -70,19 +71,11 @@
 - (id)initWithObj:(git_object *)object inRepository:(GTRepository *)repo {
 	NSParameterAssert(object != NULL);
 	NSParameterAssert(repo != nil);
+	git_repository *object_repo __attribute__((unused)) = git_object_owner(object);
+	NSAssert(object_repo == repo.git_repository, @"object %p doesn't belong to repo %@", object, repo);
 
-	self = [super init];
-	if (self == nil) return nil;
-
-	_repository = repo;
-	_git_object = object;
-
-	return self;
-}
-
-+ (id)objectWithObj:(git_object *)theObject inRepository:(GTRepository *)theRepo {	
 	Class objectClass = nil;
-	git_otype t = git_object_type(theObject);
+	git_otype t = git_object_type(object);
 	switch (t) {
 		case GIT_OBJ_COMMIT:
 			objectClass = [GTCommit class];
@@ -97,30 +90,63 @@
 			objectClass = [GTTag class];
 			break;
 		default:
-			objectClass = [GTObject class];
 			break;
 	}
+
+	if (!objectClass) {
+		NSLog(@"Unknown git_otype %s (%d)", git_object_type2string(t), (int)t);
+		return nil;
+	}
 	
-    return [[objectClass alloc] initWithObj:theObject inRepository:theRepo];
+	if (self.class != objectClass) {
+		return [[objectClass alloc] initWithObj:object inRepository:repo];
+	}
+	
+	self = [super init];
+	if (!self) return nil;
+	
+	_repository = repo;
+	_git_object = object;
+	
+	return self;
+}
+
++ (id)objectWithObj:(git_object *)theObject inRepository:(GTRepository *)theRepo {
+	return [[self alloc] initWithObj:theObject inRepository:theRepo];
 }
 
 - (NSString *)type {
 	return [NSString stringWithUTF8String:git_object_type2string(git_object_type(self.git_object))];
 }
 
-- (NSString *)sha {
-	return [NSString git_stringWithOid:git_object_id(self.git_object)];
+- (GTOID *)OID {
+	return [GTOID oidWithGitOid:git_object_id(self.git_object)];
 }
 
-- (NSString *)shortSha {
-	return [self.sha git_shortUniqueShaString];
+- (NSString *)SHA {
+	return self.OID.SHA;
+}
+
+- (NSString *)shortSHA {
+	return [self.SHA git_shortUniqueShaString];
 }
 
 - (GTOdbObject *)odbObjectWithError:(NSError **)error {
 	GTObjectDatabase *database = [self.repository objectDatabaseWithError:error];
 	if (database == nil) return nil;
 
-	return [database objectWithOid:git_object_id(self.git_object) error:error];
+	return [database objectWithOid:self.OID error:error];
+}
+
+- (id)objectByPeelingToType:(GTObjectType)type error:(NSError **)error {
+	git_object *peeled = NULL;
+	int gitError = git_object_peel(&peeled, self.git_object, (git_otype)type);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Cannot peel object"];
+		return nil;
+	}
+
+	return [GTObject objectWithObj:peeled inRepository:self.repository];
 }
 
 @end
