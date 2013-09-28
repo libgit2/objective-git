@@ -64,15 +64,6 @@ typedef enum {
 	GTRepositoryResetTypeHard = GIT_RESET_HARD
 } GTRepositoryResetType;
 
-// Flags for -stashChangesWithMessage:flags:error:.
-// Those can be ORed together. See git_stash_flags for additional information.
-typedef enum {
-	GTRepositoryStashFlagDefault = GIT_STASH_DEFAULT,
-	GTRepositoryStashFlagKeepIndex = GIT_STASH_KEEP_INDEX,
-	GTRepositoryStashFlagIncludeUntracked = GIT_STASH_INCLUDE_UNTRACKED,
-	GTRepositoryStashFlagIncludeIgnored = GIT_STASH_INCLUDE_IGNORED
-} GTRepositoryStashFlag;
-
 // Checkout strategies used by the various -checkout... methods
 // See git_checkout_strategy_t
 typedef enum {
@@ -276,32 +267,6 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 //
 // Returns the signature.
 - (GTSignature *)userSignatureForNow;
-
-// Stash the repository's changes.
-//
-// message   - Message to be attributed to the item in the stash. This may be
-//             nil.
-// stashFlag - The flags of stash to be used.
-// error     - If not NULL, set to any error that occurred.
-//
-// Returns a commit representing the stashed changes if successful, or nil
-// otherwise.
-- (GTCommit *)stashChangesWithMessage:(NSString *)message flags:(GTRepositoryStashFlag)flags error:(NSError **)error;
-
-// Enumerate over all the stashes in the repository.
-//
-// block - A block to execute for each stash found, giving the stash's index and
-//         message along with its OID. Setting `stop` to YES will cause enumeration
-//         to stop after the block returns.
-- (void)enumerateStashesUsingBlock:(void (^)(NSUInteger index, NSString *message, GTOID *oid, BOOL *stop))block;
-
-// Drop a stash from the repository's list of stashes.
-//
-// index - The index of the stash to drop.
-// error - If not NULL, set to any error that occurs.
-//
-// Returns YES if the stash was successfully dropped, NO otherwise
-- (BOOL)dropStashAtIndex:(NSUInteger)index error:(NSError **)error;
 
 // Reloads all cached information about the receiver's submodules.
 //

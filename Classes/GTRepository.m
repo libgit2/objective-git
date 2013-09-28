@@ -48,11 +48,7 @@ NSString *const GTRepositoryCloneOptionsBare = @"GTRepositoryCloneOptionsBare";
 NSString *const GTRepositoryCloneOptionsCheckout = @"GTRepositoryCloneOptionsCheckout";
 NSString *const GTRepositoryCloneOptionsTransportFlags = @"GTRepositoryCloneOptionsTransportFlags";
 
-// Blocks typedef for -enumerateSubmodulesRecursively:usingBlock: and
-// -enumerateStashesWithBlock:flags:error:.
 typedef void (^GTRepositorySubmoduleEnumerationBlock)(GTSubmodule *submodule, BOOL *stop);
-typedef void (^GTRepositoryStashEnumerationBlock)(NSUInteger index, NSString *message, GTOID *oid, BOOL *stop);
-
 typedef void (^GTRepositoryTagEnumerationBlock)(GTTag *tag, BOOL *stop);
 
 // Used as a payload for submodule enumeration.
@@ -693,51 +689,6 @@ static int submoduleEnumerationCallback(git_submodule *git_submodule, const char
 	return [[GTSignature alloc] initWithName:name email:email time:[NSDate date]];
 }
 
-#pragma mark Stash
-
-- (GTCommit *)stashChangesWithMessage:(NSString *)message flags:(GTRepositoryStashFlag)flags error:(NSError **)error {
-	git_oid git_oid;
-
-	int gitError = git_stash_save(&git_oid, self.git_repository, [self userSignatureForNow].git_signature, message.UTF8String, flags);
-	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to stash."];
-		return nil;
-	}
-	
-	GTOID *oid = [[GTOID alloc] initWithGitOid:&git_oid];
-	return [self lookupObjectByOID:oid error:error];
-}
-
-static int stashEnumerationCallback(size_t index, const char *message, const git_oid *stash_id, void *payload) {
-	GTRepositoryStashEnumerationBlock block = (__bridge GTRepositoryStashEnumerationBlock)payload;
-	
-	NSString *messageString = nil;
-	if (message != NULL) messageString = @(message);
-
-	GTOID *stashOID = [[GTOID alloc] initWithGitOid:stash_id];
-
-	BOOL stop = NO;
-	block(index, messageString, stashOID, &stop);
-	
-	return (stop ? GIT_EUSER : 0);
-}
-
-- (void)enumerateStashesUsingBlock:(GTRepositoryStashEnumerationBlock)block {
-	NSParameterAssert(block != nil);
-	
-	git_stash_foreach(self.git_repository, &stashEnumerationCallback, &block);
-}
-
-- (BOOL)dropStashAtIndex:(NSUInteger)index error:(NSError **)error {
-	int gitError = git_stash_drop(self.git_repository, index);
-	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to drop stash."];
-		return NO;
-	}
-
-	return YES;
-}
-	
 #pragma mark Tagging
 
 - (BOOL)createLightweightTagNamed:(NSString *)tagName target:(GTObject *)target error:(NSError **)error {
