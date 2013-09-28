@@ -32,14 +32,14 @@ typedef enum {
 
 // Enumerate over all the stashes in the repository.
 //
-// block - A block to execute for each stash found, giving the stash's index and
-//         message along with its OID. Setting `stop` to YES will cause enumeration
-//         to stop after the block returns.
+// block - A block to execute for each stash found. `index` will be the zero-based
+//         stash index (where 0 is the most recent stash). Setting `stop` to YES
+//         will cause enumeration to stop after the block returns.
 - (void)enumerateStashesUsingBlock:(void (^)(NSUInteger index, NSString *message, GTOID *oid, BOOL *stop))block;
 
 // Drop a stash from the repository's list of stashes.
 //
-// index - The index of the stash to drop.
+// index - The index of the stash to drop, where 0 is the most recent stash.
 // error - If not NULL, set to any error that occurs.
 //
 // Returns YES if the stash was successfully dropped, NO otherwise
