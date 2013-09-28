@@ -163,8 +163,8 @@ static int filter_callback(const git_tree_entry *entry, void *payload) {
 			GTObjectDatabase *odb = [repository objectDatabaseWithError:error];
 			if (odb == nil) return nil;
 
-			for (GTOID *oid in self.fileNameToTransientEntries) {
-				GTTreeBuilderTransientEntry *entry = self.fileNameToTransientEntries[oid];
+			for (NSString *fileName in self.fileNameToTransientEntries) {
+				GTTreeBuilderTransientEntry *entry = self.fileNameToTransientEntries[fileName];
 
 				GTOID *dataOID = [odb writeData:entry.data type:GTObjectTypeBlob error:error];
 				if (dataOID == nil) return nil;
