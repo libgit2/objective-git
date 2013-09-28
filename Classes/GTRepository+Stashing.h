@@ -30,7 +30,7 @@ typedef enum {
 // otherwise.
 - (GTCommit *)stashChangesWithMessage:(NSString *)message flags:(GTRepositoryStashFlag)flags error:(NSError **)error;
 
-// Enumerate over all the stashes in the repository.
+// Enumerate over all the stashes in the repository, from most recent to oldest.
 //
 // block - A block to execute for each stash found. `index` will be the zero-based
 //         stash index (where 0 is the most recent stash). Setting `stop` to YES

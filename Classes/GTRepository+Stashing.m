@@ -45,7 +45,7 @@ static int stashEnumerationCallback(size_t index, const char *message, const git
 - (void)enumerateStashesUsingBlock:(GTRepositoryStashEnumerationBlock)block {
 	NSParameterAssert(block != nil);
 	
-	git_stash_foreach(self.git_repository, &stashEnumerationCallback, &block);
+	git_stash_foreach(self.git_repository, &stashEnumerationCallback, (__bridge void *)block);
 }
 
 - (BOOL)dropStashAtIndex:(NSUInteger)index error:(NSError **)error {

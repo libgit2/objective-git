@@ -84,4 +84,36 @@ it(@"should stash an untracked file when enabled", ^{
 	expect(error).to.beNil();
 });
 
+it(@"should enumerate stashes", ^{
+	const int stashCount = 3;
+	NSMutableArray *stashCommits = [NSMutableArray arrayWithCapacity:stashCount];
+
+	for (int i = stashCount; i >= 0; i--) {
+		NSString *filename = [NSString stringWithFormat:@"new-test-file-%i", i];
+		expect([@"foobar" writeToURL:[repository.fileURL URLByAppendingPathComponent:filename] atomically:YES encoding:NSUTF8StringEncoding error:NULL]).to.beTruthy();
+
+		NSString *message = [NSString stringWithFormat:@"stash %i", i];
+
+		NSError *error = nil;
+		GTCommit *stash = [repository stashChangesWithMessage:message flags:GTRepositoryStashFlagIncludeUntracked error:&error];
+		expect(stash).notTo.beNil();
+		expect(error).to.beNil();
+
+		[stashCommits insertObject:stash atIndex:0];
+	}
+
+	__block NSUInteger lastIndex = 0;
+	[repository enumerateStashesUsingBlock:^(NSUInteger i, NSString *message, GTOID *oid, BOOL *stop) {
+		lastIndex = i;
+
+		NSString *expectedMessage = [NSString stringWithFormat:@"On master: stash %lu", (unsigned long)i];
+		expect(oid).to.equal([stashCommits[i] OID]);
+		expect(message).to.equal(expectedMessage);
+
+		if (i == 2) *stop = YES;
+	}];
+
+	expect(lastIndex).to.equal(2);
+});
+
 SpecEnd
