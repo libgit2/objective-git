@@ -149,7 +149,6 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 //
 // originURL             - The URL to clone from.
 // workdirURL            - A URL to the desired working directory on the local machine.
-// withCheckout          - if NO, don't checkout the remote HEAD
 // options               - A dictionary containing any of the above options key constants, or
 //                         nil to use the defaults.
 // error                 - A pointer to fill in case of trouble.
