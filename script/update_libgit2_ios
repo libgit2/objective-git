@@ -7,13 +7,15 @@ set -e
 # ~/.MacOSX/environemnt.plist
 PATH="/usr/local/bin:$PATH"
 
+CLANG=`/usr/bin/xcrun --find clang`
+
 if [ "External/libgit2-ios.a" -nt "External/libgit2" ]
 then
     echo "No update needed."
     exit 0
 fi
 
-ios_version="6.1";
+ios_version="7.0";
 
 cd "External/libgit2"
 
@@ -28,16 +30,17 @@ cd build
 
 cmake -DCMAKE_C_COMPILER_WORKS:BOOL=ON \
       -DBUILD_SHARED_LIBS:BOOL=OFF \
-      -DCMAKE_C_COMPILER=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/llvm-gcc-4.2/bin/llvm-gcc-4.2 \
+      -DCMAKE_C_COMPILER=$CLANG \
       -DOPENSSL_SSL_LIBRARY:FILEPATH=../../External/ios-openssl/lib/libssl.a \
       -DOPENSSL_CRYPTO_LIBRARY:FILEPATH=../../External/ios-openssl/lib/libcrypto.a \
       -DOPENSSL_INCLUDE_DIR:PATH=../../External/ios-openssl/include/ \
       -DCMAKE_LIBRARY_PATH:PATH=../../External/libssh2-ios/lib/ \
       -DCMAKE_INCLUDE_PATH:PATH=../../External/libssh2-ios/include/libssh2/ \
       -DCMAKE_OSX_DEPLOYMENT_TARGET:STRING= \
-      -DCMAKE_OSX_ARCHITECTURES:STRING="armv7;armv7s" \
+      -DCMAKE_OSX_ARCHITECTURES:STRING="armv7;armv7s;arm64" \
       -DBUILD_CLAR:BOOL=OFF \
       -DCMAKE_OSX_SYSROOT=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS${ios_version}.sdk/ \
+      -DCMAKE_C_FLAGS="-miphoneos-version-min=${ios_version}" \
       ..
 cmake --build .
 
@@ -60,7 +63,7 @@ cd build
 
 cmake -DCMAKE_C_COMPILER_WORKS:BOOL=ON \
       -DBUILD_SHARED_LIBS:BOOL=OFF \
-      -DCMAKE_C_COMPILER=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/llvm-gcc-4.2/bin/llvm-gcc-4.2 \
+      -DCMAKE_C_COMPILER=$CLANG \
       -DOPENSSL_SSL_LIBRARY:FILEPATH=../../External/ios-openssl/lib/libssl.a \
       -DOPENSSL_CRYPTO_LIBRARY:FILEPATH=../../External/ios-openssl/lib/libcrypto.a \
       -DOPENSSL_INCLUDE_DIR:PATH=../../External/ios-openssl/include/ \
