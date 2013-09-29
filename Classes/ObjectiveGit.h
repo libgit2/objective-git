@@ -26,6 +26,7 @@
 #import "git2.h"
 
 #import <ObjectiveGit/GTRepository.h>
+#import <ObjectiveGit/GTRepository+Stashing.h>
 #import <ObjectiveGit/GTEnumerator.h>
 #import <ObjectiveGit/GTCommit.h>
 #import <ObjectiveGit/GTSignature.h>

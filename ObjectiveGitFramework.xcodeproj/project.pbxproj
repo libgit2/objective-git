@@ -219,6 +219,11 @@
 		BDFAF9C9131C1868000508BC /* GTIndexEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = BDFAF9C7131C1868000508BC /* GTIndexEntry.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BDFAF9CA131C1868000508BC /* GTIndexEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = BDFAF9C8131C1868000508BC /* GTIndexEntry.m */; };
 		D00F6816175D373C004DB9D6 /* GTReferenceSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D00F6815175D373C004DB9D6 /* GTReferenceSpec.m */; };
+		D015F7CA17F695E800AD5E1F /* GTRepository+Stashing.h in Headers */ = {isa = PBXBuildFile; fileRef = D015F7C817F695E800AD5E1F /* GTRepository+Stashing.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D015F7CB17F695E800AD5E1F /* GTRepository+Stashing.h in Headers */ = {isa = PBXBuildFile; fileRef = D015F7C817F695E800AD5E1F /* GTRepository+Stashing.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D015F7CC17F695E800AD5E1F /* GTRepository+Stashing.m in Sources */ = {isa = PBXBuildFile; fileRef = D015F7C917F695E800AD5E1F /* GTRepository+Stashing.m */; };
+		D015F7CD17F695E800AD5E1F /* GTRepository+Stashing.m in Sources */ = {isa = PBXBuildFile; fileRef = D015F7C917F695E800AD5E1F /* GTRepository+Stashing.m */; };
+		D015F7D517F6965400AD5E1F /* GTRepositoryStashingSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D015F7D417F6965400AD5E1F /* GTRepositoryStashingSpec.m */; };
 		D03B7C411756AB370034A610 /* GTSubmoduleSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D03B7C401756AB370034A610 /* GTSubmoduleSpec.m */; };
 		D040AF70177B9779001AD9EB /* GTOIDSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D040AF6F177B9779001AD9EB /* GTOIDSpec.m */; };
 		D040AF78177B9A9E001AD9EB /* GTSignatureSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D040AF77177B9A9E001AD9EB /* GTSignatureSpec.m */; };
@@ -482,6 +487,9 @@
 		BDFAF9C7131C1868000508BC /* GTIndexEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTIndexEntry.h; sourceTree = "<group>"; };
 		BDFAF9C8131C1868000508BC /* GTIndexEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = GTIndexEntry.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		D00F6815175D373C004DB9D6 /* GTReferenceSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTReferenceSpec.m; sourceTree = "<group>"; };
+		D015F7C817F695E800AD5E1F /* GTRepository+Stashing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTRepository+Stashing.h"; sourceTree = "<group>"; };
+		D015F7C917F695E800AD5E1F /* GTRepository+Stashing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GTRepository+Stashing.m"; sourceTree = "<group>"; };
+		D015F7D417F6965400AD5E1F /* GTRepositoryStashingSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTRepositoryStashingSpec.m; sourceTree = "<group>"; };
 		D03B7C401756AB370034A610 /* GTSubmoduleSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTSubmoduleSpec.m; sourceTree = "<group>"; };
 		D040AF6F177B9779001AD9EB /* GTOIDSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTOIDSpec.m; sourceTree = "<group>"; };
 		D040AF77177B9A9E001AD9EB /* GTSignatureSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTSignatureSpec.m; sourceTree = "<group>"; };
@@ -682,6 +690,7 @@
 				D040AF6F177B9779001AD9EB /* GTOIDSpec.m */,
 				D040AF77177B9A9E001AD9EB /* GTSignatureSpec.m */,
 				D0F4E28917C7F24200BBDE30 /* NSErrorGitSpec.m */,
+				D015F7D417F6965400AD5E1F /* GTRepositoryStashingSpec.m */,
 			);
 			path = ObjectiveGitTests;
 			sourceTree = "<group>";
@@ -730,6 +739,8 @@
 				BDE4C062130EFE2C00851650 /* GTRepository.h */,
 				4DE864341794A37E00371A65 /* GTRepository+Private.h */,
 				BDE4C063130EFE2C00851650 /* GTRepository.m */,
+				D015F7C817F695E800AD5E1F /* GTRepository+Stashing.h */,
+				D015F7C917F695E800AD5E1F /* GTRepository+Stashing.m */,
 				BDD8AE6D13131B8800CB5D40 /* GTEnumerator.h */,
 				BDD8AE6E13131B8800CB5D40 /* GTEnumerator.m */,
 				BD6C22A71314625800992935 /* GTObject.h */,
@@ -910,6 +921,7 @@
 				6A74CA3616A942C000E1A3C5 /* GTConfiguration+Private.h in Headers */,
 				30B1E7EF1703522100D0814D /* NSDate+GTTimeAdditions.h in Headers */,
 				D09C2E371755F16200065E36 /* GTSubmodule.h in Headers */,
+				D015F7CB17F695E800AD5E1F /* GTRepository+Stashing.h in Headers */,
 				4DE864361794A37E00371A65 /* GTRepository+Private.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -946,6 +958,7 @@
 				3011D8711668E78500CE3409 /* GTDiffHunk.h in Headers */,
 				30FDC07F16835A8100654BF0 /* GTDiffLine.h in Headers */,
 				3011D8771668F29600CE3409 /* GTDiffDelta.h in Headers */,
+				D015F7CA17F695E800AD5E1F /* GTRepository+Stashing.h in Headers */,
 				882154691714740500D76B76 /* GTReflog.h in Headers */,
 				8821547D17147B3600D76B76 /* GTOID.h in Headers */,
 				8821547617147A5200D76B76 /* GTReflogEntry.h in Headers */,
@@ -1248,6 +1261,7 @@
 				8821547917147A5200D76B76 /* GTReflogEntry.m in Sources */,
 				8821548017147B3600D76B76 /* GTOID.m in Sources */,
 				5BE6128B1745EE3400266D8C /* GTTreeBuilder.m in Sources */,
+				D015F7CD17F695E800AD5E1F /* GTRepository+Stashing.m in Sources */,
 				D09C2E391755F16200065E36 /* GTSubmodule.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1268,6 +1282,7 @@
 				30865A91167F503400B1AB6E /* GTDiffSpec.m in Sources */,
 				88A994BA16FCE7D400402C7B /* GTBranchSpec.m in Sources */,
 				2089E43C17D9A58000F451DA /* GTTagSpec.m in Sources */,
+				D015F7D517F6965400AD5E1F /* GTRepositoryStashingSpec.m in Sources */,
 				88A994CB16FCED1D00402C7B /* GTTestCase.m in Sources */,
 				30B1E8001703871900D0814D /* GTTimeAdditionsSpec.m in Sources */,
 				88C0BC5917038CF3009E99AA /* GTConfigurationSpec.m in Sources */,
@@ -1315,6 +1330,7 @@
 				3011D8731668E78500CE3409 /* GTDiffHunk.m in Sources */,
 				3011D8791668F29600CE3409 /* GTDiffDelta.m in Sources */,
 				30FDC08116835A8100654BF0 /* GTDiffLine.m in Sources */,
+				D015F7CC17F695E800AD5E1F /* GTRepository+Stashing.m in Sources */,
 				30B1E7F01703522100D0814D /* NSDate+GTTimeAdditions.m in Sources */,
 				8821546B1714740500D76B76 /* GTReflog.m in Sources */,
 				8821547817147A5200D76B76 /* GTReflogEntry.m in Sources */,
