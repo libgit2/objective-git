@@ -37,6 +37,9 @@ typedef enum {
 // The OID for the file.
 @property (nonatomic, readonly) GTOID *OID;
 
+// The git_diff_file represented by the receiver.
+@property (nonatomic, readonly) git_diff_file git_diff_file;
+
 // Designated initialiser.
 - (instancetype)initWithGitDiffFile:(git_diff_file)file;
 
