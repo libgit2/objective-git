@@ -147,31 +147,4 @@ describe(@"-checkout:strategy:error:progressBlock:", ^{
 	});
 });
 
-describe(@"committing", ^{
-	__block GTRepository *repository;
-
-	beforeEach(^{
-		repository = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:NULL];
-	});
-
-	it(@"can write commit data", ^{
-		NSString *commitSHA = @"8496071c1b46c854b31185ea97743be6a8774479";
-		GTCommit *commit = [repository lookupObjectBySHA:commitSHA error:NULL];
-		expect(commit).notTo.beNil();
-
-		GTCommit *newCommit = [repository createCommitWithTree:commit.tree message:@"a new message" author:commit.author committer:commit.committer parents:commit.parents updatingReferenceNamed:nil error:NULL];
-		expect(newCommit).notTo.beNil();
-	});
-
-	it(@"can write new commit data", ^{
-		NSString *treeSHA = @"c4dc1555e4d4fa0e0c9c3fc46734c7c35b3ce90b";
-		GTTree *tree = [repository lookupObjectBySHA:treeSHA error:NULL];
-		expect(tree).notTo.beNil();
-
-		GTSignature *signature = [[GTSignature alloc] initWithName:@"John Smith" email:@"john@smith.com" time:[NSDate date]];
-		GTCommit *commit = [repository createCommitWithTree:tree message:@"a new message" author:signature committer:signature parents:nil updatingReferenceNamed:nil error:NULL];
-		expect(commit).notTo.beNil();
-	});
-});
-
 SpecEnd
