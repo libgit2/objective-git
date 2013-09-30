@@ -18,7 +18,7 @@ typedef GTCredential *(^GTCredentialProviderBlock)(GTCredentialType allowedTypes
 @end
 
 @implementation GTCredentialProvider
-+ (instancetype)providerWithBlock:(GTCredential *(^)(GTCredentialType type, NSString *URL, NSString *userName))credentialBlock {
++ (instancetype)providerWithBlock:(GTCredentialProviderBlock)credentialBlock {
 	NSParameterAssert(credentialBlock != nil);
 	GTCredentialProvider *provider = [[self alloc] init];
 
