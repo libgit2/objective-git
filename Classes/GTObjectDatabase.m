@@ -96,12 +96,14 @@
 	int gitError = git_odb_open_wstream(&stream, self.git_odb, data.length, (git_otype)type);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to open write stream on odb."];
+		if (stream != NULL) git_odb_stream_free(stream);
 		return nil;
 	}
 
 	gitError = git_odb_stream_write(stream, data.bytes, data.length);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to write to stream on odb."];
+		if (stream != NULL) git_odb_stream_free(stream);
 		return nil;
 	}
 
@@ -109,6 +111,7 @@
 	gitError = git_odb_stream_finalize_write(&oid, stream);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to finalize write on odb."];
+		if (stream != NULL) git_odb_stream_free(stream);
 		return nil;
 	}
 
