@@ -14,15 +14,16 @@
 typedef GTCredential *(^GTCredentialProviderBlock)(GTCredentialType allowedTypes, NSString *URL, NSString *userName);
 
 @interface GTCredentialProvider ()
-@property (copy) GTCredentialProviderBlock credBlock;
+@property (nonatomic, readonly) GTCredentialProviderBlock credBlock;
 @end
 
 @implementation GTCredentialProvider
 + (instancetype)providerWithBlock:(GTCredentialProviderBlock)credentialBlock {
 	NSParameterAssert(credentialBlock != nil);
+
 	GTCredentialProvider *provider = [[self alloc] init];
 
-	provider.credBlock = credentialBlock;
+	provider->_credBlock = credentialBlock;
 
 	return provider;
 }
