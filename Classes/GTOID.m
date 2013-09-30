@@ -7,7 +7,7 @@
 //
 
 #import "GTOID.h"
-#import "NSError+Git.h"
+#import "GTError.h"
 
 @interface GTOID () {
 	git_oid _git_oid;
@@ -65,7 +65,7 @@
 	int status = git_oid_fromstr(&_git_oid, string);
 	if (status != GIT_OK) {
 		if (error != NULL) {
-			*error = [NSError git_errorFor:status description:@"Failed to convert string '%s' to object id", string];
+			*error = [GTError errorForGitError:status description:@"Failed to convert string '%s' to object id", string];
 		}
 		return nil;
 	}

@@ -29,7 +29,7 @@
 
 #import "GTEnumerator.h"
 #import "GTCommit.h"
-#import "NSError+Git.h"
+#import "GTError.h"
 #import "NSString+Git.h"
 #import "GTRepository.h"
 #import "GTRepository+Private.h"
@@ -57,7 +57,7 @@
 
 	int gitError = git_revwalk_new(&_walk, self.repository.git_repository);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to initialize rev walker."];
+		if (error != NULL) *error = [GTError errorForGitError:gitError description:@"Failed to initialize rev walker."];
 		return nil;
 	}
 
@@ -81,7 +81,7 @@
 	
 	int gitError = git_revwalk_push(self.walk, oid.git_oid);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to push SHA %@ onto rev walker.", sha];
+		if (error != NULL) *error = [GTError errorForGitError:gitError description:@"Failed to push SHA %@ onto rev walker.", sha];
 		return NO;
 	}
 	
@@ -93,7 +93,7 @@
 
 	int gitError = git_revwalk_push_glob(self.walk, refGlob.UTF8String);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to push glob %@ onto rev walker.", refGlob];
+		if (error != NULL) *error = [GTError errorForGitError:gitError description:@"Failed to push glob %@ onto rev walker.", refGlob];
 		return NO;
 	}
 	
@@ -108,7 +108,7 @@
 
 	int gitError = git_revwalk_hide(self.walk, oid.git_oid);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to hide SHA %@ on rev walker.", sha];
+		if (error != NULL) *error = [GTError errorForGitError:gitError description:@"Failed to hide SHA %@ on rev walker.", sha];
 		return NO;
 	}
 
@@ -120,7 +120,7 @@
 
 	int gitError = git_revwalk_hide_glob(self.walk, refGlob.UTF8String);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to push glob %@ onto rev walker.", refGlob];
+		if (error != NULL) *error = [GTError errorForGitError:gitError description:@"Failed to push glob %@ onto rev walker.", refGlob];
 		return NO;
 	}
 	
@@ -182,7 +182,7 @@
 	if (gitError == GIT_ITEROVER) {
 		return count;
 	} else {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to get next SHA with rev walker."];
+		if (error != NULL) *error = [GTError errorForGitError:gitError description:@"Failed to get next SHA with rev walker."];
 		return NSNotFound;
 	}
 }

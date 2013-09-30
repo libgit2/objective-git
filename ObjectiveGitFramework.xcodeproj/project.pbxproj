@@ -57,7 +57,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		04DB464E133AB5E200D9C624 /* NSError+Git.h in Headers */ = {isa = PBXBuildFile; fileRef = BDE4C060130EFE2C00851650 /* NSError+Git.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		04DB464E133AB5E200D9C624 /* GTError.h in Headers */ = {isa = PBXBuildFile; fileRef = BDE4C060130EFE2C00851650 /* GTError.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		04DB464F133AB5E200D9C624 /* GTRepository.h in Headers */ = {isa = PBXBuildFile; fileRef = BDE4C062130EFE2C00851650 /* GTRepository.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		04DB4652133AB5E200D9C624 /* GTEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = BDD8AE6D13131B8800CB5D40 /* GTEnumerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		04DB4653133AB5E200D9C624 /* GTTree.h in Headers */ = {isa = PBXBuildFile; fileRef = BD6B040F131496B8001909D0 /* GTTree.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -72,7 +72,7 @@
 		04DB465C133AB5E200D9C624 /* GTObject.h in Headers */ = {isa = PBXBuildFile; fileRef = BD6C22A71314625800992935 /* GTObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		04DB465D133AB5E200D9C624 /* GTSignature.h in Headers */ = {isa = PBXBuildFile; fileRef = BD6C254313148DC900992935 /* GTSignature.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		04DB465E133AB5E200D9C624 /* GTBranch.h in Headers */ = {isa = PBXBuildFile; fileRef = 88F50F56132054D800584FBE /* GTBranch.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		04DB4660133AB5EB00D9C624 /* NSError+Git.m in Sources */ = {isa = PBXBuildFile; fileRef = BDE4C061130EFE2C00851650 /* NSError+Git.m */; };
+		04DB4660133AB5EB00D9C624 /* GTError.m in Sources */ = {isa = PBXBuildFile; fileRef = BDE4C061130EFE2C00851650 /* GTError.m */; };
 		04DB4661133AB5EB00D9C624 /* GTRepository.m in Sources */ = {isa = PBXBuildFile; fileRef = BDE4C063130EFE2C00851650 /* GTRepository.m */; };
 		04DB4664133AB5EB00D9C624 /* GTEnumerator.m in Sources */ = {isa = PBXBuildFile; fileRef = BDD8AE6E13131B8800CB5D40 /* GTEnumerator.m */; };
 		04DB4665133AB5EB00D9C624 /* GTCommit.m in Sources */ = {isa = PBXBuildFile; fileRef = BD6C22A51314609A00992935 /* GTCommit.m */; };
@@ -210,8 +210,8 @@
 		BDD62925131C03D600DE34D1 /* GTTag.m in Sources */ = {isa = PBXBuildFile; fileRef = BDD62923131C03D600DE34D1 /* GTTag.m */; };
 		BDD8AE6F13131B8800CB5D40 /* GTEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = BDD8AE6D13131B8800CB5D40 /* GTEnumerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BDD8AE7013131B8800CB5D40 /* GTEnumerator.m in Sources */ = {isa = PBXBuildFile; fileRef = BDD8AE6E13131B8800CB5D40 /* GTEnumerator.m */; };
-		BDE4C064130EFE2C00851650 /* NSError+Git.h in Headers */ = {isa = PBXBuildFile; fileRef = BDE4C060130EFE2C00851650 /* NSError+Git.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BDE4C065130EFE2C00851650 /* NSError+Git.m in Sources */ = {isa = PBXBuildFile; fileRef = BDE4C061130EFE2C00851650 /* NSError+Git.m */; };
+		BDE4C064130EFE2C00851650 /* GTError.h in Headers */ = {isa = PBXBuildFile; fileRef = BDE4C060130EFE2C00851650 /* GTError.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BDE4C065130EFE2C00851650 /* GTError.m in Sources */ = {isa = PBXBuildFile; fileRef = BDE4C061130EFE2C00851650 /* GTError.m */; };
 		BDE4C066130EFE2C00851650 /* GTRepository.h in Headers */ = {isa = PBXBuildFile; fileRef = BDE4C062130EFE2C00851650 /* GTRepository.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BDE4C067130EFE2C00851650 /* GTRepository.m in Sources */ = {isa = PBXBuildFile; fileRef = BDE4C063130EFE2C00851650 /* GTRepository.m */; };
 		BDFAF9C3131C1845000508BC /* GTIndex.h in Headers */ = {isa = PBXBuildFile; fileRef = BDFAF9C1131C1845000508BC /* GTIndex.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -478,8 +478,8 @@
 		BDD9C3FB133BA604003708E7 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		BDD9C3FD133BA604003708E7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		BDD9C3FF133BA604003708E7 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		BDE4C060130EFE2C00851650 /* NSError+Git.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+Git.h"; sourceTree = "<group>"; };
-		BDE4C061130EFE2C00851650 /* NSError+Git.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+Git.m"; sourceTree = "<group>"; };
+		BDE4C060130EFE2C00851650 /* GTError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTError.h; sourceTree = "<group>"; };
+		BDE4C061130EFE2C00851650 /* GTError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTError.m; sourceTree = "<group>"; };
 		BDE4C062130EFE2C00851650 /* GTRepository.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTRepository.h; sourceTree = "<group>"; };
 		BDE4C063130EFE2C00851650 /* GTRepository.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = GTRepository.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		BDFAF9C1131C1845000508BC /* GTIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTIndex.h; sourceTree = "<group>"; };
@@ -797,8 +797,8 @@
 			children = (
 				BD6C2266131459E700992935 /* NSData+Git.h */,
 				BD6C2267131459E700992935 /* NSData+Git.m */,
-				BDE4C060130EFE2C00851650 /* NSError+Git.h */,
-				BDE4C061130EFE2C00851650 /* NSError+Git.m */,
+				BDE4C060130EFE2C00851650 /* GTError.h */,
+				BDE4C061130EFE2C00851650 /* GTError.m */,
 				55C8057213874CDF004DCB0F /* NSString+Git.h */,
 				55C8057313874CDF004DCB0F /* NSString+Git.m */,
 				30B1E7EC1703522100D0814D /* NSDate+GTTimeAdditions.h */,
@@ -889,7 +889,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3E0A23E5159E0FDB00A6068F /* GTObjectDatabase.h in Headers */,
-				04DB464E133AB5E200D9C624 /* NSError+Git.h in Headers */,
+				04DB464E133AB5E200D9C624 /* GTError.h in Headers */,
 				55C8057F13875C62004DCB0F /* NSData+Git.h in Headers */,
 				55C8058013875C6E004DCB0F /* NSString+Git.h in Headers */,
 				04DB464F133AB5E200D9C624 /* GTRepository.h in Headers */,
@@ -949,7 +949,7 @@
 				88F50F59132054D800584FBE /* GTBranch.h in Headers */,
 				79262F8B13C69B1600A4B1EA /* git2.h in Headers */,
 				88EB7E4D14AEBA600046FEA4 /* GTConfiguration.h in Headers */,
-				BDE4C064130EFE2C00851650 /* NSError+Git.h in Headers */,
+				BDE4C064130EFE2C00851650 /* GTError.h in Headers */,
 				55C8057D13875C11004DCB0F /* NSData+Git.h in Headers */,
 				883CD6AB1600EBC600F57354 /* GTRemote.h in Headers */,
 				55C8057E13875C1B004DCB0F /* NSString+Git.h in Headers */,
@@ -1233,7 +1233,7 @@
 				6A74CA3816A9432A00E1A3C5 /* ObjectiveGit.m in Sources */,
 				6A74CA3416A942AA00E1A3C5 /* NSData+Git.m in Sources */,
 				6A74CA3216A9429700E1A3C5 /* GTRemote.m in Sources */,
-				04DB4660133AB5EB00D9C624 /* NSError+Git.m in Sources */,
+				04DB4660133AB5EB00D9C624 /* GTError.m in Sources */,
 				04DB4661133AB5EB00D9C624 /* GTRepository.m in Sources */,
 				04DB4664133AB5EB00D9C624 /* GTEnumerator.m in Sources */,
 				04DB4665133AB5EB00D9C624 /* GTCommit.m in Sources */,
@@ -1305,7 +1305,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BDE4C065130EFE2C00851650 /* NSError+Git.m in Sources */,
+				BDE4C065130EFE2C00851650 /* GTError.m in Sources */,
 				BDE4C067130EFE2C00851650 /* GTRepository.m in Sources */,
 				BDD8AE7013131B8800CB5D40 /* GTEnumerator.m in Sources */,
 				BD6C235313146E6600992935 /* GTCommit.m in Sources */,

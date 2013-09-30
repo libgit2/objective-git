@@ -10,7 +10,7 @@
 #import "GTOID.h"
 #import "GTRepository+Private.h"
 #import "GTSignature.h"
-#import "NSError+Git.h"
+#import "GTError.h"
 
 typedef void (^GTRepositoryStashEnumerationBlock)(NSUInteger index, NSString *message, GTOID *oid, BOOL *stop);
 
@@ -21,7 +21,7 @@ typedef void (^GTRepositoryStashEnumerationBlock)(NSUInteger index, NSString *me
 
 	int gitError = git_stash_save(&git_oid, self.git_repository, [self userSignatureForNow].git_signature, message.UTF8String, flags);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to stash."];
+		if (error != NULL) *error = [GTError errorForGitError:gitError description:@"Failed to stash."];
 		return nil;
 	}
 	
@@ -51,7 +51,7 @@ static int stashEnumerationCallback(size_t index, const char *message, const git
 - (BOOL)dropStashAtIndex:(NSUInteger)index error:(NSError **)error {
 	int gitError = git_stash_drop(self.git_repository, index);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to drop stash."];
+		if (error != NULL) *error = [GTError errorForGitError:gitError description:@"Failed to drop stash."];
 		return NO;
 	}
 

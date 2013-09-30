@@ -28,7 +28,7 @@
 //
 
 #import "GTIndexEntry.h"
-#import "NSError+Git.h"
+#import "GTError.h"
 #import "NSString+Git.h"
 
 @interface GTIndexEntry ()

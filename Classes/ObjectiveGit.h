@@ -50,7 +50,7 @@
 #import <ObjectiveGit/GTObjectDatabase.h>
 #import <ObjectiveGit/GTOdbObject.h>
 
-#import <ObjectiveGit/NSError+Git.h>
+#import <ObjectiveGit/GTError.h>
 #import <ObjectiveGit/NSData+Git.h>
 #import <ObjectiveGit/NSString+Git.h>
 

@@ -23,8 +23,13 @@ it(@"should fail to create a stash if there's nothing to stash", ^{
 	expect(stash).to.beNil();
 
 	expect(error).notTo.beNil();
-	expect(error.domain).to.equal(GTGitErrorDomain);
-	expect(error.code).to.equal(GIT_ENOTFOUND);
+	expect(error.domain).to.equal(GTObjectiveGitErrorDomain);
+	expect(error.code).to.equal(GTObjectiveGitGitError);
+
+	NSError *under = error.userInfo[NSUnderlyingErrorKey];
+	expect(under).notTo.beNil();
+	expect(under.domain).to.equal(GTGitErrorDomain);
+	expect(under.code).to.equal(GIT_ENOTFOUND);
 });
 
 it(@"should create a stash with modified file content", ^{
@@ -71,8 +76,13 @@ it(@"should fail to create a stash with an untracked file using default options"
 	expect(stash).to.beNil();
 
 	expect(error).notTo.beNil();
-	expect(error.domain).to.equal(GTGitErrorDomain);
-	expect(error.code).to.equal(GIT_ENOTFOUND);
+	expect(error.domain).to.equal(GTObjectiveGitErrorDomain);
+	expect(error.code).to.equal(GTObjectiveGitGitError);
+
+	NSError *under = error.userInfo[NSUnderlyingErrorKey];
+	expect(under).notTo.beNil();
+	expect(under.domain).to.equal(GTGitErrorDomain);
+	expect(under.code).to.equal(GIT_ENOTFOUND);
 });
 
 it(@"should stash an untracked file when enabled", ^{
