@@ -79,7 +79,7 @@ run_xcodebuild ()
     then
         xcodebuild -workspace "$XCWORKSPACE" -scheme "$scheme" -configuration "$XCCONFIGURATION" $BUILD_COMMAND OBJROOT="$PWD/build" SYMROOT="$PWD/build" $XCODEBUILD_SETTINGS
     else
-        echo xcodebuild -scheme "$scheme" -configuration "$XCCONFIGURATION" $BUILD_COMMAND OBJROOT="$PWD/build" SYMROOT="$PWD/build" $XCODEBUILD_SETTINGS
+        xcodebuild -scheme "$scheme" -configuration "$XCCONFIGURATION" $BUILD_COMMAND OBJROOT="$PWD/build" SYMROOT="$PWD/build" $XCODEBUILD_SETTINGS
     fi
 
     local status=$?
