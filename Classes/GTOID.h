@@ -70,7 +70,7 @@
 
 @interface GTOID (GTObjectDatabase)
 
-// Returns an OID corresponding to the passed data and object type.
+// Calculates an OID by hashing the passed data and object type.
 //
 // data - The data to hash. Cannot be nil.
 // type - The type of the git object.

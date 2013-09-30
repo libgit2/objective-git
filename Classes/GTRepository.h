@@ -141,7 +141,7 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 // fileURL - The file URL for the new repository. Cannot be nil.
 // error   - The error if one occurs.
 //
-// Returns the initialized repository, or nil an error occurred.
+// Returns the initialized repository, or nil if an error occurred.
 + (instancetype)initializeEmptyRepositoryAtFileURL:(NSURL *)fileURL error:(NSError **)error;
 
 // Initializes a new repository at the given file URL.
@@ -150,7 +150,7 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 // error   - The error if one occurs.
 // bare    - Should the repository be created bare?
 //
-// Returns the initialized repository, or nil an error occurred.
+// Returns the initialized repository, or nil if an error occurred.
 + (instancetype)initializeEmptyRepositoryAtFileURL:(NSURL *)fileURL bare:(BOOL)bare error:(NSError **)error;
 
 + (id)repositoryWithURL:(NSURL *)localFileURL error:(NSError **)error;

@@ -74,19 +74,19 @@ typedef enum {
 
 // Get an entry from the builder from its file name.
 //
-// fileName - File name for the object in the index
+// fileName - File name for the object in the index. Cannot be nil.
 //
 // Returns the matching entry or nil if it doesn't exist.
 - (GTTreeEntry *)entryWithFileName:(NSString *)fileName;
 
-// Add or update an entry to the builder.
+// Adds or updates the entry for the file name with the given data. When the
+// tree is written, a blob will be inserted into the object database containing
+// `data`.
 //
-// Note: `data` won't be added to the repository until the tree gets written.
-//
-// data		- The data for the entry.
-// fileName - The file name for the object.
+// data     - The data for the entry. Cannot be nil.
+// fileName - The file name for the object. Cannot be nil.
 // fileMode - The file mode for the object.
-// error	- The error if one occurred.
+// error    - The error if one occurred.
 //
 // Returns the added entry, or nil if an error occurred
 - (GTTreeEntry *)addEntryWithData:(NSData *)data fileName:(NSString *)fileName fileMode:(GTFileMode)fileMode error:(NSError **)error;
