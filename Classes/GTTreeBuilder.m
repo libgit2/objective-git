@@ -155,22 +155,28 @@ static int filter_callback(const git_tree_entry *entry, void *payload) {
 	return status == GIT_OK;
 }
 
-- (GTTree *)writeTreeToRepository:(GTRepository *)repository error:(NSError **)error {
+- (BOOL)writePendingDataToRepository:(GTRepository *)repository error:(NSError **)error {
 	@synchronized (self) {
 		if (self.fileNameToPendingData.count != 0) {
 			GTObjectDatabase *odb = [repository objectDatabaseWithError:error];
-			if (odb == nil) return nil;
+			if (odb == nil) return NO;
 
 			for (NSString *fileName in self.fileNameToPendingData) {
 				NSData *data = self.fileNameToPendingData[fileName];
-
 				GTOID *dataOID = [odb writeData:data type:GTObjectTypeBlob error:error];
-				if (dataOID == nil) return nil;
+				if (dataOID == nil) return NO;
 			}
 
 			[self.fileNameToPendingData removeAllObjects];
 		}
 	}
+
+	return YES;
+}
+
+- (GTTree *)writeTreeToRepository:(GTRepository *)repository error:(NSError **)error {
+	BOOL success = [self writePendingDataToRepository:repository error:error];
+	if (!success) return nil;
 
 	git_oid treeOid;
 	int status = git_treebuilder_write(&treeOid, repository.git_repository, self.git_treebuilder);
