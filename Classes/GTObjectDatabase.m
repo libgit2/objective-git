@@ -131,7 +131,7 @@
 }
 
 - (BOOL)containsObjectWithOID:(GTOID *)oid {
-	return (BOOL)git_odb_exists(self.git_odb, oid.git_oid);
+	return git_odb_exists(self.git_odb, oid.git_oid) ? YES : NO;
 }
 
 @end
