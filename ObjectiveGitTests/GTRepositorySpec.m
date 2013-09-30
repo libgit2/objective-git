@@ -7,6 +7,7 @@
 //
 
 #import "GTRepository.h"
+#import "GTRepository+Committing.h"
 
 SpecBegin(GTRepository)
 
@@ -158,7 +159,7 @@ describe(@"committing", ^{
 		GTCommit *commit = [repository lookupObjectBySHA:commitSHA error:NULL];
 		expect(commit).notTo.beNil();
 
-		GTCommit *newCommit = [repository createCommitWithTree:commit.tree message:@"a new message" author:commit.author committer:commit.committer parents:commit.parents byUpdatingReferenceNamed:nil error:NULL];
+		GTCommit *newCommit = [repository createCommitWithTree:commit.tree message:@"a new message" author:commit.author committer:commit.committer parents:commit.parents updatingReferenceNamed:nil error:NULL];
 		expect(newCommit).notTo.beNil();
 	});
 
@@ -168,7 +169,7 @@ describe(@"committing", ^{
 		expect(tree).notTo.beNil();
 
 		GTSignature *signature = [[GTSignature alloc] initWithName:@"John Smith" email:@"john@smith.com" time:[NSDate date]];
-		GTCommit *commit = [repository createCommitWithTree:tree message:@"a new message" author:signature committer:signature parents:nil byUpdatingReferenceNamed:nil error:NULL];
+		GTCommit *commit = [repository createCommitWithTree:tree message:@"a new message" author:signature committer:signature parents:nil updatingReferenceNamed:nil error:NULL];
 		expect(commit).notTo.beNil();
 	});
 });
