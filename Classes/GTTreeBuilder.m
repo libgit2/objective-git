@@ -45,7 +45,7 @@
 //
 // This is needed because we don't want to add the entries to the object
 // database until the tree's been written.
-@property (nonatomic, retain, readonly) NSMutableDictionary *fileNameToPendingData;
+@property (nonatomic, strong, readonly) NSMutableDictionary *fileNameToPendingData;
 
 @end
 
