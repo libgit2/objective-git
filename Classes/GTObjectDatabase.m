@@ -93,7 +93,6 @@
 	NSParameterAssert(data != nil);
 
 	git_odb_stream *stream;
-	git_oid oid;
 	int gitError = git_odb_open_wstream(&stream, self.git_odb, data.length, (git_otype)type);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to open write stream on odb."];
@@ -106,6 +105,7 @@
 		return nil;
 	}
 
+	git_oid oid;
 	gitError = git_odb_stream_finalize_write(&oid, stream);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to finalize write on odb."];
@@ -115,12 +115,6 @@
 	git_odb_stream_free(stream);
 
 	return [GTOID oidWithGitOid:&oid];
-}
-
-- (GTOID *)writeString:(NSString *)string type:(GTObjectType)type error:(NSError **)error {
-	NSParameterAssert(string != nil);
-
-	return [self writeData:[string dataUsingEncoding:NSUTF8StringEncoding] type:type error:error];
 }
 
 - (BOOL)containsObjectWithSHA:(NSString *)sha error:(NSError **)error {

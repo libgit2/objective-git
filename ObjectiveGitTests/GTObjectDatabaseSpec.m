@@ -65,7 +65,7 @@ it(@"should be able to write", ^{
 	static NSString * const testContent = @"my test data\n";
 	static const GTObjectType testContentType = GTObjectTypeBlob;
 	static NSString * const testContentSHA = @"76b1b55ab653581d6f2c7230d34098e837197674";
-	GTOID *oid = [database writeString:testContent type:testContentType error:NULL];
+	GTOID *oid = [database writeData:[testContent dataUsingEncoding:NSUTF8StringEncoding] type:testContentType error:NULL];
 	expect(oid.SHA).to.equal(testContentSHA);
 	expect([database containsObjectWithSHA:testContentSHA error:NULL]).to.beTruthy();
 });

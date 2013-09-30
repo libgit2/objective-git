@@ -56,16 +56,6 @@
 // occurred.
 - (GTOID *)writeData:(NSData *)data type:(GTObjectType)type error:(NSError **)error;
 
-// Writes the string into the object database.
-//
-// string - The string to write. Cannot be nil.
-// type   - The type of object to create with the string.
-// error  - The error if one occurred.
-//
-// Returns the OID for the object which was written, or nil if an error
-// occurred.
-- (GTOID *)writeString:(NSString *)string type:(GTObjectType)type error:(NSError **)error;
-
 - (BOOL)containsObjectWithSHA:(NSString *)SHA error:(NSError **)error;
 
 // Checks if the object database contains an object with a given OID.
