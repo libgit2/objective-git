@@ -33,6 +33,7 @@ for ARCH in ${ARCHS}; do
     echo "Building libssh2 for ${PLATFORM} ${SDKVERSION} ${ARCH}"
     echo "Please stand by..."
 
+    rm -rf External/libssh2-ios/src/libssh2
     cp -R External/libssh2 External/libssh2-ios/src/
     cd External/libssh2-ios/src/libssh2
 
@@ -54,7 +55,6 @@ for ARCH in ${ARCHS}; do
     make install >> "${LOG}" 2>&1
 
     cd ${CURRENTPATH}
-    rm -rf External/libssh2-ios/src/libssh2
 done
 
 echo "Build library..."
