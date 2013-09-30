@@ -106,11 +106,11 @@ typedef struct {
 	return NO;
 }
 
-+ (GTRepository *)initializeEmptyRepositoryAtFileURL:(NSURL *)localFileURL error:(NSError **)error {
++ (instancetype)initializeEmptyRepositoryAtFileURL:(NSURL *)localFileURL error:(NSError **)error {
 	return [self initializeEmptyRepositoryAtFileURL:localFileURL bare:NO error:error];
 }
 
-+ (GTRepository *)initializeEmptyRepositoryAtFileURL:(NSURL *)localFileURL bare:(BOOL)bare error:(NSError **)error {
++ (instancetype)initializeEmptyRepositoryAtFileURL:(NSURL *)localFileURL bare:(BOOL)bare error:(NSError **)error {
 	if (![localFileURL isFileURL] || localFileURL.path == nil) {
 		if (error != NULL) *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileWriteUnsupportedSchemeError userInfo:@{ NSLocalizedDescriptionKey: NSLocalizedString(@"Invalid file path URL to initialize repository.", @"") }];
 		return NO;
