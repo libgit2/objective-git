@@ -35,18 +35,17 @@
 #import "GTOID.h"
 #import "NSError+Git.h"
 #import "GTOID.h"
-#import "GTTreeBuilderTransientEntry.h"
 
 @interface GTTreeBuilder ()
 
 @property (nonatomic, assign, readonly) git_treebuilder *git_treebuilder;
 
-// GTTreeBuilderTransientEntries, keyed by the file name. This should only be
+// Data to be written with the tree, keyed by the file name. This should only be
 // accessed while synchronized on self.
 //
 // This is needed because we don't want to add the entries to the object
 // database until the tree's been written.
-@property (nonatomic, retain, readonly) NSMutableDictionary *fileNameToTransientEntries;
+@property (nonatomic, retain, readonly) NSMutableDictionary *fileNameToPendingData;
 
 @end
 
@@ -70,7 +69,7 @@
 		return nil;
 	}
 
-	_fileNameToTransientEntries	= [NSMutableDictionary dictionary];
+	_fileNameToPendingData	= [NSMutableDictionary dictionary];
 
 	return self;
 }
@@ -115,9 +114,8 @@ static int filter_callback(const git_tree_entry *entry, void *payload) {
 	GTOID *OID = [GTOID OIDByHashingData:data type:GTObjectTypeBlob error:error];
 	if (OID == nil) return nil;
 
-	GTTreeBuilderTransientEntry *entry = [[GTTreeBuilderTransientEntry alloc] initWithFileName:fileName data:data fileMode:fileMode];
 	@synchronized (self) {
-		self.fileNameToTransientEntries[fileName] = entry;
+		self.fileNameToPendingData[fileName] = data;
 	}
 
 	return [self addEntryWithOID:OID fileName:fileName fileMode:fileMode error:error];
@@ -151,7 +149,7 @@ static int filter_callback(const git_tree_entry *entry, void *payload) {
 	}
 
 	@synchronized (self) {
-		[self.fileNameToTransientEntries removeObjectForKey:fileName];
+		[self.fileNameToPendingData removeObjectForKey:fileName];
 	}
 	
 	return status == GIT_OK;
@@ -159,16 +157,18 @@ static int filter_callback(const git_tree_entry *entry, void *payload) {
 
 - (GTTree *)writeTreeToRepository:(GTRepository *)repository error:(NSError **)error {
 	@synchronized (self) {
-		if (self.fileNameToTransientEntries.count != 0) {
+		if (self.fileNameToPendingData.count != 0) {
 			GTObjectDatabase *odb = [repository objectDatabaseWithError:error];
 			if (odb == nil) return nil;
 
-			for (NSString *fileName in self.fileNameToTransientEntries) {
-				GTTreeBuilderTransientEntry *entry = self.fileNameToTransientEntries[fileName];
+			for (NSString *fileName in self.fileNameToPendingData) {
+				NSData *data = self.fileNameToPendingData[fileName];
 
-				GTOID *dataOID = [odb writeData:entry.data type:GTObjectTypeBlob error:error];
+				GTOID *dataOID = [odb writeData:data type:GTObjectTypeBlob error:error];
 				if (dataOID == nil) return nil;
 			}
+
+			[self.fileNameToPendingData removeAllObjects];
 		}
 	}
 
