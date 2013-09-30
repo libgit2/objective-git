@@ -149,8 +149,8 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 //
 // originURL             - The URL to clone from.
 // workdirURL            - A URL to the desired working directory on the local machine.
-// options               - A dictionary containing any of the above options key constants, or
-//                         nil to use the defaults.
+// options               - A dictionary consisting of the options `GTRepositoryCloneOptionsTransportFlags`, 
+//                         `GTRepositoryCloneOptionsBare`, and `GTRepositoryCloneOptionsCheckout`.
 // error                 - A pointer to fill in case of trouble.
 // transferProgressBlock - This block is called with network transfer updates.
 // checkoutProgressBlock - This block is called with checkout updates (if `GTRepositoryCloneOptionsCheckout` is YES).
