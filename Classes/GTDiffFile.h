@@ -35,7 +35,7 @@ typedef enum {
 @property (nonatomic, readonly) mode_t mode;
 
 // The OID for the file.
-@property (nonatomic, readonly) GTOID *OID;
+@property (nonatomic, readonly, copy) GTOID *OID;
 
 // The git_diff_file represented by the receiver.
 @property (nonatomic, readonly) git_diff_file git_diff_file;

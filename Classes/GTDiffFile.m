@@ -11,8 +11,6 @@
 
 @implementation GTDiffFile
 
-@synthesize OID = _OID;
-
 - (instancetype)initWithGitDiffFile:(git_diff_file)file {
 	self = [super init];
 	if (self == nil) return nil;
@@ -28,8 +26,7 @@
 }
 
 - (GTOID *)OID {
-	if (_OID == nil) _OID = [[GTOID alloc] initWithGitOid:&_git_diff_file.oid];
-	return _OID;
+	return [[GTOID alloc] initWithGitOid:&_git_diff_file.oid];
 }
 
 @end
