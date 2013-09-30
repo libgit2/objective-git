@@ -93,20 +93,8 @@ typedef enum {
 
 // Add or update an entry to the builder.
 //
-// sha      - The SHA of a git object aleady stored in the repository.
-// fileName - File name for the object in the index.
-// fileMode - File mode for the object in the index.
-// error    - The error if one occurred.
-//
-// Converts the sha parameter to an GTOID and calls addEntryWithOID:filename:filemode:error:
-//
-// Returns the added entry, or nil if an error occurred.
-- (GTTreeEntry *)addEntryWithSHA:(NSString *)sha fileName:(NSString *)fileName fileMode:(GTFileMode)fileMode error:(NSError **)error;
-
-// Add or update an entry to the builder.
-//
 // oid      - The OID of a git object aleady stored in the repository.
-// fileName - File name for the object in the index.
+// fileName - File name for the object in the index. Cannot be nil.
 // fileMode - File mode for the object in the index.
 // error    - The error if one occurred.
 //

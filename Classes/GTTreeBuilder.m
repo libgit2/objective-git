@@ -136,12 +136,6 @@ static int filter_callback(const git_tree_entry *entry, void *payload) {
 	return [GTTreeEntry entryWithEntry:entry parentTree:nil];
 }
 
-- (GTTreeEntry *)addEntryWithSHA:(NSString *)sha fileName:(NSString *)fileName fileMode:(GTFileMode)fileMode error:(NSError *__autoreleasing *)error {
-	GTOID *oid = [[GTOID alloc] initWithSHA:sha error:error];
-	if (oid == nil) return nil;
-	return [self addEntryWithOID:oid fileName:fileName fileMode:fileMode error:error];
-}
-
 - (BOOL)removeEntryWithFileName:(NSString *)fileName error:(NSError **)error {
 	int status = git_treebuilder_remove(self.git_treebuilder, fileName.UTF8String);
 	if (status != GIT_OK) {
