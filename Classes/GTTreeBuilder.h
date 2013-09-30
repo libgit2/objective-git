@@ -135,4 +135,5 @@ typedef enum {
 //
 // Returns the written tree, or nil if an error occurred.
 - (GTTree *)writeTreeToRepository:(GTRepository *)repository error:(NSError **)error;
+
 @end
