@@ -11,17 +11,16 @@
 
 SpecBegin(GTRepositoryCommitting)
 
-NSURL *repositoryURL = [NSURL fileURLWithPath:[[NSTemporaryDirectory() stringByAppendingPathComponent:@"Objective-Git"] stringByAppendingPathComponent:@"test-repo"] isDirectory:YES];
 __block GTRepository *repository;
 
-beforeAll(^{
-	repository = [GTRepository initializeEmptyRepositoryAtFileURL:repositoryURL error:NULL];
-	expect(repository).notTo.beNil();
-});
+beforeEach(^{
+	CFUUIDRef UUIDRef = CFUUIDCreate(NULL);
+	NSString *UUID = CFBridgingRelease(CFUUIDCreateString(NULL, UUIDRef));
+	CFRelease(UUIDRef);
 
-afterAll(^{
-	BOOL success = [NSFileManager.defaultManager removeItemAtURL:repositoryURL error:NULL];
-	expect(success).to.beTruthy();
+	NSURL *fileURL = [self.tempDirectoryFileURL URLByAppendingPathComponent:UUID isDirectory:NO];
+	repository = [GTRepository initializeEmptyRepositoryAtFileURL:fileURL error:NULL];
+	expect(repository).notTo.beNil();
 });
 
 it(@"can create commits", ^{
