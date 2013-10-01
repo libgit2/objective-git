@@ -10,7 +10,7 @@
 #import "GTReflog+Private.h"
 #import "GTSignature.h"
 #import "GTReference.h"
-#import "NSError+Git.h"
+#import "GTError.h"
 #import "GTReflogEntry+Private.h"
 
 @interface GTReflog ()
@@ -51,7 +51,7 @@
 	int status = git_reflog_append(self.git_reflog, self.reference.git_oid, committer.git_signature, message.UTF8String);
 	if (status != GIT_OK) {
 		if (error != NULL) {
-			*error = [NSError git_errorFor:status description:@"Could not append to reflog"];
+			*error = [GTError errorForGitError:status description:@"Could not append to reflog"];
 		}
 		return NO;
 	}
@@ -59,7 +59,7 @@
 	status = git_reflog_write(self.git_reflog);
 	if (status != GIT_OK) {
 		if (error != NULL) {
-			*error = [NSError git_errorFor:status description:@"Could not write reflog"];
+			*error = [GTError errorForGitError:status description:@"Could not write reflog"];
 		}
 		return NO;
 	}

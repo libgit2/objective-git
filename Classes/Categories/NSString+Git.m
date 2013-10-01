@@ -28,7 +28,7 @@
 //
 
 #import "NSString+Git.h"
-#import "NSError+Git.h"
+#import "GTError.h"
 #import "GTOID.h"
 
 @implementation NSString (Git)

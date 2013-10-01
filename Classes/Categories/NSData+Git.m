@@ -3,7 +3,7 @@
 //
 
 #import "NSData+Git.h"
-#import "NSError+Git.h"
+#import "GTError.h"
 
 @implementation NSData (Git)
 

@@ -28,7 +28,7 @@
 //
 
 #import "GTBlob.h"
-#import "NSError+Git.h"
+#import "GTError.h"
 #import "GTRepository.h"
 #import "NSString+Git.h"
 
@@ -59,7 +59,7 @@
     int gitError = git_object_lookup(&obj, repository.git_repository, oid, (git_otype) GTObjectTypeBlob);
     if (gitError < GIT_OK) {
         if (error != NULL) {
-            *error = [NSError git_errorFor:gitError description:@"Failed to lookup blob"];
+            *error = [GTError errorForGitError:gitError description:@"Failed to lookup blob"];
         }
         return nil;
     }
@@ -77,7 +77,7 @@
 	int gitError = git_blob_create_frombuffer(&oid, repository.git_repository, [data bytes], data.length);
 	if(gitError < GIT_OK) {
 		if(error != NULL) {
-			*error = [NSError git_errorFor:gitError description:@"Failed to create blob from NSData"];
+			*error = [GTError errorForGitError:gitError description:@"Failed to create blob from NSData"];
         }
 		return nil;
 	}
@@ -90,7 +90,7 @@
 	int gitError = git_blob_create_fromworkdir(&oid, repository.git_repository, [[file path] UTF8String]);
 	if(gitError < GIT_OK) {
 		if(error != NULL) {
-			*error = [NSError git_errorFor:gitError description:@"Failed to create blob from NSURL"];
+			*error = [GTError errorForGitError:gitError description:@"Failed to create blob from NSURL"];
         }
 		return nil;
 	}

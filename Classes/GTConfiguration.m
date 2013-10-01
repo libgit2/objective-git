@@ -10,7 +10,7 @@
 #import "GTConfiguration+Private.h"
 #import "GTRepository.h"
 #import "GTRemote.h"
-#import "NSError+Git.h"
+#import "GTError.h"
 #import "GTSignature.h"
 
 @interface GTConfiguration ()
@@ -142,7 +142,7 @@ static int configCallback(const git_config_entry *entry, void *payload) {
 - (BOOL)refresh:(NSError **)error {
 	int success = git_config_refresh(self.git_config);
 	if (success != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:success description:@"Couldn't reload the configuration from disk."];
+		if (error != NULL) *error = [GTError errorForGitError:success description:@"Couldn't reload the configuration from disk."];
 
 		return NO;
 	}

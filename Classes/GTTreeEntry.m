@@ -31,7 +31,7 @@
 #import "GTObject.h"
 #import "GTTree.h"
 #import "GTRepository.h"
-#import "NSError+Git.h"
+#import "GTError.h"
 #import "NSString+Git.h"
 #import "GTOID.h"
 
@@ -123,7 +123,7 @@
     int gitError = git_tree_entry_to_object(&obj, treeEntry.repository.git_repository, treeEntry.git_tree_entry);
     if (gitError < GIT_OK) {
         if (error != NULL) {
-            *error = [NSError git_errorFor:gitError description:@"Failed to get object for tree entry."];
+            *error = [GTError errorForGitError:gitError description:@"Failed to get object for tree entry."];
         }
         return nil;
     }

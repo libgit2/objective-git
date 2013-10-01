@@ -1,5 +1,5 @@
 //
-//  NSError+Git.h
+//  GTError.h
 //  ObjectiveGitFramework
 //
 //  Created by Timothy Clem on 2/17/11.
@@ -27,9 +27,25 @@
 //  THE SOFTWARE.
 //
 
+extern NSString * const GTObjectiveGitErrorDomain;
 extern NSString * const GTGitErrorDomain;
 
-@interface NSError (Git)
+enum GTObjectiveGitError {
+	GTObjectiveGitGitError = -1,
+};
+
+@interface GTError : NSError
+
+// Describes the given Objective-Git error code.
+//
+// code   - The Objective-Git error code
+// desc   - The description to use in the created NSError. This may be nil.
+// reason - A format string to use for the created NSError's failure reason.
+//          This may be nil.
+// ...    - Format arguments to insert into `reason`.
+//
+// Returns a non-nil NSError
++ (instancetype)errorWithCode:(int)code description:(NSString *)desc failureReason:(NSString *)reason, ...;
 
 // Describes the given libgit2 error code, using any message provided by libgit2
 // or the OS.
@@ -37,7 +53,7 @@ extern NSString * const GTGitErrorDomain;
 // code - The error code returned from libgit2.
 //
 // Returns a non-nil NSError.
-+ (NSError *)git_errorFor:(int)code;
++ (instancetype)errorForGitError:(int)code;
 
 // Describes the given libgit2 error code, using `desc` as the error's
 // description, and a failure reason from `reason` and the arguments that
@@ -53,7 +69,7 @@ extern NSString * const GTGitErrorDomain;
 // ...    - Format arguments to insert into `reason`.
 //
 // Returns a non-nil NSError.
-+ (NSError *)git_errorFor:(int)code description:(NSString *)desc failureReason:(NSString *)reason, ... NS_FORMAT_FUNCTION(3, 4);
++ (instancetype)errorForGitError:(int)code description:(NSString *)desc failureReason:(NSString *)reason, ... NS_FORMAT_FUNCTION(3, 4);
 
 // Describes the given libgit2 error code, using `desc` and the arguments that
 // follow as the error's description.
@@ -66,6 +82,6 @@ extern NSString * const GTGitErrorDomain;
 // ...  - Format arguments to insert into `desc`.
 //
 // Returns a non-nil NSError.
-+ (NSError *)git_errorFor:(int)code description:(NSString *)desc, ... NS_FORMAT_FUNCTION(2, 3);
++ (instancetype)errorForGitError:(int)code description:(NSString *)desc, ... NS_FORMAT_FUNCTION(2, 3);
 
 @end

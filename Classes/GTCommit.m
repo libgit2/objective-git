@@ -30,7 +30,7 @@
 #import "GTCommit.h"
 #import "GTSignature.h"
 #import "GTTree.h"
-#import "NSError+Git.h"
+#import "GTError.h"
 #import "GTRepository.h"
 #import "NSString+Git.h"
 #import "NSDate+GTTimeAdditions.h"
@@ -80,7 +80,7 @@
 
 	if(gitError < GIT_OK) {
 		if(error != NULL)
-			*error = [NSError git_errorFor:gitError description:@"Failed to create commit in repository"];
+			*error = [GTError errorForGitError:gitError description:@"Failed to create commit in repository"];
 		return nil;
 	}
 
