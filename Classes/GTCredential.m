@@ -14,7 +14,7 @@
 typedef GTCredential *(^GTCredentialProviderBlock)(GTCredentialType allowedTypes, NSString *URL, NSString *userName);
 
 @interface GTCredentialProvider ()
-@property (nonatomic, readonly) GTCredentialProviderBlock credBlock;
+@property (nonatomic, readonly, copy) GTCredentialProviderBlock credBlock;
 @end
 
 @implementation GTCredentialProvider
@@ -23,7 +23,7 @@ typedef GTCredential *(^GTCredentialProviderBlock)(GTCredentialType allowedTypes
 
 	GTCredentialProvider *provider = [[self alloc] init];
 
-	provider->_credBlock = credentialBlock;
+	provider->_credBlock = [credentialBlock copy];
 
 	return provider;
 }
