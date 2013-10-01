@@ -157,12 +157,13 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 //
 // originURL             - The URL to clone from.
 // workdirURL            - A URL to the desired working directory on the local machine.
-// withCheckout          - if NO, don't checkout the remote HEAD
-// options               - A dictionary containing any of the above options key constants, or
-//                         nil to use the defaults.
+// options               - A dictionary consisting of the options:
+//                         `GTRepositoryCloneOptionsTransportFlags`,
+//                         `GTRepositoryCloneOptionsBare`, and `GTRepositoryCloneOptionsCheckout`.
 // error                 - A pointer to fill in case of trouble.
 // transferProgressBlock - This block is called with network transfer updates.
-// checkoutProgressBlock - This block is called with checkout updates (if withCheckout is YES).
+// checkoutProgressBlock - This block is called with checkout updates
+//                         (if `GTRepositoryCloneOptionsCheckout` is YES).
 //
 // returns nil (and fills the error parameter) if an error occurred, or a GTRepository object if successful.
 + (id)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL options:(NSDictionary *)options error:(NSError **)error transferProgressBlock:(void (^)(const git_transfer_progress *))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))checkoutProgressBlock;
