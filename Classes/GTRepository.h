@@ -182,14 +182,6 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 // returns nil (and fills the error parameter) if an error occurred, or a GTRepository object if successful.
 + (id)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL options:(NSDictionary *)options error:(NSError **)error transferProgressBlock:(void (^)(const git_transfer_progress *))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))checkoutProgressBlock;
 
-// Helper for getting the sha1 has of a raw object
-//
-// data - the data to compute a sha1 hash for
-// error(out) - will be filled if an error occurs
-//
-// returns the sha1 for the raw object or nil if there was an error
-+ (NSString *)hash:(NSString *)data objectType:(GTObjectType)type error:(NSError **)error;
-
 // Lookup objects in the repo by oid or sha1
 - (id)lookupObjectByOID:(GTOID *)oid objectType:(GTObjectType)type error:(NSError **)error;
 - (id)lookupObjectByOID:(GTOID *)oid error:(NSError **)error;

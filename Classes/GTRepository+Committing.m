@@ -13,6 +13,7 @@
 
 - (GTCommit *)createCommitWithTree:(GTTree *)tree message:(NSString *)message parents:(NSArray *)parents updatingReferenceNamed:(NSString *)refName error:(NSError **)error {
 	NSParameterAssert(tree != nil);
+	NSParameterAssert(message != nil);
 
 	GTSignature *signature = [self userSignatureForNow];
 	return [self createCommitWithTree:tree message:message author:signature committer:signature parents:parents updatingReferenceNamed:refName error:error];
@@ -20,6 +21,7 @@
 
 - (GTCommit *)createCommitWithTree:(GTTree *)tree message:(NSString *)message author:(GTSignature *)author committer:(GTSignature *)committer parents:(NSArray *)parents updatingReferenceNamed:(NSString *)refName error:(NSError **)error {
 	NSParameterAssert(tree != nil);
+	NSParameterAssert(message != nil);
 	NSParameterAssert(author != nil);
 	NSParameterAssert(committer != nil);
 
@@ -32,7 +34,7 @@
 	}
 
 	git_oid oid;
-	int gitError = git_commit_create(&oid, self.git_repository, refName.UTF8String, author.git_signature, committer.git_signature, "UTF-8", (message ? message.UTF8String : ""), tree.git_tree, (int)parents.count, parentCommits);
+	int gitError = git_commit_create(&oid, self.git_repository, refName.UTF8String, author.git_signature, committer.git_signature, "UTF-8", message.UTF8String, tree.git_tree, (int)parents.count, parentCommits);
 
 	free(parentCommits);
 

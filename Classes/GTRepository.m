@@ -207,10 +207,6 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 	return [[self alloc] initWithGitRepository:repository];
 }
 
-+ (NSString *)hash:(NSString *)string objectType:(GTObjectType)type error:(NSError **)error {
-	return [GTOID OIDByHashingData:[string dataUsingEncoding:NSUTF8StringEncoding] type:type error:error].SHA;
-}
-
 - (id)lookupObjectByGitOid:(const git_oid *)oid objectType:(GTObjectType)type error:(NSError **)error {
 	git_object *obj;
 

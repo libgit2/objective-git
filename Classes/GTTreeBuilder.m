@@ -150,18 +150,20 @@ static int filter_callback(const git_tree_entry *entry, void *payload) {
 }
 
 - (BOOL)writePendingDataToRepository:(GTRepository *)repository error:(NSError **)error {
+	NSDictionary *copied;
 	@synchronized (self) {
-		if (self.fileNameToPendingData.count != 0) {
-			GTObjectDatabase *odb = [repository objectDatabaseWithError:error];
-			if (odb == nil) return NO;
+		copied = [self.fileNameToPendingData copy];
+		[self.fileNameToPendingData removeAllObjects];
+	}
 
-			for (NSString *fileName in self.fileNameToPendingData) {
-				NSData *data = self.fileNameToPendingData[fileName];
-				GTOID *dataOID = [odb writeData:data type:GTObjectTypeBlob error:error];
-				if (dataOID == nil) return NO;
-			}
+	if (copied.count != 0) {
+		GTObjectDatabase *odb = [repository objectDatabaseWithError:error];
+		if (odb == nil) return NO;
 
-			[self.fileNameToPendingData removeAllObjects];
+		for (NSString *fileName in copied) {
+			NSData *data = copied[fileName];
+			GTOID *dataOID = [odb writeData:data type:GTObjectTypeBlob error:error];
+			if (dataOID == nil) return NO;
 		}
 	}
 

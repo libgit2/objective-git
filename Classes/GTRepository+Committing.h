@@ -13,7 +13,7 @@
 // Creates a new commit.
 //
 // tree      - The tree used for the commit. Cannot be nil.
-// message   - The commit message. May be nil.
+// message   - The commit message. Cannot be nil.
 // author    - The author of the commit. Cannot be nil.
 // committer - The committer of the commit. Cannot be nil.
 // parents   - An array of GTCommits. May be nil, which means the commit has no

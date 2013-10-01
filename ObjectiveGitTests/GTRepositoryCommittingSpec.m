@@ -24,60 +24,33 @@ afterAll(^{
 	expect(success).to.beTruthy();
 });
 
-NSMutableArray *commits = [NSMutableArray array];
-
-it(@"can create initial commits", ^{
-	NSError *error = nil;
-	GTTreeBuilder *builder = [[GTTreeBuilder alloc] initWithTree:nil error:&error];
+it(@"can create commits", ^{
+	GTTreeBuilder *builder = [[GTTreeBuilder alloc] initWithTree:nil error:NULL];
 	expect(builder).toNot.beNil();
 
-	[builder addEntryWithData:[@"Another file contents" dataUsingEncoding:NSUTF8StringEncoding] fileName:@"Test file 2.txt" fileMode:GTFileModeBlob error:&error];
-	expect(error.description).to.beNil();
+	GTTreeEntry *entry = [builder addEntryWithData:[@"Another file contents" dataUsingEncoding:NSUTF8StringEncoding] fileName:@"Test file 2.txt" fileMode:GTFileModeBlob error:NULL];
+	expect(entry).notTo.beNil();
 
-	GTTree *subtree = [builder writeTreeToRepository:repository error:&error];
+	GTTree *subtree = [builder writeTreeToRepository:repository error:NULL];
 	expect(subtree).notTo.beNil();
-	expect(error.description).to.beNil();
 
 	[builder clear];
 
-	[builder addEntryWithData:[@"Test contents" dataUsingEncoding:NSUTF8StringEncoding] fileName:@"Test file.txt" fileMode:GTFileModeBlob error:&error];
-	expect(error.description).to.beNil();
+	entry = [builder addEntryWithData:[@"Test contents" dataUsingEncoding:NSUTF8StringEncoding] fileName:@"Test file.txt" fileMode:GTFileModeBlob error:NULL];
+	expect(entry).notTo.beNil();
 
-	[builder addEntryWithOID:subtree.OID fileName:@"subdir" fileMode:GTFileModeTree error:&error];
-	expect(error.description).to.beNil();
+	entry = [builder addEntryWithOID:subtree.OID fileName:@"subdir" fileMode:GTFileModeTree error:NULL];
+	expect(entry).notTo.beNil();
 
-	GTTree *tree = [builder writeTreeToRepository:repository error:&error];
+	GTTree *tree = [builder writeTreeToRepository:repository error:NULL];
 	expect(tree).notTo.beNil();
-	expect(error.description).to.beNil();
 
-	GTCommit *initialCommit = [repository createCommitWithTree:tree message:@"Initial commit" parents:nil updatingReferenceNamed:@"refs/heads/master" error:&error];
+	GTCommit *initialCommit = [repository createCommitWithTree:tree message:@"Initial commit" parents:nil updatingReferenceNamed:@"refs/heads/master" error:NULL];
 	expect(initialCommit).notTo.beNil();
-	expect(error.description).to.beNil();
-	[commits addObject:initialCommit];
 
-	GTReference *ref = [repository headReferenceWithError:&error];
+	GTReference *ref = [repository headReferenceWithError:NULL];
 	expect(ref).notTo.beNil();
-	expect(error.description).to.beNil();
-});
-
-it(@"can create more commits", ^{
-	NSError *error = nil;
-	GTCommit *initialCommit = commits.lastObject;
-	GTTreeBuilder *builder = [[GTTreeBuilder alloc] initWithTree:initialCommit.tree error:&error];
-	expect(builder).toNot.beNil();
-
-	[builder addEntryWithData:[@"Better test contents" dataUsingEncoding:NSUTF8StringEncoding] fileName:@"Test file.txt" fileMode:GTFileModeBlob error:&error];
-	expect(error.description).to.beNil();
-
-	GTTree *tree = [builder writeTreeToRepository:repository error:&error];
-	expect(tree).notTo.beNil();
-	expect(error.description).to.beNil();
-
-	GTCommit *secondCommit = [repository createCommitWithTree:tree message:@"Initial commit" parents:@[ commits.lastObject ] updatingReferenceNamed:@"refs/heads/master" error:&error];
-	expect(secondCommit).notTo.beNil();
-	expect(error.description).to.beNil();
-
-	[commits addObject:secondCommit];
+	expect(ref.resolvedTarget).to.equal(initialCommit);
 });
 
 SpecEnd
