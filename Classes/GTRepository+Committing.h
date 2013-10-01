@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 GitHub, Inc. All rights reserved.
 //
 
-#import <ObjectiveGit/ObjectiveGit.h>
+#import "GTRepository.h"
 
 @interface GTRepository (Committing)
 
