@@ -103,6 +103,24 @@ describe(@"GTTreeBuilder building", ^{
 		expect(foundEntry.SHA).to.equal(entry.SHA);
 	});
 
+	it(@"should write new blobs when the tree is written", ^{
+		GTRepository *repo = [self fixtureRepositoryNamed:@"testrepo.git"];
+		expect(repo).notTo.beNil();
+
+		GTTreeEntry *entry = [builder addEntryWithData:[@"Hello, World!" dataUsingEncoding:NSUTF8StringEncoding] fileName:@"test.txt" fileMode:GTFileModeBlob error:NULL];
+		expect(entry).notTo.beNil();
+
+		GTObjectDatabase *database = [repo objectDatabaseWithError:NULL];
+		expect(database).notTo.beNil();
+
+		expect([database containsObjectWithOID:entry.OID]).to.beFalsy();
+
+		GTTree *tree = [builder writeTreeToRepository:repo error:NULL];
+		expect(tree).notTo.beNil();
+
+		expect([database containsObjectWithOID:entry.OID]).to.beTruthy();
+	});
+
 	it(@"should be possible to write a builder to a repository", ^{
 		GTRepository *repo = [self fixtureRepositoryNamed:@"testrepo.git"];
 		expect(repo).notTo.beNil();
@@ -120,7 +138,6 @@ describe(@"GTTreeBuilder building", ^{
 		GTTree *readTree = (GTTree *)[repo lookupObjectBySHA:writtenTree.SHA objectType:GTObjectTypeTree error:&error];
 		expect(readTree).notTo.beNil();
 		expect(error).to.beNil();
-		
 	});
 });
 
