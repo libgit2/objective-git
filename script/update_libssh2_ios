@@ -37,13 +37,13 @@ for ARCH in ${ARCHS}; do
     cp -R External/libssh2 External/libssh2-ios/src/
     cd External/libssh2-ios/src/libssh2
 
-    export DEVROOT="${DEVELOPER}/Platforms/${PLATFORM}.platform/Developer"
-    export SDKROOT="${DEVROOT}/SDKs/${PLATFORM}${SDKVERSION}.sdk"
-    export CLANG=`/usr/bin/xcrun --find clang`
-    export CC=${CLANG}
-    export CPP="${CLANG} -E"
-    export CFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -miphoneos-version-min=${SDKVERSION}"
-    export CPPFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -miphoneos-version-min=${SDKVERSION}"
+    DEVROOT="${DEVELOPER}/Platforms/${PLATFORM}.platform/Developer"
+    SDKROOT="${DEVROOT}/SDKs/${PLATFORM}${SDKVERSION}.sdk"
+    CLANG=`/usr/bin/xcrun --find clang`
+    CC=${CLANG}
+    CPP="${CLANG} -E"
+    CFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -miphoneos-version-min=${SDKVERSION}"
+    CPPFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -miphoneos-version-min=${SDKVERSION}"
 
     echo ${CURRENTPATH}/External/libssh2-ios/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk
 
