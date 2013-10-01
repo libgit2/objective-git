@@ -2,93 +2,83 @@
 
 set -e
 
+if [ "External/libgit2-ios.a" -nt "External/libgit2" ]; then
+    echo "No update needed."
+    exit 0
+fi
+
 # augment path to help it find cmake installed in /usr/local/bin,
 # e.g. via brew. Xcode's Run Script phase doesn't seem to honor
 # ~/.MacOSX/environment.plist
 PATH="/usr/local/bin:$PATH"
 
+SDKVERSION="7.0"
+CURRENTPATH=`pwd`
+ARCHS=("i386" "armv7" "armv7s" "arm64")
+DEVELOPER="/Applications/Xcode.app/Contents/Developer"
 CLANG=`/usr/bin/xcrun --find clang`
 
-if [ "External/libgit2-ios.a" -nt "External/libgit2" ]
-then
-    echo "No update needed."
-    exit 0
+LIB_PATH="${CURRENTPATH}/External/libgit2/lib"
+
+BUILT_LIB_PATHS=()
+
+cd External/libgit2
+
+if [ -d "lib" ]; then
+    rm -rf "lib"
 fi
 
-ios_version="7.0";
+for ARCH in ${ARCHS[@]}; do
+  if [ -d "build" ]; then
+      rm -rf "build"
+  fi
 
-cd "External/libgit2"
+  mkdir build
+  cd build
 
-# armv7 build
+  if [ "${ARCH}" == "i386" ]; then
+      PLATFORM="iPhoneSimulator"
+  else
+      PLATFORM="iPhoneOS"
+  fi
 
-if [ -d "build" ]; then
-    rm -rf "build"
-fi
+  echo "Building libgit2 for ${PLATFORM} ${SDKVERSION} ${ARCH}"
+  echo "Please stand by..."
 
-mkdir build
-cd build
+  DEVROOT="${DEVELOPER}/Platforms/${PLATFORM}.platform/Developer"
+  SDKROOT="${DEVROOT}/SDKs/${PLATFORM}${SDKVERSION}.sdk"
 
-cmake -DCMAKE_C_COMPILER_WORKS:BOOL=ON \
-      -DBUILD_SHARED_LIBS:BOOL=OFF \
-      -DCMAKE_C_COMPILER=$CLANG \
-      -DOPENSSL_SSL_LIBRARY:FILEPATH=../../External/ios-openssl/lib/libssl.a \
-      -DOPENSSL_CRYPTO_LIBRARY:FILEPATH=../../External/ios-openssl/lib/libcrypto.a \
-      -DOPENSSL_INCLUDE_DIR:PATH=../../External/ios-openssl/include/ \
-      -DCMAKE_LIBRARY_PATH:PATH=../../External/libssh2-ios/lib/ \
-      -DCMAKE_INCLUDE_PATH:PATH=../../External/libssh2-ios/include/libssh2/ \
-      -DCMAKE_OSX_DEPLOYMENT_TARGET:STRING= \
-      -DCMAKE_OSX_ARCHITECTURES:STRING="armv7;armv7s;arm64" \
-      -DBUILD_CLAR:BOOL=OFF \
-      -DCMAKE_OSX_SYSROOT=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS${ios_version}.sdk/ \
-      -DCMAKE_C_FLAGS="-miphoneos-version-min=${ios_version}" \
-      ..
-cmake --build .
+  INSTALL_PREFIX="${LIB_PATH}/${PLATFORM}${SDKVERSION}-${ARCH}.sdk"
 
-product="libgit2.a"
-install_path="../../libgit2-ios-armv7.a"
-if [ "${product}" -nt "${install_path}" ]; then
-    cp -v "${product}" "${install_path}"
-fi
+  mkdir -p ${INSTALL_PREFIX}
 
-cd ../
+  cmake -DCMAKE_C_COMPILER=${CLANG} \
+        -DCMAKE_C_COMPILER_WORKS:BOOL=ON \
+        -DBUILD_SHARED_LIBS:BOOL=OFF \
+        -DOPENSSL_INCLUDE_DIR:PATH=../../External/ios-openssl/include/ \
+        -DCMAKE_LIBRARY_PATH:PATH=../../External/libssh2-ios/lib/ \
+        -DCMAKE_INCLUDE_PATH:PATH=../../External/libssh2-ios/include/libssh2/ \
+        -DOPENSSL_SSL_LIBRARY:FILEPATH=../../External/ios-openssl/lib/libssl.a \
+        -DOPENSSL_CRYPTO_LIBRARY:FILEPATH=../../External/ios-openssl/lib/libcrypto.a \
+        -DCMAKE_OSX_SYSROOT=${SDKROOT} \
+        -DCMAKE_OSX_ARCHITECTURES:STRING=${ARCH} \
+        -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX} \
+        -DBUILD_CLAR:BOOL=OFF \
+        ..
+  cmake --build .
+  make install > 2&>1
 
-# i386 build
+  # push the built library into the list
+  BUILT_LIB_PATHS+=("${INSTALL_PREFIX}/lib/libgit2.a")
+  cd ..
+done
 
-if [ -d "build" ]; then
-    rm -rf "build"
-fi
+cd ${CURRENTPATH}
 
-mkdir build
-cd build
+echo "Build library..."
 
-cmake -DCMAKE_C_COMPILER_WORKS:BOOL=ON \
-      -DBUILD_SHARED_LIBS:BOOL=OFF \
-      -DCMAKE_C_COMPILER=$CLANG \
-      -DOPENSSL_SSL_LIBRARY:FILEPATH=../../External/ios-openssl/lib/libssl.a \
-      -DOPENSSL_CRYPTO_LIBRARY:FILEPATH=../../External/ios-openssl/lib/libcrypto.a \
-      -DOPENSSL_INCLUDE_DIR:PATH=../../External/ios-openssl/include/ \
-      -DCMAKE_LIBRARY_PATH:PATH=../../External/libssh2-ios/lib/ \
-      -DCMAKE_INCLUDE_PATH:PATH=../../External/libssh2-ios/include/libssh2/ \
-      -DCMAKE_OSX_DEPLOYMENT_TARGET:STRING= \
-      -DCMAKE_OSX_ARCHITECTURES:STRING=i386 \
-      -DBUILD_CLAR:BOOL=OFF \
-      -DCMAKE_OSX_SYSROOT=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator${ios_version}.sdk/ \
-      ..
-cmake --build .
+echo ${BUILT_LIB_PATHS[@]}
 
-product="libgit2.a"
-install_path="../../libgit2-ios-i386.a"
-if [ "${product}" -nt "${install_path}" ]; then
-    cp -v "${product}" "${install_path}"
-fi
+lipo -create ${BUILT_LIB_PATHS[@]} -output ${CURRENTPATH}/External/libgit2/lib/libgit2-ios.a
 
-cd ../../
-
-# link static libraries
-libtool -static libgit2-ios-armv7.a libgit2-ios-i386.a -o libgit2-ios.a
-
-# cleanup
-rm libgit2-ios-armv7.a
-rm libgit2-ios-i386.a
-
-echo "libgit2-ios has been updated."
+echo "Building done."
