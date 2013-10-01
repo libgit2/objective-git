@@ -45,10 +45,13 @@
 #import "NSString+Git.h"
 #import "GTDiffFile.h"
 #import "GTTree.h"
+#import "GTCredential.h"
+#import "GTCredential+Private.h"
 
 NSString *const GTRepositoryCloneOptionsBare = @"GTRepositoryCloneOptionsBare";
 NSString *const GTRepositoryCloneOptionsCheckout = @"GTRepositoryCloneOptionsCheckout";
 NSString *const GTRepositoryCloneOptionsTransportFlags = @"GTRepositoryCloneOptionsTransportFlags";
+NSString *const GTRepositoryCloneOptionsCredentialProvider = @"GTRepositoryCloneOptionsCredentialProvider";
 
 typedef void (^GTRepositorySubmoduleEnumerationBlock)(GTSubmodule *submodule, BOOL *stop);
 typedef void (^GTRepositoryTagEnumerationBlock)(GTTag *tag, BOOL *stop);
@@ -190,6 +193,13 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 		checkoutOptions.progress_cb = checkoutProgressCallback;
 		checkoutOptions.progress_payload = (__bridge void *)checkoutProgressBlock;
 		cloneOptions.checkout_opts = checkoutOptions;
+	}
+
+	GTCredentialProvider *provider = options[GTRepositoryCloneOptionsCredentialProvider];
+	if (provider) {
+		GTCredentialAcquireCallbackInfo info = { .credProvider = provider };
+		cloneOptions.cred_acquire_cb = GTCredentialAcquireCallback;
+		cloneOptions.cred_acquire_payload = &info;
 	}
 
 	cloneOptions.fetch_progress_cb = transferProgressCallback;

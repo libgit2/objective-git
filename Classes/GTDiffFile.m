@@ -15,13 +15,18 @@
 	self = [super init];
 	if (self == nil) return nil;
 	
+	_git_diff_file = file;
+	
 	_size = (NSUInteger)file.size;
 	_flags = (GTDiffFileFlag)file.flags;
 	_mode = file.mode;
 	_path = [NSString stringWithUTF8String:file.path];
-	_OID = [[GTOID alloc] initWithGitOid:&file.oid];
 	
 	return self;
+}
+
+- (GTOID *)OID {
+	return [[GTOID alloc] initWithGitOid:&_git_diff_file.oid];
 }
 
 @end
