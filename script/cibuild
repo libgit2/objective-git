@@ -3,6 +3,12 @@
 SCRIPT_DIR=$(dirname "$0")
 cd "$SCRIPT_DIR/.."
 
+XCODE_VERSION=`xcodebuild -version | head -n 1 | sed -E 's/Xcode ([0-9\.]*)/\1/'`
+
+echo "Detected Xcode version" $XCODE_VERSION
+
+XCODE_MAJOR_VERSION=`echo $XCODE_VERSION | awk -F '.' '{ print $1 }'`
+
 ##
 ## Configuration Variables
 ##
@@ -36,7 +42,12 @@ DEFAULT_TARGETS="ObjectiveGit ObjectiveGit-iOS"
 # Extra build settings to pass to xcodebuild.
 XCODEBUILD_SETTINGS=""
 
-BUILD_COMMAND="clean build test -skipUnavailableActions"
+if [ "${XCODE_MAJOR_VERSION}" -ge "5" ]; then
+	BUILD_COMMAND="clean build test -skipUnavailableActions"
+else
+	BUILD_COMMAND="clean build"
+	XCODEBUILD_SETTINGS="TEST_AFTER_BUILD=YES"
+fi
 
 ##
 ## Build Process
