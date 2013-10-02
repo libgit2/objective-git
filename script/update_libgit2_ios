@@ -12,13 +12,26 @@ fi
 # ~/.MacOSX/environment.plist
 PATH="/usr/local/bin:$PATH"
 
-SDKVERSION="7.0"
+XCODE_VERSION=`xcodebuild -version | head -n 1 | sed -E 's/Xcode ([0-9\.]*)/\1/'`
+
+echo "Detected Xcode version" $XCODE_VERSION
+
+XCODE_MAJOR_VERSION=`echo $XCODE_VERSION | awk -F '.' '{ print $1 }'`
+
 CURRENTPATH=`pwd`
-ARCHS=("i386" "armv7" "armv7s" "arm64")
+ARCHS=("i386" "armv7" "armv7s")
 DEVELOPER="/Applications/Xcode.app/Contents/Developer"
 CLANG=`/usr/bin/xcrun --find clang`
-IPHONEOS_DEPLOYMENT_TARGET=${SDKVERSION}
 MACOSX_DEPLOYMENT_TARGET=""
+
+if [ "${XCODE_MAJOR_VERSION}" -ge "5" ]; then
+	SDKVERSION="7.0"
+	IPHONEOS_DEPLOYMENT_TARGET=${SDKVERSION}
+	ARCHS+=("arm64")
+else
+	SDKVERSION="6.1"
+	IPHONEOS_DEPLOYMENT_TARGET="5.0"
+fi
 
 LIB_PATH="${CURRENTPATH}/External/libgit2/lib"
 
