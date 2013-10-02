@@ -1511,6 +1511,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D0A463D817E57C45000F5021 /* Debug.xcconfig */;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_STRICT_ALIASING = NO;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO;
 				HEADER_SEARCH_PATHS = External/libgit2/include;
@@ -1520,6 +1521,7 @@
 					External,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
 				TEST_AFTER_BUILD = NO;
 			};
 			name = Debug;
@@ -1528,6 +1530,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D0A463DA17E57C45000F5021 /* Release.xcconfig */;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_STRICT_ALIASING = NO;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO;
 				HEADER_SEARCH_PATHS = External/libgit2/include;
@@ -1537,6 +1540,7 @@
 					External,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
 				TEST_AFTER_BUILD = NO;
 			};
 			name = Release;
@@ -1629,6 +1633,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D0A463D917E57C45000F5021 /* Profile.xcconfig */;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_STRICT_ALIASING = NO;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO;
 				HEADER_SEARCH_PATHS = External/libgit2/include;
@@ -1638,6 +1643,7 @@
 					External,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
 				TEST_AFTER_BUILD = NO;
 			};
 			name = Profile;
