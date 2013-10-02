@@ -86,6 +86,7 @@
 		04DB466D133AB5EB00D9C624 /* GTIndexEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = BDFAF9C8131C1868000508BC /* GTIndexEntry.m */; };
 		04DB466E133AB5EB00D9C624 /* GTReference.m in Sources */ = {isa = PBXBuildFile; fileRef = BD441E07131ED0C300187010 /* GTReference.m */; };
 		04DB466F133AB5EB00D9C624 /* GTBranch.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F50F57132054D800584FBE /* GTBranch.m */; };
+		188DC01917FC1571007350CD /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 188DC01817FC1571007350CD /* libz.dylib */; };
 		2089E43C17D9A58000F451DA /* GTTagSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 2089E43B17D9A58000F451DA /* GTTagSpec.m */; };
 		3011D86B1668E48500CE3409 /* GTDiffFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 3011D8691668E48500CE3409 /* GTDiffFile.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3011D86C1668E48500CE3409 /* GTDiffFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 3011D8691668E48500CE3409 /* GTDiffFile.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -235,7 +236,6 @@
 		D0F4E28A17C7F24200BBDE30 /* NSErrorGitSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F4E28917C7F24200BBDE30 /* NSErrorGitSpec.m */; };
 		E9FFC6BF1577CC8300A9E736 /* GTConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 88EB7E4C14AEBA600046FEA4 /* GTConfiguration.m */; };
 		E9FFC6C01577CC8A00A9E736 /* GTConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 88EB7E4B14AEBA600046FEA4 /* GTConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F65E6A5717FBE83D007664F7 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F65E6A5617FBE83D007664F7 /* libz.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -374,6 +374,7 @@
 		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		188DC01817FC1571007350CD /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.1.sdk/usr/lib/libz.dylib; sourceTree = DEVELOPER_DIR; };
 		2089E43B17D9A58000F451DA /* GTTagSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTTagSpec.m; sourceTree = "<group>"; };
 		3011D8691668E48500CE3409 /* GTDiffFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTDiffFile.h; sourceTree = "<group>"; };
 		3011D86A1668E48500CE3409 /* GTDiffFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTDiffFile.m; sourceTree = "<group>"; };
@@ -517,7 +518,6 @@
 		D2F7E79907B2D74100F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		E46931A7172740D300F2077D /* update_libgit2 */ = {isa = PBXFileReference; lastKnownFileType = text; name = update_libgit2; path = script/update_libgit2; sourceTree = "<group>"; };
 		E46931A8172740D300F2077D /* update_libgit2_ios */ = {isa = PBXFileReference; lastKnownFileType = text; name = update_libgit2_ios; path = script/update_libgit2_ios; sourceTree = "<group>"; };
-		F65E6A5617FBE83D007664F7 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/libz.dylib; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -525,7 +525,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F65E6A5717FBE83D007664F7 /* libz.dylib in Frameworks */,
+				188DC01917FC1571007350CD /* libz.dylib in Frameworks */,
 				6A1F2FD517C6A8F3003DFADE /* libcrypto.a in Frameworks */,
 				6A1F2FD617C6A8F3003DFADE /* libssl.a in Frameworks */,
 			);
@@ -569,7 +569,6 @@
 		0867D691FE84028FC02AAC07 /* ObjectiveGitFramework */ = {
 			isa = PBXGroup;
 			children = (
-				F65E6A5617FBE83D007664F7 /* libz.dylib */,
 				BDD8AB01130F01AB00CB5D40 /* README.md */,
 				88F6D9D81320451F00CC0BA8 /* ObjectiveGit.h */,
 				88F05AC51601209A00B7AD1D /* ObjectiveGit.m */,
@@ -607,6 +606,7 @@
 		1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				188DC01817FC1571007350CD /* libz.dylib */,
 				887DAFF915CB1C9F00F30D0D /* libssl.dylib */,
 				887DAFFB15CB1CBD00F30D0D /* libcrypto.dylib */,
 				8803DA861313145700E6E818 /* libz.dylib */,
@@ -1169,7 +1169,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "External/ios-openssl/build.sh";
+			shellScript = script/update_libssl_ios;
 		};
 		6A3C609117D5963700382DFF /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1511,7 +1511,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D0A463D817E57C45000F5021 /* Debug.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_STRICT_ALIASING = NO;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO;
 				HEADER_SEARCH_PATHS = External/libgit2/include;
@@ -1529,7 +1528,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D0A463DA17E57C45000F5021 /* Release.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_STRICT_ALIASING = NO;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO;
 				HEADER_SEARCH_PATHS = External/libgit2/include;
@@ -1631,7 +1629,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D0A463D917E57C45000F5021 /* Profile.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_STRICT_ALIASING = NO;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO;
 				HEADER_SEARCH_PATHS = External/libgit2/include;
