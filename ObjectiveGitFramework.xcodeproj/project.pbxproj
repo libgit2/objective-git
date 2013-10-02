@@ -1461,6 +1461,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D0D8186A174421EB00995A2E /* Mac-Framework.xcconfig */;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
@@ -1486,6 +1487,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D0D8186A174421EB00995A2E /* Mac-Framework.xcconfig */;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
@@ -1521,7 +1523,6 @@
 					External,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				SDKROOT = macosx;
 				TEST_AFTER_BUILD = NO;
 			};
 			name = Debug;
@@ -1540,7 +1541,6 @@
 					External,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				SDKROOT = macosx;
 				TEST_AFTER_BUILD = NO;
 			};
 			name = Release;
@@ -1643,7 +1643,6 @@
 					External,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				SDKROOT = macosx;
 				TEST_AFTER_BUILD = NO;
 			};
 			name = Profile;
@@ -1652,6 +1651,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D0D8186A174421EB00995A2E /* Mac-Framework.xcconfig */;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
