@@ -11,6 +11,10 @@ fi
 # e.g. via brew. Xcode's Run Script phase doesn't seem to honor
 # ~/.MacOSX/environment.plist
 PATH="/usr/local/bin:$PATH"
+# unset MACOSX_DEPLOYMENT_TARGET
+# unset ARCHS
+# unset CFLAGS
+# unset OSX_SYSROOT
 
 SDKVERSION="7.0"
 CURRENTPATH=`pwd`
@@ -35,11 +39,17 @@ for ARCH in ${ARCHS[@]}; do
 
   mkdir build
   cd build
-
+  
   if [ "${ARCH}" == "i386" ]; then
       PLATFORM="iPhoneSimulator"
   else
       PLATFORM="iPhoneOS"
+  fi
+  
+  if [ "${ARCH}" == "arm64" ]; then
+      HOST="aarch64-apple-darwin"
+  else
+      HOST="${ARCH}-apple-darwin"
   fi
 
   echo "Building libgit2 for ${PLATFORM} ${SDKVERSION} ${ARCH}"
@@ -48,10 +58,19 @@ for ARCH in ${ARCHS[@]}; do
   DEVROOT="${DEVELOPER}/Platforms/${PLATFORM}.platform/Developer"
   SDKROOT="${DEVROOT}/SDKs/${PLATFORM}${SDKVERSION}.sdk"
 
+  if [ "${ARCH}" != "i386" ]; then
+    EXTRA_COMMANDS="-DCMAKE_OSX_SYSROOT=${SDKROOT}"
+  fi
+
   INSTALL_PREFIX="${LIB_PATH}/${PLATFORM}${SDKVERSION}-${ARCH}.sdk"
 
   mkdir -p ${INSTALL_PREFIX}
-
+  
+  LOG="${INSTALL_PREFIX}/build-libgit2.log"
+  
+  #        -DCMAKE_HOST=${HOST} \
+  #      -DCMAKE_OSX_SYSROOT=${SDKROOT} \
+    
   cmake -DCMAKE_C_COMPILER=${CLANG} \
         -DCMAKE_C_COMPILER_WORKS:BOOL=ON \
         -DBUILD_SHARED_LIBS:BOOL=OFF \
@@ -60,13 +79,12 @@ for ARCH in ${ARCHS[@]}; do
         -DCMAKE_INCLUDE_PATH:PATH=../../External/libssh2-ios/include/libssh2/ \
         -DOPENSSL_SSL_LIBRARY:FILEPATH=../../External/ios-openssl/lib/libssl.a \
         -DOPENSSL_CRYPTO_LIBRARY:FILEPATH=../../External/ios-openssl/lib/libcrypto.a \
-        -DCMAKE_OSX_SYSROOT=${SDKROOT} \
         -DCMAKE_OSX_ARCHITECTURES:STRING=${ARCH} \
         -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX} \
         -DBUILD_CLAR:BOOL=OFF \
-        ..
-  cmake --build .
-  make install > 2&>1
+        ${EXTRA_COMMANDS} \
+        .. >> "${LOG}" 2>&1
+  cmake --build . --target install >> "${LOG}" 2>&1
 
   # push the built library into the list
   BUILT_LIB_PATHS+=("${INSTALL_PREFIX}/lib/libgit2.a")
