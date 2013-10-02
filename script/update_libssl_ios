@@ -79,10 +79,10 @@ done
 
 echo "Build library..."
 
-mkdir External/ios-openssl/include
+mkdir -p External/ios-openssl/include
 cp -r /tmp/openssl-i386/include/openssl External/ios-openssl/include/
 
-mkdir External/ios-openssl/lib
+mkdir -p External/ios-openssl/lib
 
 lipo -create ${BUILT_CRYPTO_PATHS[@]} -output ${CURRENTPATH}/External/ios-openssl/lib/libcrypto.a
 lipo -create ${BUILT_SSL_PATHS[@]} -output ${CURRENTPATH}/External/ios-openssl/lib/libssl.a
