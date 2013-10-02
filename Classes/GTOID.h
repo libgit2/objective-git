@@ -7,6 +7,7 @@
 //
 
 #import "git2.h"
+#import "GTObject.h"
 
 // Represents an object ID.
 @interface GTOID : NSObject <NSCopying>
@@ -64,5 +65,17 @@
 
 // Returns the underlying git_oid struct.
 - (const git_oid *)git_oid __attribute__((objc_returns_inner_pointer));
+
+@end
+
+@interface GTOID (GTObjectDatabase)
+
+// Calculates an OID by hashing the passed data and object type.
+//
+// data - The data to hash. Cannot be nil.
+// type - The type of the git object.
+//
+// Returns a new OID, or nil if an error occurred.
++ (instancetype)OIDByHashingData:(NSData *)data type:(GTObjectType)type error:(NSError **)error;
 
 @end
