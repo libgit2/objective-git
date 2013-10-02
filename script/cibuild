@@ -36,7 +36,7 @@ DEFAULT_TARGETS="ObjectiveGit ObjectiveGit-iOS"
 # Extra build settings to pass to xcodebuild.
 XCODEBUILD_SETTINGS=""
 
-BUILD_COMMAND="test"
+BUILD_COMMAND="clean build test -skipUnavailableActions"
 
 ##
 ## Build Process
@@ -67,9 +67,6 @@ for target in "$@"
 do
     echo "$target"
 done
-
-echo "*** Cleaning all targets..."
-xcodebuild -alltargets clean OBJROOT="$PWD/build" SYMROOT="$PWD/build" $XCODEBUILD_SETTINGS
 
 run_xcodebuild ()
 {
