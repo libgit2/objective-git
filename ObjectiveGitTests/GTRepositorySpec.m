@@ -7,6 +7,7 @@
 //
 
 #import "GTRepository.h"
+#import "GTRepository+Committing.h"
 
 SpecBegin(GTRepository)
 
@@ -17,31 +18,29 @@ beforeEach(^{
 	expect(repository).notTo.beNil();
 });
 
-describe(@"-initializeEmptyRepositoryAtURL:bare:error:", ^{
-	it(@"should initialize a repository with a working directory by default", ^{
-		__block NSError *error = nil;
-		NSURL *newRepoURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"unit_test"]];
-		[[NSFileManager defaultManager] removeItemAtURL:newRepoURL error:NULL];
+describe(@"-initializeEmptyRepositoryAtFileURL:bare:error:", ^{
+	__block GTRepository * (^createRepository)(BOOL bare);
 
-		expect([GTRepository initializeEmptyRepositoryAtURL:newRepoURL error:&error]).to.beTruthy();
-		GTRepository *newRepo = [GTRepository repositoryWithURL:newRepoURL error:&error];
-		expect(newRepo).toNot.beNil();
-		expect(error).to.beNil();
-		expect(newRepo.fileURL).toNot.beNil(); // working directory
-		expect(newRepo.bare).to.beFalsy();
+	beforeEach(^{
+		createRepository = ^(BOOL bare) {
+			NSURL *newRepoURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"unit_test"]];
+			[NSFileManager.defaultManager removeItemAtURL:newRepoURL error:NULL];
+
+			GTRepository *repository = [GTRepository initializeEmptyRepositoryAtFileURL:newRepoURL bare:bare error:NULL];
+			expect(repository).notTo.beNil();
+			expect(repository.gitDirectoryURL).notTo.beNil();
+			return repository;
+		};
+	});
+
+	it(@"should initialize a repository with a working directory by default", ^{
+		GTRepository *repository = createRepository(NO);
+		expect(repository.bare).to.beFalsy();
 	});
 
 	it(@"should initialize a bare repository", ^{
-		__block NSError *error = nil;
-		NSURL *newRepoURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"unit_test"]];
-		[[NSFileManager defaultManager] removeItemAtURL:newRepoURL error:NULL];
-
-		expect([GTRepository initializeEmptyRepositoryAtURL:newRepoURL bare:YES error:&error]).to.beTruthy();
-		GTRepository *newRepo = [GTRepository repositoryWithURL:newRepoURL error:&error];
-		expect(newRepo).toNot.beNil();
-		expect(error).to.beNil();
-		expect(newRepo.fileURL).to.beNil(); // working directory
-		expect(newRepo.bare).to.beTruthy();
+		GTRepository *repository = createRepository(YES);
+		expect(repository.bare).to.beTruthy();
 	});
 });
 

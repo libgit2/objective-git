@@ -31,11 +31,22 @@
 #import "GTTree.h"
 #import "GTTreeEntry.h"
 #import "GTRepository.h"
+#import "GTObjectDatabase.h"
+#import "GTOID.h"
 #import "NSError+Git.h"
 #import "GTOID.h"
 
 @interface GTTreeBuilder ()
+
 @property (nonatomic, assign, readonly) git_treebuilder *git_treebuilder;
+
+// Data to be written with the tree, keyed by the file name. This should only be
+// accessed while synchronized on self.
+//
+// This is needed because we don't want to add the entries to the object
+// database until the tree's been written.
+@property (nonatomic, strong, readonly) NSMutableDictionary *fileNameToPendingData;
+
 @end
 
 @implementation GTTreeBuilder
@@ -57,6 +68,8 @@
 		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to create tree builder with tree %@.", treeOrNil.SHA];
 		return nil;
 	}
+
+	_fileNameToPendingData	= [NSMutableDictionary dictionary];
 
 	return self;
 }
@@ -85,21 +98,35 @@ static int filter_callback(const git_tree_entry *entry, void *payload) {
 	git_treebuilder_filter(self.git_treebuilder, filter_callback, (__bridge void *)filterBlock);
 }
 
-- (GTTreeEntry *)entryWithName:(NSString *)filename {
-	NSParameterAssert(filename != nil);
+- (GTTreeEntry *)entryWithFileName:(NSString *)fileName {
+	NSParameterAssert(fileName != nil);
 
-	const git_tree_entry *entry = git_treebuilder_get(self.git_treebuilder, filename.UTF8String);
+	const git_tree_entry *entry = git_treebuilder_get(self.git_treebuilder, fileName.UTF8String);
 	if (entry == NULL) return nil;
 	
 	return [GTTreeEntry entryWithEntry:entry parentTree:nil];
 }
 
-- (GTTreeEntry *)addEntryWithOID:(GTOID *)oid filename:(NSString *)filename filemode:(GTFileMode)filemode error:(NSError **)error {
+- (GTTreeEntry *)addEntryWithData:(NSData *)data fileName:(NSString *)fileName fileMode:(GTFileMode)fileMode error:(NSError **)error {
+	NSParameterAssert(data != nil);
+	NSParameterAssert(fileName != nil);
+
+	GTOID *OID = [GTOID OIDByHashingData:data type:GTObjectTypeBlob error:error];
+	if (OID == nil) return nil;
+
+	@synchronized (self) {
+		self.fileNameToPendingData[fileName] = data;
+	}
+
+	return [self addEntryWithOID:OID fileName:fileName fileMode:fileMode error:error];
+}
+
+- (GTTreeEntry *)addEntryWithOID:(GTOID *)oid fileName:(NSString *)fileName fileMode:(GTFileMode)fileMode error:(NSError **)error {
 	NSParameterAssert(oid != nil);
-	NSParameterAssert(filename != nil);
+	NSParameterAssert(fileName != nil);
 
 	const git_tree_entry *entry = NULL;
-	int status = git_treebuilder_insert(&entry, self.git_treebuilder, filename.UTF8String, oid.git_oid, (git_filemode_t)filemode);
+	int status = git_treebuilder_insert(&entry, self.git_treebuilder, fileName.UTF8String, oid.git_oid, (git_filemode_t)fileMode);
 	
 	if (status != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to add entry %@ to tree builder.", oid.SHA];
@@ -109,22 +136,44 @@ static int filter_callback(const git_tree_entry *entry, void *payload) {
 	return [GTTreeEntry entryWithEntry:entry parentTree:nil];
 }
 
-- (GTTreeEntry *)addEntryWithSHA:(NSString *)sha filename:(NSString *)filename filemode:(GTFileMode)filemode error:(NSError *__autoreleasing *)error {
-	GTOID *oid = [[GTOID alloc] initWithSHA:sha error:error];
-	if (oid == nil) return nil;
-	return [self addEntryWithOID:oid filename:filename filemode:filemode error:error];
-}
-
-- (BOOL)removeEntryWithFilename:(NSString *)filename error:(NSError **)error {
-	int status = git_treebuilder_remove(self.git_treebuilder, filename.UTF8String);
+- (BOOL)removeEntryWithFileName:(NSString *)fileName error:(NSError **)error {
+	int status = git_treebuilder_remove(self.git_treebuilder, fileName.UTF8String);
 	if (status != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to remove entry with name %@ from tree builder.", filename];
+		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to remove entry with name %@ from tree builder.", fileName];
+	}
+
+	@synchronized (self) {
+		[self.fileNameToPendingData removeObjectForKey:fileName];
 	}
 	
-	return (status == GIT_OK);
+	return status == GIT_OK;
+}
+
+- (BOOL)writePendingDataToRepository:(GTRepository *)repository error:(NSError **)error {
+	NSDictionary *copied;
+	@synchronized (self) {
+		copied = [self.fileNameToPendingData copy];
+		[self.fileNameToPendingData removeAllObjects];
+	}
+
+	if (copied.count != 0) {
+		GTObjectDatabase *odb = [repository objectDatabaseWithError:error];
+		if (odb == nil) return NO;
+
+		for (NSString *fileName in copied) {
+			NSData *data = copied[fileName];
+			GTOID *dataOID = [odb writeData:data type:GTObjectTypeBlob error:error];
+			if (dataOID == nil) return NO;
+		}
+	}
+
+	return YES;
 }
 
 - (GTTree *)writeTreeToRepository:(GTRepository *)repository error:(NSError **)error {
+	BOOL success = [self writePendingDataToRepository:repository error:error];
+	if (!success) return nil;
+
 	git_oid treeOid;
 	int status = git_treebuilder_write(&treeOid, repository.git_repository, self.git_treebuilder);
 	if (status != GIT_OK) {

@@ -135,7 +135,7 @@
 	GTObjectDatabase *database = [self.repository objectDatabaseWithError:error];
 	if (database == nil) return nil;
 
-	return [database objectWithOid:self.OID error:error];
+	return [database objectWithOID:self.OID error:error];
 }
 
 - (id)objectByPeelingToType:(GTObjectType)type error:(NSError **)error {

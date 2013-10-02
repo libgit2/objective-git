@@ -21,6 +21,10 @@ void rm_loose(Class cls, NSString *sha);
 
 @interface GTTestCase : SPTSenTestCase
 
+// The file URL for a temporary directory which will live for the length of each
+// example (`it`).
+@property (nonatomic, readonly, strong) NSURL *tempDirectoryFileURL;
+
 // Find and return the fixture repository with the given name;
 - (GTRepository *)fixtureRepositoryNamed:(NSString *)name;
 

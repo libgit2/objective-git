@@ -40,9 +40,11 @@
 #import "GTSignature.h"
 #import "GTSubmodule.h"
 #import "GTTag.h"
+#import "GTTreeBuilder.h"
 #import "NSError+Git.h"
 #import "NSString+Git.h"
 #import "GTDiffFile.h"
+#import "GTTree.h"
 #import "GTCredential.h"
 #import "GTCredential+Private.h"
 
@@ -105,25 +107,25 @@ typedef struct {
 	return NO;
 }
 
-+ (BOOL)initializeEmptyRepositoryAtURL:(NSURL *)localFileURL error:(NSError **)error {
-	return [self initializeEmptyRepositoryAtURL:localFileURL bare:NO error:error];
++ (instancetype)initializeEmptyRepositoryAtFileURL:(NSURL *)localFileURL error:(NSError **)error {
+	return [self initializeEmptyRepositoryAtFileURL:localFileURL bare:NO error:error];
 }
 
-+ (BOOL)initializeEmptyRepositoryAtURL:(NSURL *)localFileURL bare:(BOOL)bare error:(NSError **)error {
++ (instancetype)initializeEmptyRepositoryAtFileURL:(NSURL *)localFileURL bare:(BOOL)bare error:(NSError **)error {
 	if (![localFileURL isFileURL] || localFileURL.path == nil) {
 		if (error != NULL) *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileWriteUnsupportedSchemeError userInfo:@{ NSLocalizedDescriptionKey: NSLocalizedString(@"Invalid file path URL to initialize repository.", @"") }];
 		return NO;
 	}
 
-	const char *path = localFileURL.path.UTF8String;
-
-	git_repository *r;
-	int gitError = git_repository_init(&r, path, bare);
-	if (gitError < GIT_OK) {
+	const char *path = localFileURL.path.fileSystemRepresentation;
+	git_repository *repository = NULL;
+	int gitError = git_repository_init(&repository, path, bare);
+	if (gitError != GIT_OK || repository == NULL) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to initialize empty repository at URL %@.", localFileURL];
+		return nil;
 	}
 
-	return gitError == GIT_OK;
+	return [[self alloc] initWithGitRepository:repository];
 }
 
 + (id)repositoryWithURL:(NSURL *)localFileURL error:(NSError **)error {
@@ -213,19 +215,6 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 	}
 
 	return [[self alloc] initWithGitRepository:repository];
-}
-
-
-+ (NSString *)hash:(NSString *)data objectType:(GTObjectType)type error:(NSError **)error {
-	git_oid oid;
-
-	int gitError = git_odb_hash(&oid, [data UTF8String], [data length], (git_otype) type);
-	if (gitError < GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to get hash for object."];
-		return nil;
-	}
-
-	return [GTOID oidWithGitOid:&oid].SHA;
 }
 
 - (id)lookupObjectByGitOid:(const git_oid *)oid objectType:(GTObjectType)type error:(NSError **)error {
