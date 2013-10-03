@@ -1,0 +1,53 @@
+#!/bin/sh
+
+function xcode_major_version {
+  local XCODE_VERSION=`/usr/bin/xcodebuild -version | head -n 1 | sed -E 's/Xcode ([0-9\.]*)/\1/'`
+
+  local XCODE_MAJOR_VERSION=`echo $XCODE_VERSION | awk -F '.' '{ print $1 }'`
+
+  echo $XCODE_MAJOR_VERSION
+}
+
+function prepare_build_variables {
+  CURRENTPATH=`pwd`
+  CLANG=`/usr/bin/xcrun --find clang`
+  ARCHS=("i386" "armv7" "armv7s")
+  DEVELOPER="/Applications/Xcode.app/Contents/Developer"
+  MACOSX_DEPLOYMENT_TARGET=""
+
+  if [ "${XCODE_MAJOR_VERSION}" -ge "5" ]; then
+    SDKVERSION="7.0"
+    IPHONEOS_DEPLOYMENT_TARGET=${SDKVERSION}
+    ARCHS+=("arm64")
+  else
+    SDKVERSION="6.1"
+    IPHONEOS_DEPLOYMENT_TARGET="5.0"
+  fi
+}
+
+function build_all_archs {
+  echo "Building for ${ARCHS[@]}"
+  
+  for ARCH in ${ARCHS[@]}; do
+    if [ "${ARCH}" == "i386" ]; then
+        PLATFORM="iPhoneSimulator"
+    else
+        PLATFORM="iPhoneOS"
+    fi
+
+    if [ "${ARCH}" == "arm64" ]; then
+        HOST="aarch64-apple-darwin"
+    else
+        HOST="${ARCH}-apple-darwin"
+    fi
+
+    echo "Building ${LIBRARY_NAME} for ${PLATFORM} ${SDKVERSION} ${ARCH}"
+    echo "Please stand by..."	
+    DEVROOT="${DEVELOPER}/Platforms/${PLATFORM}.platform/Developer"
+    SDKROOT="${DEVROOT}/SDKs/${PLATFORM}${SDKVERSION}.sdk"
+
+    eval $1
+
+  done
+}
+
