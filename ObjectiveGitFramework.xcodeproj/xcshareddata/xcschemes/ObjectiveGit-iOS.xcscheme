@@ -28,16 +28,6 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       buildConfiguration = "Debug">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "88F05A6A16011E5400B7AD1D"
-               BuildableName = "ObjectiveGitTests.octest"
-               BlueprintName = "ObjectiveGitTests"
-               ReferencedContainer = "container:ObjectiveGitFramework.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
