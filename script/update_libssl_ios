@@ -2,30 +2,28 @@
 
 set -e
 
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+# augment path to help it find cmake installed in /usr/local/bin,
+# e.g. via brew. Xcode's Run Script phase doesn't seem to honor
+# ~/.MacOSX/environment.plist
+PATH="/usr/local/bin:/opt/boxen/homebrew/bin:$PATH"
 
+# source the common build functions
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 source "${DIR}/update_ios_lib"
 
-if [ -f "External/ios-openssl/lib/libssl.a" ] && [ -f "External/ios-openssl/lib/libcrypto.a" ] && [ -d "External/ios-openssl/include" ]; then
+prepare_build_variables
+
+if [ -f "${CURRENT_PATH}/External/ios-openssl/lib/libssl.a" ] && [ -f "${CURRENT_PATH}/External/ios-openssl/lib/libcrypto.a" ] && [ -d "${CURRENT_PATH}/External/ios-openssl/include" ]; then
     echo "No update needed."
     exit 0
 fi
 
 LIBRARY_NAME="OpenSSL"
 
-# augment path to help it find cmake installed in /usr/local/bin,
-# e.g. via brew. Xcode's Run Script phase doesn't seem to honor
-# ~/.MacOSX/environment.plist
-PATH="/usr/local/bin:/opt/boxen/homebrew/bin:$PATH"
-
-XCODE_MAJOR_VERSION=$(xcode_major_version)
-
-prepare_build_variables
-
 BUILT_CRYPTO_PATHS=()
 BUILT_SSL_PATHS=()
 
-rm -rf External/ios-openssl/include External/ios-openssl/lib
+rm -rf ${CURRENT_PATH}/External/ios-openssl/include External/ios-openssl/lib
 
 function cleanup {
   rm -rf "/tmp/openssl"
@@ -34,18 +32,22 @@ function cleanup {
 
 function build_ssl {
   rm -rf /tmp/openssl
-  cp -r External/openssl /tmp/
+  cp -r ${CURRENT_PATH}/External/openssl /tmp/
   pushd .
   cd /tmp/openssl
-  
-  ./Configure BSD-generic32 no-gost --openssldir="/tmp/openssl-${ARCH}" &> "/tmp/openssl-${ARCH}.log"
+
+  LOG="/tmp/openssl-${ARCH}.log"
+
+  echo $LOG
+
+  ./Configure BSD-generic32 no-gost --openssldir="/tmp/openssl-${ARCH}" &> ${LOG}
   perl -i -pe 's|static volatile sig_atomic_t intr_signal|static volatile int intr_signal|' crypto/ui/ui_openssl.c
   perl -i -pe "s|^CC= gcc|CC= ${CLANG} -miphoneos-version-min=${IPHONEOS_DEPLOYMENT_TARGET} -arch ${ARCH} |g" Makefile
   perl -i -pe "s|^CFLAG= (.*)|CFLAG= -isysroot ${SDKROOT} \$1|g" Makefile
 
-  make &> "/tmp/openssl-${ARCH}.log"
+  make &> ${LOG}
 
-  make install &> "/tmp/openssl-${ARCH}.log"
+  make install &> ${LOG}
   popd
   rm -rf "/tmp/openssl"
 
@@ -56,15 +58,15 @@ function build_ssl {
 cleanup
 build_all_archs build_ssl
 
-echo "Build fat library..."
+echo "Building fat library..."
 
-mkdir -p External/ios-openssl/include
-cp -r /tmp/openssl-i386/include/openssl External/ios-openssl/include/
+mkdir -p ${CURRENT_PATH}/External/ios-openssl/include
+cp -r /tmp/openssl-i386/include/openssl ${CURRENT_PATH}/External/ios-openssl/include/
 
-mkdir -p External/ios-openssl/lib
+mkdir -p ${CURRENT_PATH}/External/ios-openssl/lib
 
-lipo -create ${BUILT_CRYPTO_PATHS[@]} -output ${CURRENTPATH}/External/ios-openssl/lib/libcrypto.a
-lipo -create ${BUILT_SSL_PATHS[@]} -output ${CURRENTPATH}/External/ios-openssl/lib/libssl.a
+lipo -create ${BUILT_CRYPTO_PATHS[@]} -output ${CURRENT_PATH}/External/ios-openssl/lib/libcrypto.a
+lipo -create ${BUILT_SSL_PATHS[@]} -output ${CURRENT_PATH}/External/ios-openssl/lib/libssl.a
 
 cleanup
 
