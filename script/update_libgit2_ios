@@ -2,72 +2,43 @@
 
 set -e
 
-if [ "External/libgit2-ios.a" -nt "External/libgit2" ]; then
+# augment path to help it find cmake installed in /usr/local/bin,
+# e.g. via brew. Xcode's Run Script phase doesn't seem to honor
+# ~/.MacOSX/environment.plist
+PATH="/usr/local/bin:/opt/boxen/homebrew/bin:$PATH"
+
+# source the common build functions
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source "${DIR}/update_ios_lib"
+
+prepare_build_variables
+
+if [ "${CURRENT_PATH}/External/libgit2-ios.a" -nt "${CURRENT_PATH}/External/libgit2" ]; then
     echo "No update needed."
     exit 0
 fi
 
-# augment path to help it find cmake installed in /usr/local/bin,
-# e.g. via brew. Xcode's Run Script phase doesn't seem to honor
-# ~/.MacOSX/environment.plist
-PATH="/usr/local/bin:$PATH"
+LIBRARY_NAME="libgit2"
 
-XCODE_VERSION=`xcodebuild -version | head -n 1 | sed -E 's/Xcode ([0-9\.]*)/\1/'`
-
-echo "Detected Xcode version" $XCODE_VERSION
-
-XCODE_MAJOR_VERSION=`echo $XCODE_VERSION | awk -F '.' '{ print $1 }'`
-
-CURRENTPATH=`pwd`
-ARCHS=("i386" "armv7" "armv7s")
-DEVELOPER="/Applications/Xcode.app/Contents/Developer"
-CLANG=`/usr/bin/xcrun --find clang`
-MACOSX_DEPLOYMENT_TARGET=""
-
-if [ "${XCODE_MAJOR_VERSION}" -ge "5" ]; then
-	SDKVERSION="7.0"
-	IPHONEOS_DEPLOYMENT_TARGET=${SDKVERSION}
-	ARCHS+=("arm64")
-else
-	SDKVERSION="6.1"
-	IPHONEOS_DEPLOYMENT_TARGET="5.0"
-fi
-
-LIB_PATH="${CURRENTPATH}/External/libgit2/lib"
+LIB_PATH="${CURRENT_PATH}/External/libgit2/lib"
 
 BUILT_LIB_PATHS=()
 
-cd External/libgit2
+pushd .
+
+cd ${CURRENT_PATH}/External/libgit2
 
 if [ -d "lib" ]; then
     rm -rf "lib"
 fi
 
-for ARCH in ${ARCHS[@]}; do
+function build_libgit2 {
   if [ -d "build" ]; then
       rm -rf "build"
   fi
 
   mkdir build
   cd build
-
-  if [ "${ARCH}" == "i386" ]; then
-      PLATFORM="iPhoneSimulator"
-  else
-      PLATFORM="iPhoneOS"
-  fi
-
-  if [ "${ARCH}" == "arm64" ]; then
-      HOST="aarch64-apple-darwin"
-  else
-      HOST="${ARCH}-apple-darwin"
-  fi
-
-  echo "Building libgit2 for ${PLATFORM} ${SDKVERSION} ${ARCH}"
-  echo "Please stand by..."
-
-  DEVROOT="${DEVELOPER}/Platforms/${PLATFORM}.platform/Developer"
-  SDKROOT="${DEVROOT}/SDKs/${PLATFORM}${SDKVERSION}.sdk"
 
   if [ "${ARCH}" != "i386" ]; then
     SYS_ROOT="-DCMAKE_OSX_SYSROOT=${SDKROOT}"
@@ -78,6 +49,8 @@ for ARCH in ${ARCHS[@]}; do
   mkdir -p ${INSTALL_PREFIX}
 
   LOG="${INSTALL_PREFIX}/build-libgit2.log"
+  
+  echo $LOG
 
   cmake -DCMAKE_C_COMPILER=${CLANG} \
         -DCMAKE_C_COMPILER_WORKS:BOOL=ON \
@@ -98,12 +71,14 @@ for ARCH in ${ARCHS[@]}; do
   # push the built library into the list
   BUILT_LIB_PATHS+=("${INSTALL_PREFIX}/lib/libgit2.a")
   cd ..
-done
+}
 
-cd ${CURRENTPATH}
+build_all_archs build_libgit2
 
-echo "Build library..."
+popd
 
-lipo -create ${BUILT_LIB_PATHS[@]} -output ${CURRENTPATH}/External/libgit2-ios.a
+echo "Building fat library..."
+
+lipo -create ${BUILT_LIB_PATHS[@]} -output ${CURRENT_PATH}/External/libgit2-ios.a
 
 echo "Building done."
