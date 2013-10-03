@@ -2,85 +2,51 @@
 
 set -e
 
-if [ -f "External/libssh2-ios/lib/libssh2-ios.a" ]; then
-    echo "No update needed."
-    exit 0
-fi
-
 # augment path to help it find cmake installed in /usr/local/bin,
 # e.g. via brew. Xcode's Run Script phase doesn't seem to honor
 # ~/.MacOSX/environment.plist
 PATH="/usr/local/bin:/opt/boxen/homebrew/bin:$PATH"
 
-XCODE_VERSION=`xcodebuild -version | head -n 1 | sed -E 's/Xcode ([0-9\.]*)/\1/'`
+# source the common build functions
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source "${DIR}/update_ios_lib"
 
-echo "Detected Xcode version" $XCODE_VERSION
+prepare_build_variables
 
-XCODE_MAJOR_VERSION=`echo $XCODE_VERSION | awk -F '.' '{ print $1 }'`
-
-CURRENTPATH=`pwd`
-ARCHS=("i386" "armv7" "armv7s")
-DEVELOPER="/Applications/Xcode.app/Contents/Developer"
-MACOSX_DEPLOYMENT_TARGET=""
-
-if [ "${XCODE_MAJOR_VERSION}" -ge "5" ]; then
-	SDKVERSION="7.0"
-	IPHONEOS_DEPLOYMENT_TARGET=${SDKVERSION}
-	ARCHS+=("arm64")
-else
-	SDKVERSION="6.1"
-	IPHONEOS_DEPLOYMENT_TARGET="5.0"
+if [ -f "${CURRENT_PATH}/External/libssh2-ios/lib/libssh2-ios.a" ]; then
+    echo "No update needed."
+    exit 0
 fi
 
-mkdir -p External/libssh2-ios/lib External/libssh2-ios/lib External/libssh2-ios/src
+LIBRARY_NAME="libssh2"
 
-for ARCH in ${ARCHS[@]}; do
-    if [ "${ARCH}" == "i386" ]; then
-        PLATFORM="iPhoneSimulator"
-    else
-        PLATFORM="iPhoneOS"
-    fi
+function build_ssh2 {
+  mkdir -p ${CURRENT_PATH}/External/libssh2-ios/lib ${CURRENT_PATH}/External/libssh2-ios/lib ${CURRENT_PATH}/External/libssh2-ios/src
+  
+  rm -rf ${CURRENT_PATH}/External/libssh2-ios/src/libssh2
+  cp -R ${CURRENT_PATH}/External/libssh2 ${CURRENT_PATH}/External/libssh2-ios/src/
+  cd ${CURRENT_PATH}/External/libssh2-ios/src/libssh2
+  
+  CFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -miphoneos-version-min=${SDKVERSION}"
+  CPPFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -miphoneos-version-min=${SDKVERSION}"
 
-    if [ "${ARCH}" == "arm64" ]; then
-        HOST="aarch64-apple-darwin"
-    else
-        HOST="${ARCH}-apple-darwin"
-    fi
+  mkdir -p "${CURRENT_PATH}/External/libssh2-ios/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk"
+  LOG="${CURRENT_PATH}/External/libssh2-ios/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk/build-libssh2.log"
 
-    echo "Building libssh2 for ${PLATFORM} ${SDKVERSION} ${ARCH}"
-    echo "Please stand by..."
+  echo ${LOG}
 
-    rm -rf External/libssh2-ios/src/libssh2
-    cp -R External/libssh2 External/libssh2-ios/src/
-    cd External/libssh2-ios/src/libssh2
+  ./buildconf >> "${LOG}" 2>&1
+  ./configure --host=${HOST} --prefix="${CURRENTPATH}/External/libssh2-ios/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk" --with-openssl --with-libssl-prefix=${CURRENT_PATH}/External/ios-openssl --disable-shared --enable-static >> "${LOG}" 2>&1
+  make >> "${LOG}" 2>&1
+  make install >> "${LOG}" 2>&1
+}
 
-    DEVROOT="${DEVELOPER}/Platforms/${PLATFORM}.platform/Developer"
-    SDKROOT="${DEVROOT}/SDKs/${PLATFORM}${SDKVERSION}.sdk"
-    CLANG=`/usr/bin/xcrun --find clang`
-    CC=${CLANG}
-    CPP="${CLANG} -E"
-    export CFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -miphoneos-version-min=${SDKVERSION}"
-    export CPPFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -miphoneos-version-min=${SDKVERSION}"
+build_all_archs build_ssh2
 
-    echo ${CURRENTPATH}/External/libssh2-ios/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk
+echo "Building fat library..."
 
-    mkdir -p "${CURRENTPATH}/External/libssh2-ios/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk"
-    LOG="${CURRENTPATH}/External/libssh2-ios/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk/build-libssh2.log"
-    ./buildconf >> "${LOG}" 2>&1
-    ./configure --host=${HOST} --prefix="${CURRENTPATH}/External/libssh2-ios/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk" --with-openssl --with-libssl-prefix=${CURRENTPATH}/External/ios-openssl --disable-shared --enable-static >> "${LOG}" 2>&1
-    make >> "${LOG}" 2>&1
-    make install >> "${LOG}" 2>&1
-
-    cd ${CURRENTPATH}
-done
-
-unset CFLAGS
-unset CPPFLAGS
-
-echo "Build library..."
-
-lipo -create ${CURRENTPATH}/External/libssh2-ios/bin/iPhoneSimulator${SDKVERSION}-i386.sdk/lib/libssh2.a ${CURRENTPATH}/External/libssh2-ios/bin/iPhoneOS${SDKVERSION}-armv7.sdk/lib/libssh2.a ${CURRENTPATH}/External/libssh2-ios/bin/iPhoneOS${SDKVERSION}-armv7s.sdk/lib/libssh2.a -output ${CURRENTPATH}/External/libssh2-ios/lib/libssh2-ios.a
-mkdir -p ${CURRENTPATH}/External/libssh2-ios/include/libssh2
-cp -R ${CURRENTPATH}/External/libssh2-ios/bin/iPhoneSimulator${SDKVERSION}-i386.sdk/include/libssh2* ${CURRENTPATH}/External/libssh2-ios/include/libssh2/
+lipo -create ${CURRENT_PATH}/External/libssh2-ios/bin/iPhoneSimulator${SDKVERSION}-i386.sdk/lib/libssh2.a ${CURRENT_PATH}/External/libssh2-ios/bin/iPhoneOS${SDKVERSION}-armv7.sdk/lib/libssh2.a ${CURRENT_PATH}/External/libssh2-ios/bin/iPhoneOS${SDKVERSION}-armv7s.sdk/lib/libssh2.a -output ${CURRENT_PATH}/External/libssh2-ios/lib/libssh2-ios.a
+mkdir -p ${CURRENT_PATH}/External/libssh2-ios/include/libssh2
+cp -R ${CURRENT_PATH}/External/libssh2-ios/bin/iPhoneSimulator${SDKVERSION}-i386.sdk/include/libssh2* ${CURRENT_PATH}/External/libssh2-ios/include/libssh2/
 
 echo "Building done."

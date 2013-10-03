@@ -9,11 +9,17 @@ function xcode_major_version {
 }
 
 function prepare_build_variables {
-  CURRENTPATH=`pwd`
+  local DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+  CURRENT_PATH=`dirname ${DIR}`
   CLANG=`/usr/bin/xcrun --find clang`
+  CPP="${CLANG} -E"
+  CC=${CLANG}
+  CPP="${CLANG} -E"
   ARCHS=("i386" "armv7" "armv7s")
   DEVELOPER="/Applications/Xcode.app/Contents/Developer"
   MACOSX_DEPLOYMENT_TARGET=""
+  
+  XCODE_MAJOR_VERSION=$(xcode_major_version)
 
   if [ "${XCODE_MAJOR_VERSION}" -ge "5" ]; then
     SDKVERSION="7.0"
