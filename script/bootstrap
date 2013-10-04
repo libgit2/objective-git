@@ -30,19 +30,22 @@ do
 done
 
 brew_prefix=`brew --prefix`
-if [ "$brew_prefix" != "/usr/local" ]
+expected_prefix=/usr/local
+if [ "$brew_prefix" != "$expected_prefix" ]
 then
-    echo "*** Adding soft links into /usr/local/lib…"
-    
-    products="libssh2.a"
-    
-    sudo mkdir -p /usr/local/lib
-    for lib in $products
+    echo "*** Adding soft links into $expected_prefix..."
+
+    products=(lib/libssh2.a include/libssh2.h include/libssh2_sftp.h include/libssh2_publickey.h)
+
+    for product in "${products[@]}"
     do
-        destination="/usr/local/lib/$lib"
-        if [ ! -e "$destination" ]
+        destination="$expected_prefix/$product"
+        if [ -e "$destination" ]
         then
-            sudo ln -s "$brew_prefix/lib/$lib" "$destination"
+            continue
         fi
-    done    
+
+        sudo mkdir -p "$(dirname "$destination")"
+        sudo ln -s "$brew_prefix/$product" "$destination"
+    done
 fi
