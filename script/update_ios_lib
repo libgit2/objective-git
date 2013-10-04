@@ -24,7 +24,7 @@ function prepare_build_variables {
   if [ "${XCODE_MAJOR_VERSION}" -ge "5" ]; then
     SDKVERSION="7.0"
     IPHONEOS_DEPLOYMENT_TARGET=${SDKVERSION}
-    ARCHS+=("arm64")
+    ARCHS+=("arm64" "x86_64")
   else
     SDKVERSION="6.1"
     IPHONEOS_DEPLOYMENT_TARGET="5.0"
@@ -35,7 +35,7 @@ function build_all_archs {
   echo "Building for ${ARCHS[@]}"
   
   for ARCH in ${ARCHS[@]}; do
-    if [ "${ARCH}" == "i386" ]; then
+    if [ "${ARCH}" == "i386" ] || [ "${ARCH}" == "x86_64" ]; then
         PLATFORM="iPhoneSimulator"
     else
         PLATFORM="iPhoneOS"
