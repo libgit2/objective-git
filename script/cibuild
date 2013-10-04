@@ -4,9 +4,6 @@ SCRIPT_DIR=$(dirname "$0")
 cd "$SCRIPT_DIR/.."
 
 XCODE_VERSION=`xcodebuild -version | head -n 1 | sed -E 's/Xcode ([0-9\.]*)/\1/'`
-
-echo "Detected Xcode version" $XCODE_VERSION
-
 XCODE_MAJOR_VERSION=`echo $XCODE_VERSION | awk -F '.' '{ print $1 }'`
 
 ##
