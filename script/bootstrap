@@ -33,7 +33,7 @@ brew_prefix=`brew --prefix`
 expected_prefix=/usr/local
 if [ "$brew_prefix" != "$expected_prefix" ]
 then
-    echo "*** Adding soft links into /usr/local/…"
+    echo "*** Adding soft links into $expected_prefix..."
 
     products=(lib/libssh2.a include/libssh2.h include/libssh2_sftp.h include/libssh2_publickey.h)
 
