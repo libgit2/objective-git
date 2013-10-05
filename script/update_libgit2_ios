@@ -37,10 +37,13 @@ function build_libgit2 {
       rm -rf "build"
   fi
 
+  pushd .
+
   mkdir build
   cd build
 
-  if [ "${ARCH}" != "i386" ]; then
+  # LOL Cmake
+  if [ "${ARCH}" != "i386" ] && [ "${ARCH}" != "x86_64" ]; then
     SYS_ROOT="-DCMAKE_OSX_SYSROOT=${SDKROOT}"
   fi
 
@@ -49,7 +52,6 @@ function build_libgit2 {
   mkdir -p ${INSTALL_PREFIX}
 
   LOG="${INSTALL_PREFIX}/build-libgit2.log"
-  
   echo $LOG
 
   cmake -DCMAKE_C_COMPILER=${CLANG} \
@@ -61,16 +63,16 @@ function build_libgit2 {
         -DOPENSSL_SSL_LIBRARY:FILEPATH=../../External/ios-openssl/lib/libssl.a \
         -DCMAKE_LIBRARY_PATH:PATH=${SDKROOT}/usr/lib/ \
         -DOPENSSL_CRYPTO_LIBRARY:FILEPATH=../../External/ios-openssl/lib/libcrypto.a \
-        -DCMAKE_OSX_ARCHITECTURES:STRING=${ARCH} \
         -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}/ \
         -DBUILD_CLAR:BOOL=OFF \
         ${SYS_ROOT} \
+        -DCMAKE_OSX_ARCHITECTURES:STRING=${ARCH} \
         .. >> "${LOG}" 2>&1
   cmake --build . --target install >> "${LOG}" 2>&1
 
   # push the built library into the list
   BUILT_LIB_PATHS+=("${INSTALL_PREFIX}/lib/libgit2.a")
-  cd ..
+  popd
 }
 
 build_all_archs build_libgit2
