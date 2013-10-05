@@ -20,6 +20,8 @@ fi
 
 LIBRARY_NAME="libssh2"
 
+BUILT_LIBS=()
+
 function build_ssh2 {
   mkdir -p ${CURRENT_PATH}/External/libssh2-ios/lib ${CURRENT_PATH}/External/libssh2-ios/lib ${CURRENT_PATH}/External/libssh2-ios/src
   
@@ -36,16 +38,18 @@ function build_ssh2 {
   echo ${LOG}
 
   ./buildconf >> "${LOG}" 2>&1
-  ./configure --host=${HOST} --prefix="${CURRENTPATH}/External/libssh2-ios/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk" --with-openssl --with-libssl-prefix=${CURRENT_PATH}/External/ios-openssl --disable-shared --enable-static >> "${LOG}" 2>&1
+  ./configure --host=${HOST} --prefix="${CURRENT_PATH}/External/libssh2-ios/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk" --with-openssl --with-libssl-prefix=${CURRENT_PATH}/External/ios-openssl --disable-shared --enable-static >> "${LOG}" 2>&1
   make >> "${LOG}" 2>&1
   make install >> "${LOG}" 2>&1
+  
+  BUILT_LIBS+=("${CURRENT_PATH}/External/libssh2-ios/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk/lib/libssh2.a")
 }
 
 build_all_archs build_ssh2
 
 echo "Building fat library..."
 
-lipo -create ${CURRENT_PATH}/External/libssh2-ios/bin/iPhoneSimulator${SDKVERSION}-i386.sdk/lib/libssh2.a ${CURRENT_PATH}/External/libssh2-ios/bin/iPhoneOS${SDKVERSION}-armv7.sdk/lib/libssh2.a ${CURRENT_PATH}/External/libssh2-ios/bin/iPhoneOS${SDKVERSION}-armv7s.sdk/lib/libssh2.a -output ${CURRENT_PATH}/External/libssh2-ios/lib/libssh2-ios.a
+lipo -create ${BUILT_LIBS[@]} -output ${CURRENT_PATH}/External/libssh2-ios/lib/libssh2-ios.a
 mkdir -p ${CURRENT_PATH}/External/libssh2-ios/include/libssh2
 cp -R ${CURRENT_PATH}/External/libssh2-ios/bin/iPhoneSimulator${SDKVERSION}-i386.sdk/include/libssh2* ${CURRENT_PATH}/External/libssh2-ios/include/libssh2/
 
