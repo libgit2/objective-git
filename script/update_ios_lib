@@ -22,8 +22,12 @@ function prepare_build_variables {
 
   if [ "${XCODE_MAJOR_VERSION}" -ge "5" ]; then
     SDKVERSION="7.0"
-    IPHONEOS_DEPLOYMENT_TARGET=${SDKVERSION}
-    ARCHS=("x86_64" "${ARCHS[@]}" "arm64")
+    if [ -z "${IPHONEOS_DEPLOYMENT_TARGET}" ]; then
+      IPHONEOS_DEPLOYMENT_TARGET=${SDKVERSION}
+    fi
+    if [ `echo ${IPHONEOS_DEPLOYMENT_TARGET} '>=' 7.0 | bc -l` == "1" ]; then
+      ARCHS=("x86_64" "${ARCHS[@]}" "arm64")
+    fi
   else
     SDKVERSION="6.1"
     IPHONEOS_DEPLOYMENT_TARGET="5.0"
