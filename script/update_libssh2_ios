@@ -27,8 +27,8 @@ function build_ssh2 {
   cp -R ${CURRENT_PATH}/External/libssh2 ${CURRENT_PATH}/External/libssh2-ios/src/
   cd ${CURRENT_PATH}/External/libssh2-ios/src/libssh2
   
-  CFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -miphoneos-version-min=${SDKVERSION}"
-  CPPFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -miphoneos-version-min=${SDKVERSION}"
+  export CFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -miphoneos-version-min=${IPHONEOS_DEPLOYMENT_TARGET}"
+  export CPPFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -miphoneos-version-min=${IPHONEOS_DEPLOYMENT_TARGET}"
 
   mkdir -p "${CURRENT_PATH}/External/libssh2-ios/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk"
   LOG="${CURRENT_PATH}/External/libssh2-ios/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk/build-libssh2.log"
