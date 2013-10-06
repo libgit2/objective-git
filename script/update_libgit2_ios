@@ -20,17 +20,18 @@ fi
 
 LIBRARY_NAME="libgit2"
 
-LIB_PATH="${CURRENT_PATH}/External/libgit2/lib"
+LIB_PATH="${CURRENT_PATH}/External/libgit2-ios"
 
 BUILT_LIB_PATHS=()
 
 pushd .
 
-cd ${CURRENT_PATH}/External/libgit2
-
-if [ -d "lib" ]; then
-    rm -rf "lib"
+if [ -d "${LIB_PATH}" ]; then
+    rm -rf "${LIB_PATH}"
 fi
+
+
+cd ${CURRENT_PATH}/External/libgit2
 
 function build_libgit2 {
   if [ -d "build" ]; then
