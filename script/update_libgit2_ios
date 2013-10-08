@@ -11,29 +11,30 @@ PATH="/usr/local/bin:/opt/boxen/homebrew/bin:$PATH"
 SCRIPT_PATH=`dirname $0`
 source "${SCRIPT_PATH}/ios_build_functions.sh"
 
-prepare_build_variables
+function setup ()
+{
+    if [ "${ROOT_PATH}/External/libgit2-ios.a" -nt "${ROOT_PATH}/External/libgit2" ]; then
+        echo "No update needed."
+        exit 0
+    fi
 
-if [ "${ROOT_PATH}/External/libgit2-ios.a" -nt "${ROOT_PATH}/External/libgit2" ]; then
-    echo "No update needed."
-    exit 0
-fi
+    LIBRARY_NAME="libgit2"
 
-LIBRARY_NAME="libgit2"
+    LIB_PATH="${ROOT_PATH}/External/libgit2-ios"
 
-LIB_PATH="${ROOT_PATH}/External/libgit2-ios"
+    BUILT_LIB_PATHS=()
 
-BUILT_LIB_PATHS=()
+    pushd . > /dev/null
 
-pushd . > /dev/null
+    if [ -d "${LIB_PATH}" ]; then
+        rm -rf "${LIB_PATH}"
+    fi
+    
+    cd ${ROOT_PATH}/External/libgit2
+}
 
-if [ -d "${LIB_PATH}" ]; then
-    rm -rf "${LIB_PATH}"
-fi
-
-
-cd ${ROOT_PATH}/External/libgit2
-
-function build_libgit2 {
+function build_libgit2 ()
+{
   if [ -d "build" ]; then
       rm -rf "build"
   fi
@@ -76,12 +77,14 @@ function build_libgit2 {
   popd > /dev/null
 }
 
-build_all_archs build_libgit2
+function fat_binary () {
+    echo "Building fat binary..."
 
-popd
+    lipo -create ${BUILT_LIB_PATHS[@]} -output ${ROOT_PATH}/External/libgit2-ios.a
 
-echo "Building fat library..."
+    echo "Building done."
+    
+    popd > /dev/null
+}
 
-lipo -create ${BUILT_LIB_PATHS[@]} -output ${ROOT_PATH}/External/libgit2-ios.a
-
-echo "Building done."
+build_all_archs setup build_libgit2 fat_binary
