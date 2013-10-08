@@ -29,7 +29,7 @@ describe(@"Checking status", ^{
 		
 		expect(git_index_update_all(index.git_index, NULL, NULL, NULL)).to.equal(GIT_OK);
 		
-		NSDictionary *renamedOptions = @{ GTRepositoryStatusOptionsFlagsKey: @(GTRepositoryStatusOptionsFlagsIncludeIgnored | GTRepositoryStatusOptionsFlagsIncludeUntracked | GTRepositoryStatusOptionsFlagsRecurseUntrackedDirectories | GTRepositoryStatusOptionsFlagsRenamesHeadToIndex) };
+		NSDictionary *renamedOptions = @{ GTRepositoryStatusOptionsFlagsKey: @(GTRepositoryStatusFlagsIncludeIgnored | GTRepositoryStatusFlagsIncludeUntracked | GTRepositoryStatusFlagsRecurseUntrackedDirectories | GTRepositoryStatusFlagsRenamesHeadToIndex) };
 		expect([repository enumerateFileStatusWithOptions:renamedOptions error:&err usingBlock:^(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop) {
 			if (![headToIndex.newFile.path isEqualToString:subpath]) return;
 			expect(headToIndex.status).to.equal(expectedIndexStatus);
@@ -39,7 +39,7 @@ describe(@"Checking status", ^{
 	
 	void(^expectSubpathToHaveWorkDirStatus)(NSString *, GTStatusDeltaStatus) = ^(NSString *subpath, GTStatusDeltaStatus expectedWorkDirStatus) {
 		__block NSError *err = nil;
-		NSDictionary *renamedOptions = @{ GTRepositoryStatusOptionsFlagsKey: @(GTRepositoryStatusOptionsFlagsIncludeIgnored | GTRepositoryStatusOptionsFlagsIncludeUntracked | GTRepositoryStatusOptionsFlagsRecurseUntrackedDirectories | GTRepositoryStatusOptionsFlagsRenamesIndexToWorkingDirectory) };
+		NSDictionary *renamedOptions = @{ GTRepositoryStatusOptionsFlagsKey: @(GTRepositoryStatusFlagsIncludeIgnored | GTRepositoryStatusFlagsIncludeUntracked | GTRepositoryStatusFlagsRecurseUntrackedDirectories | GTRepositoryStatusFlagsRenamesIndexToWorkingDirectory) };
 		expect([repository enumerateFileStatusWithOptions:renamedOptions error:&err usingBlock:^(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop) {
 			if (![indexToWorkingDirectory.newFile.path isEqualToString:subpath]) return;
 			expect(indexToWorkingDirectory.status).to.equal(expectedWorkDirStatus);
