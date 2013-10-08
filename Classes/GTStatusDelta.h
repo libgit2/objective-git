@@ -44,7 +44,7 @@ typedef enum {
 //
 // Only useful when the status is `GTStatusDeltaStatusRenamed` or
 // `GTStatusDeltaStatusCopied`.
-@property (nonatomic, readonly) CGFloat similarity;
+@property (nonatomic, readonly) double similarity;
 
 // Designated initializer.
 - (instancetype)initWithGitDiffDelta:(const git_diff_delta *)delta;
