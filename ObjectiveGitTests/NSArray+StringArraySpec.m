@@ -31,9 +31,9 @@ describe(@"String arrays", ^{
 		expect(arrayToValidate.count).to.equal(originalArray.count);
 		
 		for (NSUInteger idx = 0; idx < originalArray.count; idx++) {
-			const char *UTF8String = [originalArray[idx] UTF8String];
 			const char *convertedString = arrayToValidate.strings[idx];
-			expect(strcmp(UTF8String, convertedString)).to.equal(0);
+			NSString *comparisonString = [NSString stringWithUTF8String:convertedString];
+			expect(originalArray[idx]).to.equal(comparisonString);
 		}
 	};
 	
