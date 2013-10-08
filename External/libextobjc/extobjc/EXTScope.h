@@ -30,7 +30,7 @@
  */
 #define onExit \
     try {} @finally {} \
-    __strong ext_cleanupBlock_t metamacro_concat(ext_exitBlock_, __LINE__) __attribute__((cleanup(ext_executeCleanupBlock), unused)) = ^
+    __strong gt_ext_cleanupBlock_t metamacro_concat(ext_exitBlock_, __LINE__) __attribute__((cleanup(gt_ext_executeCleanupBlock), unused)) = ^
 
 /**
  * Creates \c __weak shadow variables for each of the variables provided as
@@ -88,9 +88,9 @@
     _Pragma("clang diagnostic pop")
 
 /*** implementation details follow ***/
-typedef void (^ext_cleanupBlock_t)();
+typedef void (^gt_ext_cleanupBlock_t)();
 
-void ext_executeCleanupBlock (__strong ext_cleanupBlock_t *block);
+void gt_ext_executeCleanupBlock (__strong gt_ext_cleanupBlock_t *block);
 
 #define ext_weakify_(INDEX, CONTEXT, VAR) \
     CONTEXT __typeof__(VAR) metamacro_concat(VAR, _weak_) = (VAR);
