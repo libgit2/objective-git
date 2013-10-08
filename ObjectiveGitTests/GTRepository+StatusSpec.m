@@ -16,7 +16,7 @@ describe(@"Checking status", ^{
 	NSData *testData = [@"test" dataUsingEncoding:NSUTF8StringEncoding];
 	
 	beforeEach(^{
-		repository = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_APP_REPO_PATH(self.class)] error:NULL];
+		repository = self.testAppFixtureRepository;
 		targetFileURL = [repository.fileURL URLByAppendingPathComponent:@"main.m"];
 		expect(repository).toNot.beNil();
 	});
@@ -66,18 +66,18 @@ describe(@"Checking status", ^{
 		expect([testData writeToURL:targetFileURL atomically:YES]).to.beTruthy();
 		expectSubpathToHaveMatchingStatus(targetFileURL.lastPathComponent, GTStatusDeltaStatusModified);
 	});
-	
-	it(@"should recognise deleted files", ^{
-		expect([NSFileManager.defaultManager removeItemAtURL:targetFileURL error:&err]).to.beTruthy();
-		expect(err).to.beNil();
-		expectSubpathToHaveMatchingStatus(targetFileURL.lastPathComponent, GTStatusDeltaStatusDeleted);
-	});
 		
 	it(@"should recognise copied files", ^{
 		NSURL *copyLocation = [repository.fileURL URLByAppendingPathComponent:@"main2.m"];
 		expect([NSFileManager.defaultManager copyItemAtURL:targetFileURL toURL:copyLocation error:&err]).to.beTruthy();
 		expect(err).to.beNil();
 		updateIndexForSubpathAndExpectStatus(copyLocation.lastPathComponent, GTStatusDeltaStatusCopied);
+	});
+	
+	it(@"should recognise deleted files", ^{
+		expect([NSFileManager.defaultManager removeItemAtURL:targetFileURL error:&err]).to.beTruthy();
+		expect(err).to.beNil();
+		expectSubpathToHaveMatchingStatus(targetFileURL.lastPathComponent, GTStatusDeltaStatusDeleted);
 	});
 	
 	it(@"should recognise renamed files", ^{

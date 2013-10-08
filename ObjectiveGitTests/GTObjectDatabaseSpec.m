@@ -13,7 +13,7 @@ SpecBegin(GTObjectDatabase)
 __block GTObjectDatabase *database;
 
 beforeEach(^{
-	GTRepository *repo = [self fixtureRepositoryNamed:@"testrepo.git"];
+	GTRepository *repo = self.bareFixtureRepository;
 	expect(repo).notTo.beNil();
 
 	database = [repo objectDatabaseWithError:NULL];

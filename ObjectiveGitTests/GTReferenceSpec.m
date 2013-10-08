@@ -11,7 +11,7 @@ SpecBegin(GTReference)
 __block GTRepository *repository;
 
 beforeEach(^{
-	repository = [self fixtureRepositoryNamed:@"Test_App"];
+	repository = self.testAppFixtureRepository;
 	expect(repository).notTo.beNil();
 });
 
@@ -52,7 +52,7 @@ describe(@"transformations", ^{
 	__block GTReference *reference;
 
 	beforeEach(^{
-		GTRepository *repository = [self fixtureRepositoryNamed:@"testrepo.git"];
+		GTRepository *repository = self.bareFixtureRepository;
 		expect(repository).notTo.beNil();
 
 		NSError *error;

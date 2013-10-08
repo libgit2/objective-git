@@ -13,7 +13,7 @@ SpecBegin(GTRepositoryStashing)
 __block GTRepository *repository;
 
 beforeEach(^{
-	repository = [self fixtureRepositoryNamed:@"Test_App"];
+	repository = self.testAppFixtureRepository;
 	expect(repository).notTo.beNil();
 });
 

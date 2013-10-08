@@ -27,7 +27,7 @@
 //  THE SOFTWARE.
 //
 
-@interface GTBlobTest : SenTestCase {
+@interface GTBlobTest : GTTestCase {
 	
 	GTRepository *repo;
 	NSString *blobSHA;
@@ -36,10 +36,8 @@
 
 @implementation GTBlobTest
 
-- (void)setUp {
-	
-	NSError *error = nil;
-    repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&error];
+- (void)setUp {	
+    repo = self.bareFixtureRepository;
 	blobSHA = @"fa49b077972391ad58037050f2a75f74e3671e92";
 }
 
@@ -76,8 +74,6 @@
     GTBlob *blob = [GTBlob blobWithString:@"a new blob content" inRepository:repo error:&error];
     NSString *newSHA = [blob SHA];
 	STAssertNotNil(newSHA, [error localizedDescription]);
-	
-	rm_loose(self.class, newSHA);
 }
 
 - (void)testCanWriteNewBlobData2 {
@@ -85,8 +81,6 @@
 	NSError *error = nil;
     GTBlob *blob = [GTBlob blobWithString:@"a new blob content" inRepository:repo error:&error];
 	STAssertNotNil(blob, [error localizedDescription]);
-	
-	rm_loose(self.class, blob.SHA);
 }
 
 //- (void)testCanGetCompleteContentWithNulls {
