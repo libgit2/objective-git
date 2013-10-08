@@ -45,6 +45,7 @@ describe(@"String arrays", ^{
 		git_strarray copiedArray;
 		git_strarray_copy(&copiedArray, &strArray);
 		validateStrArray(copiedArray);
+		git_strarray_free(&copiedArray);
 	});
 	
 	it(@"should stay valid outside of an autorelease pool", ^{
