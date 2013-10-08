@@ -84,6 +84,6 @@ extern NSString *const GTRepositoryStatusOptionsPathSpecArrayKey;
 //
 // Returns `NO` in case of a failure or `YES` if the enumeration completed
 // successfully.
-- (BOOL)enumerateFileStatusWithOptions:(NSDictionary *)options error:(NSError **)error usingBlock:(void(^)(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop))block;
+- (BOOL)enumerateFileStatusWithOptions:(NSDictionary *)options error:(NSError **)error usingBlock:(void (^)(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop))block;
 
 @end
