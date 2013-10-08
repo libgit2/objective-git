@@ -38,11 +38,12 @@ XCODEBUILD_SETTINGS=""
 
 XCODE_MAJOR_VERSION=$(xcode_major_version)
 
-if [ "${XCODE_MAJOR_VERSION}" -ge "5" ]; then
-	BUILD_COMMAND="clean build test -skipUnavailableActions"
+if [ "${XCODE_MAJOR_VERSION}" -ge "5" ]
+then
+    BUILD_COMMAND="clean build test -skipUnavailableActions"
 else
-	BUILD_COMMAND="clean build"
-	XCODEBUILD_SETTINGS="$(XCODE_BUILD_SETTINGS) TEST_AFTER_BUILD=YES"
+    BUILD_COMMAND="clean build"
+    XCODEBUILD_SETTINGS="$(XCODE_BUILD_SETTINGS) TEST_AFTER_BUILD=YES"
 fi
 
 ##
