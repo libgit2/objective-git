@@ -596,7 +596,7 @@
 		D2F7E79907B2D74100F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		E46931A7172740D300F2077D /* update_libgit2 */ = {isa = PBXFileReference; lastKnownFileType = text; name = update_libgit2; path = script/update_libgit2; sourceTree = "<group>"; };
 		E46931A8172740D300F2077D /* update_libgit2_ios */ = {isa = PBXFileReference; lastKnownFileType = text; name = update_libgit2_ios; path = script/update_libgit2_ios; sourceTree = "<group>"; };
-		F6CBB4A417FFD50500404926 /* libObjectiveGit-iOS copy.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libObjectiveGit-iOS copy.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F6CBB4A417FFD50500404926 /* libObjectiveGit-iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libObjectiveGit-iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -651,7 +651,7 @@
 				8DC2EF5B0486A6940098B216 /* ObjectiveGit.framework */,
 				04DB4645133AB57600D9C624 /* libObjectiveGit-iOS.a */,
 				88F05A6B16011E5400B7AD1D /* ObjectiveGitTests.octest */,
-				F6CBB4A417FFD50500404926 /* libObjectiveGit-iOS copy.a */,
+				F6CBB4A417FFD50500404926 /* libObjectiveGit-iOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1179,7 +1179,7 @@
 			);
 			name = "ObjectiveGit-iOS-arm64";
 			productName = "ObjectiveGit-iOS";
-			productReference = F6CBB4A417FFD50500404926 /* libObjectiveGit-iOS copy.a */;
+			productReference = F6CBB4A417FFD50500404926 /* libObjectiveGit-iOS.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
@@ -1713,7 +1713,7 @@
 				GCC_STRICT_ALIASING = NO;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO;
 				HEADER_SEARCH_PATHS = External/libgit2/include;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					.,
 					External,
@@ -1731,7 +1731,7 @@
 				GCC_STRICT_ALIASING = NO;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO;
 				HEADER_SEARCH_PATHS = External/libgit2/include;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					.,
 					External,
@@ -1833,7 +1833,7 @@
 				GCC_STRICT_ALIASING = NO;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO;
 				HEADER_SEARCH_PATHS = External/libgit2/include;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					.,
 					External,
@@ -1972,7 +1972,6 @@
 					"$(OBJROOT)/UninstalledProducts/include",
 					"External/libssh2-ios/include/libssh2",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"External/ios-openssl/lib",
@@ -1983,7 +1982,7 @@
 					"-all_load",
 					"-lssh2-ios",
 				);
-				PRODUCT_NAME = "ObjectiveGit-iOS copy";
+				PRODUCT_NAME = "ObjectiveGit-iOS";
 				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/ObjectiveGit;
 				USER_HEADER_SEARCH_PATHS = "";
 			};
@@ -2000,7 +1999,6 @@
 					"$(OBJROOT)/UninstalledProducts/include",
 					"External/libssh2-ios/include/libssh2",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"External/ios-openssl/lib",
@@ -2011,7 +2009,7 @@
 					"-all_load",
 					"-lssh2-ios",
 				);
-				PRODUCT_NAME = "ObjectiveGit-iOS copy";
+				PRODUCT_NAME = "ObjectiveGit-iOS";
 				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/ObjectiveGit;
 				USER_HEADER_SEARCH_PATHS = "";
 			};
@@ -2028,7 +2026,6 @@
 					"$(OBJROOT)/UninstalledProducts/include",
 					"External/libssh2-ios/include/libssh2",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"External/ios-openssl/lib",
@@ -2039,7 +2036,7 @@
 					"-all_load",
 					"-lssh2-ios",
 				);
-				PRODUCT_NAME = "ObjectiveGit-iOS copy";
+				PRODUCT_NAME = "ObjectiveGit-iOS";
 				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/ObjectiveGit;
 				USER_HEADER_SEARCH_PATHS = "";
 			};
