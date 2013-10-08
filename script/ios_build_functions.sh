@@ -18,6 +18,8 @@ function setup_build_environment ()
     MACOSX_DEPLOYMENT_TARGET=""
 
     XCODE_MAJOR_VERSION=$(xcode_major_version)
+    
+    CAN_BUILD_64BIT=""
 
     # If IPHONEOS_DEPLOYMENT_TARGET has not been specified
     # setup reasonable defaults to allow running of a build script
@@ -28,6 +30,11 @@ function setup_build_environment ()
         if [ -z "${IPHONEOS_DEPLOYMENT_TARGET}" ]
         then
             IPHONEOS_DEPLOYMENT_TARGET=${SDKVERSION}
+        fi
+        # Determine if we can be building 64-bit binaries
+        if [ `echo ${IPHONEOS_DEPLOYMENT_TARGET} '>=' 6.0 | bc -l` == "1" ]
+        then
+            CAN_BUILD_64BIT="1"
         fi
     else
         SDKVERSION="6.1"
@@ -43,13 +50,20 @@ function setup_build_environment ()
     if [ -z "${ARCHS}" ]
     then
         ARCHS="i386 armv7 armv7s"
-
-        # Build 64-bit version only if we are using Xcode 5
-        # and the deployment target is 6.0+
-        if [ "${XCODE_MAJOR_VERSION}" -ge "5" ] && [ `echo ${IPHONEOS_DEPLOYMENT_TARGET} '>=' 6.0 | bc -l` == "1" ]
+        if [ -n "${CAN_BUILD_64BIT}" ]
         then
+            # For some stupid reason cmake needs simulator builds to
+            # be first
             ARCHS="x86_64 ${ARCHS} arm64"
         fi
+    fi
+    if [ `expr "${ARCHS}" : '.*i386.*'` == "0" ]
+    then
+        ARCHS="i386 ${ARCHS}"
+    fi
+    if [ -n "${CAN_BUILD_64BIT}" ] && [ `expr "${ARCHS}" : '.*x86_64.*'` == "0" ]
+    then
+        ARCHS="x86_64 ${ARCHS}"
     fi
 }
 
