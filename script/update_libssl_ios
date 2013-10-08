@@ -8,8 +8,8 @@ set -e
 PATH="/usr/local/bin:/opt/boxen/homebrew/bin:$PATH"
 
 # source the common build functions
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-source "${DIR}/update_ios_lib"
+SCRIPT_PATH=`dirname $0`
+source "${SCRIPT_PATH}/ios_build_functions.sh"
 
 prepare_build_variables
 

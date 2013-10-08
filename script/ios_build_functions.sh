@@ -1,7 +1,7 @@
 #!/bin/sh
 
 SCRIPT_PATH=`dirname $0`
-source "${SCRIPT_PATH}/utilities.sh"
+source "${SCRIPT_PATH}/xcode_functions.sh"
 
 function prepare_build_variables {
   pushd . > /dev/null

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_DIR=`dirname $0`
-source "${SCRIPT_DIR}/utilities.sh"
+source "${SCRIPT_DIR}/xcode_functions.sh"
 
 ##
 ## Configuration Variables
