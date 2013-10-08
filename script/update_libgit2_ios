@@ -24,7 +24,7 @@ LIB_PATH="${ROOT_PATH}/External/libgit2-ios"
 
 BUILT_LIB_PATHS=()
 
-pushd .
+pushd . > /dev/null
 
 if [ -d "${LIB_PATH}" ]; then
     rm -rf "${LIB_PATH}"
@@ -73,7 +73,7 @@ function build_libgit2 {
 
   # push the built library into the list
   BUILT_LIB_PATHS+=("${INSTALL_PREFIX}/lib/libgit2.a")
-  popd
+  popd > /dev/null
 }
 
 build_all_archs build_libgit2

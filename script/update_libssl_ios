@@ -33,7 +33,7 @@ function cleanup {
 function build_ssl {
   rm -rf /tmp/openssl
   cp -r ${ROOT_PATH}/External/openssl /tmp/
-  pushd .
+  pushd . > /dev/null
   cd /tmp/openssl
 
   LOG="/tmp/openssl-${ARCH}.log"
@@ -55,7 +55,7 @@ function build_ssl {
   make &> ${LOG}
 
   make install &> ${LOG}
-  popd
+  popd > /dev/null
   rm -rf "/tmp/openssl"
 
   BUILT_CRYPTO_PATHS+=("/tmp/openssl-${ARCH}/lib/libcrypto.a")
