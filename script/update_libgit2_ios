@@ -13,14 +13,14 @@ source "${DIR}/update_ios_lib"
 
 prepare_build_variables
 
-if [ "${CURRENT_PATH}/External/libgit2-ios.a" -nt "${CURRENT_PATH}/External/libgit2" ]; then
+if [ "${ROOT_PATH}/External/libgit2-ios.a" -nt "${ROOT_PATH}/External/libgit2" ]; then
     echo "No update needed."
     exit 0
 fi
 
 LIBRARY_NAME="libgit2"
 
-LIB_PATH="${CURRENT_PATH}/External/libgit2-ios"
+LIB_PATH="${ROOT_PATH}/External/libgit2-ios"
 
 BUILT_LIB_PATHS=()
 
@@ -31,7 +31,7 @@ if [ -d "${LIB_PATH}" ]; then
 fi
 
 
-cd ${CURRENT_PATH}/External/libgit2
+cd ${ROOT_PATH}/External/libgit2
 
 function build_libgit2 {
   if [ -d "build" ]; then
@@ -82,6 +82,6 @@ popd
 
 echo "Building fat library..."
 
-lipo -create ${BUILT_LIB_PATHS[@]} -output ${CURRENT_PATH}/External/libgit2-ios.a
+lipo -create ${BUILT_LIB_PATHS[@]} -output ${ROOT_PATH}/External/libgit2-ios.a
 
 echo "Building done."

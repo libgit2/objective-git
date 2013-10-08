@@ -4,7 +4,11 @@ SCRIPT_PATH=`dirname $0`
 source "${SCRIPT_PATH}/utilities.sh"
 
 function prepare_build_variables {
-  CURRENT_PATH=`dirname ${SCRIPT_PATH}`
+  pushd . > /dev/null
+  cd "$SCRIPT_PATH/.."
+  ROOT_PATH="$(pwd)"
+  popd > /dev/null
+
   CLANG=`/usr/bin/xcrun --find clang`
   CC=${CLANG}
   CPP="${CLANG} -E"

@@ -13,7 +13,7 @@ source "${DIR}/update_ios_lib"
 
 prepare_build_variables
 
-if [ -f "${CURRENT_PATH}/External/ios-openssl/lib/libssl.a" ] && [ -f "${CURRENT_PATH}/External/ios-openssl/lib/libcrypto.a" ] && [ -d "${CURRENT_PATH}/External/ios-openssl/include" ]; then
+if [ -f "${ROOT_PATH}/External/ios-openssl/lib/libssl.a" ] && [ -f "${ROOT_PATH}/External/ios-openssl/lib/libcrypto.a" ] && [ -d "${ROOT_PATH}/External/ios-openssl/include" ]; then
     echo "No update needed."
     exit 0
 fi
@@ -23,7 +23,7 @@ LIBRARY_NAME="OpenSSL"
 BUILT_CRYPTO_PATHS=()
 BUILT_SSL_PATHS=()
 
-rm -rf ${CURRENT_PATH}/External/ios-openssl/include External/ios-openssl/lib
+rm -rf ${ROOT_PATH}/External/ios-openssl/include External/ios-openssl/lib
 
 function cleanup {
   rm -rf "/tmp/openssl"
@@ -32,7 +32,7 @@ function cleanup {
 
 function build_ssl {
   rm -rf /tmp/openssl
-  cp -r ${CURRENT_PATH}/External/openssl /tmp/
+  cp -r ${ROOT_PATH}/External/openssl /tmp/
   pushd .
   cd /tmp/openssl
 
@@ -67,13 +67,13 @@ build_all_archs build_ssl
 
 echo "Building fat library..."
 
-mkdir -p ${CURRENT_PATH}/External/ios-openssl/include
-cp -r /tmp/openssl-i386/include/openssl ${CURRENT_PATH}/External/ios-openssl/include/
+mkdir -p ${ROOT_PATH}/External/ios-openssl/include
+cp -r /tmp/openssl-i386/include/openssl ${ROOT_PATH}/External/ios-openssl/include/
 
-mkdir -p ${CURRENT_PATH}/External/ios-openssl/lib
+mkdir -p ${ROOT_PATH}/External/ios-openssl/lib
 
-lipo -create ${BUILT_CRYPTO_PATHS[@]} -output ${CURRENT_PATH}/External/ios-openssl/lib/libcrypto.a
-lipo -create ${BUILT_SSL_PATHS[@]} -output ${CURRENT_PATH}/External/ios-openssl/lib/libssl.a
+lipo -create ${BUILT_CRYPTO_PATHS[@]} -output ${ROOT_PATH}/External/ios-openssl/lib/libcrypto.a
+lipo -create ${BUILT_SSL_PATHS[@]} -output ${ROOT_PATH}/External/ios-openssl/lib/libssl.a
 
 cleanup
 

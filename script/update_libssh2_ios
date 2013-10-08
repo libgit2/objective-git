@@ -13,7 +13,7 @@ source "${DIR}/update_ios_lib"
 
 prepare_build_variables
 
-if [ -f "${CURRENT_PATH}/External/libssh2-ios/lib/libssh2-ios.a" ]; then
+if [ -f "${ROOT_PATH}/External/libssh2-ios/lib/libssh2-ios.a" ]; then
     echo "No update needed."
     exit 0
 fi
@@ -23,34 +23,34 @@ LIBRARY_NAME="libssh2"
 BUILT_LIBS=()
 
 function build_ssh2 {
-  mkdir -p ${CURRENT_PATH}/External/libssh2-ios/lib ${CURRENT_PATH}/External/libssh2-ios/lib ${CURRENT_PATH}/External/libssh2-ios/src
+  mkdir -p ${ROOT_PATH}/External/libssh2-ios/lib ${ROOT_PATH}/External/libssh2-ios/lib ${ROOT_PATH}/External/libssh2-ios/src
   
-  rm -rf ${CURRENT_PATH}/External/libssh2-ios/src/libssh2
-  cp -R ${CURRENT_PATH}/External/libssh2 ${CURRENT_PATH}/External/libssh2-ios/src/
-  cd ${CURRENT_PATH}/External/libssh2-ios/src/libssh2
+  rm -rf ${ROOT_PATH}/External/libssh2-ios/src/libssh2
+  cp -R ${ROOT_PATH}/External/libssh2 ${ROOT_PATH}/External/libssh2-ios/src/
+  cd ${ROOT_PATH}/External/libssh2-ios/src/libssh2
   
   export CFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -miphoneos-version-min=${IPHONEOS_DEPLOYMENT_TARGET}"
   export CPPFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -miphoneos-version-min=${IPHONEOS_DEPLOYMENT_TARGET}"
 
-  mkdir -p "${CURRENT_PATH}/External/libssh2-ios/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk"
-  LOG="${CURRENT_PATH}/External/libssh2-ios/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk/build-libssh2.log"
+  mkdir -p "${ROOT_PATH}/External/libssh2-ios/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk"
+  LOG="${ROOT_PATH}/External/libssh2-ios/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk/build-libssh2.log"
 
   echo ${LOG}
 
   ./buildconf >> "${LOG}" 2>&1
-  ./configure --host=${HOST} --prefix="${CURRENT_PATH}/External/libssh2-ios/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk" --with-openssl --with-libssl-prefix=${CURRENT_PATH}/External/ios-openssl --disable-shared --enable-static >> "${LOG}" 2>&1
+  ./configure --host=${HOST} --prefix="${ROOT_PATH}/External/libssh2-ios/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk" --with-openssl --with-libssl-prefix=${ROOT_PATH}/External/ios-openssl --disable-shared --enable-static >> "${LOG}" 2>&1
   make >> "${LOG}" 2>&1
   make install >> "${LOG}" 2>&1
   
-  BUILT_LIBS+=("${CURRENT_PATH}/External/libssh2-ios/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk/lib/libssh2.a")
+  BUILT_LIBS+=("${ROOT_PATH}/External/libssh2-ios/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk/lib/libssh2.a")
 }
 
 build_all_archs build_ssh2
 
 echo "Building fat library..."
 
-lipo -create ${BUILT_LIBS[@]} -output ${CURRENT_PATH}/External/libssh2-ios/lib/libssh2-ios.a
-mkdir -p ${CURRENT_PATH}/External/libssh2-ios/include/libssh2
-cp -R ${CURRENT_PATH}/External/libssh2-ios/bin/iPhoneSimulator${SDKVERSION}-i386.sdk/include/libssh2* ${CURRENT_PATH}/External/libssh2-ios/include/libssh2/
+lipo -create ${BUILT_LIBS[@]} -output ${ROOT_PATH}/External/libssh2-ios/lib/libssh2-ios.a
+mkdir -p ${ROOT_PATH}/External/libssh2-ios/include/libssh2
+cp -R ${ROOT_PATH}/External/libssh2-ios/bin/iPhoneSimulator${SDKVERSION}-i386.sdk/include/libssh2* ${ROOT_PATH}/External/libssh2-ios/include/libssh2/
 
 echo "Building done."
