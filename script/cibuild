@@ -36,9 +36,7 @@ DEFAULT_TARGETS="ObjectiveGit ObjectiveGit-iOS"
 # Extra build settings to pass to xcodebuild.
 XCODEBUILD_SETTINGS=""
 
-XCODE_MAJOR_VERSION=$(xcode_major_version)
-
-if [ "${XCODE_MAJOR_VERSION}" -ge "5" ]
+if [ "$(xcode_major_version)" -ge "5" ]
 then
     BUILD_COMMAND="build test -skipUnavailableActions"
 else
