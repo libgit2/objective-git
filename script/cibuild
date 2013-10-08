@@ -42,7 +42,7 @@ if [ "${XCODE_MAJOR_VERSION}" -ge "5" ]; then
 	BUILD_COMMAND="clean build test -skipUnavailableActions"
 else
 	BUILD_COMMAND="clean build"
-	XCODEBUILD_SETTINGS="TEST_AFTER_BUILD=YES"
+	XCODEBUILD_SETTINGS="$(XCODE_BUILD_SETTINGS) TEST_AFTER_BUILD=YES"
 fi
 
 ##
