@@ -35,28 +35,28 @@ function setup ()
 
 function build_libgit2 ()
 {
-  if [ -d "build" ]; then
+    if [ -d "build" ]; then
       rm -rf "build"
-  fi
+    fi
 
-  pushd .
+    pushd .
 
-  mkdir build
-  cd build
+    mkdir build
+    cd build
 
-  # LOL Cmake
-  if [ "${ARCH}" != "i386" ] && [ "${ARCH}" != "x86_64" ]; then
+    # LOL Cmake
+    if [ "${ARCH}" != "i386" ] && [ "${ARCH}" != "x86_64" ]; then
     SYS_ROOT="-DCMAKE_OSX_SYSROOT=${SDKROOT}"
-  fi
+    fi
 
-  INSTALL_PREFIX="${LIB_PATH}/${PLATFORM}${SDKVERSION}-${ARCH}.sdk"
+    INSTALL_PREFIX="${LIB_PATH}/${PLATFORM}${SDKVERSION}-${ARCH}.sdk"
 
-  mkdir -p ${INSTALL_PREFIX}
+    mkdir -p ${INSTALL_PREFIX}
 
-  LOG="${INSTALL_PREFIX}/build-libgit2.log"
-  echo $LOG
+    LOG="${INSTALL_PREFIX}/build-libgit2.log"
+    echo $LOG
 
-  cmake -DCMAKE_C_COMPILER=${CLANG} \
+    cmake -DCMAKE_C_COMPILER=${CLANG} \
         -DCMAKE_C_COMPILER_WORKS:BOOL=ON \
         -DBUILD_SHARED_LIBS:BOOL=OFF \
         -DOPENSSL_INCLUDE_DIR:PATH=../../External/ios-openssl/include/ \
@@ -70,11 +70,11 @@ function build_libgit2 ()
         ${SYS_ROOT} \
         -DCMAKE_OSX_ARCHITECTURES:STRING=${ARCH} \
         .. >> "${LOG}" 2>&1
-  cmake --build . --target install >> "${LOG}" 2>&1
+    cmake --build . --target install >> "${LOG}" 2>&1
 
-  # push the built library into the list
-  BUILT_LIB_PATHS+=("${INSTALL_PREFIX}/lib/libgit2.a")
-  popd > /dev/null
+    # push the built library into the list
+    BUILT_LIB_PATHS+=("${INSTALL_PREFIX}/lib/libgit2.a")
+    popd > /dev/null
 }
 
 function fat_binary () {
@@ -83,7 +83,7 @@ function fat_binary () {
     lipo -create ${BUILT_LIB_PATHS[@]} -output ${ROOT_PATH}/External/libgit2-ios.a
 
     echo "Building done."
-    
+
     popd > /dev/null
 }
 
