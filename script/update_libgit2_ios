@@ -19,10 +19,7 @@ function setup ()
     fi
 
     LIBRARY_NAME="libgit2"
-
     LIB_PATH="${ROOT_PATH}/External/libgit2-ios"
-
-    BUILT_LIB_PATHS=()
 
     pushd . > /dev/null
 
@@ -73,14 +70,14 @@ function build_libgit2 ()
     cmake --build . --target install >> "${LOG}" 2>&1
 
     # push the built library into the list
-    BUILT_LIB_PATHS+=("${INSTALL_PREFIX}/lib/libgit2.a")
+    BUILT_LIB_PATHS="${BUILT_LIB_PATHS} ${INSTALL_PREFIX}/lib/libgit2.a"
     popd > /dev/null
 }
 
 function fat_binary () {
     echo "Building fat binary..."
 
-    lipo -create ${BUILT_LIB_PATHS[@]} -output ${ROOT_PATH}/External/libgit2-ios.a
+    lipo -create ${BUILT_LIB_PATHS} -output ${ROOT_PATH}/External/libgit2-ios.a
 
     echo "Building done."
 

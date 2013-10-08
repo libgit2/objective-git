@@ -18,7 +18,6 @@ function setup ()
         exit 0
     fi
     LIBRARY_NAME="libssh2"
-    BUILT_LIBS=()
 }
 
 function build_ssh2 () 
@@ -42,14 +41,14 @@ function build_ssh2 ()
     make >> "${LOG}" 2>&1
     make install >> "${LOG}" 2>&1
 
-    BUILT_LIBS+=("${ROOT_PATH}/External/libssh2-ios/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk/lib/libssh2.a")
+    BUILT_LIBS="${BUILT_LIBS} ${ROOT_PATH}/External/libssh2-ios/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk/lib/libssh2.a"
 }
 
 function fat_binary ()
 {
     echo "Building fat binary..."
 
-    lipo -create ${BUILT_LIBS[@]} -output ${ROOT_PATH}/External/libssh2-ios/lib/libssh2-ios.a
+    lipo -create ${BUILT_LIBS} -output ${ROOT_PATH}/External/libssh2-ios/lib/libssh2-ios.a
     mkdir -p ${ROOT_PATH}/External/libssh2-ios/include/libssh2
     cp -R ${ROOT_PATH}/External/libssh2-ios/bin/iPhoneSimulator${SDKVERSION}-i386.sdk/include/libssh2* ${ROOT_PATH}/External/libssh2-ios/include/libssh2/
 
