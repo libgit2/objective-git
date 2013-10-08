@@ -1,16 +1,10 @@
 #!/bin/sh
 
-function xcode_major_version {
-  local XCODE_VERSION=`/usr/bin/xcodebuild -version | head -n 1 | sed -E 's/Xcode ([0-9\.]*)/\1/'`
-
-  local XCODE_MAJOR_VERSION=`echo $XCODE_VERSION | awk -F '.' '{ print $1 }'`
-
-  echo $XCODE_MAJOR_VERSION
-}
+SCRIPT_PATH=`dirname $0`
+source "${SCRIPT_PATH}/utilities.sh"
 
 function prepare_build_variables {
-  local DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-  CURRENT_PATH=`dirname ${DIR}`
+  CURRENT_PATH=`dirname ${SCRIPT_PATH}`
   CLANG=`/usr/bin/xcrun --find clang`
   CC=${CLANG}
   CPP="${CLANG} -E"
