@@ -80,7 +80,8 @@ extern NSString *const GTRepositoryStatusOptionsPathSpecArrayKey;
 //                           `headToIndex` is the delta between the HEAD and
 //                           index. `indexToWorkingDirectory` is the same but
 //                           between the index and the working directory. If
-//                           `stop` is set to `YES`, the iteration will cease.
+//                           `stop` is set to `YES`, the iteration will cease
+//                           after the current step.
 //
 // Returns `NO` in case of a failure or `YES` if the enumeration completed
 // successfully.
