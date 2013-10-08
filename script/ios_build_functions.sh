@@ -3,7 +3,8 @@
 SCRIPT_PATH=`dirname $0`
 source "${SCRIPT_PATH}/xcode_functions.sh"
 
-function prepare_build_variables {
+function setup_build_environment ()
+{
   pushd . > /dev/null
   cd "$SCRIPT_PATH/.."
   ROOT_PATH="$(pwd)"
@@ -32,7 +33,13 @@ function prepare_build_variables {
   fi
 }
 
-function build_all_archs {
+function build_all_archs 
+{
+  setup_build_environment
+  
+  # run the prepare function
+  eval $1
+  
   echo "Building for ${ARCHS[@]}"
   
   for ARCH in ${ARCHS[@]}; do
@@ -53,8 +60,11 @@ function build_all_archs {
     DEVROOT="${DEVELOPER}/Platforms/${PLATFORM}.platform/Developer"
     SDKROOT="${DEVROOT}/SDKs/${PLATFORM}${SDKVERSION}.sdk"
 
-    eval $1
-
+    # run the per arch build command
+    eval $2
   done
+  
+  # run the finishing function (usually lipo)
+  eval $3
 }
 
