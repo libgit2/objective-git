@@ -11,18 +11,19 @@ PATH="/usr/local/bin:/opt/boxen/homebrew/bin:$PATH"
 SCRIPT_PATH=`dirname $0`
 source "${SCRIPT_PATH}/ios_build_functions.sh"
 
-prepare_build_variables
 
-if [ -f "${ROOT_PATH}/External/libssh2-ios/lib/libssh2-ios.a" ]; then
-    echo "No update needed."
-    exit 0
-fi
+function setup ()
+{
+    if [ -f "${ROOT_PATH}/External/libssh2-ios/lib/libssh2-ios.a" ]; then
+        echo "No update needed."
+        exit 0
+    fi
+    LIBRARY_NAME="libssh2"
+    BUILT_LIBS=()
+}
 
-LIBRARY_NAME="libssh2"
-
-BUILT_LIBS=()
-
-function build_ssh2 {
+function build_ssh2 () 
+{
   mkdir -p ${ROOT_PATH}/External/libssh2-ios/lib ${ROOT_PATH}/External/libssh2-ios/lib ${ROOT_PATH}/External/libssh2-ios/src
   
   rm -rf ${ROOT_PATH}/External/libssh2-ios/src/libssh2
@@ -45,12 +46,15 @@ function build_ssh2 {
   BUILT_LIBS+=("${ROOT_PATH}/External/libssh2-ios/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk/lib/libssh2.a")
 }
 
-build_all_archs build_ssh2
+function fat_binary ()
+{
+    echo "Building fat library..."
 
-echo "Building fat library..."
+    lipo -create ${BUILT_LIBS[@]} -output ${ROOT_PATH}/External/libssh2-ios/lib/libssh2-ios.a
+    mkdir -p ${ROOT_PATH}/External/libssh2-ios/include/libssh2
+    cp -R ${ROOT_PATH}/External/libssh2-ios/bin/iPhoneSimulator${SDKVERSION}-i386.sdk/include/libssh2* ${ROOT_PATH}/External/libssh2-ios/include/libssh2/
 
-lipo -create ${BUILT_LIBS[@]} -output ${ROOT_PATH}/External/libssh2-ios/lib/libssh2-ios.a
-mkdir -p ${ROOT_PATH}/External/libssh2-ios/include/libssh2
-cp -R ${ROOT_PATH}/External/libssh2-ios/bin/iPhoneSimulator${SDKVERSION}-i386.sdk/include/libssh2* ${ROOT_PATH}/External/libssh2-ios/include/libssh2/
+    echo "Building done."
+}
 
-echo "Building done."
+build_all_archs setup build_ssh2 fat_binary
