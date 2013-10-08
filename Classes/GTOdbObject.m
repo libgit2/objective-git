@@ -56,7 +56,7 @@
 }
 
 - (NSData *)data {
-	return [NSData dataWithBytes:git_odb_object_data(self.git_odb_object) length:[self length]]; 
+	return [NSData dataWithBytes:git_odb_object_data(self.git_odb_object) length:self.length];
 }
 
 - (GTOID *)OID {

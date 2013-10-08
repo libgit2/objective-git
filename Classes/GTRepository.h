@@ -42,6 +42,7 @@
 @class GTSubmodule;
 @class GTDiffFile;
 @class GTTag;
+@class GTTree;
 
 // Options returned from the enumerateFileStatusUsingBlock: function
 enum {
@@ -114,6 +115,9 @@ extern NSString *const GTRepositoryCloneOptionsBare;
 // Default value is `YES`.
 extern NSString *const GTRepositoryCloneOptionsCheckout;
 
+// A `GTCredentialProvider`, that will be used to authenticate against the remote.
+extern NSString *const GTRepositoryCloneOptionsCredentialProvider;
+
 typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus status, BOOL *stop);
 
 @interface GTRepository : NSObject
@@ -135,8 +139,22 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 // Is HEAD unborn (pointing to a branch without an initial commit)?
 @property (nonatomic, readonly, getter = isHEADUnborn) BOOL HEADUnborn;
 
-+ (BOOL)initializeEmptyRepositoryAtURL:(NSURL *)localFileURL error:(NSError **)error;
-+ (BOOL)initializeEmptyRepositoryAtURL:(NSURL *)localFileURL bare:(BOOL)bare error:(NSError **)error;
+// Initializes a new repository at the given file URL.
+//
+// fileURL - The file URL for the new repository. Cannot be nil.
+// error   - The error if one occurs.
+//
+// Returns the initialized repository, or nil if an error occurred.
++ (instancetype)initializeEmptyRepositoryAtFileURL:(NSURL *)fileURL error:(NSError **)error;
+
+// Initializes a new repository at the given file URL.
+//
+// fileURL - The file URL for the new repository. Cannot be nil.
+// error   - The error if one occurs.
+// bare    - Should the repository be created bare?
+//
+// Returns the initialized repository, or nil if an error occurred.
++ (instancetype)initializeEmptyRepositoryAtFileURL:(NSURL *)fileURL bare:(BOOL)bare error:(NSError **)error;
 
 + (id)repositoryWithURL:(NSURL *)localFileURL error:(NSError **)error;
 - (id)initWithURL:(NSURL *)localFileURL error:(NSError **)error;
@@ -157,23 +175,16 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 //
 // originURL             - The URL to clone from.
 // workdirURL            - A URL to the desired working directory on the local machine.
-// withCheckout          - if NO, don't checkout the remote HEAD
-// options               - A dictionary containing any of the above options key constants, or
-//                         nil to use the defaults.
+// options               - A dictionary consisting of the options:
+//                         `GTRepositoryCloneOptionsTransportFlags`,
+//                         `GTRepositoryCloneOptionsBare`, and `GTRepositoryCloneOptionsCheckout`.
 // error                 - A pointer to fill in case of trouble.
 // transferProgressBlock - This block is called with network transfer updates.
-// checkoutProgressBlock - This block is called with checkout updates (if withCheckout is YES).
+// checkoutProgressBlock - This block is called with checkout updates
+//                         (if `GTRepositoryCloneOptionsCheckout` is YES).
 //
 // returns nil (and fills the error parameter) if an error occurred, or a GTRepository object if successful.
 + (id)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL options:(NSDictionary *)options error:(NSError **)error transferProgressBlock:(void (^)(const git_transfer_progress *))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))checkoutProgressBlock;
-
-// Helper for getting the sha1 has of a raw object
-//
-// data - the data to compute a sha1 hash for
-// error(out) - will be filled if an error occurs
-//
-// returns the sha1 for the raw object or nil if there was an error
-+ (NSString *)hash:(NSString *)data objectType:(GTObjectType)type error:(NSError **)error;
 
 // Lookup objects in the repo by oid or sha1
 - (id)lookupObjectByOID:(GTOID *)oid objectType:(GTObjectType)type error:(NSError **)error;
