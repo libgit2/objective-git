@@ -45,7 +45,7 @@ NSString *const GTRepositoryStatusOptionsPathSpecArrayKey = @"GTRepositoryStatus
 	};
 	
 	if (err != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:err withAdditionalDescription:NSLocalizedString(@"Could not create status list.", nil)];
+		if (error != NULL) *error = [NSError git_errorFor:err description:NSLocalizedString(@"Could not create status list.", nil)];
 		return NO;
 	}
 	

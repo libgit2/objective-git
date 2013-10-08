@@ -90,7 +90,7 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 		return git_diff_tree_to_tree(&diffList, repository.git_repository, oldTree.git_tree, newTree.git_tree, optionsStruct);
 	}];
 	if (returnValue != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:returnValue withAdditionalDescription:@"Failed to create diff between %@ and %@", oldTree.SHA, newTree.SHA];
+		if (error != NULL) *error = [NSError git_errorFor:returnValue description:@"Failed to create diff between %@ and %@", oldTree.SHA, newTree.SHA];
 		return nil;
 	}
 	
@@ -107,7 +107,7 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 		return git_diff_tree_to_index(&diffList, repository.git_repository, tree.git_tree, NULL, optionsStruct);
 	}];
 	if (returnValue != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:returnValue withAdditionalDescription:@"Failed to create diff between index and %@", tree.SHA];
+		if (error != NULL) *error = [NSError git_errorFor:returnValue description:@"Failed to create diff between index and %@", tree.SHA];
 		return nil;
 	}
 	
@@ -123,7 +123,7 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 		return git_diff_index_to_workdir(&diffList, repository.git_repository, NULL, optionsStruct);
 	}];
 	if (returnValue != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:returnValue withAdditionalDescription:@"Failed to create diff between working directory and index"];
+		if (error != NULL) *error = [NSError git_errorFor:returnValue description:@"Failed to create diff between working directory and index"];
 		return nil;
 	}
 	
@@ -140,7 +140,7 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 		return git_diff_tree_to_workdir(&diffList, repository.git_repository, tree.git_tree, optionsStruct);
 	}];
 	if (returnValue != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:returnValue withAdditionalDescription:@"Failed to create diff between working directory and %@", tree.SHA];
+		if (error != NULL) *error = [NSError git_errorFor:returnValue description:@"Failed to create diff between working directory and %@", tree.SHA];
 		return nil;
 	}
 	

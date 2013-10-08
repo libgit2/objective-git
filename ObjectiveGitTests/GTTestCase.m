@@ -207,6 +207,10 @@ void rm_loose(Class cls, NSString *sha) {
 	return _tempDirectoryPath;
 }
 
+- (NSURL *)tempDirectoryFileURL {
+	return [NSURL fileURLWithPath:self.tempDirectoryPath isDirectory:YES];
+}
+
 - (NSString *)repositoryFixturesPath {
 	return [self.tempDirectoryPath stringByAppendingPathComponent:@"repositories"];
 }

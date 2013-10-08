@@ -48,50 +48,6 @@
 
 #pragma mark API
 
-+ (GTCommit *)commitInRepository:(GTRepository *)theRepo updateRefNamed:(NSString *)refName author:(GTSignature *)authorSig committer:(GTSignature *)committerSig message:(NSString *)newMessage tree:(GTTree *)theTree parents:(NSArray *)theParents error:(NSError **)error {
-	GTOID *oid = [GTCommit OIDByCreatingCommitInRepository:theRepo updateRefNamed:refName author:authorSig committer:committerSig message:newMessage tree:theTree parents:theParents error:error];
-	return oid ? [theRepo lookupObjectByOID:oid objectType:GTObjectTypeCommit error:error] : nil;
-}
-
-+ (GTOID *)OIDByCreatingCommitInRepository:(GTRepository *)theRepo updateRefNamed:(NSString *)refName author:(GTSignature *)authorSig committer:(GTSignature *)committerSig message:(NSString *)newMessage tree:(GTTree *)theTree parents:(NSArray *)theParents error:(NSError **)error {
-	NSUInteger count = theParents ? theParents.count : 0;
-	const git_commit **parentCommits = NULL;
-	if(count > 0) {
-		parentCommits = calloc(count, sizeof(git_commit *));
-		for (NSUInteger i = 0; i < count; i++){
-			parentCommits[i] = ((GTCommit *)[theParents objectAtIndex:i]).git_commit;
-		}
-	}
-	
-	git_oid oid;
-	int gitError = git_commit_create(
-									 &oid, 
-									 theRepo.git_repository, 
-									 refName.UTF8String,
-									 authorSig.git_signature, 
-									 committerSig.git_signature, 
-									 NULL,
-									 newMessage ? [newMessage UTF8String] : "",
-									 theTree.git_tree, 
-									 (int)count, 
-									 parentCommits);
-
-	free(parentCommits);
-
-	if(gitError < GIT_OK) {
-		if(error != NULL)
-			*error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to create commit in repository"];
-		return nil;
-	}
-
-	return [GTOID oidWithGitOid:&oid];
-}
-
-+ (NSString *)shaByCreatingCommitInRepository:(GTRepository *)theRepo updateRefNamed:(NSString *)refName author:(GTSignature *)authorSig committer:(GTSignature *)committerSig message:(NSString *)newMessage tree:(GTTree *)theTree parents:(NSArray *)theParents error:(NSError *__autoreleasing *)error;
-{
-	return [self OIDByCreatingCommitInRepository:theRepo updateRefNamed:refName author:authorSig committer:committerSig message:newMessage tree:theTree parents:theParents error:error].SHA;
-}
-
 - (NSString *)message {
 	const char *s = git_commit_message(self.git_commit);
 	if(s == NULL) return nil;

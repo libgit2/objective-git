@@ -65,13 +65,6 @@
 	NSLog(@"error = %@", [error localizedDescription]);
 }
 
-- (void)testCanHashData {
-	
-	NSError *error = nil;
-	NSString *sha = [GTRepository hash:testContent objectType:testContentType error:&error];
-	STAssertEqualObjects(sha, @"76b1b55ab653581d6f2c7230d34098e837197674", nil);
-}
-
 - (void)testLookupHead {
 	
 	NSError *error = nil;
