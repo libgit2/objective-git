@@ -15,6 +15,8 @@
 #import "NSArray+StringArray.h"
 #import "NSError+Git.h"
 
+#import "EXTScope.h"
+
 NSString *const GTDiffOptionsFlagsKey = @"GTDiffOptionsFlagsKey";
 NSString *const GTDiffOptionsContextLinesKey = @"GTDiffOptionsContextLinesKey";
 NSString *const GTDiffOptionsInterHunkLinesKey = @"GTDiffOptionsInterHunkLinesKey";
@@ -66,7 +68,11 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 	if (maxSizeNumber != nil) newOptions.max_size = (uint16_t)maxSizeNumber.unsignedIntegerValue;
 	
 	NSArray *pathSpec = dictionary[GTDiffOptionsPathSpecArrayKey];
-	if (pathSpec != nil) newOptions.pathspec = pathSpec.git_strarray;
+	git_strarray strArray = pathSpec.git_strarray;
+	if (pathSpec != nil) newOptions.pathspec = strArray;
+	@onExit {
+		git_strarray_free((git_strarray *)&strArray);
+	};
 
 	git_diff_options *optionsPtr = &newOptions;
 	if (dictionary.count < 1) optionsPtr = nil;
