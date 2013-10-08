@@ -21,7 +21,7 @@ describe(@"Checking status", ^{
 		expect(repository).toNot.beNil();
 	});
 	
-	void(^updateIndexForSubpathAndExpectStatus)(NSString *, GTStatusDeltaStatus) = ^(NSString *subpath, GTStatusDeltaStatus expectedIndexStatus) {
+	void (^updateIndexForSubpathAndExpectStatus)(NSString *, GTStatusDeltaStatus) = ^(NSString *subpath, GTStatusDeltaStatus expectedIndexStatus) {
 		__block NSError *err = nil;
 		GTIndex *index = [repository indexWithError:&err];
 		expect(err).to.beNil();
@@ -37,7 +37,7 @@ describe(@"Checking status", ^{
 		expect(err).to.beNil();
 	};
 	
-	void(^expectSubpathToHaveWorkDirStatus)(NSString *, GTStatusDeltaStatus) = ^(NSString *subpath, GTStatusDeltaStatus expectedWorkDirStatus) {
+	void (^expectSubpathToHaveWorkDirStatus)(NSString *, GTStatusDeltaStatus) = ^(NSString *subpath, GTStatusDeltaStatus expectedWorkDirStatus) {
 		__block NSError *err = nil;
 		NSDictionary *renamedOptions = @{ GTRepositoryStatusOptionsFlagsKey: @(GTRepositoryStatusFlagsIncludeIgnored | GTRepositoryStatusFlagsIncludeUntracked | GTRepositoryStatusFlagsRecurseUntrackedDirectories | GTRepositoryStatusFlagsRenamesIndexToWorkingDirectory) };
 		expect([repository enumerateFileStatusWithOptions:renamedOptions error:&err usingBlock:^(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop) {
@@ -47,7 +47,7 @@ describe(@"Checking status", ^{
 		expect(err).to.beNil();
 	};
 	
-	void(^expectSubpathToHaveMatchingStatus)(NSString *, GTStatusDeltaStatus) = ^(NSString *subpath, GTStatusDeltaStatus status) {
+	void (^expectSubpathToHaveMatchingStatus)(NSString *, GTStatusDeltaStatus) = ^(NSString *subpath, GTStatusDeltaStatus status) {
 		expectSubpathToHaveWorkDirStatus(subpath, status);
 		updateIndexForSubpathAndExpectStatus(subpath, status);
 	};

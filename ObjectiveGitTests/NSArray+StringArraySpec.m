@@ -27,7 +27,7 @@ describe(@"String arrays", ^{
 		expect(emptyArray.git_strarray.strings).to.beNil();
 	});
 
-	void (^validateStrArray)(git_strarray) = ^ (git_strarray arrayToValidate) {
+	void (^validateStrArray)(git_strarray) = ^(git_strarray arrayToValidate) {
 		expect(arrayToValidate.count).to.equal(originalArray.count);
 		
 		for (NSUInteger idx = 0; idx < originalArray.count; idx++) {
