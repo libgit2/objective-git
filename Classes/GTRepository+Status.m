@@ -36,14 +36,14 @@ NSString *const GTRepositoryStatusOptionsPathSpecArrayKey = @"GTRepositoryStatus
 	NSNumber *showNumber = options[GTRepositoryStatusOptionsShowKey];
 	if (showNumber != nil) gitOptions.show = showNumber.unsignedIntValue;
 	
-	__block git_status_list *statusList;
+	git_status_list *statusList;
+	int err = git_status_list_new(&statusList, self.git_repository, &gitOptions);
 	@onExit {
 		git_status_list_free(statusList);
 		if (&gitOptions.pathspec) git_strarray_free(&gitOptions.pathspec);
-
+		
 	};
 	
-	int err = git_status_list_new(&statusList, self.git_repository, &gitOptions);
 	if (err != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:err withAdditionalDescription:NSLocalizedString(@"Could not create status list.", nil)];
 		return NO;
