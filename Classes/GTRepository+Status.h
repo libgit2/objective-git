@@ -35,18 +35,18 @@ extern NSString *const GTRepositoryStatusOptionsFlagsKey;
 //
 // See status.h for documentation of each individual flag.
 typedef enum {
-	GTRepositoryStatusOptionsFlagsIncludeUntracked = GIT_STATUS_OPT_INCLUDE_UNTRACKED,
-	GTRepositoryStatusOptionsFlagsIncludeIgnored = GIT_STATUS_OPT_INCLUDE_IGNORED,
-	GTRepositoryStatusOptionsFlagsIncludeUnmodified = GIT_STATUS_OPT_INCLUDE_UNMODIFIED,
-	GTRepositoryStatusOptionsFlagsExcludeSubmodules = GIT_STATUS_OPT_EXCLUDE_SUBMODULES,
-	GTRepositoryStatusOptionsFlagsRecurseUntrackedDirectories = GIT_STATUS_OPT_RECURSE_UNTRACKED_DIRS,
-	GTRepositoryStatusOptionsFlagsDisablePathspecMatch = GIT_STATUS_OPT_DISABLE_PATHSPEC_MATCH,
-	GTRepositoryStatusOptionsFlagsRecurseIgnoredDirectories = GIT_STATUS_OPT_RECURSE_IGNORED_DIRS,
-	GTRepositoryStatusOptionsFlagsRenamesHeadToIndex = GIT_STATUS_OPT_RENAMES_HEAD_TO_INDEX,
-	GTRepositoryStatusOptionsFlagsRenamesIndexToWorkingDirectory = GIT_STATUS_OPT_RENAMES_INDEX_TO_WORKDIR,
-	GTRepositoryStatusOptionsFlagsSortCaseSensitively = GIT_STATUS_OPT_SORT_CASE_SENSITIVELY,
-	GTRepositoryStatusOptionsFlagsSortCaseInsensitively = GIT_STATUS_OPT_SORT_CASE_INSENSITIVELY,
-} GTRepositoryStatusOptionsFlags;
+	GTRepositoryStatusFlagsIncludeUntracked = GIT_STATUS_OPT_INCLUDE_UNTRACKED,
+	GTRepositoryStatusFlagsIncludeIgnored = GIT_STATUS_OPT_INCLUDE_IGNORED,
+	GTRepositoryStatusFlagsIncludeUnmodified = GIT_STATUS_OPT_INCLUDE_UNMODIFIED,
+	GTRepositoryStatusFlagsExcludeSubmodules = GIT_STATUS_OPT_EXCLUDE_SUBMODULES,
+	GTRepositoryStatusFlagsRecurseUntrackedDirectories = GIT_STATUS_OPT_RECURSE_UNTRACKED_DIRS,
+	GTRepositoryStatusFlagsDisablePathspecMatch = GIT_STATUS_OPT_DISABLE_PATHSPEC_MATCH,
+	GTRepositoryStatusFlagsRecurseIgnoredDirectories = GIT_STATUS_OPT_RECURSE_IGNORED_DIRS,
+	GTRepositoryStatusFlagsRenamesHeadToIndex = GIT_STATUS_OPT_RENAMES_HEAD_TO_INDEX,
+	GTRepositoryStatusFlagsRenamesIndexToWorkingDirectory = GIT_STATUS_OPT_RENAMES_INDEX_TO_WORKDIR,
+	GTRepositoryStatusFlagsSortCaseSensitively = GIT_STATUS_OPT_SORT_CASE_SENSITIVELY,
+	GTRepositoryStatusFlagsSortCaseInsensitively = GIT_STATUS_OPT_SORT_CASE_INSENSITIVELY,
+} GTRepositoryStatusFlags;
 
 // An `NSArray` of `NSStrings`s to limit the status to specific paths inside the
 // repository.  The entries in the array represent either single paths or
