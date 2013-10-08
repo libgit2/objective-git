@@ -40,9 +40,9 @@ XCODE_MAJOR_VERSION=$(xcode_major_version)
 
 if [ "${XCODE_MAJOR_VERSION}" -ge "5" ]
 then
-    BUILD_COMMAND="clean build test -skipUnavailableActions"
+    BUILD_COMMAND="build test -skipUnavailableActions"
 else
-    BUILD_COMMAND="clean build"
+    BUILD_COMMAND="build"
     XCODEBUILD_SETTINGS="$(XCODE_BUILD_SETTINGS) TEST_AFTER_BUILD=YES"
 fi
 
@@ -75,6 +75,9 @@ for target in "$@"
 do
     echo "$target"
 done
+
+echo "*** Cleaning all targets..."
+xcodebuild -alltargets clean OBJROOT="$PWD/build" SYMROOT="$PWD/build" $XCODEBUILD_SETTINGS
 
 run_xcodebuild ()
 {
