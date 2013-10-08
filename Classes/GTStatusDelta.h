@@ -39,12 +39,12 @@ typedef enum {
 // The status of the file.
 @property (nonatomic, readonly) GTStatusDeltaStatus status;
 
-// An unsigned integer between 0 and 100 describing how similar the old and new
+// A float between 0 and 1 describing how similar the old and new
 // files are (where 0 is not at all and 100 is identical).
 //
 // Only useful when the status is `GTStatusDeltaStatusRenamed` or
 // `GTStatusDeltaStatusCopied`.
-@property (nonatomic, readonly) NSUInteger similarity;
+@property (nonatomic, readonly) CGFloat similarity;
 
 // Designated initializer.
 - (instancetype)initWithGitDiffDelta:(const git_diff_delta *)delta;
