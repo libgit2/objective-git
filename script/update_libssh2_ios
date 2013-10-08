@@ -48,7 +48,7 @@ function build_ssh2 ()
 
 function fat_binary ()
 {
-    echo "Building fat library..."
+    echo "Building fat binary..."
 
     lipo -create ${BUILT_LIBS[@]} -output ${ROOT_PATH}/External/libssh2-ios/lib/libssh2-ios.a
     mkdir -p ${ROOT_PATH}/External/libssh2-ios/include/libssh2
