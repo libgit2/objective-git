@@ -67,7 +67,7 @@ function setup_build_environment ()
     fi
 }
 
-function build_all_archs 
+function build_all_archs ()
 {
     setup_build_environment
     
@@ -82,13 +82,15 @@ function build_all_archs
 
     for ARCH in ${ARCHS}
     do
-        if [ "${ARCH}" == "i386" ] || [ "${ARCH}" == "x86_64" ]; then
+        if [ "${ARCH}" == "i386" ] || [ "${ARCH}" == "x86_64" ]
+        then
             PLATFORM="iPhoneSimulator"
         else
             PLATFORM="iPhoneOS"
         fi
 
-        if [ "${ARCH}" == "arm64" ]; then
+        if [ "${ARCH}" == "arm64" ]
+        then
             HOST="aarch64-apple-darwin"
         else
             HOST="${ARCH}-apple-darwin"
