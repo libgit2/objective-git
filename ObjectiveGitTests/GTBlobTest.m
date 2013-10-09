@@ -37,7 +37,7 @@
 @implementation GTBlobTest
 
 - (void)setUp {	
-    repo = self.bareFixtureRepository;
+	repo = self.bareFixtureRepository;
 	blobSHA = @"fa49b077972391ad58037050f2a75f74e3671e92";
 }
 

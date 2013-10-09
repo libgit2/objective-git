@@ -37,7 +37,7 @@
 
 
 - (void)setUp {
-    repo = self.bareFixtureRepository;
+	repo = self.bareFixtureRepository;
 	STAssertNotNil(repo, @"Could not create fixture repository.");
 }
 
