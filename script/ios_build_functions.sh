@@ -1,6 +1,6 @@
 #!/bin/sh
 
-SCRIPT_DIR=`dirname $0`
+SCRIPT_DIR=$(dirname "$0")
 source "${SCRIPT_DIR}/xcode_functions.sh"
 
 function setup_build_environment ()

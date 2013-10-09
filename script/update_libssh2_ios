@@ -8,7 +8,7 @@ set -e
 PATH="/usr/local/bin:/opt/boxen/homebrew/bin:$PATH"
 
 # source the common build functions
-SCRIPT_DIR=`dirname $0`
+SCRIPT_DIR=$(dirname "$0")
 source "${SCRIPT_DIR}/ios_build_functions.sh"
 
 function setup ()
