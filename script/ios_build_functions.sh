@@ -7,7 +7,7 @@ function setup_build_environment ()
 {
     pushd . > /dev/null
     cd "$SCRIPT_DIR/.."
-    ROOT_PATH="$(pwd)"
+    ROOT_PATH="$PWD"
     popd > /dev/null
 
     CLANG=`/usr/bin/xcrun --find clang`
