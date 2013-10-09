@@ -41,7 +41,6 @@ NSString *const GTRepositoryStatusOptionsPathSpecArrayKey = @"GTRepositoryStatus
 	@onExit {
 		git_status_list_free(statusList);
 		if (gitOptions.pathspec.count > 0) git_strarray_free(&gitOptions.pathspec);
-		
 	};
 	
 	if (err != GIT_OK) {
