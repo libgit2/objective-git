@@ -11,7 +11,7 @@ function setup_build_environment ()
     popd > /dev/null
 
     CLANG=`/usr/bin/xcrun --find clang`
-    CC=${CLANG}
+    CC="${CLANG}"
     CPP="${CLANG} -E"
     DEVELOPER="/Applications/Xcode.app/Contents/Developer"
     # We need to clear this so that cmake doesn't have a conniption
