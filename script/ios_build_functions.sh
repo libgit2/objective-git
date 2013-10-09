@@ -13,7 +13,7 @@ function setup_build_environment ()
     CLANG=$(/usr/bin/xcrun --find clang)
     CC="${CLANG}"
     CPP="${CLANG} -E"
-    DEVELOPER="/Applications/Xcode.app/Contents/Developer"
+
     # We need to clear this so that cmake doesn't have a conniption
     MACOSX_DEPLOYMENT_TARGET=""
 
@@ -24,24 +24,15 @@ function setup_build_environment ()
     # If IPHONEOS_DEPLOYMENT_TARGET has not been specified
     # setup reasonable defaults to allow running of a build script
     # directly (ie not from an Xcode proj)
-    if [ "${XCODE_MAJOR_VERSION}" -ge "5" ]
+    if [ -z "${IPHONEOS_DEPLOYMENT_TARGET}" ]
     then
-        SDKVERSION="7.0"
-        if [ -z "${IPHONEOS_DEPLOYMENT_TARGET}" ]
-        then
-            IPHONEOS_DEPLOYMENT_TARGET=${SDKVERSION}
-        fi
-        # Determine if we can be building 64-bit binaries
-        if [ `echo ${IPHONEOS_DEPLOYMENT_TARGET} '>=' 6.0 | bc -l` == "1" ]
-        then
-            CAN_BUILD_64BIT="1"
-        fi
-    else
-        SDKVERSION="6.1"
-        if [ -z "${IPHONEOS_DEPLOYMENT_TARGET}" ]
-        then
-            IPHONEOS_DEPLOYMENT_TARGET="5.0"
-        fi
+        IPHONEOS_DEPLOYMENT_TARGET="6.0"
+    fi
+    
+    # Determine if we can be building 64-bit binaries
+    if [ "${XCODE_MAJOR_VERSION}" -ge "5" ] && [ $(echo ${IPHONEOS_DEPLOYMENT_TARGET} '>=' 6.0 | bc -l) == "1" ]
+    then
+        CAN_BUILD_64BIT="1"
     fi
 
     # If ARCHS has not been specified
@@ -89,6 +80,8 @@ function build_all_archs ()
             PLATFORM="iphoneos"
         fi
 
+        SDKVERSION=$(xcrun --sdk "${PLATFORM}" --show-sdk-version)
+
         if [ "${ARCH}" == "arm64" ]
         then
             HOST="aarch64-apple-darwin"
@@ -96,10 +89,11 @@ function build_all_archs ()
             HOST="${ARCH}-apple-darwin"
         fi
 
-        echo "Building ${LIBRARY_NAME} for ${PLATFORM} ${SDKVERSION} ${ARCH}"
-        echo "Please stand by..."
         SDKNAME="${PLATFORM}${SDKVERSION}"
         SDKROOT="$(xcrun --sdk ${SDKNAME} --show-sdk-path)"
+        
+        echo "Building ${LIBRARY_NAME} for ${SDKNAME} ${ARCH}"
+        echo "Please stand by..."
 
         # run the per arch build command
         eval $build_arch
