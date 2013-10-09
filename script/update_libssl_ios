@@ -13,14 +13,15 @@ source "${SCRIPT_DIR}/ios_build_functions.sh"
 
 function setup ()
 {
-    if [ -f "${ROOT_PATH}/External/ios-openssl/lib/libssl.a" ] && [ -f "${ROOT_PATH}/External/ios-openssl/lib/libcrypto.a" ] && [ -d "${ROOT_PATH}/External/ios-openssl/include" ]; then
+    if [ -f "${ROOT_PATH}/External/ios-openssl/lib/libssl.a" ] && [ -f "${ROOT_PATH}/External/ios-openssl/lib/libcrypto.a" ] && [ -d "${ROOT_PATH}/External/ios-openssl/include" ]
+    then
         echo "No update needed."
         exit 0
     fi
 
     LIBRARY_NAME="OpenSSL"
 
-    rm -rf ${ROOT_PATH}/External/ios-openssl/include External/ios-openssl/lib
+    rm -rf "${ROOT_PATH}/External/ios-openssl/include External/ios-openssl/lib"
 }
 
 function cleanup () 
@@ -31,48 +32,48 @@ function cleanup ()
 
 function build_ssl () 
 {
-    rm -rf /tmp/openssl
-    cp -r ${ROOT_PATH}/External/openssl /tmp/
+    rm -rf "/tmp/openssl"
+    cp -r "${ROOT_PATH}/External/openssl" /tmp/
     pushd . > /dev/null
     cd /tmp/openssl
 
     LOG="/tmp/openssl-${ARCH}.log"
 
     if [ "${ARCH}" == "arm64" ] || [ "${ARCH}" == "x86_64" ]; then
-    HOST="BSD-generic64"
-    CONFIG="no-gost no-asm enable-ec_nistp_64_gcc_128"
+        HOST="BSD-generic64"
+        CONFIG="no-gost no-asm enable-ec_nistp_64_gcc_128"
     else
-    HOST="BSD-generic32"
-    CONFIG="no-gost no-asm"
-    perl -i -pe 's|static volatile sig_atomic_t intr_signal|static volatile int intr_signal|' crypto/ui/ui_openssl.c
+        HOST="BSD-generic32"
+        CONFIG="no-gost no-asm"
+        perl -i -pe 's|static volatile sig_atomic_t intr_signal|static volatile int intr_signal|' crypto/ui/ui_openssl.c
     fi
-    echo $LOG
+    echo "$LOG"
 
-    ./Configure ${HOST} ${CONFIG} --openssldir="/tmp/openssl-${ARCH}" &> ${LOG}
+    ./Configure ${HOST} ${CONFIG} --openssldir="/tmp/openssl-${ARCH}" &> "${LOG}"
     perl -i -pe "s|^CC= gcc|CC= ${CLANG} -miphoneos-version-min=${IPHONEOS_DEPLOYMENT_TARGET} -arch ${ARCH} |g" Makefile
     perl -i -pe "s|^CFLAG= (.*)|CFLAG= -isysroot ${SDKROOT} \$1|g" Makefile
 
-    make &> ${LOG}
+    make &> "${LOG}"
 
-    make install &> ${LOG}
+    make install &> "${LOG}"
     popd > /dev/null
     rm -rf "/tmp/openssl"
 
-    BUILT_CRYPTO_PATHS="${BUILT_CRYPTO_PATHS} /tmp/openssl-${ARCH}/lib/libcrypto.a"
-    BUILT_SSL_PATHS="${BUILT_SSL_PATHS} /tmp/openssl-${ARCH}/lib/libssl.a"
+    BUILT_CRYPTO_PATHS+=("\"/tmp/openssl-${ARCH}/lib/libcrypto.a\"")
+    BUILT_SSL_PATHS+=("\"/tmp/openssl-${ARCH}/lib/libssl.a\"")
 }
 
 function fat_binary ()
 {
     echo "Building fat binary..."
 
-    mkdir -p ${ROOT_PATH}/External/ios-openssl/include
-    cp -r /tmp/openssl-i386/include/openssl ${ROOT_PATH}/External/ios-openssl/include/
+    mkdir -p "${ROOT_PATH}/External/ios-openssl/include"
+    cp -r /tmp/openssl-i386/include/openssl "${ROOT_PATH}/External/ios-openssl/include/"
 
-    mkdir -p ${ROOT_PATH}/External/ios-openssl/lib
+    mkdir -p "${ROOT_PATH}/External/ios-openssl/lib"
 
-    lipo -create ${BUILT_CRYPTO_PATHS} -output ${ROOT_PATH}/External/ios-openssl/lib/libcrypto.a
-    lipo -create ${BUILT_SSL_PATHS} -output ${ROOT_PATH}/External/ios-openssl/lib/libssl.a
+    echo lipo -create ${BUILT_CRYPTO_PATHS[@]} -output "${ROOT_PATH}/External/ios-openssl/lib/libcrypto.a"
+    echo lipo -create ${BUILT_SSL_PATHS[@]} -output "${ROOT_PATH}/External/ios-openssl/lib/libssl.a"
 
     echo "Building done."
 }
