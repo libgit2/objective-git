@@ -84,9 +84,9 @@ function build_all_archs ()
     do
         if [ "${ARCH}" == "i386" ] || [ "${ARCH}" == "x86_64" ]
         then
-            PLATFORM="iPhoneSimulator"
+            PLATFORM="iphonesimulator"
         else
-            PLATFORM="iPhoneOS"
+            PLATFORM="iphoneos"
         fi
 
         if [ "${ARCH}" == "arm64" ]
@@ -97,9 +97,9 @@ function build_all_archs ()
         fi
 
         echo "Building ${LIBRARY_NAME} for ${PLATFORM} ${SDKVERSION} ${ARCH}"
-        echo "Please stand by..."	
-        DEVROOT="${DEVELOPER}/Platforms/${PLATFORM}.platform/Developer"
-        SDKROOT="${DEVROOT}/SDKs/${PLATFORM}${SDKVERSION}.sdk"
+        echo "Please stand by..."
+        SDKNAME="${PLATFORM}${SDKVERSION}"
+        SDKROOT="$(xcrun --sdk ${SDKNAME} --show-sdk-path)"
 
         # run the per arch build command
         eval $build_arch
