@@ -94,9 +94,10 @@ describe(@"Checking status", ^{
 	it(@"should skip ignored files if asked", ^{
 		__block NSError *err = nil;
 		NSDictionary *options = @{ GTRepositoryStatusOptionsFlagsKey: @(0) };
-		expect([repository enumerateFileStatusWithOptions:options error:&err usingBlock:^(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop) {
+		BOOL enumerationSuccessful = [repository enumerateFileStatusWithOptions:options error:&err usingBlock:^(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop) {
 			expect(indexToWorkingDirectory.status).toNot.equal(GTStatusDeltaStatusIgnored);
-		}]).to.beTruthy();
+		}];
+		expect(enumerationSuccessful).to.beTruthy();
 		expect(err).to.beNil();
 	});
 });
