@@ -40,7 +40,7 @@ typedef enum {
 @property (nonatomic, readonly) GTStatusDeltaStatus status;
 
 // A float between 0 and 1 describing how similar the old and new
-// files are (where 0 is not at all and 100 is identical).
+// files are (where 0 is not at all and 1 is identical).
 //
 // Only useful when the status is `GTStatusDeltaStatusRenamed` or
 // `GTStatusDeltaStatusCopied`.
