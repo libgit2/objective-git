@@ -5,8 +5,7 @@ source "${SCRIPT_DIR}/xcode_functions.sh"
 
 function setup_build_environment ()
 {
-    pushd . > /dev/null
-    cd "$SCRIPT_DIR/.."
+    pushd "$SCRIPT_DIR/.." > /dev/null
     ROOT_PATH="$PWD"
     popd > /dev/null
 

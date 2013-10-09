@@ -33,9 +33,8 @@ function cleanup ()
 function build_ssl () 
 {
     rm -rf "/tmp/openssl"
-    cp -r "${ROOT_PATH}/External/openssl" /tmp/
-    pushd . > /dev/null
-    cd /tmp/openssl
+    cp -r "${ROOT_PATH}/External/openssl" "/tmp/"
+    pushd "/tmp/openssl" > /dev/null
 
     LOG="/tmp/openssl-${ARCH}.log"
 
