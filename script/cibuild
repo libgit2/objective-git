@@ -3,6 +3,8 @@
 SCRIPT_DIR=$(dirname "$0")
 source "${SCRIPT_DIR}/xcode_functions.sh"
 
+cd "$SCRIPT_DIR/.."
+
 ##
 ## Configuration Variables
 ##
