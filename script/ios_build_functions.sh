@@ -10,7 +10,7 @@ function setup_build_environment ()
     ROOT_PATH="$PWD"
     popd > /dev/null
 
-    CLANG=`/usr/bin/xcrun --find clang`
+    CLANG=$(/usr/bin/xcrun --find clang)
     CC="${CLANG}"
     CPP="${CLANG} -E"
     DEVELOPER="/Applications/Xcode.app/Contents/Developer"
