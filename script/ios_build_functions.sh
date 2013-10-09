@@ -1,12 +1,12 @@
 #!/bin/sh
 
-SCRIPT_PATH=`dirname $0`
-source "${SCRIPT_PATH}/xcode_functions.sh"
+SCRIPT_DIR=`dirname $0`
+source "${SCRIPT_DIR}/xcode_functions.sh"
 
 function setup_build_environment ()
 {
     pushd . > /dev/null
-    cd "$SCRIPT_PATH/.."
+    cd "$SCRIPT_DIR/.."
     ROOT_PATH="$(pwd)"
     popd > /dev/null
 
