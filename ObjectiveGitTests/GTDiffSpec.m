@@ -15,7 +15,7 @@ describe(@"GTDiff initialisation", ^{
 	__block GTCommit *secondCommit = nil;
 	
 	beforeEach(^{
-		repository = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_APP_REPO_PATH(self.class)] error:NULL];
+		repository = self.testAppFixtureRepository;
 		expect(repository).toNot.beNil();
 		
 		firstCommit = (GTCommit *)[repository lookupObjectBySHA:@"8e0e65988d3007867a9f59ca8639ba975ef97e69" objectType:GTObjectTypeCommit error:NULL];
@@ -66,7 +66,7 @@ describe(@"GTDiff diffing", ^{
 	__block void (^setupDiffFromCommitSHAsAndOptions)(NSString *, NSString *, NSDictionary *) = nil;
 	
 	beforeEach(^{
-		repository = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_APP_REPO_PATH(self.class)] error:NULL];
+		repository = self.testAppFixtureRepository;
 		expect(repository).toNot.beNil();
 		
 		setupDiffFromCommitSHAsAndOptions = [^(NSString *firstCommitSHA, NSString *secondCommitSHA, NSDictionary *options) {

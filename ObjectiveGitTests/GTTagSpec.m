@@ -14,7 +14,7 @@ __block GTTag *tag;
 
 beforeEach(^{
 	NSError *error = nil;
-	GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&error];
+	GTRepository *repo = self.bareFixtureRepository;
 	NSString *tagSHA = @"0c37a5391bbff43c37f0d0371823a5509eed5b1d";
 	tag = (GTTag *)[repo lookupObjectBySHA:tagSHA error:&error];
 	expect(error).to.beFalsy();

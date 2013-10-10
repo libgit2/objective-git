@@ -6,7 +6,7 @@
 //  Copyright 2011 GitHub Inc. All rights reserved.
 //
 
-@interface GTReferenceTest : SenTestCase {
+@interface GTReferenceTest : GTTestCase {
 	NSArray *expectedRefs;
 }
 @end
@@ -19,10 +19,9 @@
 }
 
 - (void)testCanOpenRef {
-	
+    GTRepository *repo = self.bareFixtureRepository;
+	STAssertNotNil(repo, @"Could not create reposiotry");
 	NSError *error = nil;
-    GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&error];
-	STAssertNil(error, [error localizedDescription]);
 	GTReference *ref = [GTReference referenceByLookingUpReferencedNamed:@"refs/heads/master" inRepository:repo error:&error];
 	STAssertNil(error, [error localizedDescription]);
 	STAssertNotNil(ref, nil);
@@ -33,10 +32,8 @@
 }
 
 - (void)testCanOpenTagRef {
-	
+	GTRepository *repo = self.bareFixtureRepository;
 	NSError *error = nil;
-	GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&error];
-	STAssertNil(error, [error localizedDescription]);
 	GTReference *ref = [GTReference referenceByLookingUpReferencedNamed:@"refs/tags/v0.9" inRepository:repo error:&error];
 	STAssertNil(error, [error localizedDescription]);
 	STAssertNotNil(ref, nil);
@@ -47,10 +44,8 @@
 }
 
 - (void)testCanCreateRefFromSymbolicRef {
-	
+	GTRepository *repo = self.bareFixtureRepository;
 	NSError *error = nil;
-	GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&error];
-	STAssertNil(error, [error localizedDescription]);
 	GTReference *ref = [GTReference referenceByCreatingReferenceNamed:@"refs/heads/unit_test" fromReferenceTarget:@"refs/heads/master" inRepository:repo error:&error];
 	STAssertNil(error, [error localizedDescription]);
 	STAssertNotNil(ref, nil);
@@ -65,9 +60,8 @@
 
 - (void)testCanCreateRefFromSha {
 	
+	GTRepository *repo = self.bareFixtureRepository;
 	NSError *error = nil;
-	GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&error];
-	STAssertNil(error, [error localizedDescription]);
 	GTReference *ref = [GTReference referenceByCreatingReferenceNamed:@"refs/heads/unit_test" fromReferenceTarget:@"36060c58702ed4c2a40832c51758d5344201d89a" inRepository:repo error:&error];
 	STAssertNil(error, [error localizedDescription]);
 	STAssertNotNil(ref, nil);
@@ -81,11 +75,8 @@
 }
 
 - (void)testCanListAllReferences {
-	
+	GTRepository *repo = self.bareFixtureRepository;
 	NSError *error = nil;
-	GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&error];
-	STAssertNil(error, [error localizedDescription]);
-	
 	NSArray *refs = [repo referenceNamesWithError:&error];
 	STAssertNil(error, [error localizedDescription]);
 	STAssertEquals(4, (int)refs.count, nil);

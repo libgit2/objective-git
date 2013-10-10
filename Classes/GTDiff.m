@@ -8,12 +8,14 @@
 
 #import "GTDiff.h"
 
-#import "GTDiffDelta.h"
 #import "GTRepository.h"
 #import "GTTree.h"
 #import "GTCommit.h"
 
+#import "NSArray+StringArray.h"
 #import "NSError+Git.h"
+
+#import "EXTScope.h"
 
 NSString *const GTDiffOptionsFlagsKey = @"GTDiffOptionsFlagsKey";
 NSString *const GTDiffOptionsContextLinesKey = @"GTDiffOptionsContextLinesKey";
@@ -66,15 +68,11 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 	if (maxSizeNumber != nil) newOptions.max_size = (uint16_t)maxSizeNumber.unsignedIntegerValue;
 	
 	NSArray *pathSpec = dictionary[GTDiffOptionsPathSpecArrayKey];
-	char *cStrings[pathSpec.count];
-	if (pathSpec.count > 0) {
-		for (NSUInteger idx = 0; idx < pathSpec.count; idx ++) {
-			cStrings[idx] = (char *)[pathSpec[idx] cStringUsingEncoding:NSUTF8StringEncoding];
-		}
-		
-		git_strarray optionsPathSpec = {.strings = cStrings, .count = pathSpec.count};
-		newOptions.pathspec = optionsPathSpec;
-	}
+	git_strarray strArray = pathSpec.git_strarray;
+	if (pathSpec != nil) newOptions.pathspec = strArray;
+	@onExit {
+		git_strarray_free((git_strarray *)&strArray);
+	};
 
 	git_diff_options *optionsPtr = &newOptions;
 	if (dictionary.count < 1) optionsPtr = nil;

@@ -16,7 +16,7 @@ SpecBegin(GTTree)
 __block GTTree *tree;
 
 beforeEach(^{
-	GTRepository *repo = [self fixtureRepositoryNamed:@"testrepo.git"];
+	GTRepository *repo = self.bareFixtureRepository;
 	expect(repo).notTo.beNil();
 
 	tree = (GTTree *)[repo lookupObjectBySHA:testTreeSHA error:NULL];

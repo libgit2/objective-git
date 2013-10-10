@@ -27,7 +27,7 @@
 //  THE SOFTWARE.
 //
 
-@interface GTCommitTest : SenTestCase {
+@interface GTCommitTest : GTTestCase {
 
 	GTRepository *repo;
 }
@@ -37,10 +37,8 @@
 
 
 - (void)setUp {
-	
-	NSError *error = nil;
-    repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&error];
-	STAssertNotNil(repo, [error localizedDescription]);
+	repo = self.bareFixtureRepository;
+	STAssertNotNil(repo, @"Could not create fixture repository.");
 }
 
 - (void)testCanReadCommitData {

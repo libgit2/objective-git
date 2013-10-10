@@ -27,7 +27,7 @@
 //  THE SOFTWARE.
 //
 
-@interface GTObjectTest : SenTestCase {
+@interface GTObjectTest : GTTestCase {
 	
 	GTRepository *repo;
 }
@@ -36,9 +36,7 @@
 @implementation GTObjectTest
 
 - (void)setUp {
-	
-	NSError *error = nil;
-    repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&error];
+    repo = self.bareFixtureRepository;
 }
 
 - (void)testCanLookupEmptyStringFails {

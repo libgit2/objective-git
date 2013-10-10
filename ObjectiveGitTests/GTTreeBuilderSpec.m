@@ -27,7 +27,7 @@ it(@"should be possible to make a new tree builder without a tree", ^{
 it(@"should be possible to make a new tree builder from an existing tree", ^{
 	NSError *error = nil;
 	
-	GTRepository *repo = [self fixtureRepositoryNamed:@"testrepo.git"];
+	GTRepository *repo = self.bareFixtureRepository;
 	expect(repo).notTo.beNil();
 	
 	GTTree *tree = (GTTree *)[repo lookupObjectBySHA:testTreeSHA error:NULL];
@@ -75,7 +75,7 @@ describe(@"GTTreeBuilder building", ^{
 	});
 	
 	it(@"should be possible to filter a builder", ^{	
-		GTRepository *repo = [self fixtureRepositoryNamed:@"testrepo.git"];
+		GTRepository *repo = self.bareFixtureRepository;
 		expect(repo).notTo.beNil();
 		
 		GTBlob *blob = [GTBlob blobWithString:@"Hi, how are you?" inRepository:repo error:&error];
@@ -104,7 +104,7 @@ describe(@"GTTreeBuilder building", ^{
 	});
 
 	it(@"should write new blobs when the tree is written", ^{
-		GTRepository *repo = [self fixtureRepositoryNamed:@"testrepo.git"];
+		GTRepository *repo = self.bareFixtureRepository;
 		expect(repo).notTo.beNil();
 
 		GTTreeEntry *entry = [builder addEntryWithData:[@"Hello, World!" dataUsingEncoding:NSUTF8StringEncoding] fileName:@"test.txt" fileMode:GTFileModeBlob error:NULL];
@@ -122,7 +122,7 @@ describe(@"GTTreeBuilder building", ^{
 	});
 
 	it(@"should be possible to write a builder to a repository", ^{
-		GTRepository *repo = [self fixtureRepositoryNamed:@"testrepo.git"];
+		GTRepository *repo = self.bareFixtureRepository;
 		expect(repo).notTo.beNil();
 		
 		GTBlob *blob = [GTBlob blobWithString:@"Hi, how are you?" inRepository:repo error:&error];
