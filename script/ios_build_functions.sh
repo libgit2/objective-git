@@ -79,7 +79,7 @@ function build_all_archs ()
             PLATFORM="iphoneos"
         fi
 
-        SDKVERSION=$(xcrun --sdk "${PLATFORM}" --show-sdk-version)
+        SDKVERSION=$(ios_sdk_version)
 
         if [ "${ARCH}" == "arm64" ]
         then
@@ -89,7 +89,7 @@ function build_all_archs ()
         fi
 
         SDKNAME="${PLATFORM}${SDKVERSION}"
-        SDKROOT="$(xcrun --sdk ${SDKNAME} --show-sdk-path)"
+        SDKROOT="$(ios_sdk_path ${SDKNAME})"
         
         echo "Building ${LIBRARY_NAME} for ${SDKNAME} ${ARCH}"
         echo "Please stand by..."
