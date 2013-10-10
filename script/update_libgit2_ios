@@ -36,7 +36,7 @@ function build_libgit2 ()
     # LOL Cmake
     if [ "${ARCH}" != "i386" ] && [ "${ARCH}" != "x86_64" ]
     then
-        SYS_ROOT="-DCMAKE_OSX_SYSROOT=\"${SDKROOT}\""
+        SYS_ROOT="-DCMAKE_OSX_SYSROOT=${SDKROOT}"
     fi
 
     # install the each built arch somewhere sane
@@ -64,7 +64,7 @@ function build_libgit2 ()
     cmake --build . --target install >> "${LOG}" 2>&1
 
     # push the built library into the list
-    BUILT_LIB_PATHS="${BUILT_LIB_PATHS} \"${INSTALL_PREFIX}/lib/libgit2.a\""
+    BUILT_LIB_PATHS="${BUILT_LIB_PATHS} ${INSTALL_PREFIX}/lib/libgit2.a"
     popd > /dev/null
 }
 
