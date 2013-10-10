@@ -11,82 +11,7 @@
 
 static const NSInteger GTTestCaseErrorUnzipFailed = 666;
 
-static NSString * const GTTestCaseErrorDomain = @"com.objectivegit.GTTestCase";
-
-BOOL unzipFileFromArchiveAtPathIntoDirectory(NSString *fileName, NSString *zipPath, NSString *destinationPath) {
-	NSTask *task = [[NSTask alloc] init];
-	task.launchPath = @"/usr/bin/unzip";
-	task.arguments = @[ @"-qq", @"-d", destinationPath, zipPath, [fileName stringByAppendingString:@"*"] ];
-	
-	[task launch];
-	[task waitUntilExit];
-	
-	BOOL success = (task.terminationStatus == 0);
-	return success;
-}
-
-NSString *repositoryFixturePathForName(NSString *repositoryName, Class cls) {
-	static NSString *unzippedFixturesPath = nil;
-	if (unzippedFixturesPath == nil) {
-		NSString *containerPath = nil;
-		while (containerPath == nil) {
-			containerPath = [[NSTemporaryDirectory() stringByAppendingPathComponent:@"com.libgit2.objectivegit"] stringByAppendingPathComponent:NSProcessInfo.processInfo.globallyUniqueString];
-			if ([NSFileManager.defaultManager fileExistsAtPath:containerPath]) containerPath = nil;
-		}
-		
-		unzippedFixturesPath = containerPath;
-	}
-	
-	return [unzippedFixturesPath stringByAppendingPathComponent:repositoryName];
-}
-
-BOOL setupRepositoryFixtureIfNeeded(NSString *repositoryName, Class cls) {
-	NSString *path = repositoryFixturePathForName(repositoryName, cls);
-	BOOL isDirectory = NO;
-	if ([NSFileManager.defaultManager fileExistsAtPath:path isDirectory:&isDirectory] && isDirectory) return YES;
-	
-	if (![NSFileManager.defaultManager createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:NULL]) return NO;
-	
-	NSString *zippedFixturesPath = [[NSBundle bundleForClass:cls] pathForResource:@"fixtures" ofType:@"zip"];
-	return unzipFileFromArchiveAtPathIntoDirectory(repositoryName, zippedFixturesPath, path.stringByDeletingLastPathComponent);
-}
-
-NSString *TEST_REPO_PATH(Class cls) {
-	if (!setupRepositoryFixtureIfNeeded(@"testrepo.git", cls)) {
-		NSLog(@"Failed to unzip fixtures.");
-	}
-		
-	return repositoryFixturePathForName(@"testrepo.git", cls);
-}
-
-NSString *TEST_INDEX_PATH(Class cls) {
-	return [TEST_REPO_PATH(cls) stringByAppendingPathComponent:@"index"];
-}
-
-NSString *TEST_APP_REPO_PATH(Class cls) {
-	if (!setupRepositoryFixtureIfNeeded(@"Test_App", cls)) {
-		NSLog(@"Failed to unzip fixtures.");
-	}
-	return repositoryFixturePathForName(@"Test_App", cls);
-}
-
-void rm_loose(Class cls, NSString *sha) {
-	NSError *error;
-	NSFileManager *m = [[NSFileManager alloc] init];
-	NSString *objDir = [NSString stringWithFormat:@"objects/%@", [sha substringToIndex:2]];
-	NSURL *basePath = [[NSURL fileURLWithPath:TEST_REPO_PATH(cls)] URLByAppendingPathComponent:objDir];
-	NSURL *filePath = [basePath URLByAppendingPathComponent:[sha substringFromIndex:2]];
-	
-	NSLog(@"deleting file %@", filePath);
-	
-	[m removeItemAtURL:filePath error:&error];
-	
-	NSArray *contents = [m contentsOfDirectoryAtPath:[basePath path] error:&error];
-	if([contents count] == 0) {
-		NSLog(@"deleting dir %@", basePath);
-		[m removeItemAtURL:basePath error:&error];
-	}
-}
+static NSString * const GTTestCaseErrorDomain = @"com.objectivegit.GTTestCase";	
 
 @interface GTTestCase ()
 @property (nonatomic, readonly, copy) NSString *repositoryFixturesPath;
@@ -108,17 +33,10 @@ void rm_loose(Class cls, NSString *sha) {
 }
 
 - (void)cleanUp {
-	NSString *path = _tempDirectoryPath;
+	NSString *path = self.tempDirectoryPath;
 	if (path == nil) return;
 
-	// Because view model, etc. bindings may persist longer than the test just
-	// run (due to crazy Specta/Expecta memory management), we need to wait to
-	// remove repositories from disk, or else random tests might start throwing
-	// spurious errors.
-	atexit_b(^{
-		// Don't really care about errors at this point.
-		[NSFileManager.defaultManager removeItemAtPath:path error:NULL];
-	});
+	expect([NSFileManager.defaultManager removeItemAtPath:path error:NULL]).to.beTruthy();
 
 	self.tempDirectoryPath = nil;
 }
@@ -126,15 +44,10 @@ void rm_loose(Class cls, NSString *sha) {
 #pragma mark Fixtures
 
 - (void)setupTempDirectoryPath {
-	CFUUIDRef uuidRef = CFUUIDCreate(NULL);
-	NSString *uuidString = CFBridgingRelease(CFUUIDCreateString(NULL, uuidRef));
-	CFRelease(uuidRef);
+	self.tempDirectoryPath = [[NSTemporaryDirectory() stringByAppendingPathComponent:@"com.libgit2.objectivegit"] stringByAppendingPathComponent:NSProcessInfo.processInfo.globallyUniqueString];
 
-	self.tempDirectoryPath = [NSTemporaryDirectory() stringByAppendingPathComponent:uuidString];
-
-	NSFileManager *fileManager = [[NSFileManager alloc] init];
 	NSError *error = nil;
-	BOOL success = [fileManager createDirectoryAtPath:self.tempDirectoryPath withIntermediateDirectories:YES attributes:nil error:&error];
+	BOOL success = [NSFileManager.defaultManager createDirectoryAtPath:self.tempDirectoryPath withIntermediateDirectories:YES attributes:nil error:&error];
 	STAssertTrue(success, @"Couldn't create the temp fixtures directory at %@: %@", self.tempDirectoryPath, error);
 }
 
@@ -153,14 +66,6 @@ void rm_loose(Class cls, NSString *sha) {
 	error = nil;
 	success = [self unzipFile:repositoryName fromArchiveAtPath:zippedRepositoriesPath intoDirectory:self.repositoryFixturesPath error:&error];
 	STAssertTrue(success, @"Couldn't unzip fixture \"%@\" from %@ to %@: %@", repositoryName, zippedRepositoriesPath, self.repositoryFixturesPath, error);
-}
-
-- (NSString *)uniqueString {
-	CFUUIDRef uuidRef = CFUUIDCreate(NULL);
-	NSString *uuidString = CFBridgingRelease(CFUUIDCreateString(NULL, uuidRef));
-	CFRelease(uuidRef);
-
-	return uuidString;
 }
 
 - (NSString *)pathForFixtureRepositoryNamed:(NSString *)repositoryName {
@@ -185,10 +90,24 @@ void rm_loose(Class cls, NSString *sha) {
 	return success;
 }
 
+#pragma mark API
+
 - (GTRepository *)fixtureRepositoryNamed:(NSString *)name {
 	GTRepository *repository = [[GTRepository alloc] initWithURL:[NSURL fileURLWithPath:[self pathForFixtureRepositoryNamed:name]] error:NULL];
 	STAssertNotNil(repository, @"Couldn't create a repository for %@", name);
 	return repository;
+}
+
+- (GTRepository *)testAppFixtureRepository {
+	return [self fixtureRepositoryNamed:@"Test_App"];
+}
+
+- (GTRepository *)bareFixtureRepository {
+	return [self fixtureRepositoryNamed:@"testrepo.git"];
+}
+
+- (GTRepository *)submoduleFixtureRepository {
+	return [self fixtureRepositoryNamed:@"repo-with-submodule"];
 }
 
 #pragma mark Properties

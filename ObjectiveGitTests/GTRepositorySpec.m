@@ -14,7 +14,7 @@ SpecBegin(GTRepository)
 __block GTRepository *repository;
 
 beforeEach(^{
-	repository = [self fixtureRepositoryNamed:@"Test_App"];
+	repository = self.testAppFixtureRepository;
 	expect(repository).notTo.beNil();
 });
 
@@ -91,7 +91,7 @@ describe(@"-OIDByCreatingTagNamed:target:tagger:message:error", ^{
 	it(@"should create a new tag",^{
 		NSError *error = nil;
 		NSString *SHA = @"0c37a5391bbff43c37f0d0371823a5509eed5b1d";
-		GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&error];
+		GTRepository *repo = self.bareFixtureRepository;
 		GTTag *tag = (GTTag *)[repo lookupObjectBySHA:SHA error:&error];
 
 		GTOID *newOID = [repo OIDByCreatingTagNamed:@"a_new_tag" target:tag.target tagger:tag.tagger message:@"my tag\n" error:&error];
@@ -106,17 +106,12 @@ describe(@"-OIDByCreatingTagNamed:target:tagger:message:error", ^{
 		expect(tag.name).to.equal(@"a_new_tag");
 		expect(tag.target.SHA).to.equal(@"5b5b025afb0b4c913b4c338a42934a3863bf3644");
 		expect(tag.targetType).to.equal(GTObjectTypeCommit);
-
-		rm_loose(self.class, newOID.SHA);
-		NSFileManager *m = [[NSFileManager alloc] init];
-		NSURL *tagPath = [[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] URLByAppendingPathComponent:@"refs/tags/a_new_tag"];
-		[m removeItemAtURL:tagPath error:&error];
 	});
 
 	it(@"should fail to create an already existing tag", ^{
 		NSError *error = nil;
 		NSString *SHA = @"0c37a5391bbff43c37f0d0371823a5509eed5b1d";
-		GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&error];
+		GTRepository *repo = self.bareFixtureRepository;
 		GTTag *tag = (GTTag *)[repo lookupObjectBySHA:SHA error:&error];
 
 		GTOID *OID = [repo OIDByCreatingTagNamed:tag.name target:tag.target tagger:tag.tagger message:@"new message" error:&error];

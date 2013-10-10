@@ -44,21 +44,6 @@
 @class GTTag;
 @class GTTree;
 
-// Options returned from the enumerateFileStatusUsingBlock: function
-enum {
-	GTRepositoryFileStatusIndexNew = GIT_STATUS_INDEX_NEW,
-	GTRepositoryFileStatusIndexModified = GIT_STATUS_INDEX_MODIFIED,
-	GTRepositoryFileStatusIndexDeleted = GIT_STATUS_INDEX_DELETED,
-
-	GTRepositoryFileStatusWorkingTreeNew = GIT_STATUS_WT_NEW,
-	GTRepositoryFileStatusWorkingTreeModified = GIT_STATUS_WT_MODIFIED,
-	GTRepositoryFileStatusWorkingTreeDeleted = GIT_STATUS_WT_DELETED,
-
-	GTRepositoryFileStatusIgnored = GIT_STATUS_IGNORED
-};
-
-typedef unsigned int GTRepositoryFileStatus;
-
 typedef enum {
 	GTRepositoryResetTypeSoft = GIT_RESET_SOFT,
 	GTRepositoryResetTypeMixed = GIT_RESET_MIXED,
@@ -117,8 +102,6 @@ extern NSString *const GTRepositoryCloneOptionsCheckout;
 
 // A `GTCredentialProvider`, that will be used to authenticate against the remote.
 extern NSString *const GTRepositoryCloneOptionsCredentialProvider;
-
-typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus status, BOOL *stop);
 
 @interface GTRepository : NSObject
 
@@ -203,14 +186,6 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 // returns an array of NSStrings holding the names of the references
 // returns nil if an error occurred and fills the error parameter
 - (NSArray *)referenceNamesWithError:(NSError **)error;
-
-// For each file in the repository calls your block with the URL of the file and the status of that file in the repository,
-//
-// block - the block that gets called for each file
-- (void)enumerateFileStatusUsingBlock:(GTRepositoryStatusBlock)block;
-
-// Return YES if the working directory is clean (no modified, new, or deleted files in index)
-- (BOOL)isWorkingDirectoryClean;
 
 - (GTReference *)headReferenceWithError:(NSError **)error;
 

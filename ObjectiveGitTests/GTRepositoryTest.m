@@ -27,7 +27,7 @@
 //  THE SOFTWARE.
 //
 
-@interface GTRepositoryTest : SenTestCase {
+@interface GTRepositoryTest : GTTestCase {
 
 	GTRepository *repo;
 	NSString *testContent;
@@ -39,9 +39,7 @@
 @implementation GTRepositoryTest
  
 - (void)setUp {
-	
-	NSError *error = nil;
-    repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&error];
+	repo = self.bareFixtureRepository;
 	testContent = @"my test data\n";
 	testContentType = GTObjectTypeBlob;
 }
@@ -80,7 +78,7 @@
 
 - (void)testCanReset {
     NSError *err = nil;
-    GTRepository *aRepo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&err];
+    GTRepository *aRepo = self.bareFixtureRepository;
     STAssertNotNil(aRepo, @"Repository failed to initialise");
     GTReference *originalHead = [aRepo headReferenceWithError:NULL];
     NSString *resetTargetSha = @"8496071c1b46c854b31185ea97743be6a8774479";
@@ -134,7 +132,7 @@
 	void (^checkoutProgressBlock)(NSString *, NSUInteger, NSUInteger) = ^(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps) {
 		checkoutProgressCalled = YES;
 	};
-	NSURL *originURL = [NSURL fileURLWithPath:TEST_REPO_PATH(self.class)]; //[NSURL URLWithString: @"https://github.com/libgit2/TestGitRepository"];
+	NSURL *originURL = self.bareFixtureRepository.fileURL; //[NSURL URLWithString: @"https://github.com/libgit2/TestGitRepository"];
 	NSURL *workdirURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"unit_test"]];
 	NSError *err;
 
@@ -162,7 +160,7 @@
 	void (^checkoutProgressBlock)(NSString *, NSUInteger, NSUInteger) = ^(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps) {
 		checkoutProgressCalled = YES;
 	};
-	NSURL *originURL = [NSURL fileURLWithPath:TEST_REPO_PATH(self.class)]; //[NSURL URLWithString: @"https://github.com/libgit2/TestGitRepository"];
+	NSURL *originURL = self.bareFixtureRepository.fileURL; //[NSURL URLWithString: @"https://github.com/libgit2/TestGitRepository"];
 	NSURL *workdirURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"unit_test"]];
 	NSDictionary *options = @{ GTRepositoryCloneOptionsBare: @YES };
 	NSError *err;

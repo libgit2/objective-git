@@ -15,7 +15,7 @@ __block GTBranch *masterBranch;
 __block GTBranch *trackingBranch;
 
 beforeEach(^{
-	repository = [self fixtureRepositoryNamed:@"Test_App"];
+	repository = self.testAppFixtureRepository;
 	expect(repository).notTo.beNil();
 
 	NSError *error = nil;

@@ -13,7 +13,7 @@ SpecBegin(GTIndex)
 __block GTIndex *index;
 
 beforeEach(^{
-	NSURL *indexURL = [[self fixtureRepositoryNamed:@"testrepo.git"].gitDirectoryURL URLByAppendingPathComponent:@"index"];
+	NSURL *indexURL = [self.bareFixtureRepository.gitDirectoryURL URLByAppendingPathComponent:@"index"];
 	index = [[GTIndex alloc] initWithFileURL:indexURL error:NULL];
 	expect(index).notTo.beNil();
 
@@ -38,7 +38,7 @@ it(@"can read entry properties", ^{
 });
 
 it(@"can write to the repository and return a tree", ^{
-	GTRepository *repository = [self fixtureRepositoryNamed:@"testrepo.git"];
+	GTRepository *repository = self.bareFixtureRepository;
 	GTIndex *index = [repository indexWithError:NULL];
 	GTTree *tree = [index writeTree:NULL];
 	expect(tree).notTo.beNil();
