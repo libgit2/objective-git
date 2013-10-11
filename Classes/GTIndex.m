@@ -35,6 +35,8 @@
 #import "GTOID.h"
 #import "GTTree.h"
 
+#import "EXTScope.h"
+
 @interface GTIndex ()
 @property (nonatomic, assign, readonly) git_index *git_index;
 @end
@@ -181,6 +183,44 @@
 
 - (BOOL)hasConflicts {
 	return (BOOL)git_index_has_conflicts(self.git_index);
+}
+
+- (BOOL)enumerateConflictedFilesWithError:(NSError **)error block:(void (^)(GTIndexEntry *ancestor, GTIndexEntry *ours, GTIndexEntry *theirs, BOOL *stop))block {
+	if (!self.hasConflicts) return YES;
+	
+	git_index_conflict_iterator *iterator = NULL;
+	@onExit {
+		if (iterator != NULL) git_index_conflict_iterator_free(iterator);
+	};
+	
+	int returnCode = git_index_conflict_iterator_new(&iterator, self.git_index);
+	if (returnCode != GIT_OK) {
+		if (error == NULL) return NO;
+		*error = [NSError git_errorFor:returnCode description:NSLocalizedString(@"Could not create git index iterator.", nil)];
+		return NO;
+	}
+	
+	while (0) {
+		const git_index_entry *ancestor = NULL;
+		const git_index_entry *ours = NULL;
+		const git_index_entry *theirs = NULL;
+		
+		returnCode = git_index_conflict_next(&ancestor, &ours, &theirs, iterator);
+		if (returnCode == GIT_ITEROVER) break;
+		
+		if (returnCode != GIT_OK) {
+			if (error == NULL) return NO;
+			*error = [NSError git_errorFor:returnCode description:NSLocalizedString(@"Could not iterate conflict.", nil)];
+			return NO;
+		}
+		
+		GTIndexEntry *blockAncestor = [[GTIndexEntry alloc] initWithGitIndexEntry:ancestor];
+		GTIndexEntry *blockOurs = [[GTIndexEntry alloc] initWithGitIndexEntry:ours];
+		GTIndexEntry *blockTheirs = [[GTIndexEntry alloc] initWithGitIndexEntry:theirs];
+		BOOL stop;
+		block(blockAncestor, blockOurs, blockTheirs, &stop);
+		if (stop) break;
+	}
 }
 
 @end
