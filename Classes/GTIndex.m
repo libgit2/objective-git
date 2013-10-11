@@ -218,7 +218,7 @@
 		GTIndexEntry *blockOurs = [[GTIndexEntry alloc] initWithGitIndexEntry:ours];
 		GTIndexEntry *blockTheirs = [[GTIndexEntry alloc] initWithGitIndexEntry:theirs];
 		BOOL stop;
-		block(blockAncestor, blockOurs, blockTheirs, &stop);
+		if (block != nil) block(blockAncestor, blockOurs, blockTheirs, &stop);
 		if (stop) break;
 	}
 }
