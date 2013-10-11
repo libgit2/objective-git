@@ -200,7 +200,7 @@
 		return NO;
 	}
 	
-	while (0) {
+	while (YES) {
 		const git_index_entry *ancestor = NULL;
 		const git_index_entry *ours = NULL;
 		const git_index_entry *theirs = NULL;
