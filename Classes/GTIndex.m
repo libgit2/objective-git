@@ -177,4 +177,10 @@
 	return entries;
 }
 
+#pragma mark Conflicts
+
+- (BOOL)hasConflicts {
+	return (BOOL)git_index_has_conflicts(self.git_index);
+}
+
 @end
