@@ -58,8 +58,8 @@ function build_ssl ()
     popd > /dev/null
     rm -rf "/tmp/openssl"
 
-    BUILT_CRYPTO_PATHS="$BUILT_CRYPTO_PATHS /tmp/openssl-${ARCH}/lib/libcrypto.a"
-    BUILT_SSL_PATHS="$BUILD_SSL_PATHS /tmp/openssl-${ARCH}/lib/libssl.a"
+    BUILT_CRYPTO_PATHS+=("/tmp/openssl-${ARCH}/lib/libcrypto.a")
+    BUILT_SSL_PATHS+=("/tmp/openssl-${ARCH}/lib/libssl.a")
 }
 
 function fat_binary ()
@@ -71,8 +71,8 @@ function fat_binary ()
 
     mkdir -p "${ROOT_PATH}/External/ios-openssl/lib"
 
-    lipo -create ${BUILT_CRYPTO_PATHS} -output "${ROOT_PATH}/External/ios-openssl/lib/libcrypto.a"
-    lipo -create ${BUILT_SSL_PATHS} -output "${ROOT_PATH}/External/ios-openssl/lib/libssl.a"
+    lipo -create "${BUILT_CRYPTO_PATHS[@]}" -output "${ROOT_PATH}/External/ios-openssl/lib/libcrypto.a"
+    lipo -create "${BUILT_SSL_PATHS[@]}" -output "${ROOT_PATH}/External/ios-openssl/lib/libssl.a"
 
     echo "Building done."
 }
