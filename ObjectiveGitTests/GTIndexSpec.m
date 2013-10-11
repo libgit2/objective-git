@@ -59,6 +59,12 @@ describe(@"conflict enumeration", ^{
 		expect(enumerationResult).to.beTruthy();
 		expect(blockRan).to.beFalsy();
 	});
+	
+	it (@"should correctly report conflicts", ^{
+		index = [self.conflictedFixtureRepository indexWithError:NULL];
+		expect(index).notTo.beNil();
+		expect(index.hasConflicts).to.beTruthy();
+	});
 });
 
 SpecEnd
