@@ -221,6 +221,8 @@
 		if (block != nil) block(blockAncestor, blockOurs, blockTheirs, &stop);
 		if (stop) break;
 	}
+	
+	return YES;
 }
 
 @end
