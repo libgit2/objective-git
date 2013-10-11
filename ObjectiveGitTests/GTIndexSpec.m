@@ -46,4 +46,19 @@ it(@"can write to the repository and return a tree", ^{
 	expect(tree.repository).to.equal(repository);
 });
 
+describe(@"conflict enumeration", ^{
+	it(@"should correctly find no conflicts", ^{
+		expect(index.hasConflicts).to.beFalsy();
+	});
+	
+	it(@"should immediately return YES when enumerating no conflicts", ^{
+		__block BOOL blockRan = NO;
+		BOOL enumerationResult = [index enumerateConflictedFilesWithError:NULL block:^(GTIndexEntry *ancestor, GTIndexEntry *ours, GTIndexEntry *theirs, BOOL *stop) {
+			blockRan = YES;
+		}];
+		expect(enumerationResult).to.beTruthy();
+		expect(blockRan).to.beFalsy();
+	});
+});
+
 SpecEnd
