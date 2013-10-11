@@ -60,10 +60,27 @@ describe(@"conflict enumeration", ^{
 		expect(blockRan).to.beFalsy();
 	});
 	
-	it (@"should correctly report conflicts", ^{
+	it(@"should correctly report conflicts", ^{
 		index = [self.conflictedFixtureRepository indexWithError:NULL];
 		expect(index).notTo.beNil();
 		expect(index.hasConflicts).to.beTruthy();
+	});
+	
+	it(@"should enumerate conflicts successfully", ^{
+		index = [self.conflictedFixtureRepository indexWithError:NULL];
+		expect(index).notTo.beNil();
+		
+		NSError *err = NULL;
+		__block NSUInteger count = 0;
+		NSArray *expectedPaths = @[ @"TestAppDelegate.h", @"main.m" ];
+		BOOL enumerationResult = [index enumerateConflictedFilesWithError:&err block:^(GTIndexEntry *ancestor, GTIndexEntry *ours, GTIndexEntry *theirs, BOOL *stop) {
+			expect(ours.path).to.equal(expectedPaths[count]);
+			count ++;
+		}];
+		
+		expect(enumerationResult).to.beTruthy();
+		expect(err).to.beNil();
+		expect(count).to.equal(2);
 	});
 });
 
