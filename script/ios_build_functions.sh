@@ -39,7 +39,6 @@ function setup_build_environment ()
         CAN_BUILD_64BIT="1"
     fi
 
-
     ARCHS="i386 armv7 armv7s"
     if [ "${CAN_BUILD_64BIT}" -eq "1" ]
     then
