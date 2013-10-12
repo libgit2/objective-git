@@ -47,7 +47,7 @@ function build_libgit2 ()
     LOG="${INSTALL_PREFIX}/build-libgit2.log"
     echo "$LOG"
 
-    cmake -DCMAKE_C_COMPILER="${CLANG}" \
+    cmake -DCMAKE_C_COMPILER=clang \
         -DCMAKE_C_COMPILER_WORKS:BOOL=ON \
         -DBUILD_SHARED_LIBS:BOOL=OFF \
         -DOPENSSL_INCLUDE_DIR:PATH=../../External/ios-openssl/include/ \
