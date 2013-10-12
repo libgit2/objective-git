@@ -39,26 +39,13 @@ function setup_build_environment ()
         CAN_BUILD_64BIT="1"
     fi
 
-    # If ARCHS has not been specified
-    # setup reasonable defaults to allow running of a build script
-    # directly (ie not from an Xcode proj)
-    if [ -z "${ARCHS}" ]
+
+    ARCHS="i386 armv7 armv7s"
+    if [ "${CAN_BUILD_64BIT}" -eq "1" ]
     then
-        ARCHS="i386 armv7 armv7s"
-        if [ "${CAN_BUILD_64BIT}" -eq "1" ]
-        then
-            # For some stupid reason cmake needs simulator
-            # builds to be first
-            ARCHS="x86_64 ${ARCHS} arm64"
-        fi
-    fi
-    if [ `expr "${ARCHS}" : '.*i386.*'` == "0" ]
-    then
-        ARCHS="i386 ${ARCHS}"
-    fi
-    if [ "${CAN_BUILD_64BIT}" -eq "1" ] && [ `expr "${ARCHS}" : '.*x86_64.*'` == "0" ]
-    then
-        ARCHS="x86_64 ${ARCHS}"
+        # For some stupid reason cmake needs simulator
+        # builds to be first
+        ARCHS="x86_64 ${ARCHS} arm64"
     fi
 }
 
