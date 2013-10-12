@@ -5,6 +5,11 @@ source "${SCRIPT_DIR}/xcode_functions.sh"
 
 function setup_build_environment ()
 {
+    # augment path to help it find cmake installed in /usr/local/bin,
+    # e.g. via brew. Xcode's Run Script phase doesn't seem to honor
+    # ~/.MacOSX/environment.plist
+    PATH="/usr/local/bin:$PATH"
+    
     pushd "$SCRIPT_DIR/.." > /dev/null
     ROOT_PATH="$PWD"
     popd > /dev/null
