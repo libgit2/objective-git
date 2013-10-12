@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Returns the version # of xcodebuild
 # eg. (4.6.3, 5.0, 5.0.1)

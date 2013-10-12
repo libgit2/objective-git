@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 SCRIPT_DIR=$(dirname "$0")
 source "${SCRIPT_DIR}/xcode_functions.sh"
