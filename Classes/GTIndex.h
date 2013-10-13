@@ -138,9 +138,9 @@
 //
 // error - Optionally set in the event of failure.
 // block - A block to be run on each conflicted entry. Passed in are index
-//         entries which represent the ancestor as well as our and their side
-//         of the conflict. If the block sets `stop` to YES then the iteration
-//         will cease once the current block execution has finished.
+//         entries which represent the common ancestor as well as our and their
+//         side of the conflict. If the block sets `stop` to YES then the
+//         iteration will cease once the current block execution has finished.
 //
 // Returns `YES` in the event of successful enumeration or no conflicts in the
 // index, `NO` in case of error.
