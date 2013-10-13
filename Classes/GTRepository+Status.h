@@ -82,6 +82,7 @@ extern NSString *const GTRepositoryStatusOptionsPathSpecArrayKey;
 //                           between the index and the working directory. If
 //                           `stop` is set to `YES`, the iteration will cease
 //                           after the current step.
+//                           Must not be nil.
 //
 // Returns `NO` in case of a failure or `YES` if the enumeration completed
 // successfully.

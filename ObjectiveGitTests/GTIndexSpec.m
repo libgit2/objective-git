@@ -46,4 +46,42 @@ it(@"can write to the repository and return a tree", ^{
 	expect(tree.repository).to.equal(repository);
 });
 
+describe(@"conflict enumeration", ^{
+	it(@"should correctly find no conflicts", ^{
+		expect(index.hasConflicts).to.beFalsy();
+	});
+	
+	it(@"should immediately return YES when enumerating no conflicts", ^{
+		__block BOOL blockRan = NO;
+		BOOL enumerationResult = [index enumerateConflictedFilesWithError:NULL usingBlock:^(GTIndexEntry *ancestor, GTIndexEntry *ours, GTIndexEntry *theirs, BOOL *stop) {
+			blockRan = YES;
+		}];
+		expect(enumerationResult).to.beTruthy();
+		expect(blockRan).to.beFalsy();
+	});
+	
+	it(@"should correctly report conflicts", ^{
+		index = [self.conflictedFixtureRepository indexWithError:NULL];
+		expect(index).notTo.beNil();
+		expect(index.hasConflicts).to.beTruthy();
+	});
+	
+	it(@"should enumerate conflicts successfully", ^{
+		index = [self.conflictedFixtureRepository indexWithError:NULL];
+		expect(index).notTo.beNil();
+		
+		NSError *err = NULL;
+		__block NSUInteger count = 0;
+		NSArray *expectedPaths = @[ @"TestAppDelegate.h", @"main.m" ];
+		BOOL enumerationResult = [index enumerateConflictedFilesWithError:&err usingBlock:^(GTIndexEntry *ancestor, GTIndexEntry *ours, GTIndexEntry *theirs, BOOL *stop) {
+			expect(ours.path).to.equal(expectedPaths[count]);
+			count ++;
+		}];
+		
+		expect(enumerationResult).to.beTruthy();
+		expect(err).to.beNil();
+		expect(count).to.equal(2);
+	});
+});
+
 SpecEnd

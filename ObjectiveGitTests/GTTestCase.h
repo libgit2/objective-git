@@ -26,4 +26,7 @@
 // A repository which has a submodule.
 - (GTRepository *)submoduleFixtureRepository;
 
+// A repository containing conflicts.
+- (GTRepository *)conflictedFixtureRepository;
+
 @end
