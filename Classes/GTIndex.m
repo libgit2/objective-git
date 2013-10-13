@@ -189,16 +189,16 @@
 	if (!self.hasConflicts) return YES;
 	
 	git_index_conflict_iterator *iterator = NULL;
-	@onExit {
-		if (iterator != NULL) git_index_conflict_iterator_free(iterator);
-	};
-	
 	int returnCode = git_index_conflict_iterator_new(&iterator, self.git_index);
 	if (returnCode != GIT_OK) {
 		if (error == NULL) return NO;
 		*error = [NSError git_errorFor:returnCode description:NSLocalizedString(@"Could not create git index iterator.", nil)];
 		return NO;
 	}
+	
+	@onExit {
+		if (iterator != NULL) git_index_conflict_iterator_free(iterator);
+	};
 	
 	while (YES) {
 		const git_index_entry *ancestor = NULL;
