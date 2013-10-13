@@ -33,7 +33,8 @@ function build_ssl ()
 
     LOG="/tmp/openssl-${ARCH}.log"
 
-    if [ "${ARCH}" == "arm64" ] || [ "${ARCH}" == "x86_64" ]; then
+    if [ "${ARCH}" == "arm64" ] || [ "${ARCH}" == "x86_64" ]
+    then
         HOST="BSD-generic64"
         CONFIG="no-gost no-asm enable-ec_nistp_64_gcc_128"
     else
