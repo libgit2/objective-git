@@ -14,7 +14,7 @@ function setup_build_environment ()
     ROOT_PATH="$PWD"
     popd > /dev/null
 
-    CLANG="$(/usr/bin/xcrun clang --find)"
+    CLANG="/usr/bin/xcrun clang"
     CC="${CLANG}"
     CPP="${CLANG} -E"
 
