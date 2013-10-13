@@ -191,8 +191,7 @@
 	git_index_conflict_iterator *iterator = NULL;
 	int returnCode = git_index_conflict_iterator_new(&iterator, self.git_index);
 	if (returnCode != GIT_OK) {
-		if (error == NULL) return NO;
-		*error = [NSError git_errorFor:returnCode description:NSLocalizedString(@"Could not create git index iterator.", nil)];
+		if (error != NULL) *error = [NSError git_errorFor:returnCode description:NSLocalizedString(@"Could not create git index iterator.", nil)];
 		return NO;
 	}
 	
@@ -209,8 +208,7 @@
 		if (returnCode == GIT_ITEROVER) break;
 		
 		if (returnCode != GIT_OK) {
-			if (error == NULL) return NO;
-			*error = [NSError git_errorFor:returnCode description:NSLocalizedString(@"Could not iterate conflict.", nil)];
+			if (error != NULL) *error = [NSError git_errorFor:returnCode description:NSLocalizedString(@"Could not iterate conflict.", nil)];
 			return NO;
 		}
 		
