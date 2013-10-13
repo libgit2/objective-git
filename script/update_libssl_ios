@@ -44,13 +44,13 @@ function build_ssl ()
     fi
     echo "$LOG"
 
-    ./Configure ${HOST} ${CONFIG} --openssldir="/tmp/openssl-${ARCH}" >>"${LOG}" 2>&1
-    perl -i -pe "s|^CC= gcc|CC= ${CLANG} -miphoneos-version-min=${IPHONEOS_DEPLOYMENT_TARGET} -arch ${ARCH} |g" Makefile
-    perl -i -pe "s|^CFLAG= (.*)|CFLAG= -isysroot ${SDKROOT} \$1|g" Makefile
-    make depend >>"${LOG}" 2>&1
-    make >>"${LOG}" 2>&1
+    ./Configure ${HOST} ${CONFIG} --openssldir="/tmp/openssl-${ARCH}" >> "${LOG}" 2>&1
+    perl -i -pe "s|^CC= gcc|CC= ${CLANG} -miphoneos-version-min=${IPHONEOS_DEPLOYMENT_TARGET} -arch ${ARCH} |g" Makefile >> "${LOG}" 2>&1
+    perl -i -pe "s|^CFLAG= (.*)|CFLAG= -isysroot ${SDKROOT} \$1|g" Makefile >> "${LOG}" 2>&1
+    make depend >> "${LOG}" 2>&1
+    make >> "${LOG}" 2>&1
 
-    make install >>"${LOG}" 2>&1
+    make install >> "${LOG}" 2>&1
     popd > /dev/null
     rm -rf "/tmp/openssl"
 
