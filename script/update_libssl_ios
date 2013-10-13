@@ -16,7 +16,7 @@ function setup ()
 
     LIBRARY_NAME="OpenSSL"
 
-    rm -rf "${ROOT_PATH}/External/ios-openssl/include External/ios-openssl/lib"
+    rm -rf "${ROOT_PATH}/External/ios-openssl/include" "External/ios-openssl/lib"
 }
 
 function cleanup () 
