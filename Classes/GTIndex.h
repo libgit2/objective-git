@@ -136,8 +136,6 @@
 // Enumerate through any conflicts in the index, running the provided block each
 // time.
 //
-// Immediately returns `YES` if there are no conflicts in the index.
-//
 // error - Optionally set in the event of failure.
 // block - A block to be run on each conflicted entry. Passed in are index
 //         entries which represent the ancestor as well as our and their side
