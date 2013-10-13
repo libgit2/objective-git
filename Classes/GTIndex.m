@@ -186,6 +186,7 @@
 }
 
 - (BOOL)enumerateConflictedFilesWithError:(NSError **)error usingBlock:(void (^)(GTIndexEntry *ancestor, GTIndexEntry *ours, GTIndexEntry *theirs, BOOL *stop))block {
+	NSParameterAssert(block != nil);
 	if (!self.hasConflicts) return YES;
 	
 	git_index_conflict_iterator *iterator = NULL;
@@ -216,7 +217,7 @@
 		GTIndexEntry *blockOurs = [[GTIndexEntry alloc] initWithGitIndexEntry:ours];
 		GTIndexEntry *blockTheirs = [[GTIndexEntry alloc] initWithGitIndexEntry:theirs];
 		BOOL stop = NO;
-		if (block != nil) block(blockAncestor, blockOurs, blockTheirs, &stop);
+		block(blockAncestor, blockOurs, blockTheirs, &stop);
 		if (stop) break;
 	}
 	

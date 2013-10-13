@@ -141,6 +141,7 @@
 //         entries which represent the common ancestor as well as our and their
 //         side of the conflict. If the block sets `stop` to YES then the
 //         iteration will cease once the current block execution has finished.
+//         Must not be nil.
 //
 // Returns `YES` in the event of successful enumeration or no conflicts in the
 // index, `NO` in case of error.
