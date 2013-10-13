@@ -144,6 +144,6 @@
 //
 // Returns `YES` in the event of successful enumeration or no conflicts in the
 // index, `NO` in case of error.
-- (BOOL)enumerateConflictedFilesWithError:(NSError **)error block:(void (^)(GTIndexEntry *ancestor, GTIndexEntry *ours, GTIndexEntry *theirs, BOOL *stop))block;
+- (BOOL)enumerateConflictedFilesWithError:(NSError **)error usingBlock:(void (^)(GTIndexEntry *ancestor, GTIndexEntry *ours, GTIndexEntry *theirs, BOOL *stop))block;
 
 @end

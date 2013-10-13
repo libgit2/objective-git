@@ -53,7 +53,7 @@ describe(@"conflict enumeration", ^{
 	
 	it(@"should immediately return YES when enumerating no conflicts", ^{
 		__block BOOL blockRan = NO;
-		BOOL enumerationResult = [index enumerateConflictedFilesWithError:NULL block:^(GTIndexEntry *ancestor, GTIndexEntry *ours, GTIndexEntry *theirs, BOOL *stop) {
+		BOOL enumerationResult = [index enumerateConflictedFilesWithError:NULL usingBlock:^(GTIndexEntry *ancestor, GTIndexEntry *ours, GTIndexEntry *theirs, BOOL *stop) {
 			blockRan = YES;
 		}];
 		expect(enumerationResult).to.beTruthy();
@@ -73,7 +73,7 @@ describe(@"conflict enumeration", ^{
 		NSError *err = NULL;
 		__block NSUInteger count = 0;
 		NSArray *expectedPaths = @[ @"TestAppDelegate.h", @"main.m" ];
-		BOOL enumerationResult = [index enumerateConflictedFilesWithError:&err block:^(GTIndexEntry *ancestor, GTIndexEntry *ours, GTIndexEntry *theirs, BOOL *stop) {
+		BOOL enumerationResult = [index enumerateConflictedFilesWithError:&err usingBlock:^(GTIndexEntry *ancestor, GTIndexEntry *ours, GTIndexEntry *theirs, BOOL *stop) {
 			expect(ours.path).to.equal(expectedPaths[count]);
 			count ++;
 		}];

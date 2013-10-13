@@ -185,7 +185,7 @@
 	return (BOOL)git_index_has_conflicts(self.git_index);
 }
 
-- (BOOL)enumerateConflictedFilesWithError:(NSError **)error block:(void (^)(GTIndexEntry *ancestor, GTIndexEntry *ours, GTIndexEntry *theirs, BOOL *stop))block {
+- (BOOL)enumerateConflictedFilesWithError:(NSError **)error usingBlock:(void (^)(GTIndexEntry *ancestor, GTIndexEntry *ours, GTIndexEntry *theirs, BOOL *stop))block {
 	if (!self.hasConflicts) return YES;
 	
 	git_index_conflict_iterator *iterator = NULL;
