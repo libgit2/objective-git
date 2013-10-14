@@ -110,6 +110,10 @@ static NSString * const GTTestCaseErrorDomain = @"com.objectivegit.GTTestCase";
 	return [self fixtureRepositoryNamed:@"repo-with-submodule"];
 }
 
+- (GTRepository *)conflictedFixtureRepository {
+	return [self fixtureRepositoryNamed:@"conflicted-repo"];
+}
+
 #pragma mark Properties
 
 - (NSBundle *)mainTestBundle {

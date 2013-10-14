@@ -48,6 +48,9 @@
 // The GTIndexEntries in the index.
 @property (nonatomic, readonly, copy) NSArray *entries;
 
+// Whether the index contains conflicted files.
+@property (nonatomic, readonly) BOOL hasConflicts;
+
 // Initializes the receiver with the index at the given file URL.
 //
 // fileURL - The file URL for the index on disk. Cannot be nil.
@@ -129,5 +132,19 @@
 //
 // Returns a new GTTree, or nil if an error occurred.
 - (GTTree *)writeTree:(NSError **)error;
+
+// Enumerate through any conflicts in the index, running the provided block each
+// time.
+//
+// error - Optionally set in the event of failure.
+// block - A block to be run on each conflicted entry. Passed in are index
+//         entries which represent the common ancestor as well as our and their
+//         side of the conflict. If the block sets `stop` to YES then the
+//         iteration will cease once the current block execution has finished.
+//         Must not be nil.
+//
+// Returns `YES` in the event of successful enumeration or no conflicts in the
+// index, `NO` in case of error.
+- (BOOL)enumerateConflictedFilesWithError:(NSError **)error usingBlock:(void (^)(GTIndexEntry *ancestor, GTIndexEntry *ours, GTIndexEntry *theirs, BOOL *stop))block;
 
 @end
