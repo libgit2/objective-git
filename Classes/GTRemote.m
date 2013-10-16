@@ -7,16 +7,34 @@
 //
 
 #import "GTRemote.h"
+#import "NSError+Git.h"
 
 @interface GTRemote ()
+
 @property (nonatomic, readonly, assign) git_remote *git_remote;
+
 @end
 
 @implementation GTRemote
 
+#pragma mark Lifecycle
+
+- (id)initWithGitRemote:(git_remote *)remote {
+	NSParameterAssert(remote != NULL);
+
+	self = [super init];
+	if (self == nil) return nil;
+
+	_git_remote = remote;
+
+	return self;
+}
+
 - (void)dealloc {
 	if (_git_remote != NULL) git_remote_free(_git_remote);
 }
+
+#pragma mark NSObject
 
 - (BOOL)isEqual:(GTRemote *)object {
 	if (object == self) return YES;
@@ -29,16 +47,8 @@
 	return self.name.hash ^ self.URLString.hash;
 }
 
-#pragma mark API
+#pragma mark Properties
 
-- (id)initWithGitRemote:(git_remote *)remote {
-	self = [super init];
-	if (self == nil) return nil;
-
-	_git_remote = remote;
-
-	return self;
-}
 
 - (NSString *)name {
 	const char *name = git_remote_name(self.git_remote);
