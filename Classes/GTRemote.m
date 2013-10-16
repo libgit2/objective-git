@@ -64,6 +64,21 @@
 	return @(URLString);
 }
 
+- (NSArray *)fetchRefSpecs {
+	git_strarray refSpecs;
+	int gitError = git_remote_get_fetch_refspecs(&refSpecs, self.git_remote);
+	if (gitError != GIT_OK) return nil;
+
+	NSMutableArray *fetchRefSpecs = [NSMutableArray arrayWithCapacity:refSpecs.count];
+	for (size_t i = 0; i < refSpecs.count; i++) {
+		[fetchRefSpecs addObject:@(refSpecs.strings[i])];
+	}
+	git_strarray_free(&refSpecs);
+
+	return [fetchRefSpecs copy];
+}
+
+#pragma Update the remote
 
 - (BOOL)saveRemote:(NSError **)error {
 	int gitError = git_remote_save(self.git_remote);
@@ -86,6 +101,38 @@
 	if (!success) {
 		if (error != NULL) {
 			*error = [NSError git_errorFor:gitError description:@"Failed to update remote URL string."];
+		}
+		return success;
+	}
+	return [self saveRemote:error];
+}
+
+- (BOOL)addFetchRefSpec:(NSString *)fetchRefSpec error:(NSError **)error {
+	NSParameterAssert(fetchRefSpec != nil);
+
+	if ([self.fetchRefSpecs containsObject:fetchRefSpec]) return YES;
+
+	int gitError = git_remote_add_fetch(self.git_remote, fetchRefSpec.UTF8String);
+
+	BOOL success = (gitError == GIT_OK);
+	if (!success) {
+		if (error != NULL) {
+			*error = [NSError git_errorFor:gitError description:@"Failed to add fetch refspec."];
+		}
+		return success;
+	}
+	return [self saveRemote:error];
+}
+
+- (BOOL)removeFetchRefSpec:(NSString *)fetchRefSpec error:(NSError **)error {
+	NSUInteger index = [self.fetchRefSpecs indexOfObject:fetchRefSpec];
+	if (index == NSNotFound) return YES;
+
+	int gitError = git_remote_remove_refspec(self.git_remote, index);
+	BOOL success = (gitError == GIT_OK);
+	if (!success) {
+		if (error != NULL) {
+			*error = [NSError git_errorFor:gitError description:@"Unable to remove fetch refspec."];
 		}
 		return success;
 	}

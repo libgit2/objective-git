@@ -21,8 +21,16 @@
 // The push and fetch URL for this remote.
 @property (nonatomic, readonly, copy) NSString *URLString;
 
+// The fetch refspecs for this remote.
+@property (nonatomic, readonly, copy) NSArray *fetchRefSpecs;
 
 // Updates the URL String for this remote
 - (BOOL)updateURLString:(NSString *)URLString error:(NSError **)error;
+
+// Adds a fetch refspec to this remote, if it doesn't already exist?
+- (BOOL)addFetchRefSpec:(NSString *)fetchRefSpec error:(NSError **)error;
+
+// Removes the first fetchRefSpec that matches.
+- (BOOL)removeFetchRefSpec:(NSString *)fetchRefSpec error:(NSError **)error;
 
 @end
