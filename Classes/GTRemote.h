@@ -6,6 +6,8 @@
 //  Copyright (c) 2012 GitHub, Inc. All rights reserved.
 //
 
+#import "git2.h"
+
 // A class representing a remote for a git repository.
 //
 // Analagous to `git_remote` in libgit2.
