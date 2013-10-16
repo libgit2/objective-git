@@ -18,4 +18,8 @@
 // The underlying `git_remote` object.
 - (git_remote *)git_remote __attribute__((objc_returns_inner_pointer));
 
+
+// Updates the URL String for this remote
+- (BOOL)updateURLString:(NSString *)URLString error:(NSError **)error;
+
 @end

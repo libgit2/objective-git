@@ -54,4 +54,32 @@
 	return @(URLString);
 }
 
+
+- (BOOL)saveRemote:(NSError **)error {
+	int gitError = git_remote_save(self.git_remote);
+
+	BOOL success = (gitError == GIT_OK);
+	if (!success) {
+		if (error != NULL) {
+			*error = [NSError git_errorFor:gitError description:@"Failed to save remote configuration."];
+		}
+	}
+	return success;
+}
+
+- (BOOL)updateURLString:(NSString *)URLString error:(NSError **)error {
+	if ([self.URLString isEqualToString:URLString]) return YES;
+
+	int gitError = git_remote_set_url(self.git_remote, (URLString == nil ? "" : URLString.UTF8String));
+
+	BOOL success = (gitError == GIT_OK);
+	if (!success) {
+		if (error != NULL) {
+			*error = [NSError git_errorFor:gitError description:@"Failed to update remote URL string."];
+		}
+		return success;
+	}
+	return [self saveRemote:error];
+}
+
 @end
