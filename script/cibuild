@@ -1,6 +1,8 @@
 #!/bin/bash
 
 SCRIPT_DIR=$(dirname "$0")
+source "${SCRIPT_DIR}/xcode_functions.sh"
+
 cd "$SCRIPT_DIR/.."
 
 ##
@@ -34,7 +36,15 @@ BOOTSTRAP="$SCRIPT_DIR/bootstrap"
 DEFAULT_TARGETS="ObjectiveGit ObjectiveGit-iOS"
 
 # Extra build settings to pass to xcodebuild.
-XCODEBUILD_SETTINGS="TEST_AFTER_BUILD=YES"
+XCODEBUILD_SETTINGS=""
+
+if [ "$(xcode_major_version)" -ge "5" ]
+then
+    BUILD_COMMAND="build test -skipUnavailableActions"
+else
+    BUILD_COMMAND="build"
+    XCODEBUILD_SETTINGS="${XCODE_BUILD_SETTINGS} TEST_AFTER_BUILD=YES"
+fi
 
 ##
 ## Build Process
@@ -75,9 +85,9 @@ run_xcodebuild ()
 
     if [ -n "$XCWORKSPACE" ]
     then
-        xcodebuild -workspace "$XCWORKSPACE" -scheme "$scheme" -configuration "$XCCONFIGURATION" build OBJROOT="$PWD/build" SYMROOT="$PWD/build" $XCODEBUILD_SETTINGS
+        xcodebuild -workspace "$XCWORKSPACE" -scheme "$scheme" -configuration "$XCCONFIGURATION" $BUILD_COMMAND OBJROOT="$PWD/build" SYMROOT="$PWD/build" $XCODEBUILD_SETTINGS
     else
-        xcodebuild -scheme "$scheme" -configuration "$XCCONFIGURATION" build OBJROOT="$PWD/build" SYMROOT="$PWD/build" $XCODEBUILD_SETTINGS
+        xcodebuild -scheme "$scheme" -configuration "$XCCONFIGURATION" $BUILD_COMMAND OBJROOT="$PWD/build" SYMROOT="$PWD/build" $XCODEBUILD_SETTINGS
     fi
 
     local status=$?

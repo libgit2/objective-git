@@ -10,6 +10,7 @@ objective-git.bridgesupport
 ObjectiveGitFramework/build/*
 ObjectiveGit-iOS.framework/*
 External/libgit2*.a
+External/libgit2-ios
 
 *.pbxuser
 *.perspective

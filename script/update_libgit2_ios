@@ -1,91 +1,77 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
 
-# augment path to help it find cmake installed in /usr/local/bin,
-# e.g. via brew. Xcode's Run Script phase doesn't seem to honor
-# ~/.MacOSX/environemnt.plist
-PATH="/usr/local/bin:$PATH"
+# source the common build functions
+SCRIPT_DIR=$(dirname "$0")
+source "${SCRIPT_DIR}/ios_build_functions.sh"
 
-if [ "External/libgit2-ios.a" -nt "External/libgit2" ]
-then
-    echo "No update needed."
-    exit 0
-fi
+function setup ()
+{
+    if [ "${ROOT_PATH}/External/libgit2-ios.a" -nt "${ROOT_PATH}/External/libgit2" ]
+    then
+        echo "No update needed."
+        exit 0
+    fi
 
-ios_version="6.1";
+    LIBRARY_NAME="libgit2"
+    LIB_PATH="${ROOT_PATH}/External/libgit2-ios"
+    rm -rf "${LIB_PATH}"
 
-cd "External/libgit2"
+    pushd "${ROOT_PATH}/External/libgit2" > /dev/null
+}
 
-# armv7 build
-
-if [ -d "build" ]; then
+function build_libgit2 ()
+{
     rm -rf "build"
-fi
+    mkdir "build"
 
-mkdir build
-cd build
+    pushd "build" > /dev/null
 
-cmake -DCMAKE_C_COMPILER_WORKS:BOOL=ON \
-      -DBUILD_SHARED_LIBS:BOOL=OFF \
-      -DCMAKE_C_COMPILER=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/llvm-gcc-4.2/bin/llvm-gcc-4.2 \
-      -DOPENSSL_SSL_LIBRARY:FILEPATH=../../External/ios-openssl/lib/libssl.a \
-      -DOPENSSL_CRYPTO_LIBRARY:FILEPATH=../../External/ios-openssl/lib/libcrypto.a \
-      -DOPENSSL_INCLUDE_DIR:PATH=../../External/ios-openssl/include/ \
-      -DCMAKE_LIBRARY_PATH:PATH=../../External/libssh2-ios/lib/ \
-      -DCMAKE_INCLUDE_PATH:PATH=../../External/libssh2-ios/include/libssh2/ \
-      -DCMAKE_OSX_DEPLOYMENT_TARGET:STRING= \
-      -DCMAKE_OSX_ARCHITECTURES:STRING="armv7;armv7s" \
-      -DBUILD_CLAR:BOOL=OFF \
-      -DCMAKE_OSX_SYSROOT=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS${ios_version}.sdk/ \
-      ..
-cmake --build .
+    # LOL Cmake
+    if [ "${ARCH}" != "i386" ] && [ "${ARCH}" != "x86_64" ]
+    then
+        SYS_ROOT="-DCMAKE_OSX_SYSROOT=${SDKROOT}"
+    fi
 
-product="libgit2.a"
-install_path="../../libgit2-ios-armv7.a"
-if [ "${product}" -nt "${install_path}" ]; then
-    cp -v "${product}" "${install_path}"
-fi
+    # install the each built arch somewhere sane
+    INSTALL_PREFIX="${LIB_PATH}/${SDKNAME}-${ARCH}.sdk"
 
-cd ../
+    mkdir -p "${INSTALL_PREFIX}"
 
-# i386 build
+    LOG="${INSTALL_PREFIX}/build-libgit2.log"
+    echo "$LOG"
 
-if [ -d "build" ]; then
-    rm -rf "build"
-fi
+    cmake -DCMAKE_C_COMPILER=clang \
+        -DCMAKE_C_COMPILER_WORKS:BOOL=ON \
+        -DBUILD_SHARED_LIBS:BOOL=OFF \
+        -DOPENSSL_INCLUDE_DIR:PATH=../../External/ios-openssl/include/ \
+        -DCMAKE_LIBRARY_PATH:PATH=../../External/libssh2-ios/lib/ \
+        -DCMAKE_INCLUDE_PATH:PATH=../../External/libssh2-ios/include/libssh2/ \
+        -DOPENSSL_SSL_LIBRARY:FILEPATH=../../External/ios-openssl/lib/libssl.a \
+        -DCMAKE_LIBRARY_PATH:PATH="${SDKROOT}/usr/lib/" \
+        -DOPENSSL_CRYPTO_LIBRARY:FILEPATH=../../External/ios-openssl/lib/libcrypto.a \
+        -DCMAKE_INSTALL_PREFIX:PATH="${INSTALL_PREFIX}/" \
+        -DBUILD_CLAR:BOOL=OFF \
+        "${SYS_ROOT}" \
+        -DCMAKE_OSX_ARCHITECTURES:STRING="${ARCH}" \
+        .. >> "${LOG}" 2>&1
+    cmake --build . --target install >> "${LOG}" 2>&1
 
-mkdir build
-cd build
+    # push the built library into the list
+    BUILT_LIB_PATHS+=("${INSTALL_PREFIX}/lib/libgit2.a")
+    popd > /dev/null
+}
 
-cmake -DCMAKE_C_COMPILER_WORKS:BOOL=ON \
-      -DBUILD_SHARED_LIBS:BOOL=OFF \
-      -DCMAKE_C_COMPILER=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/llvm-gcc-4.2/bin/llvm-gcc-4.2 \
-      -DOPENSSL_SSL_LIBRARY:FILEPATH=../../External/ios-openssl/lib/libssl.a \
-      -DOPENSSL_CRYPTO_LIBRARY:FILEPATH=../../External/ios-openssl/lib/libcrypto.a \
-      -DOPENSSL_INCLUDE_DIR:PATH=../../External/ios-openssl/include/ \
-      -DCMAKE_LIBRARY_PATH:PATH=../../External/libssh2-ios/lib/ \
-      -DCMAKE_INCLUDE_PATH:PATH=../../External/libssh2-ios/include/libssh2/ \
-      -DCMAKE_OSX_DEPLOYMENT_TARGET:STRING= \
-      -DCMAKE_OSX_ARCHITECTURES:STRING=i386 \
-      -DBUILD_CLAR:BOOL=OFF \
-      -DCMAKE_OSX_SYSROOT=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator${ios_version}.sdk/ \
-      ..
-cmake --build .
+function fat_binary ()
+{
+    echo "Building fat binary..."
 
-product="libgit2.a"
-install_path="../../libgit2-ios-i386.a"
-if [ "${product}" -nt "${install_path}" ]; then
-    cp -v "${product}" "${install_path}"
-fi
+    lipo -create "${BUILT_LIB_PATHS[@]}" -output "${ROOT_PATH}/External/libgit2-ios.a"
 
-cd ../../
+    echo "Building done."
 
-# link static libraries
-libtool -static libgit2-ios-armv7.a libgit2-ios-i386.a -o libgit2-ios.a
+    popd > /dev/null
+}
 
-# cleanup
-rm libgit2-ios-armv7.a
-rm libgit2-ios-i386.a
-
-echo "libgit2-ios has been updated."
+build_all_archs setup build_libgit2 fat_binary
