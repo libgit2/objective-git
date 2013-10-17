@@ -7,7 +7,9 @@
 //
 
 #import "GTRemote.h"
+
 #import "NSError+Git.h"
+#import "EXTScope.h"
 
 @interface GTRemote ()
 
@@ -68,13 +70,15 @@
 	int gitError = git_remote_get_fetch_refspecs(&refSpecs, self.git_remote);
 	if (gitError != GIT_OK) return nil;
 
+	@onExit {
+		git_strarray_free((git_strarray *)&refSpecs);
+	};
+
 	NSMutableArray *fetchRefSpecs = [NSMutableArray arrayWithCapacity:refSpecs.count];
 	for (size_t i = 0; i < refSpecs.count; i++) {
 		if (refSpecs.strings[i] == NULL) continue;
 		[fetchRefSpecs addObject:@(refSpecs.strings[i])];
 	}
-	git_strarray_free(&refSpecs);
-
 	return [fetchRefSpecs copy];
 }
 
