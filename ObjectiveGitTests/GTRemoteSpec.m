@@ -32,14 +32,10 @@ beforeEach(^{
 describe(@"properties", ^{
 	it(@"should have values", ^{
 		expect(remote.git_remote).toNot.beNil();
-
 		expect(remote.name).to.equal(@"origin");
-
 		expect(remote.URLString).to.equal(@"git@github.com:github/Test_App.git");
 
-		expect(remote.fetchRefSpecs.count).to.equal(1);
-
-		expect(remote.fetchRefSpecs[0]).to.equal(@"+refs/heads/*:refs/remotes/origin/*");
+		expect(remote.fetchRefSpecs).to.equal(@[ fetchRefSpec ]);
 	});
 });
 
