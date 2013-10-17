@@ -49,7 +49,6 @@
 
 #pragma mark Properties
 
-
 - (NSString *)name {
 	const char *name = git_remote_name(self.git_remote);
 	if (name == NULL) return nil;
