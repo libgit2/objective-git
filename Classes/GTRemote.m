@@ -97,9 +97,11 @@
 }
 
 - (BOOL)updateURLString:(NSString *)URLString error:(NSError **)error {
+	NSParameterAssert(URLString != nil);
+
 	if ([self.URLString isEqualToString:URLString]) return YES;
 
-	int gitError = git_remote_set_url(self.git_remote, (URLString == nil ? "" : URLString.UTF8String));
+	int gitError = git_remote_set_url(self.git_remote, URLString.UTF8String);
 
 	BOOL success = (gitError == GIT_OK);
 	if (success) return [self saveRemote:error];
@@ -127,6 +129,8 @@
 }
 
 - (BOOL)removeFetchRefSpec:(NSString *)fetchRefSpec error:(NSError **)error {
+	NSParameterAssert(fetchRefSpec != nil);
+
 	NSUInteger index = [self.fetchRefSpecs indexOfObject:fetchRefSpec];
 	if (index == NSNotFound) return YES;
 
