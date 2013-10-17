@@ -70,6 +70,7 @@
 
 	NSMutableArray *fetchRefSpecs = [NSMutableArray arrayWithCapacity:refSpecs.count];
 	for (size_t i = 0; i < refSpecs.count; i++) {
+		if (refSpecs.strings[i] == NULL) continue;
 		[fetchRefSpecs addObject:@(refSpecs.strings[i])];
 	}
 	git_strarray_free(&refSpecs);
