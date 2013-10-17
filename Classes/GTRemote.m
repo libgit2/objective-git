@@ -88,12 +88,12 @@
 	int gitError = git_remote_save(self.git_remote);
 
 	BOOL success = (gitError == GIT_OK);
-	if (!success) {
-		if (error != NULL) {
-			*error = [NSError git_errorFor:gitError description:@"Failed to save remote configuration."];
-		}
+	if (success) return success;
+
+	if (error != NULL) {
+		*error = [NSError git_errorFor:gitError description:@"Failed to save remote configuration."];
 	}
-	return success;
+	return NO;
 }
 
 - (BOOL)updateURLString:(NSString *)URLString error:(NSError **)error {
@@ -102,13 +102,12 @@
 	int gitError = git_remote_set_url(self.git_remote, (URLString == nil ? "" : URLString.UTF8String));
 
 	BOOL success = (gitError == GIT_OK);
-	if (!success) {
-		if (error != NULL) {
-			*error = [NSError git_errorFor:gitError description:@"Failed to update remote URL string."];
-		}
-		return success;
+	if (success) return [self saveRemote:error];
+
+	if (error != NULL) {
+		*error = [NSError git_errorFor:gitError description:@"Failed to update remote URL string."];
 	}
-	return [self saveRemote:error];
+	return NO;
 }
 
 - (BOOL)addFetchRefSpec:(NSString *)fetchRefSpec error:(NSError **)error {
@@ -119,13 +118,12 @@
 	int gitError = git_remote_add_fetch(self.git_remote, fetchRefSpec.UTF8String);
 
 	BOOL success = (gitError == GIT_OK);
-	if (!success) {
-		if (error != NULL) {
-			*error = [NSError git_errorFor:gitError description:@"Failed to add fetch refspec."];
-		}
-		return success;
+	if (success) return [self saveRemote:error];
+
+	if (error != NULL) {
+		*error = [NSError git_errorFor:gitError description:@"Failed to add fetch refspec."];
 	}
-	return [self saveRemote:error];
+	return NO;
 }
 
 - (BOOL)removeFetchRefSpec:(NSString *)fetchRefSpec error:(NSError **)error {
@@ -134,13 +132,12 @@
 
 	int gitError = git_remote_remove_refspec(self.git_remote, index);
 	BOOL success = (gitError == GIT_OK);
-	if (!success) {
-		if (error != NULL) {
-			*error = [NSError git_errorFor:gitError description:@"Unable to remove fetch refspec."];
-		}
-		return success;
+	if (success) return [self saveRemote:error];
+
+	if (error != NULL) {
+		*error = [NSError git_errorFor:gitError description:@"Unable to remove fetch refspec."];
 	}
-	return [self saveRemote:error];
+	return NO;
 }
 
 @end
