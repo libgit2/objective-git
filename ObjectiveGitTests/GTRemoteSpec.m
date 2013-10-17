@@ -12,11 +12,9 @@ SpecBegin(GTRemote)
 
 __block GTRemote *remote = nil;
 __block GTRepository *repository = nil;
-__block NSString *fetchRefSpec = nil;
+NSString *fetchRefSpec = @"+refs/heads/*:refs/remotes/origin/*";
 
 beforeEach(^{
-	fetchRefSpec = @"+refs/heads/*:refs/remotes/origin/*";
-
 	repository = self.testAppFixtureRepository;
 	expect(repository).notTo.beNil();
 
