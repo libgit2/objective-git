@@ -82,7 +82,7 @@
 	return [fetchRefspecs copy];
 }
 
-#pragma Update the remote
+#pragma mark Update the remote
 
 - (BOOL)saveRemote:(NSError **)error {
 	int gitError = git_remote_save(self.git_remote);
