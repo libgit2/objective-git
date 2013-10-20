@@ -70,7 +70,6 @@ describe(@"updating", ^{
 
 		expect(remote.fetchRefspecs[0]).to.equal(newFetchRefspec);
 	});
-
 });
 
 SpecEnd
