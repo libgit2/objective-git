@@ -26,7 +26,7 @@ beforeEach(^{
 	expect(configuration.remotes.count).to.beGreaterThanOrEqualTo(1);
 
 	remote = configuration.remotes[0];
-	expect(remote).toNot.beNil();
+	expect(remote.name).to.equal(@"origin");
 });
 
 describe(@"properties", ^{
@@ -53,8 +53,7 @@ describe(@"updating", ^{
 	});
 
 	it(@"fetch refspecs", ^{
-		expect(remote.fetchRefspecs.count).to.equal(1);
-		expect(remote.fetchRefspecs[0]).to.equal(fetchRefSpec);
+		expect(remote.fetchRefspecs).to.equal(@[ fetchRefspec ]);
 
 		__block NSError *error = nil;
 		expect([remote removeFetchRefspec:fetchRefspec error:&error]).to.beTruthy();
@@ -66,9 +65,7 @@ describe(@"updating", ^{
 		expect([remote addFetchRefspec:newFetchRefspec error:&error]).to.beTruthy();
 		expect(error).to.beNil();
 
-		expect(remote.fetchRefspecs.count).to.equal(1);
-
-		expect(remote.fetchRefspecs[0]).to.equal(newFetchRefspec);
+		expect(remote.fetchRefspecs).to.equal(@[ newFetchRefspec ]);
 	});
 });
 
