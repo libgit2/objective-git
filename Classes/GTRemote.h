@@ -28,9 +28,9 @@
 @property (nonatomic, readonly, copy) NSString *URLString;
 
 // The fetch refspecs for this remote.
-// Example fetch refspec: @"+refs/heads/*:refs/remotes/%@/*".
 //
-// Returns an NSArray of NSString.
+// This array will contain NSStrings of the form
+// `+refs/heads/*:refs/remotes/REMOTE/*`.
 @property (nonatomic, readonly, copy) NSArray *fetchRefSpecs;
 
 // Updates the URL string for this remote.
