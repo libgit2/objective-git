@@ -39,7 +39,7 @@
 // error     - If not NULL, this will be set to any error that occurs when
 //             updating the URLString or saving the remote.
 //
-// Returns YES if the URLString was succesfully updated, NO and an error
+// Returns YES if the URLString was successfully updated, NO and an error
 // if updating or saving the remote failed.
 - (BOOL)updateURLString:(NSString *)URLString error:(NSError **)error;
 
@@ -49,7 +49,7 @@
 // error        - If not NULL, this will be set to any error that occurs
 //                when adding the refspec or saving the remote.
 //
-// Returns YES if there is the refspec is successflly added
+// Returns YES if there is the refspec is successfully added
 // or a matching refspec is already present, NO and an error if
 // adding the refspec or saving the remote failed.
 - (BOOL)addFetchRefspec:(NSString *)fetchRefspec error:(NSError **)error;
