@@ -12,7 +12,7 @@ SpecBegin(GTRemote)
 
 __block GTRemote *remote = nil;
 __block GTRepository *repository = nil;
-NSString *fetchRefSpec = @"+refs/heads/*:refs/remotes/origin/*";
+NSString *fetchRefspec = @"+refs/heads/*:refs/remotes/origin/*";
 
 beforeEach(^{
 	repository = self.testAppFixtureRepository;
@@ -35,7 +35,7 @@ describe(@"properties", ^{
 		expect(remote.name).to.equal(@"origin");
 		expect(remote.URLString).to.equal(@"git@github.com:github/Test_App.git");
 
-		expect(remote.fetchRefSpecs).to.equal(@[ fetchRefSpec ]);
+		expect(remote.fetchRefspecs).to.equal(@[ fetchRefspec ]);
 	});
 });
 
@@ -53,22 +53,22 @@ describe(@"updating", ^{
 	});
 
 	it(@"fetch refspecs", ^{
-		expect(remote.fetchRefSpecs.count).to.equal(1);
-		expect(remote.fetchRefSpecs[0]).to.equal(fetchRefSpec);
+		expect(remote.fetchRefspecs.count).to.equal(1);
+		expect(remote.fetchRefspecs[0]).to.equal(fetchRefSpec);
 
 		__block NSError *error = nil;
-		expect([remote removeFetchRefSpec:fetchRefSpec error:&error]).to.beTruthy();
+		expect([remote removeFetchRefspec:fetchRefspec error:&error]).to.beTruthy();
 		expect(error).to.beNil();
 
-		expect(remote.fetchRefSpecs.count).to.equal(0);
+		expect(remote.fetchRefspecs.count).to.equal(0);
 
-		NSString *newFetchRefSpec = @"+refs/heads/master:refs/remotes/origin/master";
-		expect([remote addFetchRefSpec:newFetchRefSpec error:&error]).to.beTruthy();
+		NSString *newFetchRefspec = @"+refs/heads/master:refs/remotes/origin/master";
+		expect([remote addFetchRefspec:newFetchRefspec error:&error]).to.beTruthy();
 		expect(error).to.beNil();
 
-		expect(remote.fetchRefSpecs.count).to.equal(1);
+		expect(remote.fetchRefspecs.count).to.equal(1);
 
-		expect(remote.fetchRefSpecs[0]).to.equal(newFetchRefSpec);
+		expect(remote.fetchRefspecs[0]).to.equal(newFetchRefspec);
 	});
 
 });

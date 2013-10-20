@@ -65,21 +65,21 @@
 	return @(URLString);
 }
 
-- (NSArray *)fetchRefSpecs {
-	git_strarray refSpecs;
-	int gitError = git_remote_get_fetch_refspecs(&refSpecs, self.git_remote);
+- (NSArray *)fetchRefspecs {
+	git_strarray refspecs;
+	int gitError = git_remote_get_fetch_refspecs(&refspecs, self.git_remote);
 	if (gitError != GIT_OK) return nil;
 
 	@onExit {
-		git_strarray_free((git_strarray *)&refSpecs);
+		git_strarray_free((git_strarray *)&refspecs);
 	};
 
-	NSMutableArray *fetchRefSpecs = [NSMutableArray arrayWithCapacity:refSpecs.count];
-	for (size_t i = 0; i < refSpecs.count; i++) {
-		if (refSpecs.strings[i] == NULL) continue;
-		[fetchRefSpecs addObject:@(refSpecs.strings[i])];
+	NSMutableArray *fetchRefspecs = [NSMutableArray arrayWithCapacity:refspecs.count];
+	for (size_t i = 0; i < refspecs.count; i++) {
+		if (refspecs.strings[i] == NULL) continue;
+		[fetchRefspecs addObject:@(refspecs.strings[i])];
 	}
-	return [fetchRefSpecs copy];
+	return [fetchRefspecs copy];
 }
 
 #pragma Update the remote
@@ -112,12 +112,12 @@
 	return NO;
 }
 
-- (BOOL)addFetchRefSpec:(NSString *)fetchRefSpec error:(NSError **)error {
-	NSParameterAssert(fetchRefSpec != nil);
+- (BOOL)addFetchRefspec:(NSString *)fetchRefspec error:(NSError **)error {
+	NSParameterAssert(fetchRefspec != nil);
 
-	if ([self.fetchRefSpecs containsObject:fetchRefSpec]) return YES;
+	if ([self.fetchRefspecs containsObject:fetchRefspec]) return YES;
 
-	int gitError = git_remote_add_fetch(self.git_remote, fetchRefSpec.UTF8String);
+	int gitError = git_remote_add_fetch(self.git_remote, fetchRefspec.UTF8String);
 
 	BOOL success = (gitError == GIT_OK);
 	if (success) return [self saveRemote:error];
@@ -128,10 +128,10 @@
 	return NO;
 }
 
-- (BOOL)removeFetchRefSpec:(NSString *)fetchRefSpec error:(NSError **)error {
-	NSParameterAssert(fetchRefSpec != nil);
+- (BOOL)removeFetchRefspec:(NSString *)fetchRefspec error:(NSError **)error {
+	NSParameterAssert(fetchRefspec != nil);
 
-	NSUInteger index = [self.fetchRefSpecs indexOfObject:fetchRefSpec];
+	NSUInteger index = [self.fetchRefspecs indexOfObject:fetchRefspec];
 	if (index == NSNotFound) return YES;
 
 	int gitError = git_remote_remove_refspec(self.git_remote, index);

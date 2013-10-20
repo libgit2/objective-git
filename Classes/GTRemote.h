@@ -31,7 +31,7 @@
 //
 // This array will contain NSStrings of the form
 // `+refs/heads/*:refs/remotes/REMOTE/*`.
-@property (nonatomic, readonly, copy) NSArray *fetchRefSpecs;
+@property (nonatomic, readonly, copy) NSArray *fetchRefspecs;
 
 // Updates the URL string for this remote.
 //
@@ -45,24 +45,24 @@
 
 // Adds a fetch refspec to this remote.
 //
-// fetchRefSpec - The fetch refSpec string to add. May not be nil.
+// fetchRefspec - The fetch refspec string to add. May not be nil.
 // error        - If not NULL, this will be set to any error that occurs
-//                when adding the refSpec or saving the remote.
+//                when adding the refspec or saving the remote.
 //
 // Returns YES if there is the refspec is successflly added
 // or a matching refspec is already present, NO and an error if
 // adding the refspec or saving the remote failed.
-- (BOOL)addFetchRefSpec:(NSString *)fetchRefSpec error:(NSError **)error;
+- (BOOL)addFetchRefspec:(NSString *)fetchRefspec error:(NSError **)error;
 
-// Removes the first fetchRefSpec that matches.
+// Removes the first fetchRefspec that matches.
 //
-// fetchRefSpec - The fetch refSpec string to remove. May not be nil.
+// fetchRefspec - The fetch refspec string to remove. May not be nil.
 // error        - If not NULL, this will be set to any error that occurs
-//                when removing the refSpec or saving the remote.
+//                when removing the refspec or saving the remote.
 //
 // Returns YES if the matching refspec is found and removed, or if no matching
 // refspec was found. NO and error is returned if a matching refspec was found
 // but could not be removed, or saving the remote failed.
-- (BOOL)removeFetchRefSpec:(NSString *)fetchRefSpec error:(NSError **)error;
+- (BOOL)removeFetchRefspec:(NSString *)fetchRefspec error:(NSError **)error;
 
 @end
