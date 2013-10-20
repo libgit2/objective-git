@@ -66,12 +66,12 @@
 }
 
 - (NSArray *)fetchRefspecs {
-	git_strarray refspecs;
+	__block git_strarray refspecs;
 	int gitError = git_remote_get_fetch_refspecs(&refspecs, self.git_remote);
 	if (gitError != GIT_OK) return nil;
 
 	@onExit {
-		git_strarray_free((git_strarray *)&refspecs);
+		git_strarray_free(&refspecs);
 	};
 
 	NSMutableArray *fetchRefspecs = [NSMutableArray arrayWithCapacity:refspecs.count];
