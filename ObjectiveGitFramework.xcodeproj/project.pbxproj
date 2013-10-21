@@ -338,6 +338,7 @@
 		F6CBB49D17FFD50500404926 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 188DC01817FC1571007350CD /* libz.dylib */; };
 		F6CBB49E17FFD50500404926 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A1F2FD317C6A8F3003DFADE /* libcrypto.a */; };
 		F6CBB49F17FFD50500404926 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A1F2FD417C6A8F3003DFADE /* libssl.a */; };
+		F6ED8DA1180E713200A32D40 /* GTRemoteSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = F6ED8DA0180E713200A32D40 /* GTRemoteSpec.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -644,6 +645,7 @@
 		E46931A7172740D300F2077D /* update_libgit2 */ = {isa = PBXFileReference; lastKnownFileType = text; name = update_libgit2; path = script/update_libgit2; sourceTree = "<group>"; };
 		E46931A8172740D300F2077D /* update_libgit2_ios */ = {isa = PBXFileReference; lastKnownFileType = text; name = update_libgit2_ios; path = script/update_libgit2_ios; sourceTree = "<group>"; };
 		F6CBB4A417FFD50500404926 /* libObjectiveGit-iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libObjectiveGit-iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F6ED8DA0180E713200A32D40 /* GTRemoteSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTRemoteSpec.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -826,6 +828,7 @@
 				88F05AA916011FFD00B7AD1D /* GTReferenceTest.m */,
 				88215482171499BE00D76B76 /* GTReflogSpec.m */,
 				D0AC906B172F941F00347DC4 /* GTRepositorySpec.m */,
+				F6ED8DA0180E713200A32D40 /* GTRemoteSpec.m */,
 				4D12323F178E009E0048F785 /* GTRepositoryCommittingSpec.m */,
 				88F05AAB16011FFD00B7AD1D /* GTRepositoryTest.m */,
 				D03B7C401756AB370034A610 /* GTSubmoduleSpec.m */,
@@ -1544,6 +1547,7 @@
 				D03B7C411756AB370034A610 /* GTSubmoduleSpec.m in Sources */,
 				D00F6816175D373C004DB9D6 /* GTReferenceSpec.m in Sources */,
 				D040AF70177B9779001AD9EB /* GTOIDSpec.m in Sources */,
+				F6ED8DA1180E713200A32D40 /* GTRemoteSpec.m in Sources */,
 				D040AF78177B9A9E001AD9EB /* GTSignatureSpec.m in Sources */,
 				4D123240178E009E0048F785 /* GTRepositoryCommittingSpec.m in Sources */,
 			);
