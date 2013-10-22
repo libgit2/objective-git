@@ -446,7 +446,7 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 }
 
 - (BOOL)isBare {
-	return self.git_repository && git_repository_is_bare(self.git_repository);
+	return (BOOL)git_repository_is_bare(self.git_repository);
 }
 
 - (BOOL)isHEADDetached {
