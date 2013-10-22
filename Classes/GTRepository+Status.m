@@ -92,4 +92,31 @@ NSString *const GTRepositoryStatusOptionsPathSpecArrayKey = @"GTRepositoryStatus
 	return clean;
 }
 
+- (GTFileStatusFlags)statusForFile:(NSURL *)fileURL error:(NSError **)error {
+	NSParameterAssert(fileURL != nil);
+
+	GTFileStatusFlags flags = GTFileStatusCurrent;
+
+	int gitError = git_status_file(&flags, self.git_repository, fileURL.path.fileSystemRepresentation);
+	if (gitError != GIT_OK) {
+		if (error) *error = [NSError git_errorFor:gitError description:@"Status failed" failureReason:@"Failed to get status for file \"%@\" in \"%@\"", fileURL.path, self.gitDirectoryURL];
+		return 0; /* FIXME: What ? */
+	}
+
+	return flags;
+}
+
+- (BOOL)shouldIgnoreFile:(NSURL *)fileURL error:(NSError **)error {
+	NSParameterAssert(fileURL != nil);
+	int ignoreState = 0;
+
+	int gitError = git_status_should_ignore(&ignoreState, self.git_repository, fileURL.path.fileSystemRepresentation);
+	if (gitError != GIT_OK) {
+		if (error) *error = [NSError git_errorFor:gitError description:@"Ignore failed" failureReason:@"Failed to get ignore status for file \"%@\" in \"%@\"", fileURL.path, self.gitDirectoryURL];
+		return 0; /* FIXME: What again ? */
+	}
+
+	return (ignoreState == 0 ? YES : NO);
+}
+
 @end
