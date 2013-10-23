@@ -305,7 +305,8 @@ int transfer_progress_cb(const git_transfer_progress *stats, void *payload) {
 	return stop ? -1 : 0;
 }
 
-- (BOOL)fetchWithError:(NSError **)error credentialProvider:(GTCredentialProvider *)credProvider progress:(GTRemoteTransferProgressBlock)progressBlock {
+
+- (BOOL)fetchWithCredentialProvider:(GTCredentialProvider *)credProvider error:(NSError **)error progress:(GTRemoteTransferProgressBlock)progressBlock {
 	@synchronized (self) {
 		GTRemoteFetchInfo payload = {
 			.myself = self,

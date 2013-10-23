@@ -131,11 +131,11 @@ typedef enum {
 
 // Fetch the remote.
 //
+// credProvider  - The credential provider to use if the remote requires authentification.
 // error         - Will be set if an error occurs.
-// credBlock     - A block that will be called if the remote requires authentification.
 // progressBlock - A block that will be called during the operation to report its progression.
 //
 // Returns YES if successful, NO otherwise.
-- (BOOL)fetchWithError:(NSError **)error credentialProvider:(GTCredentialProvider *)credProvider progress:(void (^)(const git_transfer_progress *stats, BOOL *stop))progressBlock;
+- (BOOL)fetchWithCredentialProvider:(GTCredentialProvider *)credProvider error:(NSError **)error progress:(void (^)(const git_transfer_progress *stats, BOOL *stop))progressBlock;
 
 @end
