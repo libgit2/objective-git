@@ -289,7 +289,7 @@ static int remote_rename_problem_cb(const char *problematic_refspec, void *paylo
 typedef void (^GTRemoteTransferProgressBlock)(const git_transfer_progress *stats, BOOL *stop);
 
 typedef struct {
-	__unsafe_unretained GTRemote *myself;
+	// WARNING: Provider must come first to be layout-compatible with GTCredentialAcquireCallbackInfo
 	__unsafe_unretained GTCredentialProvider *credProvider;
 	__unsafe_unretained GTRemoteTransferProgressBlock progressBlock;
 } GTRemoteFetchInfo;
@@ -307,7 +307,6 @@ int transfer_progress_cb(const git_transfer_progress *stats, void *payload) {
 - (BOOL)fetchWithCredentialProvider:(GTCredentialProvider *)credProvider error:(NSError **)error progress:(GTRemoteTransferProgressBlock)progressBlock {
 	@synchronized (self) {
 		GTRemoteFetchInfo payload = {
-			.myself = self,
 			.credProvider = credProvider,
 			.progressBlock = progressBlock,
 		};
