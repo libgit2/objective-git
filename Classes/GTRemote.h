@@ -60,11 +60,11 @@ typedef enum {
 // `+refs/heads/*:refs/remotes/REMOTE/*`.
 @property (nonatomic, readonly, copy) NSArray *fetchRefspecs;
 
-// Tests if a URL is valid
-+ (BOOL)isValidURL:(NSString *)URL;
-
-// Tests if a URL is supported
+// Tests if a URL is supported (e.g. it's a supported URL scheme)
 + (BOOL)isSupportedURL:(NSString *)URL;
+
+// Tests if a URL is valid (e.g. it actually makes sense as a URL)
++ (BOOL)isValidURL:(NSString *)URL;
 
 // Tests if a name is valid
 + (BOOL)isValidRemoteName:(NSString *)name;
