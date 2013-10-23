@@ -136,7 +136,7 @@ describe(@"fetching", ^{
 			NSError *error = nil;
 			GTRemote *remote = [GTRemote remoteWithName:remoteName inRepository:fetchingRepo error:nil]; // Tested above
 
-			BOOL result = [remote fetchWithError:&error credentialProvider:nil progress:nil];
+			BOOL result = [remote fetchWithCredentialProvider:nil error:&error progress:nil];
 			expect(error).to.beNil();
 			expect(result).to.beTruthy();
 		});
@@ -168,7 +168,7 @@ describe(@"fetching", ^{
 			GTRemote *remote = [GTRemote remoteWithName:remoteName inRepository:fetchingRepo error:nil];
 
 			__block unsigned int receivedObjects = 0;
-			res = [remote fetchWithError:&error credentialProvider:nil progress:^(const git_transfer_progress *stats, BOOL *stop) {
+			res = [remote fetchWithCredentialProvider:nil error:&error progress:^(const git_transfer_progress *stats, BOOL *stop) {
 				receivedObjects += stats->received_objects;
 				NSLog(@"%d", receivedObjects);
 			}];
