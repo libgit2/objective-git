@@ -27,7 +27,7 @@
 //  THE SOFTWARE.
 //
 
-@interface GTRepositoryTest : SenTestCase {
+@interface GTRepositoryTest : GTTestCase {
 
 	GTRepository *repo;
 	NSString *testContent;
@@ -39,9 +39,7 @@
 @implementation GTRepositoryTest
  
 - (void)setUp {
-	
-	NSError *error = nil;
-    repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&error];
+	repo = self.bareFixtureRepository;
 	testContent = @"my test data\n";
 	testContentType = GTObjectTypeBlob;
 }
@@ -65,13 +63,6 @@
 	NSLog(@"error = %@", [error localizedDescription]);
 }
 
-- (void)testCanHashData {
-	
-	NSError *error = nil;
-	NSString *sha = [GTRepository hash:testContent objectType:testContentType error:&error];
-	STAssertEqualObjects(sha, @"76b1b55ab653581d6f2c7230d34098e837197674", nil);
-}
-
 - (void)testLookupHead {
 	
 	NSError *error = nil;
@@ -87,7 +78,7 @@
 
 - (void)testCanReset {
     NSError *err = nil;
-    GTRepository *aRepo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&err];
+    GTRepository *aRepo = self.bareFixtureRepository;
     STAssertNotNil(aRepo, @"Repository failed to initialise");
     GTReference *originalHead = [aRepo headReferenceWithError:NULL];
     NSString *resetTargetSha = @"8496071c1b46c854b31185ea97743be6a8774479";
@@ -141,13 +132,13 @@
 	void (^checkoutProgressBlock)(NSString *, NSUInteger, NSUInteger) = ^(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps) {
 		checkoutProgressCalled = YES;
 	};
-	NSURL *originURL = [NSURL fileURLWithPath:TEST_REPO_PATH(self.class)]; //[NSURL URLWithString: @"https://github.com/libgit2/TestGitRepository"];
+	NSURL *originURL = self.bareFixtureRepository.fileURL; //[NSURL URLWithString: @"https://github.com/libgit2/TestGitRepository"];
 	NSURL *workdirURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"unit_test"]];
 	NSError *err;
 
 	[self removeDirectoryAtURL:workdirURL];
 
-	repo = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL barely:NO withCheckout:YES error:&err transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
+	repo = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:NULL error:&err transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
 
 	STAssertNotNil(repo, err.localizedDescription);
 	STAssertFalse([repo isBare], @"Standard repo should not be bare");
@@ -169,13 +160,14 @@
 	void (^checkoutProgressBlock)(NSString *, NSUInteger, NSUInteger) = ^(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps) {
 		checkoutProgressCalled = YES;
 	};
-	NSURL *originURL = [NSURL fileURLWithPath:TEST_REPO_PATH(self.class)]; //[NSURL URLWithString: @"https://github.com/libgit2/TestGitRepository"];
+	NSURL *originURL = self.bareFixtureRepository.fileURL; //[NSURL URLWithString: @"https://github.com/libgit2/TestGitRepository"];
 	NSURL *workdirURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"unit_test"]];
+	NSDictionary *options = @{ GTRepositoryCloneOptionsBare: @YES };
 	NSError *err;
 
 	[self removeDirectoryAtURL:workdirURL];
 
-	repo = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL barely:YES withCheckout:YES error:&err transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
+	repo = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:options error:&err transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
 
 	STAssertNotNil(repo, err.localizedDescription);
 	STAssertTrue([repo isBare], @"Bare repo should be bare");

@@ -13,7 +13,7 @@ SpecBegin(GTReflog)
 __block GTReflog *reflog;
 __block GTRepository *repository;
 beforeEach(^{
-	repository = [self fixtureRepositoryNamed:@"Test_App"];
+	repository = self.testAppFixtureRepository;
 	expect(repository).notTo.beNil();
 
 	GTBranch *branch = [repository currentBranchWithError:NULL];

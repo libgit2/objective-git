@@ -27,7 +27,7 @@
 //  THE SOFTWARE.
 //
 
-@interface GTCommitTest : SenTestCase {
+@interface GTCommitTest : GTTestCase {
 
 	GTRepository *repo;
 }
@@ -37,10 +37,8 @@
 
 
 - (void)setUp {
-	
-	NSError *error = nil;
-    repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&error];
-	STAssertNotNil(repo, [error localizedDescription]);
+	repo = self.bareFixtureRepository;
+	STAssertNotNil(repo, @"Could not create fixture repository.");
 }
 
 - (void)testCanReadCommitData {
@@ -86,67 +84,6 @@
 	
 	GTCommit *commit = (GTCommit *)obj;
 	STAssertTrue([commit.parents count] == 2, nil);
-}
-
-- (void)testCanWriteCommitData {
-	NSError *error = nil;
-	NSString *commitSHA = @"8496071c1b46c854b31185ea97743be6a8774479";
-	GTCommit *obj = [repo lookupObjectBySHA:commitSHA error:&error];
-	STAssertNotNil(obj, [error localizedDescription]);
-	
-	NSString *newSha = [GTCommit shaByCreatingCommitInRepository:repo 
-									 updateRefNamed:nil 
-											 author:obj.author 
-										  committer:obj.committer 
-											message:@"a new message" 
-											   tree:obj.tree 
-											parents:obj.parents 
-											  error:&error];
-	
-	STAssertNotNil(newSha, [error localizedDescription]);
-	
-	rm_loose(self.class, newSha);
-}
-
-- (void)testCanWriteNewCommitData {
-	NSString *treeSHA = @"c4dc1555e4d4fa0e0c9c3fc46734c7c35b3ce90b";
-	NSError *error = nil;
-	GTObject *obj = [repo lookupObjectBySHA:treeSHA error:&error];
-	
-	STAssertNil(error, [error localizedDescription]);
-	STAssertNotNil(obj, nil);
-	STAssertTrue([obj isKindOfClass:[GTTree class]], nil);
-	GTTree *tree = (GTTree *)obj;
-	GTSignature *person = [[GTSignature alloc] 
-						   initWithName:@"Tim" 
-						   email:@"tclem@github.com" 
-						   time:[NSDate date]];
-	GTCommit *commit = [GTCommit commitInRepository:repo updateRefNamed:nil author:person committer:person message:@"new message" tree:tree parents:nil error:&error];
-	STAssertNotNil(commit, [error localizedDescription]);
-	NSLog(@"wrote sha %@", commit.SHA);
-	
-	rm_loose(self.class, commit.SHA);
-}
-
-- (void)testCanHandleNilWrites {
-	
-	NSString *tsha = @"c4dc1555e4d4fa0e0c9c3fc46734c7c35b3ce90b";
-	NSError *error = nil;
-	GTObject *obj = [repo lookupObjectBySHA:tsha error:&error];
-	
-	STAssertNil(error, [error localizedDescription]);
-	STAssertNotNil(obj, nil);
-	STAssertTrue([obj isKindOfClass:[GTTree class]], nil);
-	GTTree *tree = (GTTree *)obj;
-	GTSignature *person = [[GTSignature alloc] 
-							initWithName:@"Tim" 
-							email:@"tclem@github.com" 
-							time:[NSDate date]];
-	GTCommit *commit = [GTCommit commitInRepository:repo updateRefNamed:nil author:person committer:person message:nil tree:tree parents:nil error:&error];
-	STAssertNotNil(commit, [error localizedDescription]);
-	NSLog(@"wrote sha %@", commit.SHA);
-	
-	rm_loose(self.class, commit.SHA);
 }
 
 @end

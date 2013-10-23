@@ -27,8 +27,10 @@
 #import "GTRepository.h"
 #import "NSError+Git.h"
 #import "GTOdbObject.h"
+#import "GTOID.h"
 #import "NSString+Git.h"
 #import "GTOID.h"
+#import "EXTScope.h"
 
 #import "git2/odb_backend.h"
 
@@ -61,71 +63,64 @@
 
 	int gitError = git_repository_odb(&_git_odb, repo.git_repository);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to get ODB for repo."];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to get ODB for repo."];
 		return nil;
 	}
 
 	return self;
 }
 
-- (GTOdbObject *)objectWithOid:(GTOID *)oid error:(NSError **)error {
+- (GTOdbObject *)objectWithOID:(GTOID *)oid error:(NSError **)error {
 	git_odb_object *obj;
 	int gitError = git_odb_read(&obj, self.git_odb, oid.git_oid);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to read raw object with OID %@", oid.SHA];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to read raw object with OID %@", oid.SHA];
 		return nil;
 	}
 
 	return [[GTOdbObject alloc] initWithOdbObj:obj repository:self.repository];
 }
 
-- (GTOdbObject *)objectWithSha:(NSString *)sha error:(NSError **)error {
+- (GTOdbObject *)objectWithSHA:(NSString *)sha error:(NSError **)error {
 	GTOID *oid = [[GTOID alloc] initWithSHA:sha error:error];
-	if (oid == nil) {
-		return nil;
-	}
+	if (oid == nil) return nil;
 
-    return [self objectWithOid:oid error:error];
+    return [self objectWithOID:oid error:error];
 }
 
-- (GTOID *)oidByInsertingString:(NSString *)str objectType:(GTObjectType)type error:(NSError **)error {
-	NSData *data = [str dataUsingEncoding:NSUTF8StringEncoding];
+#pragma mark Writing
 
-	git_oid oid;
-	int gitError = git_odb_hash(&oid, data.bytes, data.length, (git_otype)type);
-	if (gitError < GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to create an OID for input data."];
-		return nil;
-	}
+- (GTOID *)writeData:(NSData *)data type:(GTObjectType)type error:(NSError **)error {
+	NSParameterAssert(data != nil);
 
 	git_odb_stream *stream;
-	gitError = git_odb_open_wstream(&stream, self.git_odb, data.length, (git_otype)type);
-	if (gitError < GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to open write stream on odb."];
+	int gitError = git_odb_open_wstream(&stream, self.git_odb, data.length, (git_otype)type);
+	@onExit {
+		if (stream != NULL) git_odb_stream_free(stream);
+	};
+
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to open write stream on odb."];
 		return nil;
 	}
-	
-	gitError = stream->write(stream, data.bytes, data.length);
-	if (gitError < GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to write to stream on odb."];
+
+	gitError = git_odb_stream_write(stream, data.bytes, data.length);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to write to stream on odb."];
 		return nil;
 	}
-	
-	gitError = stream->finalize_write(stream, &oid);
-	if (gitError < GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to finalize write on odb."];
+
+	git_oid oid;
+	gitError = git_odb_stream_finalize_write(&oid, stream);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to finalize write on odb."];
 		return nil;
 	}
-    
+
 	return [GTOID oidWithGitOid:&oid];
 }
 
-- (NSString *)shaByInsertingString:(NSString *)data objectType:(GTObjectType)type error:(NSError **)error {
-	return [self oidByInsertingString:data objectType:type error:error].SHA;
-}
-
-- (BOOL)containsObjectWithSha:(NSString *)sha error:(NSError **)error {
-
+- (BOOL)containsObjectWithSHA:(NSString *)sha error:(NSError **)error {
 	GTOID *oid = [[GTOID alloc] initWithSHA:sha error:error];
 	if (oid == nil) return NO;
 

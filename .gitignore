@@ -9,7 +9,8 @@ build-iPhoneOS/*
 objective-git.bridgesupport
 ObjectiveGitFramework/build/*
 ObjectiveGit-iOS.framework/*
-libgit2*.a
+External/libgit2*.a
+External/libgit2-ios
 
 *.pbxuser
 *.perspective
@@ -23,5 +24,7 @@ project.xcworkspace
 
 ObjectiveGitTests/fixtures/Fixtures/*
 
-ios-openssl/include
-ios-openssl/lib
+External/ios-openssl/include
+External/ios-openssl/lib
+
+External/libssh2-ios

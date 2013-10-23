@@ -17,6 +17,8 @@ typedef enum {
 	GTDiffFileFlagNotBinary = GIT_DIFF_FLAG_NOT_BINARY,
 } GTDiffFileFlag;
 
+@class GTOID;
+
 // A class representing a file on one side of a diff.
 @interface GTDiffFile : NSObject
 
@@ -31,6 +33,12 @@ typedef enum {
 
 // The mode of the file.
 @property (nonatomic, readonly) mode_t mode;
+
+// The OID for the file.
+@property (nonatomic, readonly, copy) GTOID *OID;
+
+// The git_diff_file represented by the receiver.
+@property (nonatomic, readonly) git_diff_file git_diff_file;
 
 // Designated initialiser.
 - (instancetype)initWithGitDiffFile:(git_diff_file)file;

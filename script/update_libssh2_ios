@@ -1,0 +1,55 @@
+#!/bin/bash
+
+set -e
+
+# source the common build functions
+SCRIPT_DIR=$(dirname "$0")
+source "${SCRIPT_DIR}/ios_build_functions.sh"
+
+function setup ()
+{
+    if [ -f "${ROOT_PATH}/External/libssh2-ios/lib/libssh2-ios.a" ]
+    then
+        echo "No update needed."
+        exit 0
+    fi
+    LIBRARY_NAME="libssh2"
+}
+
+function build_ssh2 () 
+{
+    mkdir -p "${ROOT_PATH}/External/libssh2-ios/lib" "${ROOT_PATH}/External/libssh2-ios/lib" "${ROOT_PATH}/External/libssh2-ios/src"
+
+    rm -rf "${ROOT_PATH}/External/libssh2-ios/src/libssh2"
+    cp -R "${ROOT_PATH}/External/libssh2" "${ROOT_PATH}/External/libssh2-ios/src/"
+    pushd "${ROOT_PATH}/External/libssh2-ios/src/libssh2" > /dev/null
+
+    export CFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -miphoneos-version-min=${IPHONEOS_DEPLOYMENT_TARGET}"
+    export CPPFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -miphoneos-version-min=${IPHONEOS_DEPLOYMENT_TARGET}"
+
+    mkdir -p "${ROOT_PATH}/External/libssh2-ios/bin/${SDKNAME}-${ARCH}.sdk"
+    LOG="${ROOT_PATH}/External/libssh2-ios/bin/${SDKNAME}-${ARCH}.sdk/build-libssh2.log"
+
+    echo "${LOG}"
+
+    ./buildconf >> "${LOG}" 2>&1
+    ./configure --host=${HOST} --prefix="${ROOT_PATH}/External/libssh2-ios/bin/${SDKNAME}-${ARCH}.sdk" --with-openssl --with-libssl-prefix="${ROOT_PATH}/External/ios-openssl" --disable-shared --enable-static >> "${LOG}" 2>&1
+    make >> "${LOG}" 2>&1
+    make install >> "${LOG}" 2>&1
+    popd > /dev/null
+
+    BUILT_LIBS+=("${ROOT_PATH}/External/libssh2-ios/bin/${SDKNAME}-${ARCH}.sdk/lib/libssh2.a")
+}
+
+function fat_binary ()
+{
+    echo "Building fat binary..."
+
+    lipo -create "${BUILT_LIBS[@]}" -output "${ROOT_PATH}/External/libssh2-ios/lib/libssh2-ios.a"
+    mkdir -p "${ROOT_PATH}/External/libssh2-ios/include/libssh2"
+    cp -R "${ROOT_PATH}/External/libssh2-ios/bin/iphonesimulator${SDKVERSION}-i386.sdk/include/libssh2.h" "${ROOT_PATH}/External/libssh2-ios/include/libssh2/"
+
+    echo "Building done."
+}
+
+build_all_archs setup build_ssh2 fat_binary

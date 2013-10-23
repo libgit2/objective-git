@@ -11,16 +11,35 @@
 #import "GTOID.h"
 #import "NSError+Git.h"
 
+#import "NSError+Git.h"
+#import "EXTScope.h"
+
 @interface GTRemote ()
+
 @property (nonatomic, readonly, assign) git_remote *git_remote;
 @property (nonatomic, strong) GTRepository *repository;
 @end
 
 @implementation GTRemote
 
+#pragma mark Lifecycle
+
+- (id)initWithGitRemote:(git_remote *)remote {
+	NSParameterAssert(remote != NULL);
+
+	self = [super init];
+	if (self == nil) return nil;
+
+	_git_remote = remote;
+
+	return self;
+}
+
 - (void)dealloc {
 	if (_git_remote != NULL) git_remote_free(_git_remote);
 }
+
+#pragma mark NSObject
 
 - (BOOL)isEqual:(GTRemote *)object {
 	if (object == self) return YES;
@@ -97,6 +116,8 @@
 
 	return self;
 }
+
+#pragma mark Properties
 
 - (GTRepository *)repository {
 	return _repository;
@@ -186,6 +207,83 @@ static int remote_rename_problem_cb(const char *problematic_refspec, void *paylo
 	return [self rename:name failureBlock:nil error:error];
 }
 
+- (NSArray *)fetchRefspecs {
+	__block git_strarray refspecs;
+	int gitError = git_remote_get_fetch_refspecs(&refspecs, self.git_remote);
+	if (gitError != GIT_OK) return nil;
+
+	@onExit {
+		git_strarray_free(&refspecs);
+	};
+
+	NSMutableArray *fetchRefspecs = [NSMutableArray arrayWithCapacity:refspecs.count];
+	for (size_t i = 0; i < refspecs.count; i++) {
+		if (refspecs.strings[i] == NULL) continue;
+		[fetchRefspecs addObject:@(refspecs.strings[i])];
+	}
+	return [fetchRefspecs copy];
+}
+
+#pragma mark Update the remote
+
+- (BOOL)saveRemote:(NSError **)error {
+	int gitError = git_remote_save(self.git_remote);
+	if (gitError != GIT_OK) {
+		if (error != NULL) {
+			*error = [NSError git_errorFor:gitError description:@"Failed to save remote configuration."];
+		}
+		return NO;
+	}
+	return YES;
+}
+
+- (BOOL)updateURLString:(NSString *)URLString error:(NSError **)error {
+	NSParameterAssert(URLString != nil);
+
+	if ([self.URLString isEqualToString:URLString]) return YES;
+
+	int gitError = git_remote_set_url(self.git_remote, URLString.UTF8String);
+	if (gitError != GIT_OK) {
+		if (error != NULL) {
+			*error = [NSError git_errorFor:gitError description:@"Failed to update remote URL string."];
+		}
+		return NO;
+	}
+	return [self saveRemote:error];
+}
+
+- (BOOL)addFetchRefspec:(NSString *)fetchRefspec error:(NSError **)error {
+	NSParameterAssert(fetchRefspec != nil);
+
+	if ([self.fetchRefspecs containsObject:fetchRefspec]) return YES;
+
+	int gitError = git_remote_add_fetch(self.git_remote, fetchRefspec.UTF8String);
+	if (gitError != GIT_OK) {
+		if (error != NULL) {
+			*error = [NSError git_errorFor:gitError description:@"Failed to add fetch refspec."];
+		}
+		return NO;
+	}
+	return [self saveRemote:error];
+}
+
+- (BOOL)removeFetchRefspec:(NSString *)fetchRefspec error:(NSError **)error {
+	NSParameterAssert(fetchRefspec != nil);
+
+	NSUInteger index = [self.fetchRefspecs indexOfObject:fetchRefspec];
+	if (index == NSNotFound) return YES;
+
+	int gitError = git_remote_remove_refspec(self.git_remote, index);
+	if (gitError != GIT_OK) {
+		if (error != NULL) {
+			*error = [NSError git_errorFor:gitError description:@"Unable to remove fetch refspec."];
+		}
+		return NO;
+	}
+	return [self saveRemote:error];
+}
+
+
 #pragma mark Fetch
 
 typedef int  (^GTCredentialAcquireBlock)(git_cred **cred, GTCredentialType allowedTypes, NSString *URL, NSString *username);
@@ -235,19 +333,19 @@ int transfer_progress_cb(const git_transfer_progress *stats, void *payload) {
 		@try {
 			int gitError = git_remote_connect(self.git_remote, GIT_DIRECTION_FETCH);
 			if (gitError != GIT_OK) {
-				if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to connect remote"];
+				if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to connect remote"];
 				return NO;
 			}
 
 			gitError = git_remote_download(self.git_remote, transfer_progress_cb, &payload);
 			if (gitError != GIT_OK) {
-				if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to fetch remote"];
+				if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to fetch remote"];
 				return NO;
 			}
 
 			gitError = git_remote_update_tips(self.git_remote);
 			if (gitError != GIT_OK) {
-				if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"Failed to update tips"];
+				if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to update tips"];
 				return NO;
 			}
 		} @finally {
@@ -258,6 +356,5 @@ int transfer_progress_cb(const git_transfer_progress *stats, void *payload) {
 		return YES;
 	}
 }
-
 
 @end

@@ -6,7 +6,7 @@
 //  Copyright 2011 GitHub, Inc. All rights reserved.
 //
 
-@interface GTBranchTest : SenTestCase {
+@interface GTBranchTest : GTTestCase {
 
         GTRepository *repo;
 }
@@ -15,9 +15,7 @@
 @implementation GTBranchTest
 
 - (void)setUp {
-	
-	NSError *error = nil;
-    repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&error];
+	repo = self.bareFixtureRepository;
 }
 
 - (void)testCanOpenHeadInRepo {

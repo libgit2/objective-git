@@ -14,10 +14,8 @@ __block GTRepository *repo;
 __block GTEnumerator *enumerator;
 
 beforeEach(^{
-	NSError *error = nil;
-	repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&error];
+	repo = self.bareFixtureRepository;
 	expect(repo).notTo.beNil();
-	expect(error).to.beNil();
 
 	enumerator = [[GTEnumerator alloc] initWithRepository:repo error:NULL];
 	expect(enumerator).notTo.beNil();

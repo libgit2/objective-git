@@ -27,7 +27,7 @@ it(@"should be possible to make a new tree builder without a tree", ^{
 it(@"should be possible to make a new tree builder from an existing tree", ^{
 	NSError *error = nil;
 	
-	GTRepository *repo = [self fixtureRepositoryNamed:@"testrepo.git"];
+	GTRepository *repo = self.bareFixtureRepository;
 	expect(repo).notTo.beNil();
 	
 	GTTree *tree = (GTTree *)[repo lookupObjectBySHA:testTreeSHA error:NULL];
@@ -41,15 +41,18 @@ it(@"should be possible to make a new tree builder from an existing tree", ^{
 describe(@"GTTreeBuilder building", ^{
 	__block GTTreeBuilder *builder;
 	__block NSError *error = nil;
+	__block GTOID *OID;
 	
 	beforeEach(^{
 		builder = [[GTTreeBuilder alloc] initWithTree:nil error:&error];
 		expect(builder).notTo.beNil();
 		expect(error).to.beNil();
+
+		OID = [GTOID oidWithSHA:testTreeSHA];
 	});
 	
 	it(@"should be possible to add an entry to a builder", ^{
-		GTTreeEntry *entry = [builder addEntryWithSHA:testTreeSHA filename:@"tree" filemode:GTFileModeTree error:&error];
+		GTTreeEntry *entry = [builder addEntryWithOID:OID fileName:@"tree" fileMode:GTFileModeTree error:&error];
 		expect(entry).notTo.beNil();
 		expect(error).to.beNil();
 		
@@ -57,14 +60,14 @@ describe(@"GTTreeBuilder building", ^{
 	});
 	
 	it(@"should be possible to remove an entry from a builder", ^{
-		NSString *filename = @"tree";
-		GTTreeEntry *entry = [builder addEntryWithSHA:testTreeSHA filename:filename filemode:GTFileModeTree error:&error];
+		NSString *fileName = @"tree";
+		GTTreeEntry *entry = [builder addEntryWithOID:OID fileName:fileName fileMode:GTFileModeTree error:&error];
 		expect(entry).notTo.beNil();
 		expect(error).to.beNil();
 		
 		expect(builder.entryCount).to.equal(1);
 		
-		BOOL success = [builder removeEntryWithFilename:filename error:&error];
+		BOOL success = [builder removeEntryWithFileName:fileName error:&error];
 		expect(success).to.beTruthy();
 		expect(error).to.beNil();
 		
@@ -72,14 +75,14 @@ describe(@"GTTreeBuilder building", ^{
 	});
 	
 	it(@"should be possible to filter a builder", ^{	
-		GTRepository *repo = [self fixtureRepositoryNamed:@"testrepo.git"];
+		GTRepository *repo = self.bareFixtureRepository;
 		expect(repo).notTo.beNil();
 		
 		GTBlob *blob = [GTBlob blobWithString:@"Hi, how are you?" inRepository:repo error:&error];
 		expect(blob).notTo.beNil();
 		expect(error).to.beNil();
 		
-		[builder addEntryWithSHA:blob.SHA filename:@"hi.txt" filemode:GTFileModeBlob error:&error];
+		[builder addEntryWithOID:blob.OID fileName:@"hi.txt" fileMode:GTFileModeBlob error:&error];
 		
 		expect(builder.entryCount).to.equal(1);
 		
@@ -91,24 +94,42 @@ describe(@"GTTreeBuilder building", ^{
 	});
 
 	it(@"should be possible to find an entry by file name in a builder", ^{
-		NSString *filename = @"tree";
-		GTTreeEntry *entry = [builder addEntryWithSHA:testTreeSHA filename:filename filemode:GTFileModeTree error:&error];
+		NSString *fileName = @"tree";
+		GTTreeEntry *entry = [builder addEntryWithOID:OID fileName:fileName fileMode:GTFileModeTree error:&error];
 		expect(entry).notTo.beNil();
 		expect(error).to.beNil();
 		
-		GTTreeEntry *foundEntry = [builder entryWithName:filename];
+		GTTreeEntry *foundEntry = [builder entryWithFileName:fileName];
 		expect(foundEntry.SHA).to.equal(entry.SHA);
 	});
 
+	it(@"should write new blobs when the tree is written", ^{
+		GTRepository *repo = self.bareFixtureRepository;
+		expect(repo).notTo.beNil();
+
+		GTTreeEntry *entry = [builder addEntryWithData:[@"Hello, World!" dataUsingEncoding:NSUTF8StringEncoding] fileName:@"test.txt" fileMode:GTFileModeBlob error:NULL];
+		expect(entry).notTo.beNil();
+
+		GTObjectDatabase *database = [repo objectDatabaseWithError:NULL];
+		expect(database).notTo.beNil();
+
+		expect([database containsObjectWithOID:entry.OID]).to.beFalsy();
+
+		GTTree *tree = [builder writeTreeToRepository:repo error:NULL];
+		expect(tree).notTo.beNil();
+
+		expect([database containsObjectWithOID:entry.OID]).to.beTruthy();
+	});
+
 	it(@"should be possible to write a builder to a repository", ^{
-		GTRepository *repo = [self fixtureRepositoryNamed:@"testrepo.git"];
+		GTRepository *repo = self.bareFixtureRepository;
 		expect(repo).notTo.beNil();
 		
 		GTBlob *blob = [GTBlob blobWithString:@"Hi, how are you?" inRepository:repo error:&error];
 		expect(blob).notTo.beNil();
 		expect(error).to.beNil();
 		
-		[builder addEntryWithSHA:blob.SHA filename:@"hi.txt" filemode:GTFileModeBlob error:&error];
+		[builder addEntryWithOID:blob.OID fileName:@"hi.txt" fileMode:GTFileModeBlob error:&error];
 		
 		GTTree *writtenTree = [builder writeTreeToRepository:repo error:&error];
 		expect(writtenTree).notTo.beNil();
@@ -117,7 +138,6 @@ describe(@"GTTreeBuilder building", ^{
 		GTTree *readTree = (GTTree *)[repo lookupObjectBySHA:writtenTree.SHA objectType:GTObjectTypeTree error:&error];
 		expect(readTree).notTo.beNil();
 		expect(error).to.beNil();
-		
 	});
 });
 

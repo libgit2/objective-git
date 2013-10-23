@@ -4,16 +4,16 @@ set -e
 
 # augment path to help it find cmake installed in /usr/local/bin,
 # e.g. via brew. Xcode's Run Script phase doesn't seem to honor
-# ~/.MacOSX/environemnt.plist
+# ~/.MacOSX/environment.plist
 PATH="/usr/local/bin:$PATH"
 
-if [ "libgit2.a" -nt "libgit2" ]
+if [ "External/libgit2.a" -nt "External/libgit2" ]
 then
     echo "No update needed."
     exit 0
 fi
 
-cd "libgit2"
+cd "External/libgit2"
 
 if [ -d "build" ]; then
     rm -rf "build"

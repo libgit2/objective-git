@@ -35,6 +35,8 @@
 #import "GTOID.h"
 #import "GTTree.h"
 
+#import "EXTScope.h"
+
 @interface GTIndex ()
 @property (nonatomic, assign, readonly) git_index *git_index;
 @end
@@ -62,7 +64,7 @@
 	git_index *index = NULL;
 	int status = git_index_open(&index, fileURL.path.fileSystemRepresentation);
 	if (status != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:status withAdditionalDescription:@"Failed to initialize index with URL %@", fileURL];
+		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to initialize index with URL %@", fileURL];
 		return nil;
 	}
 
@@ -94,7 +96,7 @@
 - (BOOL)refresh:(NSError **)error {
 	int status = git_index_read(self.git_index);
 	if (status != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:status withAdditionalDescription:@"Failed to refresh index."];
+		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to refresh index."];
 		return NO;
 	}
 
@@ -120,7 +122,7 @@
 	size_t pos = 0;
 	int gitError = git_index_find(&pos, self.git_index, name.UTF8String);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError withAdditionalDescription:@"%@ not found in index", name];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"%@ not found in index", name];
 		return NULL;
 	}
 	return [self entryAtIndex:pos];
@@ -129,7 +131,7 @@
 - (BOOL)addEntry:(GTIndexEntry *)entry error:(NSError **)error {
 	int status = git_index_add(self.git_index, entry.git_index_entry);
 	if (status != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:status withAdditionalDescription:@"Failed to add entry to index."];
+		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to add entry to index."];
 		return NO;
 	}
 
@@ -139,7 +141,7 @@
 - (BOOL)addFile:(NSString *)file error:(NSError **)error {
 	int status = git_index_add_bypath(self.git_index, file.UTF8String);
 	if (status != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:status withAdditionalDescription:@"Failed to add file %@ to index.", file];
+		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to add file %@ to index.", file];
 		return NO;
 	}
 
@@ -149,7 +151,7 @@
 - (BOOL)write:(NSError **)error {
 	int status = git_index_write(self.git_index);
 	if (status != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:status withAdditionalDescription:@"Failed to write index."];
+		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to write index."];
 		return NO;
 	}
 
@@ -161,7 +163,7 @@
   
 	int status = git_index_write_tree(&oid, self.git_index);
 	if (status != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:status withAdditionalDescription:@"Failed to write index."];
+		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to write index."];
 		return NULL;
 	}
 
@@ -175,6 +177,51 @@
 	}
 
 	return entries;
+}
+
+#pragma mark Conflicts
+
+- (BOOL)hasConflicts {
+	return (BOOL)git_index_has_conflicts(self.git_index);
+}
+
+- (BOOL)enumerateConflictedFilesWithError:(NSError **)error usingBlock:(void (^)(GTIndexEntry *ancestor, GTIndexEntry *ours, GTIndexEntry *theirs, BOOL *stop))block {
+	NSParameterAssert(block != nil);
+	if (!self.hasConflicts) return YES;
+	
+	git_index_conflict_iterator *iterator = NULL;
+	int returnCode = git_index_conflict_iterator_new(&iterator, self.git_index);
+	if (returnCode != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:returnCode description:NSLocalizedString(@"Could not create git index iterator.", nil)];
+		return NO;
+	}
+	
+	@onExit {
+		if (iterator != NULL) git_index_conflict_iterator_free(iterator);
+	};
+	
+	while (YES) {
+		const git_index_entry *ancestor = NULL;
+		const git_index_entry *ours = NULL;
+		const git_index_entry *theirs = NULL;
+		
+		returnCode = git_index_conflict_next(&ancestor, &ours, &theirs, iterator);
+		if (returnCode == GIT_ITEROVER) break;
+		
+		if (returnCode != GIT_OK) {
+			if (error != NULL) *error = [NSError git_errorFor:returnCode description:NSLocalizedString(@"Could not iterate conflict.", nil)];
+			return NO;
+		}
+		
+		GTIndexEntry *blockAncestor = [[GTIndexEntry alloc] initWithGitIndexEntry:ancestor];
+		GTIndexEntry *blockOurs = [[GTIndexEntry alloc] initWithGitIndexEntry:ours];
+		GTIndexEntry *blockTheirs = [[GTIndexEntry alloc] initWithGitIndexEntry:theirs];
+		BOOL stop = NO;
+		block(blockAncestor, blockOurs, blockTheirs, &stop);
+		if (stop) break;
+	}
+	
+	return YES;
 }
 
 @end

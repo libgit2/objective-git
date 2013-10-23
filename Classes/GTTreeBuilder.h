@@ -72,30 +72,30 @@ typedef enum {
 //               from the index.
 - (void)filter:(BOOL (^)(const git_tree_entry *entry))filterBlock;
 
-// Get an entry from the builder from its filename.
+// Get an entry from the builder from its file name.
 //
-// filename - Filename for the object in the index
+// fileName - File name for the object in the index. Cannot be nil.
 //
 // Returns the matching entry or nil if it doesn't exist.
-- (GTTreeEntry *)entryWithName:(NSString *)filename;
+- (GTTreeEntry *)entryWithFileName:(NSString *)fileName;
 
-// Add or update an entry to the builder.
+// Adds or updates the entry for the file name with the given data. When the
+// tree is written, a blob will be inserted into the object database containing
+// `data`.
 //
-// sha      - The SHA of a git object aleady stored in the repository.
-// filename - Filename for the object in the index.
-// filemode - Filemode for the object in the index.
+// data     - The data for the entry. Cannot be nil.
+// fileName - The file name for the object. Cannot be nil.
+// fileMode - The file mode for the object.
 // error    - The error if one occurred.
 //
-// Converts the sha parameter to an GTOID and calls addEntryWithOID:filename:filemode:error:
-//
-// Returns the added entry, or nil if an error occurred.
-- (GTTreeEntry *)addEntryWithSHA:(NSString *)sha filename:(NSString *)filename filemode:(GTFileMode)filemode error:(NSError **)error;
+// Returns the added entry, or nil if an error occurred
+- (GTTreeEntry *)addEntryWithData:(NSData *)data fileName:(NSString *)fileName fileMode:(GTFileMode)fileMode error:(NSError **)error;
 
 // Add or update an entry to the builder.
 //
 // oid      - The OID of a git object aleady stored in the repository.
-// filename - Filename for the object in the index.
-// filemode - Filemode for the object in the index.
+// fileName - File name for the object in the index. Cannot be nil.
+// fileMode - File mode for the object in the index.
 // error    - The error if one occurred.
 //
 // If an entry named `filename` already exists, its attributes will be updated
@@ -106,15 +106,15 @@ typedef enum {
 // the type of the pointed at object.
 //
 // Returns the added entry, or nil if an error occurred.
-- (GTTreeEntry *)addEntryWithOID:(GTOID *)oid filename:(NSString *)filename filemode:(GTFileMode)filemode error:(NSError **)error;
+- (GTTreeEntry *)addEntryWithOID:(GTOID *)oid fileName:(NSString *)fileName fileMode:(GTFileMode)fileMode error:(NSError **)error;
 
-// Remove an entry from the builder by its filename.
+// Remove an entry from the builder by its file name.
 //
-// filename - Filename for the object in the tree.
+// fileName - File name for the object in the tree.
 // error    - The error if one occurred.
 //
 // Returns YES if the entry was removed, or NO if an error occurred.
-- (BOOL)removeEntryWithFilename:(NSString *)filename error:(NSError **)error;
+- (BOOL)removeEntryWithFileName:(NSString *)fileName error:(NSError **)error;
 
 // Write the contents of the tree builder as a tree object.
 //
@@ -123,4 +123,5 @@ typedef enum {
 //
 // Returns the written tree, or nil if an error occurred.
 - (GTTree *)writeTreeToRepository:(GTRepository *)repository error:(NSError **)error;
+
 @end

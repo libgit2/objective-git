@@ -27,7 +27,9 @@ typedef enum {
 	GTRemoteDownloadTagsAll = GIT_REMOTE_DOWNLOAD_TAGS_ALL,
 } GTRemoteAutoTagOption;
 
-
+// A class representing a remote for a git repository.
+//
+// Analogous to `git_remote` in libgit2.
 @interface GTRemote : NSObject
 
 // The repository owning this remote.
@@ -51,6 +53,12 @@ typedef enum {
 
 // The auto-tag setting for the remote.
 @property (nonatomic) GTRemoteAutoTagOption autoTag;
+
+// The fetch refspecs for this remote.
+//
+// This array will contain NSStrings of the form
+// `+refs/heads/*:refs/remotes/REMOTE/*`.
+@property (nonatomic, readonly, copy) NSArray *fetchRefspecs;
 
 // Tests if a URL is valid
 + (BOOL)isValidURL:(NSString *)URL;
@@ -81,6 +89,8 @@ typedef enum {
 + (instancetype)remoteWithName:(NSString *)name inRepository:(GTRepository *)repo error:(NSError **)error;
 
 // Initialize a remote from a `git_remote`.
+//
+// remote - The underlying `git_remote` object.
 - (id)initWithGitRemote:(git_remote *)remote inRepository:(GTRepository *)repo;
 
 // The underlying `git_remote` object.
@@ -93,6 +103,38 @@ typedef enum {
 //
 // Return YES if successful, NO otherwise.
 - (BOOL)rename:(NSString *)name error:(NSError **)error;
+
+// Updates the URL string for this remote.
+//
+// URLString - The URLString to update to. May not be nil.
+// error     - If not NULL, this will be set to any error that occurs when
+//             updating the URLString or saving the remote.
+//
+// Returns YES if the URLString was successfully updated, NO and an error
+// if updating or saving the remote failed.
+- (BOOL)updateURLString:(NSString *)URLString error:(NSError **)error;
+
+// Adds a fetch refspec to this remote.
+//
+// fetchRefspec - The fetch refspec string to add. May not be nil.
+// error        - If not NULL, this will be set to any error that occurs
+//                when adding the refspec or saving the remote.
+//
+// Returns YES if there is the refspec is successfully added
+// or a matching refspec is already present, NO and an error if
+// adding the refspec or saving the remote failed.
+- (BOOL)addFetchRefspec:(NSString *)fetchRefspec error:(NSError **)error;
+
+// Removes the first fetchRefspec that matches.
+//
+// fetchRefspec - The fetch refspec string to remove. May not be nil.
+// error        - If not NULL, this will be set to any error that occurs
+//                when removing the refspec or saving the remote.
+//
+// Returns YES if the matching refspec is found and removed, or if no matching
+// refspec was found. NO and error is returned if a matching refspec was found
+// but could not be removed, or saving the remote failed.
+- (BOOL)removeFetchRefspec:(NSString *)fetchRefspec error:(NSError **)error;
 
 // Fetch the remote.
 //

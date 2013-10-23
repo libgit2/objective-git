@@ -46,36 +46,6 @@
 @property (nonatomic, readonly) NSTimeZone *commitTimeZone;
 @property (nonatomic, readonly) GTTree *tree;
 
-+ (GTCommit *)commitInRepository:(GTRepository *)theRepo updateRefNamed:(NSString *)refName author:(GTSignature *)authorSig committer:(GTSignature *)committerSig message:(NSString *)newMessage tree:(GTTree *)theTree parents:(NSArray *)theParents error:(NSError **)error;
-
-// Creates a new commit using OIDByCreatingCommitInRepsotory:updatedRefName:author:commiter:message:tree:parents:error:
-// and returns it's SHA as a string.
-+ (NSString *)shaByCreatingCommitInRepository:(GTRepository *)theRepo updateRefNamed:(NSString *)refName author:(GTSignature *)authorSig committer:(GTSignature *)committerSig message:(NSString *)newMessage tree:(GTTree *)theTree parents:(NSArray *)theParents error:(NSError **)error;
-
-// Creates a new commit
-//
-// theRepo      - the repository to add the commit to
-// refName      - If not nil, name of the reference that
-//                will be updated to point to this commit. If the reference
-//                is not direct, it will be resolved to a direct reference.
-//                Use @"HEAD" to update the HEAD of the current branch and
-//                make it point to this commit. If the reference doesn't
-//                exist yet, it will be created.
-// authorSig    - Signature with author and author time of commit
-// committerSig - Signature with committer and commit time of commit
-// newMessage   - Full message of this commit
-// theTree      - An instance of a `GTTree` object that will
-//                be used as the tree for the commit. This tree object must
-//                also be owned by the given repository.
-// theParents   - Array of GTCommit objects that will be used as the parents
-//                for this commit. This array may be nil. All the
-//                given commits must be owned by the given repository.
-// error        - Will be filled with a NSError object if an error occurs.
-//                May be NULL.
-//
-// Returns the object ID of the newly created commit or nil on error.
-+ (GTOID *)OIDByCreatingCommitInRepository:(GTRepository *)theRepo updateRefNamed:(NSString *)refName author:(GTSignature *)authorSig committer:(GTSignature *)committerSig message:(NSString *)newMessage tree:(GTTree *)theTree parents:(NSArray *)theParents error:(NSError **)error;
-
 // The underlying `git_object` as a `git_commit` object.
 - (git_commit *)git_commit __attribute__((objc_returns_inner_pointer));
 

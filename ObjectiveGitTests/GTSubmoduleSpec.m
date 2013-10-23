@@ -11,7 +11,7 @@ SpecBegin(GTSubmodule)
 __block GTRepository *repo;
 
 beforeEach(^{
-	repo = [self fixtureRepositoryNamed:@"repo-with-submodule"];
+	repo = self.submoduleFixtureRepository;
 	expect(repo).notTo.beNil();
 });
 

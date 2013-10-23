@@ -42,21 +42,7 @@
 @class GTSubmodule;
 @class GTDiffFile;
 @class GTTag;
-
-// Options returned from the enumerateFileStatusUsingBlock: function
-enum {
-	GTRepositoryFileStatusIndexNew = GIT_STATUS_INDEX_NEW,
-	GTRepositoryFileStatusIndexModified = GIT_STATUS_INDEX_MODIFIED,
-	GTRepositoryFileStatusIndexDeleted = GIT_STATUS_INDEX_DELETED,
-
-	GTRepositoryFileStatusWorkingTreeNew = GIT_STATUS_WT_NEW,
-	GTRepositoryFileStatusWorkingTreeModified = GIT_STATUS_WT_MODIFIED,
-	GTRepositoryFileStatusWorkingTreeDeleted = GIT_STATUS_WT_DELETED,
-
-	GTRepositoryFileStatusIgnored = GIT_STATUS_IGNORED
-};
-
-typedef unsigned int GTRepositoryFileStatus;
+@class GTTree;
 
 typedef enum {
 	GTRepositoryResetTypeSoft = GIT_RESET_SOFT,
@@ -94,8 +80,28 @@ typedef enum {
 	GTCheckoutNotifyAll = GIT_CHECKOUT_NOTIFY_ALL,
 } GTCheckoutNotifyFlags;
 
+// Transport flags sent as options to +cloneFromURL... method
+typedef enum {
+	GTTransportFlagsNone = GIT_TRANSPORTFLAGS_NONE,
+	// If you pass this flag and the connection is secured with SSL/TLS,
+	// the authenticity of the server certificate will not be verified.
+	GTTransportFlagsNoCheckCert = GIT_TRANSPORTFLAGS_NO_CHECK_CERT,
+} GTTransportFlags;
 
-typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus status, BOOL *stop);
+// An `NSNumber` wrapped `GTTransportFlags`, documented above.
+// Default value is `GTTransportFlagsNone`.
+extern NSString *const GTRepositoryCloneOptionsTransportFlags;
+
+// An `NSNumber` wrapped `BOOL`, if YES, create a bare clone.
+// Default value is `NO`.
+extern NSString *const GTRepositoryCloneOptionsBare;
+
+// An `NSNumber` wrapped `BOOL`, if NO, don't checkout the remote HEAD.
+// Default value is `YES`.
+extern NSString *const GTRepositoryCloneOptionsCheckout;
+
+// A `GTCredentialProvider`, that will be used to authenticate against the remote.
+extern NSString *const GTRepositoryCloneOptionsCredentialProvider;
 
 @interface GTRepository : NSObject
 
@@ -103,13 +109,35 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 @property (nonatomic, readonly, strong) NSURL *fileURL;
 // The file URL for the repository's .git directory.
 @property (nonatomic, readonly, strong) NSURL *gitDirectoryURL;
-@property (nonatomic, readonly, getter=isBare) BOOL bare; // Is this a 'bare' repository?  i.e. created with git clone --bare
-@property (nonatomic, readonly, getter=isEmpty) BOOL empty; // Is this repository empty? Will only be YES for a freshly `git init`'d repo.
-@property (nonatomic, readonly, getter=isHEADDetached) BOOL HEADDetached; // Is HEAD detached? i.e., not pointing to a valid reference.
-@property (nonatomic, readonly, getter=isHEADOrphaned) BOOL HEADOrphaned; // Is HEAD orphaned? i.e., not pointing to anything.
 
-+ (BOOL)initializeEmptyRepositoryAtURL:(NSURL *)localFileURL error:(NSError **)error;
-+ (BOOL)initializeEmptyRepositoryAtURL:(NSURL *)localFileURL bare:(BOOL)bare error:(NSError **)error;
+// Is this a bare repository (one without a working directory)?
+@property (nonatomic, readonly, getter = isBare) BOOL bare;
+
+// Is this an empty (freshly initialized) repository?
+@property (nonatomic, readonly, getter = isEmpty) BOOL empty;
+
+// Is HEAD detached (not pointing to a branch or tag)?
+@property (nonatomic, readonly, getter = isHEADDetached) BOOL HEADDetached;
+
+// Is HEAD unborn (pointing to a branch without an initial commit)?
+@property (nonatomic, readonly, getter = isHEADUnborn) BOOL HEADUnborn;
+
+// Initializes a new repository at the given file URL.
+//
+// fileURL - The file URL for the new repository. Cannot be nil.
+// error   - The error if one occurs.
+//
+// Returns the initialized repository, or nil if an error occurred.
++ (instancetype)initializeEmptyRepositoryAtFileURL:(NSURL *)fileURL error:(NSError **)error;
+
+// Initializes a new repository at the given file URL.
+//
+// fileURL - The file URL for the new repository. Cannot be nil.
+// error   - The error if one occurs.
+// bare    - Should the repository be created bare?
+//
+// Returns the initialized repository, or nil if an error occurred.
++ (instancetype)initializeEmptyRepositoryAtFileURL:(NSURL *)fileURL bare:(BOOL)bare error:(NSError **)error;
 
 + (id)repositoryWithURL:(NSURL *)localFileURL error:(NSError **)error;
 - (id)initWithURL:(NSURL *)localFileURL error:(NSError **)error;
@@ -130,22 +158,16 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 //
 // originURL             - The URL to clone from.
 // workdirURL            - A URL to the desired working directory on the local machine.
-// barely                - If YES, create a bare clone
-// withCheckout          - if NO, don't checkout the remote HEAD
+// options               - A dictionary consisting of the options:
+//                         `GTRepositoryCloneOptionsTransportFlags`,
+//                         `GTRepositoryCloneOptionsBare`, and `GTRepositoryCloneOptionsCheckout`.
 // error                 - A pointer to fill in case of trouble.
 // transferProgressBlock - This block is called with network transfer updates.
-// checkoutProgressBlock - This block is called with checkout updates (if withCheckout is YES).
+// checkoutProgressBlock - This block is called with checkout updates
+//                         (if `GTRepositoryCloneOptionsCheckout` is YES).
 //
 // returns nil (and fills the error parameter) if an error occurred, or a GTRepository object if successful.
-+ (id)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL barely:(BOOL)barely withCheckout:(BOOL)withCheckout error:(NSError **)error transferProgressBlock:(void (^)(const git_transfer_progress *))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))checkoutProgressBlock;
-
-// Helper for getting the sha1 has of a raw object
-//
-// data - the data to compute a sha1 hash for
-// error(out) - will be filled if an error occurs
-//
-// returns the sha1 for the raw object or nil if there was an error
-+ (NSString *)hash:(NSString *)data objectType:(GTObjectType)type error:(NSError **)error;
++ (id)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL options:(NSDictionary *)options error:(NSError **)error transferProgressBlock:(void (^)(const git_transfer_progress *))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))checkoutProgressBlock;
 
 // Lookup objects in the repo by oid or sha1
 - (id)lookupObjectByOID:(GTOID *)oid objectType:(GTObjectType)type error:(NSError **)error;
@@ -163,14 +185,6 @@ typedef void (^GTRepositoryStatusBlock)(NSURL *fileURL, GTRepositoryFileStatus s
 // returns an array of NSStrings holding the names of the references
 // returns nil if an error occurred and fills the error parameter
 - (NSArray *)referenceNamesWithError:(NSError **)error;
-
-// For each file in the repository calls your block with the URL of the file and the status of that file in the repository,
-//
-// block - the block that gets called for each file
-- (void)enumerateFileStatusUsingBlock:(GTRepositoryStatusBlock)block;
-
-// Return YES if the working directory is clean (no modified, new, or deleted files in index)
-- (BOOL)isWorkingDirectoryClean;
 
 - (GTReference *)headReferenceWithError:(NSError **)error;
 

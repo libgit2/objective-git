@@ -7,41 +7,40 @@
 //
 
 #import "GTRepository.h"
+#import "GTRepository+Committing.h"
 
 SpecBegin(GTRepository)
 
 __block GTRepository *repository;
 
 beforeEach(^{
-	repository = [self fixtureRepositoryNamed:@"Test_App"];
+	repository = self.testAppFixtureRepository;
 	expect(repository).notTo.beNil();
 });
 
-describe(@"-initializeEmptyRepositoryAtURL:bare:error:", ^{
-	it(@"should initialize a repository with a working directory by default", ^{
-		__block NSError *error = nil;
-		NSURL *newRepoURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"unit_test"]];
-		[[NSFileManager defaultManager] removeItemAtURL:newRepoURL error:NULL];
+describe(@"-initializeEmptyRepositoryAtFileURL:bare:error:", ^{
+	__block GTRepository * (^createRepository)(BOOL bare);
 
-		expect([GTRepository initializeEmptyRepositoryAtURL:newRepoURL error:&error]).to.beTruthy();
-		GTRepository *newRepo = [GTRepository repositoryWithURL:newRepoURL error:&error];
-		expect(newRepo).toNot.beNil();
-		expect(error).to.beNil();
-		expect(newRepo.fileURL).toNot.beNil(); // working directory
-		expect(newRepo.bare).to.beFalsy();
+	beforeEach(^{
+		createRepository = ^(BOOL bare) {
+			NSURL *newRepoURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"unit_test"]];
+			[NSFileManager.defaultManager removeItemAtURL:newRepoURL error:NULL];
+
+			GTRepository *repository = [GTRepository initializeEmptyRepositoryAtFileURL:newRepoURL bare:bare error:NULL];
+			expect(repository).notTo.beNil();
+			expect(repository.gitDirectoryURL).notTo.beNil();
+			return repository;
+		};
+	});
+
+	it(@"should initialize a repository with a working directory by default", ^{
+		GTRepository *repository = createRepository(NO);
+		expect(repository.bare).to.beFalsy();
 	});
 
 	it(@"should initialize a bare repository", ^{
-		__block NSError *error = nil;
-		NSURL *newRepoURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"unit_test"]];
-		[[NSFileManager defaultManager] removeItemAtURL:newRepoURL error:NULL];
-
-		expect([GTRepository initializeEmptyRepositoryAtURL:newRepoURL bare:YES error:&error]).to.beTruthy();
-		GTRepository *newRepo = [GTRepository repositoryWithURL:newRepoURL error:&error];
-		expect(newRepo).toNot.beNil();
-		expect(error).to.beNil();
-		expect(newRepo.fileURL).to.beNil(); // working directory
-		expect(newRepo.bare).to.beTruthy();
+		GTRepository *repository = createRepository(YES);
+		expect(repository.bare).to.beTruthy();
 	});
 });
 
@@ -92,7 +91,7 @@ describe(@"-OIDByCreatingTagNamed:target:tagger:message:error", ^{
 	it(@"should create a new tag",^{
 		NSError *error = nil;
 		NSString *SHA = @"0c37a5391bbff43c37f0d0371823a5509eed5b1d";
-		GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&error];
+		GTRepository *repo = self.bareFixtureRepository;
 		GTTag *tag = (GTTag *)[repo lookupObjectBySHA:SHA error:&error];
 
 		GTOID *newOID = [repo OIDByCreatingTagNamed:@"a_new_tag" target:tag.target tagger:tag.tagger message:@"my tag\n" error:&error];
@@ -106,18 +105,13 @@ describe(@"-OIDByCreatingTagNamed:target:tagger:message:error", ^{
 		expect(tag.message).to.equal(@"my tag\n");
 		expect(tag.name).to.equal(@"a_new_tag");
 		expect(tag.target.SHA).to.equal(@"5b5b025afb0b4c913b4c338a42934a3863bf3644");
-		expect(tag.targetType).to.equal(@"commit");
-
-		rm_loose(self.class, newOID.SHA);
-		NSFileManager *m = [[NSFileManager alloc] init];
-		NSURL *tagPath = [[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] URLByAppendingPathComponent:@"refs/tags/a_new_tag"];
-		[m removeItemAtURL:tagPath error:&error];
+		expect(tag.targetType).to.equal(GTObjectTypeCommit);
 	});
 
 	it(@"should fail to create an already existing tag", ^{
 		NSError *error = nil;
 		NSString *SHA = @"0c37a5391bbff43c37f0d0371823a5509eed5b1d";
-		GTRepository *repo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:TEST_REPO_PATH(self.class)] error:&error];
+		GTRepository *repo = self.bareFixtureRepository;
 		GTTag *tag = (GTTag *)[repo lookupObjectBySHA:SHA error:&error];
 
 		GTOID *OID = [repo OIDByCreatingTagNamed:tag.name target:tag.target tagger:tag.tagger message:@"new message" error:&error];
