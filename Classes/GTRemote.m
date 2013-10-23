@@ -286,8 +286,6 @@ static int remote_rename_problem_cb(const char *problematic_refspec, void *paylo
 
 #pragma mark Fetch
 
-typedef int  (^GTCredentialAcquireBlock)(git_cred **cred, GTCredentialType allowedTypes, NSString *URL, NSString *username);
-
 typedef void (^GTRemoteTransferProgressBlock)(const git_transfer_progress *stats, BOOL *stop);
 
 typedef struct {
