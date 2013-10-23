@@ -292,10 +292,11 @@ typedef struct {
 	// WARNING: Provider must come first to be layout-compatible with GTCredentialAcquireCallbackInfo
 	__unsafe_unretained GTCredentialProvider *credProvider;
 	__unsafe_unretained GTRemoteTransferProgressBlock progressBlock;
-} GTRemoteFetchInfo;
+	git_direction direction;
+} GTRemoteConnectionInfo;
 
 int transfer_progress_cb(const git_transfer_progress *stats, void *payload) {
-	GTRemoteFetchInfo *info = payload;
+	GTRemoteConnectionInfo *info = payload;
 	BOOL stop = NO;
 
 	if (info->progressBlock != nil) info->progressBlock(stats, &stop);
@@ -303,24 +304,34 @@ int transfer_progress_cb(const git_transfer_progress *stats, void *payload) {
 	return stop ? -1 : 0;
 }
 
+- (BOOL)connectRemoteWithInfo:(GTRemoteConnectionInfo *)info error:(NSError **)error block:(BOOL (^)(NSError **error))connectedBlock {
+	git_remote_set_cred_acquire_cb(self.git_remote, GTCredentialAcquireCallback, &info);
+
+	int gitError = git_remote_connect(self.git_remote, info->direction);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to connect remote"];
+		return NO;
+	}
+
+	BOOL success = connectedBlock(error);
+	if (success != YES) return NO;
+
+	git_remote_disconnect(self.git_remote);
+	git_remote_set_cred_acquire_cb(self.git_remote, NULL, NULL);
+
+	return YES;
+}
 
 - (BOOL)fetchWithCredentialProvider:(GTCredentialProvider *)credProvider error:(NSError **)error progress:(GTRemoteTransferProgressBlock)progressBlock {
 	@synchronized (self) {
-		GTRemoteFetchInfo payload = {
+		__block GTRemoteConnectionInfo connectionInfo = {
 			.credProvider = credProvider,
 			.progressBlock = progressBlock,
+			.direction = GIT_DIRECTION_FETCH,
 		};
 
-		git_remote_set_cred_acquire_cb(self.git_remote, GTCredentialAcquireCallback, &payload);
-
-		@try {
-			int gitError = git_remote_connect(self.git_remote, GIT_DIRECTION_FETCH);
-			if (gitError != GIT_OK) {
-				if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to connect remote"];
-				return NO;
-			}
-
-			gitError = git_remote_download(self.git_remote, transfer_progress_cb, &payload);
+		BOOL success = [self connectRemoteWithInfo:&connectionInfo error:error block:^BOOL(NSError **error){
+			int gitError = git_remote_download(self.git_remote, transfer_progress_cb, &connectionInfo);
 			if (gitError != GIT_OK) {
 				if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to fetch remote"];
 				return NO;
@@ -331,12 +342,10 @@ int transfer_progress_cb(const git_transfer_progress *stats, void *payload) {
 				if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to update tips"];
 				return NO;
 			}
-		} @finally {
-			git_remote_disconnect(self.git_remote);
-			git_remote_set_cred_acquire_cb(self.git_remote, NULL, NULL);
-		}
+			return YES;
+		}];
 
-		return YES;
+		return success;
 	}
 }
 
@@ -373,27 +382,18 @@ int transfer_progress_cb(const git_transfer_progress *stats, void *payload) {
 	}
 
 	@synchronized (self) {
-		GTRemoteFetchInfo payload = {
-			.myself = self,
+		GTRemoteConnectionInfo connectionInfo = {
 			.credProvider = credProvider,
 			.progressBlock = progressBlock,
+			.direction = GIT_DIRECTION_PUSH,
 		};
-		
-		git_remote_set_cred_acquire_cb(self.git_remote, GTCredentialAcquireCallback, &payload);
-		
-		@try {
-			gitError = git_remote_connect(self.git_remote, GIT_DIRECTION_PUSH);
-			if (gitError != GIT_OK) {
-				if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Connection to remote failed"];
-				return NO;
-			}
-
-			gitError = git_push_finish(push);
+		BOOL success = [self connectRemoteWithInfo:&connectionInfo error:error block:^BOOL(NSError **error) {
+			int gitError = git_push_finish(push);
 			if (gitError != GIT_OK) {
 				if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Push to remote failed"];
 				return NO;
 			}
-			
+
 			gitError = git_push_unpack_ok(push);
 			if (gitError != GIT_OK) {
 				if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Unpacking failed"];
@@ -407,13 +407,10 @@ int transfer_progress_cb(const git_transfer_progress *stats, void *payload) {
 			}
 
 			/* TODO: libgit2 sez we should check git_push_status_foreach to see if our push succeeded */
-		}
-		@finally {
-			git_remote_disconnect(self.git_remote);
-			git_remote_set_cred_acquire_cb(self.git_remote, NULL, NULL);
-		}
+			return YES;
+		}];
 		
-		return YES;
+		return success;
 	}
 }
 
