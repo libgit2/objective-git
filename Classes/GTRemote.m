@@ -299,9 +299,9 @@ int transfer_progress_cb(const git_transfer_progress *stats, void *payload) {
 	GTRemoteConnectionInfo *info = payload;
 	BOOL stop = NO;
 
-	if (info->progressBlock != nil) info->progressBlock(stats, &stop);
+	info->progressBlock(stats, &stop);
 
-	return stop ? -1 : 0;
+	return (stop ? -1 : 0);
 }
 
 - (BOOL)connectRemoteWithInfo:(GTRemoteConnectionInfo *)info error:(NSError **)error block:(BOOL (^)(NSError **error))connectedBlock {
@@ -331,7 +331,7 @@ int transfer_progress_cb(const git_transfer_progress *stats, void *payload) {
 		};
 
 		BOOL success = [self connectRemoteWithInfo:&connectionInfo error:error block:^BOOL(NSError **error){
-			int gitError = git_remote_download(self.git_remote, transfer_progress_cb, &connectionInfo);
+			int gitError = git_remote_download(self.git_remote, (progressBlock != nil ? transfer_progress_cb : NULL), &connectionInfo);
 			if (gitError != GIT_OK) {
 				if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to fetch remote"];
 				return NO;
