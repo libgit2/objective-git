@@ -136,7 +136,7 @@ describe(@"fetching", ^{
 			NSError *error = nil;
 			GTRemote *remote = [GTRemote remoteWithName:remoteName inRepository:fetchingRepo error:nil]; // Tested above
 
-			BOOL result = [remote fetchWithError:&error credentials:nil progress:nil];
+			BOOL result = [remote fetchWithError:&error credentialProvider:nil progress:nil];
 			expect(error).to.beNil();
 			expect(result).to.beTruthy();
 		});
@@ -148,12 +148,7 @@ describe(@"fetching", ^{
 			NSString *testData = @"Test";
 			NSString *fileName = @"test.txt";
 			BOOL res;
-			//		BOOL res = [testData writeToURL:[masterRepoURL URLByAppendingPathComponent:fileName] atomically:YES encoding:NSUTF8StringEncoding error:nil];
-			//		expect(res).to.beTruthy();
-
-			//		GTOID *testOID = [[masterRepo objectDatabaseWithError:nil] writeData:<#(NSData *)#> type:<#(GTObjectType)#> error:<#(NSError *__autoreleasing *)#>OIDByInsertingString:testData objectType:GTObjectTypeBlob error:nil];
 			GTTreeBuilder *treeBuilder = [[GTTreeBuilder alloc] initWithTree:nil error:nil];
-			//		[treeBuilder addEntryWithOID:testOID filename:fileName filemode:GTFileModeBlob error:nil];
 			[treeBuilder addEntryWithData:[testData dataUsingEncoding:NSUTF8StringEncoding] fileName:fileName fileMode:GTFileModeBlob error:nil];
 
 			GTTree *testTree = [treeBuilder writeTreeToRepository:repository error:nil];
@@ -166,7 +161,6 @@ describe(@"fetching", ^{
 			[commitEnum pushSHA:[currentReference targetSHA] error:nil];
 			GTCommit *parent = [commitEnum nextObject];
 
-			//		GTCommit *testCommit = [GTCommit commitInRepository:masterRepo updateRefNamed:currentReference.name author:[masterRepo userSignatureForNow] committer:[masterRepo userSignatureForNow] message:@"Test commit" tree:testTree parents:@[parent] error:nil];
 			GTCommit *testCommit = [repository createCommitWithTree:testTree message:@"Test commit" parents:@[parent] updatingReferenceNamed:currentReference.name error:nil];
 			expect(testCommit).notTo.beNil();
 
@@ -174,7 +168,7 @@ describe(@"fetching", ^{
 			GTRemote *remote = [GTRemote remoteWithName:remoteName inRepository:fetchingRepo error:nil];
 
 			__block unsigned int receivedObjects = 0;
-			res = [remote fetchWithError:&error credentials:nil progress:^(const git_transfer_progress *stats, BOOL *stop) {
+			res = [remote fetchWithError:&error credentialProvider:nil progress:^(const git_transfer_progress *stats, BOOL *stop) {
 				receivedObjects += stats->received_objects;
 				NSLog(@"%d", receivedObjects);
 			}];

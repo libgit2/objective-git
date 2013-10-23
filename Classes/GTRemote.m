@@ -9,7 +9,7 @@
 #import "GTRemote.h"
 #import "GTRepository.h"
 #import "GTOID.h"
-#import "NSError+Git.h"
+#import "GTCredential+Private.h"
 
 #import "NSError+Git.h"
 #import "EXTScope.h"
@@ -292,24 +292,9 @@ typedef void (^GTRemoteTransferProgressBlock)(const git_transfer_progress *stats
 
 typedef struct {
 	__unsafe_unretained GTRemote *myself;
-	__unsafe_unretained GTCredentialAcquireBlock credBlock;
+	__unsafe_unretained GTCredentialProvider *credProvider;
 	__unsafe_unretained GTRemoteTransferProgressBlock progressBlock;
 } GTRemoteFetchInfo;
-
-static int fetch_cred_acquire_cb(git_cred **cred, const char *url, const char *username_from_url, unsigned int allowed_types, void *payload) {
-	GTRemoteFetchInfo *info = payload;
-
-	if (info->credBlock == nil) {
-		NSString *errorMsg = [NSString stringWithFormat:@"No credential block passed, but authentication was requested for remote %@", info->myself.name];
-		giterr_set_str(GIT_EUSER, errorMsg.UTF8String);
-		return GIT_ERROR;
-	}
-
-	NSString *URL = (url != NULL ? @(url) : nil);
-	NSString *userName = (username_from_url != NULL ? @(username_from_url) : nil);
-
-	return info->credBlock(cred, (GTCredentialType)allowed_types, URL, userName);
-}
 
 int transfer_progress_cb(const git_transfer_progress *stats, void *payload) {
 	GTRemoteFetchInfo *info = payload;
@@ -320,15 +305,15 @@ int transfer_progress_cb(const git_transfer_progress *stats, void *payload) {
 	return stop ? -1 : 0;
 }
 
-- (BOOL)fetchWithError:(NSError **)error credentials:(GTCredentialAcquireBlock)credBlock progress:(GTRemoteTransferProgressBlock)progressBlock {
+- (BOOL)fetchWithError:(NSError **)error credentialProvider:(GTCredentialProvider *)credProvider progress:(GTRemoteTransferProgressBlock)progressBlock {
 	@synchronized (self) {
 		GTRemoteFetchInfo payload = {
 			.myself = self,
-			.credBlock = credBlock,
+			.credProvider = credProvider,
 			.progressBlock = progressBlock,
 		};
 
-		git_remote_set_cred_acquire_cb(self.git_remote, fetch_cred_acquire_cb, &payload);
+		git_remote_set_cred_acquire_cb(self.git_remote, GTCredentialAcquireCallback, &payload);
 
 		@try {
 			int gitError = git_remote_connect(self.git_remote, GIT_DIRECTION_FETCH);

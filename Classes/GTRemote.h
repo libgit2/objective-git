@@ -11,14 +11,7 @@
 @class GTRepository;
 @class GTOID;
 @class GTReference;
-
-// An enum describing the authentication data needed for accessing the remote.
-// See `git_credtype_t`.
-typedef enum {
-	GTCredentialTypeUserPassPlaintext = GIT_CREDTYPE_USERPASS_PLAINTEXT,
-	GTCredentialTypeSSHKeyFilePassPhrase = GIT_CREDTYPE_SSH_KEYFILE_PASSPHRASE,
-	GTCredentialTypeSSHPublicKey = GIT_CREDTYPE_SSH_PUBLICKEY,
-} GTCredentialType;
+@class GTCredentialProvider;
 
 // Auto Tag settings. See `git_remote_autotag_option_t`.
 typedef enum {
@@ -143,6 +136,6 @@ typedef enum {
 // progressBlock - A block that will be called during the operation to report its progression.
 //
 // Returns YES if successful, NO otherwise.
-- (BOOL)fetchWithError:(NSError **)error credentials:(int (^)(git_cred **cred, GTCredentialType allowedTypes, NSString *URL, NSString *username))credBlock progress:(void (^)(const git_transfer_progress *stats, BOOL *stop))progressBlock;
+- (BOOL)fetchWithError:(NSError **)error credentialProvider:(GTCredentialProvider *)credProvider progress:(void (^)(const git_transfer_progress *stats, BOOL *stop))progressBlock;
 
 @end
