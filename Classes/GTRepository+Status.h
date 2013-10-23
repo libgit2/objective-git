@@ -21,9 +21,9 @@ typedef enum {
 	GTFileStatusRenamedInIndex     = GIT_STATUS_INDEX_RENAMED,
 	GTFileStatusTypeChangedInIndex = GIT_STATUS_INDEX_TYPECHANGE,
 
-	GTStatusNewInWorktree         = GIT_STATUS_WT_NEW,
-	GTStatusModifiedInWorktree    = GIT_STATUS_WT_MODIFIED,
-	GTStatusDeletedInWorktree     = GIT_STATUS_WT_DELETED,
+	GTFileStatusNewInWorktree         = GIT_STATUS_WT_NEW,
+	GTFileStatusModifiedInWorktree    = GIT_STATUS_WT_MODIFIED,
+	GTFileStatusDeletedInWorktree     = GIT_STATUS_WT_DELETED,
 	GTFileStatusTypeChangedInWorktree = GIT_STATUS_WT_TYPECHANGE,
 	GTFileStatusRenamedInWorktree     = GIT_STATUS_WT_RENAMED,
 
