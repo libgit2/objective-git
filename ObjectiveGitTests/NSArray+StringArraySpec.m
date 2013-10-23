@@ -9,52 +9,78 @@
 SpecBegin(StringArray)
 
 describe(@"String arrays", ^{
-	__block NSArray *originalArray = nil;
-	__block git_strarray strArray;
-	
-	beforeEach(^{
-		originalArray = @[ @"First", @"Second", @"Third", @"Fourth", @"Fifth", @"Sixth" ];
-		strArray = originalArray.git_strarray;
-	});
-	
-	afterEach(^{
-		git_strarray_free(&strArray);
-	});
-	
-	it(@"should return null for an empty array", ^{
-		NSArray *emptyArray = [NSArray array];
-		expect(emptyArray.git_strarray.count).to.equal(0);
-		expect(emptyArray.git_strarray.strings).to.beNil();
-	});
 
-	void (^validateStrArray)(git_strarray) = ^(git_strarray arrayToValidate) {
-		expect(arrayToValidate.count).to.equal(originalArray.count);
-		
-		for (NSUInteger idx = 0; idx < originalArray.count; idx++) {
-			const char *convertedString = arrayToValidate.strings[idx];
+	void (^validateStrArray)(NSArray *, git_strarray) = ^(NSArray *array, git_strarray strArray) {
+		expect(strArray.count).to.equal(array.count);
+
+		for (NSUInteger idx = 0; idx < array.count; idx++) {
+			const char *convertedString = strArray.strings[idx];
 			NSString *comparisonString = [NSString stringWithUTF8String:convertedString];
-			expect(originalArray[idx]).to.equal(comparisonString);
+			expect(array[idx]).to.equal(comparisonString);
 		}
 	};
-	
-	it(@"should correctly translate the strings", ^{
-		validateStrArray(strArray);
+
+	describe(@"allow conversion to a git_strarray", ^{
+		__block NSArray *originalArray = nil;
+		__block git_strarray strArray;
+
+		beforeEach(^{
+			originalArray = @[ @"First", @"Second", @"Third", @"Fourth", @"Fifth", @"Sixth" ];
+			strArray = originalArray.git_strarray;
+		});
+
+		afterEach(^{
+			git_strarray_free(&strArray);
+		});
+
+		it(@"should return null for an empty array", ^{
+			NSArray *emptyArray = [NSArray array];
+			expect(emptyArray.git_strarray.count).to.equal(0);
+			expect(emptyArray.git_strarray.strings).to.beNil();
+		});
+
+		it(@"should correctly translate the strings", ^{
+			validateStrArray(originalArray, strArray);
+		});
+
+		it(@"should be able to be copied", ^{
+			git_strarray copiedArray;
+			git_strarray_copy(&copiedArray, &strArray);
+			validateStrArray(originalArray, copiedArray);
+			git_strarray_free(&copiedArray);
+		});
+
+		it(@"should stay valid outside of an autorelease pool", ^{
+			git_strarray dontAutoreleaseThis;
+			@autoreleasepool {
+				dontAutoreleaseThis = originalArray.git_strarray;
+			}
+
+			validateStrArray(originalArray, dontAutoreleaseThis);
+		});
 	});
-	
-	it(@"should be able to be copied", ^{
-		git_strarray copiedArray;
-		git_strarray_copy(&copiedArray, &strArray);
-		validateStrArray(copiedArray);
-		git_strarray_free(&copiedArray);
-	});
-	
-	it(@"should stay valid outside of an autorelease pool", ^{
-		git_strarray dontAutoreleaseThis;
-		@autoreleasepool {
-			dontAutoreleaseThis = originalArray.git_strarray;
-		}
-		
-		validateStrArray(dontAutoreleaseThis);
+
+	describe(@"allows conversion from a git_strarray", ^{
+		__block git_strarray originalStrArray;
+
+		beforeEach(^{
+			originalStrArray.count = 3;
+			originalStrArray.strings = calloc(originalStrArray.count, sizeof(char *));
+			originalStrArray.strings[0] = "First";
+			originalStrArray.strings[1] = "Second";
+			originalStrArray.strings[2] = "Third";
+		});
+
+		it(@"should return an empty array for an NULL strarray", ^{
+			git_strarray strarray = { .strings = NULL, .count = 0 };
+			NSArray *array = [NSArray git_arrayWithStrArray:strarray];
+			expect(array.count).to.equal(0);
+		});
+
+		it(@"should correctly translate the strarray", ^{
+			NSArray *array = [NSArray git_arrayWithStrArray:originalStrArray];
+			validateStrArray(array, originalStrArray);
+		});
 	});
 });
 
