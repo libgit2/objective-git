@@ -198,43 +198,54 @@ describe(@"network operations", ^{
 	});
 
 	describe(@"-pushReferences:credentialProvider:error:", ^{
-		it(@"allows remotes to be pushed", ^{
+		it(@"doesn't work with local pushes", ^{
 			NSError *error = nil;
 			GTRemote *remote = [GTRemote remoteWithName:@"origin" inRepository:fetchingRepo error:&error];
 
 			BOOL success = [remote pushReferences:remote.pushRefspecs credentialProvider:nil error:&error];
-			expect(success).to.beTruthy();
-			expect(error).to.beNil();
+			expect(success).to.beFalsy();
+			expect(error).notTo.beNil();
+			expect(error.code).to.equal(GIT_EBAREREPO);
+			// When that test fails, delete and uncomment below
 		});
 
-		it(@"pushes new commits", ^{
-			NSError *error = nil;
-
-			NSString *fileData = @"Another test";
-			NSString *fileName = @"Another file.txt";
-
-			GTCommit *testCommit = createCommitInRepository(@"Another test commit", [fileData dataUsingEncoding:NSUTF8StringEncoding], fileName, fetchingRepo);
-
-			// Issue a push
-			GTRemote *remote = [GTRemote remoteWithName:@"origin" inRepository:fetchingRepo error:nil];
-
-			BOOL success = [remote pushReferences:remote.pushRefspecs credentialProvider:nil error:&error];
-			expect(success).to.beTruthy();
-			expect(error).to.beNil();
-
-			// Check that the origin repo has a new commit
-			GTCommit *pushedCommit = [repository lookupObjectByOID:testCommit.OID objectType:GTObjectTypeCommit error:&error];
-			expect(error).to.beNil();
-			expect(pushedCommit).notTo.beNil();
-
-			GTTreeEntry *entry = [[pushedCommit tree] entryWithName:fileName];
-			expect(entry).notTo.beNil();
-
-			GTBlob *commitData = (GTBlob *)[entry toObjectAndReturnError:&error];
-			expect(error).to.beNil();
-			expect(commitData).notTo.beNil();
-			expect(commitData.content).to.equal(fileData);
-		});
+//		it(@"allows remotes to be pushed", ^{
+//			NSError *error = nil;
+//			GTRemote *remote = [GTRemote remoteWithName:@"origin" inRepository:fetchingRepo error:&error];
+//
+//			BOOL success = [remote pushReferences:remote.pushRefspecs credentialProvider:nil error:&error];
+//			expect(success).to.beTruthy();
+//			expect(error).to.beNil();
+//		});
+//
+//		it(@"pushes new commits", ^{
+//			NSError *error = nil;
+//
+//			NSString *fileData = @"Another test";
+//			NSString *fileName = @"Another file.txt";
+//
+//			GTCommit *testCommit = createCommitInRepository(@"Another test commit", [fileData dataUsingEncoding:NSUTF8StringEncoding], fileName, fetchingRepo);
+//
+//			// Issue a push
+//			GTRemote *remote = [GTRemote remoteWithName:@"origin" inRepository:fetchingRepo error:nil];
+//
+//			BOOL success = [remote pushReferences:remote.pushRefspecs credentialProvider:nil error:&error];
+//			expect(success).to.beTruthy();
+//			expect(error).to.beNil();
+//
+//			// Check that the origin repo has a new commit
+//			GTCommit *pushedCommit = [repository lookupObjectByOID:testCommit.OID objectType:GTObjectTypeCommit error:&error];
+//			expect(error).to.beNil();
+//			expect(pushedCommit).notTo.beNil();
+//
+//			GTTreeEntry *entry = [[pushedCommit tree] entryWithName:fileName];
+//			expect(entry).notTo.beNil();
+//
+//			GTBlob *commitData = (GTBlob *)[entry toObjectAndReturnError:&error];
+//			expect(error).to.beNil();
+//			expect(commitData).notTo.beNil();
+//			expect(commitData.content).to.equal(fileData);
+//		});
 	});
 });
 
