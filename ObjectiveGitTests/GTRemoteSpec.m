@@ -69,7 +69,7 @@ describe(@"updating", ^{
 	});
 });
 
-describe(@"fetching", ^{
+describe(@"network operations", ^{
 	__block NSURL *repositoryURL;
 	__block NSURL *fetchingRepoURL;
 	__block GTRepository *fetchingRepo;
@@ -131,6 +131,27 @@ describe(@"fetching", ^{
 		});
 	});
 
+	// Helper to quickly create commits
+	GTCommit *(^createCommitInRepository)(NSString *, NSData *, NSString *, GTRepository *) = ^(NSString *message, NSData *fileData, NSString *fileName, GTRepository *repo) {
+		GTTreeBuilder *treeBuilder = [[GTTreeBuilder alloc] initWithTree:nil error:nil];
+		[treeBuilder addEntryWithData:fileData fileName:fileName fileMode:GTFileModeBlob error:nil];
+
+		GTTree *testTree = [treeBuilder writeTreeToRepository:repo error:nil];
+
+		// We need the parent commit to make the new one
+		GTBranch *currentBranch = [repo currentBranchWithError:nil];
+		GTReference *currentReference = [currentBranch reference];
+
+		GTEnumerator *commitEnum = [[GTEnumerator alloc] initWithRepository:repo error:nil];
+		[commitEnum pushSHA:[currentReference targetSHA] error:nil];
+		GTCommit *parent = [commitEnum nextObject];
+
+		GTCommit *testCommit = [repo createCommitWithTree:testTree message:message parents:@[parent] updatingReferenceNamed:currentReference.name error:nil];
+		expect(testCommit).notTo.beNil();
+
+		return testCommit;
+	};
+
 	describe(@"-fetchWithError:credentials:progress:", ^{
 		it(@"allows remotes to be fetched", ^{
 			NSError *error = nil;
@@ -147,33 +168,19 @@ describe(@"fetching", ^{
 			// Create a new commit in the master repo
 			NSString *testData = @"Test";
 			NSString *fileName = @"test.txt";
-			BOOL res;
-			GTTreeBuilder *treeBuilder = [[GTTreeBuilder alloc] initWithTree:nil error:nil];
-			[treeBuilder addEntryWithData:[testData dataUsingEncoding:NSUTF8StringEncoding] fileName:fileName fileMode:GTFileModeBlob error:nil];
 
-			GTTree *testTree = [treeBuilder writeTreeToRepository:repository error:nil];
-
-			// We need the parent commit to make the new one
-			GTBranch *currentBranch = [repository currentBranchWithError:nil];
-			GTReference *currentReference = [currentBranch reference];
-
-			GTEnumerator *commitEnum = [[GTEnumerator alloc] initWithRepository:repository error:nil];
-			[commitEnum pushSHA:[currentReference targetSHA] error:nil];
-			GTCommit *parent = [commitEnum nextObject];
-
-			GTCommit *testCommit = [repository createCommitWithTree:testTree message:@"Test commit" parents:@[parent] updatingReferenceNamed:currentReference.name error:nil];
-			expect(testCommit).notTo.beNil();
+			GTCommit *testCommit = createCommitInRepository(@"Test commit", [testData dataUsingEncoding:NSUTF8StringEncoding], fileName, repository);
 
 			// Now issue a fetch from the fetching repo
 			GTRemote *remote = [GTRemote remoteWithName:remoteName inRepository:fetchingRepo error:nil];
 
 			__block unsigned int receivedObjects = 0;
-			res = [remote fetchWithCredentialProvider:nil error:&error progress:^(const git_transfer_progress *stats, BOOL *stop) {
+			BOOL success = [remote fetchWithCredentialProvider:nil error:&error progress:^(const git_transfer_progress *stats, BOOL *stop) {
 				receivedObjects += stats->received_objects;
 				NSLog(@"%d", receivedObjects);
 			}];
 			expect(error).to.beNil();
-			expect(res).to.beTruthy();
+			expect(success).to.beTruthy();
 			expect(receivedObjects).to.equal(6);
 
 			GTCommit *fetchedCommit = [fetchingRepo lookupObjectByOID:testCommit.OID objectType:GTObjectTypeCommit error:&error];
@@ -187,6 +194,46 @@ describe(@"fetching", ^{
 			expect(error).to.beNil();
 			expect(fileData).notTo.beNil();
 			expect(fileData.content).to.equal(testData);
+		});
+	});
+
+	describe(@"-pushReferences:credentialProvider:error:", ^{
+		it(@"allows remotes to be pushed", ^{
+			NSError *error = nil;
+			GTRemote *remote = [GTRemote remoteWithName:@"origin" inRepository:fetchingRepo error:&error];
+
+			BOOL success = [remote pushReferences:remote.pushRefspecs credentialProvider:nil error:&error];
+			expect(success).to.beTruthy();
+			expect(error).to.beNil();
+		});
+
+		it(@"pushes new commits", ^{
+			NSError *error = nil;
+
+			NSString *fileData = @"Another test";
+			NSString *fileName = @"Another file.txt";
+
+			GTCommit *testCommit = createCommitInRepository(@"Another test commit", [fileData dataUsingEncoding:NSUTF8StringEncoding], fileName, fetchingRepo);
+
+			// Issue a push
+			GTRemote *remote = [GTRemote remoteWithName:@"origin" inRepository:fetchingRepo error:nil];
+
+			BOOL success = [remote pushReferences:remote.pushRefspecs credentialProvider:nil error:&error];
+			expect(success).to.beTruthy();
+			expect(error).to.beNil();
+
+			// Check that the origin repo has a new commit
+			GTCommit *pushedCommit = [repository lookupObjectByOID:testCommit.OID objectType:GTObjectTypeCommit error:&error];
+			expect(error).to.beNil();
+			expect(pushedCommit).notTo.beNil();
+
+			GTTreeEntry *entry = [[pushedCommit tree] entryWithName:fileName];
+			expect(entry).notTo.beNil();
+
+			GTBlob *commitData = (GTBlob *)[entry toObjectAndReturnError:&error];
+			expect(error).to.beNil();
+			expect(commitData).notTo.beNil();
+			expect(commitData.content).to.equal(fileData);
 		});
 	});
 });
