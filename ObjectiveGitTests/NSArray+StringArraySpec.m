@@ -15,7 +15,7 @@ describe(@"String arrays", ^{
 
 		for (NSUInteger idx = 0; idx < array.count; idx++) {
 			const char *convertedString = strArray.strings[idx];
-			NSString *comparisonString = [NSString stringWithUTF8String:convertedString];
+			NSString *comparisonString = @(convertedString);
 			expect(array[idx]).to.equal(comparisonString);
 		}
 	};
