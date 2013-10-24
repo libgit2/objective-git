@@ -418,7 +418,11 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 		return nil;
 	}
 
-	return [NSArray git_arrayWithStrArray:array];
+	NSArray *referenceNames = [NSArray git_arrayWithStrArray:array];
+
+	git_strarray_free(&array);
+
+	return referenceNames;
 }
 
 - (NSURL *)fileURL {
