@@ -205,8 +205,14 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 	cloneOptions.fetch_progress_cb = transferProgressCallback;
 	cloneOptions.fetch_progress_payload = (__bridge void *)transferProgressBlock;
 
-	const char *remoteURL = originURL.absoluteString.UTF8String;
-	const char *workingDirectoryPath = workdirURL.path.UTF8String;
+	// If our originURL is local, convert to a path before handing down.
+	const char *remoteURL = NULL;
+	if (originURL.isFileURL || originURL.isFileReferenceURL) {
+		remoteURL = originURL.filePathURL.path.fileSystemRepresentation;
+	} else {
+		remoteURL = originURL.absoluteString.UTF8String;
+	}
+	const char *workingDirectoryPath = workdirURL.path.fileSystemRepresentation;
 	git_repository *repository;
 	int gitError = git_clone(&repository, remoteURL, workingDirectoryPath, &cloneOptions);
 	if (gitError < GIT_OK) {
