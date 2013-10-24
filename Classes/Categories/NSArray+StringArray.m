@@ -8,10 +8,21 @@
 
 #import "NSArray+StringArray.h"
 
+static NSMutableArray *convertStrArrayToArray(git_strarray strarray) {
+	NSMutableArray *array = [NSMutableArray arrayWithCapacity:strarray.count];
+	for (NSUInteger i = 0; i < strarray.count; i++) {
+		NSString *string = @(strarray.strings[i]);
+		if (string == nil) continue;
+
+		[array addObject:string];
+	}
+	return array;
+}
+
 @implementation NSArray (StringArray)
 
 + (instancetype)git_arrayWithStrArray:(git_strarray)strarray {
-	return [[NSMutableArray git_arrayWithStrArray:strarray] copy];
+	return [convertStrArrayToArray(strarray) copy];
 }
 
 - (git_strarray)git_strarray {
@@ -32,14 +43,9 @@
 @end
 
 @implementation NSMutableArray (StringArray)
-+ (instancetype)git_arrayWithStrArray:(git_strarray)strarray {
-	NSMutableArray *array = [NSMutableArray arrayWithCapacity:strarray.count];
-	for (NSUInteger i = 0; i < strarray.count; i++) {
-		NSString *string = @(strarray.strings[i]);
-		if (string == nil) continue;
 
-		[array addObject:string];
-	}
-	return array;
++ (instancetype)git_arrayWithStrArray:(git_strarray)strarray {
+	return convertStrArrayToArray(strarray);
 }
+
 @end
