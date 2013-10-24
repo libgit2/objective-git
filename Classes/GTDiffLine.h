@@ -39,7 +39,9 @@ typedef enum {
 // The origin of the line, see the enum above for possible values.
 @property (nonatomic, readonly) GTDiffLineOrigin origin;
 
+@property (nonatomic, readonly) NSInteger numLines;
+
 // Designated initialiser.
-- (instancetype)initWithContent:(NSString *)content oldLineNumber:(NSInteger)oldLineNumber newLineNumber:(NSInteger)newLineNumber origin:(GTDiffLineOrigin)origin;
+- (instancetype)initWithGitLine:(const git_diff_line *)line;
 
 @end

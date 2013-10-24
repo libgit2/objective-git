@@ -10,49 +10,44 @@
 
 #import "GTDiffDelta.h"
 #import "GTDiffLine.h"
+#import "GTPatch.h"
 
 @interface GTDiffHunk ()
 
-@property (nonatomic, strong, readonly) GTDiffDelta *delta;
-@property (nonatomic, readonly) NSUInteger hunkIndex;
+@property (nonatomic, assign, readonly) const git_diff_hunk *hunk;
+@property (nonatomic, strong, readonly) GTPatch *patch;
+@property (nonatomic, assign, readonly) NSUInteger hunkIndex;
 
 @end
 
 @implementation GTDiffHunk
 
-- (instancetype)initWithDelta:(GTDiffDelta *)delta hunkIndex:(NSUInteger)hunkIndex {
+- (instancetype)initWithGitHunk:(const git_diff_hunk *)hunk hunkIndex:(NSUInteger)hunkIndex patch:(GTPatch *)patch {
 	self = [super init];
 	if (self == nil) return nil;
 	
-	_delta = delta;
+	_patch = patch;
+	_hunk = hunk;
 	_hunkIndex = hunkIndex;
-	
-	const char *headerCString;
-	size_t headerLength;
-	size_t lineCount;
-	int result = git_diff_patch_get_hunk(NULL, &headerCString, &headerLength, &lineCount, delta.git_diff_patch, hunkIndex);
-	if (result != GIT_OK) return nil;
-	
-	_header = [[[NSString alloc] initWithBytes:headerCString length:headerLength encoding:NSUTF8StringEncoding] stringByTrimmingCharactersInSet:NSCharacterSet.newlineCharacterSet];
-	_lineCount = lineCount;
 
 	return self;
 }
 
+- (NSUInteger)lineCount {
+	return git_patch_num_lines_in_hunk(self.patch.git_patch, self.hunkIndex);
+}
+
 - (void)enumerateLinesInHunkUsingBlock:(void (^)(GTDiffLine *line, BOOL *stop))block {
 	NSParameterAssert(block != nil);
-	
+
 	for (NSUInteger idx = 0; idx < self.lineCount; idx ++) {
-		char lineOrigin;
-		const char *content;
-		size_t contentLength;
-		int oldLineNumber;
-		int newLineNumber;
-		int result = git_diff_patch_get_line_in_hunk(&lineOrigin, &content, &contentLength, &oldLineNumber, &newLineNumber, self.delta.git_diff_patch, self.hunkIndex, idx);
+		const git_diff_line *gitLine;
+		int result = git_patch_get_line_in_hunk(&gitLine, self.patch.git_patch, self.hunkIndex, idx);
 		if (result != GIT_OK) continue;
-		
-		NSString *lineString = [[[NSString alloc] initWithBytes:content length:contentLength encoding:NSUTF8StringEncoding] stringByTrimmingCharactersInSet:NSCharacterSet.newlineCharacterSet];
-		GTDiffLine *line = [[GTDiffLine alloc] initWithContent:lineString oldLineNumber:oldLineNumber newLineNumber:newLineNumber origin:lineOrigin];
+
+		// TODO: Cache line
+		GTDiffLine *line = [[GTDiffLine alloc] initWithGitLine:gitLine];
+
 		BOOL stop = NO;
 		block(line, &stop);
 		if (stop) return;

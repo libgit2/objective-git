@@ -10,14 +10,15 @@
 
 @implementation GTDiffLine
 
-- (instancetype)initWithContent:(NSString *)content oldLineNumber:(NSInteger)oldLineNumber newLineNumber:(NSInteger)newLineNumber origin:(GTDiffLineOrigin)origin {
+- (instancetype)initWithGitLine:(const git_diff_line *)line {
 	self = [super init];
 	if (self == nil) return nil;
 	
-	_content = [content copy];
-	_oldLineNumber = oldLineNumber;
-	_newLineNumber = newLineNumber;
-	_origin = origin;
+	_content = [[[NSString alloc] initWithBytes:line->content length:line->content_len encoding:NSUTF8StringEncoding] stringByTrimmingCharactersInSet:NSCharacterSet.newlineCharacterSet];;
+	_oldLineNumber = line->old_lineno;
+	_newLineNumber = line->new_lineno;
+	_origin = line->origin;
+	_numLines = line->num_lines;
 	
 	return self;
 }

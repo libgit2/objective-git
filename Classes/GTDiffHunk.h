@@ -10,6 +10,7 @@
 
 @class GTDiffDelta;
 @class GTDiffLine;
+@class GTPatch;
 
 // A class representing a hunk within a diff delta.
 @interface GTDiffHunk : NSObject
@@ -21,10 +22,7 @@
 @property (nonatomic, readonly) NSUInteger lineCount;
 
 // Designated initialiser.
-//
-// The contents of a hunk are lazily loaded, therefore we initialise the object
-// simply with the delta it originates from and which hunk index it represents.
-- (instancetype)initWithDelta:(GTDiffDelta *)delta hunkIndex:(NSUInteger)hunkIndex;
+- (instancetype)initWithGitHunk:(const git_diff_hunk *)hunk hunkIndex:(NSUInteger)hunkIndex patch:(GTPatch *)patch;
 
 // Perfoms the given block on each line in the hunk.
 //

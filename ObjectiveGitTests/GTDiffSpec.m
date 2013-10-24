@@ -88,15 +88,17 @@ describe(@"GTDiff diffing", ^{
 		[diff enumerateDeltasUsingBlock:^(GTDiffDelta *delta, BOOL *stop) {
 			expect(delta.oldFile.path).to.equal(@"TestAppWindowController.h");
 			expect(delta.oldFile.path).to.equal(delta.newFile.path);
-			expect(delta.hunkCount).to.equal(1);
 			expect(delta.binary).to.beFalsy();
 			expect((NSUInteger)delta.type).to.equal(GTDiffFileDeltaModified);
-			
-			expect(delta.addedLinesCount).to.equal(1);
-			expect(delta.deletedLinesCount).to.equal(1);
-			expect(delta.contextLinesCount).to.equal(6);
-			
-			[delta enumerateHunksWithBlock:^(GTDiffHunk *hunk, BOOL *stop) {
+
+			GTPatch *patch = delta.patch;
+
+			expect(patch.hunkCount).to.equal(1);
+			expect(patch.addedLinesCount).to.equal(1);
+			expect(patch.deletedLinesCount).to.equal(1);
+			expect(patch.contextLinesCount).to.equal(6);
+
+			[patch enumerateHunksWithBlock:^(GTDiffHunk *hunk, BOOL *stop) {
 				expect(hunk.header).to.equal(@"@@ -4,7 +4,7 @@");
 				expect(hunk.lineCount).to.equal(8);
 				
@@ -178,8 +180,8 @@ describe(@"GTDiff diffing", ^{
 		setupDiffFromCommitSHAsAndOptions(@"be0f001ff517a00b5b8e3c29ee6561e70f994e17", @"fe89ea0a8e70961b8a6344d9660c326d3f2eb0fe", options);
 		expect(diff.deltaCount).to.equal(1);
 		[diff enumerateDeltasUsingBlock:^(GTDiffDelta *delta, BOOL *stop) {
-			expect(delta.hunkCount).to.equal(1);
-			[delta enumerateHunksWithBlock:^(GTDiffHunk *hunk, BOOL *stop) {
+			expect(delta.patch.hunkCount).to.equal(1);
+			[delta.patch enumerateHunksWithBlock:^(GTDiffHunk *hunk, BOOL *stop) {
 				__block NSUInteger contextCount = 0;
 				[hunk enumerateLinesInHunkUsingBlock:^(GTDiffLine *line, BOOL *stop) {
 					if (line.origin == GTDiffLineOriginContext) contextCount ++;
@@ -218,8 +220,8 @@ describe(@"GTDiff diffing", ^{
 		[diff enumerateDeltasUsingBlock:^(GTDiffDelta *delta, BOOL *stop) {
 			if (![delta.newFile.path isEqualToString:@"jquery-1.8.1.min.js"]) return;
 			
-			expect(delta.hunkCount).to.equal(1);
-			[delta enumerateHunksWithBlock:^(GTDiffHunk *hunk, BOOL *stop) {
+			expect(delta.patch.hunkCount).to.equal(1);
+			[delta.patch enumerateHunksWithBlock:^(GTDiffHunk *hunk, BOOL *stop) {
 				expect(hunk.lineCount).to.equal(3);
 				*stop = YES;
 			}];

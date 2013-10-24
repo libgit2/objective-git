@@ -10,6 +10,8 @@
 
 @class GTDiffFile;
 @class GTDiffHunk;
+@class GTDiff;
+@class GTPatch;
 
 // The type of change that this delta represents.
 //
@@ -44,7 +46,7 @@ typedef enum {
 @interface GTDiffDelta : NSObject
 
 // The backing libgit2 `git_diff_patch` object.
-@property (nonatomic, readonly) git_diff_patch *git_diff_patch;
+@property (nonatomic, readonly) git_diff *git_diff;
 
 // Whether the file(s) are to be treated as binary.
 @property (nonatomic, readonly, getter = isBinary) BOOL binary;
@@ -60,37 +62,13 @@ typedef enum {
 // Think "status" as in `git status`.
 @property (nonatomic, readonly) GTDiffDeltaType type;
 
-// The number of hunks represented by this delta.
-@property (nonatomic, readonly) NSUInteger hunkCount;
-
-// The number of added lines in this delta.
-//
-// Undefined if this delta is binary.
-@property (nonatomic, readonly) NSUInteger addedLinesCount;
-
-// The number of deleted lines in this delta.
-//
-// Undefined if this delta is binary.
-@property (nonatomic, readonly) NSUInteger deletedLinesCount;
-
-// The number of context lines in this delta.
-//
-// Undefined if this delta is binary.
-@property (nonatomic, readonly) NSUInteger contextLinesCount;
+@property (nonatomic, readonly) GTPatch *patch;
 
 // Designated initialiser.
-- (instancetype)initWithGitPatch:(git_diff_patch *)patch;
+- (instancetype)initWithGitDelta:(const git_diff_delta *)delta deltaIndex:(NSInteger)idx inDiff:(GTDiff *)diff;
 
 // A convenience accessor to fetch the `git_diff_delta` represented by the
 // object.
 - (const git_diff_delta *)git_diff_delta __attribute__((objc_returns_inner_pointer));
-
-// Enumerate the hunks contained in the delta.
-//
-// Blocks during enumeration.
-//
-// block - A block to be executed for each hunk. Setting `stop` to `YES`
-//         immediately stops the enumeration.
-- (void)enumerateHunksWithBlock:(void (^)(GTDiffHunk *hunk, BOOL *stop))block;
 
 @end
