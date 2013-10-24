@@ -352,7 +352,7 @@ int transfer_progress_cb(const git_transfer_progress *stats, void *payload) {
 #pragma mark -
 #pragma mark Push
 
-- (BOOL)pushReferences:(NSArray *)references credentialProvider:(GTCredentialProvider *)credProvider error:(NSError **)error progress:(GTRemoteTransferProgressBlock)progressBlock {
+- (BOOL)pushReferences:(NSArray *)references credentialProvider:(GTCredentialProvider *)credProvider error:(NSError **)error {
 	NSParameterAssert(references != nil);
 
 	git_push *push;
@@ -384,7 +384,6 @@ int transfer_progress_cb(const git_transfer_progress *stats, void *payload) {
 	@synchronized (self) {
 		GTRemoteConnectionInfo connectionInfo = {
 			.credProvider = credProvider,
-			.progressBlock = progressBlock,
 			.direction = GIT_DIRECTION_PUSH,
 		};
 		BOOL success = [self connectRemoteWithInfo:&connectionInfo error:error block:^BOOL(NSError **error) {
