@@ -92,21 +92,25 @@ NSString *const GTRepositoryStatusOptionsPathSpecArrayKey = @"GTRepositoryStatus
 	return clean;
 }
 
-- (BOOL)status:(GTFileStatusFlags *)status forFile:(NSURL *)fileURL error:(NSError **)error {
-	NSParameterAssert(status != NULL);
+- (GTFileStatusFlags)statusForFile:(NSURL *)fileURL success:(BOOL *)success error:(NSError **)error {
+	NSParameterAssert(success != NULL);
 	NSParameterAssert(fileURL != nil);
 
-	int gitError = git_status_file(status, self.git_repository, fileURL.path.fileSystemRepresentation);
+	git_status_t status;
+
+	int gitError = git_status_file(&status, self.git_repository, fileURL.path.fileSystemRepresentation);
 	if (gitError != GIT_OK) {
 		if (error) *error = [NSError git_errorFor:gitError description:@"Status failed" failureReason:@"Failed to get status for file \"%@\" in \"%@\"", fileURL.path, self.gitDirectoryURL];
-		return NO;
+		*success = NO;
+		return GTFileStatusCurrent;
 	}
 
-	return YES;
+	*success = YES;
+	return (GTFileStatusFlags)status;
 }
 
-- (BOOL)shouldFile:(NSURL *)fileURL beIgnored:(BOOL *)ignore error:(NSError **)error {
-	NSParameterAssert(ignore != NULL);
+- (BOOL)shouldFileBeIgnored:(NSURL *)fileURL success:(BOOL *)success error:(NSError **)error {
+	NSParameterAssert(success != NULL);
 	NSParameterAssert(fileURL != nil);
 
 	int ignoreState = 0;
@@ -114,11 +118,12 @@ NSString *const GTRepositoryStatusOptionsPathSpecArrayKey = @"GTRepositoryStatus
 	int gitError = git_status_should_ignore(&ignoreState, self.git_repository, fileURL.path.fileSystemRepresentation);
 	if (gitError != GIT_OK) {
 		if (error) *error = [NSError git_errorFor:gitError description:@"Ignore failed" failureReason:@"Failed to get ignore status for file \"%@\" in \"%@\"", fileURL.path, self.gitDirectoryURL];
-		return NO;
+		*success = NO;
+		return YES;
 	}
 
-	*ignore = (ignoreState == 0 ? YES : NO);
-	return YES;
+	*success = YES;
+	return (ignoreState == 0 ? YES : NO);
 }
 
 @end

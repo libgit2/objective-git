@@ -109,9 +109,9 @@ extern NSString *const GTRepositoryStatusOptionsPathSpecArrayKey;
 - (BOOL)enumerateFileStatusWithOptions:(NSDictionary *)options error:(NSError **)error usingBlock:(void (^)(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop))block;
 
 // Query the status of one file
-- (BOOL)status:(GTFileStatusFlags *)status forFile:(NSURL *)fileURL error:(NSError **)error;
+- (GTFileStatusFlags)statusForFile:(NSURL *)fileURL success:(BOOL *)success error:(NSError **)error;
 
 // Should the file be considered as ignored ?
-- (BOOL)shouldFile:(NSURL *)fileURL beIgnored:(BOOL *)ignore error:(NSError **)error;
+- (BOOL)shouldFileBeIgnored:(NSURL *)fileURL success:(BOOL *)success error:(NSError **)error;
 
 @end
