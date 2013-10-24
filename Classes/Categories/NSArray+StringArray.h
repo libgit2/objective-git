@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import <ObjectiveGit/git2/strarray.h>
+#import "git2.h"
 
 @interface NSArray (StringArray)
 
