@@ -20,7 +20,7 @@
 // strarray - The `git_strarray` to convert.
 //
 // Returns a new array with the contents to strarray converted to NSStrings.
-+ (instancetype)git_arrayWithStrArray:(git_strarray)strarray;
++ (instancetype)git_arrayWithStrarray:(git_strarray)strarray;
 
 // Creates and returns a `git_strarray` given an `NSArray` of `NSString`s.
 //

@@ -73,12 +73,12 @@ describe(@"String arrays", ^{
 
 		it(@"should return an empty array for an NULL strarray", ^{
 			git_strarray strarray = { .strings = NULL, .count = 0 };
-			NSArray *array = [NSArray git_arrayWithStrArray:strarray];
+			NSArray *array = [NSArray git_arrayWithStrarray:strarray];
 			expect(array.count).to.equal(0);
 		});
 
 		it(@"should correctly translate the strarray", ^{
-			NSArray *array = [NSArray git_arrayWithStrArray:originalStrArray];
+			NSArray *array = [NSArray git_arrayWithStrarray:originalStrArray];
 			validateStrArray(array, originalStrArray);
 		});
 	});

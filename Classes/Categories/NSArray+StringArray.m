@@ -21,7 +21,7 @@ static NSMutableArray *convertStrArrayToArray(git_strarray strarray) {
 
 @implementation NSArray (StringArray)
 
-+ (instancetype)git_arrayWithStrArray:(git_strarray)strarray {
++ (instancetype)git_arrayWithStrarray:(git_strarray)strarray {
 	return [convertStrArrayToArray(strarray) copy];
 }
 
@@ -44,7 +44,7 @@ static NSMutableArray *convertStrArrayToArray(git_strarray strarray) {
 
 @implementation NSMutableArray (StringArray)
 
-+ (instancetype)git_arrayWithStrArray:(git_strarray)strarray {
++ (instancetype)git_arrayWithStrarray:(git_strarray)strarray {
 	return convertStrArrayToArray(strarray);
 }
 

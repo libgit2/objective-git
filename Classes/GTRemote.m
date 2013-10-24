@@ -75,7 +75,7 @@
 		git_strarray_free(&refspecs);
 	};
 
-	return [NSArray git_arrayWithStrArray:refspecs];
+	return [NSArray git_arrayWithStrarray:refspecs];
 
 }
 

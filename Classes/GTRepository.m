@@ -418,7 +418,7 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 		return nil;
 	}
 
-	NSArray *referenceNames = [NSArray git_arrayWithStrArray:array];
+	NSArray *referenceNames = [NSArray git_arrayWithStrarray:array];
 
 	git_strarray_free(&array);
 
