@@ -224,6 +224,23 @@ static int remote_rename_problem_cb(const char *problematic_refspec, void *paylo
 	return [fetchRefspecs copy];
 }
 
+- (NSArray *)pushRefspecs {
+	__block git_strarray refspecs;
+	int gitError = git_remote_get_push_refspecs(&refspecs, self.git_remote);
+	if (gitError != GIT_OK) return nil;
+
+	@onExit {
+		git_strarray_free(&refspecs);
+	};
+
+	NSMutableArray *pushRefspecs = [NSMutableArray arrayWithCapacity:refspecs.count];
+	for (size_t i = 0; i < refspecs.count; i++) {
+		if (refspecs.strings[i] == NULL) continue;
+		[pushRefspecs addObject:@(refspecs.strings[i])];
+	}
+	return [pushRefspecs copy];
+}
+
 #pragma mark Update the remote
 
 - (BOOL)saveRemote:(NSError **)error {

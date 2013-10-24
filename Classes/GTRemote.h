@@ -53,6 +53,12 @@ typedef enum {
 // `+refs/heads/*:refs/remotes/REMOTE/*`.
 @property (nonatomic, readonly, copy) NSArray *fetchRefspecs;
 
+// The push refspecs for this remote.
+//
+// This array will contain NSStrings of the form
+// `+refs/heads/*:refs/remotes/REMOTE/*`.
+@property (nonatomic, readonly, copy) NSArray *pushRefspecs;
+
 // Tests if a URL is supported (e.g. it's a supported URL scheme)
 + (BOOL)isSupportedURL:(NSString *)URL;
 
