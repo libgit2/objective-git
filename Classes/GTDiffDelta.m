@@ -14,7 +14,9 @@
 #import "GTDiff.h"
 
 @interface GTDiffDelta () {
-	GTPatch *_patch; // Cache
+	// Some cache ivars
+	GTPatch *_patch;
+	GTDiffFile *_oldFile, *_newFile;
 }
 @property (nonatomic, assign, readonly) const git_diff_delta *git_diff_delta;
 @property (nonatomic, strong, readonly) GTDiff *diff;
@@ -43,11 +45,16 @@
 }
 
 - (GTDiffFile *)oldFile {
-	return [[GTDiffFile alloc] initWithGitDiffFile:self.git_diff_delta->old_file];
+	if (_oldFile == nil)
+		_oldFile = [[GTDiffFile alloc] initWithGitDiffFile:self.git_diff_delta->old_file];
+	return _oldFile;
 }
 
 - (GTDiffFile *)newFile {
-	return [[GTDiffFile alloc] initWithGitDiffFile:self.git_diff_delta->new_file];
+	if (_newFile == nil) {
+		_newFile = [[GTDiffFile alloc] initWithGitDiffFile:self.git_diff_delta->new_file];
+	}
+	return _newFile;
 }
 
 - (GTDiffDeltaType)type {
