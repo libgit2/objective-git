@@ -56,6 +56,6 @@
 //
 // block - A block to be executed for each hunk. Setting `stop` to `YES`
 //         immediately stops the enumeration.
-- (void)enumerateHunksWithBlock:(void (^)(GTDiffHunk *hunk, BOOL *stop))block;
+- (void)enumerateHunksUsingBlock:(void (^)(GTDiffHunk *hunk, BOOL *stop))block;
 
 @end

@@ -98,7 +98,7 @@ describe(@"GTDiff diffing", ^{
 			expect(patch.deletedLinesCount).to.equal(1);
 			expect(patch.contextLinesCount).to.equal(6);
 
-			[patch enumerateHunksWithBlock:^(GTDiffHunk *hunk, BOOL *stop) {
+			[patch enumerateHunksUsingBlock:^(GTDiffHunk *hunk, BOOL *stop) {
 				expect(hunk.header).to.equal(@"@@ -4,7 +4,7 @@");
 				expect(hunk.lineCount).to.equal(8);
 				
@@ -181,7 +181,7 @@ describe(@"GTDiff diffing", ^{
 		expect(diff.deltaCount).to.equal(1);
 		[diff enumerateDeltasUsingBlock:^(GTDiffDelta *delta, BOOL *stop) {
 			expect(delta.patch.hunkCount).to.equal(1);
-			[delta.patch enumerateHunksWithBlock:^(GTDiffHunk *hunk, BOOL *stop) {
+			[delta.patch enumerateHunksUsingBlock:^(GTDiffHunk *hunk, BOOL *stop) {
 				__block NSUInteger contextCount = 0;
 				[hunk enumerateLinesInHunkUsingBlock:^(GTDiffLine *line, BOOL *stop) {
 					if (line.origin == GTDiffLineOriginContext) contextCount ++;
@@ -221,7 +221,7 @@ describe(@"GTDiff diffing", ^{
 			if (![delta.newFile.path isEqualToString:@"jquery-1.8.1.min.js"]) return;
 			
 			expect(delta.patch.hunkCount).to.equal(1);
-			[delta.patch enumerateHunksWithBlock:^(GTDiffHunk *hunk, BOOL *stop) {
+			[delta.patch enumerateHunksUsingBlock:^(GTDiffHunk *hunk, BOOL *stop) {
 				expect(hunk.lineCount).to.equal(3);
 				*stop = YES;
 			}];

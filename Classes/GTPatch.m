@@ -11,7 +11,7 @@
 
 @interface GTPatch ()
 @property (nonatomic, assign, readonly) git_patch *git_patch;
-//@property (nonatomic, assign, readonly) GTDiffDelta *delta;
+@property (strong) NSArray *patchHunks;
 @end
 
 @implementation GTPatch
@@ -55,20 +55,38 @@
 						  (includeFileHeaders == YES ? 1 : 0));
 }
 
-- (void)enumerateHunksWithBlock:(void (^)(GTDiffHunk *hunk, BOOL *stop))block {
-	NSParameterAssert(block != nil);
+- (void)buildPatchHunksWithBlock:(void (^)(GTDiffHunk *hunk, BOOL *stop))block {
+	NSMutableArray *patchHunks = [NSMutableArray arrayWithCapacity:self.hunkCount];
 
 	for (NSUInteger idx = 0; idx < self.hunkCount; idx ++) {
 		const git_diff_hunk *gitHunk;
 		git_patch_get_hunk(&gitHunk, NULL, self.git_patch, idx);
-		// TODO: Cache hunks
 		GTDiffHunk *hunk = [[GTDiffHunk alloc] initWithGitHunk:gitHunk hunkIndex:idx patch:self];
+		// FIXME: Report error ?
 		if (hunk == nil) return;
+
+		[patchHunks addObject:hunk];
+
+		if (block == nil) continue;
 
 		BOOL shouldStop = NO;
 		block(hunk, &shouldStop);
 		if (shouldStop) return;
 	}
+
+	self.patchHunks = patchHunks;
+}
+
+- (void)enumerateHunksUsingBlock:(void (^)(GTDiffHunk *hunk, BOOL *stop))block {
+	NSParameterAssert(block != nil);
+
+	if (self.patchHunks == nil) {
+		[self buildPatchHunksWithBlock:block];
+		return;
+	}
+	[self.patchHunks enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		block(obj, stop);
+	}];
 }
 
 @end
