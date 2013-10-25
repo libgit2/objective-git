@@ -17,6 +17,7 @@
 @property (nonatomic, assign, readonly) const git_diff_hunk *hunk;
 @property (nonatomic, strong, readonly) GTPatch *patch;
 @property (nonatomic, assign, readonly) NSUInteger hunkIndex;
+@property (nonatomic, strong) NSArray *hunkLines;
 
 @end
 
@@ -37,21 +38,37 @@
 	return git_patch_num_lines_in_hunk(self.patch.git_patch, self.hunkIndex);
 }
 
-- (void)enumerateLinesInHunkUsingBlock:(void (^)(GTDiffLine *line, BOOL *stop))block {
-	NSParameterAssert(block != nil);
+- (void)buildLineArrayWithBlock:(void (^)(GTDiffLine *line, BOOL *stop))block {
+	NSMutableArray *hunkLines = [NSMutableArray arrayWithCapacity:self.lineCount];
 
 	for (NSUInteger idx = 0; idx < self.lineCount; idx ++) {
 		const git_diff_line *gitLine;
 		int result = git_patch_get_line_in_hunk(&gitLine, self.patch.git_patch, self.hunkIndex, idx);
+		// FIXME: Report error ?
 		if (result != GIT_OK) continue;
 
-		// TODO: Cache line
 		GTDiffLine *line = [[GTDiffLine alloc] initWithGitLine:gitLine];
+		[hunkLines addObject:line];
+
+		if (block == nil) continue;
 
 		BOOL stop = NO;
 		block(line, &stop);
 		if (stop) return;
 	}
+	self.hunkLines = hunkLines;
+}
+
+- (void)enumerateLinesInHunkUsingBlock:(void (^)(GTDiffLine *line, BOOL *stop))block {
+	NSParameterAssert(block != nil);
+
+	if (self.hunkLines == nil) {
+		[self buildLineArrayWithBlock:block];
+		return;
+	}
+	[self.hunkLines enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		block(obj, stop);
+	}];
 }
 
 @end
