@@ -23,8 +23,8 @@ typedef enum {
 // Represents an individual line in a diff hunk.
 @interface GTDiffLine : NSObject
 
-// The content string of the line.
-@property (nonatomic, readonly, copy) NSString *content;
+// The contents of the line.
+@property (nonatomic, readonly, copy) NSString *contents;
 
 // The line number of this line in the left side of the diff.
 //
