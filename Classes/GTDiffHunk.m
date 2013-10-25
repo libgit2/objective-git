@@ -14,9 +14,10 @@
 
 @interface GTDiffHunk ()
 
-@property (nonatomic, assign, readonly) const git_diff_hunk *hunk;
+@property (nonatomic, assign, readonly) const git_diff_hunk *git_hunk;
 @property (nonatomic, strong, readonly) GTPatch *patch;
 @property (nonatomic, assign, readonly) NSUInteger hunkIndex;
+@property (nonatomic, copy) NSString *header;
 @property (nonatomic, strong) NSArray *hunkLines;
 
 @end
@@ -28,10 +29,17 @@
 	if (self == nil) return nil;
 	
 	_patch = patch;
-	_hunk = hunk;
+	_git_hunk = hunk;
 	_hunkIndex = hunkIndex;
 
 	return self;
+}
+
+- (NSString *)header {
+	if (_header == nil) {
+		_header = [[[NSString alloc] initWithBytes:self.git_hunk->header length:self.git_hunk->header_len encoding:NSUTF8StringEncoding] stringByTrimmingCharactersInSet:NSCharacterSet.newlineCharacterSet];
+	}
+	return [_header copy];
 }
 
 - (NSUInteger)lineCount {
