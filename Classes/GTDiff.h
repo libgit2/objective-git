@@ -284,4 +284,12 @@ typedef enum {
 //           or nil to use the defaults.
 - (void)findSimilarWithOptions:(NSDictionary *)options;
 
+// Merge a diff with another diff.
+//
+// diff  - the diff to merge in.
+// error - Populated if an error occurs
+//
+// Returns YES if the merge was successfull, and NO and sets `error` otherwise.
+- (BOOL)mergeDiffWithDiff:(GTDiff *)diff error:(NSError **)error;
+
 @end

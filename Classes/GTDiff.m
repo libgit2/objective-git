@@ -242,4 +242,15 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 	git_diff_find_similar(self.git_diff, (findOptionsCreated ? &findOptions : NULL));
 }
 
+- (BOOL)mergeDiffWithDiff:(GTDiff *)diff error:(NSError **)error {
+	int gitError = git_diff_merge(self.git_diff, diff.git_diff);
+	if (gitError != GIT_OK) {
+		if (error) *error = [NSError git_errorFor:gitError description:@"Merging diffs failed"];
+		return NO;
+	}
+	// Clear our cache of deltas
+	self.cachedDeltas = nil;
+	return YES;
+}
+
 @end
