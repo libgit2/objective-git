@@ -157,7 +157,19 @@ typedef enum {
 	GTDiffFindOptionsFlagsFindRenamesFromRewrites = GIT_DIFF_FIND_RENAMES_FROM_REWRITES,
 	GTDiffFindOptionsFlagsFindCopies = GIT_DIFF_FIND_COPIES,
 	GTDiffFindOptionsFlagsFindCopiesFromUnmodified = GIT_DIFF_FIND_COPIES_FROM_UNMODIFIED,
+	GTDiffFindOptionsFlagsFindRewrites = GIT_DIFF_FIND_REWRITES,
+	GTDiffFindOptionsFlagsBreakRewrites = GIT_DIFF_BREAK_REWRITES,
 	GTDiffFindOptionsFlagsFindAndBreakRewrites = GIT_DIFF_FIND_AND_BREAK_REWRITES,
+
+	GTDiffFindOptionsFlagsFindForUntracked = GIT_DIFF_FIND_FOR_UNTRACKED,
+	GTDiffFindAll = GIT_DIFF_FIND_ALL,
+
+	GTDiffFindOptionsFlagsIgnoreLeadingWhitespace = GIT_DIFF_FIND_IGNORE_LEADING_WHITESPACE,
+	GTDiffFindOptionsFlagsIgnoreWhitespace = GIT_DIFF_FIND_IGNORE_WHITESPACE,
+	GTDiffFindOptionsFlagsDontIgnoreWhitespace = GIT_DIFF_FIND_DONT_IGNORE_WHITESPACE,
+	GTDiffFindOptionsFlagsExactMatchOnly = GIT_DIFF_FIND_EXACT_MATCH_ONLY,
+
+	GTDiffFindOptionsFlagsBreakRewritesForRenamesOnly = GIT_DIFF_BREAK_REWRITES_FOR_RENAMES_ONLY,
 } GTDiffFindOptionsFlags;
 
 // A class representing a single "diff".
