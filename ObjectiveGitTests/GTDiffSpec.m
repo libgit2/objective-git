@@ -91,14 +91,12 @@ describe(@"GTDiff diffing", ^{
 			expect(delta.binary).to.beFalsy();
 			expect((NSUInteger)delta.type).to.equal(GTDiffFileDeltaModified);
 
-			GTPatch *patch = delta.patch;
+			expect(delta.patch.hunkCount).to.equal(1);
+			expect(delta.patch.addedLinesCount).to.equal(1);
+			expect(delta.patch.deletedLinesCount).to.equal(1);
+			expect(delta.patch.contextLinesCount).to.equal(6);
 
-			expect(patch.hunkCount).to.equal(1);
-			expect(patch.addedLinesCount).to.equal(1);
-			expect(patch.deletedLinesCount).to.equal(1);
-			expect(patch.contextLinesCount).to.equal(6);
-
-			[patch enumerateHunksUsingBlock:^(GTDiffHunk *hunk, BOOL *stop) {
+			[delta.patch enumerateHunksUsingBlock:^(GTDiffHunk *hunk, BOOL *stop) {
 				expect(hunk.header).to.equal(@"@@ -4,7 +4,7 @@");
 				expect(hunk.lineCount).to.equal(8);
 				
