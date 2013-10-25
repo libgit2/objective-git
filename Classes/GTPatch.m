@@ -48,6 +48,13 @@
 	return git_patch_num_hunks(self.git_patch);
 }
 
+- (NSUInteger)sizeWithContext:(BOOL)includeContext hunkHeaders:(BOOL)includeHunkHeaders fileHeaders:(BOOL)includeFileHeaders {
+	return git_patch_size(self.git_patch,
+						  (includeContext == YES ? 1 : 0),
+						  (includeHunkHeaders == YES ? 1 : 0),
+						  (includeFileHeaders == YES ? 1 : 0));
+}
+
 - (void)enumerateHunksWithBlock:(void (^)(GTDiffHunk *hunk, BOOL *stop))block {
 	NSParameterAssert(block != nil);
 

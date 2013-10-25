@@ -41,6 +41,15 @@
 // The underlying git_patch object
 - (git_patch *)git_patch __attribute__((objc_returns_inner_pointer));
 
+// Get the patch size.
+//
+// includeContext     - Include the context lines in the size. Defaults to NO.
+// includeHunkHeaders - Include the hunk header lines in the size. Defaults to NO.
+// includeFileHeaders - Include the file header lines in the size. Defaults to NO.
+//
+// Returns the raw size in bytes of the patch.
+- (NSUInteger)sizeWithContext:(BOOL)includeContext hunkHeaders:(BOOL)includeHunkHeaders fileHeaders:(BOOL)includeFileHeaders;
+
 // Enumerate the hunks contained in the patch.
 //
 // Blocks during enumeration.
