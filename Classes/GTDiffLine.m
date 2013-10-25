@@ -14,7 +14,7 @@
 	self = [super init];
 	if (self == nil) return nil;
 	
-	_content = [[[NSString alloc] initWithBytes:line->content length:line->content_len encoding:NSUTF8StringEncoding] stringByTrimmingCharactersInSet:NSCharacterSet.newlineCharacterSet];;
+	_content = [[[NSString alloc] initWithBytes:line->content length:line->content_len encoding:NSUTF8StringEncoding] stringByTrimmingCharactersInSet:NSCharacterSet.newlineCharacterSet];
 	_oldLineNumber = line->old_lineno;
 	_newLineNumber = line->new_lineno;
 	_origin = line->origin;
