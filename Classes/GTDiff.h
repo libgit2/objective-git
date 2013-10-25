@@ -259,7 +259,7 @@ typedef enum {
 // Designated initialiser.
 - (instancetype)initWithGitDiff:(git_diff *)diff;
 
-// The libgit2 diff list object.
+// The libgit2 diff object.
 - (git_diff *)git_diff __attribute__((objc_returns_inner_pointer));
 
 // The number of deltas of the given type that are contained in the diff.

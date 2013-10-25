@@ -45,7 +45,7 @@ typedef enum {
 // for the types of change represented.
 @interface GTDiffDelta : NSObject
 
-// The backing libgit2 `git_diff_patch` object.
+// The backing libgit2 `git_diff` object.
 @property (nonatomic, readonly) git_diff *git_diff;
 
 // Whether the file(s) are to be treated as binary.
@@ -62,6 +62,7 @@ typedef enum {
 // Think "status" as in `git status`.
 @property (nonatomic, readonly) GTDiffDeltaType type;
 
+// Get the patch object corresponding to that diff delta.
 @property (nonatomic, readonly) GTPatch *patch;
 
 // Designated initialiser.
