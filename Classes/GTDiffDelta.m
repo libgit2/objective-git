@@ -45,6 +45,8 @@
 #pragma mark - Properties
 
 - (BOOL)isBinary {
+	// We have to generate the patch to know if the file is binary or not
+	(void)self.patch;
 	return (self.git_diff_delta->flags & GIT_DIFF_FLAG_BINARY) != 0;
 }
 
