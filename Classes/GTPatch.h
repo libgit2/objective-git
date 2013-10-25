@@ -35,8 +35,10 @@
 // Undefined if this delta is binary.
 @property (nonatomic, readonly) NSUInteger contextLinesCount;
 
+// Designated initializer
 - (instancetype)initWithGitPatch:(git_patch *)patch inDelta:(GTDiffDelta *)delta;
 
+// The underlying git_patch object
 - (git_patch *)git_patch __attribute__((objc_returns_inner_pointer));
 
 // Enumerate the hunks contained in the patch.
