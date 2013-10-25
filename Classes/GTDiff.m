@@ -182,7 +182,7 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 }
 
 - (NSString *)debugDescription {
-	return [NSString stringWithFormat:@"%@ deltaCount: %ld", super.debugDescription, self.deltaCount];
+	return [NSString stringWithFormat:@"%@ deltaCount: %ld", super.debugDescription, (unsigned long)self.deltaCount];
 }
 
 - (void)enumerateDeltasUsingBlock:(void (^)(GTDiffDelta *delta, BOOL *stop))block {
