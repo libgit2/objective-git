@@ -38,6 +38,10 @@
 	return self;
 }
 
+- (NSString *)debugDescription {
+	return [NSString stringWithFormat:@"%@ flags: %u, oldFile: %@, newFile: %@", super.debugDescription, self.git_diff_delta->flags, self.oldFile, self.newFile];
+}
+
 #pragma mark - Properties
 
 - (BOOL)isBinary {

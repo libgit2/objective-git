@@ -35,6 +35,10 @@
 	return self;
 }
 
+- (NSString *)debugDescription {
+	return [NSString stringWithFormat:@"%@ hunkIndex: %ld, header: %@, lineCount: %ld", super.debugDescription, self.hunkIndex, self.header, self.lineCount];
+}
+
 - (NSString *)header {
 	if (_header == nil) {
 		_header = [[[NSString alloc] initWithBytes:self.git_hunk->header length:self.git_hunk->header_len encoding:NSUTF8StringEncoding] stringByTrimmingCharactersInSet:NSCharacterSet.newlineCharacterSet];

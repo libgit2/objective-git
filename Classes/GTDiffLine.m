@@ -23,4 +23,8 @@
 	return self;
 }
 
+- (NSString *)debugDescription {
+	return [NSString stringWithFormat:@"%@ origin: %u, lines: %ld, oldLineNumber: %ld, newLineNumber: %ld, contents: %@", super.debugDescription, self.origin, self.numLines, self.oldLineNumber, self.newLineNumber, self.contents];
+}
+
 @end
