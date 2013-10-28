@@ -19,11 +19,10 @@
 
 	size_t stringsCount = 0;
 	for (size_t i = 0; i < strarray.count; i++) {
-		strings[stringsCount] = @(strarray.strings[i]);
-		if (strings[stringsCount] != nil) {
-			// Only move to the next array index if this string was non-nil.
-			stringsCount++;
-		}
+		const char *cStr = strarray.strings[i];
+		if (cStr == NULL) continue;
+
+		strings[stringsCount++] = @(cStr);
 	}
 
 	@onExit {
