@@ -12,14 +12,13 @@
 
 @interface NSArray (StringArray)
 
-// Creates and return a new `NSArray` of `NSString` given a `git_strarray`
+// Creates an `NSString` array from a `git_strarray`.
 //
-// The `git_strarray` must still be freed using `git_strarray_free`. It also
-// works on `NSMutableArray`, returning a mutable copy in this case.
+// The `git_strarray` must still be freed using `git_strarray_free` after use.
 //
 // strarray - The `git_strarray` to convert.
 //
-// Returns a new array with the contents to strarray converted to NSStrings.
+// Returns a new array with the contents of `strarray` converted to `NSString`s.
 + (instancetype)git_arrayWithStrarray:(git_strarray)strarray;
 
 // Creates and returns a `git_strarray` given an `NSArray` of `NSString`s.

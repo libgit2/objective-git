@@ -71,6 +71,10 @@ describe(@"String arrays", ^{
 			originalStrArray.strings[2] = "Third";
 		});
 
+		afterEach(^{
+			free(originalStrArray.strings);
+		});
+
 		it(@"should return an empty array for an NULL strarray", ^{
 			git_strarray strarray = { .strings = NULL, .count = 0 };
 			NSArray *array = [NSArray git_arrayWithStrarray:strarray];
@@ -80,6 +84,13 @@ describe(@"String arrays", ^{
 		it(@"should correctly translate the strarray", ^{
 			NSArray *array = [NSArray git_arrayWithStrarray:originalStrArray];
 			validateStrArray(array, originalStrArray);
+		});
+
+		it(@"should omit NULL strings", ^{
+			originalStrArray.strings[1] = NULL;
+
+			NSArray *array = [NSArray git_arrayWithStrarray:originalStrArray];
+			expect(array).to.equal((@[ @"First", @"Third" ]));
 		});
 	});
 });

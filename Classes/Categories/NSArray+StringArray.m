@@ -7,22 +7,35 @@
 //
 
 #import "NSArray+StringArray.h"
-
-static NSMutableArray *convertStrArrayToArray(git_strarray strarray) {
-	NSMutableArray *array = [NSMutableArray arrayWithCapacity:strarray.count];
-	for (NSUInteger i = 0; i < strarray.count; i++) {
-		NSString *string = @(strarray.strings[i]);
-		if (string == nil) continue;
-
-		[array addObject:string];
-	}
-	return array;
-}
+#import "EXTScope.h"
 
 @implementation NSArray (StringArray)
 
 + (instancetype)git_arrayWithStrarray:(git_strarray)strarray {
-	return [convertStrArrayToArray(strarray) copy];
+	__strong id *strings = (__strong id *)calloc(strarray.count, sizeof(*strings));
+	@onExit {
+		free(strings);
+	};
+
+	size_t stringsCount = 0;
+	for (size_t i = 0; i < strarray.count; i++) {
+		const char *cStr = strarray.strings[i];
+		if (cStr == NULL) continue;
+
+		strings[stringsCount++] = @(cStr);
+	}
+
+	@onExit {
+		// Make sure to set each entry in `strings` to nil, so ARC properly
+		// releases its references.
+		for (size_t i = 0; i < stringsCount; i++) {
+			strings[i] = nil;
+		}
+	};
+
+	// If any of the strings were nil, we may have fewer objects than
+	// `strarray`.
+	return [[self alloc] initWithObjects:strings count:stringsCount];
 }
 
 - (git_strarray)git_strarray {
@@ -38,14 +51,6 @@ static NSMutableArray *convertStrArrayToArray(git_strarray strarray) {
 	
 	git_strarray strArray = { .strings = cStrings, .count = self.count };
 	return strArray;
-}
-
-@end
-
-@implementation NSMutableArray (StringArray)
-
-+ (instancetype)git_arrayWithStrarray:(git_strarray)strarray {
-	return convertStrArrayToArray(strarray);
 }
 
 @end
