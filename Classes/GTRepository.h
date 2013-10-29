@@ -178,13 +178,12 @@ extern NSString *const GTRepositoryCloneOptionsCredentialProvider;
 // Lookup an object in the repo using a revparse spec
 - (id)lookupObjectByRevspec:(NSString *)spec error:(NSError **)error;
 
-// List all references in the repository
+// List all reference names in the repository.
 //
-// repository - The GTRepository to list references in
-// error(out) - will be filled if an error occurs
+// error - If not NULL, this pointer will be set to the actual error that occurred.
 //
-// returns an array of NSStrings holding the names of the references
-// returns nil if an error occurred and fills the error parameter
+// Returns an array of NSStrings holding the names of the references, nil otherwise
+// (and the `error` parameter will be set to the actual error that occurred).
 - (NSArray *)referenceNamesWithError:(NSError **)error;
 
 // Enumerate over all references is the repository.
