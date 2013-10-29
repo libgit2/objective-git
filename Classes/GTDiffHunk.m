@@ -10,12 +10,11 @@
 
 #import "GTDiffDelta.h"
 #import "GTDiffLine.h"
-#import "GTPatch.h"
 
 @interface GTDiffHunk ()
 
 @property (nonatomic, assign, readonly) const git_diff_hunk *git_hunk;
-@property (nonatomic, strong, readonly) GTPatch *patch;
+@property (nonatomic, strong, readonly) GTDiffDelta *delta;
 @property (nonatomic, assign, readonly) NSUInteger hunkIndex;
 @property (nonatomic, copy) NSString *header;
 @property (nonatomic, strong) NSArray *hunkLines;
@@ -24,11 +23,11 @@
 
 @implementation GTDiffHunk
 
-- (instancetype)initWithGitHunk:(const git_diff_hunk *)hunk hunkIndex:(NSUInteger)hunkIndex patch:(GTPatch *)patch {
+- (instancetype)initWithGitHunk:(const git_diff_hunk *)hunk hunkIndex:(NSUInteger)hunkIndex delta:(GTDiffDelta *)delta {
 	self = [super init];
 	if (self == nil) return nil;
 	
-	_patch = patch;
+	_delta = delta;
 	_git_hunk = hunk;
 	_hunkIndex = hunkIndex;
 
@@ -47,7 +46,7 @@
 }
 
 - (NSUInteger)lineCount {
-	return git_patch_num_lines_in_hunk(self.patch.git_patch, self.hunkIndex);
+	return git_patch_num_lines_in_hunk(self.delta.git_patch, self.hunkIndex);
 }
 
 - (void)buildLineArrayWithBlock:(void (^)(GTDiffLine *line, BOOL *stop))block {
@@ -55,7 +54,7 @@
 
 	for (NSUInteger idx = 0; idx < self.lineCount; idx ++) {
 		const git_diff_line *gitLine;
-		int result = git_patch_get_line_in_hunk(&gitLine, self.patch.git_patch, self.hunkIndex, idx);
+		int result = git_patch_get_line_in_hunk(&gitLine, self.delta.git_patch, self.hunkIndex, idx);
 		// FIXME: Report error ?
 		if (result != GIT_OK) continue;
 

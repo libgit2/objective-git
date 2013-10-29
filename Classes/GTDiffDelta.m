@@ -10,17 +10,15 @@
 
 #import "GTDiffFile.h"
 #import "GTDiffHunk.h"
-#import "GTPatch.h"
 #import "GTDiff.h"
 
 @interface GTDiffDelta () {
-	// Some cache ivars
-	GTPatch *_patch;
 	GTDiffFile *_oldFile, *_newFile;
 }
 @property (nonatomic, assign, readonly) const git_diff_delta *git_diff_delta;
 @property (nonatomic, strong, readonly) GTDiff *diff;
 @property (nonatomic, assign, readonly) NSInteger deltaIndex;
+@property (strong) NSArray *patchHunks;
 @end
 
 @implementation GTDiffDelta
@@ -35,6 +33,20 @@
 	_diff = diff;
 	_deltaIndex = idx;
 
+	// Build the patch
+	git_patch *gitPatch;
+	git_patch_from_diff(&gitPatch, self.diff.git_diff, self.deltaIndex);
+	_git_patch = gitPatch;
+
+	size_t adds = 0;
+	size_t deletes = 0;
+	size_t contexts = 0;
+	git_patch_line_stats(&contexts, &adds, &deletes, gitPatch);
+
+	_addedLinesCount = adds;
+	_deletedLinesCount = deletes;
+	_contextLinesCount = contexts;
+
 	return self;
 }
 
@@ -46,7 +58,7 @@
 
 - (BOOL)isBinary {
 	// We have to generate the patch to know if the file is binary or not
-	(void)self.patch;
+	git_patch_from_diff(NULL, self.diff.git_diff, self.deltaIndex);
 	return (self.git_diff_delta->flags & GIT_DIFF_FLAG_BINARY) != 0;
 }
 
@@ -67,13 +79,49 @@
 	return (GTDiffDeltaType)self.git_diff_delta->status;
 }
 
-- (GTPatch *)patch {
-	if (_patch == nil) {
-		git_patch *gitPatch;
-		git_patch_from_diff(&gitPatch, self.diff.git_diff, self.deltaIndex);
-		_patch = [[GTPatch alloc] initWithGitPatch:gitPatch inDelta:self];
+- (NSUInteger)hunkCount {
+	return git_patch_num_hunks(self.git_patch);
+}
+
+- (NSUInteger)sizeWithContext:(BOOL)includeContext hunkHeaders:(BOOL)includeHunkHeaders fileHeaders:(BOOL)includeFileHeaders {
+	return git_patch_size(self.git_patch,
+						  (includeContext == YES ? 1 : 0),
+						  (includeHunkHeaders == YES ? 1 : 0),
+						  (includeFileHeaders == YES ? 1 : 0));
+}
+
+- (void)buildPatchHunksWithBlock:(void (^)(GTDiffHunk *hunk, BOOL *stop))block {
+	NSMutableArray *patchHunks = [NSMutableArray arrayWithCapacity:self.hunkCount];
+
+	for (NSUInteger idx = 0; idx < self.hunkCount; idx ++) {
+		const git_diff_hunk *gitHunk;
+		git_patch_get_hunk(&gitHunk, NULL, self.git_patch, idx);
+		GTDiffHunk *hunk = [[GTDiffHunk alloc] initWithGitHunk:gitHunk hunkIndex:idx delta:self];
+		// FIXME: Report error ?
+		if (hunk == nil) return;
+
+		[patchHunks addObject:hunk];
+
+		if (block == nil) continue;
+
+		BOOL shouldStop = NO;
+		block(hunk, &shouldStop);
+		if (shouldStop) return;
 	}
-	return _patch;
+
+	self.patchHunks = patchHunks;
+}
+
+- (void)enumerateHunksUsingBlock:(void (^)(GTDiffHunk *hunk, BOOL *stop))block {
+	NSParameterAssert(block != nil);
+
+	if (self.patchHunks == nil) {
+		[self buildPatchHunksWithBlock:block];
+		return;
+	}
+	[self.patchHunks enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		block(obj, stop);
+	}];
 }
 
 @end

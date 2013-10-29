@@ -11,7 +11,6 @@
 @class GTDiffFile;
 @class GTDiffHunk;
 @class GTDiff;
-@class GTPatch;
 
 // The type of change that this delta represents.
 //
@@ -48,6 +47,9 @@ typedef enum {
 // The backing libgit2 `git_diff` object.
 @property (nonatomic, readonly) git_diff *git_diff;
 
+// The underlying libgit2 `git_patch` object.
+@property (nonatomic, assign, readonly) git_patch *git_patch;
+
 // Whether the file(s) are to be treated as binary.
 @property (nonatomic, readonly, getter = isBinary) BOOL binary;
 
@@ -62,8 +64,23 @@ typedef enum {
 // Think "status" as in `git status`.
 @property (nonatomic, readonly) GTDiffDeltaType type;
 
-// Get the patch object corresponding to that diff delta.
-@property (nonatomic, readonly) GTPatch *patch;
+// The number of hunks represented by this delta.
+@property (nonatomic, readonly) NSUInteger hunkCount;
+
+// The number of added lines in this delta.
+//
+// Undefined if this delta is binary.
+@property (nonatomic, readonly) NSUInteger addedLinesCount;
+
+// The number of deleted lines in this delta.
+//
+// Undefined if this delta is binary.
+@property (nonatomic, readonly) NSUInteger deletedLinesCount;
+
+// The number of context lines in this delta.
+//
+// Undefined if this delta is binary.
+@property (nonatomic, readonly) NSUInteger contextLinesCount;
 
 // Designated initialiser.
 - (instancetype)initWithGitDelta:(const git_diff_delta *)delta deltaIndex:(NSInteger)idx inDiff:(GTDiff *)diff;
@@ -71,5 +88,22 @@ typedef enum {
 // A convenience accessor to fetch the `git_diff_delta` represented by the
 // object.
 - (const git_diff_delta *)git_diff_delta __attribute__((objc_returns_inner_pointer));
+
+// Get the delta size.
+//
+// includeContext     - Include the context lines in the size. Defaults to NO.
+// includeHunkHeaders - Include the hunk header lines in the size. Defaults to NO.
+// includeFileHeaders - Include the file header lines in the size. Defaults to NO.
+//
+// Returns the raw size in bytes of the delta.
+- (NSUInteger)sizeWithContext:(BOOL)includeContext hunkHeaders:(BOOL)includeHunkHeaders fileHeaders:(BOOL)includeFileHeaders;
+
+// Enumerate the hunks contained in the delta.
+//
+// Blocks during enumeration.
+//
+// block - A block to be executed for each hunk. Setting `stop` to `YES`
+//         immediately stops the enumeration.
+- (void)enumerateHunksUsingBlock:(void (^)(GTDiffHunk *hunk, BOOL *stop))block;
 
 @end
