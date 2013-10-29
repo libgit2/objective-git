@@ -52,6 +52,12 @@ typedef enum {
 // The name of the reference.
 @property (nonatomic, readonly, copy) NSString *name;
 
+// Whether this is a tag.
+@property (nonatomic, readonly, getter = isTag) BOOL tag;
+
+// Whether this is a local branch.
+@property (nonatomic, readonly, getter = isBranch) BOOL branch;
+
 // Whether this is a remote-tracking branch.
 @property (nonatomic, readonly, getter = isRemote) BOOL remote;
 

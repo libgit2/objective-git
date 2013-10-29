@@ -167,6 +167,14 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 #pragma mark -
 #pragma mark Properties
 
+- (BOOL)isBranch {
+	return git_reference_is_branch(self.git_reference) != 0;
+}
+
+- (BOOL)isTag {
+	return git_reference_is_tag(self.git_reference) != 0;
+}
+
 - (BOOL)isRemote {
 	return git_reference_is_remote(self.git_reference) != 0;
 }
