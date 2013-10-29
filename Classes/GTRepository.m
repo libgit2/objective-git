@@ -150,7 +150,7 @@ typedef struct {
 	}
 
 	git_repository *r;
-	int gitError = git_repository_open(&r, localFileURL.path.UTF8String);
+	int gitError = git_repository_open(&r, localFileURL.path.fileSystemRepresentation);
 	if (gitError < GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to open repository at URL %@.", localFileURL];
 		return nil;
