@@ -64,8 +64,6 @@
 #pragma mark - Properties
 
 - (BOOL)isBinary {
-	// We have to generate the patch to know if the file is binary or not
-	git_patch_from_diff(NULL, self.diff.git_diff, self.deltaIndex);
 	return (self.git_diff_delta->flags & GIT_DIFF_FLAG_BINARY) != 0;
 }
 
