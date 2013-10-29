@@ -297,22 +297,57 @@ struct GTClonePayload {
 	return [[GTReference alloc] initWithGitReference:headRef repository:self];
 }
 
+typedef void (^GTRepositoryBranchEnumerationBlock)(GTBranch *branch, BOOL *stop);
+
+struct GTRepositoryBranchEnumerationInfo {
+    __unsafe_unretained GTRepository *myself;
+    __unsafe_unretained GTRepositoryBranchEnumerationBlock block;
+};
+
+int GTRepositoryForeachBranchCallback(const char *name, git_branch_t type, void *payload) {
+    struct GTRepositoryBranchEnumerationInfo *info = payload;
+
+	GTBranch *branch = [GTBranch branchWithName:@(name) repository:info->myself error:NULL];
+	if (!branch) return -1;
+
+    BOOL stop = NO;
+    info->block(branch, &stop);
+
+    return stop == YES ? -1 : 0;
+}
+
+- (BOOL)enumerateBranchesWithType:(GTBranchType)type error:(NSError **)error usingBlock:(GTRepositoryBranchEnumerationBlock)block {
+    struct GTRepositoryBranchEnumerationInfo info = { .myself = self, .block = block };
+    int gitError = git_branch_foreach(self.git_repository, type, GTRepositoryForeachBranchCallback, &info);
+    if (gitError != GIT_OK) {
+        if (error) *error = [NSError git_errorFor:gitError description:@"Branch enumeration failed"];
+        return NO;
+    }
+
+    return YES;
+}
+
 - (NSArray *)localBranchesWithError:(NSError **)error {
-	return [self branchesWithPrefix:[GTBranch localNamePrefix] error:error];
+	NSMutableArray *localBranches = [NSMutableArray array];
+	BOOL success = [self enumerateBranchesWithType:GTBranchTypeLocal error:error usingBlock:^(GTBranch *branch, BOOL *stop) {
+		[localBranches addObject:branch];
+	}];
+
+	if (success != YES) return nil;
+
+	return [localBranches copy];
 }
 
 - (NSArray *)remoteBranchesWithError:(NSError **)error {
-	NSArray *remoteBranches = [self branchesWithPrefix:[GTBranch remoteNamePrefix] error:error];
-	if (remoteBranches == nil) return nil;
+	NSMutableArray *remoteBranches = [NSMutableArray array];
+	BOOL success = [self enumerateBranchesWithType:GTBranchTypeRemote error:error usingBlock:^(GTBranch *branch, BOOL *stop) {
+		if (![branch.shortName isEqualToString:@"HEAD"])
+			[remoteBranches addObject:branch];
+	}];
 
-	NSMutableArray *filteredList = [NSMutableArray arrayWithCapacity:remoteBranches.count];
-	for (GTBranch *branch in remoteBranches) {
-		if (![branch.shortName isEqualToString:@"HEAD"]) {
-			[filteredList addObject:branch];
-		}
-	}
+	if (success != YES) return nil;
 
-	return filteredList;
+	return [remoteBranches copy];
 }
 
 - (NSArray *)branchesWithPrefix:(NSString *)prefix error:(NSError **)error {
