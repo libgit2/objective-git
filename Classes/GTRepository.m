@@ -479,6 +479,23 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 	return referenceNames;
 }
 
+- (BOOL)enumerateReferencesWithError:(NSError **)error usingBlock:(void (^)(GTReference *reference, NSError *error, BOOL *stop))block {
+	NSArray *references = [self referenceNamesWithError:error];
+	if (!references) return NO;
+
+	for (NSString *refName in references) {
+		NSError *refError;
+		BOOL stop = NO;
+
+		GTReference *ref = [GTReference referenceByLookingUpReferencedNamed:refName inRepository:self error:&refError];
+
+		block(ref, refError, &stop);
+
+		if (stop == YES) break;
+	}
+	return YES;
+}
+
 - (NSURL *)fileURL {
 	const char *path = git_repository_workdir(self.git_repository);
 	// bare repository, you may be looking for gitDirectoryURL

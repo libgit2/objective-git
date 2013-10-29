@@ -187,6 +187,17 @@ extern NSString *const GTRepositoryCloneOptionsCredentialProvider;
 // returns nil if an error occurred and fills the error parameter
 - (NSArray *)referenceNamesWithError:(NSError **)error;
 
+// Enumerate over all references is the repository.
+//
+// error - If not NULL, this pointer will be set to the actual error that occurred.
+// block - A block which will be called for each reference. You will be passed
+//         the reference object in `ref`, `error` will be set to something if `ref`
+//         is nil, and `stop` will stop the enumeration if it's set to YES.
+//
+// Returns YES if enumeration was successful, NO otherwise (and the `error`
+// parameter will be set to the actual error that occurred).
+- (BOOL)enumerateReferencesWithError:(NSError **)error usingBlock:(void (^)(GTReference *reference, NSError *error, BOOL *stop))block;
+
 - (GTReference *)headReferenceWithError:(NSError **)error;
 
 // Convenience methods to return branches in the repository
