@@ -48,11 +48,27 @@ typedef enum {
 @property (nonatomic, readonly) const git_oid *git_oid;
 @property (nonatomic, strong, readonly) GTOID *OID;
 
+
+// The name of the reference.
+@property (nonatomic, readonly, copy) NSString *name;
+
 // Whether this is a remote-tracking branch.
 @property (nonatomic, readonly, getter = isRemote) BOOL remote;
 
 // The reflog for the reference.
 @property (nonatomic, readonly, strong) GTReflog *reflog;
+
+// The target (either GTObject or GTReference) to which the reference points.
+@property (nonatomic, readonly, copy) id unresolvedTarget;
+
+// The resolved object to which the reference points.
+@property (nonatomic, readonly, copy) id resolvedTarget;
+
+// The last direct reference in a chain
+@property (nonatomic, readonly, copy) GTReference *resolvedReference;
+
+// The SHA of the target object
+@property (nonatomic, readonly, copy) NSString *targetSHA;
 
 // Convenience initializers
 + (id)referenceByLookingUpReferencedNamed:(NSString *)refName inRepository:(GTRepository *)theRepo error:(NSError **)error;
@@ -69,18 +85,6 @@ typedef enum {
 // The underlying `git_reference` object.
 - (git_reference *)git_reference __attribute__((objc_returns_inner_pointer));
 
-// The target (either GTObject or GTReference) to which the reference points.
-@property (nonatomic, readonly, copy) id unresolvedTarget;
-
-// The resolved object to which the reference points.
-@property (nonatomic, readonly, copy) id resolvedTarget;
-
-// The last direct reference in a chain
-@property (nonatomic, readonly, copy) GTReference *resolvedReference;
-
-// The SHA of the target object
-@property (nonatomic, readonly, copy) NSString *targetSHA;
-
 // Updates the on-disk reference to point to the target and returns the updated
 // reference.
 //
@@ -91,9 +95,6 @@ typedef enum {
 //
 // Returns the updated reference, or nil if an error occurred.
 - (GTReference *)referenceByUpdatingTarget:(NSString *)newTarget error:(NSError **)error;
-
-// The name of the reference.
-@property (nonatomic, readonly, copy) NSString *name;
 
 // Updates the on-disk reference to the name and returns the renamed reference.
 //
