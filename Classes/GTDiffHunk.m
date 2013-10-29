@@ -36,7 +36,7 @@
 }
 
 - (NSString *)debugDescription {
-	return [NSString stringWithFormat:@"%@ hunkIndex: %ld, header: %@, lineCount: %ld", super.debugDescription, self.hunkIndex, self.header, self.lineCount];
+	return [NSString stringWithFormat:@"%@ hunkIndex: %ld, header: %@, lineCount: %ld", super.debugDescription, (unsigned long)self.hunkIndex, self.header, (unsigned long)self.lineCount];
 }
 
 - (NSString *)header {
