@@ -83,8 +83,8 @@ describe(@"+cloneFromURL:toWorkingDirectory:...", ^{
 			BOOL success = [NSFileManager.defaultManager removeItemAtURL:workdirURL error:&error];
 			expect(success).to.beTruthy();
 			expect(error).to.beNil();
-		}
-	});
+        }
+    });
 
 	it(@"should handle normal clones", ^{
 		repository = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:nil error:&error transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
@@ -118,6 +118,20 @@ describe(@"+cloneFromURL:toWorkingDirectory:...", ^{
 		expect(head.targetSHA).to.equal(@"36060c58702ed4c2a40832c51758d5344201d89a");
 		expect(head.referenceType).to.equal(GTReferenceTypeOid);
 	});
+
+    it(@"should have set a valid remote URL", ^{
+        NSError *error = nil;
+        GTRepository *repo = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:nil error:&error transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
+        expect(repo).notTo.beNil();
+        expect(error).to.beNil();
+
+        // FIXME: Move that to a method in GTRepository ?
+        // Or use the new initializers in GTRemote that are waiting in #224
+        git_remote *remote;
+        git_remote_load(&remote, repo.git_repository, "origin");
+        GTRemote *originRemote = [[GTRemote alloc] initWithGitRemote:remote];
+        expect(originRemote.URLString).to.equal(originURL.path);
+    });
 });
 
 describe(@"-headReferenceWithError:", ^{
