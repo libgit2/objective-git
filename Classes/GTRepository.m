@@ -220,7 +220,7 @@ struct GTClonePayload {
 
 	// If our originURL is local, convert to a path before handing down.
 	const char *remoteURL = NULL;
-	if (originURL.isFileURL || originURL.isFileReferenceURL) {
+	if (originURL.isFileURL) {
 		remoteURL = originURL.filePathURL.path.fileSystemRepresentation;
 	} else {
 		remoteURL = originURL.absoluteString.UTF8String;
