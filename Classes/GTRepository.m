@@ -208,7 +208,7 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 	// If our originURL is local, convert to a path before handing down.
 	const char *remoteURL = NULL;
 	if (originURL.isFileURL) {
-		remoteURL = originURL.filePathURL.path.fileSystemRepresentation;
+		remoteURL = originURL.path.fileSystemRepresentation;
 	} else {
 		remoteURL = originURL.absoluteString.UTF8String;
 	}
