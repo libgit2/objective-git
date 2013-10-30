@@ -23,8 +23,8 @@ typedef enum {
 // Represents an individual line in a diff hunk.
 @interface GTDiffLine : NSObject
 
-// The contents of the line.
-@property (nonatomic, readonly, copy) NSString *contents;
+// The content string of the line.
+@property (nonatomic, readonly, copy) NSString *content;
 
 // The line number of this line in the left side of the diff.
 //
@@ -39,7 +39,8 @@ typedef enum {
 // The origin of the line, see the enum above for possible values.
 @property (nonatomic, readonly) GTDiffLineOrigin origin;
 
-@property (nonatomic, readonly) NSInteger numLines;
+// The number of lines represented.
+@property (nonatomic, readonly) NSInteger lineCount;
 
 // Designated initialiser.
 - (instancetype)initWithGitLine:(const git_diff_line *)line;

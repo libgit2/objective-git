@@ -192,21 +192,20 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 		NSMutableArray *deltas = [NSMutableArray arrayWithCapacity:self.deltaCount];
 		for (NSUInteger idx = 0; idx < self.deltaCount; idx ++) {
 			git_patch *patch;
-
-			git_patch_from_diff(&patch, self.git_diff, idx);
-
+			int result = git_patch_from_diff(&patch, self.git_diff, idx);
+			if (result != GIT_OK) continue;
 			GTDiffDelta *delta = [[GTDiffDelta alloc] initWithGitPatch:patch];
 			if (delta == nil) continue;
-
-			BOOL stop = NO;
-			block(delta, &stop);
-			if (stop == YES) return;
 
 			[deltas addObject:delta];
 		}
 
 		self.cachedDeltas = deltas;
 	}
+
+	[self.cachedDeltas enumerateObjectsUsingBlock:^(GTDiffDelta *delta, NSUInteger idx, BOOL *stop) {
+		block(delta, stop);
+	}];
 }
 
 - (NSUInteger)deltaCount {

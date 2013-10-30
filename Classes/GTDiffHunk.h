@@ -21,7 +21,10 @@
 @property (nonatomic, readonly) NSUInteger lineCount;
 
 // Designated initialiser.
-- (instancetype)initWithGitHunk:(const git_diff_hunk *)hunk hunkIndex:(NSUInteger)hunkIndex delta:(GTDiffDelta *)delta;
+//
+// The contents of a hunk are lazily loaded, therefore we initialise the object
+// simply with the delta it originates from and which hunk index it represents.
+- (instancetype)initWithDelta:(GTDiffDelta *)delta hunkIndex:(NSUInteger)hunkIndex;
 
 // Perfoms the given block on each line in the hunk.
 //

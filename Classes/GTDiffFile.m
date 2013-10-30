@@ -9,12 +9,6 @@
 #import "GTDiffFile.h"
 #import "GTOID.h"
 
-@interface GTDiffFile ()
-
-@property (nonatomic, copy) GTOID *OID;
-
-@end
-
 @implementation GTDiffFile
 
 - (instancetype)initWithGitDiffFile:(git_diff_file)file {
@@ -36,10 +30,7 @@
 }
 
 - (GTOID *)OID {
-	if (!_OID) {
-		_OID = [[GTOID alloc] initWithGitOid:&_git_diff_file.oid];
-	}
-	return [_OID copy];
+	return [[GTOID alloc] initWithGitOid:&_git_diff_file.oid];
 }
 
 @end

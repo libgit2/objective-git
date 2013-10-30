@@ -12,12 +12,6 @@
 #import "GTDiffHunk.h"
 #import "GTDiff.h"
 
-@interface GTDiffDelta ()
-@property (nonatomic, strong, readonly) GTDiff *diff;
-@property (nonatomic, assign, readonly) NSInteger deltaIndex;
-@property (strong) NSArray *patchHunks;
-@end
-
 @implementation GTDiffDelta
 
 - (instancetype)initWithGitPatch:(git_patch *)patch {
@@ -32,7 +26,6 @@
 	size_t deletes = 0;
 	size_t contexts = 0;
 	git_patch_line_stats(&contexts, &adds, &deletes, _git_patch);
-
 	_addedLinesCount = adds;
 	_deletedLinesCount = deletes;
 	_contextLinesCount = contexts;
@@ -66,7 +59,7 @@
 }
 
 - (GTDiffFile *)newFile {
-    return [[GTDiffFile alloc] initWithGitDiffFile:self.git_diff_delta->new_file];
+	return [[GTDiffFile alloc] initWithGitDiffFile:self.git_diff_delta->new_file];
 }
 
 - (GTDiffDeltaType)type {
@@ -89,9 +82,7 @@
 	NSParameterAssert(block != nil);
 
 	for (NSUInteger idx = 0; idx < self.hunkCount; idx ++) {
-		const git_diff_hunk *gitHunk;
-		git_patch_get_hunk(&gitHunk, NULL, self.git_patch, idx);
-		GTDiffHunk *hunk = [[GTDiffHunk alloc] initWithGitHunk:gitHunk hunkIndex:idx delta:self];
+		GTDiffHunk *hunk = [[GTDiffHunk alloc] initWithDelta:self hunkIndex:idx];
 		// FIXME: Report error ?
 		if (hunk == nil) return;
 

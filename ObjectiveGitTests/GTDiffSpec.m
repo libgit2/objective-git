@@ -113,7 +113,7 @@ describe(@"GTDiff diffing", ^{
 				NSUInteger additionLine = 4;
 				__block NSUInteger lineIndex = 0;
 				[hunk enumerateLinesInHunkUsingBlock:^(GTDiffLine *line, BOOL *stop) {
-					expect(line.contents).to.equal(expectedLines[lineIndex]);
+					expect(line.content).to.equal(expectedLines[lineIndex]);
 					if (lineIndex == subtractionLine) {
 						expect((NSUInteger)line.origin).to.equal(GTDiffLineOriginDeletion);
 					} else if (lineIndex == additionLine) {

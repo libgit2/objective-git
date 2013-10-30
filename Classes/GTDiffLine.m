@@ -14,17 +14,17 @@
 	self = [super init];
 	if (self == nil) return nil;
 	
-	_contents = [[[NSString alloc] initWithBytes:line->content length:line->content_len encoding:NSUTF8StringEncoding] stringByTrimmingCharactersInSet:NSCharacterSet.newlineCharacterSet];
+	_content = [[[NSString alloc] initWithBytes:line->content length:line->content_len encoding:NSUTF8StringEncoding] stringByTrimmingCharactersInSet:NSCharacterSet.newlineCharacterSet];
 	_oldLineNumber = line->old_lineno;
 	_newLineNumber = line->new_lineno;
 	_origin = line->origin;
-	_numLines = line->num_lines;
+	_lineCount = line->num_lines;
 	
 	return self;
 }
 
 - (NSString *)debugDescription {
-	return [NSString stringWithFormat:@"%@ origin: %u, lines: %ld, oldLineNumber: %ld, newLineNumber: %ld, contents: %@", super.debugDescription, self.origin, (long)self.numLines, (long)self.oldLineNumber, (long)self.newLineNumber, self.contents];
+	return [NSString stringWithFormat:@"%@ origin: %u, lines: %ld, oldLineNumber: %ld, newLineNumber: %ld, content: %@", super.debugDescription, self.origin, (long)self.lineCount, (long)self.oldLineNumber, (long)self.newLineNumber, self.content];
 }
 
 @end

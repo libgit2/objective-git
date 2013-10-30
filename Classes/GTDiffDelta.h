@@ -10,7 +10,6 @@
 
 @class GTDiffFile;
 @class GTDiffHunk;
-@class GTDiff;
 
 // The type of change that this delta represents.
 //
@@ -43,9 +42,6 @@ typedef enum {
 // be that the file was renamed, or added to the index. See `GTDiffDeltaType`
 // for the types of change represented.
 @interface GTDiffDelta : NSObject
-
-// The backing libgit2 `git_diff` object.
-@property (nonatomic, readonly) git_diff *git_diff;
 
 // The underlying libgit2 `git_patch` object.
 @property (nonatomic, assign, readonly) git_patch *git_patch;
