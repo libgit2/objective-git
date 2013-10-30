@@ -52,8 +52,6 @@
 
 		GTDiffLine *line = [[GTDiffLine alloc] initWithGitLine:gitLine];
 
-		if (block == nil) continue;
-
 		BOOL stop = NO;
 		block(line, &stop);
 		if (stop) return;

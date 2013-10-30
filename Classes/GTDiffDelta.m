@@ -26,6 +26,7 @@
 	size_t deletes = 0;
 	size_t contexts = 0;
 	git_patch_line_stats(&contexts, &adds, &deletes, _git_patch);
+
 	_addedLinesCount = adds;
 	_deletedLinesCount = deletes;
 	_contextLinesCount = contexts;
@@ -76,7 +77,6 @@
 						  (includeHunkHeaders == YES ? 1 : 0),
 						  (includeFileHeaders == YES ? 1 : 0));
 }
-
 
 - (void)enumerateHunksUsingBlock:(void (^)(GTDiffHunk *hunk, BOOL *stop))block {
 	NSParameterAssert(block != nil);

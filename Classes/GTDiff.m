@@ -194,6 +194,7 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 			git_patch *patch;
 			int result = git_patch_from_diff(&patch, self.git_diff, idx);
 			if (result != GIT_OK) continue;
+
 			GTDiffDelta *delta = [[GTDiffDelta alloc] initWithGitPatch:patch];
 			if (delta == nil) continue;
 
