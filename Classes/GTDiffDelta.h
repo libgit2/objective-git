@@ -83,7 +83,7 @@ typedef enum {
 @property (nonatomic, readonly) NSUInteger contextLinesCount;
 
 // Designated initialiser.
-- (instancetype)initWithGitDelta:(const git_diff_delta *)delta deltaIndex:(NSInteger)idx inDiff:(GTDiff *)diff;
+- (instancetype)initWithGitPatch:(git_patch *)patch;
 
 // A convenience accessor to fetch the `git_diff_delta` represented by the
 // object.
