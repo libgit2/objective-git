@@ -17,8 +17,6 @@
 @property (nonatomic, assign, readonly) const git_diff_hunk *git_hunk;
 @property (nonatomic, strong, readonly) GTDiffDelta *delta;
 @property (nonatomic, assign, readonly) NSUInteger hunkIndex;
-@property (nonatomic, copy) NSString *header;
-@property (nonatomic, assign) NSUInteger lineCount;
 
 @end
 
