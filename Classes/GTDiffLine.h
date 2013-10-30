@@ -39,7 +39,7 @@ typedef enum {
 // The origin of the line, see the enum above for possible values.
 @property (nonatomic, readonly) GTDiffLineOrigin origin;
 
-// The number of lines represented.
+// The number of newlines appearing in `-content`.
 @property (nonatomic, readonly) NSInteger lineCount;
 
 // Designated initialiser.
