@@ -88,10 +88,10 @@ describe(@"GTDiff diffing", ^{
 		[diff enumerateDeltasUsingBlock:^(GTDiffDelta *delta, BOOL *stop) {
 			expect(delta.oldFile.path).to.equal(@"TestAppWindowController.h");
 			expect(delta.oldFile.path).to.equal(delta.newFile.path);
+			expect(delta.hunkCount).to.equal(1);
 			expect(delta.binary).to.beFalsy();
 			expect((NSUInteger)delta.type).to.equal(GTDiffFileDeltaModified);
 
-			expect(delta.hunkCount).to.equal(1);
 			expect(delta.addedLinesCount).to.equal(1);
 			expect(delta.deletedLinesCount).to.equal(1);
 			expect(delta.contextLinesCount).to.equal(6);
