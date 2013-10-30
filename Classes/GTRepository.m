@@ -188,13 +188,13 @@ struct GTClonePayload {
 	git_clone_options cloneOptions = GIT_CLONE_OPTIONS_INIT;
 
 	NSNumber *bare = options[GTRepositoryCloneOptionsBare];
-	cloneOptions.bare = bare == nil ? 0 : bare.boolValue;
+	cloneOptions.bare = (bare == nil ? 0 : bare.boolValue);
 
 	NSNumber *transportFlags = options[GTRepositoryCloneOptionsTransportFlags];
-	cloneOptions.ignore_cert_errors = transportFlags == nil ? 0 : 1;
+	cloneOptions.ignore_cert_errors = (transportFlags == nil ? 0 : 1);
 
 	NSNumber *checkout = options[GTRepositoryCloneOptionsCheckout];
-	BOOL withCheckout = checkout == nil ? YES : checkout.boolValue;
+	BOOL withCheckout = (checkout == nil ? YES : checkout.boolValue);
 
 	if (withCheckout) {
 		git_checkout_opts checkoutOptions = GIT_CHECKOUT_OPTS_INIT;
