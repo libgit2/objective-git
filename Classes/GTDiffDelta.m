@@ -72,10 +72,10 @@
 }
 
 - (NSUInteger)sizeWithContext:(BOOL)includeContext hunkHeaders:(BOOL)includeHunkHeaders fileHeaders:(BOOL)includeFileHeaders {
-	return git_patch_size(self.git_patch,
-						  (includeContext == YES ? 1 : 0),
-						  (includeHunkHeaders == YES ? 1 : 0),
-						  (includeFileHeaders == YES ? 1 : 0));
+	int shouldIncludeContext = (includeContext == YES ? 1 : 0);
+	int shouldIncludeHunkHeaders = (includeHunkHeaders == YES ? 1 : 0);
+	int shouldIncludeFileHeaders = (includeFileHeaders == YES ? 1 : 0);
+	return git_patch_size(self.git_patch, shouldIncludeContext, shouldIncludeHunkHeaders, shouldIncludeFileHeaders);
 }
 
 - (void)enumerateHunksUsingBlock:(void (^)(GTDiffHunk *hunk, BOOL *stop))block {
