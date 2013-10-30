@@ -10,6 +10,7 @@
 
 #import "GTDiffDelta.h"
 #import "GTDiffLine.h"
+#import "NSError+Git.h"
 
 @interface GTDiffHunk ()
 
@@ -41,21 +42,24 @@
 	return [NSString stringWithFormat:@"%@ hunkIndex: %ld, header: %@, lineCount: %ld", super.debugDescription, (unsigned long)self.hunkIndex, self.header, (unsigned long)self.lineCount];
 }
 
-- (void)enumerateLinesInHunkUsingBlock:(void (^)(GTDiffLine *line, BOOL *stop))block {
+- (BOOL)enumerateLinesInHunk:(NSError **)error usingBlock:(void (^)(GTDiffLine *line, BOOL *stop))block {
 	NSParameterAssert(block != nil);
 
 	for (NSUInteger idx = 0; idx < self.lineCount; idx ++) {
 		const git_diff_line *gitLine;
 		int result = git_patch_get_line_in_hunk(&gitLine, self.delta.git_patch, self.hunkIndex, idx);
-		// FIXME: Report error ?
-		if (result != GIT_OK) continue;
 
+		if (result != GIT_OK) {
+			if (error) *error = [NSError git_errorFor:result description:@"Extracting line from hunk failed"];
+			return NO;
+		}
 		GTDiffLine *line = [[GTDiffLine alloc] initWithGitLine:gitLine];
 
 		BOOL stop = NO;
 		block(line, &stop);
-		if (stop) return;
+		if (stop) break;
 	}
+	return YES;
 }
 
 @end

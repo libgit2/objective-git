@@ -30,8 +30,11 @@
 //
 // Note that this method blocks during the enumeration.
 //
+// error - A pointer to an NSError that will be set if one occurs.
 // block - A block to execute on each line. Setting `stop` to `NO` will
 //         immediately stop the enumeration and return from the method.
-- (void)enumerateLinesInHunkUsingBlock:(void (^)(GTDiffLine *line, BOOL *stop))block;
+// Return YES if the enumeration was successful, NO otherwise (and an error will
+// be set in `error`).
+- (BOOL)enumerateLinesInHunk:(NSError **)error usingBlock:(void (^)(GTDiffLine *line, BOOL *stop))block;
 
 @end

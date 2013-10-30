@@ -83,7 +83,6 @@
 
 	for (NSUInteger idx = 0; idx < self.hunkCount; idx ++) {
 		GTDiffHunk *hunk = [[GTDiffHunk alloc] initWithDelta:self hunkIndex:idx];
-		// FIXME: Report error ?
 		if (hunk == nil) return;
 
 		BOOL shouldStop = NO;

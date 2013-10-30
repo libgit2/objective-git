@@ -112,7 +112,7 @@ describe(@"GTDiff diffing", ^{
 				NSUInteger subtractionLine = 3;
 				NSUInteger additionLine = 4;
 				__block NSUInteger lineIndex = 0;
-				[hunk enumerateLinesInHunkUsingBlock:^(GTDiffLine *line, BOOL *stop) {
+				[hunk enumerateLinesInHunk:NULL usingBlock:^(GTDiffLine *line, BOOL *stop) {
 					expect(line.content).to.equal(expectedLines[lineIndex]);
 					if (lineIndex == subtractionLine) {
 						expect((NSUInteger)line.origin).to.equal(GTDiffLineOriginDeletion);
@@ -181,7 +181,7 @@ describe(@"GTDiff diffing", ^{
 			expect(delta.hunkCount).to.equal(1);
 			[delta enumerateHunksUsingBlock:^(GTDiffHunk *hunk, BOOL *stop) {
 				__block NSUInteger contextCount = 0;
-				[hunk enumerateLinesInHunkUsingBlock:^(GTDiffLine *line, BOOL *stop) {
+				[hunk enumerateLinesInHunk:NULL usingBlock:^(GTDiffLine *line, BOOL *stop) {
 					if (line.origin == GTDiffLineOriginContext) contextCount ++;
 				}];
 				expect(contextCount).to.equal(10);
