@@ -26,8 +26,10 @@
 	self = [super init];
 	if (self == nil) return nil;
 
-	int result = git_patch_get_hunk(&_git_hunk, &_lineCount, delta.git_patch, hunkIndex);
+	size_t gitLineCount = 0;
+	int result = git_patch_get_hunk(&_git_hunk, &gitLineCount, delta.git_patch, hunkIndex);
 	if (result != GIT_OK) return nil;
+	_lineCount = gitLineCount;
 
 	_delta = delta;
 	_hunkIndex = hunkIndex;
