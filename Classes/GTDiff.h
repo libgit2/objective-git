@@ -63,24 +63,40 @@ extern NSString *const GTDiffOptionsPathSpecArrayKey;
 // See diff.h for documentation of each individual flag. 
 typedef enum {
 	GTDiffOptionsFlagsNormal = GIT_DIFF_NORMAL,
+
+	/*
+	 * Options controlling which files will be in the diff
+	 */
+
 	GTDiffOptionsFlagsReverse = GIT_DIFF_REVERSE,
-	GTDiffOptionsFlagsForceText = GIT_DIFF_FORCE_TEXT,
-	GTDiffOptionsFlagsIgnoreWhitespace = GIT_DIFF_IGNORE_WHITESPACE,
-	GTDiffOptionsFlagsIgnoreWhitespaceChange = GIT_DIFF_IGNORE_WHITESPACE_CHANGE,
-	GTDiffOptionsFlagsIgnoreWhitespaceEOL = GIT_DIFF_IGNORE_WHITESPACE_EOL,
-	GTDiffOptionsFlagsIgnoreSubmodules = GIT_DIFF_IGNORE_SUBMODULES,
-	GTDiffOptionsFlagsPatience = GIT_DIFF_PATIENCE,
 	GTDiffOptionsFlagsIncludeIgnored = GIT_DIFF_INCLUDE_IGNORED,
+	GTDiffOptionsFlagsRecurseIgnoredDirs = GIT_DIFF_RECURSE_IGNORED_DIRS,
 	GTDiffOptionsFlagsIncludeUntracked = GIT_DIFF_INCLUDE_UNTRACKED,
-	GTDiffOptionsFlagsIncludeUnmodified = GIT_DIFF_INCLUDE_UNMODIFIED,
 	GTDiffOptionsFlagsRecurseUntrackedDirs = GIT_DIFF_RECURSE_UNTRACKED_DIRS,
-	GTDiffOptionsFlagsDisablePathspecMatch = GIT_DIFF_DISABLE_PATHSPEC_MATCH,
-	GTDiffOptionsFlagsDeltasAreICase = GIT_DIFF_DELTAS_ARE_ICASE,
-	GTDiffOptionsFlagsIncludeUntrackedContent = GIT_DIFF_INCLUDE_UNTRACKED_CONTENT,
-	GTDiffOptionsFlagsSkipBinaryCheck = GIT_DIFF_SKIP_BINARY_CHECK,
+	GTDiffOptionsFlagsIncludeUnmodified = GIT_DIFF_INCLUDE_UNMODIFIED,
 	GTDiffOptionsFlagsIncludeTypeChange = GIT_DIFF_INCLUDE_TYPECHANGE,
 	GTDiffOptionsFlagsIncludeTypeChangeTrees = GIT_DIFF_INCLUDE_TYPECHANGE_TREES,
 	GTDiffOptionsFlagsIgnoreFileMode = GIT_DIFF_IGNORE_FILEMODE,
+	GTDiffOptionsFlagsIgnoreSubmodules = GIT_DIFF_IGNORE_SUBMODULES,
+	GTDiffOptionsFlagsIgnoreCase = GIT_DIFF_IGNORE_CASE,
+	GTDiffOptionsFlagsDisablePathspecMatch = GIT_DIFF_DISABLE_PATHSPEC_MATCH,
+	GTDiffOptionsFlagsSkipBinaryCheck = GIT_DIFF_SKIP_BINARY_CHECK,
+	GTDiffOptionsFlagsEnableFastUntrackedDirs = GIT_DIFF_ENABLE_FAST_UNTRACKED_DIRS,
+
+	/*
+	 * Options controlling how output will be generated
+	 */
+
+	GTDiffOptionsFlagsForceText = GIT_DIFF_FORCE_TEXT,
+	GTDiffOptionsFlagsForceBinary = GIT_DIFF_FORCE_BINARY,
+	GTDiffOptionsFlagsIgnoreWhitespace = GIT_DIFF_IGNORE_WHITESPACE,
+	GTDiffOptionsFlagsIgnoreWhitespaceChange = GIT_DIFF_IGNORE_WHITESPACE_CHANGE,
+	GTDiffOptionsFlagsIgnoreWhitespaceEOL = GIT_DIFF_IGNORE_WHITESPACE_EOL,
+	GTDiffOptionsFlagsShowUntrackedContent = GIT_DIFF_SHOW_UNTRACKED_CONTENT,
+	GTDiffOptionsFlagsShowUnmodified = GIT_DIFF_SHOW_UNMODIFIED,
+
+	GTDiffOptionsFlagsPatience = GIT_DIFF_PATIENCE,
+	GTDiffOptionsFlagsMinimal = GIT_DIFF_MINIMAL,
 } GTDiffOptionsFlags;
 
 // An `NSNumber` wrapped `GTDiffOptionsFlags` bitmask containing any of the
@@ -141,7 +157,19 @@ typedef enum {
 	GTDiffFindOptionsFlagsFindRenamesFromRewrites = GIT_DIFF_FIND_RENAMES_FROM_REWRITES,
 	GTDiffFindOptionsFlagsFindCopies = GIT_DIFF_FIND_COPIES,
 	GTDiffFindOptionsFlagsFindCopiesFromUnmodified = GIT_DIFF_FIND_COPIES_FROM_UNMODIFIED,
+	GTDiffFindOptionsFlagsFindRewrites = GIT_DIFF_FIND_REWRITES,
+	GTDiffFindOptionsFlagsBreakRewrites = GIT_DIFF_BREAK_REWRITES,
 	GTDiffFindOptionsFlagsFindAndBreakRewrites = GIT_DIFF_FIND_AND_BREAK_REWRITES,
+
+	GTDiffFindOptionsFlagsFindForUntracked = GIT_DIFF_FIND_FOR_UNTRACKED,
+	GTDiffFindAll = GIT_DIFF_FIND_ALL,
+
+	GTDiffFindOptionsFlagsIgnoreLeadingWhitespace = GIT_DIFF_FIND_IGNORE_LEADING_WHITESPACE,
+	GTDiffFindOptionsFlagsIgnoreWhitespace = GIT_DIFF_FIND_IGNORE_WHITESPACE,
+	GTDiffFindOptionsFlagsDontIgnoreWhitespace = GIT_DIFF_FIND_DONT_IGNORE_WHITESPACE,
+	GTDiffFindOptionsFlagsExactMatchOnly = GIT_DIFF_FIND_EXACT_MATCH_ONLY,
+
+	GTDiffFindOptionsFlagsBreakRewritesForRenamesOnly = GIT_DIFF_BREAK_REWRITES_FOR_RENAMES_ONLY,
 } GTDiffFindOptionsFlags;
 
 // A class representing a single "diff".
@@ -229,10 +257,10 @@ typedef enum {
 + (GTDiff *)diffWorkingDirectoryToHEADInRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error;
 
 // Designated initialiser.
-- (instancetype)initWithGitDiffList:(git_diff_list *)diffList;
+- (instancetype)initWithGitDiff:(git_diff *)diff;
 
-// The libgit2 diff list object.
-- (git_diff_list *)git_diff_list __attribute__((objc_returns_inner_pointer));
+// The libgit2 diff object.
+- (git_diff *)git_diff __attribute__((objc_returns_inner_pointer));
 
 // The number of deltas of the given type that are contained in the diff.
 - (NSUInteger)numberOfDeltasWithType:(GTDiffDeltaType)deltaType;
@@ -255,5 +283,13 @@ typedef enum {
 // options - A dictionary containing any of the above find options key constants
 //           or nil to use the defaults.
 - (void)findSimilarWithOptions:(NSDictionary *)options;
+
+// Merge a diff with another diff.
+//
+// diff  - the diff to merge in.
+// error - Populated if an error occurs
+//
+// Returns YES if the merge was successfull, and NO and sets `error` otherwise.
+- (BOOL)mergeDiffWithDiff:(GTDiff *)diff error:(NSError **)error;
 
 @end

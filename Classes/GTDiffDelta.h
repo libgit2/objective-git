@@ -43,8 +43,8 @@ typedef enum {
 // for the types of change represented.
 @interface GTDiffDelta : NSObject
 
-// The backing libgit2 `git_diff_patch` object.
-@property (nonatomic, readonly) git_diff_patch *git_diff_patch;
+// The underlying libgit2 `git_patch` object.
+@property (nonatomic, assign, readonly) git_patch *git_patch;
 
 // Whether the file(s) are to be treated as binary.
 @property (nonatomic, readonly, getter = isBinary) BOOL binary;
@@ -79,11 +79,20 @@ typedef enum {
 @property (nonatomic, readonly) NSUInteger contextLinesCount;
 
 // Designated initialiser.
-- (instancetype)initWithGitPatch:(git_diff_patch *)patch;
+- (instancetype)initWithGitPatch:(git_patch *)patch;
 
 // A convenience accessor to fetch the `git_diff_delta` represented by the
 // object.
 - (const git_diff_delta *)git_diff_delta __attribute__((objc_returns_inner_pointer));
+
+// Get the delta size.
+//
+// includeContext     - Include the context lines in the size. Defaults to NO.
+// includeHunkHeaders - Include the hunk header lines in the size. Defaults to NO.
+// includeFileHeaders - Include the file header lines in the size. Defaults to NO.
+//
+// Returns the raw size in bytes of the delta.
+- (NSUInteger)sizeWithContext:(BOOL)includeContext hunkHeaders:(BOOL)includeHunkHeaders fileHeaders:(BOOL)includeFileHeaders;
 
 // Enumerate the hunks contained in the delta.
 //
@@ -91,6 +100,6 @@ typedef enum {
 //
 // block - A block to be executed for each hunk. Setting `stop` to `YES`
 //         immediately stops the enumeration.
-- (void)enumerateHunksWithBlock:(void (^)(GTDiffHunk *hunk, BOOL *stop))block;
+- (void)enumerateHunksUsingBlock:(void (^)(GTDiffHunk *hunk, BOOL *stop))block;
 
 @end

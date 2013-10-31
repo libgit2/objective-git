@@ -25,6 +25,10 @@
 	return self;
 }
 
+- (NSString *)debugDescription {
+	return [NSString stringWithFormat:@"%@ path: %@, size: %ld, mode: %u, flags: %u", super.debugDescription, self.path, (unsigned long)self.size, self.mode, self.flags];
+}
+
 - (GTOID *)OID {
 	return [[GTOID alloc] initWithGitOid:&_git_diff_file.oid];
 }
