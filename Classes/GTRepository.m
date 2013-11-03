@@ -171,9 +171,8 @@ static void checkoutProgressCallback(const char *path, size_t completedSteps, si
 
 static int transferProgressCallback(const git_transfer_progress *progress, void *payload) {
 	if (payload == NULL) return 0;
-	void (^block)(const git_transfer_progress *) = (__bridge id)payload;
-	block(progress);
-
+	struct GTClonePayload *pld = payload;
+	pld->transferProgressBlock(progress);
 	return 0;
 }
 
