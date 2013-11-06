@@ -237,10 +237,11 @@ describe(@"network operations", ^{
 
 			__block unsigned int receivedObjects = 0;
 			__block BOOL transferProgressed = NO;
-			BOOL success = [remote pushBranches:@[master] withCredentialProvider:nil error:&error progress:^(const git_transfer_progress *stats, BOOL *stop) {
-				receivedObjects += stats->received_objects;
+			BOOL success = [remote pushBranches:@[master] withCredentialProvider:nil error:&error progress:^(unsigned int current, unsigned int total, size_t bytes, BOOL *stop) {
+				receivedObjects += current;
 				transferProgressed = YES;
 			}];
+
 			expect(success).to.beTruthy();
 			expect(error).to.beNil();
 			// FIXME: those are reversed because push doesn't handle progress yet.

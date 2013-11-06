@@ -153,5 +153,5 @@ typedef enum {
 // progressBlock - A block that will be called during the operation to report its progression.
 //
 // Returns YES if successful, NO otherwise.
-- (BOOL)pushBranches:(NSArray *)branches withCredentialProvider:(GTCredentialProvider *)credProvider error:(NSError **)error progress:(void (^)(const git_transfer_progress *stats, BOOL *stop))progressBlock;
+- (BOOL)pushBranches:(NSArray *)branches withCredentialProvider:(GTCredentialProvider *)credProvider error:(NSError **)error progress:(void (^)(unsigned int current, unsigned int total, size_t bytes, BOOL *stop))progressBlock;
 @end

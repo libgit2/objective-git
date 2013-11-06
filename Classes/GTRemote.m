@@ -379,17 +379,23 @@ int GTRemoteTransferProgressCallback(const git_transfer_progress *stats, void *p
 #pragma mark -
 #pragma mark Push
 
-- (BOOL)pushBranches:(NSArray *)branches withCredentialProvider:(GTCredentialProvider *)credProvider error:(NSError **)error progress:(GTRemoteTransferProgressBlock)progressBlock {
-	git_push *push;
-	int gitError = git_push_new(&push, self.git_remote);
-	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Push object creation failed" failureReason:@"Failed to create push object for remote \"%@\"", self];
-		return NO;
-	}
-	@onExit {
-		git_push_free(push);
-	};
+typedef void (^GTRemotePushTransferProgressBlock)(unsigned int current, unsigned int total, size_t bytes, BOOL *stop);
 
+typedef struct {
+	__unsafe_unretained GTRemotePushTransferProgressBlock transferProgressBlock;
+} GTRemotePushPayload;
+
+int GTRemotePushTransferProgressCallback(unsigned int current, unsigned int total, size_t bytes, void* payload) {
+	GTRemotePushPayload *pushPayload = payload;
+
+	BOOL stop = NO;
+	if (pushPayload->transferProgressBlock)
+		pushPayload->transferProgressBlock(current, total, bytes, &stop);
+
+	return (stop == YES ? 0 : 1);
+}
+
+- (BOOL)pushBranches:(NSArray *)branches withCredentialProvider:(GTCredentialProvider *)credProvider error:(NSError **)error progress:(GTRemotePushTransferProgressBlock)progressBlock {
 	NSArray *refspecs = nil;
 	if (branches != nil && branches.count != 0) {
 		// Build refspecs for the passed in branches
@@ -400,6 +406,26 @@ int GTRemoteTransferProgressCallback(const git_transfer_progress *stats, void *p
 		refspecs = mutableRefspecs;
 	} else {
 		refspecs = self.pushRefspecs;
+	}
+
+	git_push *push;
+	int gitError = git_push_new(&push, self.git_remote);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Push object creation failed" failureReason:@"Failed to create push object for remote \"%@\"", self];
+		return NO;
+	}
+	@onExit {
+		git_push_free(push);
+	};
+
+	GTRemotePushPayload payload = {
+		.transferProgressBlock = progressBlock,
+	};
+
+	gitError = git_push_set_callbacks(push, NULL, NULL, GTRemotePushTransferProgressCallback, &payload);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Setting push callbacks failed"];
+		return NO;
 	}
 
 	for (NSString *refspec in refspecs) {
@@ -413,7 +439,6 @@ int GTRemoteTransferProgressCallback(const git_transfer_progress *stats, void *p
 	@synchronized (self) {
 		GTRemoteConnectionInfo connectionInfo = {
 			.credProvider = credProvider,
-			.progressBlock = progressBlock,
 			.direction = GIT_DIRECTION_PUSH,
 		};
 		BOOL success = [self connectRemoteWithInfo:&connectionInfo error:error block:^BOOL(NSError **error) {
