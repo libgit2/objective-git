@@ -129,7 +129,7 @@
 }
 
 - (GTRemote *)remote {
-	return [GTRemote remoteWithName:self.remoteName inRepository:self.repository error:NULL];
+	return self.remoteName ? [GTRemote remoteWithName:self.remoteName inRepository:self.repository error:NULL] : nil;
 }
 
 - (GTCommit *)targetCommitAndReturnError:(NSError **)error {
