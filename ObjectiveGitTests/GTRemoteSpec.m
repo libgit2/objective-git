@@ -175,12 +175,15 @@ describe(@"network operations", ^{
 			GTRemote *remote = [GTRemote remoteWithName:remoteName inRepository:fetchingRepo error:nil];
 
 			__block unsigned int receivedObjects = 0;
+			__block BOOL transferProgressed = NO;
 			BOOL success = [remote fetchWithCredentialProvider:nil error:&error progress:^(const git_transfer_progress *stats, BOOL *stop) {
 				receivedObjects += stats->received_objects;
+				transferProgressed = YES;
 				NSLog(@"%d", receivedObjects);
 			}];
 			expect(error).to.beNil();
 			expect(success).to.beTruthy();
+			expect(transferProgressed).to.beTruthy();
 			expect(receivedObjects).to.equal(6);
 
 			GTCommit *fetchedCommit = [fetchingRepo lookupObjectByOID:testCommit.OID objectType:GTObjectTypeCommit error:&error];
