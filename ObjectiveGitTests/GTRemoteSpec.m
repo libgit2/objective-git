@@ -202,16 +202,6 @@ describe(@"network operations", ^{
 	});
 
 	describe(@"-pushWithCredentialProvider:error:", ^{
-//		it(@"doesn't work with local pushes", ^{
-//			NSError *error = nil;
-//			GTRemote *remote = [GTRemote remoteWithName:@"origin" inRepository:fetchingRepo error:&error];
-//
-//			BOOL success = [remote pushWithCredentialProvider:nil error:&error progress:nil];
-//			expect(success).to.beFalsy();
-//			expect(error).notTo.beNil();
-//			expect(error.code).to.equal(GIT_EBAREREPO);
-//			// When that test fails, delete and uncomment below
-//		});
 
 		it(@"allows remotes to be pushed", ^{
 			NSError *error = nil;
