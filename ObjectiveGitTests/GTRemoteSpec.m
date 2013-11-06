@@ -201,7 +201,7 @@ describe(@"network operations", ^{
 		});
 	});
 
-	describe(@"-pushWithCredentialProvider:error:", ^{
+	describe(@"-pushBranches:withCredentialProvider:error:progress:", ^{
 
 		it(@"allows remotes to be pushed", ^{
 			NSError *error = nil;
