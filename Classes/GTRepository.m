@@ -159,6 +159,9 @@ typedef struct {
 	return [self initWithGitRepository:r];
 }
 
+
+typedef void(^GTTransferProgressBlock)(const git_transfer_progress *progress);
+
 static void checkoutProgressCallback(const char *path, size_t completedSteps, size_t totalSteps, void *payload) {
 	if (payload == NULL) return;
 	void (^block)(NSString *, NSUInteger, NSUInteger) = (__bridge id)payload;
@@ -168,24 +171,30 @@ static void checkoutProgressCallback(const char *path, size_t completedSteps, si
 
 static int transferProgressCallback(const git_transfer_progress *progress, void *payload) {
 	if (payload == NULL) return 0;
-	void (^block)(const git_transfer_progress *) = (__bridge id)payload;
-	block(progress);
-
+	struct GTClonePayload *pld = payload;
+	if (pld->transferProgressBlock == NULL) return 0;
+	pld->transferProgressBlock(progress);
 	return 0;
 }
+
+struct GTClonePayload {
+	// credProvider must be first for compatibility with GTCredentialAcquireCallbackInfo
+	__unsafe_unretained GTCredentialProvider *credProvider;
+	__unsafe_unretained GTTransferProgressBlock transferProgressBlock;
+};
 
 + (id)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL options:(NSDictionary *)options error:(NSError **)error transferProgressBlock:(void (^)(const git_transfer_progress *))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))checkoutProgressBlock {
 
 	git_clone_options cloneOptions = GIT_CLONE_OPTIONS_INIT;
 
 	NSNumber *bare = options[GTRepositoryCloneOptionsBare];
-	cloneOptions.bare = bare == nil ? 0 : bare.boolValue;
+	cloneOptions.bare = (bare == nil ? 0 : bare.boolValue);
 
 	NSNumber *transportFlags = options[GTRepositoryCloneOptionsTransportFlags];
-	cloneOptions.transport_flags = transportFlags == nil ? 0 : transportFlags.intValue;
+	cloneOptions.ignore_cert_errors = (transportFlags == nil ? 0 : 1);
 
 	NSNumber *checkout = options[GTRepositoryCloneOptionsCheckout];
-	BOOL withCheckout = checkout == nil ? YES : checkout.boolValue;
+	BOOL withCheckout = (checkout == nil ? YES : checkout.boolValue);
 
 	if (withCheckout) {
 		git_checkout_opts checkoutOptions = GIT_CHECKOUT_OPTS_INIT;
@@ -195,15 +204,19 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 		cloneOptions.checkout_opts = checkoutOptions;
 	}
 
+	struct GTClonePayload payload;
+	cloneOptions.remote_callbacks.version = GIT_REMOTE_CALLBACKS_VERSION;
+
 	GTCredentialProvider *provider = options[GTRepositoryCloneOptionsCredentialProvider];
 	if (provider) {
-		GTCredentialAcquireCallbackInfo info = { .credProvider = provider };
-		cloneOptions.cred_acquire_cb = GTCredentialAcquireCallback;
-		cloneOptions.cred_acquire_payload = &info;
+		payload.credProvider = provider;
+		cloneOptions.remote_callbacks.credentials = GTCredentialAcquireCallback;
 	}
 
-	cloneOptions.fetch_progress_cb = transferProgressCallback;
-	cloneOptions.fetch_progress_payload = (__bridge void *)transferProgressBlock;
+	payload.transferProgressBlock = transferProgressBlock;
+
+	cloneOptions.remote_callbacks.transfer_progress = transferProgressCallback;
+	cloneOptions.remote_callbacks.payload = &payload;
 
 	// If our originURL is local, convert to a path before handing down.
 	const char *remoteURL = NULL;

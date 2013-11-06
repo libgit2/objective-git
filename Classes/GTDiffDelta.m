@@ -10,44 +10,45 @@
 
 #import "GTDiffFile.h"
 #import "GTDiffHunk.h"
-
-@interface GTDiffDelta ()
-@property (nonatomic, assign, readonly) const git_diff_delta *git_diff_delta;
-@end
+#import "GTDiff.h"
 
 @implementation GTDiffDelta
 
-- (instancetype)initWithGitPatch:(git_diff_patch *)patch {
+- (instancetype)initWithGitPatch:(git_patch *)patch {
 	NSParameterAssert(patch != NULL);
 	
 	self = [super init];
 	if (self == nil) return nil;
-	
-	_git_diff_patch = patch;
-	
+
+	_git_patch = patch;
+
 	size_t adds = 0;
 	size_t deletes = 0;
 	size_t contexts = 0;
-	git_diff_patch_line_stats(&contexts, &adds, &deletes, patch);
-	
+	git_patch_line_stats(&contexts, &adds, &deletes, _git_patch);
+
 	_addedLinesCount = adds;
 	_deletedLinesCount = deletes;
 	_contextLinesCount = contexts;
-	
+
 	return self;
 }
 
+- (NSString *)debugDescription {
+	return [NSString stringWithFormat:@"%@ flags: %u, oldFile: %@, newFile: %@", super.debugDescription, self.git_diff_delta->flags, self.oldFile, self.newFile];
+}
+
 - (void)dealloc {
-	if (_git_diff_patch != NULL) {
-		git_diff_patch_free(_git_diff_patch);
-		_git_diff_patch = NULL;
+	if (_git_patch) {
+		git_patch_free(_git_patch);
+		_git_patch = NULL;
 	}
 }
 
 #pragma mark - Properties
 
 - (const git_diff_delta *)git_diff_delta {
-	return git_diff_patch_delta(self.git_diff_patch);
+	return git_patch_get_delta(self.git_patch);
 }
 
 - (BOOL)isBinary {
@@ -67,15 +68,23 @@
 }
 
 - (NSUInteger)hunkCount {
-	return git_diff_patch_num_hunks(self.git_diff_patch);
+	return git_patch_num_hunks(self.git_patch);
 }
 
-- (void)enumerateHunksWithBlock:(void (^)(GTDiffHunk *hunk, BOOL *stop))block {
+- (NSUInteger)sizeWithContext:(BOOL)includeContext hunkHeaders:(BOOL)includeHunkHeaders fileHeaders:(BOOL)includeFileHeaders {
+	int shouldIncludeContext = (includeContext == YES ? 1 : 0);
+	int shouldIncludeHunkHeaders = (includeHunkHeaders == YES ? 1 : 0);
+	int shouldIncludeFileHeaders = (includeFileHeaders == YES ? 1 : 0);
+	return git_patch_size(self.git_patch, shouldIncludeContext, shouldIncludeHunkHeaders, shouldIncludeFileHeaders);
+}
+
+- (void)enumerateHunksUsingBlock:(void (^)(GTDiffHunk *hunk, BOOL *stop))block {
 	NSParameterAssert(block != nil);
-	
+
 	for (NSUInteger idx = 0; idx < self.hunkCount; idx ++) {
 		GTDiffHunk *hunk = [[GTDiffHunk alloc] initWithDelta:self hunkIndex:idx];
 		if (hunk == nil) return;
+
 		BOOL shouldStop = NO;
 		block(hunk, &shouldStop);
 		if (shouldStop) return;

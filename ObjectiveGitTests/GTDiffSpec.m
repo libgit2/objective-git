@@ -91,12 +91,12 @@ describe(@"GTDiff diffing", ^{
 			expect(delta.hunkCount).to.equal(1);
 			expect(delta.binary).to.beFalsy();
 			expect((NSUInteger)delta.type).to.equal(GTDiffFileDeltaModified);
-			
+
 			expect(delta.addedLinesCount).to.equal(1);
 			expect(delta.deletedLinesCount).to.equal(1);
 			expect(delta.contextLinesCount).to.equal(6);
-			
-			[delta enumerateHunksWithBlock:^(GTDiffHunk *hunk, BOOL *stop) {
+
+			[delta enumerateHunksUsingBlock:^(GTDiffHunk *hunk, BOOL *stop) {
 				expect(hunk.header).to.equal(@"@@ -4,7 +4,7 @@");
 				expect(hunk.lineCount).to.equal(8);
 				
@@ -112,7 +112,7 @@ describe(@"GTDiff diffing", ^{
 				NSUInteger subtractionLine = 3;
 				NSUInteger additionLine = 4;
 				__block NSUInteger lineIndex = 0;
-				[hunk enumerateLinesInHunkUsingBlock:^(GTDiffLine *line, BOOL *stop) {
+				[hunk enumerateLinesInHunk:NULL usingBlock:^(GTDiffLine *line, BOOL *stop) {
 					expect(line.content).to.equal(expectedLines[lineIndex]);
 					if (lineIndex == subtractionLine) {
 						expect((NSUInteger)line.origin).to.equal(GTDiffLineOriginDeletion);
@@ -179,9 +179,9 @@ describe(@"GTDiff diffing", ^{
 		expect(diff.deltaCount).to.equal(1);
 		[diff enumerateDeltasUsingBlock:^(GTDiffDelta *delta, BOOL *stop) {
 			expect(delta.hunkCount).to.equal(1);
-			[delta enumerateHunksWithBlock:^(GTDiffHunk *hunk, BOOL *stop) {
+			[delta enumerateHunksUsingBlock:^(GTDiffHunk *hunk, BOOL *stop) {
 				__block NSUInteger contextCount = 0;
-				[hunk enumerateLinesInHunkUsingBlock:^(GTDiffLine *line, BOOL *stop) {
+				[hunk enumerateLinesInHunk:NULL usingBlock:^(GTDiffLine *line, BOOL *stop) {
 					if (line.origin == GTDiffLineOriginContext) contextCount ++;
 				}];
 				expect(contextCount).to.equal(10);
@@ -219,7 +219,7 @@ describe(@"GTDiff diffing", ^{
 			if (![delta.newFile.path isEqualToString:@"jquery-1.8.1.min.js"]) return;
 			
 			expect(delta.hunkCount).to.equal(1);
-			[delta enumerateHunksWithBlock:^(GTDiffHunk *hunk, BOOL *stop) {
+			[delta enumerateHunksUsingBlock:^(GTDiffHunk *hunk, BOOL *stop) {
 				expect(hunk.lineCount).to.equal(3);
 				*stop = YES;
 			}];

@@ -34,7 +34,7 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 
 @interface GTDiff ()
 
-@property (nonatomic, assign, readonly) git_diff_list *git_diff_list;
+@property (nonatomic, assign, readonly) git_diff *git_diff;
 
 // A cache of the deltas for the diff. Will be populated only after the first
 // call of -enumerateDeltasUsingBlock:.
@@ -85,16 +85,16 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 	NSParameterAssert(newTree == nil || [newTree.repository isEqual:repository]);
 	NSParameterAssert(oldTree == nil || [oldTree.repository isEqual:repository]);
 	
-	__block git_diff_list *diffList;
+	__block git_diff *diff;
 	int returnValue = [self handleParsedOptionsDictionary:options usingBlock:^(git_diff_options *optionsStruct) {
-		return git_diff_tree_to_tree(&diffList, repository.git_repository, oldTree.git_tree, newTree.git_tree, optionsStruct);
+		return git_diff_tree_to_tree(&diff, repository.git_repository, oldTree.git_tree, newTree.git_tree, optionsStruct);
 	}];
 	if (returnValue != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:returnValue description:@"Failed to create diff between %@ and %@", oldTree.SHA, newTree.SHA];
 		return nil;
 	}
 	
-	GTDiff *newDiff = [[GTDiff alloc] initWithGitDiffList:diffList];
+	GTDiff *newDiff = [[GTDiff alloc] initWithGitDiff:diff];
 	return newDiff;
 }
 
@@ -102,32 +102,32 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 	NSParameterAssert(repository != nil);
 	NSParameterAssert(tree == nil || [tree.repository isEqual:repository]);
 
-	__block git_diff_list *diffList;
+	__block git_diff *diff;
 	int returnValue = [self handleParsedOptionsDictionary:options usingBlock:^(git_diff_options *optionsStruct) {
-		return git_diff_tree_to_index(&diffList, repository.git_repository, tree.git_tree, NULL, optionsStruct);
+		return git_diff_tree_to_index(&diff, repository.git_repository, tree.git_tree, NULL, optionsStruct);
 	}];
 	if (returnValue != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:returnValue description:@"Failed to create diff between index and %@", tree.SHA];
 		return nil;
 	}
 	
-	GTDiff *newDiff = [[GTDiff alloc] initWithGitDiffList:diffList];
+	GTDiff *newDiff = [[GTDiff alloc] initWithGitDiff:diff];
 	return newDiff;
 }
 
 + (GTDiff *)diffIndexToWorkingDirectoryInRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error {
 	NSParameterAssert(repository != nil);
 	
-	__block git_diff_list *diffList;
+	__block git_diff *diff;
 	int returnValue = [self handleParsedOptionsDictionary:options usingBlock:^(git_diff_options *optionsStruct) {
-		return git_diff_index_to_workdir(&diffList, repository.git_repository, NULL, optionsStruct);
+		return git_diff_index_to_workdir(&diff, repository.git_repository, NULL, optionsStruct);
 	}];
 	if (returnValue != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:returnValue description:@"Failed to create diff between working directory and index"];
 		return nil;
 	}
 	
-	GTDiff *newDiff = [[GTDiff alloc] initWithGitDiffList:diffList];
+	GTDiff *newDiff = [[GTDiff alloc] initWithGitDiff:diff];
 	return newDiff;
 }
 
@@ -135,16 +135,16 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 	NSParameterAssert(repository != nil);
 	NSParameterAssert(tree == nil || [tree.repository isEqual:repository]);
 
-	__block git_diff_list *diffList;
+	__block git_diff *diff;
 	int returnValue = [self handleParsedOptionsDictionary:options usingBlock:^(git_diff_options *optionsStruct) {
-		return git_diff_tree_to_workdir(&diffList, repository.git_repository, tree.git_tree, optionsStruct);
+		return git_diff_tree_to_workdir(&diff, repository.git_repository, tree.git_tree, optionsStruct);
 	}];
 	if (returnValue != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:returnValue description:@"Failed to create diff between working directory and %@", tree.SHA];
 		return nil;
 	}
 	
-	GTDiff *newDiff = [[GTDiff alloc] initWithGitDiffList:diffList];
+	GTDiff *newDiff = [[GTDiff alloc] initWithGitDiff:diff];
 	return newDiff;
 }
 
@@ -158,27 +158,31 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 	GTDiff *WDDiff = [GTDiff diffIndexToWorkingDirectoryInRepository:repository options:options error:error];
 	if (WDDiff == nil) return nil;
 
-	git_diff_merge(HEADIndexDiff.git_diff_list, WDDiff.git_diff_list);
+	git_diff_merge(HEADIndexDiff.git_diff, WDDiff.git_diff);
 
 	return HEADIndexDiff;
 }
 
-- (instancetype)initWithGitDiffList:(git_diff_list *)diffList {
-	NSParameterAssert(diffList != NULL);
+- (instancetype)initWithGitDiff:(git_diff *)diff {
+	NSParameterAssert(diff != NULL);
 	
 	self = [super init];
 	if (self == nil) return nil;
 	
-	_git_diff_list = diffList;
+	_git_diff = diff;
 	
 	return self;
 }
 
 - (void)dealloc {
-	if (_git_diff_list != NULL) {
-		git_diff_list_free(_git_diff_list);
-		_git_diff_list = NULL;
+	if (_git_diff != NULL) {
+		git_diff_free(_git_diff);
+		_git_diff = NULL;
 	}
+}
+
+- (NSString *)debugDescription {
+	return [NSString stringWithFormat:@"%@ deltaCount: %ld", super.debugDescription, (unsigned long)self.deltaCount];
 }
 
 - (void)enumerateDeltasUsingBlock:(void (^)(GTDiffDelta *delta, BOOL *stop))block {
@@ -187,10 +191,10 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 	if (self.cachedDeltas == nil) {
 		NSMutableArray *deltas = [NSMutableArray arrayWithCapacity:self.deltaCount];
 		for (NSUInteger idx = 0; idx < self.deltaCount; idx ++) {
-			git_diff_patch *patch;
-			int result = git_diff_get_patch(&patch, NULL, self.git_diff_list, idx);
+			git_patch *patch;
+			int result = git_patch_from_diff(&patch, self.git_diff, idx);
 			if (result != GIT_OK) continue;
-			
+
 			GTDiffDelta *delta = [[GTDiffDelta alloc] initWithGitPatch:patch];
 			if (delta == nil) continue;
 
@@ -206,11 +210,11 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 }
 
 - (NSUInteger)deltaCount {
-	return git_diff_num_deltas(self.git_diff_list);
+	return git_diff_num_deltas(self.git_diff);
 }
 
 - (NSUInteger)numberOfDeltasWithType:(GTDiffDeltaType)deltaType {
-	return git_diff_num_deltas_of_type(self.git_diff_list, (git_delta_t)deltaType);
+	return git_diff_num_deltas_of_type(self.git_diff, (git_delta_t)deltaType);
 }
 
 - (BOOL)findOptionsStructWithDictionary:(NSDictionary *)dictionary optionsStruct:(git_diff_find_options *)newOptions {
@@ -240,7 +244,18 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 - (void)findSimilarWithOptions:(NSDictionary *)options {
 	git_diff_find_options findOptions = GIT_DIFF_FIND_OPTIONS_INIT;
 	BOOL findOptionsCreated = [self findOptionsStructWithDictionary:options optionsStruct:&findOptions];
-	git_diff_find_similar(self.git_diff_list, (findOptionsCreated ? &findOptions : NULL));
+	git_diff_find_similar(self.git_diff, (findOptionsCreated ? &findOptions : NULL));
+}
+
+- (BOOL)mergeDiffWithDiff:(GTDiff *)diff error:(NSError **)error {
+	int gitError = git_diff_merge(self.git_diff, diff.git_diff);
+	if (gitError != GIT_OK) {
+		if (error) *error = [NSError git_errorFor:gitError description:@"Merging diffs failed"];
+		return NO;
+	}
+	// Clear our cache of deltas
+	self.cachedDeltas = nil;
+	return YES;
 }
 
 @end
