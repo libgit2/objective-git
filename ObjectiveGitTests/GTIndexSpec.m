@@ -13,7 +13,7 @@ SpecBegin(GTIndex)
 __block GTIndex *index;
 
 beforeEach(^{
-	NSURL *indexURL = [self.bareFixtureRepository.gitDirectoryURL URLByAppendingPathComponent:@"index"];
+	NSURL *indexURL = [self.testAppFixtureRepository.gitDirectoryURL URLByAppendingPathComponent:@"index"];
 	index = [[GTIndex alloc] initWithFileURL:indexURL error:NULL];
 	expect(index).notTo.beNil();
 
@@ -22,7 +22,7 @@ beforeEach(^{
 });
 
 it(@"can count the entries", ^{
-	expect(index.entryCount).to.equal(2);
+	expect(index.entryCount).to.equal(24);
 });
 
 it(@"can clear all entries", ^{
@@ -33,16 +33,16 @@ it(@"can clear all entries", ^{
 it(@"can read entry properties", ^{
 	GTIndexEntry *entry = [index entryAtIndex:0];
 	expect(entry).notTo.beNil();
-	expect(entry.path).to.equal(@"README");
+	expect(entry.path).to.equal(@".gitignore");
 	expect(entry.staged).to.beFalsy();
 });
 
 it(@"can write to the repository and return a tree", ^{
-	GTRepository *repository = self.bareFixtureRepository;
+	GTRepository *repository = self.testAppFixtureRepository;
 	GTIndex *index = [repository indexWithError:NULL];
 	GTTree *tree = [index writeTree:NULL];
 	expect(tree).notTo.beNil();
-	expect(tree.entryCount).to.equal(2);
+	expect(tree.entryCount).to.equal(23);
 	expect(tree.repository).to.equal(repository);
 });
 
