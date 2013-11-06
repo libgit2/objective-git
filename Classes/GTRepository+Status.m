@@ -93,7 +93,6 @@ NSString *const GTRepositoryStatusOptionsPathSpecArrayKey = @"GTRepositoryStatus
 }
 
 - (GTFileStatusFlags)statusForFile:(NSURL *)fileURL success:(BOOL *)success error:(NSError **)error {
-	NSParameterAssert(success != NULL);
 	NSParameterAssert(fileURL != nil);
 
 	git_status_t status;
@@ -110,7 +109,6 @@ NSString *const GTRepositoryStatusOptionsPathSpecArrayKey = @"GTRepositoryStatus
 }
 
 - (BOOL)shouldFileBeIgnored:(NSURL *)fileURL success:(BOOL *)success error:(NSError **)error {
-	NSParameterAssert(success != NULL);
 	NSParameterAssert(fileURL != nil);
 
 	int ignoreState = 0;
