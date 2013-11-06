@@ -200,12 +200,12 @@ describe(@"network operations", ^{
 		});
 	});
 
-	describe(@"-pushReferences:credentialProvider:error:", ^{
+	describe(@"-pushWithCredentialProvider:error:", ^{
 		it(@"doesn't work with local pushes", ^{
 			NSError *error = nil;
 			GTRemote *remote = [GTRemote remoteWithName:@"origin" inRepository:fetchingRepo error:&error];
 
-			BOOL success = [remote pushReferences:remote.pushRefspecs credentialProvider:nil error:&error];
+			BOOL success = [remote pushWithCredentialProvider:nil error:&error progress:nil];
 			expect(success).to.beFalsy();
 			expect(error).notTo.beNil();
 			expect(error.code).to.equal(GIT_EBAREREPO);
@@ -216,7 +216,7 @@ describe(@"network operations", ^{
 //			NSError *error = nil;
 //			GTRemote *remote = [GTRemote remoteWithName:@"origin" inRepository:fetchingRepo error:&error];
 //
-//			BOOL success = [remote pushReferences:remote.pushRefspecs credentialProvider:nil error:&error];
+//			BOOL success = [remote pushWithCredentialProvider:nil error:&error progress:nil];
 //			expect(success).to.beTruthy();
 //			expect(error).to.beNil();
 //		});
@@ -232,7 +232,7 @@ describe(@"network operations", ^{
 //			// Issue a push
 //			GTRemote *remote = [GTRemote remoteWithName:@"origin" inRepository:fetchingRepo error:nil];
 //
-//			BOOL success = [remote pushReferences:remote.pushRefspecs credentialProvider:nil error:&error];
+//			BOOL success = [remote pushWithCredentialProvider:nil error:&error progress:nil];
 //			expect(success).to.beTruthy();
 //			expect(error).to.beNil();
 //

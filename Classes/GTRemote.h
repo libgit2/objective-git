@@ -144,5 +144,5 @@ typedef enum {
 // Returns YES if successful, NO otherwise.
 - (BOOL)fetchWithCredentialProvider:(GTCredentialProvider *)credProvider error:(NSError **)error progress:(void (^)(const git_transfer_progress *stats, BOOL *stop))progressBlock;
 
-- (BOOL)pushReferences:(NSArray *)references credentialProvider:(GTCredentialProvider *)credProvider error:(NSError **)error;
+- (BOOL)pushWithCredentialProvider:(GTCredentialProvider *)credProvider error:(NSError **)error progress:(void (^)(const git_transfer_progress *stats, BOOL *stop))progressBlock;
 @end

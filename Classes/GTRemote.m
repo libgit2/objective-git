@@ -380,31 +380,22 @@ int GTRemoteTransferProgressCallback(const git_transfer_progress *stats, void *p
 #pragma mark -
 #pragma mark Push
 
-- (BOOL)pushReferences:(NSArray *)references credentialProvider:(GTCredentialProvider *)credProvider error:(NSError **)error {
-	NSParameterAssert(references != nil);
-
+- (BOOL)pushWithCredentialProvider:(GTCredentialProvider *)credProvider error:(NSError **)error progress:(GTRemoteTransferProgressBlock)progressBlock {
 	git_push *push;
 	int gitError = git_push_new(&push, self.git_remote);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Push object creation failed" failureReason:@"Failed to create push object for references %@", [references componentsJoinedByString:@", "]];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Push object creation failed" failureReason:@"Failed to create push object for remote \"%@\"", self];
 		return NO;
 	}
 	@onExit {
 		git_push_free(push);
 	};
 
-	for (id reference in references) {
-		NSString *name = nil;
-		if ([reference isKindOfClass:[NSString class]]) {
-			name = reference;
-		} else if ([reference isKindOfClass:[GTReference class]]) {
-			name = [(GTReference *)reference name];
-		}
-		NSAssert(name != nil, @"Invalid reference passed: %@", reference);
 
-		gitError = git_push_add_refspec(push, name.UTF8String);
+	for (NSString *refspec in self.pushRefspecs) {
+		gitError = git_push_add_refspec(push, refspec.UTF8String);
 		if (gitError != GIT_OK) {
-			if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Adding reference failed" failureReason:@"Failed to add reference \"%@\" to push object", reference];
+			if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Adding reference failed" failureReason:@"Failed to add refspec \"%@\" to push object", refspec];
 			return NO;
 		}
 	}
@@ -412,6 +403,7 @@ int GTRemoteTransferProgressCallback(const git_transfer_progress *stats, void *p
 	@synchronized (self) {
 		GTRemoteConnectionInfo connectionInfo = {
 			.credProvider = credProvider,
+			.progressBlock = progressBlock,
 			.direction = GIT_DIRECTION_PUSH,
 		};
 		BOOL success = [self connectRemoteWithInfo:&connectionInfo error:error block:^BOOL(NSError **error) {
