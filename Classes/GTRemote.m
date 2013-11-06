@@ -312,7 +312,7 @@ typedef struct {
 	git_direction direction;
 } GTRemoteConnectionInfo;
 
-int transfer_progress_cb(const git_transfer_progress *stats, void *payload) {
+int GTRemoteTransferProgressCallback(const git_transfer_progress *stats, void *payload) {
 	GTRemoteConnectionInfo *info = payload;
 	BOOL stop = NO;
 
@@ -322,9 +322,19 @@ int transfer_progress_cb(const git_transfer_progress *stats, void *payload) {
 }
 
 - (BOOL)connectRemoteWithInfo:(GTRemoteConnectionInfo *)info error:(NSError **)error block:(BOOL (^)(NSError **error))connectedBlock {
-	git_remote_set_cred_acquire_cb(self.git_remote, GTCredentialAcquireCallback, &info);
+	git_remote_callbacks remote_callbacks = {
+		.version = GIT_REMOTE_CALLBACKS_VERSION,
+		.credentials = GTCredentialAcquireCallback,
+		.transfer_progress = GTRemoteTransferProgressCallback,
+		.payload = info,
+	};
+	int gitError = git_remote_set_callbacks(self.git_remote, &remote_callbacks);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to set callbacks on remote"];
+		return NO;
+	}
 
-	int gitError = git_remote_connect(self.git_remote, info->direction);
+	gitError = git_remote_connect(self.git_remote, info->direction);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to connect remote"];
 		return NO;
@@ -334,7 +344,8 @@ int transfer_progress_cb(const git_transfer_progress *stats, void *payload) {
 	if (success != YES) return NO;
 
 	git_remote_disconnect(self.git_remote);
-	git_remote_set_cred_acquire_cb(self.git_remote, NULL, NULL);
+	// FIXME: Can't unset callbacks without asserting
+	// git_remote_set_callbacks(self.git_remote, NULL);
 
 	return YES;
 }
@@ -348,7 +359,7 @@ int transfer_progress_cb(const git_transfer_progress *stats, void *payload) {
 		};
 
 		BOOL success = [self connectRemoteWithInfo:&connectionInfo error:error block:^BOOL(NSError **error){
-			int gitError = git_remote_download(self.git_remote, (progressBlock != nil ? transfer_progress_cb : NULL), &connectionInfo);
+			int gitError = git_remote_download(self.git_remote);
 			if (gitError != GIT_OK) {
 				if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to fetch remote"];
 				return NO;
