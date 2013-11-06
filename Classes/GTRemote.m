@@ -340,15 +340,13 @@ int GTRemoteTransferProgressCallback(const git_transfer_progress *stats, void *p
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to connect remote"];
 		return NO;
 	}
+	@onExit {
+		git_remote_disconnect(self.git_remote);
+		// FIXME: Can't unset callbacks without asserting
+		// git_remote_set_callbacks(self.git_remote, NULL);
+	};
 
-	BOOL success = connectedBlock(error);
-	if (success != YES) return NO;
-
-	git_remote_disconnect(self.git_remote);
-	// FIXME: Can't unset callbacks without asserting
-	// git_remote_set_callbacks(self.git_remote, NULL);
-
-	return YES;
+	return connectedBlock(error);
 }
 
 - (BOOL)fetchWithCredentialProvider:(GTCredentialProvider *)credProvider error:(NSError **)error progress:(GTRemoteTransferProgressBlock)progressBlock {
