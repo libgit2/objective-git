@@ -77,6 +77,8 @@ describe(@"network operations", ^{
 	__block NSString *remoteName;
 
 	beforeEach(^{
+		repository = self.bareFixtureRepository;
+		expect(repository.isBare).to.beTruthy();
 		repositoryURL = repository.gitDirectoryURL;
 		NSURL *fixturesURL = repositoryURL.URLByDeletingLastPathComponent;
 		fetchingRepoURL = [fixturesURL URLByAppendingPathComponent:@"fetchrepo"];
@@ -179,12 +181,11 @@ describe(@"network operations", ^{
 			BOOL success = [remote fetchWithCredentialProvider:nil error:&error progress:^(const git_transfer_progress *stats, BOOL *stop) {
 				receivedObjects += stats->received_objects;
 				transferProgressed = YES;
-				NSLog(@"%d", receivedObjects);
 			}];
 			expect(error).to.beNil();
 			expect(success).to.beTruthy();
 			expect(transferProgressed).to.beTruthy();
-			expect(receivedObjects).to.equal(6);
+			expect(receivedObjects).to.equal(10);
 
 			GTCommit *fetchedCommit = [fetchingRepo lookupObjectByOID:testCommit.OID objectType:GTObjectTypeCommit error:&error];
 			expect(error).to.beNil();
