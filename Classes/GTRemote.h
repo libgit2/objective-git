@@ -146,10 +146,12 @@ typedef enum {
 
 // Push to the remote.
 //
+// branches      - An array of GTBranches to push to the remote. If you pass nil here,
+//                 the receiver's `pushRefspecs` will be used instead.
 // credProvider  - The credential provider to use if the remote requires authentification.
 // error         - Will be set if an error occurs.
 // progressBlock - A block that will be called during the operation to report its progression.
 //
 // Returns YES if successful, NO otherwise.
-- (BOOL)pushWithCredentialProvider:(GTCredentialProvider *)credProvider error:(NSError **)error progress:(void (^)(const git_transfer_progress *stats, BOOL *stop))progressBlock;
+- (BOOL)pushBranches:(NSArray *)branches withCredentialProvider:(GTCredentialProvider *)credProvider error:(NSError **)error progress:(void (^)(const git_transfer_progress *stats, BOOL *stop))progressBlock;
 @end

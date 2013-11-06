@@ -202,54 +202,64 @@ describe(@"network operations", ^{
 	});
 
 	describe(@"-pushWithCredentialProvider:error:", ^{
-		it(@"doesn't work with local pushes", ^{
-			NSError *error = nil;
-			GTRemote *remote = [GTRemote remoteWithName:@"origin" inRepository:fetchingRepo error:&error];
-
-			BOOL success = [remote pushWithCredentialProvider:nil error:&error progress:nil];
-			expect(success).to.beFalsy();
-			expect(error).notTo.beNil();
-			expect(error.code).to.equal(GIT_EBAREREPO);
-			// When that test fails, delete and uncomment below
-		});
-
-//		it(@"allows remotes to be pushed", ^{
+//		it(@"doesn't work with local pushes", ^{
 //			NSError *error = nil;
 //			GTRemote *remote = [GTRemote remoteWithName:@"origin" inRepository:fetchingRepo error:&error];
 //
 //			BOOL success = [remote pushWithCredentialProvider:nil error:&error progress:nil];
-//			expect(success).to.beTruthy();
-//			expect(error).to.beNil();
+//			expect(success).to.beFalsy();
+//			expect(error).notTo.beNil();
+//			expect(error.code).to.equal(GIT_EBAREREPO);
+//			// When that test fails, delete and uncomment below
 //		});
-//
-//		it(@"pushes new commits", ^{
-//			NSError *error = nil;
-//
-//			NSString *fileData = @"Another test";
-//			NSString *fileName = @"Another file.txt";
-//
-//			GTCommit *testCommit = createCommitInRepository(@"Another test commit", [fileData dataUsingEncoding:NSUTF8StringEncoding], fileName, fetchingRepo);
-//
-//			// Issue a push
-//			GTRemote *remote = [GTRemote remoteWithName:@"origin" inRepository:fetchingRepo error:nil];
-//
-//			BOOL success = [remote pushWithCredentialProvider:nil error:&error progress:nil];
-//			expect(success).to.beTruthy();
-//			expect(error).to.beNil();
-//
-//			// Check that the origin repo has a new commit
-//			GTCommit *pushedCommit = [repository lookupObjectByOID:testCommit.OID objectType:GTObjectTypeCommit error:&error];
-//			expect(error).to.beNil();
-//			expect(pushedCommit).notTo.beNil();
-//
-//			GTTreeEntry *entry = [[pushedCommit tree] entryWithName:fileName];
-//			expect(entry).notTo.beNil();
-//
-//			GTBlob *commitData = (GTBlob *)[entry toObjectAndReturnError:&error];
-//			expect(error).to.beNil();
-//			expect(commitData).notTo.beNil();
-//			expect(commitData.content).to.equal(fileData);
-//		});
+
+		it(@"allows remotes to be pushed", ^{
+			NSError *error = nil;
+			GTRemote *remote = [GTRemote remoteWithName:@"origin" inRepository:fetchingRepo error:&error];
+			GTBranch *master = [fetchingRepo currentBranchWithError:NULL];
+
+			BOOL success = [remote pushBranches:@[master] withCredentialProvider:nil error:&error progress:nil];
+			expect(success).to.beTruthy();
+			expect(error).to.beNil();
+		});
+
+		it(@"pushes new commits", ^{
+			NSError *error = nil;
+
+			NSString *fileData = @"Another test";
+			NSString *fileName = @"Another file.txt";
+
+			GTCommit *testCommit = createCommitInRepository(@"Another test commit", [fileData dataUsingEncoding:NSUTF8StringEncoding], fileName, fetchingRepo);
+
+			// Issue a push
+			GTRemote *remote = [GTRemote remoteWithName:@"origin" inRepository:fetchingRepo error:nil];
+			GTBranch *master = [fetchingRepo currentBranchWithError:NULL];
+
+			__block unsigned int receivedObjects = 0;
+			__block BOOL transferProgressed = NO;
+			BOOL success = [remote pushBranches:@[master] withCredentialProvider:nil error:&error progress:^(const git_transfer_progress *stats, BOOL *stop) {
+				receivedObjects += stats->received_objects;
+				transferProgressed = YES;
+			}];
+			expect(success).to.beTruthy();
+			expect(error).to.beNil();
+			// FIXME: those are reversed because push doesn't handle progress yet.
+			expect(transferProgressed).to.beFalsy();
+			expect(receivedObjects).to.equal(0);
+
+			// Check that the origin repo has a new commit
+			GTCommit *pushedCommit = [repository lookupObjectByOID:testCommit.OID objectType:GTObjectTypeCommit error:&error];
+			expect(error).to.beNil();
+			expect(pushedCommit).notTo.beNil();
+
+			GTTreeEntry *entry = [[pushedCommit tree] entryWithName:fileName];
+			expect(entry).notTo.beNil();
+
+			GTBlob *commitData = (GTBlob *)[entry toObjectAndReturnError:&error];
+			expect(error).to.beNil();
+			expect(commitData).notTo.beNil();
+			expect(commitData.content).to.equal(fileData);
+		});
 	});
 });
 

@@ -10,6 +10,7 @@
 #import "GTRepository.h"
 #import "GTOID.h"
 #import "GTCredential+Private.h"
+#import "GTBranch.h"
 
 #import "NSError+Git.h"
 #import "EXTScope.h"
@@ -380,7 +381,7 @@ int GTRemoteTransferProgressCallback(const git_transfer_progress *stats, void *p
 #pragma mark -
 #pragma mark Push
 
-- (BOOL)pushWithCredentialProvider:(GTCredentialProvider *)credProvider error:(NSError **)error progress:(GTRemoteTransferProgressBlock)progressBlock {
+- (BOOL)pushBranches:(NSArray *)branches withCredentialProvider:(GTCredentialProvider *)credProvider error:(NSError **)error progress:(GTRemoteTransferProgressBlock)progressBlock {
 	git_push *push;
 	int gitError = git_push_new(&push, self.git_remote);
 	if (gitError != GIT_OK) {
@@ -391,8 +392,19 @@ int GTRemoteTransferProgressCallback(const git_transfer_progress *stats, void *p
 		git_push_free(push);
 	};
 
+	NSArray *refspecs = nil;
+	if (branches != nil && branches.count != 0) {
+		// Build refspecs for the passed in branches
+		NSMutableArray *mutableRefspecs = [NSMutableArray arrayWithCapacity:branches.count];
+		for (GTBranch *branch in branches) {
+			[mutableRefspecs addObject:[NSString stringWithFormat:@"%@:%@", branch.name, branch.name]];
+		}
+		refspecs = mutableRefspecs;
+	} else {
+		refspecs = self.pushRefspecs;
+	}
 
-	for (NSString *refspec in self.pushRefspecs) {
+	for (NSString *refspec in refspecs) {
 		gitError = git_push_add_refspec(push, refspec.UTF8String);
 		if (gitError != GIT_OK) {
 			if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Adding reference failed" failureReason:@"Failed to add refspec \"%@\" to push object", refspec];
