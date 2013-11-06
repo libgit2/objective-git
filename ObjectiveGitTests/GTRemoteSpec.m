@@ -234,7 +234,7 @@ describe(@"network operations", ^{
 
 			expect(success).to.beTruthy();
 			expect(error).to.beNil();
-			// FIXME: those are reversed because push doesn't handle progress yet.
+			// FIXME: those are reversed because local pushes doesn't handle progress yet
 			expect(transferProgressed).to.beFalsy();
 			expect(receivedObjects).to.equal(0);
 
