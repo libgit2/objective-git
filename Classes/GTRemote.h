@@ -135,7 +135,7 @@ typedef enum {
 // but could not be removed, or saving the remote failed.
 - (BOOL)removeFetchRefspec:(NSString *)fetchRefspec error:(NSError **)error;
 
-// Fetch the remote.
+// Fetch from the remote.
 //
 // credProvider  - The credential provider to use if the remote requires authentification.
 // error         - Will be set if an error occurs.
@@ -144,5 +144,12 @@ typedef enum {
 // Returns YES if successful, NO otherwise.
 - (BOOL)fetchWithCredentialProvider:(GTCredentialProvider *)credProvider error:(NSError **)error progress:(void (^)(const git_transfer_progress *stats, BOOL *stop))progressBlock;
 
+// Push to the remote.
+//
+// credProvider  - The credential provider to use if the remote requires authentification.
+// error         - Will be set if an error occurs.
+// progressBlock - A block that will be called during the operation to report its progression.
+//
+// Returns YES if successful, NO otherwise.
 - (BOOL)pushWithCredentialProvider:(GTCredentialProvider *)credProvider error:(NSError **)error progress:(void (^)(const git_transfer_progress *stats, BOOL *stop))progressBlock;
 @end
