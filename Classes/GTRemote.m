@@ -413,9 +413,9 @@ int GTRemoteTransferProgressCallback(const git_transfer_progress *stats, void *p
 				return NO;
 			}
 
-			gitError = git_push_unpack_ok(push);
-			if (gitError != GIT_OK) {
-				if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Unpacking failed"];
+			int unpackSuccessful = git_push_unpack_ok(push);
+			if (unpackSuccessful == 0) {
+				if (error != NULL) *error = [NSError errorWithDomain:GTGitErrorDomain code:-1 userInfo:@{ NSLocalizedDescriptionKey: @"Unpacking failed" }];
 				return NO;
 			}
 
