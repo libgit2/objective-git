@@ -148,6 +148,16 @@
 	return YES;
 }
 
+- (BOOL)removeFile:(NSString *)file error:(NSError **)error {
+	int status = git_index_remove_bypath(self.git_index, file.UTF8String);
+	if (status != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to remove file %@ to index.", file];
+		return NO;
+	}
+	
+	return YES;
+}
+
 - (BOOL)write:(NSError **)error {
 	int status = git_index_write(self.git_index);
 	if (status != GIT_OK) {
