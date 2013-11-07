@@ -54,6 +54,25 @@ typedef enum {
 @property (nonatomic, readonly, strong) GTRepository *repository;
 @property (nonatomic, readonly) GTOID *OID;
 
+// Lookup an object in a repository.
+//
+// This method will automatically restrict the requested object type depending on
+// the class of the receiver.
+// For example, if you expect the OID to point to a commit, call it on `GTCommit`.
+// Performing the lookup on `GTObject` will give you back an object of the class
+// corresponding to the actual object type.
+//
+// OID        - The OID of the object to lookup.
+// repository - The repository to perform the lookup in.
+// error      - Will be set if an error occurs.
+//
+// Returns the object corresponding to the OID, or nil if an error occurred.
++ (instancetype)lookupWithOID:(GTOID *)OID inRepository:(GTRepository *)repository error:(NSError **)error;
+
+// Convenience method to lookup an object given its SHA.
+// See +lookupObjectWithOID:inRepository:error:
++ (instancetype)lookupWithSHA:(NSString *)SHA inRepository:(GTRepository *)repository error:(NSError **)error;
+
 // Convenience initializers
 - (id)initWithObj:(git_object *)theObject inRepository:(GTRepository *)theRepo;
 + (id)objectWithObj:(git_object *)theObject inRepository:(GTRepository *)theRepo;

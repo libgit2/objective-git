@@ -27,7 +27,7 @@
 #import "GTOID.h"
 #import "GTReflog+Private.h"
 #import "GTRepository.h"
-#import "GTRepository+Private.h"
+#import "GTObject+Private.h"
 #import "NSError+Git.h"
 #import "NSString+Git.h"
 
@@ -168,7 +168,7 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 		const git_oid *oid = git_reference_target(self.git_reference);
 		if (oid == NULL) return nil;
 
-		return [self.repository lookupObjectByGitOid:oid error:NULL];
+		return [GTObject lookupWithGitOID:oid inRepository:self.repository error:NULL];
 	} else if (self.referenceType == GTReferenceTypeSymbolic) {
 		NSString *refName = @(git_reference_symbolic_target(self.git_reference));
 		if (refName == NULL) return nil;

@@ -19,7 +19,7 @@ beforeEach(^{
 	GTRepository *repo = self.bareFixtureRepository;
 	expect(repo).notTo.beNil();
 
-	tree = (GTTree *)[repo lookupObjectBySHA:testTreeSHA error:NULL];
+	tree = [GTTree lookupWithSHA:testTreeSHA inRepository:repo error:NULL];
 	expect(tree).notTo.beNil();
 });
 

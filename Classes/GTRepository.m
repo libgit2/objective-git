@@ -237,45 +237,6 @@ struct GTClonePayload {
 	return [[self alloc] initWithGitRepository:repository];
 }
 
-- (id)lookupObjectByGitOid:(const git_oid *)oid objectType:(GTObjectType)type error:(NSError **)error {
-	git_object *obj;
-
-	int gitError = git_object_lookup(&obj, self.git_repository, oid, (git_otype)type);
-	if (gitError < GIT_OK) {
-		if (error != NULL) {
-			char oid_str[GIT_OID_HEXSZ+1];
-			git_oid_tostr(oid_str, sizeof(oid_str), oid);
-			*error = [NSError git_errorFor:gitError description:@"Failed to lookup object %s in repository.", oid_str];
-		}
-		return nil;
-	}
-
-    return [GTObject objectWithObj:obj inRepository:self];
-}
-
-- (id)lookupObjectByGitOid:(const git_oid *)oid error:(NSError **)error {
-	return [self lookupObjectByGitOid:oid objectType:GTObjectTypeAny error:error];
-}
-
-- (id)lookupObjectByOID:(GTOID *)oid objectType:(GTObjectType)type error:(NSError **)error {
-	return [self lookupObjectByGitOid:oid.git_oid objectType:type error:error];
-}
-
-- (id)lookupObjectByOID:(GTOID *)oid error:(NSError **)error {
-	return [self lookupObjectByOID:oid objectType:GTObjectTypeAny error:error];
-}
-
-- (id)lookupObjectBySHA:(NSString *)sha objectType:(GTObjectType)type error:(NSError **)error {
-	GTOID *oid = [[GTOID alloc] initWithSHA:sha error:error];
-	if (!oid) return nil;
-
-	return [self lookupObjectByOID:oid objectType:type error:error];
-}
-
-- (id)lookupObjectBySHA:(NSString *)sha error:(NSError **)error {
-	return [self lookupObjectBySHA:sha objectType:GTObjectTypeAny error:error];
-}
-
 - (id)lookupObjectByRevspec:(NSString *)spec error:(NSError **)error {
 	git_object *obj;
 	int gitError = git_revparse_single(&obj, self.git_repository, spec.UTF8String);
@@ -361,7 +322,7 @@ struct GTRepositoryTagEnumerationInfo {
 
 static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *payload) {
 	struct GTRepositoryTagEnumerationInfo *info = payload;
-	GTTag *tag = (GTTag *)[info->myself lookupObjectByGitOid:oid objectType:GTObjectTypeTag error:NULL];
+	GTTag *tag = [GTTag lookupWithOID:[GTOID oidWithGitOid:oid] inRepository:info->myself error:NULL];
 
 	BOOL stop = NO;
 	info->block(tag, &stop);
@@ -541,8 +502,8 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 		if (error != NULL) *error = [NSError git_errorFor:errorCode description:@"Failed to find merge base between commits %@ and %@.", firstOID.SHA, secondOID.SHA];
 		return nil;
 	}
-	
-	return [self lookupObjectByGitOid:&mergeBase objectType:GTObjectTypeCommit error:error];
+
+	return [GTCommit lookupWithOID:[GTOID oidWithGitOid:&mergeBase] inRepository:self error:error];
 }
 
 - (GTObjectDatabase *)objectDatabaseWithError:(NSError **)error {
@@ -674,7 +635,7 @@ static int submoduleEnumerationCallback(git_submodule *git_submodule, const char
 
 - (GTTag *)createTagNamed:(NSString *)tagName target:(GTObject *)theTarget tagger:(GTSignature *)theTagger message:(NSString *)theMessage error:(NSError **)error {
 	GTOID *oid = [self OIDByCreatingTagNamed:tagName target:theTarget tagger:theTagger message:theMessage error:error];
-	return oid ? [self lookupObjectByOID:oid objectType:GTObjectTypeTag error:error] : nil;
+	return (oid ? [GTTag lookupWithOID:oid inRepository:self error:error] : nil);
 }
 
 #pragma mark Checkout

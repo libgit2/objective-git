@@ -18,7 +18,7 @@ describe(@"blob properties can be accessed", ^{
 	beforeEach(^{
 		repository = self.bareFixtureRepository;
 		blobSHA = @"fa49b077972391ad58037050f2a75f74e3671e92";
-		blob = [repository lookupObjectBySHA:blobSHA objectType:GTObjectTypeBlob error:NULL];
+		blob = [GTBlob lookupWithSHA:blobSHA inRepository:repository error:NULL];
 		expect(blob).notTo.beNil();
 	});
 

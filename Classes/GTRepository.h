@@ -169,12 +169,6 @@ extern NSString *const GTRepositoryCloneOptionsCredentialProvider;
 // returns nil (and fills the error parameter) if an error occurred, or a GTRepository object if successful.
 + (id)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL options:(NSDictionary *)options error:(NSError **)error transferProgressBlock:(void (^)(const git_transfer_progress *))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))checkoutProgressBlock;
 
-// Lookup objects in the repo by oid or sha1
-- (id)lookupObjectByOID:(GTOID *)oid objectType:(GTObjectType)type error:(NSError **)error;
-- (id)lookupObjectByOID:(GTOID *)oid error:(NSError **)error;
-- (id)lookupObjectBySHA:(NSString *)sha objectType:(GTObjectType)type error:(NSError **)error;
-- (id)lookupObjectBySHA:(NSString *)sha error:(NSError **)error;
-
 // Lookup an object in the repo using a revparse spec
 - (id)lookupObjectByRevspec:(NSString *)spec error:(NSError **)error;
 

@@ -259,12 +259,12 @@ describe(@"-OIDByCreatingTagNamed:target:tagger:message:error", ^{
 		NSError *error = nil;
 		NSString *SHA = @"0c37a5391bbff43c37f0d0371823a5509eed5b1d";
 		GTRepository *repo = self.bareFixtureRepository;
-		GTTag *tag = (GTTag *)[repo lookupObjectBySHA:SHA error:&error];
+		GTTag *tag = [GTTag lookupWithSHA:SHA inRepository:repo error:&error];
 
 		GTOID *newOID = [repo OIDByCreatingTagNamed:@"a_new_tag" target:tag.target tagger:tag.tagger message:@"my tag\n" error:&error];
 		expect(newOID).notTo.beNil();
 
-		tag = (GTTag *)[repo lookupObjectByOID:newOID error:&error];
+		tag = [GTTag lookupWithOID:newOID inRepository:repo error:&error];
 		expect(error).to.beNil();
 		expect(tag).notTo.beNil();
 		expect(newOID.SHA).to.equal(tag.SHA);
@@ -279,7 +279,7 @@ describe(@"-OIDByCreatingTagNamed:target:tagger:message:error", ^{
 		NSError *error = nil;
 		NSString *SHA = @"0c37a5391bbff43c37f0d0371823a5509eed5b1d";
 		GTRepository *repo = self.bareFixtureRepository;
-		GTTag *tag = (GTTag *)[repo lookupObjectBySHA:SHA error:&error];
+		GTTag *tag = [GTTag lookupWithSHA:SHA inRepository:repo error:&error];
 
 		GTOID *OID = [repo OIDByCreatingTagNamed:tag.name target:tag.target tagger:tag.tagger message:@"new message" error:&error];
 		expect(OID).to.beNil();
@@ -300,7 +300,7 @@ describe(@"-checkout:strategy:error:progressBlock:", ^{
 	
 	it(@"should allow commits", ^{
 		NSError *error = nil;
-		GTCommit *commit = [repository lookupObjectBySHA:@"1d69f3c0aeaf0d62e25591987b93b8ffc53abd77" objectType:GTObjectTypeCommit error:&error];
+		GTCommit *commit = [GTCommit lookupWithSHA:@"1d69f3c0aeaf0d62e25591987b93b8ffc53abd77" inRepository:repository error:&error];
 		expect(commit).to.beTruthy();
 		expect(error.localizedDescription).to.beNil();
 		BOOL result = [repository checkoutCommit:commit strategy:GTCheckoutStrategyAllowConflicts error:&error progressBlock:nil];
@@ -319,9 +319,9 @@ describe(@"-resetToCommit:withResetType:error:", ^{
 		GTReference *originalHead = [repository headReferenceWithError:NULL];
 		NSString *resetTargetSHA = @"8496071c1b46c854b31185ea97743be6a8774479";
 
-		GTCommit *commit = [repository lookupObjectBySHA:resetTargetSHA error:NULL];
+		GTCommit *commit = [GTCommit lookupWithSHA:resetTargetSHA inRepository:repository error:NULL];
 		expect(commit).notTo.beNil();
-		GTCommit *originalHeadCommit = [repository lookupObjectBySHA:originalHead.targetSHA error:NULL];
+		GTCommit *originalHeadCommit = [GTCommit lookupWithSHA:originalHead.targetSHA inRepository:repository error:NULL];
 		expect(originalHeadCommit).notTo.beNil();
 
 		BOOL success = [repository resetToCommit:commit withResetType:GTRepositoryResetTypeSoft error:&error];

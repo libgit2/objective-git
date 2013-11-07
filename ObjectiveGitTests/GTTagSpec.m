@@ -16,7 +16,7 @@ beforeEach(^{
 	NSError *error = nil;
 	GTRepository *repo = self.bareFixtureRepository;
 	NSString *tagSHA = @"0c37a5391bbff43c37f0d0371823a5509eed5b1d";
-	tag = (GTTag *)[repo lookupObjectBySHA:tagSHA error:&error];
+	tag = [GTTag lookupWithSHA:tagSHA inRepository:repo error:&error];
 	expect(error).to.beFalsy();
 	expect(tag).to.beTruthy();
 	expect(tagSHA).to.equal(tag.SHA);
