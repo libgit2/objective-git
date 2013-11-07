@@ -87,7 +87,7 @@
 
 - (id)initWithFile:(NSURL *)file inRepository:(GTRepository *)repository error:(NSError **)error {
 	git_oid oid;
-	int gitError = git_blob_create_fromworkdir(&oid, repository.git_repository, [[file path] UTF8String]);
+	int gitError = git_blob_create_fromdisk(&oid, repository.git_repository, [[file path] fileSystemRepresentation]);
 	if(gitError < GIT_OK) {
 		if(error != NULL) {
 			*error = [NSError git_errorFor:gitError description:@"Failed to create blob from NSURL"];
