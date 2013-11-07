@@ -116,6 +116,21 @@ describe(@"-remoteBranchesWithError:", ^{
 	});
 });
 
+describe(@"-referenceNamesWithError:", ^{
+	it(@"should return reference names", ^{
+		NSError *error = nil;
+		NSArray *refs = [self.bareFixtureRepository referenceNamesWithError:&error];
+		expect(refs).notTo.beNil();
+		expect(error).to.beNil();
+
+		expect(refs.count).to.equal(4);
+		expect(refs).to.contain(@"refs/heads/packed");
+		expect(refs).to.contain(@"refs/heads/master");
+		expect(refs).to.contain(@"refs/tags/v0.9");
+		expect(refs).to.contain(@"refs/tags/v1.0");
+	});
+});
+
 describe(@"-OIDByCreatingTagNamed:target:tagger:message:error", ^{
 	it(@"should create a new tag",^{
 		NSError *error = nil;
