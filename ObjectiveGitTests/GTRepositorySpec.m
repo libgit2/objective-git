@@ -12,13 +12,15 @@
 SpecBegin(GTRepository)
 
 __block GTRepository *repository;
+__block NSError *error = nil;
 
 beforeEach(^{
 	repository = self.testAppFixtureRepository;
 	expect(repository).notTo.beNil();
+	error = nil;
 });
 
-describe(@"-initializeEmptyRepositoryAtFileURL:bare:error:", ^{
+describe(@"+initializeEmptyRepositoryAtFileURL:bare:error:", ^{
 	__block GTRepository * (^createRepository)(BOOL bare);
 
 	beforeEach(^{
@@ -41,6 +43,100 @@ describe(@"-initializeEmptyRepositoryAtFileURL:bare:error:", ^{
 	it(@"should initialize a bare repository", ^{
 		GTRepository *repository = createRepository(YES);
 		expect(repository.bare).to.beTruthy();
+	});
+});
+
+describe(@"+repositoryWithURL:error:", ^{
+	it(@"should fail to initialize non-existent repos", ^{
+		GTRepository *badRepo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:@"fake/1235"] error:&error];
+		expect(badRepo).to.beNil();
+		expect(error).notTo.beNil();
+	});
+});
+
+describe(@"+cloneFromURL:toWorkingDirectory:...", ^{
+	__block BOOL transferProgressCalled = NO;
+	__block BOOL checkoutProgressCalled = NO;
+	__block void (^transferProgressBlock)(const git_transfer_progress *);
+	__block void (^checkoutProgressBlock)(NSString *, NSUInteger, NSUInteger);
+	__block NSURL *originURL;
+	__block NSURL *workdirURL;
+
+	beforeEach(^{
+		error = nil;
+		transferProgressCalled = NO;
+		checkoutProgressCalled = NO;
+		transferProgressBlock = ^(const git_transfer_progress *progress) { transferProgressCalled = YES; };
+		checkoutProgressBlock = ^(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps) { checkoutProgressCalled = YES; };
+
+		originURL = self.bareFixtureRepository.gitDirectoryURL; //[NSURL URLWithString: @"https://github.com/libgit2/TestGitRepository"];
+		workdirURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"unit_test"]];
+	});
+
+	afterEach(^{
+		if ([NSFileManager.defaultManager fileExistsAtPath:workdirURL.path isDirectory:NULL]) {
+			NSError *error = nil;
+			BOOL success = [NSFileManager.defaultManager removeItemAtURL:workdirURL error:&error];
+			expect(success).to.beTruthy();
+			expect(error).to.beNil();
+		}
+	});
+
+	it(@"should handle normal clones", ^{
+		repository = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:nil error:&error transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
+		expect(repository).notTo.beNil();
+		expect(error).to.beNil();
+		expect(transferProgressCalled).to.beTruthy();
+		expect(checkoutProgressCalled).to.beTruthy();
+
+		expect(repository.isBare).to.beFalsy();
+
+		GTReference *head = [repository headReferenceWithError:&error];
+		expect(head).notTo.beNil();
+		expect(error).to.beNil();
+		expect(head.targetSHA).to.equal(@"36060c58702ed4c2a40832c51758d5344201d89a");
+		expect(head.referenceType).to.equal(GTReferenceTypeOid);
+	});
+
+	it(@"should handle bare clones", ^{
+		NSDictionary *options = @{ GTRepositoryCloneOptionsBare: @YES };
+		repository = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:options error:&error transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
+		expect(repository).notTo.beNil();
+		expect(error).to.beNil();
+		expect(transferProgressCalled).to.beTruthy();
+		expect(checkoutProgressCalled).to.beTruthy();
+
+		expect(repository.isBare).to.beTruthy();
+
+		GTReference *head = [repository headReferenceWithError:&error];
+		expect(head).notTo.beNil();
+		expect(error).to.beNil();
+		expect(head.targetSHA).to.equal(@"36060c58702ed4c2a40832c51758d5344201d89a");
+		expect(head.referenceType).to.equal(GTReferenceTypeOid);
+
+	});
+});
+
+describe(@"-headReferenceWithError:", ^{
+	it(@"should allow HEAD to be looked up", ^{
+		GTReference *head = [self.bareFixtureRepository headReferenceWithError:&error];
+		expect(head).notTo.beNil();
+		expect(error).to.beNil();
+		expect(head.targetSHA).to.equal(@"36060c58702ed4c2a40832c51758d5344201d89a");
+		expect(head.referenceType).to.equal(GTReferenceTypeOid);
+	});
+});
+
+describe(@"-isEmpty", ^{
+	it(@"should return NO for a non-empty repository", ^{
+		expect(repository.isEmpty).to.beFalsy();
+	});
+
+	it(@"should return YES for a new repository", ^{
+		NSURL *fileURL = [self.tempDirectoryFileURL URLByAppendingPathComponent:@"newrepo"];
+		GTRepository *newRepo = [GTRepository initializeEmptyRepositoryAtFileURL:fileURL error:&error];
+		expect(newRepo.isEmpty).to.beTruthy();
+		[NSFileManager.defaultManager removeItemAtURL:fileURL error:NULL];
 	});
 });
 
@@ -183,6 +279,69 @@ describe(@"-checkout:strategy:error:progressBlock:", ^{
 		BOOL result = [repository checkoutCommit:commit strategy:GTCheckoutStrategyAllowConflicts error:&error progressBlock:nil];
 		expect(result).to.beTruthy();
 		expect(error.localizedDescription).to.beNil();
+	});
+});
+
+describe(@"-resetToCommit:withResetType:error:", ^{
+	beforeEach(^{
+		repository = self.bareFixtureRepository;
+	});
+
+	it(@"should move HEAD when used", ^{
+		GTReference *originalHead = [repository headReferenceWithError:NULL];
+		NSString *resetTargetSHA = @"8496071c1b46c854b31185ea97743be6a8774479";
+
+		GTCommit *commit = [repository lookupObjectBySHA:resetTargetSHA error:NULL];
+		expect(commit).notTo.beNil();
+		GTCommit *originalHeadCommit = [repository lookupObjectBySHA:originalHead.targetSHA error:NULL];
+		expect(originalHeadCommit).notTo.beNil();
+
+		BOOL success = [repository resetToCommit:commit withResetType:GTRepositoryResetTypeSoft error:&error];
+		expect(success).to.beTruthy();
+		expect(error).to.beNil();
+
+		GTReference *head = [repository headReferenceWithError:&error];
+		expect(head).notTo.beNil();
+		expect(head.targetSHA).to.equal(resetTargetSHA);
+
+		success = [repository resetToCommit:originalHeadCommit withResetType:GTRepositoryResetTypeSoft error:&error];
+		expect(success).to.beTruthy();
+		expect(error).to.beNil();
+
+		head = [repository headReferenceWithError:&error];
+		expect(head.targetSHA).to.equal(originalHead.targetSHA);
+	});
+});
+
+describe(@"-lookupObjectByRefspec:error:", ^{
+	__block void (^expectSHAForRevspec)(NSString *SHA, NSString *revspec);
+
+	beforeEach(^{
+		repository = self.bareFixtureRepository;
+        error = nil;
+
+		expectSHAForRevspec = ^(NSString *SHA, NSString *revspec) {
+            error = nil;
+			GTObject *obj = [repository lookupObjectByRefspec:revspec error:&error];
+
+			if (SHA != nil) {
+				expect(error).to.beNil();
+				expect(obj).notTo.beNil();
+				expect(obj.SHA).to.equal(SHA);
+			} else {
+				expect(error).notTo.beNil();
+				expect(obj).to.beNil();
+			}
+		};
+	});
+
+	it(@"should parse various revspecs", ^{
+		expectSHAForRevspec(@"36060c58702ed4c2a40832c51758d5344201d89a", @"master");
+		expectSHAForRevspec(@"5b5b025afb0b4c913b4c338a42934a3863bf3644", @"master~");
+		expectSHAForRevspec(@"8496071c1b46c854b31185ea97743be6a8774479", @"master@{2}");
+		expectSHAForRevspec(nil, @"master^2");
+		expectSHAForRevspec(nil, @"");
+		expectSHAForRevspec(@"0c37a5391bbff43c37f0d0371823a5509eed5b1d", @"v1.0");
 	});
 });
 
