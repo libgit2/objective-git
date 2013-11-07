@@ -127,4 +127,82 @@ describe(@"-reloadedBranchWithError:", ^{
 	});
 });
 
+describe(@"-numberOfCommitsWithError:", ^{
+	it(@"should return the count of commits in the branch", ^{
+		NSError *error = nil;
+		NSUInteger commitCount = [masterBranch numberOfCommitsWithError:&error];
+		expect(commitCount).to.equal(164);
+	});
+});
+
+describe(@"-trackingBranchWithError:success:", ^{
+	it(@"should return the tracking branch for a local branch that tracks a remote branch", ^{
+		NSError *error = nil;
+		GTBranch *masterBranch = [GTBranch branchWithName:@"refs/heads/master" repository:repository error:&error];
+		expect(masterBranch).notTo.beNil();
+		expect(error).to.beNil();
+
+		BOOL success = NO;
+		GTBranch *trackingBranch = [masterBranch trackingBranchWithError:&error success:&success];
+		expect(trackingBranch).notTo.beNil();
+		expect(success).to.beTruthy();
+	});
+
+	it(@"should return nil for a local branch that doesn't track a remote branch", ^{
+		NSError *error = nil;
+		GTReference *otherRef = [GTReference referenceByCreatingReferenceNamed:@"refs/heads/yet-another-branch" fromReferenceTarget:@"6b0c1c8b8816416089c534e474f4c692a76ac14f" inRepository:repository error:&error];
+		expect(otherRef).notTo.beNil();
+		expect(error).to.beNil();
+
+		GTBranch *otherBranch = [GTBranch branchWithReference:otherRef repository:repository];
+		expect(otherBranch).notTo.beNil();
+		expect(error).to.beNil();
+
+		BOOL success = NO;
+		trackingBranch = [otherBranch trackingBranchWithError:&error success:&success];
+		expect(trackingBranch).to.beNil();
+		expect(success).to.beTruthy();
+	});
+
+	it(@"should return itself for a remote branch", ^{
+		NSError *error = nil;
+		GTReference *remoteRef = [GTReference referenceByLookingUpReferencedNamed:@"refs/remotes/origin/master" inRepository:repository error:&error];
+		expect(remoteRef).notTo.beNil();
+		expect(error).to.beNil();
+
+		GTBranch *remoteBranch = [GTBranch branchWithReference:remoteRef repository:repository];
+		expect(remoteBranch).notTo.beNil();
+
+		BOOL success = NO;
+		GTBranch *remoteTrackingBranch = [remoteBranch trackingBranchWithError:&error success:&success];
+		expect(remoteTrackingBranch).to.equal(remoteBranch);
+		expect(success).to.beTruthy();
+	});
+});
+
+// TODO: Test branch renaming, branch upstream
+/*
+ - (void)testCanRenameBranch {
+
+ NSError *error = nil;
+ GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH()] error:&error];
+ STAssertNil(error, [error localizedDescription]);
+
+ NSArray *branches = [GTBranch listAllLocalBranchesInRepository:repo error:&error];
+ STAssertNotNil(branches, [error localizedDescription], nil);
+ STAssertEquals(2, (int)branches.count, nil);
+
+ NSString *newBranchName = [NSString stringWithFormat:@"%@%@", [GTBranch localNamePrefix], @"this_is_the_renamed_branch"];
+ GTBranch *firstBranch = [branches objectAtIndex:0];
+ NSString *originalBranchName = firstBranch.name;
+ BOOL success = [firstBranch.reference setName:newBranchName error:&error];
+ STAssertTrue(success, [error localizedDescription]);
+ STAssertEqualObjects(firstBranch.name, newBranchName, nil);
+
+ success = [firstBranch.reference setName:originalBranchName error:&error];
+ STAssertTrue(success, [error localizedDescription]);
+ STAssertEqualObjects(firstBranch.name, originalBranchName, nil);
+ }
+ */
+
 SpecEnd

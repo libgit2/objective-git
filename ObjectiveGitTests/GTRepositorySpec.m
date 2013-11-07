@@ -87,6 +87,35 @@ describe(@"-allTagsWithError:", ^{
 	});
 });
 
+describe(@"-currentBranchWithError:", ^{
+	it(@"should return the current branch", ^{
+		NSError *error = nil;
+		GTBranch *currentBranch = [repository currentBranchWithError:&error];
+		expect(currentBranch).notTo.beNil();
+		expect(error).to.beNil();
+	});
+});
+
+describe(@"-localBranchesWithError:", ^{
+	it(@"should return the local branches", ^{
+		NSError *error = nil;
+		NSArray *branches = [repository localBranchesWithError:&error];
+		expect(branches).notTo.beNil();
+		expect(error).to.beNil();
+		expect(branches.count).to.equal(13);
+	});
+});
+
+describe(@"-remoteBranchesWithError:", ^{
+	it(@"should return remote branches", ^{
+		NSError *error = nil;
+		NSArray *branches = [repository remoteBranchesWithError:&error];
+		expect(branches).notTo.beNil();
+		expect(error).to.beNil();
+		expect(branches.count).to.equal(1);
+	});
+});
+
 describe(@"-OIDByCreatingTagNamed:target:tagger:message:error", ^{
 	it(@"should create a new tag",^{
 		NSError *error = nil;
