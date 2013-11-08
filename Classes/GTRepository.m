@@ -113,7 +113,7 @@ typedef struct {
 }
 
 + (instancetype)initializeEmptyRepositoryAtFileURL:(NSURL *)localFileURL bare:(BOOL)bare error:(NSError **)error {
-	if (![localFileURL isFileURL] || localFileURL.path == nil) {
+	if (!localFileURL.isFileURL || localFileURL.path == nil) {
 		if (error != NULL) *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileWriteUnsupportedSchemeError userInfo:@{ NSLocalizedDescriptionKey: NSLocalizedString(@"Invalid file path URL to initialize repository.", @"") }];
 		return NO;
 	}
@@ -151,7 +151,7 @@ typedef struct {
 	}
 
 	git_repository *r;
-	int gitError = git_repository_open(&r, localFileURL.path.UTF8String);
+	int gitError = git_repository_open(&r, localFileURL.path.fileSystemRepresentation);
 	if (gitError < GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to open repository at URL %@.", localFileURL];
 		return nil;
@@ -219,8 +219,14 @@ struct GTClonePayload {
 	cloneOptions.remote_callbacks.transfer_progress = transferProgressCallback;
 	cloneOptions.remote_callbacks.payload = &payload;
 
-	const char *remoteURL = originURL.absoluteString.UTF8String;
-	const char *workingDirectoryPath = workdirURL.path.UTF8String;
+	// If our originURL is local, convert to a path before handing down.
+	const char *remoteURL = NULL;
+	if (originURL.isFileURL) {
+		remoteURL = originURL.path.fileSystemRepresentation;
+	} else {
+		remoteURL = originURL.absoluteString.UTF8String;
+	}
+	const char *workingDirectoryPath = workdirURL.path.fileSystemRepresentation;
 	git_repository *repository;
 	int gitError = git_clone(&repository, remoteURL, workingDirectoryPath, &cloneOptions);
 	if (gitError < GIT_OK) {
