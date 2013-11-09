@@ -12,12 +12,10 @@
 SpecBegin(GTRepository)
 
 __block GTRepository *repository;
-__block NSError *error = nil;
 
 beforeEach(^{
 	repository = self.testAppFixtureRepository;
 	expect(repository).notTo.beNil();
-	error = nil;
 });
 
 describe(@"+initializeEmptyRepositoryAtFileURL:bare:error:", ^{
@@ -48,6 +46,7 @@ describe(@"+initializeEmptyRepositoryAtFileURL:bare:error:", ^{
 
 describe(@"+repositoryWithURL:error:", ^{
 	it(@"should fail to initialize non-existent repos", ^{
+		NSError *error = nil;
 		GTRepository *badRepo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:@"fake/1235"] error:&error];
 		expect(badRepo).to.beNil();
 		expect(error).notTo.beNil();
@@ -67,7 +66,6 @@ describe(@"+cloneFromURL:toWorkingDirectory:...", ^{
 	// TODO: Make real remote tests using a repo somewhere
 
 	beforeEach(^{
-		error = nil;
 		transferProgressCalled = NO;
 		checkoutProgressCalled = NO;
 		transferProgressBlock = ^(const git_transfer_progress *progress) {
@@ -91,6 +89,7 @@ describe(@"+cloneFromURL:toWorkingDirectory:...", ^{
     });
 
 	it(@"should handle normal clones", ^{
+		NSError *error = nil;
 		repository = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:nil error:&error transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
 		expect(repository).notTo.beNil();
 		expect(error).to.beNil();
@@ -107,6 +106,7 @@ describe(@"+cloneFromURL:toWorkingDirectory:...", ^{
 	});
 
 	it(@"should handle bare clones", ^{
+		NSError *error = nil;
 		NSDictionary *options = @{ GTRepositoryCloneOptionsBare: @YES };
 		repository = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:options error:&error transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
 		expect(repository).notTo.beNil();
@@ -140,6 +140,7 @@ describe(@"+cloneFromURL:toWorkingDirectory:...", ^{
 
 describe(@"-headReferenceWithError:", ^{
 	it(@"should allow HEAD to be looked up", ^{
+		NSError *error = nil;
 		GTReference *head = [self.bareFixtureRepository headReferenceWithError:&error];
 		expect(head).notTo.beNil();
 		expect(error).to.beNil();
@@ -154,6 +155,7 @@ describe(@"-isEmpty", ^{
 	});
 
 	it(@"should return YES for a new repository", ^{
+		NSError *error = nil;
 		NSURL *fileURL = [self.tempDirectoryFileURL URLByAppendingPathComponent:@"newrepo"];
 		GTRepository *newRepo = [GTRepository initializeEmptyRepositoryAtFileURL:fileURL error:&error];
 		expect(newRepo.isEmpty).to.beTruthy();
@@ -310,6 +312,7 @@ describe(@"-resetToCommit:withResetType:error:", ^{
 	});
 
 	it(@"should move HEAD when used", ^{
+		NSError *error = nil;
 		GTReference *originalHead = [repository headReferenceWithError:NULL];
 		NSString *resetTargetSHA = @"8496071c1b46c854b31185ea97743be6a8774479";
 
@@ -340,10 +343,9 @@ describe(@"-lookupObjectByRevspec:error:", ^{
 
 	beforeEach(^{
 		repository = self.bareFixtureRepository;
-        error = nil;
 
 		expectSHAForRevspec = ^(NSString *SHA, NSString *revspec) {
-            error = nil;
+			NSError *error = nil;
 			GTObject *obj = [repository lookupObjectByRevspec:revspec error:&error];
 
 			if (SHA != nil) {
