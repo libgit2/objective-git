@@ -337,24 +337,22 @@ describe(@"-resetToCommit:withResetType:error:", ^{
 });
 
 describe(@"-lookupObjectByRevspec:error:", ^{
-	__block void (^expectSHAForRevspec)(NSString *SHA, NSString *revspec);
+	void (^expectSHAForRevspec)(NSString *SHA, NSString *revspec) = ^(NSString *SHA, NSString *revspec) {
+		NSError *error = nil;
+		GTObject *obj = [repository lookupObjectByRevspec:revspec error:&error];
+
+		if (SHA != nil) {
+			expect(error).to.beNil();
+			expect(obj).notTo.beNil();
+			expect(obj.SHA).to.equal(SHA);
+		} else {
+			expect(error).notTo.beNil();
+			expect(obj).to.beNil();
+		}
+	};;
 
 	beforeEach(^{
 		repository = self.bareFixtureRepository;
-
-		expectSHAForRevspec = ^(NSString *SHA, NSString *revspec) {
-			NSError *error = nil;
-			GTObject *obj = [repository lookupObjectByRevspec:revspec error:&error];
-
-			if (SHA != nil) {
-				expect(error).to.beNil();
-				expect(obj).notTo.beNil();
-				expect(obj.SHA).to.equal(SHA);
-			} else {
-				expect(error).notTo.beNil();
-				expect(obj).to.beNil();
-			}
-		};
 	});
 
 	it(@"should parse various revspecs", ^{
