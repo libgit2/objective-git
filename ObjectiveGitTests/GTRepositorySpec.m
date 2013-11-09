@@ -70,8 +70,7 @@ describe(@"+cloneFromURL:toWorkingDirectory:options:error:transferProgressBlock:
             checkoutProgressCalled = YES;
         };
 
-		originURL = self.bareFixtureRepository.gitDirectoryURL;
-		workdirURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"unit_test"]];
+		workdirURL = [self.tempDirectoryFileURL URLByAppendingPathComponent:@"temp-repo"];
 	});
 
 	describe(@"with local repositories", ^{
