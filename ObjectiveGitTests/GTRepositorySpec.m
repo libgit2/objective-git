@@ -70,8 +70,12 @@ describe(@"+cloneFromURL:toWorkingDirectory:...", ^{
 		error = nil;
 		transferProgressCalled = NO;
 		checkoutProgressCalled = NO;
-		transferProgressBlock = ^(const git_transfer_progress *progress) { transferProgressCalled = YES; };
-		checkoutProgressBlock = ^(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps) { checkoutProgressCalled = YES; };
+		transferProgressBlock = ^(const git_transfer_progress *progress) {
+            transferProgressCalled = YES;
+        };
+		checkoutProgressBlock = ^(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps) {
+            checkoutProgressCalled = YES;
+        };
 
 		originURL = self.bareFixtureRepository.gitDirectoryURL;
 		workdirURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"unit_test"]];
