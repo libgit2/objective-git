@@ -113,7 +113,6 @@ describe(@"+cloneFromURL:toWorkingDirectory:...", ^{
 		expect(error).to.beNil();
 		expect(head.targetSHA).to.equal(@"36060c58702ed4c2a40832c51758d5344201d89a");
 		expect(head.referenceType).to.equal(GTReferenceTypeOid);
-
 	});
 });
 
