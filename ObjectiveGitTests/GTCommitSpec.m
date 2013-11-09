@@ -33,14 +33,11 @@ it(@"can read commit data", ^{
 	expect(commit.messageDetails).to.equal(@"");
 	expect(commit.commitDate).to.equal([NSDate dateWithTimeIntervalSince1970:1273360386]);
 
-//	STAssertEquals((int)[commit.commitDate timeIntervalSince1970], 1273360386, nil);
-
 	GTSignature *author = commit.author;
 	expect(author).notTo.beNil();
 	expect(author.name).to.equal(@"Scott Chacon");
 	expect(author.email).to.equal(@"schacon@gmail.com");
 	expect(author.time).to.equal([NSDate dateWithTimeIntervalSince1970:1273360386]);
-//	STAssertEquals((int)[author.time timeIntervalSince1970], 1273360386, nil);
 
 	GTSignature *committer = commit.committer;
 	expect(committer).notTo.beNil();
