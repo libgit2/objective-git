@@ -19,27 +19,22 @@ beforeEach(^{
 });
 
 describe(@"+initializeEmptyRepositoryAtFileURL:bare:error:", ^{
-	__block GTRepository * (^createRepository)(BOOL bare);
-
-	beforeEach(^{
-		createRepository = ^(BOOL bare) {
-			NSURL *newRepoURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"unit_test"]];
-			[NSFileManager.defaultManager removeItemAtURL:newRepoURL error:NULL];
-
-			GTRepository *repository = [GTRepository initializeEmptyRepositoryAtFileURL:newRepoURL bare:bare error:NULL];
-			expect(repository).notTo.beNil();
-			expect(repository.gitDirectoryURL).notTo.beNil();
-			return repository;
-		};
-	});
-
 	it(@"should initialize a repository with a working directory by default", ^{
-		GTRepository *repository = createRepository(NO);
+		NSURL *newRepoURL = [self.tempDirectoryFileURL URLByAppendingPathComponent:@"init-repo"];
+
+		GTRepository *repository = [GTRepository initializeEmptyRepositoryAtFileURL:newRepoURL bare:NO error:NULL];
+		expect(repository).notTo.beNil();
+		expect(repository.gitDirectoryURL).notTo.beNil();
 		expect(repository.bare).to.beFalsy();
 	});
 
 	it(@"should initialize a bare repository", ^{
-		GTRepository *repository = createRepository(YES);
+		NSURL *newRepoURL = [self.tempDirectoryFileURL URLByAppendingPathComponent:@"init-repo.git"];
+
+		GTRepository *repository = [GTRepository initializeEmptyRepositoryAtFileURL:newRepoURL bare:YES error:NULL];
+		expect(repository).notTo.beNil();
+		expect(repository.gitDirectoryURL).notTo.beNil();
+		return repository;
 		expect(repository.bare).to.beTruthy();
 	});
 });
@@ -78,15 +73,6 @@ describe(@"+cloneFromURL:toWorkingDirectory:...", ^{
 		originURL = self.bareFixtureRepository.gitDirectoryURL;
 		workdirURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"unit_test"]];
 	});
-
-	afterEach(^{
-		if ([NSFileManager.defaultManager fileExistsAtPath:workdirURL.path isDirectory:NULL]) {
-			NSError *error = nil;
-			BOOL success = [NSFileManager.defaultManager removeItemAtURL:workdirURL error:&error];
-			expect(success).to.beTruthy();
-			expect(error).to.beNil();
-        }
-    });
 
 	it(@"should handle normal clones", ^{
 		NSError *error = nil;
