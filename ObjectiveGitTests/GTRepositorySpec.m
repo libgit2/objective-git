@@ -133,6 +133,18 @@ describe(@"-headReferenceWithError:", ^{
 		expect(head.targetSHA).to.equal(@"36060c58702ed4c2a40832c51758d5344201d89a");
 		expect(head.referenceType).to.equal(GTReferenceTypeOid);
 	});
+
+	it(@"should fail to return HEAD for an unborn repo", ^{
+		GTRepository *repo = self.blankFixtureRepository;
+		expect(repo.isHEADUnborn).to.beTruthy();
+
+		NSError *error = nil;
+		GTReference *head = [repo headReferenceWithError:&error];
+		expect(head).to.beNil();
+		expect(error).notTo.beNil();
+		expect(error.domain).to.equal(GTGitErrorDomain);
+        expect(error.code).to.equal(GIT_EUNBORNBRANCH);
+	});
 });
 
 describe(@"-isEmpty", ^{
