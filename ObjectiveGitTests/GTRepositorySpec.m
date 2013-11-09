@@ -50,7 +50,7 @@ describe(@"+repositoryWithURL:error:", ^{
 	});
 });
 
-describe(@"+cloneFromURL:toWorkingDirectory:...", ^{
+describe(@"+cloneFromURL:toWorkingDirectory:options:error:transferProgressBlock:checkoutProgressBlock:", ^{
 	__block BOOL transferProgressCalled = NO;
 	__block BOOL checkoutProgressCalled = NO;
 	__block void (^transferProgressBlock)(const git_transfer_progress *);
@@ -74,54 +74,60 @@ describe(@"+cloneFromURL:toWorkingDirectory:...", ^{
 		workdirURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"unit_test"]];
 	});
 
-	it(@"should handle normal clones", ^{
-		NSError *error = nil;
-		repository = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:nil error:&error transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
-		expect(repository).notTo.beNil();
-		expect(error).to.beNil();
-		expect(transferProgressCalled).to.beTruthy();
-		expect(checkoutProgressCalled).to.beTruthy();
+	describe(@"with local repositories", ^{
+		beforeEach(^{
+			originURL = self.bareFixtureRepository.gitDirectoryURL;
+		});
 
-		expect(repository.isBare).to.beFalsy();
+		it(@"should handle normal clones", ^{
+			NSError *error = nil;
+			repository = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:nil error:&error transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
+			expect(repository).notTo.beNil();
+			expect(error).to.beNil();
+			expect(transferProgressCalled).to.beTruthy();
+			expect(checkoutProgressCalled).to.beTruthy();
 
-		GTReference *head = [repository headReferenceWithError:&error];
-		expect(head).notTo.beNil();
-		expect(error).to.beNil();
-		expect(head.targetSHA).to.equal(@"36060c58702ed4c2a40832c51758d5344201d89a");
-		expect(head.referenceType).to.equal(GTReferenceTypeOid);
+			expect(repository.isBare).to.beFalsy();
+
+			GTReference *head = [repository headReferenceWithError:&error];
+			expect(head).notTo.beNil();
+			expect(error).to.beNil();
+			expect(head.targetSHA).to.equal(@"36060c58702ed4c2a40832c51758d5344201d89a");
+			expect(head.referenceType).to.equal(GTReferenceTypeOid);
+		});
+
+		it(@"should handle bare clones", ^{
+			NSError *error = nil;
+			NSDictionary *options = @{ GTRepositoryCloneOptionsBare: @YES };
+			repository = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:options error:&error transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
+			expect(repository).notTo.beNil();
+			expect(error).to.beNil();
+			expect(transferProgressCalled).to.beTruthy();
+			expect(checkoutProgressCalled).to.beTruthy();
+
+			expect(repository.isBare).to.beTruthy();
+
+			GTReference *head = [repository headReferenceWithError:&error];
+			expect(head).notTo.beNil();
+			expect(error).to.beNil();
+			expect(head.targetSHA).to.equal(@"36060c58702ed4c2a40832c51758d5344201d89a");
+			expect(head.referenceType).to.equal(GTReferenceTypeOid);
+		});
+
+		it(@"should have set a valid remote URL", ^{
+			NSError *error = nil;
+			GTRepository *repo = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:nil error:&error transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
+			expect(repo).notTo.beNil();
+			expect(error).to.beNil();
+
+			// FIXME: Move that to a method in GTRepository ?
+			// Or use the new initializers in GTRemote that are waiting in #224
+			git_remote *remote;
+			git_remote_load(&remote, repo.git_repository, "origin");
+			GTRemote *originRemote = [[GTRemote alloc] initWithGitRemote:remote];
+			expect(originRemote.URLString).to.equal(originURL.path);
+		});
 	});
-
-	it(@"should handle bare clones", ^{
-		NSError *error = nil;
-		NSDictionary *options = @{ GTRepositoryCloneOptionsBare: @YES };
-		repository = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:options error:&error transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
-		expect(repository).notTo.beNil();
-		expect(error).to.beNil();
-		expect(transferProgressCalled).to.beTruthy();
-		expect(checkoutProgressCalled).to.beTruthy();
-
-		expect(repository.isBare).to.beTruthy();
-
-		GTReference *head = [repository headReferenceWithError:&error];
-		expect(head).notTo.beNil();
-		expect(error).to.beNil();
-		expect(head.targetSHA).to.equal(@"36060c58702ed4c2a40832c51758d5344201d89a");
-		expect(head.referenceType).to.equal(GTReferenceTypeOid);
-	});
-
-    it(@"should have set a valid remote URL", ^{
-        NSError *error = nil;
-        GTRepository *repo = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:nil error:&error transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
-        expect(repo).notTo.beNil();
-        expect(error).to.beNil();
-
-        // FIXME: Move that to a method in GTRepository ?
-        // Or use the new initializers in GTRemote that are waiting in #224
-        git_remote *remote;
-        git_remote_load(&remote, repo.git_repository, "origin");
-        GTRemote *originRemote = [[GTRemote alloc] initWithGitRemote:remote];
-        expect(originRemote.URLString).to.equal(originURL.path);
-    });
 });
 
 describe(@"-headReferenceWithError:", ^{
