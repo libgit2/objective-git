@@ -51,6 +51,8 @@ describe(@"+repositoryWithURL:error:", ^{
 		GTRepository *badRepo = [GTRepository repositoryWithURL:[NSURL fileURLWithPath:@"fake/1235"] error:&error];
 		expect(badRepo).to.beNil();
 		expect(error).notTo.beNil();
+		expect(error.domain).to.equal(GTGitErrorDomain);
+		expect(error.code).to.equal(GIT_ENOTFOUND);
 	});
 });
 
