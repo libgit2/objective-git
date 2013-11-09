@@ -109,17 +109,17 @@ describe(@"valid names",^{
 
 __block GTRepository *bareRepository;
 __block NSError *error;
-__block void (^isValidReference)(GTReference *ref, NSString *SHA, GTReferenceType type, NSString *name);
+
+void (^expectValidReference)(GTReference *ref, NSString *SHA, GTReferenceType type, NSString *name) = ^(GTReference *ref, NSString *SHA, GTReferenceType type, NSString *name) {
+	expect(ref).notTo.beNil();
+	expect(ref.targetSHA).to.equal(SHA);
+	expect(ref.referenceType).to.equal(type);
+	expect(ref.name).to.equal(name);
+};
 
 beforeEach(^{
 	bareRepository = self.bareFixtureRepository;
 	error = nil;
-	isValidReference = ^(GTReference *ref, NSString *SHA, GTReferenceType type, NSString *name) {
-		expect(ref).notTo.beNil();
-		expect(ref.targetSHA).to.equal(SHA);
-		expect(ref.referenceType).to.equal(type);
-		expect(ref.name).to.equal(name);
-	};
 });
 
 describe(@"+referenceByLookingUpReferenceNamed:inRepository:error:", ^{
@@ -128,7 +128,7 @@ describe(@"+referenceByLookingUpReferenceNamed:inRepository:error:", ^{
 		expect(ref).notTo.beNil();
 		expect(error).to.beNil();
 
-		isValidReference(ref, @"36060c58702ed4c2a40832c51758d5344201d89a", GTReferenceTypeOid, @"refs/heads/master");
+		expectValidReference(ref, @"36060c58702ed4c2a40832c51758d5344201d89a", GTReferenceTypeOid, @"refs/heads/master");
 	});
 
 	it(@"should return a valid reference to a tag", ^{
@@ -136,7 +136,7 @@ describe(@"+referenceByLookingUpReferenceNamed:inRepository:error:", ^{
 		expect(ref).notTo.beNil();
 		expect(error).to.beNil();
 
-		isValidReference(ref, @"5b5b025afb0b4c913b4c338a42934a3863bf3644", GTReferenceTypeOid, @"refs/tags/v0.9");
+		expectValidReference(ref, @"5b5b025afb0b4c913b4c338a42934a3863bf3644", GTReferenceTypeOid, @"refs/tags/v0.9");
 	});
 });
 
@@ -146,7 +146,7 @@ describe(@"+referenceByCreatingReferenceNamed:fromReferenceTarget:inRepository:e
 		expect(error).to.beNil();
 		expect(ref).notTo.beNil();
 
-		isValidReference(ref, @"36060c58702ed4c2a40832c51758d5344201d89a", GTReferenceTypeSymbolic, @"refs/heads/unit_test");
+		expectValidReference(ref, @"36060c58702ed4c2a40832c51758d5344201d89a", GTReferenceTypeSymbolic, @"refs/heads/unit_test");
 		expect(ref.resolvedReference.name).to.equal(@"refs/heads/master");
 	});
 
@@ -155,7 +155,7 @@ describe(@"+referenceByCreatingReferenceNamed:fromReferenceTarget:inRepository:e
 		expect(error).to.beNil();
 		expect(ref).notTo.beNil();
 
-		isValidReference(ref, @"36060c58702ed4c2a40832c51758d5344201d89a", GTReferenceTypeOid, @"refs/heads/unit_test");
+		expectValidReference(ref, @"36060c58702ed4c2a40832c51758d5344201d89a", GTReferenceTypeOid, @"refs/heads/unit_test");
 	});
 });
 
