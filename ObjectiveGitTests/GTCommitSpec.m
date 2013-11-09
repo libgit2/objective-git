@@ -24,7 +24,7 @@ it(@"can read commit data", ^{
 	expect(commit).notTo.beNil();
 	expect(error).to.beNil();
 
-	expect(commit).to.beInstanceOf([GTCommit class]);
+	expect(commit).to.beInstanceOf(GTCommit.class);
 	expect(commit.type).to.equal(@"commit");
 	expect(commit.SHA).to.equal(commitSHA);
 
