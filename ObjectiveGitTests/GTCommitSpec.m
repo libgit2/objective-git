@@ -52,7 +52,7 @@ it(@"can read commit data", ^{
 	expect(commit.parents.count).to.equal(0);
 });
 
-it(@"canHaveMultipleParents", ^{
+it(@"can have multiple parents", ^{
 	NSError *error = nil;
 	NSString *commitSHA = @"a4a7dce85cf63874e984719f4fdd239f5145052f";
 	GTCommit *commit = [repository lookupObjectBySHA:commitSHA error:&error];
