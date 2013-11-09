@@ -46,6 +46,34 @@
 #pragma mark -
 #pragma mark Lifecycle
 
++ (instancetype)branchByCreatingBranchNamed:(NSString *)name target:(GTCommit *)commit force:(BOOL)force inRepository:(GTRepository *)repository error:(NSError **)error {
+	git_reference *git_ref;
+	int gitError = git_branch_create(&git_ref, repository.git_repository, name.UTF8String, commit.git_commit, (force ? 1 : 0));
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Branch creation failed"];
+		return nil;
+	}
+
+	GTReference *ref = [[GTReference alloc] initWithGitReference:git_ref repository:repository];
+	return [[self alloc] initWithReference:ref repository:repository];
+}
+
++ (instancetype)branchByLookingUpBranchNamed:(NSString *)name inRepository:(GTRepository *)repository error:(NSError **)error {
+	git_reference *git_ref;
+	// First try local branches
+	int gitError = git_branch_lookup(&git_ref, repository.git_repository, name.UTF8String, GIT_BRANCH_LOCAL);
+	if (gitError != GIT_OK) {
+		int gitError = git_branch_lookup(&git_ref, repository.git_repository, name.UTF8String, GIT_BRANCH_REMOTE);
+		if (gitError != GIT_OK) {
+			if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Branch lookup failed"];
+			return nil;
+		}
+	}
+
+	GTReference *ref = [[GTReference alloc] initWithGitReference:git_ref repository:repository];
+	return [[self alloc] initWithReference:ref repository:repository];
+}
+
 + (id)branchWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error {	
 	return [[self alloc] initWithName:branchName repository:repo error:error];
 }
@@ -64,6 +92,7 @@
 	return [self initWithReference:ref repository:repo];
 }
 
+// Designated initializer
 - (id)initWithReference:(GTReference *)ref repository:(GTRepository *)repo {
 	NSParameterAssert(ref != nil);
 	NSParameterAssert(repo != nil);

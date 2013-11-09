@@ -48,12 +48,34 @@ typedef enum {
 + (NSString *)localNamePrefix;
 + (NSString *)remoteNamePrefix;
 
+// Lookup a branch by name.
+//
+// name       - The branch name to lookup.
+// repository - The repository to lookup the branch in.
+// error      - A pointer which will point to a valid error if the lookup fails.
+//
+// Returns the branch object with that name, or nil if an error occurred.
++ (instancetype)branchByLookingUpBranchNamed:(NSString *)name inRepository:(GTRepository *)repository error:(NSError **)error;
+
+// Create a branch from a name and target.
+//
+// name       - The name of the branch to create.
+// commit     - The commit the branch should point to.
+// force      - If set to YES, a branch with same name would be deleted.
+// repository - The repository to create the branch in.
+// error      - A pointer which will point to a valid error if the creation fails.
+//
+// Returns a newly created branch object, or nil if the branch couldn't be created.
++ (instancetype)branchByCreatingBranchNamed:(NSString *)name target:(GTCommit *)commit force:(BOOL)force inRepository:(GTRepository *)repository error:(NSError **)error;
+
 // Convenience initializers
 - (id)initWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error;
 + (id)branchWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error;
 
-- (id)initWithReference:(GTReference *)ref repository:(GTRepository *)repo;
 + (id)branchWithReference:(GTReference *)ref repository:(GTRepository *)repo;
+
+// Designated initializer
+- (id)initWithReference:(GTReference *)ref repository:(GTRepository *)repo;
 
 // Get the target commit for this branch
 // 
