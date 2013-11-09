@@ -108,7 +108,6 @@ describe(@"valid names",^{
 });
 
 __block GTRepository *bareRepository;
-__block NSError *error;
 
 void (^expectValidReference)(GTReference *ref, NSString *SHA, GTReferenceType type, NSString *name) = ^(GTReference *ref, NSString *SHA, GTReferenceType type, NSString *name) {
 	expect(ref).notTo.beNil();
@@ -119,11 +118,11 @@ void (^expectValidReference)(GTReference *ref, NSString *SHA, GTReferenceType ty
 
 beforeEach(^{
 	bareRepository = self.bareFixtureRepository;
-	error = nil;
 });
 
 describe(@"+referenceByLookingUpReferenceNamed:inRepository:error:", ^{
 	it(@"should return a valid reference to a branch", ^{
+		NSError *error = nil;
 		GTReference *ref = [GTReference referenceByLookingUpReferencedNamed:@"refs/heads/master" inRepository:bareRepository error:&error];
 		expect(ref).notTo.beNil();
 		expect(error).to.beNil();
@@ -132,6 +131,7 @@ describe(@"+referenceByLookingUpReferenceNamed:inRepository:error:", ^{
 	});
 
 	it(@"should return a valid reference to a tag", ^{
+		NSError *error = nil;
 		GTReference *ref = [GTReference referenceByLookingUpReferencedNamed:@"refs/tags/v0.9" inRepository:bareRepository error:&error];
 		expect(ref).notTo.beNil();
 		expect(error).to.beNil();
@@ -142,6 +142,7 @@ describe(@"+referenceByLookingUpReferenceNamed:inRepository:error:", ^{
 
 describe(@"+referenceByCreatingReferenceNamed:fromReferenceTarget:inRepository:error:", ^{
 	it(@"can create a reference from a symbolic reference", ^{
+		NSError *error = nil;
 		GTReference *ref = [GTReference referenceByCreatingReferenceNamed:@"refs/heads/unit_test" fromReferenceTarget:@"refs/heads/master" inRepository:bareRepository error:&error];
 		expect(error).to.beNil();
 		expect(ref).notTo.beNil();
@@ -151,6 +152,7 @@ describe(@"+referenceByCreatingReferenceNamed:fromReferenceTarget:inRepository:e
 	});
 
 	it(@"can create a reference from an SHA/OID", ^{
+		NSError *error = nil;
 		GTReference *ref = [GTReference referenceByCreatingReferenceNamed:@"refs/heads/unit_test" fromReferenceTarget:@"36060c58702ed4c2a40832c51758d5344201d89a" inRepository:bareRepository error:&error];
 		expect(error).to.beNil();
 		expect(ref).notTo.beNil();
@@ -161,6 +163,7 @@ describe(@"+referenceByCreatingReferenceNamed:fromReferenceTarget:inRepository:e
 
 describe(@"-deleteWithError:", ^{
 	it(@"can delete references", ^{
+		NSError *error = nil;
 		GTReference *ref = [GTReference referenceByCreatingReferenceNamed:@"refs/heads/unit_test" fromReferenceTarget:@"36060c58702ed4c2a40832c51758d5344201d89a" inRepository:bareRepository error:&error];
 
 		expect(error).to.beNil();
