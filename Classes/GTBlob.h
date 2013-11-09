@@ -31,15 +31,37 @@
 #import "GTObject.h"
 
 
-@interface GTBlob : GTObject {}
+@interface GTBlob : GTObject
 
-+ (id)blobWithString:(NSString *)string inRepository:(GTRepository *)repository error:(NSError **)error;
-+ (id)blobWithData:(NSData *)data inRepository:(GTRepository *)repository error:(NSError **)error;
-+ (id)blobWithFile:(NSURL *)file inRepository:(GTRepository *)repository error:(NSError **)error;
+// Convenience class methods
++ (instancetype)blobWithString:(NSString *)string inRepository:(GTRepository *)repository error:(NSError **)error;
++ (instancetype)blobWithData:(NSData *)data inRepository:(GTRepository *)repository error:(NSError **)error;
++ (instancetype)blobWithFile:(NSURL *)file inRepository:(GTRepository *)repository error:(NSError **)error;
 
-- (id)initWithString:(NSString *)string inRepository:(GTRepository *)repository error:(NSError **)error;
-- (id)initWithData:(NSData *)data inRepository:(GTRepository *)repository error:(NSError **)error;
-- (id)initWithFile:(NSURL *)file inRepository:(GTRepository *)repository error:(NSError **)error;
+// Convenience wrapper around `-initWithData:inRepository:error` that converts the string to UTF8 data
+- (instancetype)initWithString:(NSString *)string inRepository:(GTRepository *)repository error:(NSError **)error;
+
+// Creates a new blob from the passed data.
+//
+// This writes data to the repository's object database.
+//
+// data       - The data to write.
+// repository - The repository to put the object in.
+// error      - Will be set if an error occurs.
+//
+// Returns a newly created blob object, or nil if an error occurs.
+- (instancetype)initWithData:(NSData *)data inRepository:(GTRepository *)repository error:(NSError **)error;
+
+// Creates a new blob from the specified file.
+//
+// This copies the data from the file to the repository's object database.
+//
+// data       - The file to copy contents from.
+// repository - The repository to put the object in.
+// error      - Will be set if an error occurs.
+//
+// Returns a newly created blob object, or nil if an error occurs.
+- (instancetype)initWithFile:(NSURL *)file inRepository:(GTRepository *)repository error:(NSError **)error;
 
 // The underlying `git_object` as a `git_blob` object.
 - (git_blob *)git_blob __attribute__((objc_returns_inner_pointer));
