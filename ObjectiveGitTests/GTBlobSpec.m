@@ -13,11 +13,6 @@ SpecBegin(GTBlob)
 __block GTRepository *repository;
 __block NSString *blobSHA;
 __block GTBlob *blob;
-__block NSError *error;
-
-beforeEach(^{
-	error = nil;
-});
 
 describe(@"blob properties can be accessed", ^{
 	beforeEach(^{
@@ -51,6 +46,7 @@ describe(@"blobs can be created", ^{
 
 	describe(@"+blobWithString:inRepository:error", ^{
 		it(@"works with valid parameters", ^{
+			NSError *error = nil;
 			blob = [GTBlob blobWithString:@"a new blob content" inRepository:repository error:&error];
 			expect(error).to.beNil();
 			expect(blob).notTo.beNil();
@@ -63,6 +59,7 @@ describe(@"blobs can be created", ^{
 			char bytes[] = "100644 example_helper.rb\00\xD3\xD5\xED\x9D A4_\x00 40000 examples";
 			NSData *content = [NSData dataWithBytes:bytes length:sizeof(bytes)];
 
+			NSError *error = nil;
 			blob = [GTBlob blobWithData:content inRepository:repository error:&error];
 			expect(error).to.beNil();
 			expect(blob).notTo.beNil();
@@ -76,6 +73,7 @@ describe(@"blobs can be created", ^{
 			NSString *fileName = @"myfile.txt";
 			NSURL *fileURL = [repository.fileURL URLByAppendingPathComponent:fileName];
 
+			NSError *error = nil;
 			BOOL success = [fileContent writeToURL:fileURL atomically:YES encoding:NSUTF8StringEncoding error:&error];
 			expect(success).to.beTruthy();
 			expect(error).to.beNil();

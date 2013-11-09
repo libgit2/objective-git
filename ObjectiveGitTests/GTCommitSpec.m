@@ -11,14 +11,13 @@
 SpecBegin(GTCommit)
 
 __block GTRepository *repository;
-__block NSError *error;
 
 beforeEach(^{
 	repository = self.bareFixtureRepository;
-	error = nil;
 });
 
 it(@"can read commit data", ^{
+	NSError *error = nil;
 	NSString *commitSHA = @"8496071c1b46c854b31185ea97743be6a8774479";
 	GTCommit *commit = [repository lookupObjectBySHA:commitSHA error:&error];
 
@@ -54,6 +53,7 @@ it(@"can read commit data", ^{
 });
 
 it(@"canHaveMultipleParents", ^{
+	NSError *error = nil;
 	NSString *commitSHA = @"a4a7dce85cf63874e984719f4fdd239f5145052f";
 	GTCommit *commit = [repository lookupObjectBySHA:commitSHA error:&error];
 	expect(commit).notTo.beNil();
