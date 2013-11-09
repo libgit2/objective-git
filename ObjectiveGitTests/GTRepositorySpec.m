@@ -62,6 +62,8 @@ describe(@"+cloneFromURL:toWorkingDirectory:...", ^{
 	__block NSURL *originURL;
 	__block NSURL *workdirURL;
 
+	// TODO: Make real remote tests using a repo somewhere
+
 	beforeEach(^{
 		error = nil;
 		transferProgressCalled = NO;
@@ -69,7 +71,7 @@ describe(@"+cloneFromURL:toWorkingDirectory:...", ^{
 		transferProgressBlock = ^(const git_transfer_progress *progress) { transferProgressCalled = YES; };
 		checkoutProgressBlock = ^(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps) { checkoutProgressCalled = YES; };
 
-		originURL = self.bareFixtureRepository.gitDirectoryURL; //[NSURL URLWithString: @"https://github.com/libgit2/TestGitRepository"];
+		originURL = self.bareFixtureRepository.gitDirectoryURL;
 		workdirURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"unit_test"]];
 	});
 
