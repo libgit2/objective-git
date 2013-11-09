@@ -222,10 +222,8 @@ describe(@"-referenceNamesWithError:", ^{
 		expect(error).to.beNil();
 
 		expect(refs.count).to.equal(4);
-		expect(refs).to.contain(@"refs/heads/packed");
-		expect(refs).to.contain(@"refs/heads/master");
-		expect(refs).to.contain(@"refs/tags/v0.9");
-		expect(refs).to.contain(@"refs/tags/v1.0");
+		NSArray *expectedRefs = @[ @"refs/heads/master", @"refs/tags/v0.9", @"refs/tags/v1.0", @"refs/heads/packed" ];
+		expect(refs).to.equal(expectedRefs);
 	});
 });
 
