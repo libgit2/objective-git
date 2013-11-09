@@ -132,6 +132,7 @@ describe(@"-numberOfCommitsWithError:", ^{
 		NSError *error = nil;
 		NSUInteger commitCount = [masterBranch numberOfCommitsWithError:&error];
 		expect(commitCount).to.equal(164);
+		expect(error).to.beNil();
 	});
 });
 
@@ -146,6 +147,7 @@ describe(@"-trackingBranchWithError:success:", ^{
 		GTBranch *trackingBranch = [masterBranch trackingBranchWithError:&error success:&success];
 		expect(trackingBranch).notTo.beNil();
 		expect(success).to.beTruthy();
+		expect(error).to.beNil();
 	});
 
 	it(@"should return nil for a local branch that doesn't track a remote branch", ^{
@@ -156,12 +158,12 @@ describe(@"-trackingBranchWithError:success:", ^{
 
 		GTBranch *otherBranch = [GTBranch branchWithReference:otherRef repository:repository];
 		expect(otherBranch).notTo.beNil();
-		expect(error).to.beNil();
 
 		BOOL success = NO;
 		trackingBranch = [otherBranch trackingBranchWithError:&error success:&success];
 		expect(trackingBranch).to.beNil();
 		expect(success).to.beTruthy();
+		expect(error).to.beNil();
 	});
 
 	it(@"should return itself for a remote branch", ^{
@@ -177,6 +179,7 @@ describe(@"-trackingBranchWithError:success:", ^{
 		GTBranch *remoteTrackingBranch = [remoteBranch trackingBranchWithError:&error success:&success];
 		expect(remoteTrackingBranch).to.equal(remoteBranch);
 		expect(success).to.beTruthy();
+		expect(error).to.beNil();
 	});
 });
 
