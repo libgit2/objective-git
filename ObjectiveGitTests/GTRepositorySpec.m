@@ -102,7 +102,7 @@ describe(@"+cloneFromURL:toWorkingDirectory:options:error:transferProgressBlock:
 			expect(repository).notTo.beNil();
 			expect(error).to.beNil();
 			expect(transferProgressCalled).to.beTruthy();
-			expect(checkoutProgressCalled).to.beTruthy();
+			expect(checkoutProgressCalled).to.beFalsy();
 
 			expect(repository.isBare).to.beTruthy();
 
