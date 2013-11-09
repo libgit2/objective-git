@@ -313,7 +313,7 @@ describe(@"-resetToCommit:withResetType:error:", ^{
 	});
 });
 
-describe(@"-lookupObjectByRefspec:error:", ^{
+describe(@"-lookupObjectByRevspec:error:", ^{
 	__block void (^expectSHAForRevspec)(NSString *SHA, NSString *revspec);
 
 	beforeEach(^{
@@ -322,7 +322,7 @@ describe(@"-lookupObjectByRefspec:error:", ^{
 
 		expectSHAForRevspec = ^(NSString *SHA, NSString *revspec) {
             error = nil;
-			GTObject *obj = [repository lookupObjectByRefspec:revspec error:&error];
+			GTObject *obj = [repository lookupObjectByRevspec:revspec error:&error];
 
 			if (SHA != nil) {
 				expect(error).to.beNil();

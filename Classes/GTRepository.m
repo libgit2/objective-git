@@ -269,7 +269,7 @@ struct GTClonePayload {
 	return [self lookupObjectBySHA:sha objectType:GTObjectTypeAny error:error];
 }
 
-- (id)lookupObjectByRefspec:(NSString *)spec error:(NSError **)error {
+- (id)lookupObjectByRevspec:(NSString *)spec error:(NSError **)error {
 	git_object *obj;
 	int gitError = git_revparse_single(&obj, self.git_repository, spec.UTF8String);
 	if (gitError < GIT_OK) {
