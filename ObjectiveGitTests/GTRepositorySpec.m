@@ -290,7 +290,7 @@ describe(@"-OIDByCreatingTagNamed:target:tagger:message:error", ^{
 describe(@"-checkout:strategy:error:progressBlock:", ^{
 	it(@"should allow references", ^{
 		NSError *error = nil;
-		GTReference *ref = [GTReference referenceByLookingUpReferencedNamed:@"refs/heads/other-branch" inRepository:repository error:&error];
+		GTReference *ref = [GTReference referenceByLookingUpReferenceNamed:@"refs/heads/other-branch" inRepository:repository error:&error];
 		expect(ref).to.beTruthy();
 		expect(error.localizedDescription).to.beNil();
 		BOOL result = [repository checkoutReference:ref strategy:GTCheckoutStrategyAllowConflicts error:&error progressBlock:nil];

@@ -65,44 +65,32 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 	return git_reference_is_remote(self.git_reference) != 0;
 }
 
-+ (id)referenceByLookingUpReferencedNamed:(NSString *)refName inRepository:(GTRepository *)theRepo error:(NSError **)error {
-	return [[self alloc] initByLookingUpReferenceNamed:refName inRepository:theRepo error:error];
-}
-
-+ (id)referenceByCreatingReferenceNamed:(NSString *)refName fromReferenceTarget:(NSString *)target inRepository:(GTRepository *)theRepo error:(NSError **)error {
-	return [[self alloc] initByCreatingReferenceNamed:refName fromReferenceTarget:target inRepository:theRepo error:error];
-}
-
-+ (id)referenceByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error {	
-	return [[self alloc] initByResolvingSymbolicReference:symbolicRef error:error];
-}
-
-- (id)initByLookingUpReferenceNamed:(NSString *)refName inRepository:(GTRepository *)repo error:(NSError **)error {
-	NSParameterAssert(refName != nil);
-	NSParameterAssert(repo != nil);
++ (id)referenceByLookingUpReferenceNamed:(NSString *)referenceName inRepository:(GTRepository *)repository error:(NSError **)error {
+	NSParameterAssert(referenceName != nil);
+	NSParameterAssert(repository != nil);
 
 	git_reference *ref = NULL;
-	int gitError = git_reference_lookup(&ref, repo.git_repository, refName.UTF8String);
+	int gitError = git_reference_lookup(&ref, repository.git_repository, referenceName.UTF8String);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to lookup reference %@.", refName];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Reference lookup failed" failureReason:@"The reference named \"%@\" couldn't be resolved in \"%@\"", referenceName, repository.gitDirectoryURL.path];
 		return nil;
 	}
 
-	return [self initWithGitReference:ref repository:repo];
+	return [[self alloc] initWithGitReference:ref repository:repository];
 }
 
-- (id)initByCreatingReferenceNamed:(NSString *)refName fromReferenceTarget:(NSString *)target inRepository:(GTRepository *)repo error:(NSError **)error {
-	NSParameterAssert(refName != nil);
++ (id)referenceByCreatingReferenceNamed:(NSString *)referenceName fromReferenceTarget:(NSString *)target inRepository:(GTRepository *)repository error:(NSError **)error {
+	NSParameterAssert(referenceName != nil);
 	NSParameterAssert(target != nil);
-	NSParameterAssert(repo != nil);
+	NSParameterAssert(repository != nil);
 
 	GTOID *oid = [GTOID oidWithSHA:target];
 	int gitError = GIT_OK;
 	git_reference *ref;
 	if (oid != nil) {
-		gitError = git_reference_create(&ref, repo.git_repository, refName.UTF8String, oid.git_oid, 0);
+		gitError = git_reference_create(&ref, repository.git_repository, referenceName.UTF8String, oid.git_oid, 0);
 	} else {
-		gitError = git_reference_symbolic_create(&ref, repo.git_repository, refName.UTF8String, target.UTF8String, 0);
+		gitError = git_reference_symbolic_create(&ref, repository.git_repository, referenceName.UTF8String, target.UTF8String, 0);
 	}
 
 	if (gitError != GIT_OK) {
@@ -110,10 +98,10 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 		return nil;
 	}
 
-	return [self initWithGitReference:ref repository:repo];
+	return [[self alloc] initWithGitReference:ref repository:repository];
 }
 
-- (id)initByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error {
++ (id)referenceByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error {
 	NSParameterAssert(symbolicRef != nil);
 
 	git_reference *ref = NULL;
@@ -123,7 +111,7 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 		return nil;
 	}
 
-	return [self initWithGitReference:ref repository:symbolicRef.repository];
+	return [[self alloc] initWithGitReference:ref repository:symbolicRef.repository];
 }
 
 - (id)initWithGitReference:(git_reference *)ref repository:(GTRepository *)repo {
@@ -173,7 +161,7 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 		NSString *refName = @(git_reference_symbolic_target(self.git_reference));
 		if (refName == NULL) return nil;
 
-		return [self.class referenceByLookingUpReferencedNamed:refName inRepository:self.repository error:NULL];
+		return [self.class referenceByLookingUpReferenceNamed:refName inRepository:self.repository error:NULL];
 	}
 	return nil;
 }
@@ -242,7 +230,7 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 }
 
 - (GTReference *)reloadedReferenceWithError:(NSError **)error {
-	return [[self.class alloc] initByLookingUpReferenceNamed:self.name inRepository:self.repository error:error];
+	return [self.class referenceByLookingUpReferenceNamed:self.name inRepository:self.repository error:error];
 }
 
 + (NSError *)invalidReferenceError {

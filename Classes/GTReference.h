@@ -55,14 +55,9 @@ typedef enum {
 @property (nonatomic, readonly, strong) GTReflog *reflog;
 
 // Convenience initializers
-+ (id)referenceByLookingUpReferencedNamed:(NSString *)refName inRepository:(GTRepository *)theRepo error:(NSError **)error;
-- (id)initByLookingUpReferenceNamed:(NSString *)refName inRepository:(GTRepository *)theRepo error:(NSError **)error;
-
++ (id)referenceByLookingUpReferenceNamed:(NSString *)refName inRepository:(GTRepository *)theRepo error:(NSError **)error;
 + (id)referenceByCreatingReferenceNamed:(NSString *)refName fromReferenceTarget:(NSString *)target inRepository:(GTRepository *)theRepo error:(NSError **)error;
-- (id)initByCreatingReferenceNamed:(NSString *)refName fromReferenceTarget:(NSString *)target inRepository:(GTRepository *)theRepo error:(NSError **)error;
-
 + (id)referenceByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error;
-- (id)initByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error;
 
 - (id)initWithGitReference:(git_reference *)ref repository:(GTRepository *)repository;
 

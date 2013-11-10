@@ -78,7 +78,7 @@
 	NSParameterAssert(referenceName != nil);
 	NSParameterAssert(repo != nil);
 
-	GTReference *ref = [GTReference referenceByLookingUpReferencedNamed:branchName inRepository:repo error:error];
+	GTReference *ref = [GTReference referenceByLookingUpReferenceNamed:referenceName inRepository:repo error:error];
 	if (ref == nil) return nil;
 
 	return [[self alloc] initWithReference:ref];
