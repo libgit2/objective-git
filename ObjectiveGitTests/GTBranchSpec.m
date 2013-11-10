@@ -35,6 +35,16 @@ beforeEach(^{
 	expect(error).to(beNil());
 });
 
+describe(@"name", ^{
+	it(@"should use just the branch name for a local branch", ^{
+		expect(masterBranch.name).to(equal(@"master"));
+	});
+
+	it(@"should include the remote name for a tracking branch", ^{
+		expect(trackingBranch.name).to(equal(@"origin/master"));
+	});
+});
+
 describe(@"shortName", ^{
 	it(@"should use just the branch name for a local branch", ^{
 		expect(masterBranch.shortName).to(equal(@"master"));

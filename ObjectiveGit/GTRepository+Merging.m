@@ -158,7 +158,7 @@ int GTMergeHeadEntriesCallback(const git_oid *oid, void *payload) {
 		NSArray *parents = @[ localCommit, remoteCommit ];
 
 		// FIXME: This is stepping on the local tree
-		GTCommit *mergeCommit = [self createCommitWithTree:newTree  message:message parents:parents updatingReferenceNamed:localBranch.name error:error];
+		GTCommit *mergeCommit = [self createCommitWithTree:newTree message:message parents:parents updatingReferenceNamed:localBranch.reference.name error:error];
 		if (!mergeCommit) {
 			return NO;
 		}
