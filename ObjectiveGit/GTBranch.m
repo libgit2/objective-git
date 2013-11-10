@@ -32,6 +32,7 @@
 #import "GTRemote.h"
 #import "GTRepository.h"
 #import "NSError+Git.h"
+#import "NSData+Git.h"
 
 #import "git2/branch.h"
 #import "git2/errors.h"
@@ -110,17 +111,12 @@
 }
 
 - (NSString *)remoteName {
-	if (self.branchType == GTBranchTypeLocal) return nil;
-
-	const char *name;
-	int gitError = git_branch_name(&name, self.reference.git_reference);
+	git_buf remote_name = GIT_BUF_INIT_CONST(0, NULL);
+	int gitError = git_branch_remote_name(&remote_name, self.repository.git_repository, self.reference.name.UTF8String);
 	if (gitError != GIT_OK) return nil;
 
-	// Find out where the remote name ends.
-	const char *end = strchr(name, '/');
-	if (end == NULL || end == name) return nil;
-
-	return [[NSString alloc] initWithBytes:name length:end - name encoding:NSUTF8StringEncoding];
+	NSData *data = [NSData git_dataWithBuffer:&remote_name];
+	return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 }
 
 - (GTCommit *)targetCommitWithError:(NSError **)error {
