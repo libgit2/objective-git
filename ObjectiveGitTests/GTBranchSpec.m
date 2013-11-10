@@ -28,43 +28,150 @@ beforeEach(^{
 	expect(error).to.beNil();
 });
 
-describe(@"name", ^{
-	it(@"should use just the branch name for a local branch", ^{
-		expect(masterBranch.name).to.equal(@"master");
+describe(@"branch initialization", ^{
+	describe(@"+branchByLookingUpBranchNamed:type:inRepository:error:", ^{
+		it(@"works for local branches", ^{
+			NSError *error = nil;
+			GTBranch *branch = [GTBranch branchByLookingUpBranchNamed:@"master" type:GTBranchTypeLocal inRepository:repository error:&error];
+			expect(branch).notTo.beNil();
+			expect(error).to.beNil();
+			expect(branch.branchType).to.equal(GTBranchTypeLocal);
+		});
+
+		it(@"works for remote branches", ^{
+			NSError *error = nil;
+			GTBranch *branch = [GTBranch branchByLookingUpBranchNamed:@"origin/master" type:GTBranchTypeRemote inRepository:repository error:&error];
+			expect(branch).notTo.beNil();
+			expect(error).to.beNil();
+			expect(branch.branchType).to.equal(GTBranchTypeRemote);
+		});
+
+		it(@"fails for non-existing branches", ^{
+			NSError *error = nil;
+			GTBranch *branch = [GTBranch branchByLookingUpBranchNamed:@"plonk" type:GTBranchTypeRemote inRepository:repository error:&error];
+			expect(branch).to.beNil();
+			expect(error.domain).to.equal(GTGitErrorDomain);
+			expect(error.code).to.equal(GIT_ENOTFOUND);
+		});
+
+		it(@"finds local branches before remote ones in an 'any' lookup", ^{
+			NSError *error = nil;
+			GTReference *ref = [GTReference referenceByCreatingReferenceNamed:@"refs/heads/origin/master" fromReferenceTarget:@"refs/heads/master" inRepository:repository error:NULL];
+			expect(ref).notTo.beNil();
+
+			GTBranch *duplicateBranch = [GTBranch branchWithReference:ref];
+			expect(duplicateBranch).notTo.beNil();
+			expect(duplicateBranch.branchType).to.equal(GTBranchTypeLocal);
+
+			GTBranch *remoteBranch = [GTBranch branchByLookingUpBranchNamed:@"origin/master" type:GTBranchTypeRemote inRepository:repository error:NULL];
+			expect(remoteBranch).notTo.beNil();
+			expect(remoteBranch.branchType).to.equal(GTBranchTypeRemote);
+
+			GTBranch *branch = [GTBranch branchByLookingUpBranchNamed:@"origin/master" type:GTBranchTypeAny inRepository:repository error:&error];
+			expect(branch).notTo.beNil();
+			expect(error).to.beNil();
+			expect(branch.branchType).to.equal(GTBranchTypeLocal);
+			expect(branch).to.equal(duplicateBranch);
+		});
+
+		it(@"find remote branches if there's no ambiguity in an 'any' lookup", ^{
+			NSError *error = nil;
+
+			GTBranch *branch = [GTBranch branchByLookingUpBranchNamed:@"origin/master" type:GTBranchTypeAny inRepository:repository error:&error];
+			expect(branch).notTo.beNil();
+			expect(error).to.beNil();
+			expect(branch.branchType).to.equal(GTBranchTypeRemote);
+		});
 	});
 
-	it(@"should include the remote name for a tracking branch", ^{
-		expect(trackingBranch.name).to.equal(@"origin/master");
+	describe(@"+branchByCreatingBranchNamed:target:force:inRepository:error:", ^{
+		it(@"works with a non-conflicting name", ^{
+			NSError *error = nil;
+			GTCommit *targetCommit = [masterBranch targetCommitAndReturnError:NULL];
+			GTBranch *branch = [GTBranch branchByCreatingBranchNamed:@"my-branch" target:targetCommit force:NO inRepository:repository error:&error];
+			expect(branch).notTo.beNil();
+			expect(error).to.beNil();
+			expect(branch.branchType).to.equal(GTBranchTypeLocal);
+		});
+
+		it(@"fails with an already existing name", ^{
+			NSError *error = nil;
+			GTCommit *targetCommit = [masterBranch targetCommitAndReturnError:NULL];
+			GTBranch *branch = [GTBranch branchByCreatingBranchNamed:@"1-and_more" target:targetCommit force:NO inRepository:repository error:&error];
+			expect(branch).to.beNil();
+			expect(error.domain).to.equal(GTGitErrorDomain);
+			expect(error.code).to.equal(GIT_EEXISTS);
+		});
+
+		it(@"delete the offending branch if creation is forced", ^{
+			NSError *error = nil;
+			GTCommit *targetCommit = [masterBranch targetCommitAndReturnError:NULL];
+			GTBranch *branch = [GTBranch branchByCreatingBranchNamed:@"1-and_more" target:targetCommit force:YES inRepository:repository error:&error];
+			expect(branch).notTo.beNil();
+			expect(error).to.beNil();
+		});
+	});
+
+	describe(@"+branchWithReferenceNamed:inRepository:error:", ^{
+		it(@"works for existing local references", ^{
+			NSError *error = nil;
+			GTBranch *branch = [GTBranch branchWithReferenceNamed:@"refs/heads/1-and_more" inRepository:repository error:&error];
+			expect(branch).notTo.beNil();
+			expect(error).to.beNil();
+		});
+
+		it(@"works for existing remote references", ^{
+			NSError *error = nil;
+			GTBranch *branch = [GTBranch branchWithReferenceNamed:@"refs/remotes/origin/master" inRepository:repository error:&error];
+			expect(branch).notTo.beNil();
+			expect(error).to.beNil();
+		});
+
+		it(@"fails for non existent references", ^{
+			NSError *error = nil;
+			GTBranch *branch = [GTBranch branchWithReferenceNamed:@"refs/heads/nowhere" inRepository:repository error:&error];
+			expect(branch).to.beNil();
+			expect(error.domain).to.equal(GTGitErrorDomain);
+			expect(error.code).to.equal(GIT_ENOTFOUND);
+		});
 	});
 });
 
-describe(@"shortName", ^{
-	it(@"should use just the branch name for a local branch", ^{
-		expect(masterBranch.shortName).to.equal(@"master");
+describe(@"basic properties", ^{
+	describe(@"local branches", ^{
+		it(@"should be GTBranchTypeLocal for a local branch", ^{
+			expect(masterBranch.branchType).to.equal(GTBranchTypeLocal);
+		});
+
+		it(@"should use just the branch name in their name", ^{
+			expect(masterBranch.name).to.equal(@"master");
+		});
+
+		it(@"should use just the branch name in their short name", ^{
+			expect(masterBranch.shortName).to.equal(@"master");
+		});
+
+		it(@"should return nil for their remote name", ^{
+			expect(masterBranch.remoteName).to.beNil();
+		});
 	});
 
-	it(@"should not include the remote name for a tracking branch", ^{
-		expect(trackingBranch.shortName).to.equal(@"master");
-	});
-});
+	describe(@"remote branches", ^{
+		it(@"should have a GTBranchTypeLocal branch type", ^{
+			expect(trackingBranch.branchType).to.equal(GTBranchTypeRemote);
+		});
 
-describe(@"remoteName", ^{
-	it(@"should return nil for a local branch", ^{
-		expect(masterBranch.remoteName).to.beNil();
-	});
+		it(@"should include the remote name in their name", ^{
+			expect(trackingBranch.name).to.equal(@"origin/master");
+		});
 
-	it(@"should return the remote name for a tracking branch", ^{
-		expect(trackingBranch.remoteName).to.equal(@"origin");
-	});
-});
+		it(@"should not include the remote name in their short name", ^{
+			expect(trackingBranch.shortName).to.equal(@"master");
+		});
 
-describe(@"branchType", ^{
-	it(@"should be GTBranchTypeLocal for a local branch", ^{
-		expect(masterBranch.branchType).to.equal(GTBranchTypeLocal);
-	});
-
-	it(@"should be GTBranchTypeRemote for a tracking branch", ^{
-		expect(trackingBranch.branchType).to.equal(GTBranchTypeRemote);
+		it(@"should return the remote name for their remote name", ^{
+			expect(trackingBranch.remoteName).to.equal(@"origin");
+		});
 	});
 });
 
