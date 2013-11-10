@@ -32,6 +32,7 @@
 typedef enum {
     GTBranchTypeLocal = GIT_BRANCH_LOCAL,
     GTBranchTypeRemote = GIT_BRANCH_REMOTE,
+	GTBranchTypeAny = GIT_BRANCH_REMOTE|GIT_BRANCH_LOCAL,
 } GTBranchType;
 
 @interface GTBranch : NSObject
@@ -49,14 +50,20 @@ typedef enum {
 + (NSString *)localNamePrefix;
 + (NSString *)remoteNamePrefix;
 
-// Lookup a branch by name.
+// Lookup a branch by name. Performs a `GTBranchTypeAny` lookup.
+// See `+branchByLookingUpBranchNamed:type:inRepository:error:`.
++ (instancetype)branchByLookingUpBranchNamed:(NSString *)name inRepository:(GTRepository *)repository error:(NSError **)error;
+
+// Lookup a branch by name and branch type.
 //
 // name       - The branch name to lookup.
+// type       - The type of lookup to perform. If `GTBranchTypeAny` is passed,
+//              local branches are checked first.
 // repository - The repository to lookup the branch in.
 // error      - A pointer which will point to a valid error if the lookup fails.
 //
 // Returns the branch object with that name, or nil if an error occurred.
-+ (instancetype)branchByLookingUpBranchNamed:(NSString *)name inRepository:(GTRepository *)repository error:(NSError **)error;
++ (instancetype)branchByLookingUpBranchNamed:(NSString *)name type:(GTBranchType)type inRepository:(GTRepository *)repository error:(NSError **)error;
 
 // Create a branch from a name and target.
 //

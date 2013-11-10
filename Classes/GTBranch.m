@@ -59,13 +59,26 @@
 }
 
 + (instancetype)branchByLookingUpBranchNamed:(NSString *)name inRepository:(GTRepository *)repository error:(NSError **)error {
-	git_reference *git_ref;
-	// First try local branches
-	int gitError = git_branch_lookup(&git_ref, repository.git_repository, name.UTF8String, GIT_BRANCH_LOCAL);
-	if (gitError != GIT_OK) {
+	return [self branchByLookingUpBranchNamed:name type:GTBranchTypeAny inRepository:repository error:error];
+}
+
++ (instancetype)branchByLookingUpBranchNamed:(NSString *)name type:(GTBranchType)type inRepository:(GTRepository *)repository error:(NSError **)error {
+	git_reference *git_ref = NULL;
+
+	// If any is requested, we'll perform the local lookup first.
+	int gitError = GIT_ENOTFOUND; // Must be != GIT_OK for "any" lookups
+	if ((type & GTBranchTypeLocal)) {
+		gitError = git_branch_lookup(&git_ref, repository.git_repository, name.UTF8String, GIT_BRANCH_LOCAL);
+		if (gitError != GIT_OK) {
+			if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Local branch lookup failed"];
+			if (type == GTBranchTypeLocal) return nil; // Local-only lookup failed, bail with nil.
+			if (error != NULL) *error = nil; // We're doing 'any' lookup, so drop the error.
+		}
+	}
+	if ((gitError != GIT_OK) && (type & ~GTBranchTypeLocal)) {
 		int gitError = git_branch_lookup(&git_ref, repository.git_repository, name.UTF8String, GIT_BRANCH_REMOTE);
 		if (gitError != GIT_OK) {
-			if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Branch lookup failed"];
+			if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Remote branch lookup failed"];
 			return nil;
 		}
 	}
