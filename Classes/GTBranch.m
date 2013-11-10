@@ -146,17 +146,14 @@
 }
 
 - (NSString *)remoteName {
-	if (self.branchType == GTBranchTypeLocal) return nil;
+	int nameLength = git_branch_remote_name(NULL, 0, self.repository.git_repository, self.reference.name.UTF8String);
+	if (nameLength <= GIT_OK) return nil;
 
-	const char *name;
-	int gitError = git_branch_name(&name, self.reference.git_reference);
-	if (gitError != GIT_OK) return nil;
+	char *nameChar = malloc(nameLength);
+	int gitError = git_branch_remote_name(nameChar, nameLength, self.repository.git_repository, self.reference.name.UTF8String);
+	if (gitError <= GIT_OK) return nil;
 
-	// Find out where the remote name ends.
-	const char *end = strchr(name, '/');
-	if (end == NULL || end == name) return nil;
-
-	return [[NSString alloc] initWithBytes:name length:end - name encoding:NSUTF8StringEncoding];
+	return @(nameChar);
 }
 
 - (GTRepository *)repository {
