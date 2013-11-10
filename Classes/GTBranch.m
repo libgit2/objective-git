@@ -32,23 +32,8 @@
 
 @implementation GTBranch
 
-- (NSString *)description {
-  return [NSString stringWithFormat:@"<%@: %p> name: %@, shortName: %@, sha: %@, remoteName: %@, repository: %@", NSStringFromClass([self class]), self, self.name, self.shortName, self.SHA, self.remoteName, self.repository];
-}
-
-- (BOOL)isEqual:(GTBranch *)otherBranch {
-	if (otherBranch == self) return YES;
-	if (![otherBranch isKindOfClass:self.class]) return NO;
-
-	return [self.name isEqual:otherBranch.name] && [self.SHA isEqual:otherBranch.SHA];
-}
-
-- (NSUInteger)hash {
-	return self.name.hash ^ self.SHA.hash;
-}
-
-
-#pragma mark API
+#pragma mark -
+#pragma mark Class methods
 
 + (NSString *)localNamePrefix {
 	return @"refs/heads/";
@@ -57,6 +42,9 @@
 + (NSString *)remoteNamePrefix {
 	return @"refs/remotes/";
 }
+
+#pragma mark -
+#pragma mark Lifecycle
 
 + (id)branchWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error {	
 	return [[self alloc] initWithName:branchName repository:repo error:error];
@@ -89,6 +77,27 @@
 	return self;
 }
 
+#pragma mark -
+#pragma mark NSObject
+
+- (NSString *)description {
+	return [NSString stringWithFormat:@"<%@: %p> name: %@, shortName: %@, sha: %@, remoteName: %@, repository: %@", NSStringFromClass([self class]), self, self.name, self.shortName, self.SHA, self.remoteName, self.repository];
+}
+
+- (BOOL)isEqual:(GTBranch *)otherBranch {
+	if (otherBranch == self) return YES;
+	if (![otherBranch isKindOfClass:self.class]) return NO;
+
+	return [self.name isEqual:otherBranch.name] && [self.SHA isEqual:otherBranch.SHA];
+}
+
+- (NSUInteger)hash {
+	return self.name.hash ^ self.SHA.hash;
+}
+
+#pragma mark -
+#pragma mark Properties
+
 - (NSString *)name {
 	return self.reference.name;
 }
@@ -109,10 +118,6 @@
 	return @(name);
 }
 
-- (NSString *)SHA {
-	return self.reference.targetSHA;
-}
-
 - (NSString *)remoteName {
 	if (self.branchType == GTBranchTypeLocal) return nil;
 
@@ -127,21 +132,8 @@
 	return [[NSString alloc] initWithBytes:name length:end - name encoding:NSUTF8StringEncoding];
 }
 
-- (GTCommit *)targetCommitAndReturnError:(NSError **)error {
-	if (self.SHA == nil) {
-		if (error != NULL) *error = GTReference.invalidReferenceError;
-		return nil;
-	}
-
-	return [self.repository lookupObjectBySHA:self.SHA objectType:GTObjectTypeCommit error:error];
-}
-
-- (NSUInteger)numberOfCommitsWithError:(NSError **)error {
-	GTEnumerator *enumerator = [[GTEnumerator alloc] initWithRepository:self.repository error:error];
-	if (enumerator == nil) return NSNotFound;
-
-	if (![enumerator pushSHA:self.SHA error:error]) return NSNotFound;
-	return [enumerator countRemainingObjects:error];
+- (NSString *)SHA {
+	return self.reference.targetSHA;
 }
 
 - (GTBranchType)branchType {
@@ -152,24 +144,16 @@
 	}
 }
 
-- (NSArray *)uniqueCommitsRelativeToBranch:(GTBranch *)otherBranch error:(NSError **)error {
-	NSParameterAssert(otherBranch != nil);
-	
-	GTCommit *mergeBase = [self.repository mergeBaseBetweenFirstOID:self.reference.OID secondOID:otherBranch.reference.OID error:error];
-	if (mergeBase == nil) return nil;
-	
-	GTEnumerator *enumerator = [[GTEnumerator alloc] initWithRepository:self.repository error:error];
-	if (enumerator == nil) return nil;
-	
-	[enumerator resetWithOptions:GTEnumeratorOptionsTimeSort];
-	
-	BOOL success = [enumerator pushSHA:self.SHA error:error];
-	if (!success) return nil;
+#pragma mark -
+#pragma mark API
 
-	success = [enumerator hideSHA:mergeBase.SHA error:error];
-	if (!success) return nil;
+- (GTCommit *)targetCommitAndReturnError:(NSError **)error {
+	if (self.SHA == nil) {
+		if (error != NULL) *error = GTReference.invalidReferenceError;
+		return nil;
+	}
 
-	return [enumerator allObjectsWithError:error];
+	return [self.repository lookupObjectBySHA:self.SHA objectType:GTObjectTypeCommit error:error];
 }
 
 - (BOOL)deleteWithError:(NSError **)error {
@@ -180,6 +164,13 @@
 	}
 
 	return YES;
+}
+
+- (GTBranch *)reloadedBranchWithError:(NSError **)error {
+	GTReference *reloadedRef = [self.reference reloadedReferenceWithError:error];
+	if (reloadedRef == nil) return nil;
+
+	return [[self.class alloc] initWithReference:reloadedRef repository:self.repository];
 }
 
 - (GTBranch *)trackingBranchWithError:(NSError **)error success:(BOOL *)success {
@@ -214,11 +205,32 @@
 	return [[self class] branchWithReference:[[GTReference alloc] initWithGitReference:trackingRef repository:self.repository] repository:self.repository];
 }
 
-- (GTBranch *)reloadedBranchWithError:(NSError **)error {
-	GTReference *reloadedRef = [self.reference reloadedReferenceWithError:error];
-	if (reloadedRef == nil) return nil;
+- (NSUInteger)numberOfCommitsWithError:(NSError **)error {
+	GTEnumerator *enumerator = [[GTEnumerator alloc] initWithRepository:self.repository error:error];
+	if (enumerator == nil) return NSNotFound;
 
-	return [[self.class alloc] initWithReference:reloadedRef repository:self.repository];
+	if (![enumerator pushSHA:self.SHA error:error]) return NSNotFound;
+	return [enumerator countRemainingObjects:error];
+}
+
+- (NSArray *)uniqueCommitsRelativeToBranch:(GTBranch *)otherBranch error:(NSError **)error {
+	NSParameterAssert(otherBranch != nil);
+
+	GTCommit *mergeBase = [self.repository mergeBaseBetweenFirstOID:self.reference.OID secondOID:otherBranch.reference.OID error:error];
+	if (mergeBase == nil) return nil;
+
+	GTEnumerator *enumerator = [[GTEnumerator alloc] initWithRepository:self.repository error:error];
+	if (enumerator == nil) return nil;
+
+	[enumerator resetWithOptions:GTEnumeratorOptionsTimeSort];
+
+	BOOL success = [enumerator pushSHA:self.SHA error:error];
+	if (!success) return nil;
+
+	success = [enumerator hideSHA:mergeBase.SHA error:error];
+	if (!success) return nil;
+
+	return [enumerator allObjectsWithError:error];
 }
 
 - (BOOL)calculateAhead:(size_t *)ahead behind:(size_t *)behind relativeTo:(GTBranch *)branch error:(NSError **)error {

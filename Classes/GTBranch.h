@@ -36,13 +36,14 @@ typedef enum {
 
 @interface GTBranch : NSObject
 
-@property (nonatomic, readonly) NSString *name;
-@property (nonatomic, readonly) NSString *shortName;
-@property (nonatomic, readonly) NSString *SHA;
-@property (nonatomic, readonly) NSString *remoteName;
-@property (nonatomic, readonly) GTBranchType branchType;
 @property (nonatomic, readonly, strong) GTRepository *repository;
 @property (nonatomic, readonly, strong) GTReference *reference;
+@property (nonatomic, readonly) NSString *name;
+@property (nonatomic, readonly) NSString *shortName;
+@property (nonatomic, readonly) NSString *remoteName;
+@property (nonatomic, readonly) NSString *SHA;
+@property (nonatomic, readonly) GTBranchType branchType;
+@property (nonatomic) GTBranch *upstreamBranch;
 
 + (NSString *)localNamePrefix;
 + (NSString *)remoteNamePrefix;
@@ -61,22 +62,9 @@ typedef enum {
 // returns a GTCommit object or nil if an error occurred
 - (GTCommit *)targetCommitAndReturnError:(NSError **)error;
 
-// Count all commits in this branch
-//
-// error(out) - will be filled if an error occurs
-//
-// returns number of commits in the branch or NSNotFound if an error occurred
-- (NSUInteger)numberOfCommitsWithError:(NSError **)error;
-
-- (NSArray *)uniqueCommitsRelativeToBranch:(GTBranch *)otherBranch error:(NSError **)error;
-
 // Deletes the local branch and nils out the reference.
 - (BOOL)deleteWithError:(NSError **)error;
 
-// If the receiver is a local branch, looks up and returns its tracking branch.
-// If the receiver is a remote branch, returns self. If no tracking branch was
-// found, returns nil and sets `success` to YES.
-- (GTBranch *)trackingBranchWithError:(NSError **)error success:(BOOL *)success;
 
 // Reloads the branch's reference and creates a new branch based off that newly
 // loaded reference.
@@ -87,6 +75,20 @@ typedef enum {
 //
 // Returns the reloaded branch, or nil if an error occurred.
 - (GTBranch *)reloadedBranchWithError:(NSError **)error;
+
+// If the receiver is a local branch, looks up and returns its tracking branch.
+// If the receiver is a remote branch, returns self. If no tracking branch was
+// found, returns nil and sets `success` to YES.
+- (GTBranch *)trackingBranchWithError:(NSError **)error success:(BOOL *)success;
+
+// Count all commits in this branch
+//
+// error(out) - will be filled if an error occurs
+//
+// returns number of commits in the branch or NSNotFound if an error occurred
+- (NSUInteger)numberOfCommitsWithError:(NSError **)error;
+
+- (NSArray *)uniqueCommitsRelativeToBranch:(GTBranch *)otherBranch error:(NSError **)error;
 
 // Calculate the ahead/behind count from this branch to the given branch.
 //
