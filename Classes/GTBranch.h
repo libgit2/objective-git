@@ -30,8 +30,8 @@
 @class GTRepository;
 
 typedef enum {
-    GTBranchTypeLocal = 1,
-    GTBranchTypeRemote
+    GTBranchTypeLocal = GIT_BRANCH_LOCAL,
+    GTBranchTypeRemote = GIT_BRANCH_REMOTE,
 } GTBranchType;
 
 @interface GTBranch : NSObject
