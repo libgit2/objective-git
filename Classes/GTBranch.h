@@ -57,9 +57,9 @@ typedef enum {
 
 // Get the target commit for this branch
 // 
-// error(out) - will be filled if an error occurs
+// error - A pointer which will point to a valid error if the target can't be found.
 // 
-// returns a GTCommit object or nil if an error occurred
+// Returns a GTCommit object or nil if an error occurred.
 - (GTCommit *)targetCommitAndReturnError:(NSError **)error;
 
 // Deletes the local branch and nils out the reference.
@@ -83,11 +83,20 @@ typedef enum {
 
 // Count all commits in this branch
 //
-// error(out) - will be filled if an error occurs
+// error - will be filled if an error occurs
 //
-// returns number of commits in the branch or NSNotFound if an error occurred
+// Returns the number of commits in the receiver or `NSNotFound` if an error occurred
 - (NSUInteger)numberOfCommitsWithError:(NSError **)error;
 
+// Get the unique commits between branches.
+//
+// This method returns an array representing the unique commits
+// that exist between the receiver and `otherBranch`.
+//
+// otherBranch - The branch to compare against.
+// error       - Will be set if an error occurs.
+//
+// Returns an array of GTCommits, or nil if an error occurred.
 - (NSArray *)uniqueCommitsRelativeToBranch:(GTBranch *)otherBranch error:(NSError **)error;
 
 // Calculate the ahead/behind count from this branch to the given branch.
