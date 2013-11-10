@@ -43,7 +43,8 @@ typedef enum {
 @property (nonatomic, readonly) NSString *remoteName;
 @property (nonatomic, readonly) NSString *SHA;
 @property (nonatomic, readonly) GTBranchType branchType;
-@property (nonatomic) GTBranch *upstreamBranch;
+@property (nonatomic, assign) GTBranch *trackingBranch;
+@property (nonatomic, readonly, getter=isHead) BOOL head;
 
 + (NSString *)localNamePrefix;
 + (NSString *)remoteNamePrefix;
@@ -85,6 +86,8 @@ typedef enum {
 // Deletes the local branch and nils out the reference.
 - (BOOL)deleteWithError:(NSError **)error;
 
+// Renames the branch. Setting `force` to YES to delete another branch with the same name.
+- (BOOL)rename:(NSString *)name force:(BOOL)force error:(NSError **)error;
 
 // Reloads the branch's reference and creates a new branch based off that newly
 // loaded reference.

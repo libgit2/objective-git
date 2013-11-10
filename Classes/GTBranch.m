@@ -172,6 +172,23 @@
 	}
 }
 
+- (GTBranch *)upstreamBranch {
+	git_reference *git_ref;
+	int gitError = git_branch_upstream(&git_ref, self.reference.git_reference);
+	if (gitError != GIT_OK) return nil;
+
+	GTReference *ref = [[GTReference alloc] initWithGitReference:git_ref repository:self.repository];
+	return [GTBranch branchWithReference:ref];
+}
+
+- (void)setUpstreamBranch:(GTBranch *)branch {
+	git_branch_set_upstream(self.reference.git_reference, (branch ? branch.name.UTF8String : NULL));
+}
+
+- (BOOL)isHead {
+	return (git_branch_is_head(self.reference.git_reference) ? YES : NO);
+}
+
 #pragma mark -
 #pragma mark API
 
@@ -190,6 +207,19 @@
 		if(error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to delete branch %@", self.name];
 		return NO;
 	}
+
+	return YES;
+}
+
+- (BOOL)rename:(NSString *)name force:(BOOL)force error:(NSError **)error {
+	git_reference *git_ref;
+	int gitError = git_branch_move(&git_ref, self.reference.git_reference, name.UTF8String, (force ? 0 : 1));
+	if (gitError != GIT_OK) {
+		if (error) *error = [NSError git_errorFor:gitError description:@"Rename branch failed"];
+		return NO;
+	}
+
+	_reference = [[GTReference alloc] initWithGitReference:git_ref repository:self.repository];
 
 	return YES;
 }
