@@ -396,17 +396,6 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 	return [currentBranch numberOfCommitsWithError:error];
 }
 
-- (GTBranch *)createBranchNamed:(NSString *)name fromReference:(GTReference *)ref error:(NSError **)error {
-	// make sure the ref is up to date before we branch off it, otherwise we could branch off an older sha
-	ref = [ref reloadedReferenceWithError:error];
-	if (ref == nil) return nil;
-	
-	GTReference *newRef = [GTReference referenceByCreatingReferenceNamed:[NSString stringWithFormat:@"%@%@", [GTBranch localNamePrefix], name] fromReferenceTarget:[ref.resolvedTarget SHA] inRepository:self error:error];
-	if (newRef == nil) return nil;
-
-	return [GTBranch branchWithReference:newRef];
-}
-
 - (BOOL)isEmpty {
 	return (BOOL) git_repository_is_empty(self.git_repository);
 }

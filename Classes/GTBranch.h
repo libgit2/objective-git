@@ -47,9 +47,6 @@ typedef enum {
 @property (nonatomic, assign) GTBranch *trackingBranch;
 @property (nonatomic, readonly, getter=isHead) BOOL head;
 
-+ (NSString *)localNamePrefix;
-+ (NSString *)remoteNamePrefix;
-
 // Lookup a branch by name. Performs a `GTBranchTypeAny` lookup.
 // See `+branchByLookingUpBranchNamed:type:inRepository:error:`.
 + (instancetype)branchByLookingUpBranchNamed:(NSString *)name inRepository:(GTRepository *)repository error:(NSError **)error;

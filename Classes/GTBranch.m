@@ -33,17 +33,6 @@
 @implementation GTBranch
 
 #pragma mark -
-#pragma mark Class methods
-
-+ (NSString *)localNamePrefix {
-	return @"refs/heads/";
-}
-
-+ (NSString *)remoteNamePrefix {
-	return @"refs/remotes/";
-}
-
-#pragma mark -
 #pragma mark Lifecycle
 
 + (instancetype)branchByCreatingBranchNamed:(NSString *)name target:(GTCommit *)commit force:(BOOL)force inRepository:(GTRepository *)repository error:(NSError **)error {
