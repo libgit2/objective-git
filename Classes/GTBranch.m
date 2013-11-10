@@ -122,7 +122,11 @@
 #pragma mark Properties
 
 - (NSString *)name {
-	return self.reference.name;
+	const char *charName;
+	int gitError = git_branch_name(&charName, self.reference.git_reference);
+	if (gitError != GIT_OK || charName == NULL) return nil;
+
+	return @(charName);
 }
 
 - (NSString *)shortName {
