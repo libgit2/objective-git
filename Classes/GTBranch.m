@@ -244,9 +244,9 @@
 	return [[self.class alloc] initWithReference:reloadedRef];
 }
 
-- (GTBranch *)trackingBranchWithError:(NSError **)error success:(BOOL *)success {
+- (GTBranch *)trackingBranchWithError:(NSError **)error {
 	if (self.branchType == GTBranchTypeRemote) {
-		if (success != NULL) *success = YES;
+		if (error != NULL) *error = nil;
 		return self;
 	}
 
@@ -255,23 +255,19 @@
 
 	// GIT_ENOTFOUND means no tracking branch found.
 	if (gitError == GIT_ENOTFOUND) {
-		if (success != NULL) *success = YES;
+		if (error != NULL) *error = nil;
 		return nil;
 	}
 
 	if (gitError != GIT_OK) {
-		if (success != NULL) *success = NO;
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to create reference to tracking branch from %@", self];
 		return nil;
 	}
 
 	if (trackingRef == NULL) {
-		if (success != NULL) *success = NO;
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Got a NULL remote ref for %@", self];
 		return nil;
 	}
-
-	if (success != NULL) *success = YES;
 
 	return [[self class] branchWithReference:[[GTReference alloc] initWithGitReference:trackingRef repository:self.repository]];
 }

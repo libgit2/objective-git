@@ -23,10 +23,8 @@ beforeEach(^{
 	expect(masterBranch).notTo.beNil();
 	expect(error).to.beNil();
 
-	BOOL success = NO;
-	trackingBranch = [masterBranch trackingBranchWithError:&error success:&success];
+	trackingBranch = [masterBranch trackingBranchWithError:&error];
 	expect(trackingBranch).notTo.equal(masterBranch);
-	expect(success).to.beTruthy();
 	expect(error).to.beNil();
 });
 
@@ -153,10 +151,8 @@ describe(@"-trackingBranchWithError:success:", ^{
 		expect(masterBranch).notTo.beNil();
 		expect(error).to.beNil();
 
-		BOOL success = NO;
-		GTBranch *trackingBranch = [masterBranch trackingBranchWithError:&error success:&success];
+		GTBranch *trackingBranch = [masterBranch trackingBranchWithError:&error];
 		expect(trackingBranch).notTo.beNil();
-		expect(success).to.beTruthy();
 		expect(error).to.beNil();
 	});
 
@@ -169,10 +165,8 @@ describe(@"-trackingBranchWithError:success:", ^{
 		GTBranch *otherBranch = [GTBranch branchWithReference:otherRef];
 		expect(otherBranch).notTo.beNil();
 
-		BOOL success = NO;
-		trackingBranch = [otherBranch trackingBranchWithError:&error success:&success];
+		trackingBranch = [otherBranch trackingBranchWithError:&error];
 		expect(trackingBranch).to.beNil();
-		expect(success).to.beTruthy();
 		expect(error).to.beNil();
 	});
 
@@ -185,10 +179,8 @@ describe(@"-trackingBranchWithError:success:", ^{
 		GTBranch *remoteBranch = [GTBranch branchWithReference:remoteRef];
 		expect(remoteBranch).notTo.beNil();
 
-		BOOL success = NO;
-		GTBranch *remoteTrackingBranch = [remoteBranch trackingBranchWithError:&error success:&success];
+		GTBranch *remoteTrackingBranch = [remoteBranch trackingBranchWithError:&error];
 		expect(remoteTrackingBranch).to.equal(remoteBranch);
-		expect(success).to.beTruthy();
 		expect(error).to.beNil();
 	});
 });

@@ -106,10 +106,18 @@ typedef enum {
 // Returns the reloaded branch, or nil if an error occurred.
 - (GTBranch *)reloadedBranchWithError:(NSError **)error;
 
+// Fetch the branch's remote tracking branch.
+//
 // If the receiver is a local branch, looks up and returns its tracking branch.
-// If the receiver is a remote branch, returns self. If no tracking branch was
-// found, returns nil and sets `success` to YES.
-- (GTBranch *)trackingBranchWithError:(NSError **)error success:(BOOL *)success;
+// If the receiver is a remote branch, returns self.
+// If no tracking branch was found, returns nil with a nil error.
+//
+// error - The error if one occurred.
+//
+// Returns the tracking branch for the reciever if it's a local branch,
+// nil if the receiver is a remote branch but without an error set,
+// or nil if there was an error (and the error pointer will be set.
+- (GTBranch *)trackingBranchWithError:(NSError **)error;
 
 // Count all commits in this branch
 //
