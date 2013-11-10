@@ -65,8 +65,8 @@
 	return @"refs/remotes/";
 }
 
-+ (instancetype)branchWithReference:(GTReference *)ref repository:(GTRepository *)repo {
-	return [[self alloc] initWithReference:ref repository:repo];
++ (instancetype)branchWithReference:(GTReference *)ref {
+	return [[self alloc] initWithReference:ref];
 }
 
 - (instancetype)init {
@@ -74,14 +74,12 @@
 	return nil;
 }
 
-- (instancetype)initWithReference:(GTReference *)ref repository:(GTRepository *)repo {
+- (instancetype)initWithReference:(GTReference *)ref {
 	NSParameterAssert(ref != nil);
-	NSParameterAssert(repo != nil);
 
 	self = [super init];
 	if (self == nil) return nil;
 
-	_repository = repo;
 	_reference = ref;
 
 	return self;
@@ -142,6 +140,10 @@
 	return [enumerator countRemainingObjects:error];
 }
 
+- (GTRepository *)repository {
+	return self.reference.repository;
+}
+
 - (GTBranchType)branchType {
 	if (self.reference.remote) {
 		return GTBranchTypeRemote;
@@ -194,7 +196,7 @@
 
 	if (success != NULL) *success = YES;
 
-	return [[self class] branchWithReference:[[GTReference alloc] initWithGitReference:trackingRef repository:self.repository] repository:self.repository];
+	return [[self class] branchWithReference:[[GTReference alloc] initWithGitReference:trackingRef repository:self.repository]];
 }
 
 - (BOOL)updateTrackingBranch:(GTBranch *)trackingBranch error:(NSError **)error {
@@ -216,7 +218,7 @@
 	GTReference *reloadedRef = [self.reference reloadedReferenceWithError:error];
 	if (reloadedRef == nil) return nil;
 
-	return [[self.class alloc] initWithReference:reloadedRef repository:self.repository];
+	return [[self.class alloc] initWithReference:reloadedRef];
 }
 
 - (BOOL)calculateAhead:(size_t *)ahead behind:(size_t *)behind relativeTo:(GTBranch *)branch error:(NSError **)error {

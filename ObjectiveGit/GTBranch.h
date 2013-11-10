@@ -59,18 +59,16 @@ NS_ASSUME_NONNULL_BEGIN
 /// Designated initializer.
 ///
 /// ref  - The branch reference to wrap. Must not be nil.
-/// repo - The repository containing the branch. Must not be nil.
 ///
 /// Returns the initialized receiver.
-- (instancetype _Nullable)initWithReference:(GTReference *)ref repository:(GTRepository *)repo NS_DESIGNATED_INITIALIZER;
+- (instancetype _Nullable)initWithReference:(GTReference *)ref NS_DESIGNATED_INITIALIZER;
 
 /// Convenience class initializer.
 ///
 /// ref  - The branch reference to wrap. Must not be nil.
-/// repo - The repository containing the branch. Must not be nil.
 ///
 /// Returns an initialized instance.
-+ (instancetype _Nullable)branchWithReference:(GTReference *)ref repository:(GTRepository *)repo;
++ (instancetype _Nullable)branchWithReference:(GTReference *)ref;
 
 /// Get the target commit for this branch
 ///

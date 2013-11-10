@@ -16,7 +16,7 @@
 
 CreateCommitBlock createCommitInRepository = ^ GTCommit * (NSString *message, NSData *fileData, NSString *fileName, GTRepository *repo) {
 	GTReference *head = [repo headReferenceWithError:NULL];
-	GTBranch *branch = [GTBranch branchWithReference:head repository:repo];
+	GTBranch *branch = [GTBranch branchWithReference:head];
 	GTCommit *headCommit = [branch targetCommitWithError:NULL];
 
 	GTTreeBuilder *treeBuilder = [[GTTreeBuilder alloc] initWithTree:headCommit.tree repository:repo error:nil];

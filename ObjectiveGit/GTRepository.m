@@ -325,7 +325,7 @@ struct GTRemoteCreatePayload {
 		return nil;
 	}
 
-    return [GTObject objectWithObj:obj inRepository:self];
+	return [GTObject objectWithObj:obj inRepository:self];
 }
 
 - (id)lookUpObjectByGitOid:(const git_oid *)oid error:(NSError **)error {
@@ -377,7 +377,7 @@ struct GTRemoteCreatePayload {
 	if (ref == NULL) return nil;
 
 	GTReference *gtRef = [[GTReference alloc] initWithGitReference:ref repository:self];
-	return [[GTBranch alloc] initWithReference:gtRef repository:self];
+	return [[GTBranch alloc] initWithReference:gtRef];
 }
 
 - (GTReference *)headReferenceWithError:(NSError **)error {
@@ -409,7 +409,7 @@ typedef void (^GTRepositoryBranchEnumerationBlock)(GTBranch *branch, BOOL *stop)
 	git_branch_t branchType;
 	while ((gitError = git_branch_next(&gitRef, &branchType, iter)) == GIT_OK) {
 		GTReference *ref = [[GTReference alloc] initWithGitReference:gitRef repository:self];
-		GTBranch *branch = [GTBranch branchWithReference:ref repository:self];
+		GTBranch *branch = [GTBranch branchWithReference:ref];
 		BOOL stop = NO;
 		block(branch, &stop);
 		if (stop) break;
@@ -457,7 +457,7 @@ typedef void (^GTRepositoryBranchEnumerationBlock)(GTBranch *branch, BOOL *stop)
 		GTReference *ref = [self lookUpReferenceWithName:refName error:error];
 		if (ref == nil) continue;
 
-		GTBranch *branch = [[GTBranch alloc] initWithReference:ref repository:self];
+		GTBranch *branch = [[GTBranch alloc] initWithReference:ref];
 		if (branch == nil) continue;
 
 		[branches addObject:branch];
@@ -594,7 +594,7 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 	GTReference *newRef = [self createReferenceNamed:[GTBranch.localNamePrefix stringByAppendingString:name] fromOID:targetOID message:message error:error];
 	if (newRef == nil) return nil;
 
-	return [GTBranch branchWithReference:newRef repository:self];
+	return [GTBranch branchWithReference:newRef];
 }
 
 - (BOOL)isEmpty {
@@ -605,7 +605,7 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 	GTReference *head = [self headReferenceWithError:error];
 	if (head == nil) return nil;
 
-	return [GTBranch branchWithReference:head repository:self];
+	return [GTBranch branchWithReference:head];
 }
 
 - (NSArray *)localCommitsRelativeToRemoteBranch:(GTBranch *)remoteBranch error:(NSError **)error {
