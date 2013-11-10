@@ -156,7 +156,7 @@ describe(@"-trackingBranchWithError:success:", ^{
 		expect(otherRef).notTo.beNil();
 		expect(error).to.beNil();
 
-		GTBranch *otherBranch = [GTBranch branchWithReference:otherRef repository:repository];
+		GTBranch *otherBranch = [GTBranch branchWithReference:otherRef];
 		expect(otherBranch).notTo.beNil();
 
 		BOOL success = NO;
@@ -172,7 +172,7 @@ describe(@"-trackingBranchWithError:success:", ^{
 		expect(remoteRef).notTo.beNil();
 		expect(error).to.beNil();
 
-		GTBranch *remoteBranch = [GTBranch branchWithReference:remoteRef repository:repository];
+		GTBranch *remoteBranch = [GTBranch branchWithReference:remoteRef];
 		expect(remoteBranch).notTo.beNil();
 
 		BOOL success = NO;

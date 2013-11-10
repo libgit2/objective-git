@@ -55,7 +55,7 @@
 	}
 
 	GTReference *ref = [[GTReference alloc] initWithGitReference:git_ref repository:repository];
-	return [[self alloc] initWithReference:ref repository:repository];
+	return [[self alloc] initWithReference:ref];
 }
 
 + (instancetype)branchByLookingUpBranchNamed:(NSString *)name inRepository:(GTRepository *)repository error:(NSError **)error {
@@ -71,36 +71,30 @@
 	}
 
 	GTReference *ref = [[GTReference alloc] initWithGitReference:git_ref repository:repository];
-	return [[self alloc] initWithReference:ref repository:repository];
+	return [[self alloc] initWithReference:ref];
 }
 
-+ (id)branchWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error {	
-	return [[self alloc] initWithName:branchName repository:repo error:error];
-}
-
-+ (id)branchWithReference:(GTReference *)ref repository:(GTRepository *)repo {
-	return [[self alloc] initWithReference:ref repository:repo];
-}
-
-- (id)initWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error {
-	NSParameterAssert(branchName != nil);
++ (id)branchWithReferenceNamed:(NSString *)referenceName inRepository:(GTRepository *)repo error:(NSError **)error {
+	NSParameterAssert(referenceName != nil);
 	NSParameterAssert(repo != nil);
 
 	GTReference *ref = [GTReference referenceByLookingUpReferencedNamed:branchName inRepository:repo error:error];
 	if (ref == nil) return nil;
 
-	return [self initWithReference:ref repository:repo];
+	return [[self alloc] initWithReference:ref];
+}
+
++ (id)branchWithReference:(GTReference *)ref {
+	return [[self alloc] initWithReference:ref];
 }
 
 // Designated initializer
-- (id)initWithReference:(GTReference *)ref repository:(GTRepository *)repo {
+- (id)initWithReference:(GTReference *)ref {
 	NSParameterAssert(ref != nil);
-	NSParameterAssert(repo != nil);
 
 	self = [super init];
 	if (self == nil) return nil;
 
-	_repository = repo;
 	_reference = ref;
 
 	return self;
@@ -161,6 +155,10 @@
 	return [[NSString alloc] initWithBytes:name length:end - name encoding:NSUTF8StringEncoding];
 }
 
+- (GTRepository *)repository {
+	return self.reference.repository;
+}
+
 - (NSString *)SHA {
 	return self.reference.targetSHA;
 }
@@ -199,7 +197,7 @@
 	GTReference *reloadedRef = [self.reference reloadedReferenceWithError:error];
 	if (reloadedRef == nil) return nil;
 
-	return [[self.class alloc] initWithReference:reloadedRef repository:self.repository];
+	return [[self.class alloc] initWithReference:reloadedRef];
 }
 
 - (GTBranch *)trackingBranchWithError:(NSError **)error success:(BOOL *)success {
@@ -231,7 +229,7 @@
 
 	if (success != NULL) *success = YES;
 
-	return [[self class] branchWithReference:[[GTReference alloc] initWithGitReference:trackingRef repository:self.repository] repository:self.repository];
+	return [[self class] branchWithReference:[[GTReference alloc] initWithGitReference:trackingRef repository:self.repository]];
 }
 
 - (NSUInteger)numberOfCommitsWithError:(NSError **)error {

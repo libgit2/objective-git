@@ -69,13 +69,11 @@ typedef enum {
 + (instancetype)branchByCreatingBranchNamed:(NSString *)name target:(GTCommit *)commit force:(BOOL)force inRepository:(GTRepository *)repository error:(NSError **)error;
 
 // Convenience initializers
-- (id)initWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error;
-+ (id)branchWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error;
-
-+ (id)branchWithReference:(GTReference *)ref repository:(GTRepository *)repo;
++ (id)branchWithReferenceNamed:(NSString *)referenceName inRepository:(GTRepository *)repo error:(NSError **)error;
++ (id)branchWithReference:(GTReference *)ref;
 
 // Designated initializer
-- (id)initWithReference:(GTReference *)ref repository:(GTRepository *)repo;
+- (id)initWithReference:(GTReference *)ref;
 
 // Get the target commit for this branch
 // 
