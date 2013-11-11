@@ -120,7 +120,7 @@
 
 - (GTIndexEntry *)entryWithName:(NSString *)name error:(NSError **)error {
 	size_t pos = 0;
-	int gitError = git_index_find(&pos, self.git_index, name.UTF8String);
+	int gitError = git_index_find(&pos, self.git_index, name.fileSystemRepresentation);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"%@ not found in index", name];
 		return NULL;
@@ -139,12 +139,22 @@
 }
 
 - (BOOL)addFile:(NSString *)file error:(NSError **)error {
-	int status = git_index_add_bypath(self.git_index, file.UTF8String);
+	int status = git_index_add_bypath(self.git_index, file.fileSystemRepresentation);
 	if (status != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to add file %@ to index.", file];
 		return NO;
 	}
 
+	return YES;
+}
+
+- (BOOL)removeFile:(NSString *)file error:(NSError **)error {
+	int status = git_index_remove_bypath(self.git_index, file.fileSystemRepresentation);
+	if (status != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to remove file %@ from index.", file];
+		return NO;
+	}
+	
 	return YES;
 }
 
