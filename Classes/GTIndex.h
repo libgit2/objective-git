@@ -117,7 +117,7 @@
 // Returns YES if successful, NO otherwise.
 - (BOOL)addFile:(NSString *)file error:(NSError **)error;
 
-// Remove an entry (by relative path) from the the index.
+// Remove an entry (by relative path) from the index.
 // Will fail if the receiver's repository is nil.
 //
 // file  - The path (relative to the root of the repository) of the file to
