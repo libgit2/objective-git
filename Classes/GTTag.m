@@ -37,11 +37,15 @@
 
 @implementation GTTag
 
+#pragma mark -
+#pragma mark NSObject
+
 - (NSString *)description {
   return [NSString stringWithFormat:@"<%@: %p> name: %@, message: %@, targetType: %d", NSStringFromClass([self class]), self,self.name, self.message, self.targetType];
 }
 
-#pragma mark API
+#pragma mark -
+#pragma mark Properties
 
 - (NSString *)message {
 	return @(git_tag_message(self.git_tag));
@@ -69,6 +73,9 @@
 - (git_tag *)git_tag {
 	return (git_tag *) self.git_object;
 }
+
+#pragma mark -
+#pragma mark API
 
 - (id)objectByPeelingTagError:(NSError **)error {
 	git_object *target = nil;
