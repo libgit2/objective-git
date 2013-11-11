@@ -38,7 +38,7 @@ are not officially supported. ObjectiveGit offers a static library instead:
 
 1. Drag `ObjectiveGitFramework.xcodeproj` into the Project Navigator.
 1. Add `ObjectiveGit-iOS` as a target dependency of your application.
-1. Link your application to `libObjectiveGit-iOS.a`.
+1. Link your application to `libObjectiveGit-iOS.a`, `libz.dylib`, and `libiconv.dylib`.
 1. In your target's build settings:
     1. Set "Always Search User Paths" to `YES`
     1. Add `$(BUILT_PRODUCTS_DIR)/usr/local/include` and
