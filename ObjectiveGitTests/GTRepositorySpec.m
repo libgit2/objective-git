@@ -254,39 +254,6 @@ describe(@"-referenceNamesWithError:", ^{
 	});
 });
 
-describe(@"-OIDByCreatingTagNamed:target:tagger:message:error", ^{
-	it(@"should create a new tag",^{
-		NSError *error = nil;
-		NSString *SHA = @"0c37a5391bbff43c37f0d0371823a5509eed5b1d";
-		GTRepository *repo = self.bareFixtureRepository;
-		GTTag *tag = (GTTag *)[repo lookupObjectBySHA:SHA error:&error];
-
-		GTOID *newOID = [repo OIDByCreatingTagNamed:@"a_new_tag" target:tag.target tagger:tag.tagger message:@"my tag\n" error:&error];
-		expect(newOID).notTo.beNil();
-
-		tag = (GTTag *)[repo lookupObjectByOID:newOID error:&error];
-		expect(error).to.beNil();
-		expect(tag).notTo.beNil();
-		expect(newOID.SHA).to.equal(tag.SHA);
-		expect(tag.type).to.equal(@"tag");
-		expect(tag.message).to.equal(@"my tag\n");
-		expect(tag.name).to.equal(@"a_new_tag");
-		expect(tag.target.SHA).to.equal(@"5b5b025afb0b4c913b4c338a42934a3863bf3644");
-		expect(tag.targetType).to.equal(GTObjectTypeCommit);
-	});
-
-	it(@"should fail to create an already existing tag", ^{
-		NSError *error = nil;
-		NSString *SHA = @"0c37a5391bbff43c37f0d0371823a5509eed5b1d";
-		GTRepository *repo = self.bareFixtureRepository;
-		GTTag *tag = (GTTag *)[repo lookupObjectBySHA:SHA error:&error];
-
-		GTOID *OID = [repo OIDByCreatingTagNamed:tag.name target:tag.target tagger:tag.tagger message:@"new message" error:&error];
-		expect(OID).to.beNil();
-		expect(error).notTo.beNil();
-	});
-});
-
 describe(@"-checkout:strategy:error:progressBlock:", ^{
 	it(@"should allow references", ^{
 		NSError *error = nil;
