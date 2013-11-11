@@ -9,6 +9,7 @@
 #import "GTRemote.h"
 
 #import "NSError+Git.h"
+#import "NSArray+StringArray.h"
 #import "EXTScope.h"
 
 @interface GTRemote ()
@@ -74,12 +75,8 @@
 		git_strarray_free(&refspecs);
 	};
 
-	NSMutableArray *fetchRefspecs = [NSMutableArray arrayWithCapacity:refspecs.count];
-	for (size_t i = 0; i < refspecs.count; i++) {
-		if (refspecs.strings[i] == NULL) continue;
-		[fetchRefspecs addObject:@(refspecs.strings[i])];
-	}
-	return [fetchRefspecs copy];
+	return [NSArray git_arrayWithStrarray:refspecs];
+
 }
 
 #pragma mark Update the remote
