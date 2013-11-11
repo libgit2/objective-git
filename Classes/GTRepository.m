@@ -76,7 +76,7 @@ typedef struct {
 @implementation GTRepository
 
 - (NSString *)description {
-	return [NSString stringWithFormat:@"<%@: %p> fileURL: %@", self.class, self, self.fileURL];
+	return [NSString stringWithFormat:@"<%@: %p> displayURL: %@", self.class, self, self.displayURL];
 }
 
 - (BOOL)isEqual:(GTRepository *)repo {
@@ -405,7 +405,7 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 	return referenceNames;
 }
 
-- (NSURL *)fileURL {
+- (NSURL *)workingDirectoryURL {
 	const char *path = git_repository_workdir(self.git_repository);
 	// bare repository, you may be looking for gitDirectoryURL
 	if (path == NULL) return nil;
@@ -418,6 +418,10 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 	if (path == NULL) return nil;
 
 	return [NSURL fileURLWithPath:@(path) isDirectory:YES];
+}
+
+- (NSURL *)displayURL {
+	return (self.isBare == YES ? self.gitDirectoryURL : self.workingDirectoryURL);
 }
 
 - (BOOL)isBare {

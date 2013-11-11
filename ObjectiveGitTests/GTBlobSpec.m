@@ -71,7 +71,7 @@ describe(@"blobs can be created", ^{
 		it(@"works with valid parameters", ^{
 			NSString *fileContent = @"Test contents\n";
 			NSString *fileName = @"myfile.txt";
-			NSURL *fileURL = [repository.fileURL URLByAppendingPathComponent:fileName];
+			NSURL *fileURL = [repository.workingDirectoryURL URLByAppendingPathComponent:fileName];
 
 			NSError *error = nil;
 			BOOL success = [fileContent writeToURL:fileURL atomically:YES encoding:NSUTF8StringEncoding error:&error];

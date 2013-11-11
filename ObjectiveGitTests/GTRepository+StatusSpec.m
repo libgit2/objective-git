@@ -17,7 +17,7 @@ describe(@"Checking status", ^{
 	
 	beforeEach(^{
 		repository = self.testAppFixtureRepository;
-		targetFileURL = [repository.fileURL URLByAppendingPathComponent:@"main.m"];
+		targetFileURL = [repository.workingDirectoryURL URLByAppendingPathComponent:@"main.m"];
 		expect(repository).toNot.beNil();
 	});
 	
@@ -68,7 +68,7 @@ describe(@"Checking status", ^{
 	});
 		
 	it(@"should recognize copied files", ^{
-		NSURL *copyLocation = [repository.fileURL URLByAppendingPathComponent:@"main2.m"];
+		NSURL *copyLocation = [repository.workingDirectoryURL URLByAppendingPathComponent:@"main2.m"];
 		expect([NSFileManager.defaultManager copyItemAtURL:targetFileURL toURL:copyLocation error:&err]).to.beTruthy();
 		expect(err).to.beNil();
 		updateIndexForSubpathAndExpectStatus(copyLocation.lastPathComponent, GTStatusDeltaStatusCopied);
@@ -81,7 +81,7 @@ describe(@"Checking status", ^{
 	});
 	
 	it(@"should recognize renamed files", ^{
-		NSURL *moveLocation = [repository.fileURL URLByAppendingPathComponent:@"main-moved.m"];
+		NSURL *moveLocation = [repository.workingDirectoryURL URLByAppendingPathComponent:@"main-moved.m"];
 		expect([NSFileManager.defaultManager moveItemAtURL:targetFileURL toURL:moveLocation error:&err]).to.beTruthy();
 		expect(err).to.beNil();
 		expectSubpathToHaveWorkDirStatus(moveLocation.lastPathComponent, GTStatusDeltaStatusRenamed);

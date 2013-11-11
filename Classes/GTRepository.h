@@ -106,9 +106,15 @@ extern NSString *const GTRepositoryCloneOptionsCredentialProvider;
 @interface GTRepository : NSObject
 
 // The file URL for the repository's working directory.
-@property (nonatomic, readonly, strong) NSURL *fileURL;
+@property (nonatomic, readonly, strong) NSURL *workingDirectoryURL;
+
 // The file URL for the repository's .git directory.
 @property (nonatomic, readonly, strong) NSURL *gitDirectoryURL;
+
+// Get an URL appropriate for displaying.
+// If the repository is bare, returns the `-gitDirectoryURL`. Otherwise returns
+// the `-workingDirectoryURL`.
+@property (nonatomic, readonly, strong) NSURL *displayURL;
 
 // Is this a bare repository (one without a working directory)?
 @property (nonatomic, readonly, getter = isBare) BOOL bare;

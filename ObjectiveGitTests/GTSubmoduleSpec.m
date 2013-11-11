@@ -80,7 +80,7 @@ it(@"should reload all submodules", ^{
 	GTSubmodule *submodule = [repo submoduleWithName:@"new_submodule" error:NULL];
 	expect(submodule).to.beNil();
 
-	NSURL *gitmodulesURL = [repo.fileURL URLByAppendingPathComponent:@".gitmodules"];
+	NSURL *gitmodulesURL = [repo.workingDirectoryURL URLByAppendingPathComponent:@".gitmodules"];
 	NSMutableString *gitmodules = [NSMutableString stringWithContentsOfURL:gitmodulesURL usedEncoding:NULL error:NULL];
 	expect(gitmodules).notTo.beNil();
 
@@ -143,7 +143,7 @@ describe(@"clean, checked out submodule", ^{
 		expect(submoduleRepo).notTo.beNil();
 		expect(error).to.beNil();
 
-		expect(submoduleRepo.fileURL).to.equal([repo.fileURL URLByAppendingPathComponent:@"Test_App"]);
+		expect(submoduleRepo.workingDirectoryURL).to.equal([repo.workingDirectoryURL URLByAppendingPathComponent:@"Test_App"]);
 		expect(submoduleRepo.bare).to.beFalsy();
 		expect(submoduleRepo.empty).to.beFalsy();
 		expect(submoduleRepo.HEADDetached).to.beTruthy();
@@ -225,7 +225,7 @@ describe(@"dirty, checked out submodule", ^{
 		expect(submoduleRepo).notTo.beNil();
 		expect(error).to.beNil();
 
-		expect(submoduleRepo.fileURL).to.equal([repo.fileURL URLByAppendingPathComponent:@"Test_App2"]);
+		expect(submoduleRepo.workingDirectoryURL).to.equal([repo.workingDirectoryURL URLByAppendingPathComponent:@"Test_App2"]);
 		expect(submoduleRepo.bare).to.beFalsy();
 		expect(submoduleRepo.empty).to.beFalsy();
 		expect(submoduleRepo.HEADDetached).to.beTruthy();
