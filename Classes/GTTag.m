@@ -38,6 +38,41 @@
 @implementation GTTag
 
 #pragma mark -
+#pragma mark Class methods
+
++ (instancetype)tagByCreatingTagNamed:(NSString *)tagName target:(GTObject *)targetObject message:(NSString *)message tagger:(GTSignature *)tagger force:(BOOL)force inRepository:(GTRepository *)repository error:(NSError **)error {
+	NSParameterAssert(tagName != nil);
+	NSParameterAssert(targetObject != nil);
+	NSParameterAssert(message != nil);
+	NSParameterAssert(tagger != nil);
+	NSParameterAssert(repository != nil);
+
+	git_oid git_oid;
+	int gitError = git_tag_create(&git_oid, repository.git_repository, tagName.UTF8String, targetObject.git_object, tagger.git_signature, message.UTF8String, (force == YES ? 1 : 0));
+	if (gitError != GIT_OK) {
+		if (error) *error = [NSError git_errorFor:gitError description:@"Tag creation failed"];
+		return nil;
+	}
+
+	return [repository lookupObjectByOID:[GTOID oidWithGitOid:&git_oid] objectType:GTObjectTypeTag error:error];
+}
+
++ (GTReference *)tagByCreatingLightweightTagNamed:(NSString *)tagName target:(GTObject *)targetObject force:(BOOL)force inRepository:(GTRepository *)repository error:(NSError **)error {
+	NSParameterAssert(tagName != nil);
+	NSParameterAssert(targetObject != nil);
+	NSParameterAssert(repository != nil);
+
+	git_oid gitOid;
+	int gitError = git_tag_create_lightweight(&gitOid, repository.git_repository, tagName.UTF8String, targetObject.git_object, (force == YES ? 1 : 0));
+	if (gitError != GIT_OK) {
+		if (error) *error = [NSError git_errorFor:gitError description:@"Lightweight tag creation failed"];
+		return nil;
+	}
+
+	return [GTReference referenceByLookingUpReferencedNamed:[NSString stringWithFormat:@"refs/tags/%@", tagName] inRepository:repository error:error];
+}
+
+#pragma mark -
 #pragma mark NSObject
 
 - (NSString *)description {
@@ -86,6 +121,15 @@
 	}
 
 	return [[GTObject alloc] initWithObj:target inRepository:self.repository];
+}
+
+- (BOOL)delete:(NSError **)error {
+	int gitError = git_tag_delete(self.repository.git_repository, self.name.UTF8String);
+	if (gitError != GIT_OK) {
+		if (error) *error = [NSError git_errorFor:gitError description:@"Tag deletion failed"];
+		return NO;
+	}
+	return YES;
 }
 
 @end
