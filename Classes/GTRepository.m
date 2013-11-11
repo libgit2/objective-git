@@ -281,9 +281,9 @@ struct GTClonePayload {
 	if (references == nil) return nil;
 
 	NSMutableArray *branches = [NSMutableArray array];
-	for (NSString *ref in references) {
-		if ([ref hasPrefix:prefix]) {
-			GTBranch *b = [GTBranch branchWithName:ref repository:self error:error];
+	for (NSString *refName in references) {
+		if ([refName hasPrefix:prefix]) {
+			GTBranch *b = [GTBranch branchWithReferenceNamed:refName inRepository:self error:error];
 			if (b != nil) [branches addObject:b];
 		}
 	}
@@ -369,7 +369,7 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 	GTReference *newRef = [GTReference referenceByCreatingReferenceNamed:[NSString stringWithFormat:@"%@%@", [GTBranch localNamePrefix], name] fromReferenceTarget:[ref.resolvedTarget SHA] inRepository:self error:error];
 	if (newRef == nil) return nil;
 
-	return [GTBranch branchWithReference:newRef repository:self];
+	return [GTBranch branchWithReference:newRef];
 }
 
 - (BOOL)isEmpty {
@@ -380,7 +380,7 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 	GTReference *head = [self headReferenceWithError:error];
 	if (head == nil) return nil;
 
-	return [GTBranch branchWithReference:head repository:self];
+	return [GTBranch branchWithReference:head];
 }
 
 - (NSArray *)localCommitsRelativeToRemoteBranch:(GTBranch *)remoteBranch error:(NSError **)error {

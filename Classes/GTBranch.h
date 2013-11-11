@@ -30,53 +30,71 @@
 @class GTRepository;
 
 typedef enum {
-    GTBranchTypeLocal = 1,
-    GTBranchTypeRemote
+    GTBranchTypeLocal = GIT_BRANCH_LOCAL,
+    GTBranchTypeRemote = GIT_BRANCH_REMOTE,
+	GTBranchTypeAny = GIT_BRANCH_REMOTE|GIT_BRANCH_LOCAL,
 } GTBranchType;
 
 @interface GTBranch : NSObject
 
-@property (nonatomic, readonly) NSString *name;
-@property (nonatomic, readonly) NSString *shortName;
-@property (nonatomic, readonly) NSString *SHA;
-@property (nonatomic, readonly) NSString *remoteName;
-@property (nonatomic, readonly) GTBranchType branchType;
 @property (nonatomic, readonly, strong) GTRepository *repository;
 @property (nonatomic, readonly, strong) GTReference *reference;
+@property (nonatomic, readonly) NSString *name;
+@property (nonatomic, readonly) NSString *shortName;
+@property (nonatomic, readonly) NSString *remoteName;
+@property (nonatomic, readonly) NSString *SHA;
+@property (nonatomic, readonly) GTBranchType branchType;
+@property (nonatomic, assign) GTBranch *trackingBranch;
+@property (nonatomic, readonly, getter=isHead) BOOL head;
 
 + (NSString *)localNamePrefix;
 + (NSString *)remoteNamePrefix;
 
-// Convenience initializers
-- (id)initWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error;
-+ (id)branchWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error;
+// Lookup a branch by name. Performs a `GTBranchTypeAny` lookup.
+// See `+branchByLookingUpBranchNamed:type:inRepository:error:`.
++ (instancetype)branchByLookingUpBranchNamed:(NSString *)name inRepository:(GTRepository *)repository error:(NSError **)error;
 
-- (id)initWithReference:(GTReference *)ref repository:(GTRepository *)repo;
-+ (id)branchWithReference:(GTReference *)ref repository:(GTRepository *)repo;
+// Lookup a branch by name and branch type.
+//
+// name       - The branch name to lookup.
+// type       - The type of lookup to perform. If `GTBranchTypeAny` is passed,
+//              local branches are checked first.
+// repository - The repository to lookup the branch in.
+// error      - A pointer which will point to a valid error if the lookup fails.
+//
+// Returns the branch object with that name, or nil if an error occurred.
++ (instancetype)branchByLookingUpBranchNamed:(NSString *)name type:(GTBranchType)type inRepository:(GTRepository *)repository error:(NSError **)error;
+
+// Create a branch from a name and target.
+//
+// name       - The name of the branch to create.
+// commit     - The commit the branch should point to.
+// force      - If set to YES, a branch with same name would be deleted.
+// repository - The repository to create the branch in.
+// error      - A pointer which will point to a valid error if the creation fails.
+//
+// Returns a newly created branch object, or nil if the branch couldn't be created.
++ (instancetype)branchByCreatingBranchNamed:(NSString *)name target:(GTCommit *)commit force:(BOOL)force inRepository:(GTRepository *)repository error:(NSError **)error;
+
+// Convenience initializers
++ (id)branchWithReferenceNamed:(NSString *)referenceName inRepository:(GTRepository *)repo error:(NSError **)error;
++ (id)branchWithReference:(GTReference *)ref;
+
+// Designated initializer
+- (id)initWithReference:(GTReference *)ref;
 
 // Get the target commit for this branch
 // 
-// error(out) - will be filled if an error occurs
+// error - A pointer which will point to a valid error if the target can't be found.
 // 
-// returns a GTCommit object or nil if an error occurred
+// Returns a GTCommit object or nil if an error occurred.
 - (GTCommit *)targetCommitAndReturnError:(NSError **)error;
-
-// Count all commits in this branch
-//
-// error(out) - will be filled if an error occurs
-//
-// returns number of commits in the branch or NSNotFound if an error occurred
-- (NSUInteger)numberOfCommitsWithError:(NSError **)error;
-
-- (NSArray *)uniqueCommitsRelativeToBranch:(GTBranch *)otherBranch error:(NSError **)error;
 
 // Deletes the local branch and nils out the reference.
 - (BOOL)deleteWithError:(NSError **)error;
 
-// If the receiver is a local branch, looks up and returns its tracking branch.
-// If the receiver is a remote branch, returns self. If no tracking branch was
-// found, returns nil and sets `success` to YES.
-- (GTBranch *)trackingBranchWithError:(NSError **)error success:(BOOL *)success;
+// Renames the branch. Setting `force` to YES to delete another branch with the same name.
+- (BOOL)rename:(NSString *)name force:(BOOL)force error:(NSError **)error;
 
 // Reloads the branch's reference and creates a new branch based off that newly
 // loaded reference.
@@ -87,6 +105,37 @@ typedef enum {
 //
 // Returns the reloaded branch, or nil if an error occurred.
 - (GTBranch *)reloadedBranchWithError:(NSError **)error;
+
+// Fetch the branch's remote tracking branch.
+//
+// If the receiver is a local branch, looks up and returns its tracking branch.
+// If the receiver is a remote branch, returns self.
+// If no tracking branch was found, returns nil with a nil error.
+//
+// error - The error if one occurred.
+//
+// Returns the tracking branch for the reciever if it's a local branch,
+// nil if the receiver is a remote branch but without an error set,
+// or nil if there was an error (and the error pointer will be set.
+- (GTBranch *)trackingBranchWithError:(NSError **)error;
+
+// Count all commits in this branch
+//
+// error - will be filled if an error occurs
+//
+// Returns the number of commits in the receiver or `NSNotFound` if an error occurred
+- (NSUInteger)numberOfCommitsWithError:(NSError **)error;
+
+// Get the unique commits between branches.
+//
+// This method returns an array representing the unique commits
+// that exist between the receiver and `otherBranch`.
+//
+// otherBranch - The branch to compare against.
+// error       - Will be set if an error occurs.
+//
+// Returns an array of GTCommits, or nil if an error occurred.
+- (NSArray *)uniqueCommitsRelativeToBranch:(GTBranch *)otherBranch error:(NSError **)error;
 
 // Calculate the ahead/behind count from this branch to the given branch.
 //

@@ -186,11 +186,11 @@ describe(@"-preparedMessage", ^{
 describe(@"-mergeBaseBetweenFirstOID:secondOID:error:", ^{
 	it(@"should find the merge base between two branches", ^{
 		NSError *error = nil;
-		GTBranch *masterBranch = [[GTBranch alloc] initWithName:@"refs/heads/master" repository:repository error:&error];
+		GTBranch *masterBranch = [GTBranch branchByLookingUpBranchNamed:@"master" inRepository:repository error:&error];
 		expect(masterBranch).notTo.beNil();
 		expect(error).to.beNil();
 
-		GTBranch *otherBranch = [[GTBranch alloc] initWithName:@"refs/heads/other-branch" repository:repository error:&error];
+		GTBranch *otherBranch = [GTBranch branchByLookingUpBranchNamed:@"other-branch" inRepository:repository error:&error];
 		expect(otherBranch).notTo.beNil();
 		expect(error).to.beNil();
 
@@ -215,7 +215,7 @@ describe(@"-currentBranchWithError:", ^{
 		GTBranch *currentBranch = [repository currentBranchWithError:&error];
 		expect(currentBranch).notTo.beNil();
 		expect(error).to.beNil();
-		expect(currentBranch.name).to.equal(@"refs/heads/master");
+		expect(currentBranch.reference.name).to.equal(@"refs/heads/master");
 	});
 });
 
@@ -237,7 +237,7 @@ describe(@"-remoteBranchesWithError:", ^{
 		expect(error).to.beNil();
 		expect(branches.count).to.equal(1);
 		GTBranch *remoteBranch = branches[0];
-		expect(remoteBranch.name).to.equal(@"refs/remotes/origin/master");
+		expect(remoteBranch.reference.name).to.equal(@"refs/remotes/origin/master");
 	});
 });
 
@@ -290,7 +290,7 @@ describe(@"-OIDByCreatingTagNamed:target:tagger:message:error", ^{
 describe(@"-checkout:strategy:error:progressBlock:", ^{
 	it(@"should allow references", ^{
 		NSError *error = nil;
-		GTReference *ref = [GTReference referenceByLookingUpReferencedNamed:@"refs/heads/other-branch" inRepository:repository error:&error];
+		GTReference *ref = [GTReference referenceByLookingUpReferenceNamed:@"refs/heads/other-branch" inRepository:repository error:&error];
 		expect(ref).to.beTruthy();
 		expect(error.localizedDescription).to.beNil();
 		BOOL result = [repository checkoutReference:ref strategy:GTCheckoutStrategyAllowConflicts error:&error progressBlock:nil];
