@@ -60,7 +60,7 @@ typedef GTCredential *(^GTCredentialProviderBlock)(GTCredentialType allowedTypes
 	NSAssert(privateKeyPath != nil, @"Invalid file URL passed: %@", privateKeyURL);
 
 	git_cred *cred;
-	int gitError = git_cred_ssh_keyfile_passphrase_new(&cred, userName.UTF8String, publicKeyPath.fileSystemRepresentation, privateKeyPath.fileSystemRepresentation, passphrase.UTF8String);
+	int gitError = git_cred_ssh_key_new(&cred, userName.UTF8String, publicKeyPath.fileSystemRepresentation, privateKeyPath.fileSystemRepresentation, passphrase.UTF8String);
 	if (gitError != GIT_OK) {
 		if (error) *error = [NSError git_errorFor:gitError description:@"Failed to create credentials object" failureReason:@"There was an error creating a credential object for username %@ with the provided public/private key pair.\nPublic key: %@\nPrivate key: %@", userName, publicKeyURL, privateKeyURL];
 		return nil;

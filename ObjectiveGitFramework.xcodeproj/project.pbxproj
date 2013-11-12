@@ -1233,7 +1233,6 @@
 				88F05A6616011E5400B7AD1D /* Sources */,
 				88F05A6716011E5400B7AD1D /* Frameworks */,
 				88F05A6816011E5400B7AD1D /* Resources */,
-				D0D81875174425AA00995A2E /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1464,19 +1463,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = script/update_libgit2_ios;
-		};
-		D0D81875174425AA00995A2E /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
