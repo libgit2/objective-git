@@ -94,7 +94,7 @@
 }
 
 - (BOOL)refresh:(NSError **)error {
-	int status = git_index_read(self.git_index);
+	int status = git_index_read(self.git_index, 1);
 	if (status != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to refresh index."];
 		return NO;

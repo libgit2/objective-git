@@ -12,8 +12,8 @@
 // See `git_credtype_t`.
 typedef enum {
     GTCredentialTypeUserPassPlaintext = GIT_CREDTYPE_USERPASS_PLAINTEXT,
-    GTCredentialTypeSSHKeyFilePassPhrase = GIT_CREDTYPE_SSH_KEYFILE_PASSPHRASE,
-    GTCredentialTypeSSHPublicKey = GIT_CREDTYPE_SSH_PUBLICKEY,
+    GTCredentialTypeSSHKey = GIT_CREDTYPE_SSH_KEY,
+    GTCredentialTypeSSHCustom = GIT_CREDTYPE_SSH_CUSTOM,
 } GTCredentialType;
 
 @class GTCredential;

@@ -54,15 +54,4 @@
 // adding the refspec or saving the remote failed.
 - (BOOL)addFetchRefspec:(NSString *)fetchRefspec error:(NSError **)error;
 
-// Removes the first fetchRefspec that matches.
-//
-// fetchRefspec - The fetch refspec string to remove. May not be nil.
-// error        - If not NULL, this will be set to any error that occurs
-//                when removing the refspec or saving the remote.
-//
-// Returns YES if the matching refspec is found and removed, or if no matching
-// refspec was found. NO and error is returned if a matching refspec was found
-// but could not be removed, or saving the remote failed.
-- (BOOL)removeFetchRefspec:(NSString *)fetchRefspec error:(NSError **)error;
-
 @end
