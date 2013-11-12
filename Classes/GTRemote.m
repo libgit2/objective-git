@@ -125,20 +125,4 @@
 	return [self saveRemote:error];
 }
 
-- (BOOL)removeFetchRefspec:(NSString *)fetchRefspec error:(NSError **)error {
-	NSParameterAssert(fetchRefspec != nil);
-
-	NSUInteger index = [self.fetchRefspecs indexOfObject:fetchRefspec];
-	if (index == NSNotFound) return YES;
-
-	int gitError = git_remote_remove_refspec(self.git_remote, index);
-	if (gitError != GIT_OK) {
-		if (error != NULL) {
-			*error = [NSError git_errorFor:gitError description:@"Unable to remove fetch refspec."];
-		}
-		return NO;
-	}
-	return [self saveRemote:error];
-}
-
 @end
