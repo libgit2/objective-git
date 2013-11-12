@@ -32,6 +32,7 @@
 
 - (id)initWithReference:(GTReference *)reference {
 	NSParameterAssert(reference != nil);
+	NSParameterAssert(reference.name != nil);
 
 	self = [super init];
 	if (self == nil) return nil;
