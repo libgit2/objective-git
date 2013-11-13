@@ -276,11 +276,11 @@ struct GTClonePayload {
 	return [self lookupObjectBySHA:sha objectType:GTObjectTypeAny error:error];
 }
 
-- (id)lookupObjectByRevspec:(NSString *)spec error:(NSError **)error {
+- (id)lookupObjectByRevParse:(NSString *)spec error:(NSError **)error {
 	git_object *obj;
 	int gitError = git_revparse_single(&obj, self.git_repository, spec.UTF8String);
 	if (gitError < GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to lookup object by refspec %@.", spec];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Revision specifier lookup failed." failureReason:@"The revision specifier \"%@\" couldn't be parsed.", spec];
 		return nil;
 	}
 	return [GTObject objectWithObj:obj inRepository:self];

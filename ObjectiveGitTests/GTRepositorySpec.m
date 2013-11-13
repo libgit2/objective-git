@@ -341,10 +341,10 @@ describe(@"-resetToCommit:withResetType:error:", ^{
 	});
 });
 
-describe(@"-lookupObjectByRevspec:error:", ^{
-	void (^expectSHAForRevspec)(NSString *SHA, NSString *revspec) = ^(NSString *SHA, NSString *revspec) {
+describe(@"-lookupObjectByRevParse:error:", ^{
+	void (^expectSHAForRevParse)(NSString *, NSString *) = ^(NSString *SHA, NSString *spec) {
 		NSError *error = nil;
-		GTObject *obj = [repository lookupObjectByRevspec:revspec error:&error];
+		GTObject *obj = [repository lookupObjectByRevParse:spec error:&error];
 
 		if (SHA != nil) {
 			expect(error).to.beNil();
@@ -361,12 +361,12 @@ describe(@"-lookupObjectByRevspec:error:", ^{
 	});
 
 	it(@"should parse various revspecs", ^{
-		expectSHAForRevspec(@"36060c58702ed4c2a40832c51758d5344201d89a", @"master");
-		expectSHAForRevspec(@"5b5b025afb0b4c913b4c338a42934a3863bf3644", @"master~");
-		expectSHAForRevspec(@"8496071c1b46c854b31185ea97743be6a8774479", @"master@{2}");
-		expectSHAForRevspec(nil, @"master^2");
-		expectSHAForRevspec(nil, @"");
-		expectSHAForRevspec(@"0c37a5391bbff43c37f0d0371823a5509eed5b1d", @"v1.0");
+		expectSHAForRevParse(@"36060c58702ed4c2a40832c51758d5344201d89a", @"master");
+		expectSHAForRevParse(@"5b5b025afb0b4c913b4c338a42934a3863bf3644", @"master~");
+		expectSHAForRevParse(@"8496071c1b46c854b31185ea97743be6a8774479", @"master@{2}");
+		expectSHAForRevParse(nil, @"master^2");
+		expectSHAForRevParse(nil, @"");
+		expectSHAForRevParse(@"0c37a5391bbff43c37f0d0371823a5509eed5b1d", @"v1.0");
 	});
 });
 
