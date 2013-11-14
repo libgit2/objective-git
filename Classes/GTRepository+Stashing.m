@@ -8,7 +8,7 @@
 
 #import "GTRepository+Stashing.h"
 #import "GTOID.h"
-#import "GTRepository+Private.h"
+#import "GTObject+Private.h"
 #import "GTSignature.h"
 #import "NSError+Git.h"
 
@@ -24,8 +24,8 @@ typedef void (^GTRepositoryStashEnumerationBlock)(NSUInteger index, NSString *me
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to stash."];
 		return nil;
 	}
-	
-	return [self lookupObjectByGitOid:&git_oid error:error];
+
+	return [GTCommit lookupWithGitOID:&git_oid inRepository:self error:error];
 }
 
 static int stashEnumerationCallback(size_t index, const char *message, const git_oid *stash_id, void *payload) {

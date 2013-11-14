@@ -16,17 +16,21 @@ beforeEach(^{
 });
 
 it(@"should compare equal to the same reference", ^{
-	expect([[GTReference alloc] initByLookingUpReferenceNamed:@"refs/heads/master" inRepository:repository error:NULL]).to.equal([[GTReference alloc] initByLookingUpReferenceNamed:@"refs/heads/master" inRepository:repository error:NULL]);
+	GTReference *firstRef = [GTReference referenceByLookingUpReferenceNamed:@"refs/heads/master" inRepository:repository error:NULL];
+	GTReference *secondRef = [GTReference referenceByLookingUpReferenceNamed:@"refs/heads/master" inRepository:repository error:NULL];
+	expect(firstRef).to.equal(secondRef);
 });
 
 it(@"should compare unequal to a different reference", ^{
-	expect([[GTReference alloc] initByLookingUpReferenceNamed:@"refs/heads/master" inRepository:repository error:NULL]).notTo.equal([[GTReference alloc] initByLookingUpReferenceNamed:@"refs/remotes/origin/master" inRepository:repository error:NULL]);
+	GTReference *masterRef = [GTReference referenceByLookingUpReferenceNamed:@"refs/heads/master" inRepository:repository error:NULL];
+	GTReference *originMasterRef = [GTReference referenceByLookingUpReferenceNamed:@"refs/remotes/origin/master" inRepository:repository error:NULL];
+	expect(masterRef).notTo.equal(originMasterRef);
 });
 
 describe(@"remote property", ^{
 	it(@"should be YES for a remote-tracking branch", ^{
 		NSError *error = nil;
-		GTReference *ref = [[GTReference alloc] initByLookingUpReferenceNamed:@"refs/remotes/origin/master" inRepository:repository error:&error];
+		GTReference *ref = [GTReference referenceByLookingUpReferenceNamed:@"refs/remotes/origin/master" inRepository:repository error:&error];
 		expect(ref).notTo.beNil();
 		expect(error).to.beNil();
 
@@ -36,7 +40,7 @@ describe(@"remote property", ^{
 
 	it(@"should be NO for a local branch", ^{
 		NSError *error = nil;
-		GTReference *ref = [[GTReference alloc] initByLookingUpReferenceNamed:@"refs/heads/master" inRepository:repository error:&error];
+		GTReference *ref = [GTReference referenceByLookingUpReferenceNamed:@"refs/heads/master" inRepository:repository error:&error];
 		expect(ref).notTo.beNil();
 		expect(error).to.beNil();
 
@@ -104,6 +108,74 @@ describe(@"valid names",^{
 		expect([GTReference isValidReferenceName:@"refs/stuff*"]).notTo.beTruthy();
 		expect([GTReference isValidReferenceName:@"refs/stuff.."]).notTo.beTruthy();
 		expect([GTReference isValidReferenceName:@"refs/stuff@{"]).notTo.beTruthy();
+	});
+});
+
+__block GTRepository *bareRepository;
+
+void (^expectValidReference)(GTReference *ref, NSString *SHA, GTReferenceType type, NSString *name) = ^(GTReference *ref, NSString *SHA, GTReferenceType type, NSString *name) {
+	expect(ref).notTo.beNil();
+	expect(ref.targetSHA).to.equal(SHA);
+	expect(ref.referenceType).to.equal(type);
+	expect(ref.name).to.equal(name);
+};
+
+beforeEach(^{
+	bareRepository = self.bareFixtureRepository;
+});
+
+describe(@"+referenceByLookingUpReferenceNamed:inRepository:error:", ^{
+	it(@"should return a valid reference to a branch", ^{
+		NSError *error = nil;
+		GTReference *ref = [GTReference referenceByLookingUpReferenceNamed:@"refs/heads/master" inRepository:bareRepository error:&error];
+		expect(ref).notTo.beNil();
+		expect(error).to.beNil();
+
+		expectValidReference(ref, @"36060c58702ed4c2a40832c51758d5344201d89a", GTReferenceTypeOid, @"refs/heads/master");
+	});
+
+	it(@"should return a valid reference to a tag", ^{
+		NSError *error = nil;
+		GTReference *ref = [GTReference referenceByLookingUpReferenceNamed:@"refs/tags/v0.9" inRepository:bareRepository error:&error];
+		expect(ref).notTo.beNil();
+		expect(error).to.beNil();
+
+		expectValidReference(ref, @"5b5b025afb0b4c913b4c338a42934a3863bf3644", GTReferenceTypeOid, @"refs/tags/v0.9");
+	});
+});
+
+describe(@"+referenceByCreatingReferenceNamed:fromReferenceTarget:inRepository:error:", ^{
+	it(@"can create a reference from a symbolic reference", ^{
+		NSError *error = nil;
+		GTReference *ref = [GTReference referenceByCreatingReferenceNamed:@"refs/heads/unit_test" fromReferenceTarget:@"refs/heads/master" inRepository:bareRepository error:&error];
+		expect(error).to.beNil();
+		expect(ref).notTo.beNil();
+
+		expectValidReference(ref, @"36060c58702ed4c2a40832c51758d5344201d89a", GTReferenceTypeSymbolic, @"refs/heads/unit_test");
+		expect(ref.resolvedReference.name).to.equal(@"refs/heads/master");
+	});
+
+	it(@"can create a reference from an SHA/OID", ^{
+		NSError *error = nil;
+		GTReference *ref = [GTReference referenceByCreatingReferenceNamed:@"refs/heads/unit_test" fromReferenceTarget:@"36060c58702ed4c2a40832c51758d5344201d89a" inRepository:bareRepository error:&error];
+		expect(error).to.beNil();
+		expect(ref).notTo.beNil();
+
+		expectValidReference(ref, @"36060c58702ed4c2a40832c51758d5344201d89a", GTReferenceTypeOid, @"refs/heads/unit_test");
+	});
+});
+
+describe(@"-deleteWithError:", ^{
+	it(@"can delete references", ^{
+		NSError *error = nil;
+		GTReference *ref = [GTReference referenceByCreatingReferenceNamed:@"refs/heads/unit_test" fromReferenceTarget:@"36060c58702ed4c2a40832c51758d5344201d89a" inRepository:bareRepository error:&error];
+
+		expect(error).to.beNil();
+		expect(ref).notTo.beNil();
+
+		BOOL success = [ref deleteWithError:&error];
+		expect(success).to.beTruthy();
+		expect(error).to.beNil();
 	});
 });
 

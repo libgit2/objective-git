@@ -44,6 +44,45 @@
 
 @implementation GTObject
 
++ (git_otype)_lookupType {
+	git_otype type = GIT_OBJ_BAD;
+	if (self == [GTObject class]) {
+		type = GIT_OBJ_ANY;
+	} else if (self == [GTCommit class]) {
+		type = GIT_OBJ_COMMIT;
+	} else if (self == [GTTree class]) {
+		type = GIT_OBJ_TREE;
+	} else if (self == [GTBlob class]) {
+		type = GIT_OBJ_BLOB;
+	} else if (self == [GTTag class]) {
+		type = GIT_OBJ_TAG;
+	}
+	return type;
+}
+
++ (instancetype)lookupWithGitOID:(const git_oid *)git_oid inRepository:(GTRepository *)repository error:(NSError **)error {
+	NSParameterAssert(git_oid != nil);
+	NSParameterAssert(repository != nil);
+
+	git_object *obj;
+	int gitError = git_object_lookup(&obj, repository.git_repository, git_oid, self._lookupType);
+	if (gitError != GIT_OK) {
+		if (error) *error = [NSError git_errorFor:gitError description:@"Object lookup failed"];
+		return nil;
+	}
+
+	return [self objectWithObj:obj inRepository:repository];
+
+}
+
++ (instancetype)lookupWithOID:(GTOID *)OID inRepository:(GTRepository *)repository error:(NSError **)error {
+	return [self lookupWithGitOID:OID.git_oid inRepository:repository error:error];
+}
+
++ (instancetype)lookupWithSHA:(NSString *)SHA inRepository:(GTRepository *)repository error:(NSError **)error {
+	return [self lookupWithOID:[GTOID oidWithSHA:SHA] inRepository:repository error:error];
+}
+
 - (NSString *)description {
   return [NSString stringWithFormat:@"<%@: %p> type: %@, shortSha: %@, sha: %@", NSStringFromClass([self class]), self, self.type, self.shortSHA, self.SHA];
 }

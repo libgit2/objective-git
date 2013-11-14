@@ -114,6 +114,22 @@ static NSString * const GTTestCaseErrorDomain = @"com.objectivegit.GTTestCase";
 	return [self fixtureRepositoryNamed:@"conflicted-repo"];
 }
 
+- (GTRepository *)blankFixtureRepository {
+	NSURL *repoURL = [self.tempDirectoryFileURL URLByAppendingPathComponent:@"blank-repo"];
+
+	GTRepository *repository = [GTRepository initializeEmptyRepositoryAtFileURL:repoURL bare:NO error:NULL];
+	STAssertNotNil(repository, @"Couldn't create a blank repository");
+	return repository;
+}
+
+- (GTRepository *)blankBareFixtureRepository {
+	NSURL *repoURL = [self.tempDirectoryFileURL URLByAppendingPathComponent:@"blank-repo.git"];
+
+	GTRepository *repository = [GTRepository initializeEmptyRepositoryAtFileURL:repoURL bare:YES error:NULL];
+	STAssertNotNil(repository, @"Couldn't create a blank repository");
+	return repository;
+}
+
 #pragma mark Properties
 
 - (NSBundle *)mainTestBundle {

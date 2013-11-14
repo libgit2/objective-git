@@ -106,9 +106,15 @@ extern NSString *const GTRepositoryCloneOptionsCredentialProvider;
 @interface GTRepository : NSObject
 
 // The file URL for the repository's working directory.
-@property (nonatomic, readonly, strong) NSURL *fileURL;
+@property (nonatomic, readonly, strong) NSURL *workingDirectoryURL;
+
 // The file URL for the repository's .git directory.
 @property (nonatomic, readonly, strong) NSURL *gitDirectoryURL;
+
+// Get an URL appropriate for displaying.
+// If the repository is bare, returns the `-gitDirectoryURL`. Otherwise returns
+// the `-workingDirectoryURL`.
+@property (nonatomic, readonly, strong) NSURL *displayURL;
 
 // Is this a bare repository (one without a working directory)?
 @property (nonatomic, readonly, getter = isBare) BOOL bare;
@@ -169,23 +175,27 @@ extern NSString *const GTRepositoryCloneOptionsCredentialProvider;
 // returns nil (and fills the error parameter) if an error occurred, or a GTRepository object if successful.
 + (id)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL options:(NSDictionary *)options error:(NSError **)error transferProgressBlock:(void (^)(const git_transfer_progress *))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))checkoutProgressBlock;
 
-// Lookup objects in the repo by oid or sha1
-- (id)lookupObjectByOID:(GTOID *)oid objectType:(GTObjectType)type error:(NSError **)error;
-- (id)lookupObjectByOID:(GTOID *)oid error:(NSError **)error;
-- (id)lookupObjectBySHA:(NSString *)sha objectType:(GTObjectType)type error:(NSError **)error;
-- (id)lookupObjectBySHA:(NSString *)sha error:(NSError **)error;
-
 // Lookup an object in the repo using a revparse spec
-- (id)lookupObjectByRefspec:(NSString *)spec error:(NSError **)error;
+- (id)lookupObjectByRevspec:(NSString *)spec error:(NSError **)error;
 
-// List all references in the repository
+// List all reference names in the repository.
 //
-// repository - The GTRepository to list references in
-// error(out) - will be filled if an error occurs
+// error - If not NULL, this pointer will be set to the actual error that occurred.
 //
-// returns an array of NSStrings holding the names of the references
-// returns nil if an error occurred and fills the error parameter
+// Returns an array of NSStrings holding the names of the references, nil otherwise
+// (and the `error` parameter will be set to the actual error that occurred).
 - (NSArray *)referenceNamesWithError:(NSError **)error;
+
+// Enumerate over all references is the repository.
+//
+// error - If not NULL, this pointer will be set to the actual error that occurred.
+// block - A block which will be called for each reference. You will be passed
+//         the reference object in `ref`, `error` will be set to something if `ref`
+//         is nil, and `stop` will stop the enumeration if it's set to YES.
+//
+// Returns YES if enumeration was successful, NO otherwise (and the `error`
+// parameter will be set to the actual error that occurred).
+- (BOOL)enumerateReferencesWithError:(NSError **)error usingBlock:(void (^)(GTReference *reference, NSError *error, BOOL *stop))block;
 
 - (GTReference *)headReferenceWithError:(NSError **)error;
 
@@ -205,15 +215,6 @@ extern NSString *const GTRepositoryCloneOptionsCredentialProvider;
 //
 // returns number of commits in the current branch or NSNotFound if an error occurred
 - (NSUInteger)numberOfCommitsInCurrentBranch:(NSError **)error;
-
-// Create a new branch with this name and based off this reference.
-//
-// name - the name for the new branch
-// ref - the reference to create the new branch off
-// error(out) - will be filled if an error occurs
-//
-// returns the new branch or nil if an error occurred.
-- (GTBranch *)createBranchNamed:(NSString *)name fromReference:(GTReference *)ref error:(NSError **)error;
 
 // Get the current branch.
 //
@@ -311,51 +312,6 @@ extern NSString *const GTRepositoryCloneOptionsCredentialProvider;
 //
 // Returns the index, or nil if an error occurred.
 - (GTIndex *)indexWithError:(NSError **)error;
-
-// Creates a new lightweight tag in this repository.
-//
-// name   - Name for the tag; this name is validated
-//          for consistency. It should also not conflict with an
-//          already existing tag name
-// target - Object to which this tag points. This object
-//          must belong to this repository.
-// error  - Will be filled with a NSError instance on failuer.
-//          May be NULL.
-//
-// Returns YES on success or NO otherwise.
-- (BOOL)createLightweightTagNamed:(NSString *)tagName target:(GTObject *)target error:(NSError **)error;
-
-// Creates an annotated tag in this repo. Existing tags are not overwritten.
-//
-// tagName   - Name for the tag; this name is validated
-//             for consistency. It should also not conflict with an
-//             already existing tag name
-// theTarget - Object to which this tag points. This object
-//             must belong to this repository.
-// tagger    - Signature of the tagger for this tag, and
-//             of the tagging time
-// message   - Full message for this tag
-// error     - Will be filled with a NSError object in case of error.
-//             May be NULL.
-//
-// Returns the object ID of the newly created tag or nil on error.
-- (GTOID *)OIDByCreatingTagNamed:(NSString *)tagName target:(GTObject *)theTarget tagger:(GTSignature *)theTagger message:(NSString *)theMessage error:(NSError **)error;
-
-// Creates an annotated tag in this repo. Existing tags are not overwritten.
-//
-// tagName   - Name for the tag; this name is validated
-//             for consistency. It should also not conflict with an
-//             already existing tag name
-// theTarget - Object to which this tag points. This object
-//             must belong to this repository.
-// tagger    - Signature of the tagger for this tag, and
-//             of the tagging time
-// message   - Full message for this tag
-// error     - Will be filled with a NSError object in case of error.
-//             May be NULL.
-//
-// Returns the newly created tag or nil on error.
-- (GTTag *)createTagNamed:(NSString *)tagName target:(GTObject *)theTarget tagger:(GTSignature *)theTagger message:(NSString *)theMessage error:(NSError **)error;
 
 // Checkout a commit
 //

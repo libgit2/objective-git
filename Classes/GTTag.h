@@ -31,6 +31,7 @@
 
 @class GTSignature;
 @class GTRepository;
+@class GTReference;
 
 @interface GTTag : GTObject {}
 
@@ -49,13 +50,46 @@
 // The type of the 'tagged' object.
 @property (nonatomic, readonly) GTObjectType targetType;
 
+// Creates a tag in a repository.
+//
+// tagName      - Name for the tag; this name is validated for consistency.
+//                If `force` is `NO`, it should also not conflict with an
+//                already existing tag name.
+// targetObject - The object the tag should point to. It must belong to `repository`.
+// message      - The message attached to the tag.
+// tagger       - Signature of the tagger for this tag, and of the tagging time
+// force        - If YES, an underlying duplicate reference would be deleted.
+// repository   - The repository to create the tag in.
+// error        - This optional pointer will be set to a NSError instance if
+//                the tag's creation fails.
+//
+// Returns a newly created tag, or nil if the tag creation failed.
++ (instancetype)tagByCreatingTagNamed:(NSString *)tagName target:(GTObject *)targetObject message:(NSString *)message tagger:(GTSignature *)tagger force:(BOOL)force inRepository:(GTRepository *)repository error:(NSError **)error;
+
+// Creates a lightweight tag in a repository.
+//
+// tagName      - Name for the tag; this name is validated for consistency.
+//                If `force` is `NO`, it should also not conflict with an
+//                already existing tag name.
+// targetObject - The object the tag should point to. It must belong to `repository`.
+// force        - If YES, an underlying duplicate reference would be deleted.
+// repository   - The repository to create the tag in.
+// error        - This optional pointer will be set to a NSError instance if
+//                the tag's creation fails.
+//
+// Returns the reference underlying the new tag, or nil if the tag creation failed.
++ (GTReference *)tagByCreatingLightweightTagNamed:(NSString *)tagName target:(GTObject *)targetObject force:(BOOL)force inRepository:(GTRepository *)repository error:(NSError **)error;
+
 // Recursively peel a tag until a non tag GTObject is found
 //
-// errro - Will be filled with a NSError object on failure.
+// error - Will be filled with a NSError object on failure.
 //         May be NULL.
 //
 // Returns the found object or nil on error.
 - (id)objectByPeelingTagError:(NSError **)error;
+
+// Delete the receiver.
+- (BOOL)delete:(NSError **)error;
 
 // The underlying `git_object` as a `git_tag` object.
 - (git_tag *)git_tag __attribute__((objc_returns_inner_pointer));

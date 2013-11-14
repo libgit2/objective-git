@@ -29,8 +29,8 @@ it(@"should be possible to make a new tree builder from an existing tree", ^{
 	
 	GTRepository *repo = self.bareFixtureRepository;
 	expect(repo).notTo.beNil();
-	
-	GTTree *tree = (GTTree *)[repo lookupObjectBySHA:testTreeSHA error:NULL];
+
+	GTTree *tree = [GTTree lookupWithSHA:testTreeSHA inRepository:repo error:NULL];
 	expect(tree).notTo.beNil();
 	
 	GTTreeBuilder *builder = [[GTTreeBuilder alloc] initWithTree:tree error:&error];
@@ -134,8 +134,8 @@ describe(@"GTTreeBuilder building", ^{
 		GTTree *writtenTree = [builder writeTreeToRepository:repo error:&error];
 		expect(writtenTree).notTo.beNil();
 		expect(error).to.beNil();
-		
-		GTTree *readTree = (GTTree *)[repo lookupObjectBySHA:writtenTree.SHA objectType:GTObjectTypeTree error:&error];
+
+		GTTree *readTree = [GTTree lookupWithSHA:writtenTree.SHA inRepository:repo error:&error];
 		expect(readTree).notTo.beNil();
 		expect(error).to.beNil();
 	});

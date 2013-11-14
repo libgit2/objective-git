@@ -31,7 +31,7 @@
 #import "GTIndexEntry.h"
 #import "NSError+Git.h"
 #import "GTRepository.h"
-#import "GTRepository+Private.h"
+#import "GTObject+Private.h"
 #import "GTOID.h"
 #import "GTTree.h"
 
@@ -174,10 +174,10 @@
 	int status = git_index_write_tree(&oid, self.git_index);
 	if (status != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to write index."];
-		return NULL;
+		return nil;
 	}
 
-	return [self.repository lookupObjectByGitOid:&oid objectType:GTObjectTypeTree error:NULL];
+	return [GTTree lookupWithGitOID:&oid inRepository:self.repository error:error];
 }
 
 - (NSArray *)entries {

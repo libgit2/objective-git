@@ -48,26 +48,21 @@ typedef enum {
 @property (nonatomic, readonly) const git_oid *git_oid;
 @property (nonatomic, strong, readonly) GTOID *OID;
 
+
+// The name of the reference.
+@property (nonatomic, readonly, copy) NSString *name;
+
+// Whether this is a tag.
+@property (nonatomic, readonly, getter = isTag) BOOL tag;
+
+// Whether this is a local branch.
+@property (nonatomic, readonly, getter = isBranch) BOOL branch;
+
 // Whether this is a remote-tracking branch.
 @property (nonatomic, readonly, getter = isRemote) BOOL remote;
 
 // The reflog for the reference.
 @property (nonatomic, readonly, strong) GTReflog *reflog;
-
-// Convenience initializers
-+ (id)referenceByLookingUpReferencedNamed:(NSString *)refName inRepository:(GTRepository *)theRepo error:(NSError **)error;
-- (id)initByLookingUpReferenceNamed:(NSString *)refName inRepository:(GTRepository *)theRepo error:(NSError **)error;
-
-+ (id)referenceByCreatingReferenceNamed:(NSString *)refName fromReferenceTarget:(NSString *)target inRepository:(GTRepository *)theRepo error:(NSError **)error;
-- (id)initByCreatingReferenceNamed:(NSString *)refName fromReferenceTarget:(NSString *)target inRepository:(GTRepository *)theRepo error:(NSError **)error;
-
-+ (id)referenceByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error;
-- (id)initByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error;
-
-- (id)initWithGitReference:(git_reference *)ref repository:(GTRepository *)repository;
-
-// The underlying `git_reference` object.
-- (git_reference *)git_reference __attribute__((objc_returns_inner_pointer));
 
 // The target (either GTObject or GTReference) to which the reference points.
 @property (nonatomic, readonly, copy) id unresolvedTarget;
@@ -81,6 +76,16 @@ typedef enum {
 // The SHA of the target object
 @property (nonatomic, readonly, copy) NSString *targetSHA;
 
+// Convenience initializers
++ (id)referenceByLookingUpReferenceNamed:(NSString *)refName inRepository:(GTRepository *)theRepo error:(NSError **)error;
++ (id)referenceByCreatingReferenceNamed:(NSString *)refName fromReferenceTarget:(NSString *)target inRepository:(GTRepository *)theRepo error:(NSError **)error;
++ (id)referenceByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error;
+
+- (id)initWithGitReference:(git_reference *)ref repository:(GTRepository *)repository;
+
+// The underlying `git_reference` object.
+- (git_reference *)git_reference __attribute__((objc_returns_inner_pointer));
+
 // Updates the on-disk reference to point to the target and returns the updated
 // reference.
 //
@@ -91,9 +96,6 @@ typedef enum {
 //
 // Returns the updated reference, or nil if an error occurred.
 - (GTReference *)referenceByUpdatingTarget:(NSString *)newTarget error:(NSError **)error;
-
-// The name of the reference.
-@property (nonatomic, readonly, copy) NSString *name;
 
 // Updates the on-disk reference to the name and returns the renamed reference.
 //

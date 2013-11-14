@@ -7,7 +7,7 @@
 //
 
 #import "GTRepository+Committing.h"
-#import "GTRepository+Private.h"
+#import "GTObject+Private.h"
 
 @implementation GTRepository (Committing)
 
@@ -43,7 +43,7 @@
 		return nil;
 	}
 
-	return [self lookupObjectByGitOid:&oid objectType:GTObjectTypeCommit error:error];
+	return [GTCommit lookupWithGitOID:&oid inRepository:self error:error];
 }
 
 @end
