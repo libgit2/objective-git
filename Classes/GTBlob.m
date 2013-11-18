@@ -55,6 +55,9 @@
 }
 
 - (id)initWithOid:(const git_oid *)oid inRepository:(GTRepository *)repository error:(NSError **)error {
+	NSParameterAssert(oid != NULL);
+	NSParameterAssert(repository != nil);
+
 	git_object *obj;
     int gitError = git_object_lookup(&obj, repository.git_repository, oid, (git_otype) GTObjectTypeBlob);
     if (gitError < GIT_OK) {
@@ -73,6 +76,9 @@
 }
 
 - (id)initWithData:(NSData *)data inRepository:(GTRepository *)repository error:(NSError **)error {
+	NSParameterAssert(data != nil);
+	NSParameterAssert(repository != nil);
+
 	git_oid oid;
 	int gitError = git_blob_create_frombuffer(&oid, repository.git_repository, [data bytes], data.length);
 	if(gitError < GIT_OK) {
@@ -86,8 +92,11 @@
 }
 
 - (id)initWithFile:(NSURL *)file inRepository:(GTRepository *)repository error:(NSError **)error {
+	NSParameterAssert(file != nil);
+	NSParameterAssert(repository != nil);
+
 	git_oid oid;
-	int gitError = git_blob_create_fromworkdir(&oid, repository.git_repository, [[file path] UTF8String]);
+	int gitError = git_blob_create_fromdisk(&oid, repository.git_repository, [[file path] fileSystemRepresentation]);
 	if(gitError < GIT_OK) {
 		if(error != NULL) {
 			*error = [NSError git_errorFor:gitError description:@"Failed to create blob from NSURL"];
