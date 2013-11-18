@@ -8,6 +8,7 @@
 
 #import "GTReflog.h"
 #import "GTReflog+Private.h"
+#import "GTRepository.h"
 #import "GTSignature.h"
 #import "GTReference.h"
 #import "NSError+Git.h"
@@ -31,13 +32,14 @@
 
 - (id)initWithReference:(GTReference *)reference {
 	NSParameterAssert(reference != nil);
+	NSParameterAssert(reference.name != nil);
 
 	self = [super init];
 	if (self == nil) return nil;
 
 	_reference = reference;
 
-	int status = git_reflog_read(&_git_reflog, reference.git_reference);
+	int status = git_reflog_read(&_git_reflog, reference.repository.git_repository, reference.name.UTF8String);
 	if (status != GIT_OK || _git_reflog == NULL) return nil;
 
 	return self;

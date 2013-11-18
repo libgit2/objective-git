@@ -55,17 +55,13 @@ describe(@"updating", ^{
 	it(@"fetch refspecs", ^{
 		expect(remote.fetchRefspecs).to.equal(@[ fetchRefspec ]);
 
-		__block NSError *error = nil;
-		expect([remote removeFetchRefspec:fetchRefspec error:&error]).to.beTruthy();
-		expect(error).to.beNil();
-
-		expect(remote.fetchRefspecs.count).to.equal(0);
-
 		NSString *newFetchRefspec = @"+refs/heads/master:refs/remotes/origin/master";
+		
+		__block NSError *error = nil;
 		expect([remote addFetchRefspec:newFetchRefspec error:&error]).to.beTruthy();
 		expect(error).to.beNil();
 
-		expect(remote.fetchRefspecs).to.equal(@[ newFetchRefspec ]);
+		expect(remote.fetchRefspecs).to.equal((@[ fetchRefspec, newFetchRefspec ]));
 	});
 });
 

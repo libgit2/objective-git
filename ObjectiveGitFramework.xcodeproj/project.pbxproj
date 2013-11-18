@@ -136,6 +136,20 @@
 		30FDC08016835A8100654BF0 /* GTDiffLine.h in Headers */ = {isa = PBXBuildFile; fileRef = 30FDC07D16835A8100654BF0 /* GTDiffLine.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		30FDC08116835A8100654BF0 /* GTDiffLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 30FDC07E16835A8100654BF0 /* GTDiffLine.m */; };
 		30FDC08216835A8100654BF0 /* GTDiffLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 30FDC07E16835A8100654BF0 /* GTDiffLine.m */; };
+		3988DA541832F840006A792C /* NSArray+StringArray.h in Headers */ = {isa = PBXBuildFile; fileRef = 30DCBA6F17B4791A009B0EBD /* NSArray+StringArray.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3988DA551832F845006A792C /* NSArray+StringArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 30DCBA7017B4791A009B0EBD /* NSArray+StringArray.m */; };
+		3988DA561832F84B006A792C /* GTRepository+Committing.h in Headers */ = {isa = PBXBuildFile; fileRef = 88746CC217FA1C950005888A /* GTRepository+Committing.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3988DA571832F84F006A792C /* GTRepository+Committing.m in Sources */ = {isa = PBXBuildFile; fileRef = 88746CC317FA1C950005888A /* GTRepository+Committing.m */; };
+		3988DA581832F859006A792C /* GTStatusDelta.h in Headers */ = {isa = PBXBuildFile; fileRef = 30DCBA5A17B45213009B0EBD /* GTStatusDelta.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3988DA591832F85D006A792C /* GTStatusDelta.m in Sources */ = {isa = PBXBuildFile; fileRef = 30DCBA5B17B45213009B0EBD /* GTStatusDelta.m */; };
+		3988DA5A1832F8BD006A792C /* GTRepository+Status.m in Sources */ = {isa = PBXBuildFile; fileRef = 30DCBA6217B45A78009B0EBD /* GTRepository+Status.m */; };
+		3988DA5B1832F8C0006A792C /* GTRepository+Status.h in Headers */ = {isa = PBXBuildFile; fileRef = 30DCBA6117B45A78009B0EBD /* GTRepository+Status.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		398F8A9F183111030071359D /* GTCredential.h in Headers */ = {isa = PBXBuildFile; fileRef = 4D79C0EC17DF9F4D00997DE4 /* GTCredential.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		398F8AA6183111080071359D /* GTCredential.h in Headers */ = {isa = PBXBuildFile; fileRef = 4D79C0EC17DF9F4D00997DE4 /* GTCredential.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		398F8AA7183111260071359D /* GTCredential.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D79C0ED17DF9F4D00997DE4 /* GTCredential.m */; };
+		398F8AA8183111270071359D /* GTCredential.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D79C0ED17DF9F4D00997DE4 /* GTCredential.m */; };
+		398F8AA91831116C0071359D /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = 306123AA17EA5261006591D4 /* EXTScope.m */; };
+		398F8AAA1831116F0071359D /* EXTScope.h in Headers */ = {isa = PBXBuildFile; fileRef = 306123A917EA5261006591D4 /* EXTScope.h */; };
 		3E0A23E5159E0FDB00A6068F /* GTObjectDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = 55C8054C13861F34004DCB0F /* GTObjectDatabase.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4D103ADD1819CFAA0029DB24 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D103ADC1819CFAA0029DB24 /* libiconv.dylib */; };
 		4D123240178E009E0048F785 /* GTRepositoryCommittingSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D12323F178E009E0048F785 /* GTRepositoryCommittingSpec.m */; };
@@ -1092,6 +1106,7 @@
 				30FDC08016835A8100654BF0 /* GTDiffLine.h in Headers */,
 				8821547717147A5200D76B76 /* GTReflogEntry.h in Headers */,
 				3011D8781668F29600CE3409 /* GTDiffDelta.h in Headers */,
+				398F8AA6183111080071359D /* GTCredential.h in Headers */,
 				88746CC517FA1C950005888A /* GTRepository+Committing.h in Headers */,
 				30DCBA6417B45A78009B0EBD /* GTRepository+Status.h in Headers */,
 				8821547E17147B3600D76B76 /* GTOID.h in Headers */,
@@ -1161,15 +1176,18 @@
 			files = (
 				F6CBB45717FFD50500404926 /* GTObjectDatabase.h in Headers */,
 				F6CBB45817FFD50500404926 /* NSError+Git.h in Headers */,
+				398F8A9F183111030071359D /* GTCredential.h in Headers */,
 				F6CBB45917FFD50500404926 /* NSData+Git.h in Headers */,
 				F6CBB45A17FFD50500404926 /* NSString+Git.h in Headers */,
 				F6CBB45B17FFD50500404926 /* GTRepository.h in Headers */,
 				F6CBB45C17FFD50500404926 /* GTEnumerator.h in Headers */,
 				F6CBB45D17FFD50500404926 /* GTTree.h in Headers */,
+				3988DA541832F840006A792C /* NSArray+StringArray.h in Headers */,
 				F6CBB45E17FFD50500404926 /* GTTreeBuilder.h in Headers */,
 				F6CBB45F17FFD50500404926 /* GTTreeEntry.h in Headers */,
 				F6CBB46017FFD50500404926 /* GTBlob.h in Headers */,
 				F6CBB46117FFD50500404926 /* GTTag.h in Headers */,
+				3988DA561832F84B006A792C /* GTRepository+Committing.h in Headers */,
 				F6CBB46217FFD50500404926 /* GTIndex.h in Headers */,
 				F6CBB46317FFD50500404926 /* GTIndexEntry.h in Headers */,
 				F6CBB46417FFD50500404926 /* GTReference.h in Headers */,
@@ -1178,10 +1196,13 @@
 				F6CBB46717FFD50500404926 /* GTObject.h in Headers */,
 				F6CBB46817FFD50500404926 /* GTSignature.h in Headers */,
 				F6CBB46917FFD50500404926 /* GTBranch.h in Headers */,
+				3988DA581832F859006A792C /* GTStatusDelta.h in Headers */,
 				F6CBB46A17FFD50500404926 /* GTOdbObject.h in Headers */,
 				F6CBB46B17FFD50500404926 /* GTConfiguration.h in Headers */,
+				398F8AAA1831116F0071359D /* EXTScope.h in Headers */,
 				F6CBB46C17FFD50500404926 /* GTDiff.h in Headers */,
 				F6CBB46D17FFD50500404926 /* GTDiffFile.h in Headers */,
+				3988DA5B1832F8C0006A792C /* GTRepository+Status.h in Headers */,
 				F6CBB46E17FFD50500404926 /* GTRemote.h in Headers */,
 				F6CBB46F17FFD50500404926 /* GTDiffHunk.h in Headers */,
 				F6CBB47017FFD50500404926 /* GTDiffLine.h in Headers */,
@@ -1225,7 +1246,6 @@
 				88F05A6616011E5400B7AD1D /* Sources */,
 				88F05A6716011E5400B7AD1D /* Frameworks */,
 				88F05A6816011E5400B7AD1D /* Resources */,
-				D0D81875174425AA00995A2E /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1457,19 +1477,6 @@
 			shellPath = /bin/sh;
 			shellScript = script/update_libgit2_ios;
 		};
-		D0D81875174425AA00995A2E /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1483,6 +1490,7 @@
 				04DB4660133AB5EB00D9C624 /* NSError+Git.m in Sources */,
 				04DB4661133AB5EB00D9C624 /* GTRepository.m in Sources */,
 				04DB4664133AB5EB00D9C624 /* GTEnumerator.m in Sources */,
+				398F8AA7183111260071359D /* GTCredential.m in Sources */,
 				04DB4665133AB5EB00D9C624 /* GTCommit.m in Sources */,
 				04DB4666133AB5EB00D9C624 /* GTObject.m in Sources */,
 				04DB4667133AB5EB00D9C624 /* GTSignature.m in Sources */,
@@ -1619,6 +1627,7 @@
 				F6CBB48217FFD50500404926 /* GTObject.m in Sources */,
 				F6CBB48317FFD50500404926 /* GTSignature.m in Sources */,
 				F6CBB48417FFD50500404926 /* GTTree.m in Sources */,
+				398F8AA91831116C0071359D /* EXTScope.m in Sources */,
 				F6CBB48517FFD50500404926 /* GTTreeEntry.m in Sources */,
 				F6CBB48617FFD50500404926 /* GTBlob.m in Sources */,
 				F6CBB48717FFD50500404926 /* GTTag.m in Sources */,
@@ -1626,19 +1635,24 @@
 				F6CBB48917FFD50500404926 /* GTIndexEntry.m in Sources */,
 				F6CBB48A17FFD50500404926 /* GTReference.m in Sources */,
 				F6CBB48B17FFD50500404926 /* GTBranch.m in Sources */,
+				398F8AA8183111270071359D /* GTCredential.m in Sources */,
 				F6CBB48C17FFD50500404926 /* GTOdbObject.m in Sources */,
 				F6CBB48D17FFD50500404926 /* GTObjectDatabase.m in Sources */,
 				F6CBB48E17FFD50500404926 /* NSString+Git.m in Sources */,
 				F6CBB48F17FFD50500404926 /* GTConfiguration.m in Sources */,
 				F6CBB49017FFD50500404926 /* GTDiff.m in Sources */,
 				F6CBB49117FFD50500404926 /* GTDiffFile.m in Sources */,
+				3988DA551832F845006A792C /* NSArray+StringArray.m in Sources */,
+				3988DA571832F84F006A792C /* GTRepository+Committing.m in Sources */,
 				F6CBB49217FFD50500404926 /* GTDiffHunk.m in Sources */,
 				F6CBB49317FFD50500404926 /* GTDiffDelta.m in Sources */,
+				3988DA591832F85D006A792C /* GTStatusDelta.m in Sources */,
 				F6CBB49417FFD50500404926 /* GTDiffLine.m in Sources */,
 				F6CBB49517FFD50500404926 /* NSDate+GTTimeAdditions.m in Sources */,
 				F6CBB49617FFD50500404926 /* GTReflog.m in Sources */,
 				F6CBB49717FFD50500404926 /* GTReflogEntry.m in Sources */,
 				F6CBB49817FFD50500404926 /* GTOID.m in Sources */,
+				3988DA5A1832F8BD006A792C /* GTRepository+Status.m in Sources */,
 				F6CBB49917FFD50500404926 /* GTTreeBuilder.m in Sources */,
 				F6CBB49A17FFD50500404926 /* GTRepository+Stashing.m in Sources */,
 				F6CBB49B17FFD50500404926 /* GTSubmodule.m in Sources */,

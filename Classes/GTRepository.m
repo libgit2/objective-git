@@ -47,6 +47,7 @@
 #import "GTTree.h"
 #import "GTCredential.h"
 #import "GTCredential+Private.h"
+#import "NSArray+StringArray.h"
 
 NSString *const GTRepositoryCloneOptionsBare = @"GTRepositoryCloneOptionsBare";
 NSString *const GTRepositoryCloneOptionsCheckout = @"GTRepositoryCloneOptionsCheckout";
@@ -459,17 +460,11 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 		return nil;
 	}
 
-	NSMutableArray *references = [NSMutableArray arrayWithCapacity:array.count];
-	for (NSUInteger i = 0; i < array.count; i++) {
-		NSString *refName = @(array.strings[i]);
-		if (refName == nil) continue;
-
-		[references addObject:refName];
-	}
+	NSArray *referenceNames = [NSArray git_arrayWithStrarray:array];
 
 	git_strarray_free(&array);
 
-	return references;
+	return referenceNames;
 }
 
 - (NSURL *)fileURL {
@@ -488,11 +483,11 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 }
 
 - (BOOL)isBare {
-	return self.git_repository && git_repository_is_bare(self.git_repository);
+	return (BOOL)git_repository_is_bare(self.git_repository);
 }
 
 - (BOOL)isHEADDetached {
-	return (BOOL) git_repository_head_detached(self.git_repository);
+	return (BOOL)git_repository_head_detached(self.git_repository);
 }
 
 - (BOOL)isHEADUnborn {

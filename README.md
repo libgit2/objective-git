@@ -34,11 +34,13 @@ project. An example of this is the
 ## Importing ObjectiveGit on iOS
 
 Getting started is slightly more difficult on iOS because third-party frameworks
-are not officially supported. ObjectiveGit offers a static library instead:
+are not officially supported. ObjectiveGit offers a static library instead. An example
+of this is the [ObjectiveGit iOS Example](https://github.com/Raekye/ObjectiveGit-iOS-Example)
+on GitHub. In summary:
 
 1. Drag `ObjectiveGitFramework.xcodeproj` into the Project Navigator.
 1. Add `ObjectiveGit-iOS` as a target dependency of your application.
-1. Link your application to `libObjectiveGit-iOS.a`.
+1. Link your application to `libObjectiveGit-iOS.a`, `libz.dylib`, and `libiconv.dylib`.
 1. In your target's build settings:
     1. Set "Always Search User Paths" to `YES`
     1. Add `$(BUILT_PRODUCTS_DIR)/usr/local/include` and

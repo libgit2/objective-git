@@ -13,6 +13,7 @@
 #import "GTBranch.h"
 
 #import "NSError+Git.h"
+#import "NSArray+StringArray.h"
 #import "EXTScope.h"
 
 @interface GTRemote ()
@@ -217,12 +218,8 @@ static int remote_rename_problem_cb(const char *problematic_refspec, void *paylo
 		git_strarray_free(&refspecs);
 	};
 
-	NSMutableArray *fetchRefspecs = [NSMutableArray arrayWithCapacity:refspecs.count];
-	for (size_t i = 0; i < refspecs.count; i++) {
-		if (refspecs.strings[i] == NULL) continue;
-		[fetchRefspecs addObject:@(refspecs.strings[i])];
-	}
-	return [fetchRefspecs copy];
+	return [NSArray git_arrayWithStrarray:refspecs];
+
 }
 
 - (NSArray *)pushRefspecs {
@@ -284,23 +281,6 @@ static int remote_rename_problem_cb(const char *problematic_refspec, void *paylo
 	}
 	return [self saveRemote:error];
 }
-
-- (BOOL)removeFetchRefspec:(NSString *)fetchRefspec error:(NSError **)error {
-	NSParameterAssert(fetchRefspec != nil);
-
-	NSUInteger index = [self.fetchRefspecs indexOfObject:fetchRefspec];
-	if (index == NSNotFound) return YES;
-
-	int gitError = git_remote_remove_refspec(self.git_remote, index);
-	if (gitError != GIT_OK) {
-		if (error != NULL) {
-			*error = [NSError git_errorFor:gitError description:@"Unable to remove fetch refspec."];
-		}
-		return NO;
-	}
-	return [self saveRemote:error];
-}
-
 
 #pragma mark Fetch
 
@@ -463,7 +443,7 @@ int GTRemotePushTransferProgressCallback(unsigned int current, unsigned int tota
 			/* TODO: libgit2 sez we should check git_push_status_foreach to see if our push succeeded */
 			return YES;
 		}];
-		
+
 		return success;
 	}
 }
