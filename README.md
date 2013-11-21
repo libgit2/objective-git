@@ -8,13 +8,18 @@ please consider [contributing a pull request](#contributing)!
 
 ## Getting Started
 
-To start building the framework, clone this repository and then run
-`script/bootstrap`. This will automatically pull down and install any
+To start building the framework, you must install the required dependencies, 
+[xctool](https://github.com/facebook/xctool) and 
+[cmake](https://github.com/Kitware/CMake). We recommend using 
+[Homebrew](http://brew.sh) to install these two tools. 
+
+Once you have the dependencies you should clone this repository and then run
+`script/bootstrap`. This will automatically pull down and install any other
 dependencies.
 
 Note that the `bootstrap` script automatically installs some libraries that
-ObjectiveGit relies upon, using [Homebrew](http://brew.sh). If you want this
-behavior, please make sure you have Homebrew installed.
+ObjectiveGit relies upon, using Homebrew. If you want this behavior, please 
+make sure you have Homebrew installed.
 
 ## Importing ObjectiveGit on OS X
 
