@@ -84,4 +84,12 @@ describe(@"conflict enumeration", ^{
 	});
 });
 
+it(@"can update the entire Index", ^{
+	BOOL success = [index updateEntireIndex:@[@"fileName.txt", @"hello"] usingBlock:^NSInteger(NSString *path, NSString *matchedPathspec) {
+		return 0;
+	 } error:nil];
+	expect(success).to.beTruthy();
+});
+
+
 SpecEnd
