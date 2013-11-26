@@ -84,12 +84,17 @@ describe(@"conflict enumeration", ^{
 	});
 });
 
-it(@"can update the entire Index", ^{
-	BOOL success = [index updateEntireIndex:@[@"fileName.txt", @"hello"] usingBlock:^NSInteger(NSString *path, NSString *matchedPathspec) {
+it(@"can update the Index", ^{
+	index = [[[GTRepository alloc]initWithURL:[NSURL fileURLWithPath:@"/Users/EandZ/Desktop/unStaged-files"] error:NULL]indexWithError:nil];
+	
+	expect(index).toNot.beNil;
+	BOOL success = [index updateEntireIndex:@[@"Filler-File.txt"] usingBlock:^NSInteger(NSString *path, NSString *matchedPathspec) {
+		expect(path).equal(@"Filler-File.txt");
+		expect(matchedPathspec).equal(@"Filler-File.txt");
 		return 0;
-	 } error:nil];
+	} error:NULL];
+	
 	expect(success).to.beTruthy();
 });
-
-
+   
 SpecEnd
