@@ -238,12 +238,11 @@ typedef NSInteger (^GTIndexPathspecMatchedBlock)(NSString *path, NSString *match
 	return YES;
 }
 
--(BOOL)updateEntireIndex:(NSArray *)pathspecs usingBlock:(NSInteger (^)(NSString *path, NSString *matchedPathspec))block error:(NSError **)error {
+-(BOOL)updateEntireIndex:(NSArray *)pathspecs usingBlock:(GTIndexPathspecMatchedBlock)block error:(NSError **)error {
 	NSAssert(self.repository.isBare == NO, @"This method only works with non-bare repositories.");
 	
 	const git_strarray strarray = [pathspecs git_strarray];
-	
-	int returnCode = git_index_update_all(self.git_index, &strarray, GTIndexPathspecMatchFound, &block);
+	int returnCode = git_index_update_all(self.git_index, &strarray, GTIndexPathspecMatchFound,(__bridge void *)block);
 	if (returnCode != GIT_OK) {
 		if(error != nil) *error = [NSError git_errorFor:returnCode description:NSLocalizedString(@"Could not update index.", nil)];
 		return NO;
@@ -253,7 +252,7 @@ typedef NSInteger (^GTIndexPathspecMatchedBlock)(NSString *path, NSString *match
 }
 
 int GTIndexPathspecMatchFound(const char *path, const char *matched_pathspec, void *payload) {
-	GTIndexPathspecMatchedBlock block = CFBridgingRelease(payload);
+	GTIndexPathspecMatchedBlock block = (__bridge GTIndexPathspecMatchedBlock)payload;
 	return (int)block(@(path), @(matched_pathspec));
 }
 
