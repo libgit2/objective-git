@@ -31,6 +31,7 @@
 #import <ObjectiveGit/GTRepository+Status.h>
 #import <ObjectiveGit/GTEnumerator.h>
 #import <ObjectiveGit/GTCommit.h>
+#import <ObjectiveGit/GTCredential.h>
 #import <ObjectiveGit/GTSignature.h>
 #import <ObjectiveGit/GTTree.h>
 #import <ObjectiveGit/GTTreeEntry.h>
