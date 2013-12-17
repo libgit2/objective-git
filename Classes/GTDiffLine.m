@@ -33,9 +33,12 @@
 		if (string == nil) return;
 
 		// If this string is already UTF8 we're done.
-		if (encoding.unsignedIntegerValue == NSUTF8StringEncoding) *stop = YES;
+		if (encoding.unsignedIntegerValue == NSUTF8StringEncoding) {
+			*stop = YES;
+			return;
+		}
 
-		// Check we can convert it to UTF8
+		// Check we can convert to UTF8
 		NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
 		string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 
