@@ -13,8 +13,36 @@
 - (instancetype)initWithGitLine:(const git_diff_line *)line {
 	self = [super init];
 	if (self == nil) return nil;
-	
-	_content = [[[NSString alloc] initWithBytes:line->content length:line->content_len encoding:NSUTF8StringEncoding] stringByTrimmingCharactersInSet:NSCharacterSet.newlineCharacterSet];
+
+	NSData *lineData = [[NSData alloc] initWithBytesNoCopy:(void *)line->content length:line->content_len freeWhenDone:NO];
+
+	NSArray *encodings = @[
+		@(NSUTF8StringEncoding),
+		@(NSISOLatin1StringEncoding),
+		@(NSISOLatin2StringEncoding),
+		@(NSWindowsCP1252StringEncoding),
+		@(NSMacOSRomanStringEncoding),
+	];
+
+	__block NSString *string;
+
+	[encodings enumerateObjectsUsingBlock:^(NSNumber *encoding, NSUInteger idx, BOOL *stop) {
+		string = [[NSString alloc] initWithData:lineData encoding:encoding.unsignedIntegerValue];
+
+		// Try the next encoding
+		if (string == nil) return;
+
+		// If this string is already UTF8 we're done.
+		if (encoding.unsignedIntegerValue == NSUTF8StringEncoding) *stop = YES;
+
+		// Check we can convert it to UTF8
+		NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+		string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+
+		if (string != nil) *stop = YES;
+	}];
+
+	_content = [string stringByTrimmingCharactersInSet:NSCharacterSet.newlineCharacterSet];
 	_oldLineNumber = line->old_lineno;
 	_newLineNumber = line->new_lineno;
 	_origin = line->origin;
