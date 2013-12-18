@@ -29,19 +29,7 @@
 	[encodings enumerateObjectsUsingBlock:^(NSNumber *encoding, NSUInteger idx, BOOL *stop) {
 		string = [[NSString alloc] initWithData:lineData encoding:encoding.unsignedIntegerValue];
 
-		// Try the next encoding
-		if (string == nil) return;
-
-		// If this string is already UTF8 we're done.
-		if (encoding.unsignedIntegerValue == NSUTF8StringEncoding) {
-			*stop = YES;
-			return;
-		}
-
-		// Check we can convert to UTF8
-		NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
-		string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-
+		// Return the first encoding that works :)
 		if (string != nil) *stop = YES;
 	}];
 
