@@ -166,8 +166,7 @@
 //			   file being updated in the index. The second parameter, matched pathspec,
 //			   is a string indicating what the pathspec (from the pathspecs array) matched.
 //             Return 0 to proceed greater than 0 to skip, and less then zero to abort entirely.
-//
-// error -  When something goes wrong, this parameter is set. Can be nil.
+// error     - When something goes wrong, this parameter is set. Can be nil.
 //
 // Returns `YES` in the event that everything has gone smoothly. Otherwise, `NO`.
 - (BOOL)updateEntireIndex:(NSArray *)pathspecs usingBlock:(NSInteger (^)(NSString *path, NSString *matchedPathspec))block error:(NSError **)error;
