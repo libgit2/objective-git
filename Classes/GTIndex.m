@@ -40,7 +40,7 @@
 @interface GTIndex ()
 
 @property (nonatomic, assign, readonly) git_index *git_index;
-// The block synonymous with libgit2's  `git_index_matched_path_cb` callback.
+// The block synonymous with libgit2's `git_index_matched_path_cb` callback.
 typedef NSInteger (^GTIndexPathspecMatchedBlock)(NSString *path, NSString *matchedPathspec);
 
 @end
