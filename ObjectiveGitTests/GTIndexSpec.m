@@ -85,25 +85,23 @@ describe(@"conflict enumeration", ^{
 });
 
 it(@"can update the Index", ^{
-	index = [[[GTRepository alloc]initWithURL:[NSURL fileURLWithPath:@"/Users/EandZ/Desktop/unStaged-files"] error:NULL]indexWithError:NULL];
-	GTIndex *unmodifiedIndex = [[[GTRepository alloc]initWithURL:[NSURL fileURLWithPath:@"/Users/User/Desktop/unStaged-files"] error:NULL]indexWithError:NULL];
+	index = [self.testAppFixtureRepository indexWithError:NULL];
+	NSString *fileName = @"REAME_";
+	NSString *filePath = [self.testAppFixtureRepository.fileURL.path stringByAppendingPathComponent:fileName];
+	[@"The wild west..." writeToFile:filePath atomically:NO encoding:NSUTF8StringEncoding error:NULL];
 	
-	expect([index.repository statusForFile:[NSURL URLWithString:@"Filler-File.txt"] success:NULL error:NULL]).equal(GTFileStatusDeletedInWorktree);
 	expect(index).toNot.beNil;
+	expect([index.repository statusForFile:[NSURL URLWithString:fileName] success:NULL error:NULL]).equal(GTFileStatusModifiedInWorktree);
 	
-	BOOL success = [index updateEntireIndex:@[@"Filler-File.txt"] usingBlock:^NSInteger(NSString *path, NSString *matchedPathspec) {
-		expect(path).equal(@"Filler-File.txt");
-		expect(matchedPathspec).equal(@"Filler-File.txt");
+	BOOL success = [index updateEntireIndex:@[fileName] usingBlock:^NSInteger(NSString *path, NSString *matchedPathspec) {
+		expect(path).equal(fileName);
+		expect(matchedPathspec).equal(fileName);
 		return 0;
 	} error:NULL];
 	
 	expect(success).to.beTruthy();
-	// Write the updated index to the repo, test to make sure `-updateEntireIndex:` did it's job, then write the unmodified index back to preserve the testability of the repo.
-	[index write:nil];
-	expect([index.repository statusForFile:[NSURL URLWithString:@"Filler-File.txt"] success:NULL error:NULL]).equal(GTFileStatusDeletedInIndex);
-	[unmodifiedIndex write:NULL];
-	
-	
+	expect([index.repository statusForFile:[NSURL URLWithString:fileName] success:NULL error:NULL]).equal(GTFileStatusModifiedInIndex);
+
 });
    
 SpecEnd
