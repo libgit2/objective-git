@@ -27,7 +27,7 @@ describe(@"Checking status", ^{
 		expect(err).to.beNil();
 		expect(index).toNot.beNil();
 		
-		expect(git_index_update_all(index.git_index, NULL, NULL, NULL)).to.equal(GIT_OK);
+		expect([index updateEntireIndex:NULL usingBlock:NULL error:NULL]).to.equal(YES);
 		
 		NSDictionary *renamedOptions = @{ GTRepositoryStatusOptionsFlagsKey: @(GTRepositoryStatusFlagsIncludeIgnored | GTRepositoryStatusFlagsIncludeUntracked | GTRepositoryStatusFlagsRecurseUntrackedDirectories | GTRepositoryStatusFlagsRenamesHeadToIndex) };
 		expect([repository enumerateFileStatusWithOptions:renamedOptions error:&err usingBlock:^(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop) {
