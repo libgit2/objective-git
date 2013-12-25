@@ -160,12 +160,14 @@
 // Update all index entries to match the working directory.
 // This method will immediately fail if the index's repo is bare.
 //
-// pathspecs - An `NSString` array of repository reletive paths. (E.g: filename.txt.) Must not be nil.
+// pathspecs - An `NSString` array of repository reletive paths. (E.g: filename.txt.)
+//             If nil is passed in, all index entries will be updated.
 // block     - A block run each time a pathspec is matched; before the index is updated.
 //             Passed into the block is a path parameter which is a repository relative path to the
 //             file being updated in the index. The second parameter, matched pathspec,
 //             is a string indicating what the pathspec (from the pathspecs array) matched.
 //             Return 0 to proceed greater than 0 to skip, and less then 0 to abort entirely.
+//             Can be nil.
 // error     - When something goes wrong, this parameter is set. Can be nil.
 //
 // Returns `YES` in the event that everything has gone smoothly. Otherwise, `NO`.
