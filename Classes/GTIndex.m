@@ -240,9 +240,10 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 
 -(BOOL)updatePathspecs:(NSArray *)pathspecs error:(NSError **)error passingTest:(GTIndexPathspecMatchedBlock)block {
 	NSAssert(self.repository.isBare == NO, @"This method only works with non-bare repositories.");
+	NSParameterAssert(block != nil);
 	
 	const git_strarray strarray = [pathspecs git_strarray];
-	int returnCode = git_index_update_all(self.git_index, &strarray, (block != nil ? GTIndexPathspecMatchFound : NULL), (__bridge void *)block);
+	int returnCode = git_index_update_all(self.git_index, &strarray, GTIndexPathspecMatchFound, (__bridge void *)block);
 	if (returnCode != GIT_OK) {
 		if(error != nil) *error = [NSError git_errorFor:returnCode description:NSLocalizedString(@"Could not update index.", nil)];
 		return NO;
