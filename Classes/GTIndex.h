@@ -171,6 +171,6 @@
 // error     - When something goes wrong, this parameter is set. Can be nil.
 //
 // Returns `YES` in the event that everything has gone smoothly. Otherwise, `NO`.
-- (BOOL)updateEntireIndex:(NSArray *)pathspecs usingBlock:(NSInteger (^)(NSString *path, NSString *matchedPathspec))block error:(NSError **)error;
+- (BOOL)updatePathspecs:(NSArray *)pathspecs error:(NSError **)error passingTest:(BOOL (^)(NSString *matchedPathspec, NSString *path, BOOL *stop))block;
 
 @end

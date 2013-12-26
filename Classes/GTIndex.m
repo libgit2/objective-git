@@ -41,7 +41,7 @@
 
 @property (nonatomic, assign, readonly) git_index *git_index;
 // The block synonymous with libgit2's `git_index_matched_path_cb` callback.
-typedef NSInteger (^GTIndexPathspecMatchedBlock)(NSString *path, NSString *matchedPathspec);
+typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString *path, BOOL *stop);
 
 @end
 
@@ -238,7 +238,7 @@ typedef NSInteger (^GTIndexPathspecMatchedBlock)(NSString *path, NSString *match
 	return YES;
 }
 
--(BOOL)updateEntireIndex:(NSArray *)pathspecs usingBlock:(GTIndexPathspecMatchedBlock)block error:(NSError **)error {
+-(BOOL)updatePathspecs:(NSArray *)pathspecs error:(NSError **)error passingTest:(GTIndexPathspecMatchedBlock)block {
 	NSAssert(self.repository.isBare == NO, @"This method only works with non-bare repositories.");
 	
 	const git_strarray strarray = [pathspecs git_strarray];
@@ -253,7 +253,18 @@ typedef NSInteger (^GTIndexPathspecMatchedBlock)(NSString *path, NSString *match
 
 int GTIndexPathspecMatchFound(const char *path, const char *matched_pathspec, void *payload) {
 	GTIndexPathspecMatchedBlock block = (__bridge GTIndexPathspecMatchedBlock)payload;
-	return (int)block(@(path), @(matched_pathspec));
+	BOOL shouldStop = NO;
+	BOOL returnCode = block((matched_pathspec != nil ? @(matched_pathspec): @""), @(path), &shouldStop);
+	
+	if (returnCode) {
+		return 0;
+	} else if (shouldStop) {
+		return -1;
+	} else {
+		return 1;
+	}
+	
+	
 }
 
 @end

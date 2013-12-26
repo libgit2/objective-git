@@ -26,8 +26,10 @@ describe(@"Checking status", ^{
 		GTIndex *index = [repository indexWithError:&err];
 		expect(err).to.beNil();
 		expect(index).toNot.beNil();
+		expect([index updatePathspecs:NULL error:NULL passingTest:^BOOL(NSString *matchedPathspec, NSString *path, BOOL *stop) {
+			return YES;
+		}]).to.beTruthy;
 		
-		expect([index updateEntireIndex:NULL usingBlock:NULL error:NULL]).to.equal(YES);
 		
 		NSDictionary *renamedOptions = @{ GTRepositoryStatusOptionsFlagsKey: @(GTRepositoryStatusFlagsIncludeIgnored | GTRepositoryStatusFlagsIncludeUntracked | GTRepositoryStatusFlagsRecurseUntrackedDirectories | GTRepositoryStatusFlagsRenamesHeadToIndex) };
 		expect([repository enumerateFileStatusWithOptions:renamedOptions error:&err usingBlock:^(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop) {

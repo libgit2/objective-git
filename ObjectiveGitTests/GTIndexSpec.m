@@ -93,11 +93,11 @@ it(@"can update the Index", ^{
 	expect(index).toNot.beNil;
 	expect([index.repository statusForFile:[NSURL URLWithString:fileName] success:NULL error:NULL]).equal(GTFileStatusModifiedInWorktree);
 	
-	BOOL success = [index updateEntireIndex:@[fileName] usingBlock:^NSInteger(NSString *path, NSString *matchedPathspec) {
-		expect(path).equal(fileName);
+	BOOL success = [index updatePathspecs:@[fileName] error:NULL passingTest:^BOOL(NSString *matchedPathspec, NSString *path, BOOL *stop) {
 		expect(matchedPathspec).equal(fileName);
-		return 0;
-	} error:NULL];
+		expect(path).equal(fileName);
+		return YES;
+	}];
 	
 	expect(success).to.beTruthy();
 	expect([index.repository statusForFile:[NSURL URLWithString:fileName] success:NULL error:NULL]).equal(GTFileStatusModifiedInIndex);
