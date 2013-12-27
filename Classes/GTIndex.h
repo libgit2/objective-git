@@ -169,8 +169,7 @@
 //             The `stop` parameter can be set to `YES` to abort the operation.
 //             If you set `stop` to YES but return `YES` the return statement will take precedence.
 //             Return `YES` to proceed and`NO` to skip.
-//
-// error     - When something goes wrong, this parameter is set. Can be nil.
+// error     - When something goes wrong, this parameter is set. Optional.
 //
 // Returns `YES` in the event that everything has gone smoothly. Otherwise, `NO`.
 - (BOOL)updatePathspecs:(NSArray *)pathspecs error:(NSError **)error passingTest:(BOOL (^)(NSString *matchedPathspec, NSString *path, BOOL *stop))block;
