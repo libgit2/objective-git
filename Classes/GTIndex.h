@@ -167,7 +167,6 @@
 //             If you pass in NULL in to the `pathspecs` parameter this parameter will be empty.
 //             The `path` parameter is a repository relative path to the file about to be updated.
 //             The `stop` parameter can be set to `YES` to abort the operation.
-//             If you set `stop` to YES but return `YES` the return statement will take precedence.
 //             Return `YES` to proceed and`NO` to skip.
 // error     - When something goes wrong, this parameter is set. Optional.
 //

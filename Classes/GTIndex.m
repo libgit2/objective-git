@@ -43,6 +43,8 @@
 // The block synonymous with libgit2's `git_index_matched_path_cb` callback.
 typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString *path, BOOL *stop);
 
+@property (nonatomic) BOOL shouldAbortImmediately;
+
 @end
 
 @implementation GTIndex
@@ -243,8 +245,10 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 	NSParameterAssert(block != nil);
 	
 	const git_strarray strarray = [pathspecs git_strarray];
-	int returnCode = git_index_update_all(self.git_index, &strarray, GTIndexPathspecMatchFound, (__bridge void *)block);
-	if (returnCode != GIT_OK) {
+	NSArray *payload = @[block,self];
+
+	int returnCode = git_index_update_all(self.git_index, &strarray, GTIndexPathspecMatchFound, (__bridge void *)payload);
+	if (returnCode != GIT_OK && returnCode != GIT_EUSER) {
 		if(error != nil) *error = [NSError git_errorFor:returnCode description:NSLocalizedString(@"Could not update index.", nil)];
 		return NO;
 	}
@@ -253,19 +257,23 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 }
 
 int GTIndexPathspecMatchFound(const char *path, const char *matched_pathspec, void *payload) {
-	GTIndexPathspecMatchedBlock block = (__bridge GTIndexPathspecMatchedBlock)payload;
+	NSArray *array = (__bridge NSArray *)payload;
+	GTIndexPathspecMatchedBlock block = array[0];
+	GTIndex *index = array[1];
+	if (index.shouldAbortImmediately) {
+		return -1;
+	}
 	BOOL shouldStop = NO;
 	BOOL returnCode = block((matched_pathspec != nil ? @(matched_pathspec): @""), @(path), &shouldStop);
 	
 	if (returnCode) {
+		if (shouldStop) index.shouldAbortImmediately = YES;
 		return 0;
 	} else if (shouldStop) {
 		return -1;
 	} else {
 		return 1;
 	}
-	
-	
 }
 
 @end
