@@ -240,7 +240,7 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 	return YES;
 }
 
--(BOOL)updatePathspecs:(NSArray *)pathspecs error:(NSError **)error passingTest:(GTIndexPathspecMatchedBlock)block {
+- (BOOL)updatePathspecs:(NSArray *)pathspecs error:(NSError **)error passingTest:(GTIndexPathspecMatchedBlock)block {
 	NSAssert(self.repository.isBare == NO, @"This method only works with non-bare repositories.");
 	NSParameterAssert(block != nil);
 	
