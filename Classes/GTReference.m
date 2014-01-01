@@ -180,8 +180,9 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 
 - (id)resolvedTarget {
 	git_object *obj;
-	git_reference_peel(&obj, self.git_reference, GIT_OBJ_ANY);
-	if (obj == NULL) return nil;
+	if (git_reference_peel(&obj, self.git_reference, GIT_OBJ_ANY) != GIT_OK) {
+		return nil;
+	}
 
 	return [GTObject objectWithObj:obj inRepository:self.repository];
 }
