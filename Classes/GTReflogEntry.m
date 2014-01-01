@@ -53,7 +53,10 @@
 }
 
 - (NSString *)message {
-	return @(git_reflog_entry_message(self.git_reflog_entry));
+	const char *message = git_reflog_entry_message(self.git_reflog_entry);
+	if (message == NULL) return nil;
+
+	return @(message);
 }
 
 @end
