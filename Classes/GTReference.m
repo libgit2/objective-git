@@ -195,7 +195,7 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 	return [self.resolvedTarget SHA];
 }
 
-- (GTReference *)referenceByUpdatingTarget:(NSString *)newTarget error:(NSError **)error {
+- (GTReference *)referenceByUpdatingTarget:(NSString *)newTarget message:(NSString *)message committer:(GTSignature *)committer error:(NSError **)error {
 	NSParameterAssert(newTarget != nil);
 
 	int gitError;
@@ -204,7 +204,13 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 		GTOID *oid = [[GTOID alloc] initWithSHA:newTarget error:error];
 		if (oid == nil) return nil;
 		
-		gitError = git_reference_set_target(&newRef, self.git_reference, oid.git_oid);
+		if (message != nil && committer != nil) {
+			gitError = git_reference_set_target_with_log(&newRef, self.git_reference, oid.git_oid, committer.git_signature, message.UTF8String);
+		} else {
+			gitError = git_reference_set_target(&newRef, self.git_reference, oid.git_oid);
+		}
+	} else if (message != nil && committer != nil) {
+		gitError = git_reference_symbolic_set_target_with_log(&newRef, self.git_reference, newTarget.UTF8String, committer.git_signature, message.UTF8String);
 	} else {
 		gitError = git_reference_symbolic_set_target(&newRef, self.git_reference, newTarget.UTF8String);
 	}
