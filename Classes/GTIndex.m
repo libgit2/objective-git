@@ -40,11 +40,7 @@
 typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString *path, BOOL *stop);
 
 @interface GTIndex ()
-
 @property (nonatomic, assign, readonly) git_index *git_index;
-
-@property (nonatomic) BOOL shouldAbortImmediately;
-
 @end
 
 @implementation GTIndex
@@ -245,7 +241,8 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 	NSParameterAssert(block != nil);
 	
 	const git_strarray strarray = [pathspecs git_strarray];
-	NSArray *payload = @[block,self];
+	BOOL shouldAbortImmediately = NO;
+	NSMutableArray *payload = [@[ block, [NSNumber numberWithBool:shouldAbortImmediately] ] mutableCopy];
 
 	int returnCode = git_index_update_all(self.git_index, &strarray, GTIndexPathspecMatchFound, (__bridge void *)payload);
 	if (returnCode != GIT_OK && returnCode != GIT_EUSER) {
@@ -257,17 +254,19 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 }
 
 int GTIndexPathspecMatchFound(const char *path, const char *matched_pathspec, void *payload) {
-	NSArray *array = (__bridge NSArray *)payload;
+	NSMutableArray *array = (__bridge NSMutableArray *)payload;
 	GTIndexPathspecMatchedBlock block = array[0];
-	GTIndex *index = array[1];
-	if (index.shouldAbortImmediately) {
+	if ([array[1] boolValue]) {
 		return -1;
 	}
+	
 	BOOL shouldStop = NO;
 	BOOL returnCode = block((matched_pathspec != nil ? @(matched_pathspec): @""), @(path), &shouldStop);
 	
 	if (returnCode) {
-		if (shouldStop) index.shouldAbortImmediately = YES;
+		if (shouldStop) {
+			[array replaceObjectAtIndex:1 withObject:[NSNumber numberWithBool:YES]];
+		}
 		return 0;
 	} else if (shouldStop) {
 		return -1;
