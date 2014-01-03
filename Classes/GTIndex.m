@@ -34,14 +34,14 @@
 #import "GTRepository+Private.h"
 #import "GTOID.h"
 #import "GTTree.h"
-
 #import "EXTScope.h"
+
+// The block synonymous with libgit2's `git_index_matched_path_cb` callback.
+typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString *path, BOOL *stop);
 
 @interface GTIndex ()
 
 @property (nonatomic, assign, readonly) git_index *git_index;
-// The block synonymous with libgit2's `git_index_matched_path_cb` callback.
-typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString *path, BOOL *stop);
 
 @property (nonatomic) BOOL shouldAbortImmediately;
 
