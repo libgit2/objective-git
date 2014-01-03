@@ -261,7 +261,8 @@ int GTIndexPathspecMatchFound(const char *path, const char *matched_pathspec, vo
 	}
 	
 	BOOL shouldStop = NO;
-	BOOL returnCode = block((matched_pathspec != nil ? @(matched_pathspec): @""), @(path), &shouldStop);
+	NSString *matchedPathspec = (matched_pathspec != nil ? @(matched_pathspec): nil);
+	BOOL returnCode = block(matchedPathspec, @(path), &shouldStop);
 	
 	if (returnCode) {
 		if (shouldStop) {
