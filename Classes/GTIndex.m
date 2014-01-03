@@ -262,9 +262,9 @@ int GTIndexPathspecMatchFound(const char *path, const char *matched_pathspec, vo
 	
 	BOOL shouldStop = NO;
 	NSString *matchedPathspec = (matched_pathspec != nil ? @(matched_pathspec): nil);
-	BOOL returnCode = block(matchedPathspec, @(path), &shouldStop);
+	BOOL shouldUpdate = block(matchedPathspec, @(path), &shouldStop);
 	
-	if (returnCode) {
+	if (shouldUpdate) {
 		if (shouldStop) {
 			[array replaceObjectAtIndex:1 withObject:[NSNumber numberWithBool:YES]];
 		}
