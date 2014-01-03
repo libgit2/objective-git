@@ -246,7 +246,7 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 
 	int returnCode = git_index_update_all(self.git_index, &strarray, GTIndexPathspecMatchFound, (__bridge void *)payload);
 	if (returnCode != GIT_OK && returnCode != GIT_EUSER) {
-		if(error != nil) *error = [NSError git_errorFor:returnCode description:NSLocalizedString(@"Could not update index.", nil)];
+		if (error != nil) *error = [NSError git_errorFor:returnCode description:NSLocalizedString(@"Could not update index.", nil)];
 		return NO;
 	}
 	
