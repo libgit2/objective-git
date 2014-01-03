@@ -240,7 +240,7 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 	NSAssert(self.repository.isBare == NO, @"This method only works with non-bare repositories.");
 	NSParameterAssert(block != nil);
 	
-	const git_strarray strarray = [pathspecs git_strarray];
+	const git_strarray strarray = pathspecs.git_strarray;
 	BOOL shouldAbortImmediately = NO;
 	NSMutableArray *payload = [@[ block, [NSNumber numberWithBool:shouldAbortImmediately] ] mutableCopy];
 
