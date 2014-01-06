@@ -236,15 +236,22 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 	return YES;
 }
 
+struct GTIndexPathspecMatchedInfo {
+	__unsafe_unretained GTIndexPathspecMatchedBlock block;
+	BOOL shouldAbortImmediately;
+};
+
 - (BOOL)updatePathspecs:(NSArray *)pathspecs error:(NSError **)error passingTest:(GTIndexPathspecMatchedBlock)block {
 	NSAssert(self.repository.isBare == NO, @"This method only works with non-bare repositories.");
 	NSParameterAssert(block != nil);
 	
 	const git_strarray strarray = pathspecs.git_strarray;
-	BOOL shouldAbortImmediately = NO;
-	NSMutableArray *payload = [@[ block, [NSNumber numberWithBool:shouldAbortImmediately] ] mutableCopy];
+	struct GTIndexPathspecMatchedInfo payload = {
+		.block = block,
+		.shouldAbortImmediately = NO,
+	};
 
-	int returnCode = git_index_update_all(self.git_index, &strarray, GTIndexPathspecMatchFound, (__bridge void *)payload);
+	int returnCode = git_index_update_all(self.git_index, &strarray, GTIndexPathspecMatchFound, &payload);
 	if (returnCode != GIT_OK && returnCode != GIT_EUSER) {
 		if (error != nil) *error = [NSError git_errorFor:returnCode description:NSLocalizedString(@"Could not update index.", nil)];
 		return NO;
@@ -254,9 +261,9 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 }
 
 int GTIndexPathspecMatchFound(const char *path, const char *matched_pathspec, void *payload) {
-	NSMutableArray *array = (__bridge NSMutableArray *)payload;
-	GTIndexPathspecMatchedBlock block = array[0];
-	if ([array[1] boolValue]) {
+	struct GTIndexPathspecMatchedInfo *info = payload;
+	GTIndexPathspecMatchedBlock block = info->block;
+	if (info->shouldAbortImmediately) {
 		return -1;
 	}
 	
@@ -266,7 +273,7 @@ int GTIndexPathspecMatchFound(const char *path, const char *matched_pathspec, vo
 	
 	if (shouldUpdate) {
 		if (shouldStop) {
-			[array replaceObjectAtIndex:1 withObject:[NSNumber numberWithBool:YES]];
+			info->shouldAbortImmediately = YES;
 		}
 		return 0;
 	} else if (shouldStop) {
