@@ -243,7 +243,6 @@ struct GTIndexPathspecMatchedInfo {
 
 - (BOOL)updatePathspecs:(NSArray *)pathspecs error:(NSError **)error passingTest:(GTIndexPathspecMatchedBlock)block {
 	NSAssert(self.repository.isBare == NO, @"This method only works with non-bare repositories.");
-	NSParameterAssert(block != nil);
 	
 	const git_strarray strarray = pathspecs.git_strarray;
 	struct GTIndexPathspecMatchedInfo payload = {
@@ -251,7 +250,7 @@ struct GTIndexPathspecMatchedInfo {
 		.shouldAbortImmediately = NO,
 	};
 
-	int returnCode = git_index_update_all(self.git_index, &strarray, GTIndexPathspecMatchFound, &payload);
+	int returnCode = git_index_update_all(self.git_index, &strarray, (block != nil ? GTIndexPathspecMatchFound : NULL), &payload);
 	if (returnCode != GIT_OK && returnCode != GIT_EUSER) {
 		if (error != nil) *error = [NSError git_errorFor:returnCode description:NSLocalizedString(@"Could not update index.", nil)];
 		return NO;
