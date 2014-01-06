@@ -123,7 +123,7 @@ describe(@"updating pathspecs", ^{
 		NSString *otherFileName = @"TestAppDelegate.h";
 		[@"WELP" writeToFile:[self.testAppFixtureRepository.fileURL.path stringByAppendingPathComponent:otherFileName] atomically:NO encoding:NSUTF8StringEncoding error:NULL];
 		BOOL success = [index updatePathspecs:NULL error:NULL passingTest:^(NSString *matchedPathspec, NSString *path, BOOL *stop) {
-			if ([path.lastPathComponent isEqualToString:otherFileName]) {
+			if ([path.lastPathComponent isEqualToString:fileName]) {
 				*stop = YES;
 				return YES;
 			}
@@ -131,8 +131,8 @@ describe(@"updating pathspecs", ^{
 		}];
 		
 		expect(success).to.beTruthy();
-		expect([index.repository statusForFile:[NSURL URLWithString:otherFileName] success:NULL error:NULL]).to.equal(GTFileStatusModifiedInIndex);
 		expect([index.repository statusForFile:[NSURL URLWithString:fileName] success:NULL error:NULL]).to.equal(GTFileStatusModifiedInIndex);
+		expect([index.repository statusForFile:[NSURL URLWithString:otherFileName] success:NULL error:NULL]).equal(GTFileStatusModifiedInWorktree);
 	});
 });
 
