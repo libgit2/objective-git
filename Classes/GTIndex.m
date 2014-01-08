@@ -263,7 +263,7 @@ int GTIndexPathspecMatchFound(const char *path, const char *matched_pathspec, vo
 	struct GTIndexPathspecMatchedInfo *info = payload;
 	GTIndexPathspecMatchedBlock block = info->block;
 	if (info->shouldAbortImmediately) {
-		return -1;
+		return GIT_EUSER;
 	}
 	
 	BOOL shouldStop = NO;
@@ -276,7 +276,7 @@ int GTIndexPathspecMatchFound(const char *path, const char *matched_pathspec, vo
 		}
 		return 0;
 	} else if (shouldStop) {
-		return -1;
+		return GIT_EUSER;
 	} else {
 		return 1;
 	}
