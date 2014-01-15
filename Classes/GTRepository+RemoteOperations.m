@@ -35,7 +35,7 @@ int GTRemoteFetchTransferProgressCallback(const git_transfer_progress *stats, vo
 		info->fetchProgressBlock(stats, &stop);
 	}
 
-	return (stop ? -1 : 0);
+	return (stop == YES ? GIT_EUSER : 0);
 }
 
 #pragma mark -
@@ -106,7 +106,7 @@ int GTRemotePushTransferProgressCallback(unsigned int current, unsigned int tota
 	if (pushPayload->transferProgressBlock)
 		pushPayload->transferProgressBlock(current, total, bytes, &stop);
 
-	return (stop == YES ? 0 : 1);
+	return (stop == YES ? GIT_EUSER : 0);
 }
 
 - (BOOL)pushRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error progress:(GTRemotePushTransferProgressBlock)progressBlock {
