@@ -84,4 +84,56 @@ describe(@"conflict enumeration", ^{
 	});
 });
 
+describe(@"updating pathspecs", ^{
+	NSString *fileName = @"REAME_";
+	beforeEach(^{
+		index = [self.testAppFixtureRepository indexWithError:NULL];
+		NSString *filePath = [self.testAppFixtureRepository.fileURL.path stringByAppendingPathComponent:fileName];
+		[@"The wild west..." writeToFile:filePath atomically:NO encoding:NSUTF8StringEncoding error:NULL];
+
+		expect(index).toNot.beNil();
+		expect([index.repository statusForFile:[NSURL URLWithString:fileName] success:NULL error:NULL]).to.equal(GTFileStatusModifiedInWorktree);
+	});
+	
+	it(@"should update the Index", ^{
+		BOOL success = [index updatePathspecs:@[ fileName ] error:NULL passingTest:^(NSString *matchedPathspec, NSString *path, BOOL *stop) {
+			expect(matchedPathspec).to.equal(fileName);
+			expect(path).to.equal(fileName);
+			return YES;
+		}];
+		
+		expect(success).to.beTruthy();
+		expect([index.repository statusForFile:[NSURL URLWithString:fileName] success:NULL error:NULL]).to.equal(GTFileStatusModifiedInIndex);
+	});
+	
+	it(@"should skip a specific file", ^{
+		BOOL success = [index updatePathspecs:NULL error:NULL passingTest:^(NSString *matchedPathspec, NSString *path, BOOL *stop) {
+			if ([path.lastPathComponent isEqualToString:fileName]) {
+				return NO;
+			} else {
+				return YES;
+			}
+		}];
+		
+		expect(success).to.beTruthy();
+		expect([index.repository statusForFile:[NSURL URLWithString:fileName] success:NULL error:NULL]).to.equal(GTFileStatusModifiedInWorktree);
+	});
+	
+	it(@"should stop be able to stop early", ^{
+		NSString *otherFileName = @"TestAppDelegate.h";
+		[@"WELP" writeToFile:[self.testAppFixtureRepository.fileURL.path stringByAppendingPathComponent:otherFileName] atomically:NO encoding:NSUTF8StringEncoding error:NULL];
+		BOOL success = [index updatePathspecs:NULL error:NULL passingTest:^(NSString *matchedPathspec, NSString *path, BOOL *stop) {
+			if ([path.lastPathComponent isEqualToString:fileName]) {
+				*stop = YES;
+				return YES;
+			}
+			return YES;
+		}];
+		
+		expect(success).to.beTruthy();
+		expect([index.repository statusForFile:[NSURL URLWithString:fileName] success:NULL error:NULL]).to.equal(GTFileStatusModifiedInIndex);
+		expect([index.repository statusForFile:[NSURL URLWithString:otherFileName] success:NULL error:NULL]).equal(GTFileStatusModifiedInWorktree);
+	});
+});
+
 SpecEnd

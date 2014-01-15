@@ -29,4 +29,10 @@
 // A repository containing conflicts.
 - (GTRepository *)conflictedFixtureRepository;
 
+// A pristine repository (bare).
+- (GTRepository *)blankBareFixtureRepository;
+
+// A pristine repository.
+- (GTRepository *)blankFixtureRepository;
+
 @end

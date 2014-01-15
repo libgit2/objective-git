@@ -13,8 +13,27 @@
 - (instancetype)initWithGitLine:(const git_diff_line *)line {
 	self = [super init];
 	if (self == nil) return nil;
-	
-	_content = [[[NSString alloc] initWithBytes:line->content length:line->content_len encoding:NSUTF8StringEncoding] stringByTrimmingCharactersInSet:NSCharacterSet.newlineCharacterSet];
+
+	NSData *lineData = [[NSData alloc] initWithBytesNoCopy:(void *)line->content length:line->content_len freeWhenDone:NO];
+
+	NSArray *encodings = @[
+		@(NSUTF8StringEncoding),
+		@(NSISOLatin1StringEncoding),
+		@(NSISOLatin2StringEncoding),
+		@(NSWindowsCP1252StringEncoding),
+		@(NSMacOSRomanStringEncoding),
+	];
+
+	__block NSString *string;
+
+	[encodings enumerateObjectsUsingBlock:^(NSNumber *encoding, NSUInteger idx, BOOL *stop) {
+		string = [[NSString alloc] initWithData:lineData encoding:encoding.unsignedIntegerValue];
+
+		// Return the first encoding that works :)
+		if (string != nil) *stop = YES;
+	}];
+
+	_content = [string stringByTrimmingCharactersInSet:NSCharacterSet.newlineCharacterSet];
 	_oldLineNumber = line->old_lineno;
 	_newLineNumber = line->new_lineno;
 	_origin = line->origin;

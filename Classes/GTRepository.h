@@ -176,7 +176,7 @@ extern NSString *const GTRepositoryCloneOptionsCredentialProvider;
 - (id)lookupObjectBySHA:(NSString *)sha error:(NSError **)error;
 
 // Lookup an object in the repo using a revparse spec
-- (id)lookupObjectByRefspec:(NSString *)spec error:(NSError **)error;
+- (id)lookupObjectByRevParse:(NSString *)spec error:(NSError **)error;
 
 // List all references in the repository
 //
