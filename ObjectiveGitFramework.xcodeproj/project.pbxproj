@@ -155,12 +155,14 @@
 		4D123240178E009E0048F785 /* GTRepositoryCommittingSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D12323F178E009E0048F785 /* GTRepositoryCommittingSpec.m */; };
 		4D1C40D8182C006D00BE2960 /* GTBlobSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D1C40D7182C006D00BE2960 /* GTBlobSpec.m */; };
 		4D26799F178DAF31002A2795 /* GTTreeEntry+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 4D26799D178DAF31002A2795 /* GTTreeEntry+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		4DBA4A3217DA73CE006CD5F5 /* GTRemoteSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DBA4A3117DA73CE006CD5F5 /* GTRemoteSpec.m */; };
 		4D79C0EE17DF9F4D00997DE4 /* GTCredential.h in Headers */ = {isa = PBXBuildFile; fileRef = 4D79C0EC17DF9F4D00997DE4 /* GTCredential.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4D79C0EF17DF9F4D00997DE4 /* GTCredential.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D79C0ED17DF9F4D00997DE4 /* GTCredential.m */; };
 		4D79C0F717DFAA7100997DE4 /* GTCredential+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 4D79C0F617DFAA7100997DE4 /* GTCredential+Private.h */; };
+		4DBA4A3217DA73CE006CD5F5 /* GTRemoteSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DBA4A3117DA73CE006CD5F5 /* GTRemoteSpec.m */; };
 		4DE864351794A37E00371A65 /* GTRepository+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DE864341794A37E00371A65 /* GTRepository+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		4DE864361794A37E00371A65 /* GTRepository+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DE864341794A37E00371A65 /* GTRepository+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		4DFFB15B183AA8D600D1565E /* GTRepository+RemoteOperations.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DFFB159183AA8D600D1565E /* GTRepository+RemoteOperations.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4DFFB15C183AA8D600D1565E /* GTRepository+RemoteOperations.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DFFB15A183AA8D600D1565E /* GTRepository+RemoteOperations.m */; };
 		55C8054F13861FE7004DCB0F /* GTObjectDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C8054D13861F34004DCB0F /* GTObjectDatabase.m */; };
 		55C8055013861FE7004DCB0F /* GTObjectDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C8054D13861F34004DCB0F /* GTObjectDatabase.m */; };
 		55C8057A13875578004DCB0F /* NSString+Git.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C8057313874CDF004DCB0F /* NSString+Git.m */; };
@@ -528,12 +530,14 @@
 		4D12323F178E009E0048F785 /* GTRepositoryCommittingSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTRepositoryCommittingSpec.m; sourceTree = "<group>"; };
 		4D1C40D7182C006D00BE2960 /* GTBlobSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTBlobSpec.m; sourceTree = "<group>"; };
 		4D26799D178DAF31002A2795 /* GTTreeEntry+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTTreeEntry+Private.h"; sourceTree = "<group>"; };
-		4DBA4A3117DA73CE006CD5F5 /* GTRemoteSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTRemoteSpec.m; sourceTree = "<group>"; };
 		4D79C0EC17DF9F4D00997DE4 /* GTCredential.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTCredential.h; sourceTree = "<group>"; };
 		4D79C0ED17DF9F4D00997DE4 /* GTCredential.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTCredential.m; sourceTree = "<group>"; };
 		4D79C0F617DFAA7100997DE4 /* GTCredential+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTCredential+Private.h"; sourceTree = "<group>"; };
 		4D8DADBE181A7D9F001B1202 /* libgit2 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = libgit2; path = External/libgit2; sourceTree = "<group>"; };
+		4DBA4A3117DA73CE006CD5F5 /* GTRemoteSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTRemoteSpec.m; sourceTree = "<group>"; };
 		4DE864341794A37E00371A65 /* GTRepository+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTRepository+Private.h"; sourceTree = "<group>"; };
+		4DFFB159183AA8D600D1565E /* GTRepository+RemoteOperations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTRepository+RemoteOperations.h"; sourceTree = "<group>"; };
+		4DFFB15A183AA8D600D1565E /* GTRepository+RemoteOperations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GTRepository+RemoteOperations.m"; sourceTree = "<group>"; };
 		55C8054C13861F34004DCB0F /* GTObjectDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTObjectDatabase.h; sourceTree = "<group>"; };
 		55C8054D13861F34004DCB0F /* GTObjectDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = GTObjectDatabase.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		55C8057213874CDF004DCB0F /* NSString+Git.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Git.h"; sourceTree = "<group>"; };
@@ -840,7 +844,6 @@
 				D00F6815175D373C004DB9D6 /* GTReferenceSpec.m */,
 				88215482171499BE00D76B76 /* GTReflogSpec.m */,
 				4DBA4A3117DA73CE006CD5F5 /* GTRemoteSpec.m */,
-				88F05AAA16011FFD00B7AD1D /* GTRepositoryPackTest.m */,
 				D0AC906B172F941F00347DC4 /* GTRepositorySpec.m */,
 				4D12323F178E009E0048F785 /* GTRepositoryCommittingSpec.m */,
 				D03B7C401756AB370034A610 /* GTSubmoduleSpec.m */,
@@ -963,6 +966,8 @@
 				4D79C0EC17DF9F4D00997DE4 /* GTCredential.h */,
 				4D79C0ED17DF9F4D00997DE4 /* GTCredential.m */,
 				4D79C0F617DFAA7100997DE4 /* GTCredential+Private.h */,
+				4DFFB159183AA8D600D1565E /* GTRepository+RemoteOperations.h */,
+				4DFFB15A183AA8D600D1565E /* GTRepository+RemoteOperations.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -1128,6 +1133,7 @@
 				88F6D9FA1320467100CC0BA8 /* GTCommit.h in Headers */,
 				88F6D9FB1320467500CC0BA8 /* GTObject.h in Headers */,
 				AA046112134F4D2000DF526B /* GTOdbObject.h in Headers */,
+				4DFFB15B183AA8D600D1565E /* GTRepository+RemoteOperations.h in Headers */,
 				BDB2B1301386F34300C88D55 /* GTObjectDatabase.h in Headers */,
 				88F6D9FC1320467800CC0BA8 /* GTSignature.h in Headers */,
 				88F50F59132054D800584FBE /* GTBranch.h in Headers */,
@@ -1583,6 +1589,7 @@
 				88EB7E4E14AEBA600046FEA4 /* GTConfiguration.m in Sources */,
 				883CD6AC1600EBC600F57354 /* GTRemote.m in Sources */,
 				30DCBA7317B4791A009B0EBD /* NSArray+StringArray.m in Sources */,
+				4DFFB15C183AA8D600D1565E /* GTRepository+RemoteOperations.m in Sources */,
 				88F05AC61601209A00B7AD1D /* ObjectiveGit.m in Sources */,
 				30A3D6561667F11C00C49A39 /* GTDiff.m in Sources */,
 				3011D86D1668E48500CE3409 /* GTDiffFile.m in Sources */,

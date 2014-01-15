@@ -43,6 +43,7 @@
 @class GTDiffFile;
 @class GTTag;
 @class GTTree;
+@class GTRemote;
 
 typedef enum {
 	GTRepositoryResetTypeSoft = GIT_RESET_SOFT,

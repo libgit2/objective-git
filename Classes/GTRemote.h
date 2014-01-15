@@ -124,23 +124,4 @@ typedef enum {
 // adding the refspec or saving the remote failed.
 - (BOOL)addFetchRefspec:(NSString *)fetchRefspec error:(NSError **)error;
 
-// Fetch from the remote.
-//
-// credProvider  - The credential provider to use if the remote requires authentification.
-// error         - Will be set if an error occurs.
-// progressBlock - A block that will be called during the operation to report its progression.
-//
-// Returns YES if successful, NO otherwise.
-- (BOOL)fetchWithCredentialProvider:(GTCredentialProvider *)credProvider error:(NSError **)error progress:(void (^)(const git_transfer_progress *stats, BOOL *stop))progressBlock;
-
-// Push to the remote.
-//
-// branches      - An array of GTBranches to push to the remote. If you pass nil here,
-//                 the receiver's `pushRefspecs` will be used instead.
-// credProvider  - The credential provider to use if the remote requires authentification.
-// error         - Will be set if an error occurs.
-// progressBlock - A block that will be called during the operation to report its progression.
-//
-// Returns YES if successful, NO otherwise.
-- (BOOL)pushBranches:(NSArray *)branches withCredentialProvider:(GTCredentialProvider *)credProvider error:(NSError **)error progress:(void (^)(unsigned int current, unsigned int total, size_t bytes, BOOL *stop))progressBlock;
 @end

@@ -150,12 +150,12 @@ describe(@"network operations", ^{
 		return testCommit;
 	};
 
-	describe(@"-fetchWithError:credentials:progress:", ^{
+	describe(@"-[GTRepository fetchRemote:withOptions:error:progress:]", ^{
 		it(@"allows remotes to be fetched", ^{
 			NSError *error = nil;
 			GTRemote *remote = [GTRemote remoteWithName:remoteName inRepository:fetchingRepo error:nil]; // Tested above
 
-			BOOL result = [remote fetchWithCredentialProvider:nil error:&error progress:nil];
+			BOOL result = [fetchingRepo fetchRemote:remote withOptions:nil error:&error progress:nil];
 			expect(error).to.beNil();
 			expect(result).to.beTruthy();
 		});
@@ -174,7 +174,7 @@ describe(@"network operations", ^{
 
 			__block unsigned int receivedObjects = 0;
 			__block BOOL transferProgressed = NO;
-			BOOL success = [remote fetchWithCredentialProvider:nil error:&error progress:^(const git_transfer_progress *stats, BOOL *stop) {
+			BOOL success = [fetchingRepo fetchRemote:remote withOptions:nil error:&error progress:^(const git_transfer_progress *stats, BOOL *stop) {
 				receivedObjects += stats->received_objects;
 				transferProgressed = YES;
 			}];
@@ -197,14 +197,13 @@ describe(@"network operations", ^{
 		});
 	});
 
-	describe(@"-pushBranches:withCredentialProvider:error:progress:", ^{
+	describe(@"-[GTRepository pushRemote:withOptions:error:progress:]", ^{
 
 		it(@"allows remotes to be pushed", ^{
 			NSError *error = nil;
 			GTRemote *remote = [GTRemote remoteWithName:@"origin" inRepository:fetchingRepo error:&error];
-			GTBranch *master = [fetchingRepo currentBranchWithError:NULL];
 
-			BOOL success = [remote pushBranches:@[master] withCredentialProvider:nil error:&error progress:nil];
+			BOOL success = [fetchingRepo pushRemote:remote withOptions:nil error:&error progress:nil];
 			expect(success).to.beTruthy();
 			expect(error).to.beNil();
 		});
@@ -219,11 +218,10 @@ describe(@"network operations", ^{
 
 			// Issue a push
 			GTRemote *remote = [GTRemote remoteWithName:@"origin" inRepository:fetchingRepo error:nil];
-			GTBranch *master = [fetchingRepo currentBranchWithError:NULL];
 
 			__block unsigned int receivedObjects = 0;
 			__block BOOL transferProgressed = NO;
-			BOOL success = [remote pushBranches:@[master] withCredentialProvider:nil error:&error progress:^(unsigned int current, unsigned int total, size_t bytes, BOOL *stop) {
+			BOOL success = [fetchingRepo pushRemote:remote withOptions:nil error:&error progress:^(unsigned int current, unsigned int total, size_t bytes, BOOL *stop) {
 				receivedObjects += current;
 				transferProgressed = YES;
 			}];

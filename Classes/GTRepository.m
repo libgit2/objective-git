@@ -45,9 +45,11 @@
 #import "NSString+Git.h"
 #import "GTDiffFile.h"
 #import "GTTree.h"
+#import "GTRemote.h"
 #import "GTCredential.h"
 #import "GTCredential+Private.h"
 #import "NSArray+StringArray.h"
+#import "EXTScope.h"
 
 NSString *const GTRepositoryCloneOptionsBare = @"GTRepositoryCloneOptionsBare";
 NSString *const GTRepositoryCloneOptionsCheckout = @"GTRepositoryCloneOptionsCheckout";
