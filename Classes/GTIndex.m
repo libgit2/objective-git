@@ -34,8 +34,10 @@
 #import "GTRepository+Private.h"
 #import "GTOID.h"
 #import "GTTree.h"
-
 #import "EXTScope.h"
+
+// The block synonymous with libgit2's `git_index_matched_path_cb` callback.
+typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString *path, BOOL *stop);
 
 @interface GTIndex ()
 @property (nonatomic, assign, readonly) git_index *git_index;
@@ -232,6 +234,52 @@
 	}
 	
 	return YES;
+}
+
+struct GTIndexPathspecMatchedInfo {
+	__unsafe_unretained GTIndexPathspecMatchedBlock block;
+	BOOL shouldAbortImmediately;
+};
+
+- (BOOL)updatePathspecs:(NSArray *)pathspecs error:(NSError **)error passingTest:(GTIndexPathspecMatchedBlock)block {
+	NSAssert(self.repository.isBare == NO, @"This method only works with non-bare repositories.");
+	
+	const git_strarray strarray = pathspecs.git_strarray;
+	struct GTIndexPathspecMatchedInfo payload = {
+		.block = block,
+		.shouldAbortImmediately = NO,
+	};
+
+	int returnCode = git_index_update_all(self.git_index, &strarray, (block != nil ? GTIndexPathspecMatchFound : NULL), &payload);
+	if (returnCode != GIT_OK && returnCode != GIT_EUSER) {
+		if (error != nil) *error = [NSError git_errorFor:returnCode description:NSLocalizedString(@"Could not update index.", nil)];
+		return NO;
+	}
+	
+	return YES;
+}
+
+int GTIndexPathspecMatchFound(const char *path, const char *matched_pathspec, void *payload) {
+	struct GTIndexPathspecMatchedInfo *info = payload;
+	GTIndexPathspecMatchedBlock block = info->block;
+	if (info->shouldAbortImmediately) {
+		return GIT_EUSER;
+	}
+	
+	BOOL shouldStop = NO;
+	NSString *matchedPathspec = (matched_pathspec != nil ? @(matched_pathspec): nil);
+	BOOL shouldUpdate = block(matchedPathspec, @(path), &shouldStop);
+	
+	if (shouldUpdate) {
+		if (shouldStop) {
+			info->shouldAbortImmediately = YES;
+		}
+		return 0;
+	} else if (shouldStop) {
+		return GIT_EUSER;
+	} else {
+		return 1;
+	}
 }
 
 @end
