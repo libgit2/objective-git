@@ -51,8 +51,8 @@
 	self = [super init];
 	if (self == nil) return nil;
 
-	_git_signature = git_signature_dup(git_signature);
-	NSAssert(_git_signature != NULL, @"Couldn't copy signature.");
+	int gitError = git_signature_dup(&_git_signature, git_signature);
+	if (gitError != GIT_OK) return nil;
 
 	return self;
 }
