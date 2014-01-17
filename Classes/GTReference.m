@@ -69,10 +69,6 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 	return [[self alloc] initByLookingUpReferenceNamed:refName inRepository:theRepo error:error];
 }
 
-+ (id)referenceByCreatingReferenceNamed:(NSString *)refName fromReferenceTarget:(NSString *)target inRepository:(GTRepository *)theRepo error:(NSError **)error {
-	return [[self alloc] initByCreatingReferenceNamed:refName fromReferenceTarget:target inRepository:theRepo error:error];
-}
-
 + (id)referenceByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error {	
 	return [[self alloc] initByResolvingSymbolicReference:symbolicRef error:error];
 }
@@ -85,28 +81,6 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 	int gitError = git_reference_lookup(&ref, repo.git_repository, refName.UTF8String);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to lookup reference %@.", refName];
-		return nil;
-	}
-
-	return [self initWithGitReference:ref repository:repo];
-}
-
-- (id)initByCreatingReferenceNamed:(NSString *)refName fromReferenceTarget:(NSString *)target inRepository:(GTRepository *)repo error:(NSError **)error {
-	NSParameterAssert(refName != nil);
-	NSParameterAssert(target != nil);
-	NSParameterAssert(repo != nil);
-
-	GTOID *oid = [GTOID oidWithSHA:target];
-	int gitError = GIT_OK;
-	git_reference *ref;
-	if (oid != nil) {
-		gitError = git_reference_create(&ref, repo.git_repository, refName.UTF8String, oid.git_oid, 0);
-	} else {
-		gitError = git_reference_symbolic_create(&ref, repo.git_repository, refName.UTF8String, target.UTF8String, 0);
-	}
-
-	if (gitError != GIT_OK) {
-		if(error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to create symbolic reference to %@.", target];
 		return nil;
 	}
 
@@ -195,7 +169,7 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 	return [self.resolvedTarget SHA];
 }
 
-- (GTReference *)referenceByUpdatingTarget:(NSString *)newTarget error:(NSError **)error {
+- (GTReference *)referenceByUpdatingTarget:(NSString *)newTarget committer:(GTSignature *)signature message:(NSString *)message error:(NSError **)error {
 	NSParameterAssert(newTarget != nil);
 
 	int gitError;
@@ -204,9 +178,9 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 		GTOID *oid = [[GTOID alloc] initWithSHA:newTarget error:error];
 		if (oid == nil) return nil;
 		
-		gitError = git_reference_set_target(&newRef, self.git_reference, oid.git_oid);
+		gitError = git_reference_set_target(&newRef, self.git_reference, oid.git_oid, signature.git_signature, message.UTF8String);
 	} else {
-		gitError = git_reference_symbolic_set_target(&newRef, self.git_reference, newTarget.UTF8String);
+		gitError = git_reference_symbolic_set_target(&newRef, self.git_reference, newTarget.UTF8String, signature.git_signature, message.UTF8String);
 	}
 
 	if (gitError != GIT_OK) {
