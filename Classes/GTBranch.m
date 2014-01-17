@@ -120,7 +120,7 @@
 		return nil;
 	}
 
-	return [self.repository lookupObjectBySHA:self.SHA objectType:GTObjectTypeCommit error:error];
+	return [self.repository lookUpObjectBySHA:self.SHA objectType:GTObjectTypeCommit error:error];
 }
 
 - (NSUInteger)numberOfCommitsWithError:(NSError **)error {

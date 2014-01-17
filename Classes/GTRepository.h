@@ -170,13 +170,13 @@ extern NSString *const GTRepositoryCloneOptionsCredentialProvider;
 + (id)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL options:(NSDictionary *)options error:(NSError **)error transferProgressBlock:(void (^)(const git_transfer_progress *))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))checkoutProgressBlock;
 
 // Lookup objects in the repo by oid or sha1
-- (id)lookupObjectByOID:(GTOID *)oid objectType:(GTObjectType)type error:(NSError **)error;
-- (id)lookupObjectByOID:(GTOID *)oid error:(NSError **)error;
-- (id)lookupObjectBySHA:(NSString *)sha objectType:(GTObjectType)type error:(NSError **)error;
-- (id)lookupObjectBySHA:(NSString *)sha error:(NSError **)error;
+- (id)lookUpObjectByOID:(GTOID *)oid objectType:(GTObjectType)type error:(NSError **)error;
+- (id)lookUpObjectByOID:(GTOID *)oid error:(NSError **)error;
+- (id)lookUpObjectBySHA:(NSString *)sha objectType:(GTObjectType)type error:(NSError **)error;
+- (id)lookUpObjectBySHA:(NSString *)sha error:(NSError **)error;
 
 // Lookup an object in the repo using a revparse spec
-- (id)lookupObjectByRevParse:(NSString *)spec error:(NSError **)error;
+- (id)lookUpObjectByRevParse:(NSString *)spec error:(NSError **)error;
 
 // Finds the branch with the given name and type.
 //
@@ -186,7 +186,7 @@ extern NSString *const GTRepositoryCloneOptionsCredentialProvider;
 // error      - If not NULL, set to any error that occurs.
 //
 // Returns the matching branch, or nil if no match was found.
-- (GTBranch *)lookupBranchWithName:(NSString *)branchName type:(GTBranchType)branchType error:(NSError **)error;
+- (GTBranch *)lookUpBranchWithName:(NSString *)branchName type:(GTBranchType)branchType error:(NSError **)error;
 
 // List all references in the repository
 //

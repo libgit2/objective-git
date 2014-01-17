@@ -179,7 +179,7 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 		return NULL;
 	}
 
-	return [self.repository lookupObjectByGitOid:&oid objectType:GTObjectTypeTree error:NULL];
+	return [self.repository lookUpObjectByGitOid:&oid objectType:GTObjectTypeTree error:NULL];
 }
 
 - (NSArray *)entries {
