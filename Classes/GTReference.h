@@ -59,9 +59,6 @@ typedef enum {
 + (id)referenceByLookingUpReferencedNamed:(NSString *)refName inRepository:(GTRepository *)theRepo error:(NSError **)error;
 - (id)initByLookingUpReferenceNamed:(NSString *)refName inRepository:(GTRepository *)theRepo error:(NSError **)error;
 
-+ (id)referenceByCreatingReferenceNamed:(NSString *)refName fromReferenceTarget:(NSString *)target inRepository:(GTRepository *)theRepo error:(NSError **)error;
-- (id)initByCreatingReferenceNamed:(NSString *)refName fromReferenceTarget:(NSString *)target inRepository:(GTRepository *)theRepo error:(NSError **)error;
-
 + (id)referenceByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error;
 - (id)initByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error;
 
@@ -87,15 +84,15 @@ typedef enum {
 //
 // Note that this does *not* change the receiver's target.
 //
-// newTarget - The target for the new reference.
-// message   - The message for the reflog entry corresponding to this update.
-//             This may be nil to not write to the reflog.
-// committer - The identity used for the reflog entry. This may be nil to not
-//             write to the reflog.
+// newTarget - The target for the new reference. This must not be nil.
+// signature - A signature for the committer updating this ref, used for
+//             creating a reflog entry. This may be nil.
+// message   - A message to use when creating the reflog entry for this action.
+//             This may be nil.
 // error     - The error if one occurred.
 //
 // Returns the updated reference, or nil if an error occurred.
-- (GTReference *)referenceByUpdatingTarget:(NSString *)newTarget message:(NSString *)message committer:(GTSignature *)committer error:(NSError **)error;
+- (GTReference *)referenceByUpdatingTarget:(NSString *)newTarget committer:(GTSignature *)signature message:(NSString *)message error:(NSError **)error;
 
 // The name of the reference.
 @property (nonatomic, readonly, copy) NSString *name;
