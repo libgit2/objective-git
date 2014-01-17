@@ -419,12 +419,41 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 	return [currentBranch numberOfCommitsWithError:error];
 }
 
-- (GTBranch *)createBranchNamed:(NSString *)name fromReference:(GTReference *)ref error:(NSError **)error {
+- (GTReference *)createReferenceNamed:(NSString *)name fromOID:(GTOID *)targetOID committer:(GTSignature *)signature message:(NSString *)message error:(NSError **)error {
+	NSParameterAssert(name != nil);
+	NSParameterAssert(targetOID != nil);
+
+	git_reference *ref;
+	int gitError = git_reference_create(&ref, self.git_repository, name.UTF8String, targetOID.git_oid, 0, signature.git_signature, message.UTF8String);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to create direct reference to %@", targetOID];
+		return nil;
+	}
+
+	return [[GTReference alloc] initWithGitReference:ref repository:self];
+}
+
+- (GTReference *)createReferenceNamed:(NSString *)name fromReference:(GTReference *)targetRef committer:(GTSignature *)signature message:(NSString *)message error:(NSError **)error {
+	NSParameterAssert(name != nil);
+	NSParameterAssert(targetRef != nil);
+	NSParameterAssert(targetRef.name != nil);
+
+	git_reference *ref;
+	int gitError = git_reference_symbolic_create(&ref, self.git_repository, name.UTF8String, targetRef.name.UTF8String, 0, signature.git_signature, message.UTF8String);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to create symbolic reference to %@", targetRef];
+		return nil;
+	}
+
+	return [[GTReference alloc] initWithGitReference:ref repository:self];
+}
+
+- (GTBranch *)createBranchNamed:(NSString *)name fromReference:(GTReference *)ref committer:(GTSignature *)signature message:(NSString *)message error:(NSError **)error {
 	// make sure the ref is up to date before we branch off it, otherwise we could branch off an older sha
 	ref = [ref reloadedReferenceWithError:error];
 	if (ref == nil) return nil;
 	
-	GTReference *newRef = [GTReference referenceByCreatingReferenceNamed:[NSString stringWithFormat:@"%@%@", [GTBranch localNamePrefix], name] fromReferenceTarget:[ref.resolvedTarget SHA] inRepository:self error:error];
+	GTReference *newRef = [self createReferenceNamed:[GTBranch.localNamePrefix stringByAppendingString:name] fromReference:ref committer:signature message:message error:error];
 	if (newRef == nil) return nil;
 
 	return [GTBranch branchWithReference:newRef repository:self];
