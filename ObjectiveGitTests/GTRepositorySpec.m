@@ -186,11 +186,11 @@ describe(@"-preparedMessage", ^{
 describe(@"-mergeBaseBetweenFirstOID:secondOID:error:", ^{
 	it(@"should find the merge base between two branches", ^{
 		NSError *error = nil;
-		GTBranch *masterBranch = [[GTBranch alloc] initWithName:@"refs/heads/master" repository:repository error:&error];
+		GTBranch *masterBranch = [repository lookupBranchWithName:@"master" type:GTBranchTypeLocal error:&error];
 		expect(masterBranch).notTo.beNil();
 		expect(error).to.beNil();
 
-		GTBranch *otherBranch = [[GTBranch alloc] initWithName:@"refs/heads/other-branch" repository:repository error:&error];
+		GTBranch *otherBranch = [repository lookupBranchWithName:@"other-branch" type:GTBranchTypeLocal error:&error];
 		expect(otherBranch).notTo.beNil();
 		expect(error).to.beNil();
 

@@ -286,6 +286,20 @@ struct GTClonePayload {
 	return [GTObject objectWithObj:obj inRepository:self];
 }
 
+- (GTBranch *)lookupBranchWithName:(NSString *)branchName type:(GTBranchType)branchType error:(NSError **)error {
+	NSParameterAssert(branchName != nil);
+
+	git_reference *ref;
+	int gitError = git_branch_lookup(&ref, self.git_repository, branchName.UTF8String, (git_branch_t)branchType);
+	if (gitError < GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Branch lookup failed"];
+		return nil;
+	}
+
+	GTReference *gtRef = [[GTReference alloc] initWithGitReference:ref repository:self];
+	return [[GTBranch alloc] initWithReference:gtRef repository:self];
+}
+
 - (GTReference *)headReferenceWithError:(NSError **)error {
 	git_reference *headRef;
 	int gitError = git_repository_head(&headRef, self.git_repository);
@@ -320,11 +334,16 @@ struct GTClonePayload {
 	if (references == nil) return nil;
 
 	NSMutableArray *branches = [NSMutableArray array];
-	for (NSString *ref in references) {
-		if ([ref hasPrefix:prefix]) {
-			GTBranch *b = [GTBranch branchWithName:ref repository:self error:error];
-			if (b != nil) [branches addObject:b];
-		}
+	for (NSString *refName in references) {
+		if (![refName hasPrefix:prefix]) continue;
+
+		GTReference *ref = [[GTReference alloc] initByLookingUpReferenceNamed:refName inRepository:self error:error];
+		if (ref == nil) continue;
+
+		GTBranch *branch = [[GTBranch alloc] initWithReference:ref repository:self];
+		if (branch == nil) continue;
+		
+		[branches addObject:branch];
 	}
 
 	return branches;

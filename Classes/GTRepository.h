@@ -28,19 +28,19 @@
 //
 
 
-#import "GTObject.h"
+#import "GTBranch.h"
 #import "GTEnumerator.h"
+#import "GTObject.h"
 #import "GTReference.h"
 
-@class GTBranch;
 @class GTCommit;
 @class GTConfiguration;
+@class GTDiffFile;
 @class GTIndex;
 @class GTObjectDatabase;
 @class GTOdbObject;
 @class GTSignature;
 @class GTSubmodule;
-@class GTDiffFile;
 @class GTTag;
 @class GTTree;
 
@@ -177,6 +177,16 @@ extern NSString *const GTRepositoryCloneOptionsCredentialProvider;
 
 // Lookup an object in the repo using a revparse spec
 - (id)lookupObjectByRevParse:(NSString *)spec error:(NSError **)error;
+
+// Finds the branch with the given name and type.
+//
+// branchName - The name of the branch to look up (e.g., `master` or
+//              `origin/master`). This must not be nil.
+// branchType - Whether the branch to look up is local or remote.
+// error      - If not NULL, set to any error that occurs.
+//
+// Returns the matching branch, or nil if no match was found.
+- (GTBranch *)lookupBranchWithName:(NSString *)branchName type:(GTBranchType)branchType error:(NSError **)error;
 
 // List all references in the repository
 //
