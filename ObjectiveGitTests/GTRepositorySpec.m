@@ -341,6 +341,27 @@ describe(@"-resetToCommit:withResetType:error:", ^{
 	});
 });
 
+describe(@"-lookupBranchWithName:type:error:", ^{
+	it(@"should look up a local branch", ^{
+		NSError *error = nil;
+		GTBranch *branch = [repository lookupBranchWithName:@"master" type:GTBranchTypeLocal error:&error];
+		expect(branch).notTo.beNil();
+		expect(error).to.beNil();
+	});
+
+	it(@"should look up a remote branch", ^{
+		NSError *error = nil;
+		GTBranch *branch = [repository lookupBranchWithName:@"origin/master" type:GTBranchTypeRemote error:&error];
+		expect(branch).notTo.beNil();
+		expect(error).to.beNil();
+	});
+
+	it(@"should return nil for a nonexistent branch", ^{
+		GTBranch *branch = [repository lookupBranchWithName:@"foobar" type:GTBranchTypeLocal error:NULL];
+		expect(branch).to.beNil();
+	});
+});
+
 describe(@"-lookupObjectByRevParse:error:", ^{
 	void (^expectSHAForRevParse)(NSString *, NSString *) = ^(NSString *SHA, NSString *spec) {
 		NSError *error = nil;
