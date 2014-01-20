@@ -34,7 +34,7 @@
 #import "NSError+Git.h"
 #import "GTTreeEntry+Private.h"
 
-typedef int(^GTTreeEnumerationBlock)(NSString *root, GTTreeEntry *entry);
+typedef BOOL(^GTTreeEnumerationBlock)(GTTreeEntry *entry, NSString *root, BOOL *stop);
 
 typedef struct GTTreeEnumerationStruct {
 	__unsafe_unretained GTTree *myself;
@@ -70,53 +70,62 @@ typedef struct GTTreeEnumerationStruct {
 	return (git_tree *)self.git_object;
 }
 
-#pragma mark Contents
+#pragma mark Entries
 
 static int treewalk_cb(const char *root, const git_tree_entry *git_entry, void *payload) {
-	GTTreeEnumerationStruct *enumStruct = (GTTreeEnumerationStruct *)payload;
+	GTTreeEnumerationStruct *enumerationStruct = (GTTreeEnumerationStruct *)payload;
 	NSString *rootString = @(root);
-	GTTreeEntry *parentEntry = enumStruct->directoryStructure[rootString];
-	GTTree *parentTree = parentEntry ? parentEntry.tree : enumStruct->myself;
-
-	GTTreeEntry *entry = [[GTTreeEntry alloc] initWithEntry:git_entry parentTree:parentTree];
-	if ([entry type] == GTObjectTypeTree) {
+	GTTreeEntry *parentEntry = enumerationStruct->directoryStructure[rootString];
+	GTTree *parentTree = parentEntry ? parentEntry.tree : enumerationStruct->myself;
+	GTTreeEntry *entry = [GTTreeEntry entryWithEntry:git_entry parentTree:parentTree];
+	
+	if (entry.type == GTObjectTypeTree) {
 		NSString *path = [rootString stringByAppendingPathComponent:entry.name];
-		enumStruct->directoryStructure[path] = entry;
+		enumerationStruct->directoryStructure[path] = entry;
 	}
-	return enumStruct->block(rootString, entry);
+	
+	BOOL shouldStop = NO;
+	BOOL shouldDescend = enumerationStruct->block(entry, rootString, &shouldStop);
+	
+	if (shouldStop) {
+		return GIT_EUSER;
+	} else if (shouldDescend) {
+		return 0;
+	} else {
+		return 1;
+	}
 }
 
-
-- (BOOL)enumerateContentsWithOptions:(GTTreeEnumerationOptions)option error:(NSError **)error block:(GTTreeEnumerationBlock)block {
+- (BOOL)enumerateEntriesWithOptions:(GTTreeEnumerationOptions)option error:(NSError **)error block:(GTTreeEnumerationBlock)block {
 	NSParameterAssert(block != nil);
 
-	NSMutableDictionary *structure = [[NSMutableDictionary alloc] initWithCapacity:[self entryCount]];
-
-	GTTreeEnumerationStruct enumStruct = {
+	NSMutableDictionary *structure = [[NSMutableDictionary alloc] initWithCapacity:self.entryCount];
+	GTTreeEnumerationStruct enumerationStruct = {
 		.myself = self,
 		.block = block,
 		.directoryStructure = structure,
 	};
 
-	int gitError = git_tree_walk(self.git_tree, (git_treewalk_mode)option, treewalk_cb, &enumStruct);
-	if (gitError != GIT_OK) {
+	int gitError = git_tree_walk(self.git_tree, (git_treewalk_mode)option, treewalk_cb, &enumerationStruct);
+	if (gitError != GIT_OK && gitError != GIT_EUSER) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to enumerate tree %@", self.SHA];
+		return NO;
 	}
-	return gitError != GIT_OK;
+	
+	return YES;
 }
 
-- (NSArray *)contents {
-	NSError *error = nil;
-	__block NSMutableArray *_contents = [NSMutableArray array];
-	int gitError = [self enumerateContentsWithOptions:GTTreeEnumerationOptionPre error:&error block:^int(NSString *root, GTTreeEntry *entry) {
-		[_contents addObject:entry];
-		return [entry type] == GTObjectTypeTree ? 1 : 0;
+- (NSArray *)entries {
+	__block NSMutableArray *entries = [NSMutableArray array];
+	BOOL success = [self enumerateEntriesWithOptions:GTTreeEnumerationOptionPre error:nil block:^(GTTreeEntry *entry, NSString *root, BOOL *stop) {
+		[entries addObject:entry];
+		return NO;
 	}];
-	if (gitError < GIT_OK) {
-		NSLog(@"%@", error);
+	
+	if (!success) {
 		return nil;
 	}
-	return _contents;
+	return entries;
 }
 
 #pragma mark Merging
