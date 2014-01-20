@@ -46,6 +46,24 @@ it(@"can write to the repository and return a tree", ^{
 	expect(tree.repository).to.equal(repository);
 });
 
+it(@"can write to a specific repository and return a tree", ^{
+	GTRepository *repository = self.bareFixtureRepository;
+	NSArray *branches = [repository allBranchesWithError:NULL];
+	GTCommit *masterCommit = [branches[0] targetCommitAndReturnError:NULL];
+	GTCommit *packedCommit = [branches[1] targetCommitAndReturnError:NULL];
+	
+	expect(masterCommit).notTo.beNil();
+	expect(packedCommit).notTo.beNil();
+		
+	GTIndex *index = [masterCommit.tree merge:packedCommit.tree ancestor:NULL error:NULL];
+	GTTree *mergedTree = [index writeTreeToRepository:repository error:NULL];
+	
+	expect(index).notTo.beNil();
+	expect(mergedTree).notTo.beNil();
+	expect(mergedTree.entryCount).to.equal(5);
+	expect(mergedTree.repository).to.equal(repository);
+});
+
 describe(@"conflict enumeration", ^{
 	it(@"should correctly find no conflicts", ^{
 		expect(index.hasConflicts).to.beFalsy();
