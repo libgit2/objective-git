@@ -74,7 +74,7 @@ typedef enum GTTreeEnumerationOptions {
 //           Returning `YES` or `NO` only matters when in `GTTreeEnumerationOptionPre` mode.
 //
 // Returns `YES` if the enumeration completed successfully, `NO` otherwise
-- (BOOL)enumerateEntriesWithOptions:(GTTreeEnumerationOptions)options error:(NSError **)error block:(BOOL(^)(GTTreeEntry *entry, NSString *root, BOOL *stop))block;
+- (BOOL)enumerateEntriesWithOptions:(GTTreeEnumerationOptions)options error:(NSError **)error block:(BOOL (^)(GTTreeEntry *entry, NSString *root, BOOL *stop))block;
 
 // Merges the given tree into the receiver in memory and produces the result as
 // an index.

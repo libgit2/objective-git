@@ -34,7 +34,7 @@
 #import "NSError+Git.h"
 #import "GTTreeEntry+Private.h"
 
-typedef BOOL(^GTTreeEnumerationBlock)(GTTreeEntry *entry, NSString *root, BOOL *stop);
+typedef BOOL (^GTTreeEnumerationBlock)(GTTreeEntry *entry, NSString *root, BOOL *stop);
 
 typedef struct GTTreeEnumerationStruct {
 	__unsafe_unretained GTTree *myself;
