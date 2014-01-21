@@ -146,7 +146,7 @@
 // Write the index to the given repository as a tree.
 // Will fail if the receiver's index has conflicts.
 //
-// repository - The repository to write the tree to.
+// repository - The repository to write the tree to. Can't be nil.
 // error      - The error if one occurred.
 //
 // Returns a new GTTree or nil if an error occurred.

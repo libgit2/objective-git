@@ -183,6 +183,7 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 }
 
 - (GTTree *)writeTreeToRepository:(GTRepository *)repository error:(NSError **)error {
+	NSParameterAssert(repository != nil);
 	git_oid oid;
 	
 	int status = git_index_write_tree_to(&oid, self.git_index, repository.git_repository);
