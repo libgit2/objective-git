@@ -188,7 +188,7 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 	
 	int status = git_index_write_tree_to(&oid, self.git_index, repository.git_repository);
 	if (status != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed  to write index to repository %@",repository];
+		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to write index to repository %@", repository];
 		return NULL;
 	}
 	
