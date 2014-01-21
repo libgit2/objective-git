@@ -182,6 +182,19 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 	return [self.repository lookupObjectByGitOid:&oid objectType:GTObjectTypeTree error:NULL];
 }
 
+- (GTTree *)writeTreeToRepository:(GTRepository *)repository error:(NSError **)error {
+	NSParameterAssert(repository != nil);
+	git_oid oid;
+	
+	int status = git_index_write_tree_to(&oid, self.git_index, repository.git_repository);
+	if (status != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to write index to repository %@", repository];
+		return NULL;
+	}
+	
+	return [repository lookupObjectByGitOid:&oid objectType:GTObjectTypeTree error:NULL];
+}
+
 - (NSArray *)entries {
 	NSMutableArray *entries = [NSMutableArray arrayWithCapacity:self.entryCount];
 	for (NSUInteger i = 0; i < self.entryCount; i++) {
