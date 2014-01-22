@@ -32,7 +32,6 @@
 #import "GTRepository.h"
 #import "GTIndex.h"
 #import "NSError+Git.h"
-#import "GTTreeEntry+Private.h"
 
 typedef int(^GTTreeEnumerationBlock)(NSString *root, GTTreeEntry *entry);
 
