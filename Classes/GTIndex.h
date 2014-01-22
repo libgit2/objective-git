@@ -143,6 +143,15 @@
 // Returns a new GTTree, or nil if an error occurred.
 - (GTTree *)writeTree:(NSError **)error;
 
+// Write the index to the given repository as a tree.
+// Will fail if the receiver's index has conflicts.
+//
+// repository - The repository to write the tree to. Can't be nil.
+// error      - The error if one occurred.
+//
+// Returns a new GTTree or nil if an error occurred.
+- (GTTree *)writeTreeToRepository:(GTRepository *)repository error:(NSError **)error;
+
 // Enumerate through any conflicts in the index, running the provided block each
 // time.
 //
