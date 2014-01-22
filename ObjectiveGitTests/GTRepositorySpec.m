@@ -186,11 +186,11 @@ describe(@"-preparedMessage", ^{
 describe(@"-mergeBaseBetweenFirstOID:secondOID:error:", ^{
 	it(@"should find the merge base between two branches", ^{
 		NSError *error = nil;
-		GTBranch *masterBranch = [[GTBranch alloc] initWithName:@"refs/heads/master" repository:repository error:&error];
+		GTBranch *masterBranch = [repository lookUpBranchWithName:@"master" type:GTBranchTypeLocal success:NULL error:&error];
 		expect(masterBranch).notTo.beNil();
 		expect(error).to.beNil();
 
-		GTBranch *otherBranch = [[GTBranch alloc] initWithName:@"refs/heads/other-branch" repository:repository error:&error];
+		GTBranch *otherBranch = [repository lookUpBranchWithName:@"other-branch" type:GTBranchTypeLocal success:NULL error:&error];
 		expect(otherBranch).notTo.beNil();
 		expect(error).to.beNil();
 
@@ -259,12 +259,12 @@ describe(@"-OIDByCreatingTagNamed:target:tagger:message:error", ^{
 		NSError *error = nil;
 		NSString *SHA = @"0c37a5391bbff43c37f0d0371823a5509eed5b1d";
 		GTRepository *repo = self.bareFixtureRepository;
-		GTTag *tag = (GTTag *)[repo lookupObjectBySHA:SHA error:&error];
+		GTTag *tag = (GTTag *)[repo lookUpObjectBySHA:SHA error:&error];
 
 		GTOID *newOID = [repo OIDByCreatingTagNamed:@"a_new_tag" target:tag.target tagger:tag.tagger message:@"my tag\n" error:&error];
 		expect(newOID).notTo.beNil();
 
-		tag = (GTTag *)[repo lookupObjectByOID:newOID error:&error];
+		tag = (GTTag *)[repo lookUpObjectByOID:newOID error:&error];
 		expect(error).to.beNil();
 		expect(tag).notTo.beNil();
 		expect(newOID.SHA).to.equal(tag.SHA);
@@ -279,7 +279,7 @@ describe(@"-OIDByCreatingTagNamed:target:tagger:message:error", ^{
 		NSError *error = nil;
 		NSString *SHA = @"0c37a5391bbff43c37f0d0371823a5509eed5b1d";
 		GTRepository *repo = self.bareFixtureRepository;
-		GTTag *tag = (GTTag *)[repo lookupObjectBySHA:SHA error:&error];
+		GTTag *tag = (GTTag *)[repo lookUpObjectBySHA:SHA error:&error];
 
 		GTOID *OID = [repo OIDByCreatingTagNamed:tag.name target:tag.target tagger:tag.tagger message:@"new message" error:&error];
 		expect(OID).to.beNil();
@@ -300,7 +300,7 @@ describe(@"-checkout:strategy:error:progressBlock:", ^{
 	
 	it(@"should allow commits", ^{
 		NSError *error = nil;
-		GTCommit *commit = [repository lookupObjectBySHA:@"1d69f3c0aeaf0d62e25591987b93b8ffc53abd77" objectType:GTObjectTypeCommit error:&error];
+		GTCommit *commit = [repository lookUpObjectBySHA:@"1d69f3c0aeaf0d62e25591987b93b8ffc53abd77" objectType:GTObjectTypeCommit error:&error];
 		expect(commit).to.beTruthy();
 		expect(error.localizedDescription).to.beNil();
 		BOOL result = [repository checkoutCommit:commit strategy:GTCheckoutStrategyAllowConflicts error:&error progressBlock:nil];
@@ -319,9 +319,9 @@ describe(@"-resetToCommit:withResetType:error:", ^{
 		GTReference *originalHead = [repository headReferenceWithError:NULL];
 		NSString *resetTargetSHA = @"8496071c1b46c854b31185ea97743be6a8774479";
 
-		GTCommit *commit = [repository lookupObjectBySHA:resetTargetSHA error:NULL];
+		GTCommit *commit = [repository lookUpObjectBySHA:resetTargetSHA error:NULL];
 		expect(commit).notTo.beNil();
-		GTCommit *originalHeadCommit = [repository lookupObjectBySHA:originalHead.targetSHA error:NULL];
+		GTCommit *originalHeadCommit = [repository lookUpObjectBySHA:originalHead.targetSHA error:NULL];
 		expect(originalHeadCommit).notTo.beNil();
 
 		BOOL success = [repository resetToCommit:commit withResetType:GTRepositoryResetTypeSoft error:&error];
@@ -341,10 +341,42 @@ describe(@"-resetToCommit:withResetType:error:", ^{
 	});
 });
 
-describe(@"-lookupObjectByRevParse:error:", ^{
+describe(@"-lookUpBranchWithName:type:error:", ^{
+	it(@"should look up a local branch", ^{
+		NSError *error = nil;
+		BOOL success = NO;
+		GTBranch *branch = [repository lookUpBranchWithName:@"master" type:GTBranchTypeLocal success:&success error:&error];
+
+		expect(branch).notTo.beNil();
+		expect(success).to.beTruthy();
+		expect(error).to.beNil();
+	});
+
+	it(@"should look up a remote branch", ^{
+		NSError *error = nil;
+		BOOL success = NO;
+		GTBranch *branch = [repository lookUpBranchWithName:@"origin/master" type:GTBranchTypeRemote success:&success error:&error];
+
+		expect(branch).notTo.beNil();
+		expect(success).to.beTruthy();
+		expect(error).to.beNil();
+	});
+
+	it(@"should return nil for a nonexistent branch", ^{
+		NSError *error = nil;
+		BOOL success = NO;
+		GTBranch *branch = [repository lookUpBranchWithName:@"foobar" type:GTBranchTypeLocal success:&success error:&error];
+
+		expect(branch).to.beNil();
+		expect(success).to.beTruthy();
+		expect(error).to.beNil();
+	});
+});
+
+describe(@"-lookUpObjectByRevParse:error:", ^{
 	void (^expectSHAForRevParse)(NSString *, NSString *) = ^(NSString *SHA, NSString *spec) {
 		NSError *error = nil;
-		GTObject *obj = [repository lookupObjectByRevParse:spec error:&error];
+		GTObject *obj = [repository lookUpObjectByRevParse:spec error:&error];
 
 		if (SHA != nil) {
 			expect(error).to.beNil();

@@ -237,7 +237,7 @@ struct GTClonePayload {
 	return [[self alloc] initWithGitRepository:repository];
 }
 
-- (id)lookupObjectByGitOid:(const git_oid *)oid objectType:(GTObjectType)type error:(NSError **)error {
+- (id)lookUpObjectByGitOid:(const git_oid *)oid objectType:(GTObjectType)type error:(NSError **)error {
 	git_object *obj;
 
 	int gitError = git_object_lookup(&obj, self.git_repository, oid, (git_otype)type);
@@ -253,30 +253,30 @@ struct GTClonePayload {
     return [GTObject objectWithObj:obj inRepository:self];
 }
 
-- (id)lookupObjectByGitOid:(const git_oid *)oid error:(NSError **)error {
-	return [self lookupObjectByGitOid:oid objectType:GTObjectTypeAny error:error];
+- (id)lookUpObjectByGitOid:(const git_oid *)oid error:(NSError **)error {
+	return [self lookUpObjectByGitOid:oid objectType:GTObjectTypeAny error:error];
 }
 
-- (id)lookupObjectByOID:(GTOID *)oid objectType:(GTObjectType)type error:(NSError **)error {
-	return [self lookupObjectByGitOid:oid.git_oid objectType:type error:error];
+- (id)lookUpObjectByOID:(GTOID *)oid objectType:(GTObjectType)type error:(NSError **)error {
+	return [self lookUpObjectByGitOid:oid.git_oid objectType:type error:error];
 }
 
-- (id)lookupObjectByOID:(GTOID *)oid error:(NSError **)error {
-	return [self lookupObjectByOID:oid objectType:GTObjectTypeAny error:error];
+- (id)lookUpObjectByOID:(GTOID *)oid error:(NSError **)error {
+	return [self lookUpObjectByOID:oid objectType:GTObjectTypeAny error:error];
 }
 
-- (id)lookupObjectBySHA:(NSString *)sha objectType:(GTObjectType)type error:(NSError **)error {
+- (id)lookUpObjectBySHA:(NSString *)sha objectType:(GTObjectType)type error:(NSError **)error {
 	GTOID *oid = [[GTOID alloc] initWithSHA:sha error:error];
 	if (!oid) return nil;
 
-	return [self lookupObjectByOID:oid objectType:type error:error];
+	return [self lookUpObjectByOID:oid objectType:type error:error];
 }
 
-- (id)lookupObjectBySHA:(NSString *)sha error:(NSError **)error {
-	return [self lookupObjectBySHA:sha objectType:GTObjectTypeAny error:error];
+- (id)lookUpObjectBySHA:(NSString *)sha error:(NSError **)error {
+	return [self lookUpObjectBySHA:sha objectType:GTObjectTypeAny error:error];
 }
 
-- (id)lookupObjectByRevParse:(NSString *)spec error:(NSError **)error {
+- (id)lookUpObjectByRevParse:(NSString *)spec error:(NSError **)error {
 	git_object *obj;
 	int gitError = git_revparse_single(&obj, self.git_repository, spec.UTF8String);
 	if (gitError < GIT_OK) {
@@ -284,6 +284,25 @@ struct GTClonePayload {
 		return nil;
 	}
 	return [GTObject objectWithObj:obj inRepository:self];
+}
+
+- (GTBranch *)lookUpBranchWithName:(NSString *)branchName type:(GTBranchType)branchType success:(BOOL *)success error:(NSError **)error {
+	NSParameterAssert(branchName != nil);
+
+	git_reference *ref = NULL;
+	int gitError = git_branch_lookup(&ref, self.git_repository, branchName.UTF8String, (git_branch_t)branchType);
+	if (gitError < GIT_OK && gitError != GIT_ENOTFOUND) {
+		if (success != NULL) *success = NO;
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Branch lookup failed"];
+
+		return nil;
+	}
+
+	if (success != NULL) *success = YES;
+	if (ref == NULL) return nil;
+
+	GTReference *gtRef = [[GTReference alloc] initWithGitReference:ref repository:self];
+	return [[GTBranch alloc] initWithReference:gtRef repository:self];
 }
 
 - (GTReference *)headReferenceWithError:(NSError **)error {
@@ -320,11 +339,16 @@ struct GTClonePayload {
 	if (references == nil) return nil;
 
 	NSMutableArray *branches = [NSMutableArray array];
-	for (NSString *ref in references) {
-		if ([ref hasPrefix:prefix]) {
-			GTBranch *b = [GTBranch branchWithName:ref repository:self error:error];
-			if (b != nil) [branches addObject:b];
-		}
+	for (NSString *refName in references) {
+		if (![refName hasPrefix:prefix]) continue;
+
+		GTReference *ref = [[GTReference alloc] initByLookingUpReferenceNamed:refName inRepository:self error:error];
+		if (ref == nil) continue;
+
+		GTBranch *branch = [[GTBranch alloc] initWithReference:ref repository:self];
+		if (branch == nil) continue;
+		
+		[branches addObject:branch];
 	}
 
 	return branches;
@@ -361,7 +385,7 @@ struct GTRepositoryTagEnumerationInfo {
 
 static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *payload) {
 	struct GTRepositoryTagEnumerationInfo *info = payload;
-	GTTag *tag = (GTTag *)[info->myself lookupObjectByGitOid:oid objectType:GTObjectTypeTag error:NULL];
+	GTTag *tag = (GTTag *)[info->myself lookUpObjectByGitOid:oid objectType:GTObjectTypeTag error:NULL];
 
 	BOOL stop = NO;
 	info->block(tag, &stop);
@@ -571,7 +595,7 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 		return nil;
 	}
 	
-	return [self lookupObjectByGitOid:&mergeBase objectType:GTObjectTypeCommit error:error];
+	return [self lookUpObjectByGitOid:&mergeBase objectType:GTObjectTypeCommit error:error];
 }
 
 - (GTObjectDatabase *)objectDatabaseWithError:(NSError **)error {
@@ -703,7 +727,7 @@ static int submoduleEnumerationCallback(git_submodule *git_submodule, const char
 
 - (GTTag *)createTagNamed:(NSString *)tagName target:(GTObject *)theTarget tagger:(GTSignature *)theTagger message:(NSString *)theMessage error:(NSError **)error {
 	GTOID *oid = [self OIDByCreatingTagNamed:tagName target:theTarget tagger:theTagger message:theMessage error:error];
-	return oid ? [self lookupObjectByOID:oid objectType:GTObjectTypeTag error:error] : nil;
+	return oid ? [self lookUpObjectByOID:oid objectType:GTObjectTypeTag error:error] : nil;
 }
 
 #pragma mark Checkout

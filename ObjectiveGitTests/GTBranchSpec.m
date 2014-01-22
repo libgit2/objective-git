@@ -139,7 +139,7 @@ describe(@"-numberOfCommitsWithError:", ^{
 describe(@"-trackingBranchWithError:success:", ^{
 	it(@"should return the tracking branch for a local branch that tracks a remote branch", ^{
 		NSError *error = nil;
-		GTBranch *masterBranch = [GTBranch branchWithName:@"refs/heads/master" repository:repository error:&error];
+		GTBranch *masterBranch = [repository lookUpBranchWithName:@"master" type:GTBranchTypeLocal success:NULL error:&error];
 		expect(masterBranch).notTo.beNil();
 		expect(error).to.beNil();
 

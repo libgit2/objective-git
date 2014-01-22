@@ -43,7 +43,7 @@
 		return nil;
 	}
 
-	return [self lookupObjectByGitOid:&oid objectType:GTObjectTypeCommit error:error];
+	return [self lookUpObjectByGitOid:&oid objectType:GTObjectTypeCommit error:error];
 }
 
 @end

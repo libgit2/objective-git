@@ -147,7 +147,7 @@
 	}
 	
 	// Ignore error if we can't lookup object and just return nil.
-	GTCommit *commit = [self.repository lookupObjectByGitOid:&oid objectType:GTObjectTypeCommit error:error];
+	GTCommit *commit = [self.repository lookUpObjectByGitOid:&oid objectType:GTObjectTypeCommit error:error];
 	if (success != NULL) *success = (commit != nil);
 	return commit;
 }

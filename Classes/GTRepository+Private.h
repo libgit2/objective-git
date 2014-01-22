@@ -9,6 +9,6 @@
 #import <ObjectiveGit/ObjectiveGit.h>
 
 @interface GTRepository ()
-- (id)lookupObjectByGitOid:(const git_oid *)oid objectType:(GTObjectType)type error:(NSError **)error;
-- (id)lookupObjectByGitOid:(const git_oid *)oid error:(NSError **)error;
+- (id)lookUpObjectByGitOid:(const git_oid *)oid objectType:(GTObjectType)type error:(NSError **)error;
+- (id)lookUpObjectByGitOid:(const git_oid *)oid error:(NSError **)error;
 @end

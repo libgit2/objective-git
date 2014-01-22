@@ -28,19 +28,19 @@
 //
 
 
-#import "GTObject.h"
+#import "GTBranch.h"
 #import "GTEnumerator.h"
+#import "GTObject.h"
 #import "GTReference.h"
 
-@class GTBranch;
 @class GTCommit;
 @class GTConfiguration;
+@class GTDiffFile;
 @class GTIndex;
 @class GTObjectDatabase;
 @class GTOdbObject;
 @class GTSignature;
 @class GTSubmodule;
-@class GTDiffFile;
 @class GTTag;
 @class GTTree;
 
@@ -170,13 +170,27 @@ extern NSString *const GTRepositoryCloneOptionsCredentialProvider;
 + (id)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL options:(NSDictionary *)options error:(NSError **)error transferProgressBlock:(void (^)(const git_transfer_progress *))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))checkoutProgressBlock;
 
 // Lookup objects in the repo by oid or sha1
-- (id)lookupObjectByOID:(GTOID *)oid objectType:(GTObjectType)type error:(NSError **)error;
-- (id)lookupObjectByOID:(GTOID *)oid error:(NSError **)error;
-- (id)lookupObjectBySHA:(NSString *)sha objectType:(GTObjectType)type error:(NSError **)error;
-- (id)lookupObjectBySHA:(NSString *)sha error:(NSError **)error;
+- (id)lookUpObjectByOID:(GTOID *)oid objectType:(GTObjectType)type error:(NSError **)error;
+- (id)lookUpObjectByOID:(GTOID *)oid error:(NSError **)error;
+- (id)lookUpObjectBySHA:(NSString *)sha objectType:(GTObjectType)type error:(NSError **)error;
+- (id)lookUpObjectBySHA:(NSString *)sha error:(NSError **)error;
 
 // Lookup an object in the repo using a revparse spec
-- (id)lookupObjectByRevParse:(NSString *)spec error:(NSError **)error;
+- (id)lookUpObjectByRevParse:(NSString *)spec error:(NSError **)error;
+
+// Finds the branch with the given name and type.
+//
+// branchName - The name of the branch to look up (e.g., `master` or
+//              `origin/master`). This must not be nil.
+// branchType - Whether the branch to look up is local or remote.
+// success    - If not NULL, set to whether the branch lookup finished without
+//              any errors. This can be `YES` even if no matching branch is
+//              found.
+// error      - If not NULL, set to any error that occurs.
+//
+// Returns the matching branch, or nil if no match was found or an error occurs.
+// The latter two cases can be distinguished by checking `success`.
+- (GTBranch *)lookUpBranchWithName:(NSString *)branchName type:(GTBranchType)branchType success:(BOOL *)success error:(NSError **)error;
 
 // List all references in the repository
 //
