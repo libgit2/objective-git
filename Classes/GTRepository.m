@@ -286,15 +286,20 @@ struct GTClonePayload {
 	return [GTObject objectWithObj:obj inRepository:self];
 }
 
-- (GTBranch *)lookUpBranchWithName:(NSString *)branchName type:(GTBranchType)branchType error:(NSError **)error {
+- (GTBranch *)lookUpBranchWithName:(NSString *)branchName type:(GTBranchType)branchType success:(BOOL *)success error:(NSError **)error {
 	NSParameterAssert(branchName != nil);
 
-	git_reference *ref;
+	git_reference *ref = NULL;
 	int gitError = git_branch_lookup(&ref, self.git_repository, branchName.UTF8String, (git_branch_t)branchType);
-	if (gitError < GIT_OK) {
+	if (gitError < GIT_OK && gitError != GIT_ENOTFOUND) {
+		if (success != NULL) *success = NO;
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Branch lookup failed"];
+
 		return nil;
 	}
+
+	if (success != NULL) *success = YES;
+	if (ref == NULL) return nil;
 
 	GTReference *gtRef = [[GTReference alloc] initWithGitReference:ref repository:self];
 	return [[GTBranch alloc] initWithReference:gtRef repository:self];

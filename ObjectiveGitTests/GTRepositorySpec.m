@@ -186,11 +186,11 @@ describe(@"-preparedMessage", ^{
 describe(@"-mergeBaseBetweenFirstOID:secondOID:error:", ^{
 	it(@"should find the merge base between two branches", ^{
 		NSError *error = nil;
-		GTBranch *masterBranch = [repository lookUpBranchWithName:@"master" type:GTBranchTypeLocal error:&error];
+		GTBranch *masterBranch = [repository lookUpBranchWithName:@"master" type:GTBranchTypeLocal success:NULL error:&error];
 		expect(masterBranch).notTo.beNil();
 		expect(error).to.beNil();
 
-		GTBranch *otherBranch = [repository lookUpBranchWithName:@"other-branch" type:GTBranchTypeLocal error:&error];
+		GTBranch *otherBranch = [repository lookUpBranchWithName:@"other-branch" type:GTBranchTypeLocal success:NULL error:&error];
 		expect(otherBranch).notTo.beNil();
 		expect(error).to.beNil();
 
@@ -344,21 +344,32 @@ describe(@"-resetToCommit:withResetType:error:", ^{
 describe(@"-lookUpBranchWithName:type:error:", ^{
 	it(@"should look up a local branch", ^{
 		NSError *error = nil;
-		GTBranch *branch = [repository lookUpBranchWithName:@"master" type:GTBranchTypeLocal error:&error];
+		BOOL success = NO;
+		GTBranch *branch = [repository lookUpBranchWithName:@"master" type:GTBranchTypeLocal success:&success error:&error];
+
 		expect(branch).notTo.beNil();
+		expect(success).to.beTruthy();
 		expect(error).to.beNil();
 	});
 
 	it(@"should look up a remote branch", ^{
 		NSError *error = nil;
-		GTBranch *branch = [repository lookUpBranchWithName:@"origin/master" type:GTBranchTypeRemote error:&error];
+		BOOL success = NO;
+		GTBranch *branch = [repository lookUpBranchWithName:@"origin/master" type:GTBranchTypeRemote success:&success error:&error];
+
 		expect(branch).notTo.beNil();
+		expect(success).to.beTruthy();
 		expect(error).to.beNil();
 	});
 
 	it(@"should return nil for a nonexistent branch", ^{
-		GTBranch *branch = [repository lookUpBranchWithName:@"foobar" type:GTBranchTypeLocal error:NULL];
+		NSError *error = nil;
+		BOOL success = NO;
+		GTBranch *branch = [repository lookUpBranchWithName:@"foobar" type:GTBranchTypeLocal success:&success error:&error];
+
 		expect(branch).to.beNil();
+		expect(success).to.beTruthy();
+		expect(error).to.beNil();
 	});
 });
 

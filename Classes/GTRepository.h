@@ -183,10 +183,14 @@ extern NSString *const GTRepositoryCloneOptionsCredentialProvider;
 // branchName - The name of the branch to look up (e.g., `master` or
 //              `origin/master`). This must not be nil.
 // branchType - Whether the branch to look up is local or remote.
+// success    - If not NULL, set to whether the branch lookup finished without
+//              any errors. This can be `YES` even if no matching branch is
+//              found.
 // error      - If not NULL, set to any error that occurs.
 //
-// Returns the matching branch, or nil if no match was found.
-- (GTBranch *)lookUpBranchWithName:(NSString *)branchName type:(GTBranchType)branchType error:(NSError **)error;
+// Returns the matching branch, or nil if no match was found or an error occurs.
+// The latter two cases can be distinguished by checking `success`.
+- (GTBranch *)lookUpBranchWithName:(NSString *)branchName type:(GTBranchType)branchType success:(BOOL *)success error:(NSError **)error;
 
 // List all references in the repository
 //
