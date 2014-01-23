@@ -219,6 +219,24 @@ describe(@"-currentBranchWithError:", ^{
 	});
 });
 
+describe(@"-createBranchNamed:fromOID:committer:message:error:", ^{
+	it(@"should create a local branch from the given OID", ^{
+		GTBranch *currentBranch = [repository currentBranchWithError:NULL];
+		expect(currentBranch).notTo.beNil();
+
+		NSString *branchName = @"new-test-branch";
+
+		NSError *error = nil;
+		GTBranch *newBranch = [repository createBranchNamed:branchName fromOID:[[GTOID alloc] initWithSHA:currentBranch.SHA] committer:nil message:nil error:&error];
+		expect(newBranch).notTo.beNil();
+		expect(error).to.beNil();
+
+		expect(newBranch.shortName).to.equal(branchName);
+		expect(newBranch.branchType).to.equal(GTBranchTypeLocal);
+		expect(newBranch.SHA).to.equal(currentBranch.SHA);
+	});
+});
+
 describe(@"-localBranchesWithError:", ^{
 	it(@"should return the local branches", ^{
 		NSError *error = nil;

@@ -246,10 +246,11 @@ extern NSString *const GTRepositoryCloneOptionsCredentialProvider;
 // Returns the created ref, or nil if an error occurred.
 - (GTReference *)createReferenceNamed:(NSString *)name fromReference:(GTReference *)targetRef committer:(GTSignature *)signature message:(NSString *)message error:(NSError **)error;
 
-// Create a new branch with this name and based off this reference.
+// Create a new local branch pointing to the given OID.
 //
-// name      - The name for the new branch. This must not be nil.
-// ref       - The reference to create the new branch off. This must not be nil.
+// name      - The name for the new branch (e.g., `master`). This must not be
+//             nil.
+// targetOID - The OID to create the new branch off. This must not be nil.
 // signature - A signature for the committer creating this branch, used for
 //             creating a reflog entry. This may be nil.
 // message   - A message to use when creating the reflog entry for this action.
@@ -257,7 +258,7 @@ extern NSString *const GTRepositoryCloneOptionsCredentialProvider;
 // error     - If not NULL, set to any error that occurs.
 //
 // Returns the new branch, or nil if an error occurred.
-- (GTBranch *)createBranchNamed:(NSString *)name fromReference:(GTReference *)ref committer:(GTSignature *)signature message:(NSString *)message error:(NSError **)error;
+- (GTBranch *)createBranchNamed:(NSString *)name fromOID:(GTOID *)targetOID committer:(GTSignature *)signature message:(NSString *)message error:(NSError **)error;
 
 // Get the current branch.
 //

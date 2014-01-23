@@ -453,12 +453,11 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 	return [[GTReference alloc] initWithGitReference:ref repository:self];
 }
 
-- (GTBranch *)createBranchNamed:(NSString *)name fromReference:(GTReference *)ref committer:(GTSignature *)signature message:(NSString *)message error:(NSError **)error {
-	// make sure the ref is up to date before we branch off it, otherwise we could branch off an older sha
-	ref = [ref reloadedReferenceWithError:error];
-	if (ref == nil) return nil;
-	
-	GTReference *newRef = [self createReferenceNamed:[GTBranch.localNamePrefix stringByAppendingString:name] fromReference:ref committer:signature message:message error:error];
+- (GTBranch *)createBranchNamed:(NSString *)name fromOID:(GTOID *)targetOID committer:(GTSignature *)signature message:(NSString *)message error:(NSError **)error {
+	NSParameterAssert(name != nil);
+	NSParameterAssert(targetOID != nil);
+
+	GTReference *newRef = [self createReferenceNamed:[GTBranch.localNamePrefix stringByAppendingString:name] fromOID:targetOID committer:signature message:message error:error];
 	if (newRef == nil) return nil;
 
 	return [GTBranch branchWithReference:newRef repository:self];
