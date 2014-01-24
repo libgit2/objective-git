@@ -105,7 +105,7 @@
     return self.tree.repository;
 }
 
-- (GTObject *)object:(NSError **)error {
+- (GTObject *)GTObject:(NSError **)error {
 	return [GTObject objectWithTreeEntry:self error:error];
 }
 

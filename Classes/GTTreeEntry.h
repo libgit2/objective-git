@@ -63,7 +63,7 @@
 // error - will be filled if an error occurs
 //
 // Returns this entry as a GTObject or nil if an error occurred.
-- (GTObject *)object:(NSError **)error;
+- (GTObject *)GTObject:(NSError **)error;
 
 @end
 
