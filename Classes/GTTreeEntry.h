@@ -44,13 +44,13 @@
 @property (nonatomic, strong, readonly) GTTree *tree;
 
 // The filename of the entry
-@property (nonatomic, strong, readonly) NSString *name;
+@property (nonatomic, copy, readonly) NSString *name;
 
 // The UNIX file attributes of the entry.
 @property (nonatomic, readonly) NSInteger attributes;
 
 // The SHA hash of the entry
-@property (nonatomic, strong, readonly) NSString *SHA;
+@property (nonatomic, copy, readonly) NSString *SHA;
 
 // The type of GTObject that -object: will return.
 @property (nonatomic, readonly) GTObjectType type;
