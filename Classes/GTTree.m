@@ -76,7 +76,7 @@ static int treewalk_cb(const char *root, const git_tree_entry *git_entry, void *
 	GTTreeEnumerationStruct *enumerationStruct = (GTTreeEnumerationStruct *)payload;
 	NSString *rootString = @(root);
 	GTTreeEntry *parentEntry = enumerationStruct->directoryStructure[rootString];
-	GTTree *parentTree = parentEntry ? parentEntry.tree : enumerationStruct->myself;
+	GTTree *parentTree = parentEntry != nil ? parentEntry.tree : enumerationStruct->myself;
 	GTTreeEntry *entry = [GTTreeEntry entryWithEntry:git_entry parentTree:parentTree];
 	
 	if (entry.type == GTObjectTypeTree) {
