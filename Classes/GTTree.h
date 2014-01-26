@@ -43,7 +43,7 @@ typedef enum GTTreeEnumerationOptions {
 // The number of entries in the tree.
 @property (nonatomic, readonly) NSUInteger entryCount;
 
-// The contents of the tree, as an array of GTTreeEntries
+// The contents of the tree, as an array of whose objects are of type `GTTreeEntry`
 @property (nonatomic, strong, readonly) NSArray *entries;
 
 // The underlying `git_object` as a `git_tree` object.
@@ -68,12 +68,12 @@ typedef enum GTTreeEnumerationOptions {
 // options - One of `GTTreeEnumerationOptionPre` (for pre-order walks) or
 //           `GTTreeEnumerationOptionPost` (for post-order walks).
 // error   - The error if one occurred.
-// block   - A block that will be called back with the current entry, a
+// block   - A block that will be invoked with the current entry, a
 //           path to the root of the tree, and a stop parameter to abort the walk. Cannot be nil.
 //           Return `YES` to descend into the descendants of the entry, or return `NO` to skip those descendants.
 //           Returning `YES` or `NO` only matters when in `GTTreeEnumerationOptionPre` mode.
 //
-// Returns `YES` if the enumeration completed successfully, `NO` otherwise
+// Returns `YES` if the enumeration completed successfully, `NO` otherwise.
 - (BOOL)enumerateEntriesWithOptions:(GTTreeEnumerationOptions)options error:(NSError **)error block:(BOOL (^)(GTTreeEntry *entry, NSString *root, BOOL *stop))block;
 
 // Merges the given tree into the receiver in memory and produces the result as
