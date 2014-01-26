@@ -50,18 +50,33 @@ it(@"should give quick access to its entries", ^{
 	expect(treeEntries).to.contain(subdir);
 });
 
-it(@"should be able to enumerate entries, stopping when instructed", ^{
-	NSMutableArray *mutableArray = [NSMutableArray array];
-	BOOL success = [tree enumerateEntriesWithOptions:GTTreeEnumerationOptionPre error:nil block:^(GTTreeEntry *entry, NSString *root, BOOL *stop) {
-		if ([entry.name isEqualToString:@"README"]) {
-			*stop = YES;
-		}
-		[mutableArray addObject:entry];
-		return YES;
-	}];
+describe(@"tree enumeration", ^{
+	it(@"should stop when instructed", ^{
+		NSMutableArray *mutableArray = [NSMutableArray array];
+		BOOL success = [tree enumerateEntriesWithOptions:GTTreeEnumerationOptionPre error:nil block:^(GTTreeEntry *entry, NSString *root, BOOL *stop) {
+			if ([entry.name isEqualToString:@"README"]) {
+				*stop = YES;
+			}
+			[mutableArray addObject:entry];
+			return YES;
+		}];
 
-	expect(success).to.beTruthy();
-	expect(mutableArray.count).to.equal(1);
+		expect(success).to.beTruthy();
+		expect(mutableArray.count).to.equal(1);
+	});
+
+	it(@"should be able to enumerate descendants", ^{
+		NSMutableArray *entriesInASubtree = [NSMutableArray array];
+		BOOL success = [tree enumerateEntriesWithOptions:GTTreeEnumerationOptionPre error:nil block:^BOOL(GTTreeEntry *entry, NSString *root, BOOL *stop) {
+			if (![root isEqualToString:@""]) {
+				[entriesInASubtree addObject:entry];
+			}
+			return YES;
+		}];
+		
+		expect(success).to.beTruthy;
+		expect(entriesInASubtree.count).to.equal(5);
+	});
 });
 
 it(@"should return nil for non-existent entries", ^{
