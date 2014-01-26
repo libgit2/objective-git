@@ -69,7 +69,7 @@ typedef enum GTTreeEnumerationOptions {
 //           `GTTreeEnumerationOptionPost` (for post-order walks).
 // error   - The error if one occurred.
 // block   - A block that will be invoked with the current entry, a
-//           path to the root of the tree, and a stop parameter to abort the walk. Cannot be nil.
+//           (repository relaltive) path to the root of the current entry, and a stop parameter to abort the walk. Cannot be nil.
 //           Return `YES` to descend into the descendants of the entry, or return `NO` to skip those descendants.
 //           Returning `YES` or `NO` only matters when in `GTTreeEnumerationOptionPre` mode.
 //
