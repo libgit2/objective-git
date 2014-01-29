@@ -77,6 +77,18 @@ describe(@"tree enumeration", ^{
 		expect(success).to.beTruthy;
 		expect(entriesInASubtree.count).to.equal(5);
 	});
+	
+	it(@"should be able to enumerate in post-order", ^{
+		NSMutableArray *entries = [NSMutableArray array];
+		BOOL success = [tree enumerateEntriesWithOptions:GTTreeEnumerationOptionPost error:nil block:^(GTTreeEntry *entry, NSString *root, BOOL *stop) {
+			[entries addObject:entry];
+			// Because we are enumerating in post-order the return statement has no impact.
+			return NO;
+		}];
+		
+		expect(success).to.beTruthy();
+		expect(entries.count).to.equal(8);
+	});
 });
 
 it(@"should return nil for non-existent entries", ^{
