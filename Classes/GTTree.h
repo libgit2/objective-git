@@ -72,7 +72,7 @@ typedef enum GTTreeEnumerationOptions {
 //            (repository relative) path to the root of the current entry,
 //            and a stop parameter to abort the walk. Cannot be nil.
 //            Return `YES` to move into the descendants of the entry.
-//            Return `NO` to skip.
+//            Return `NO` to skip the entry's descendants.
 //            Returning `YES` or `NO` only matters when in pre-order mode.
 //
 // Returns `YES` if the enumeration completed successfully, `NO` otherwise.
