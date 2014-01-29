@@ -67,7 +67,7 @@ describe(@"tree enumeration", ^{
 
 	it(@"should be able to enumerate descendants", ^{
 		NSMutableArray *entriesInASubtree = [NSMutableArray array];
-		BOOL success = [tree enumerateEntriesWithOptions:GTTreeEnumerationOptionPre error:nil block:^BOOL(GTTreeEntry *entry, NSString *root, BOOL *stop) {
+		BOOL success = [tree enumerateEntriesWithOptions:GTTreeEnumerationOptionPre error:nil block:^(GTTreeEntry *entry, NSString *root, BOOL *stop) {
 			if (![root isEqualToString:@""]) {
 				[entriesInASubtree addObject:entry];
 			}
