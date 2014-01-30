@@ -41,6 +41,9 @@ typedef enum {
 // Designated initializer.
 - (instancetype)initWithGitBlame:(git_blame *)blame;
 
+// The number of hunks in the blame.
+@property (nonatomic, readonly) NSUInteger hunkCount;
+
 // Get the hunk at the specified index.
 //
 // index - The index to retrieve the hunk from.
@@ -48,7 +51,6 @@ typedef enum {
 // Returns a `GTBlameHunk` or nil if an error occurred.
 - (GTBlameHunk *)hunkAtIndex:(NSUInteger)index;
 
-@property (nonatomic, readonly) NSUInteger hunkCount;
 
 @end
 
