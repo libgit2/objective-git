@@ -11,6 +11,7 @@
 #import "GTOID.h"
 #import "GTRepository.h"
 #import "GTSignature.h"
+#import "NSError+Git.h"
 
 @interface GTBlame ()
 
@@ -20,17 +21,23 @@
 
 @implementation GTBlame
 
-+ (GTBlame *)blameWithFile:(NSString *)path inRepository:(GTRepository *)repository options:(GTBlameOptionsFlags)options {
++ (GTBlame *)blameWithFile:(NSString *)path inRepository:(GTRepository *)repository options:(GTBlameOptionsFlags)options error:(NSError **)error {
 	git_blame *blame = NULL;
-	const int result = git_blame_file(&blame, repository.git_repository, [path fileSystemRepresentation], (git_blame_options *)&options);
+	git_blame_options blame_options = GIT_BLAME_OPTIONS_INIT;
+	blame_options.flags = (git_blame_flag_t)options;
 	
-	if (result != GIT_OK)
+	int returnValue = git_blame_file(&blame, repository.git_repository, path.fileSystemRepresentation, &blame_options);
+	
+	if (returnValue != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:returnValue description:@"Failed to create blame for file %@", path];
 		return nil;
+	}
+
 	return [[self alloc] initWithGitBlame:blame];
 }
 
-+ (GTBlame *)blameWithFile:(NSString *)path inRepository:(GTRepository *)repository {
-	return [self blameWithFile:path inRepository:repository options:GTBlameOptionsNormal];
++ (GTBlame *)blameWithFile:(NSString *)path inRepository:(GTRepository *)repository error:(NSError **)error {
+	return [self blameWithFile:path inRepository:repository options:GTBlameOptionsNormal error:error];
 }
 
 - (instancetype)initWithGitBlame:(git_blame *)blame {

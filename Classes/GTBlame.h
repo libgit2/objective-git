@@ -27,16 +27,22 @@ typedef enum {
 
 // Create a blame for a file, with options.
 //
-// path				- Path for the file to examine.
+// path       - Path for the file to examine.
 // repository - Repository containing the file.
-// options		- Option flags, such as for tracking copies.
-+ (GTBlame *)blameWithFile:(NSString *)path inRepository:(GTRepository *)repository options:(GTBlameOptionsFlags)options;
+// options    - Option flags, such as for tracking copies.
+// error      - Populated with an `NSError` object on error.
+//
+// Returns a new `GTBlame` object or nil if an error occurred.
++ (GTBlame *)blameWithFile:(NSString *)path inRepository:(GTRepository *)repository options:(GTBlameOptionsFlags)options error:(NSError **)error;
 
 // Create a blame with the default options.
 //
-// path				- Path for the file to examine.
+// path       - Path for the file to examine.
 // repository - Repository containing the file.
-+ (GTBlame *)blameWithFile:(NSString *)path inRepository:(GTRepository *)repository;
+// error      - Populated with an `NSError` object on error.
+//
+// Returns a new `GTBlame` object or nil if an error occurred.
++ (GTBlame *)blameWithFile:(NSString *)path inRepository:(GTRepository *)repository error:(NSError **)error;
 
 // Designated initializer.
 - (instancetype)initWithGitBlame:(git_blame *)blame;
