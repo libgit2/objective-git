@@ -74,5 +74,8 @@ typedef enum {
 // Returns a `GTBlameHunk` or nil if an error occurred.
 - (GTBlameHunk *)hunkAtLineNumber:(NSUInteger)lineNumber;
 
+// The underlying `git_blame` object.
+- (git_blame *)git_blame __attribute__((objc_returns_inner_pointer));
+
 @end
 
