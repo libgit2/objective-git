@@ -14,47 +14,48 @@
 
 - (instancetype)initWithGitBlameHunk:(git_blame_hunk)hunk {
 	self = [super init];
-	if (self == nil)
-		return nil;
+	if (self == nil) return nil;
 
 	_git_blame_hunk = hunk;
 	return self;
 }
 
 - (NSUInteger)lineCount {
-	return _git_blame_hunk.lines_in_hunk;
+	return self.git_blame_hunk.lines_in_hunk;
 }
 
 - (NSUInteger)finalStartLineNumber {
-	return _git_blame_hunk.final_start_line_number;
+	return self.git_blame_hunk.final_start_line_number;
 }
 
 - (GTOID *)finalCommitID {
-	return [[GTOID alloc] initWithGitOid:&_git_blame_hunk.final_commit_id];
+	git_oid oid = self.git_blame_hunk.final_commit_id;
+	return [GTOID oidWithGitOid:&oid];
 }
 
 - (GTSignature *)finalSignature {
-	return [[GTSignature alloc] initWithGitSignature:_git_blame_hunk.final_signature];
+	return [[GTSignature alloc] initWithGitSignature:self.git_blame_hunk.final_signature];
 }
 
 - (GTOID *)originalCommitID {
-	return [[GTOID alloc] initWithGitOid:&_git_blame_hunk.orig_commit_id];
+	git_oid oid = self.git_blame_hunk.orig_commit_id;
+	return [GTOID oidWithGitOid:&oid];
 }
 
 - (NSUInteger)originalStartLineNumber {
-	return _git_blame_hunk.orig_start_line_number;
+	return self.git_blame_hunk.orig_start_line_number;
 }
 
 - (GTSignature *)originalSignature {
-	return [[GTSignature alloc] initWithGitSignature:_git_blame_hunk.orig_signature];
+	return [[GTSignature alloc] initWithGitSignature:self.git_blame_hunk.orig_signature];
 }
 
 - (NSString *)originalPath {
-	return [[NSString alloc] initWithUTF8String:_git_blame_hunk.orig_path];
+	return @(self.git_blame_hunk.orig_path);
 }
 
 - (BOOL)isBoundary {
-	return _git_blame_hunk.boundary;
+	return self.git_blame_hunk.boundary;
 }
 
 @end
