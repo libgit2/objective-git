@@ -47,6 +47,9 @@ typedef enum {
 // Designated initializer.
 - (instancetype)initWithGitBlame:(git_blame *)blame;
 
+// Get all the hunks in the blame. A convenience wrapper around `enumerateHunksUsingBlock:`
+@property (nonatomic, strong, readonly) NSArray *hunks;
+
 // The number of hunks in the blame.
 @property (nonatomic, readonly) NSUInteger hunkCount;
 
@@ -57,6 +60,12 @@ typedef enum {
 // Returns a `GTBlameHunk` or nil if an error occurred.
 - (GTBlameHunk *)hunkAtIndex:(NSUInteger)index;
 
+// Enumerate the hunks in the blame.
+//
+// block - A block invoked for every hunk in the blame.
+//         Setting stop to `YES` instantly stops the enumeration.
+//
+- (void)enumerateHunksUsingBlock:(void (^)(GTBlameHunk *hunk, BOOL *stop))block;
 
 @end
 

@@ -70,4 +70,25 @@
 	return [[GTBlameHunk alloc] initWithGitBlameHunk:*hunk];
 }
 
+- (void)enumerateHunksUsingBlock:(void (^)(GTBlameHunk *hunk, BOOL *stop))block {
+	NSParameterAssert(block != nil);
+	
+	for (NSUInteger idx = 0; idx < self.hunkCount; idx++) {
+		GTBlameHunk *hunk = [self hunkAtIndex:idx];
+		
+		BOOL shouldStop = NO;
+		block(hunk, &shouldStop);
+		if (shouldStop) return;
+	}
+}
+
+- (NSArray *)hunks {
+	__block NSMutableArray *hunks = [NSMutableArray arrayWithCapacity:self.hunkCount];
+	[self enumerateHunksUsingBlock:^(GTBlameHunk *hunk, BOOL *stop) {
+		[hunks addObject:hunk];
+	}];
+	
+	return hunks;
+}
+
 @end
