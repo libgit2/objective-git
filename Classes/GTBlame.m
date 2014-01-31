@@ -51,19 +51,19 @@
 	return self;
 }
 
-- (void) dealloc {
+- (void)dealloc {
 	if (_git_blame != NULL) {
 		git_blame_free(_git_blame);
 		_git_blame = NULL;
 	}
 }
 
-- (NSUInteger) hunkCount {
-	return git_blame_get_hunk_count(_git_blame);
+- (NSUInteger)hunkCount {
+	return git_blame_get_hunk_count(self.git_blame);
 }
 
 - (GTBlameHunk *)hunkAtIndex:(NSUInteger)index {
-	const git_blame_hunk *hunk = git_blame_get_hunk_byindex(_git_blame, (uint32_t)index);
+	const git_blame_hunk *hunk = git_blame_get_hunk_byindex(self.git_blame, (uint32_t)index);
 
 	if (hunk == NULL)
 		return nil;
