@@ -67,5 +67,12 @@ typedef enum {
 //
 - (void)enumerateHunksUsingBlock:(void (^)(GTBlameHunk *hunk, BOOL *stop))block;
 
+// Get the hunk that relates to the given line number in the newest commit.
+//
+// lineNumber - The (1 based) line number to find a hunk for.
+//
+// Returns a `GTBlameHunk` or nil if an error occurred.
+- (GTBlameHunk *)hunkAtLineNumber:(NSUInteger)lineNumber;
+
 @end
 

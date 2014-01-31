@@ -91,4 +91,11 @@
 	return hunks;
 }
 
+- (GTBlameHunk *)hunkAtLineNumber:(NSUInteger)lineNumber {
+	const git_blame_hunk *hunk = git_blame_get_hunk_byline(self.git_blame, (uint32)lineNumber);
+
+	if (hunk == NULL) return nil;
+	return [[GTBlameHunk alloc] initWithGitBlameHunk:*hunk];
+}
+
 @end
