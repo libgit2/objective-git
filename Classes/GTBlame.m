@@ -65,8 +65,7 @@
 - (GTBlameHunk *)hunkAtIndex:(NSUInteger)index {
 	const git_blame_hunk *hunk = git_blame_get_hunk_byindex(self.git_blame, (uint32_t)index);
 
-	if (hunk == NULL)
-		return nil;
+	if (hunk == NULL) return nil;
 	return [[GTBlameHunk alloc] initWithGitBlameHunk:*hunk];
 }
 
