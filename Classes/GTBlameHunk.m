@@ -58,4 +58,29 @@
 	return self.git_blame_hunk.boundary;
 }
 
+- (BOOL)isEqual:(id)object {
+	return [self isEqualToHunk:object];
+}
+
+- (BOOL)isEqualToHunk:(GTBlameHunk *)otherHunk {
+	if (self == otherHunk) return YES;
+	if (![otherHunk isKindOfClass:self.class]) return NO;
+	
+	if (self.lineCount != otherHunk.lineCount) return NO;
+	if (self.finalStartLineNumber != otherHunk.finalStartLineNumber) return NO;
+	if (![self.finalCommitOID isEqual:otherHunk.finalCommitOID]) return NO;
+	if (![self.finalSignature isEqual:otherHunk.finalSignature]) return NO;
+	if (![self.originalCommitOID isEqual:otherHunk.originalCommitOID]) return NO;
+	if (self.originalStartLineNumber != otherHunk.originalStartLineNumber) return NO;
+	if (![self.originalSignature isEqual:otherHunk.originalSignature]) return NO;
+	if (![self.originalPath isEqualToString:otherHunk.originalPath]) return NO;
+	if (self.isBoundary != otherHunk.isBoundary) return NO;
+	
+	return YES;
+}
+
+- (NSUInteger)hash {
+	return self.lineCount ^ self.finalStartLineNumber ^ self.originalStartLineNumber;
+}
+
 @end
