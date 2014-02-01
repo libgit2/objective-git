@@ -67,4 +67,4 @@ You can see all the amazing people that have contributed to this project
 ## License
 
 ObjectiveGit is released under the MIT license. See
-[LICENSE.md](https://github.com/github/Archimedes/blob/master/LICENSE.md).
+the [LICENSE](LICENSE) file.
