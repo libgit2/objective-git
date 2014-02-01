@@ -20,7 +20,7 @@
 @property (nonatomic, readonly) NSUInteger lineCount;
 
 // The OID of the commit where this hunk was last changed.
-@property (nonatomic, readonly, copy) GTOID *finalCommitID;
+@property (nonatomic, readonly, copy) GTOID *finalCommitOID;
 
 // The 1-based line number where this hunk begins, in the final version of the file.
 @property (nonatomic, readonly) NSUInteger finalStartLineNumber;
@@ -29,7 +29,7 @@
 @property (nonatomic, readonly) GTSignature *finalSignature;
 
 // The OID of the original commit, which may be different if changes are being tracked.
-@property (nonatomic, readonly, copy) GTOID *originalCommitID;
+@property (nonatomic, readonly, copy) GTOID *originalCommitOID;
 
 // The 1-based line number where this hunk begins, in the original version of the file.
 @property (nonatomic, readonly) NSUInteger originalStartLineNumber;

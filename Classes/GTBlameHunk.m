@@ -28,7 +28,7 @@
 	return self.git_blame_hunk.final_start_line_number;
 }
 
-- (GTOID *)finalCommitID {
+- (GTOID *)finalCommitOID {
 	git_oid oid = self.git_blame_hunk.final_commit_id;
 	return [GTOID oidWithGitOid:&oid];
 }
@@ -37,7 +37,7 @@
 	return [[GTSignature alloc] initWithGitSignature:self.git_blame_hunk.final_signature];
 }
 
-- (GTOID *)originalCommitID {
+- (GTOID *)originalCommitOID {
 	git_oid oid = self.git_blame_hunk.orig_commit_id;
 	return [GTOID oidWithGitOid:&oid];
 }
