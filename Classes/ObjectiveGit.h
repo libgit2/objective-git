@@ -38,7 +38,7 @@
 #import <ObjectiveGit/GTTreeBuilder.h>
 #import <ObjectiveGit/GTBlob.h>
 #import <ObjectiveGit/GTBlame.h>
-#import <objectiveGit/GTBlameHunk.h>
+#import <ObjectiveGit/GTBlameHunk.h>
 #import <ObjectiveGit/GTTag.h>
 #import <ObjectiveGit/GTIndex.h>
 #import <ObjectiveGit/GTIndexEntry.h>
