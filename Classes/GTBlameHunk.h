@@ -28,7 +28,8 @@
 // The signature of the commit where this hunk was last changed.
 @property (nonatomic, readonly) GTSignature *finalSignature;
 
-// The OID of the original commit, which may be different if changes are being tracked.
+// The OID of the original commit.
+// This is only different when GTBlameOptionsTrackCopiesAnyCommitCopies is passed in.
 @property (nonatomic, readonly, copy) GTOID *originalCommitOID;
 
 // The 1-based line number where this hunk begins, in the original version of the file.
