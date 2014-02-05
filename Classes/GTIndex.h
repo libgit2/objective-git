@@ -51,11 +51,19 @@
 // Whether the index contains conflicted files.
 @property (nonatomic, readonly) BOOL hasConflicts;
 
+// Creates an in-memory index.
+//
+// repository - A repository that paths should be relative to. Cannot be nil.
+// error      - If not NULL, set to any error that occurs.
+//
+// Returns the newly created index, or nil if an error occurred.
++ (instancetype)inMemoryIndexWithRepository:(GTRepository *)repository error:(NSError **)error;
+
 // Loads the index at the given file URL.
 //
 // fileURL    - The file URL for the index on disk. Cannot be nil.
 // repository - A repository that paths should be relative to. Cannot be nil.
-// error      - The error if one occurred.
+// error      - If not NULL, set to any error that occurs.
 //
 // Returns the loaded index, or nil if an error occurred.
 + (instancetype)indexWithFileURL:(NSURL *)fileURL repository:(GTRepository *)repository error:(NSError **)error;

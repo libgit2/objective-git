@@ -67,6 +67,17 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 	if (_git_index != NULL) git_index_free(_git_index);
 }
 
++ (instancetype)inMemoryIndexWithRepository:(GTRepository *)repository error:(NSError **)error {
+	git_index *index = NULL;
+	int status = git_index_new(&index);
+	if (status != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to initialize in-memory index"];
+		return nil;
+	}
+
+	return [[self alloc] initWithGitIndex:index repository:repository];
+}
+
 + (instancetype)indexWithFileURL:(NSURL *)fileURL repository:(GTRepository *)repository error:(NSError **)error {
 	NSParameterAssert(fileURL != nil);
 	NSParameterAssert(fileURL.isFileURL);

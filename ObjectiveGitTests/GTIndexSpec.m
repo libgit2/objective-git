@@ -21,23 +21,23 @@ beforeEach(^{
 	expect(success).to.beTruthy();
 });
 
-it(@"can count the entries", ^{
+it(@"should count the entries", ^{
 	expect(index.entryCount).to.equal(2);
 });
 
-it(@"can clear all entries", ^{
+it(@"should clear all entries", ^{
 	[index clear];
 	expect(index.entryCount).to.equal(0);
 });
 
-it(@"can read entry properties", ^{
+it(@"should read entry properties", ^{
 	GTIndexEntry *entry = [index entryAtIndex:0];
 	expect(entry).notTo.beNil();
 	expect(entry.path).to.equal(@"README");
 	expect(entry.staged).to.beFalsy();
 });
 
-it(@"can write to the repository and return a tree", ^{
+it(@"should write to the repository and return a tree", ^{
 	GTRepository *repository = self.bareFixtureRepository;
 	GTIndex *index = [repository indexWithError:NULL];
 	GTTree *tree = [index writeTree:NULL];
@@ -46,7 +46,7 @@ it(@"can write to the repository and return a tree", ^{
 	expect(tree.repository).to.equal(repository);
 });
 
-it(@"can write to a specific repository and return a tree", ^{
+it(@"should write to a specific repository and return a tree", ^{
 	GTRepository *repository = self.bareFixtureRepository;
 	NSArray *branches = [repository allBranchesWithError:NULL];
 	GTCommit *masterCommit = [branches[0] targetCommitAndReturnError:NULL];
@@ -62,6 +62,12 @@ it(@"can write to a specific repository and return a tree", ^{
 	expect(mergedTree).notTo.beNil();
 	expect(mergedTree.entryCount).to.equal(5);
 	expect(mergedTree.repository).to.equal(repository);
+});
+
+it(@"should create an index in memory", ^{
+	GTIndex *memoryIndex = [GTIndex inMemoryIndexWithRepository:index.repository error:NULL];
+	expect(memoryIndex).notTo.beNil();
+	expect(memoryIndex.fileURL).to.beNil();
 });
 
 describe(@"conflict enumeration", ^{
