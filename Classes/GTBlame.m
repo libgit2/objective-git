@@ -12,6 +12,14 @@
 #import "GTRepository.h"
 #import "GTSignature.h"
 #import "NSError+Git.h"
+#import "GTOID+Private.h"
+
+NSString *const GTBlameOptionsFlags = @"GTBlameOptionsFlags";
+NSString *const GTBlameOptionsMinimumMatchCharacters = @"GTBlameOptionsMinimumMatchCharacters";
+NSString *const GTBlameOptionsNewestCommitOID = @"GTBlameOptionsNewestCommitOID";
+NSString *const GTBlameOptionsOldestCommitOID = @"GTBlameOptionsOldestCommitOID";
+NSString *const GTBlameOptionsFirstLine = @"GTBlameOptionsFirstLine";
+NSString *const GTBlameOptionsLastLine = @"GTBlameOptionsLastLine";
 
 @interface GTBlame ()
 
@@ -21,10 +29,16 @@
 
 @implementation GTBlame
 
-+ (GTBlame *)blameWithFile:(NSString *)path inRepository:(GTRepository *)repository options:(GTBlameOptionsFlags)options error:(NSError **)error {
++ (GTBlame *)blameWithFile:(NSString *)path inRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error {
 	git_blame *blame = NULL;
 	git_blame_options blame_options = GIT_BLAME_OPTIONS_INIT;
-	blame_options.flags = (git_blame_flag_t)options;
+
+	blame_options.flags = (uint32_t)[options[GTBlameOptionsFlags] unsignedIntegerValue];
+	blame_options.min_match_characters = (uint16_t)[options[GTBlameOptionsMinimumMatchCharacters] unsignedIntegerValue];
+	blame_options.newest_commit = ((GTOID *)options[GTBlameOptionsNewestCommitOID]).git_oid_struct;
+	blame_options.oldest_commit = ((GTOID *)options[GTBlameOptionsOldestCommitOID]).git_oid_struct;
+	blame_options.min_line = (uint32_t)[options[GTBlameOptionsFirstLine] unsignedIntegerValue];
+	blame_options.max_line = (uint32_t)[options[GTBlameOptionsLastLine] unsignedIntegerValue];
 	
 	int returnValue = git_blame_file(&blame, repository.git_repository, path.fileSystemRepresentation, &blame_options);
 	
@@ -37,7 +51,7 @@
 }
 
 + (GTBlame *)blameWithFile:(NSString *)path inRepository:(GTRepository *)repository error:(NSError **)error {
-	return [self blameWithFile:path inRepository:repository options:GTBlameOptionsNormal error:error];
+	return [self blameWithFile:path inRepository:repository options:@{ GTBlameOptionsFlags: @(GTBlameOptionsNormal) } error:error];
 }
 
 - (instancetype)initWithGitBlame:(git_blame *)blame {
