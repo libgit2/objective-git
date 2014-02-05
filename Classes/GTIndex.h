@@ -126,6 +126,14 @@
 // Returns YES if successful, NO otherwise.
 - (BOOL)addFile:(NSString *)file error:(NSError **)error;
 
+// Reads the contents of the given tree into the index. 
+//
+// tree  - The tree to add to the index. This must not be nil.
+// error - If not NULL, set to any error that occurs.
+//
+// Returns whether reading the tree was successful.
+- (BOOL)addContentsOfTree:(GTTree *)tree error:(NSError **)error;
+
 // Remove an entry (by relative path) from the index.
 // Will fail if the receiver's repository is nil.
 //

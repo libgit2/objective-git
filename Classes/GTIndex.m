@@ -166,6 +166,18 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 	return YES;
 }
 
+- (BOOL)addContentsOfTree:(GTTree *)tree error:(NSError **)error {
+	NSParameterAssert(tree != nil);
+
+	int status = git_index_read_tree(self.git_index, tree.git_tree);
+	if (status != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to read tree %@ into index.", tree];
+		return NO;
+	}
+
+	return YES;
+}
+
 - (BOOL)removeFile:(NSString *)file error:(NSError **)error {
 	int status = git_index_remove_bypath(self.git_index, file.fileSystemRepresentation);
 	if (status != GIT_OK) {

@@ -10,10 +10,13 @@
 
 SpecBegin(GTIndex)
 
+__block GTRepository *repository;
 __block GTIndex *index;
 
 beforeEach(^{
-	NSURL *indexURL = [self.bareFixtureRepository.gitDirectoryURL URLByAppendingPathComponent:@"index"];
+	repository = self.bareFixtureRepository;
+
+	NSURL *indexURL = [repository.gitDirectoryURL URLByAppendingPathComponent:@"index"];
 	index = [GTIndex indexWithFileURL:indexURL repository:self.bareFixtureRepository error:NULL];
 	expect(index).notTo.beNil();
 
@@ -65,9 +68,35 @@ it(@"should write to a specific repository and return a tree", ^{
 });
 
 it(@"should create an index in memory", ^{
-	GTIndex *memoryIndex = [GTIndex inMemoryIndexWithRepository:index.repository error:NULL];
+	GTIndex *memoryIndex = [GTIndex inMemoryIndexWithRepository:repository error:NULL];
 	expect(memoryIndex).notTo.beNil();
 	expect(memoryIndex.fileURL).to.beNil();
+});
+
+it(@"should add the contents of a tree", ^{
+	GTCommit *headCommit = [repository lookUpObjectByRevParse:@"HEAD" error:NULL];
+	expect(headCommit).notTo.beNil();
+
+	GTTree *headTree = headCommit.tree;
+	expect(headTree.entryCount).to.beGreaterThan(0);
+
+	GTIndex *memoryIndex = [GTIndex inMemoryIndexWithRepository:index.repository error:NULL];
+	expect(memoryIndex).notTo.beNil();
+	expect(memoryIndex.entryCount).to.equal(0);
+
+	BOOL success = [memoryIndex addContentsOfTree:headTree error:NULL];
+	expect(success).to.beTruthy();
+
+	[headTree enumerateEntriesWithOptions:GTTreeEnumerationOptionPre error:NULL block:^(GTTreeEntry *treeEntry, NSString *root, BOOL *stop) {
+		if (treeEntry.type == GTObjectTypeBlob) {
+			NSString *path = [root stringByAppendingString:treeEntry.name];
+
+			GTIndexEntry *indexEntry = [memoryIndex entryWithName:path];
+			expect(indexEntry).notTo.beNil();
+		}
+
+		return YES;
+	}];
 });
 
 describe(@"conflict enumeration", ^{
