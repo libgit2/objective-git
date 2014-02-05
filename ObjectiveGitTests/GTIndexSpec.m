@@ -14,7 +14,7 @@ __block GTIndex *index;
 
 beforeEach(^{
 	NSURL *indexURL = [self.bareFixtureRepository.gitDirectoryURL URLByAppendingPathComponent:@"index"];
-	index = [[GTIndex alloc] initWithFileURL:indexURL error:NULL];
+	index = [GTIndex indexWithFileURL:indexURL repository:self.bareFixtureRepository error:NULL];
 	expect(index).notTo.beNil();
 
 	BOOL success = [index refresh:NULL];

@@ -45,6 +45,16 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 
 @implementation GTIndex
 
+#pragma mark Properties
+
+- (NSURL *)fileURL {
+	const char *cPath = git_index_path(self.git_index);
+	if (cPath == NULL) return nil;
+
+	NSString *path = [NSFileManager.defaultManager stringWithFileSystemRepresentation:cPath length:strlen(cPath)];
+	return [NSURL fileURLWithPath:path];
+}
+
 #pragma mark NSObject
 
 - (NSString *)description {
@@ -57,11 +67,9 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 	if (_git_index != NULL) git_index_free(_git_index);
 }
 
-- (id)initWithFileURL:(NSURL *)fileURL error:(NSError **)error {
++ (instancetype)indexWithFileURL:(NSURL *)fileURL repository:(GTRepository *)repository error:(NSError **)error {
 	NSParameterAssert(fileURL != nil);
-
-	self = [super init];
-	if (self == nil) return nil;
+	NSParameterAssert(fileURL.isFileURL);
 
 	git_index *index = NULL;
 	int status = git_index_open(&index, fileURL.path.fileSystemRepresentation);
@@ -70,10 +78,7 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 		return nil;
 	}
 
-	_fileURL = [fileURL copy];
-	_git_index = index;
-
-	return self;
+	return [[self alloc] initWithGitIndex:index repository:repository];
 }
 
 - (id)initWithGitIndex:(git_index *)index repository:(GTRepository *)repository {
