@@ -52,6 +52,8 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 	if (cPath == NULL) return nil;
 
 	NSString *path = [NSFileManager.defaultManager stringWithFileSystemRepresentation:cPath length:strlen(cPath)];
+	if (path == nil) return nil;
+
 	return [NSURL fileURLWithPath:path];
 }
 
