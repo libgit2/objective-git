@@ -162,7 +162,6 @@
 		4D103ADD1819CFAA0029DB24 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D103ADC1819CFAA0029DB24 /* libiconv.dylib */; };
 		4D123240178E009E0048F785 /* GTRepositoryCommittingSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D12323F178E009E0048F785 /* GTRepositoryCommittingSpec.m */; };
 		4D1C40D8182C006D00BE2960 /* GTBlobSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D1C40D7182C006D00BE2960 /* GTBlobSpec.m */; };
-		4D26799F178DAF31002A2795 /* GTTreeEntry+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 4D26799D178DAF31002A2795 /* GTTreeEntry+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		4D79C0EE17DF9F4D00997DE4 /* GTCredential.h in Headers */ = {isa = PBXBuildFile; fileRef = 4D79C0EC17DF9F4D00997DE4 /* GTCredential.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4D79C0EF17DF9F4D00997DE4 /* GTCredential.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D79C0ED17DF9F4D00997DE4 /* GTCredential.m */; };
 		4D79C0F717DFAA7100997DE4 /* GTCredential+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 4D79C0F617DFAA7100997DE4 /* GTCredential+Private.h */; };
@@ -545,7 +544,6 @@
 		4D103ADC1819CFAA0029DB24 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		4D12323F178E009E0048F785 /* GTRepositoryCommittingSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTRepositoryCommittingSpec.m; sourceTree = "<group>"; };
 		4D1C40D7182C006D00BE2960 /* GTBlobSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTBlobSpec.m; sourceTree = "<group>"; };
-		4D26799D178DAF31002A2795 /* GTTreeEntry+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTTreeEntry+Private.h"; sourceTree = "<group>"; };
 		4D79C0EC17DF9F4D00997DE4 /* GTCredential.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTCredential.h; sourceTree = "<group>"; };
 		4D79C0ED17DF9F4D00997DE4 /* GTCredential.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTCredential.m; sourceTree = "<group>"; };
 		4D79C0F617DFAA7100997DE4 /* GTCredential+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTCredential+Private.h"; sourceTree = "<group>"; };
@@ -948,7 +946,6 @@
 				BD6B040F131496B8001909D0 /* GTTree.h */,
 				BD6B0410131496B8001909D0 /* GTTree.m */,
 				BD6B0415131496CC001909D0 /* GTTreeEntry.h */,
-				4D26799D178DAF31002A2795 /* GTTreeEntry+Private.h */,
 				BD6B0416131496CC001909D0 /* GTTreeEntry.m */,
 				5BE612861745EE3300266D8C /* GTTreeBuilder.h */,
 				5BE612871745EE3300266D8C /* GTTreeBuilder.m */,
@@ -1186,7 +1183,6 @@
 				30B1E7EE1703522100D0814D /* NSDate+GTTimeAdditions.h in Headers */,
 				D09C2E361755F16200065E36 /* GTSubmodule.h in Headers */,
 				20702DAC18A1F1DF009FB457 /* GTOID+Private.h in Headers */,
-				4D26799F178DAF31002A2795 /* GTTreeEntry+Private.h in Headers */,
 				306123B117EA5261006591D4 /* metamacros.h in Headers */,
 				4DE864351794A37E00371A65 /* GTRepository+Private.h in Headers */,
 				4D79C0EE17DF9F4D00997DE4 /* GTCredential.h in Headers */,
