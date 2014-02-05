@@ -41,7 +41,7 @@ it(@"should be able to provide all the hunks quickly ", ^{
 
 it(@"should be able to enumerate all the hunks in a blame, stopping when instructed", ^{
 	NSMutableArray *mutableArray = [NSMutableArray array];
-	[blame enumerateHunksUsingBlock:^(GTBlameHunk *hunk, BOOL *stop) {
+	[blame enumerateHunksUsingBlock:^(GTBlameHunk *hunk, NSUInteger index, BOOL *stop) {
 		[mutableArray addObject:hunk];
 		*stop = YES;
 	}];
@@ -82,7 +82,7 @@ describe(@"Creating a blame with options", ^{
 	it(@"should follow the instructions provided by the GTBlameOptionsTrackCopiesAnyCommitCopies key", ^{
 		GTBlame *optionsBlame = [GTBlame blameWithFile:@"README_renamed" inRepository:self.testAppFixtureRepository options:@{ GTBlameOptionsFlags: @(GTBlameOptionsTrackCopiesAnyCommitCopies) } error:nil];
 
-		[optionsBlame enumerateHunksUsingBlock:^(GTBlameHunk *hunk, BOOL *stop) {
+		[optionsBlame enumerateHunksUsingBlock:^(GTBlameHunk *hunk, NSUInteger index, BOOL *stop) {
 			expect(hunk.originalPath).to.equal(@"README");
 			// These test should fail when `GTBlameOptionsTrackCopiesAnyCommitCopies` is implemented.
 			expect(hunk.finalCommitOID).to.equal(hunk.originalCommitOID);

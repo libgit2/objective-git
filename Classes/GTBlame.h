@@ -86,7 +86,7 @@ extern NSString *const GTBlameOptionsLastLine;
 // block - A block invoked for every hunk in the blame.
 //         Setting stop to `YES` instantly stops the enumeration.
 //
-- (void)enumerateHunksUsingBlock:(void (^)(GTBlameHunk *hunk, BOOL *stop))block;
+- (void)enumerateHunksUsingBlock:(void (^)(GTBlameHunk *hunk, NSUInteger index, BOOL *stop))block;
 
 // Get the hunk that relates to the given line number in the newest commit.
 //

@@ -83,21 +83,21 @@ NSString *const GTBlameOptionsLastLine = @"GTBlameOptionsLastLine";
 	return [[GTBlameHunk alloc] initWithGitBlameHunk:*hunk];
 }
 
-- (void)enumerateHunksUsingBlock:(void (^)(GTBlameHunk *hunk, BOOL *stop))block {
+- (void)enumerateHunksUsingBlock:(void (^)(GTBlameHunk *hunk, NSUInteger index, BOOL *stop))block {
 	NSParameterAssert(block != nil);
 	
-	for (NSUInteger idx = 0; idx < self.hunkCount; idx++) {
-		GTBlameHunk *hunk = [self hunkAtIndex:idx];
+	for (NSUInteger index = 0; index < self.hunkCount; index++) {
+		GTBlameHunk *hunk = [self hunkAtIndex:index];
 		
 		BOOL shouldStop = NO;
-		block(hunk, &shouldStop);
+		block(hunk, index, &shouldStop);
 		if (shouldStop) return;
 	}
 }
 
 - (NSArray *)hunks {
 	__block NSMutableArray *hunks = [NSMutableArray arrayWithCapacity:self.hunkCount];
-	[self enumerateHunksUsingBlock:^(GTBlameHunk *hunk, BOOL *stop) {
+	[self enumerateHunksUsingBlock:^(GTBlameHunk *hunk, NSUInteger index, BOOL *stop) {
 		[hunks addObject:hunk];
 	}];
 	
