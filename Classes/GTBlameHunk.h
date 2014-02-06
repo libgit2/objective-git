@@ -41,7 +41,8 @@
 // The path of the file in the original commit.
 @property (nonatomic, readonly, copy) NSString *originalPath;
 
-// YES if the hunk is from the oldest version of the file.
+// `YES` if the blame stopped trying before the commit where the line was added was found.
+// This could happen if you use `GTBlameOptionsOldestCommitOID`.
 @property (nonatomic, readonly) BOOL isBoundary;
 
 // The git_blame_hunk represented by the receiver.
