@@ -12,7 +12,6 @@
 #import "GTRepository.h"
 #import "GTSignature.h"
 #import "NSError+Git.h"
-#import "GTOID+Private.h"
 
 @interface GTBlame ()
 
