@@ -51,13 +51,22 @@
 // Whether the index contains conflicted files.
 @property (nonatomic, readonly) BOOL hasConflicts;
 
-// Initializes the receiver with the index at the given file URL.
+// Creates an in-memory index.
 //
-// fileURL - The file URL for the index on disk. Cannot be nil.
-// error   - The error if one occurred.
+// repository - A repository that paths should be relative to. Cannot be nil.
+// error      - If not NULL, set to any error that occurs.
 //
-// Returns the initialized object, or nil if an error occurred.
-- (id)initWithFileURL:(NSURL *)fileURL error:(NSError **)error;
+// Returns the newly created index, or nil if an error occurred.
++ (instancetype)inMemoryIndexWithRepository:(GTRepository *)repository error:(NSError **)error;
+
+// Loads the index at the given file URL.
+//
+// fileURL    - The file URL for the index on disk. Cannot be nil.
+// repository - A repository that paths should be relative to. Cannot be nil.
+// error      - If not NULL, set to any error that occurs.
+//
+// Returns the loaded index, or nil if an error occurred.
++ (instancetype)indexWithFileURL:(NSURL *)fileURL repository:(GTRepository *)repository error:(NSError **)error;
 
 // Initializes the receiver with the given libgit2 index.
 //
@@ -65,8 +74,8 @@
 //              be NULL.
 // repository - The repository in which the index resides. Cannot be nil.
 //
-// Returns the initialized object.
-- (id)initWithGitIndex:(git_index *)index repository:(GTRepository *)repository;
+// Returns the initialized index.
+- (instancetype)initWithGitIndex:(git_index *)index repository:(GTRepository *)repository;
 
 // The underlying `git_index` object.
 - (git_index *)git_index __attribute__((objc_returns_inner_pointer));
@@ -116,6 +125,14 @@
 //
 // Returns YES if successful, NO otherwise.
 - (BOOL)addFile:(NSString *)file error:(NSError **)error;
+
+// Reads the contents of the given tree into the index. 
+//
+// tree  - The tree to add to the index. This must not be nil.
+// error - If not NULL, set to any error that occurs.
+//
+// Returns whether reading the tree was successful.
+- (BOOL)addContentsOfTree:(GTTree *)tree error:(NSError **)error;
 
 // Remove an entry (by relative path) from the index.
 // Will fail if the receiver's repository is nil.
