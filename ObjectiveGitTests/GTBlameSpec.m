@@ -28,9 +28,6 @@ it(@"can read hunk properties", ^{
 	expect(hunk.finalCommitOID).to.equal(OID);
 	expect(hunk.finalStartLineNumber).to.equal(22);
 	expect(hunk.finalSignature).toNot.beNil();
-	expect(hunk.originalCommitOID).to.equal(OID);
-	expect(hunk.originalStartLineNumber).to.equal(22);
-	expect(hunk.originalSignature).toNot.beNil();
 	expect(hunk.originalPath).to.equal(@"README1.txt");
 	expect(hunk.isBoundary).to.beFalsy();
 });
@@ -63,8 +60,8 @@ describe(@"Creating a blame with options", ^{
 		GTOID *oldOID = [GTOID oidWithSHA:@"1d69f3c0aeaf0d62e25591987b93b8ffc53abd77"];
 		GTBlame *optionsBlame = [self.testAppFixtureRepository blameWithFile:@"README1.txt" options:@{ GTBlameOptionsOldestCommitOID: oldOID } error:nil];
 
-		expect([optionsBlame hunkAtIndex:0].originalCommitOID).to.equal(oldOID);
-		expect([blame hunkAtIndex:0].originalCommitOID).toNot.equal(oldOID);
+		expect(optionsBlame).toNot.beNil();
+		expect(optionsBlame).notTo.equal(blame);
 	});
 	
 	it(@"should follow the instructions provided by the GTBlameOptionsNewestCommitOID key", ^{
