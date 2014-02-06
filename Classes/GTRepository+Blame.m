@@ -10,7 +10,6 @@
 #import "git2.h"
 
 NSString * const GTBlameOptionsFlags = @"GTBlameOptionsFlags";
-NSString * const GTBlameOptionsMinimumMatchCharacters = @"GTBlameOptionsMinimumMatchCharacters";
 NSString * const GTBlameOptionsNewestCommitOID = @"GTBlameOptionsNewestCommitOID";
 NSString * const GTBlameOptionsOldestCommitOID = @"GTBlameOptionsOldestCommitOID";
 NSString * const GTBlameOptionsFirstLine = @"GTBlameOptionsFirstLine";
