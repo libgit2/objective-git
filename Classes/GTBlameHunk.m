@@ -58,11 +58,7 @@
 	return self.git_blame_hunk.boundary;
 }
 
-- (BOOL)isEqual:(id)object {
-	return [self isEqualToHunk:object];
-}
-
-- (BOOL)isEqualToHunk:(GTBlameHunk *)otherHunk {
+- (BOOL)isEqual:(GTBlameHunk *)otherHunk {
 	if (self == otherHunk) return YES;
 	if (![otherHunk isKindOfClass:self.class]) return NO;
 	
