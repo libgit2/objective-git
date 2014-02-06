@@ -23,10 +23,6 @@
 	return &_git_oid;
 }
 
-- (git_oid)git_oid_struct {
-	return _git_oid;
-}
-
 - (NSString *)SHA {
 	char *SHA = malloc(GIT_OID_HEXSZ);
 	if (SHA == NULL) return nil;

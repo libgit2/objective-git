@@ -88,9 +88,6 @@
 		04DB466F133AB5EB00D9C624 /* GTBranch.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F50F57132054D800584FBE /* GTBranch.m */; };
 		188DC01917FC1571007350CD /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 188DC01817FC1571007350CD /* libz.dylib */; };
 		200578C518932A82001C06C3 /* GTBlameSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 200578C418932A82001C06C3 /* GTBlameSpec.m */; };
-		20702DAC18A1F1DF009FB457 /* GTOID+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 20702DAB18A1F1DF009FB457 /* GTOID+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		20702DAD18A1F1DF009FB457 /* GTOID+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 20702DAB18A1F1DF009FB457 /* GTOID+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		20702DAE18A1F1DF009FB457 /* GTOID+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 20702DAB18A1F1DF009FB457 /* GTOID+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		20702DAF18A1F38A009FB457 /* GTBlame.h in Headers */ = {isa = PBXBuildFile; fileRef = DD3D9510182A81E1004AF532 /* GTBlame.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		20702DB118A1F38A009FB457 /* GTBlameHunk.h in Headers */ = {isa = PBXBuildFile; fileRef = DD3D951A182AB25C004AF532 /* GTBlameHunk.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2089E43C17D9A58000F451DA /* GTTagSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 2089E43B17D9A58000F451DA /* GTTagSpec.m */; };
@@ -519,7 +516,6 @@
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		188DC01817FC1571007350CD /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		200578C418932A82001C06C3 /* GTBlameSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTBlameSpec.m; sourceTree = "<group>"; };
-		20702DAB18A1F1DF009FB457 /* GTOID+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTOID+Private.h"; sourceTree = "<group>"; };
 		2089E43B17D9A58000F451DA /* GTTagSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTTagSpec.m; sourceTree = "<group>"; };
 		20F43DE118A2F667007D3621 /* GTRepository+Blame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTRepository+Blame.h"; sourceTree = "<group>"; };
 		20F43DE218A2F667007D3621 /* GTRepository+Blame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GTRepository+Blame.m"; sourceTree = "<group>"; };
@@ -991,7 +987,6 @@
 				8821547517147A5200D76B76 /* GTReflogEntry.m */,
 				8821547B17147B3600D76B76 /* GTOID.h */,
 				8821547C17147B3600D76B76 /* GTOID.m */,
-				20702DAB18A1F1DF009FB457 /* GTOID+Private.h */,
 				D09C2E341755F16200065E36 /* GTSubmodule.h */,
 				D09C2E351755F16200065E36 /* GTSubmodule.m */,
 				4D79C0EC17DF9F4D00997DE4 /* GTCredential.h */,
@@ -1140,7 +1135,6 @@
 				20702DAF18A1F38A009FB457 /* GTBlame.h in Headers */,
 				20702DB118A1F38A009FB457 /* GTBlameHunk.h in Headers */,
 				6A74CA3616A942C000E1A3C5 /* GTConfiguration+Private.h in Headers */,
-				20702DAD18A1F1DF009FB457 /* GTOID+Private.h in Headers */,
 				30B1E7EF1703522100D0814D /* NSDate+GTTimeAdditions.h in Headers */,
 				D09C2E371755F16200065E36 /* GTSubmodule.h in Headers */,
 				D015F7CB17F695E800AD5E1F /* GTRepository+Stashing.h in Headers */,
@@ -1194,7 +1188,6 @@
 				88746CC417FA1C950005888A /* GTRepository+Committing.h in Headers */,
 				30B1E7EE1703522100D0814D /* NSDate+GTTimeAdditions.h in Headers */,
 				D09C2E361755F16200065E36 /* GTSubmodule.h in Headers */,
-				20702DAC18A1F1DF009FB457 /* GTOID+Private.h in Headers */,
 				306123B117EA5261006591D4 /* metamacros.h in Headers */,
 				4DE864351794A37E00371A65 /* GTRepository+Private.h in Headers */,
 				4D79C0EE17DF9F4D00997DE4 /* GTCredential.h in Headers */,
@@ -1248,7 +1241,6 @@
 				209A1F8B18A1F3F800EAD99D /* GTBlameHunk.h in Headers */,
 				F6CBB47617FFD50500404926 /* NSDate+GTTimeAdditions.h in Headers */,
 				F6CBB47717FFD50500404926 /* GTSubmodule.h in Headers */,
-				20702DAE18A1F1DF009FB457 /* GTOID+Private.h in Headers */,
 				F6CBB47817FFD50500404926 /* GTRepository+Stashing.h in Headers */,
 				F6CBB47917FFD50500404926 /* GTRepository+Private.h in Headers */,
 			);
