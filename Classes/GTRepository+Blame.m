@@ -20,10 +20,12 @@ NSString * const GTBlameOptionsLastLine = @"GTBlameOptionsLastLine";
 - (GTBlame *)blameWithFile:(NSString *)path options:(NSDictionary *)options error:(NSError **)error {
 	git_blame *blame = NULL;
 	git_blame_options blame_options = GIT_BLAME_OPTIONS_INIT;
-	
+	const git_oid *newest_commit = [options[GTBlameOptionsNewestCommitOID] git_oid];
+	const git_oid *oldest_commit = [options[GTBlameOptionsOldestCommitOID] git_oid];
+
 	blame_options.flags = (uint32_t)[options[GTBlameOptionsFlags] unsignedIntegerValue];
-	blame_options.newest_commit = *[options[GTBlameOptionsNewestCommitOID] git_oid];
-	blame_options.oldest_commit = *[options[GTBlameOptionsOldestCommitOID] git_oid];
+	if (newest_commit != nil) blame_options.newest_commit = *newest_commit;
+	if (oldest_commit != nil) blame_options.oldest_commit = *oldest_commit;
 	blame_options.min_line = (uint32_t)[options[GTBlameOptionsFirstLine] unsignedIntegerValue];
 	blame_options.max_line = (uint32_t)[options[GTBlameOptionsLastLine] unsignedIntegerValue];
 	
