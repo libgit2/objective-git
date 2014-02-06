@@ -60,7 +60,7 @@
 
 - (BOOL)isEqual:(GTBlameHunk *)otherHunk {
 	if (self == otherHunk) return YES;
-	if (![otherHunk isKindOfClass:self.class]) return NO;
+	if (![otherHunk isKindOfClass:GTBlameHunk.class]) return NO;
 	
 	if (self.lineCount != otherHunk.lineCount) return NO;
 	if (self.finalStartLineNumber != otherHunk.finalStartLineNumber) return NO;
