@@ -12,7 +12,7 @@
 @class GTBlameHunk;
 @class GTRepository;
 
-
+// A `GTBlame` provides authorship info, through `GTBlameHunk` for each line of a file.
 @interface GTBlame : NSObject
 
 // Designated initializer.

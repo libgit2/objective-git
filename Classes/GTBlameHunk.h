@@ -12,6 +12,7 @@
 @class GTOID;
 @class GTSignature;
 
+// A `GTBlameHunk` is an object that provides authorship info for a set of lines in a `GTBlame`.
 @interface GTBlameHunk : NSObject
 
 - (instancetype)initWithGitBlameHunk:(git_blame_hunk)hunk;
