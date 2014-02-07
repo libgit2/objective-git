@@ -69,9 +69,13 @@ describe(@"Creating a blame with options", ^{
 		expect(blame.hunkCount).to.equal(4);
 	});
 	
-	it(@"should follow the instructions provided by the GTBlameOptionsFirstLine key", ^{
+	it(@"should follow the instructions provided by GTBlameOptionsFirstLine and GTBlameOptionsLastLine keys", ^{
 		GTBlame *optionsBlame = [self.testAppFixtureRepository blameWithFile:@"README1.txt" options:@{ GTBlameOptionsFirstLine: @22, GTBlameOptionsLastLine: @24 } error:nil];
-		expect(optionsBlame.hunkCount).toNot.equal(blame.hunkCount);
+		GTBlameHunk *hunk = [optionsBlame hunkAtIndex:0];
+		
+		expect(optionsBlame).toNot.beNil();
+		expect(hunk.lines.location).to.equal(22);
+		expect(hunk.lines.length).to.equal(1);
 	});
 	
 });
