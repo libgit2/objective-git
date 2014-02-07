@@ -78,4 +78,17 @@
 	return [[GTBlameHunk alloc] initWithGitBlameHunk:*hunk];
 }
 
+- (BOOL)isEqual:(GTBlame *)otherBlame {
+	if (self == otherBlame) return YES;
+	if (![otherBlame.class isKindOfClass:GTBlame.class]) return NO;
+	
+	if (![self.hunks isEqual:otherBlame.hunks]) return NO;
+
+	return YES;
+}
+
+- (NSUInteger)hash {
+	return self.hunks.hash ^ self.hunkCount;
+}
+
 @end
