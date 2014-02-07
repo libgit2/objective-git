@@ -31,7 +31,7 @@ it(@"can read hunk properties", ^{
 	expect(hunk.isBoundary).to.beFalsy();
 });
 
-it(@"should be able to provide all the hunks quickly ", ^{
+it(@"The number of hunks in the `hunks` array should match `hunkCount`", ^{
 	expect(blame.hunks).to.haveCountOf(blame.hunkCount);
 });
 
