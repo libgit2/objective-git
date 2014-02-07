@@ -56,8 +56,7 @@ it(@"should be able to get the same hunk from an index or a line", ^{
 
 describe(@"Creating a blame with options", ^{
 	it(@"should follow the instructions provided by the GTBlameOptionsOldestCommitOID key", ^{
-		GTOID *oldOID = [GTOID oidWithSHA:@"1d69f3c0aeaf0d62e25591987b93b8ffc53abd77"];
-		GTBlame *optionsBlame = [self.testAppFixtureRepository blameWithFile:@"README1.txt" options:@{ GTBlameOptionsOldestCommitOID: oldOID } error:nil];
+		GTBlame *optionsBlame = [self.testAppFixtureRepository blameWithFile:@"README1.txt" options:@{ GTBlameOptionsOldestCommitOID: [GTOID oidWithSHA:@"1d69f3c0aeaf0d62e25591987b93b8ffc53abd77"] } error:nil];
 
 		expect(optionsBlame).toNot.beNil();
 		expect(optionsBlame).notTo.equal(blame);
