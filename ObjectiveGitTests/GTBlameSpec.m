@@ -21,11 +21,10 @@ it(@"can count the hunks", ^{
 
 it(@"can read hunk properties", ^{
 	GTBlameHunk *hunk = [blame hunkAtIndex:1];
-	GTOID *OID = [[GTOID alloc]initWithSHA:@"82dc47f6ba3beecab33080a1136d8913098e1801"];
 	
 	expect(hunk).notTo.beNil();
 	expect(hunk.lineCount).to.equal(1);
-	expect(hunk.finalCommitOID).to.equal(OID);
+	expect(hunk.finalCommitOID.SHA).to.equal(@"82dc47f6ba3beecab33080a1136d8913098e1801");
 	expect(hunk.finalStartLineNumber).to.equal(22);
 	expect(hunk.finalSignature).toNot.beNil();
 	expect(hunk.originalPath).to.equal(@"README1.txt");
