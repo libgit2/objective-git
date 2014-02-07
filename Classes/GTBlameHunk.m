@@ -20,12 +20,8 @@
 	return self;
 }
 
-- (NSUInteger)lineCount {
-	return self.git_blame_hunk.lines_in_hunk;
-}
-
-- (NSUInteger)finalStartLineNumber {
-	return self.git_blame_hunk.final_start_line_number;
+- (NSRange)lines {
+	return NSMakeRange(self.git_blame_hunk.final_start_line_number, self.git_blame_hunk.lines_in_hunk);
 }
 
 - (GTOID *)finalCommitOID {
@@ -49,8 +45,8 @@
 	if (self == otherHunk) return YES;
 	if (![otherHunk isKindOfClass:GTBlameHunk.class]) return NO;
 	
-	if (self.lineCount != otherHunk.lineCount) return NO;
-	if (self.finalStartLineNumber != otherHunk.finalStartLineNumber) return NO;
+	if (self.lines.location != otherHunk.lines.location) return NO;
+	if (self.lines.length != otherHunk.lines.length) return NO;
 	if (![self.finalCommitOID isEqual:otherHunk.finalCommitOID]) return NO;
 	if (![self.finalSignature isEqual:otherHunk.finalSignature]) return NO;
 	if (![self.originalPath isEqualToString:otherHunk.originalPath]) return NO;
@@ -60,7 +56,7 @@
 }
 
 - (NSUInteger)hash {
-	return self.lineCount ^ self.finalStartLineNumber;
+	return self.lines.location ^ self.lines.length;
 }
 
 @end

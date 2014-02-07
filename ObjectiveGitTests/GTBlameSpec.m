@@ -23,9 +23,9 @@ it(@"can read hunk properties", ^{
 	GTBlameHunk *hunk = [blame hunkAtIndex:1];
 	
 	expect(hunk).notTo.beNil();
-	expect(hunk.lineCount).to.equal(1);
+	expect(hunk.lines.location).to.equal(22);
+	expect(hunk.lines.length).to.equal(1);
 	expect(hunk.finalCommitOID.SHA).to.equal(@"82dc47f6ba3beecab33080a1136d8913098e1801");
-	expect(hunk.finalStartLineNumber).to.equal(22);
 	expect(hunk.finalSignature).toNot.beNil();
 	expect(hunk.originalPath).to.equal(@"README1.txt");
 	expect(hunk.isBoundary).to.beFalsy();

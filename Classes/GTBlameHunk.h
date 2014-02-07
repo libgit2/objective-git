@@ -17,14 +17,12 @@
 
 - (instancetype)initWithGitBlameHunk:(git_blame_hunk)hunk;
 
-// The number of lines in the hunk.
-@property (nonatomic, readonly) NSUInteger lineCount;
+// A NSRange where `location` is the (1 based) starting line number,
+// and `length` is the number of lines in the hunk.
+@property (nonatomic, readonly) NSRange lines;
 
 // The OID of the commit where this hunk was last changed.
 @property (nonatomic, readonly, copy) GTOID *finalCommitOID;
-
-// The 1-based line number where this hunk begins, in the final version of the file.
-@property (nonatomic, readonly) NSUInteger finalStartLineNumber;
 
 // The signature of the commit where this hunk was last changed.
 @property (nonatomic, readonly) GTSignature *finalSignature;
