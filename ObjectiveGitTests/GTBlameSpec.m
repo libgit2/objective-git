@@ -65,8 +65,10 @@ describe(@"Creating a blame with options", ^{
 	it(@"should follow the instructions provided by the GTBlameOptionsNewestCommitOID key", ^{
 		GTOID *newOID = [GTOID oidWithSHA:@"6317779b4731d9c837dcc6972b964bdf4211eeef"];
 		GTBlame *optionsBlame = [self.testAppFixtureRepository blameWithFile:@"README1.txt" options:@{ GTBlameOptionsNewestCommitOID: newOID } error:nil];
-		expect(optionsBlame.hunkCount).to.equal(1);
-		expect(blame.hunkCount).to.equal(4);
+
+		GTBlameHunk *hunk = [optionsBlame hunkAtIndex:0];
+		expect(hunk.lines.location).to.equal(1);
+		expect(hunk.lines.length).to.equal(25);
 	});
 	
 	it(@"should follow the instructions provided by GTBlameOptionsFirstLine and GTBlameOptionsLastLine keys", ^{
