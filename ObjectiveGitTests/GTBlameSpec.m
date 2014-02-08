@@ -79,7 +79,6 @@ describe(@"Creating a blame with options", ^{
 		expect(hunk.lines.location).to.equal(22);
 		expect(hunk.lines.length).to.equal(1);
 	});
-	
 });
 
 SpecEnd
