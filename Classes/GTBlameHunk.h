@@ -32,7 +32,7 @@
 
 // `YES` if the blame stopped trying before the commit where the line was added was found.
 // This could happen if you use `GTBlameOptionsOldestCommitOID`.
-@property (nonatomic, readonly) BOOL isBoundary;
+@property (nonatomic, getter = isBoundary, readonly) BOOL boundary;
 
 // The git_blame_hunk represented by the receiver.
 @property (nonatomic, readonly) git_blame_hunk git_blame_hunk;
