@@ -36,8 +36,8 @@ extern NSString * const GTBlameOptionsLastLine;
 
 // Create a blame for a file, with options.
 //
-// path       - Path for the file to examine.
-// options    - A dictionary consiting of the above keys.
+// path       - Path for the file to examine. Can't be nil
+// options    - A dictionary consiting of the above keys. May be nil.
 // error      - Populated with an `NSError` object on error.
 //
 // Returns a new `GTBlame` object or nil if an error occurred.
