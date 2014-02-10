@@ -49,8 +49,6 @@ it(@"should be able to get the same hunk from an index or a line", ^{
 	GTBlameHunk *hunk = [blame hunkAtIndex:0];
 	GTBlameHunk *lineHunk = [blame hunkAtLineNumber:1];
 
-	expect(hunk).notTo.beNil();
-	expect(lineHunk).notTo.beNil();
 	expect(hunk).to.equal(lineHunk);
 });
 
