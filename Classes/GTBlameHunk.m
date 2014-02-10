@@ -45,8 +45,7 @@
 	if (self == otherHunk) return YES;
 	if (![otherHunk isKindOfClass:GTBlameHunk.class]) return NO;
 	
-	if (self.lines.location != otherHunk.lines.location) return NO;
-	if (self.lines.length != otherHunk.lines.length) return NO;
+	if (!NSEqualRanges(self.lines, otherHunk.lines)) return NO;
 	if (![self.finalCommitOID isEqual:otherHunk.finalCommitOID]) return NO;
 	if (![self.finalSignature isEqual:otherHunk.finalSignature]) return NO;
 	if (![self.originalPath isEqualToString:otherHunk.originalPath]) return NO;
