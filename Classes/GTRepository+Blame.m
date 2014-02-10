@@ -18,6 +18,8 @@ NSString * const GTBlameOptionsLastLine = @"GTBlameOptionsLastLine";
 @implementation GTRepository (Blame)
 
 - (GTBlame *)blameWithFile:(NSString *)path options:(NSDictionary *)options error:(NSError **)error {
+	NSParameterAssert(path != nil);
+	
 	git_blame *blame = NULL;
 	git_blame_options blame_options = GIT_BLAME_OPTIONS_INIT;
 	const git_oid *newest_commit = [options[GTBlameOptionsNewestCommitOID] git_oid];
