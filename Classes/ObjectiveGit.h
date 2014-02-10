@@ -37,6 +37,8 @@
 #import <ObjectiveGit/GTTreeEntry.h>
 #import <ObjectiveGit/GTTreeBuilder.h>
 #import <ObjectiveGit/GTBlob.h>
+#import <ObjectiveGit/GTBlame.h>
+#import <ObjectiveGit/GTBlameHunk.h>
 #import <ObjectiveGit/GTTag.h>
 #import <ObjectiveGit/GTIndex.h>
 #import <ObjectiveGit/GTIndexEntry.h>
@@ -50,6 +52,7 @@
 #import <ObjectiveGit/GTOID.h>
 #import <ObjectiveGit/GTSubmodule.h>
 #import <ObjectiveGit/GTStatusDelta.h>
+#import <ObjectiveGit/GTRepository+Blame.h>
 
 #import <ObjectiveGit/GTObjectDatabase.h>
 #import <ObjectiveGit/GTOdbObject.h>
