@@ -268,9 +268,21 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 			return NO;
 		}
 		
-		GTIndexEntry *blockAncestor = [[GTIndexEntry alloc] initWithGitIndexEntry:ancestor];
-		GTIndexEntry *blockOurs = [[GTIndexEntry alloc] initWithGitIndexEntry:ours];
-		GTIndexEntry *blockTheirs = [[GTIndexEntry alloc] initWithGitIndexEntry:theirs];
+		GTIndexEntry *blockAncestor;
+		if (ancestor != NULL) {
+			blockAncestor = [[GTIndexEntry alloc] initWithGitIndexEntry:ancestor];
+		}
+
+		GTIndexEntry *blockOurs;
+		if (ours != NULL) {
+			blockOurs = [[GTIndexEntry alloc] initWithGitIndexEntry:ours];
+		}
+
+		GTIndexEntry *blockTheirs;
+		if (theirs != NULL) {
+			blockTheirs = [[GTIndexEntry alloc] initWithGitIndexEntry:theirs];
+		}
+
 		BOOL stop = NO;
 		block(blockAncestor, blockOurs, blockTheirs, &stop);
 		if (stop) break;
