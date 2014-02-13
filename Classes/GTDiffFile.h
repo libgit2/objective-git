@@ -12,7 +12,7 @@
 //
 // See diff.h for individual documentation.
 typedef enum {
-	GTDiffFileFlagValidOID = GIT_DIFF_FLAG_VALID_OID,
+	GTDiffFileFlagValidID = GIT_DIFF_FLAG_VALID_ID,
 	GTDiffFileFlagBinary = GIT_DIFF_FLAG_BINARY,
 	GTDiffFileFlagNotBinary = GIT_DIFF_FLAG_NOT_BINARY,
 } GTDiffFileFlag;

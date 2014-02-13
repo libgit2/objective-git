@@ -526,7 +526,7 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 - (BOOL)resetToCommit:(GTCommit *)commit withResetType:(GTRepositoryResetType)resetType error:(NSError **)error {
     NSParameterAssert(commit != nil);
 
-    int result = git_reset(self.git_repository, commit.git_object, (git_reset_t)resetType);
+    int result = git_reset(self.git_repository, commit.git_object, (git_reset_t)resetType, (git_signature *)[self userSignatureForNow].git_signature, NULL);
     if (result == GIT_OK) return YES;
 
     if (error != NULL) *error = [NSError git_errorFor:result description:@"Failed to reset repository to commit %@.", commit.SHA];
@@ -546,39 +546,17 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 		}
 	};
 
-	int errorCode = git_repository_message(NULL, 0, self.git_repository);
-	if (errorCode <= 0) {
+	git_buf msg = { NULL };
+	int errorCode = git_repository_message(&msg, self.git_repository);
+	if (errorCode != GIT_OK) {
 		setErrorFromCode(errorCode);
+		git_buf_free(&msg);
 		return nil;
 	}
 
-	size_t size = (size_t)errorCode;
-	if (size == 1) {
-		// This is just the NUL terminator. The message must be an empty string.
-		return @"";
-	}
+	NSString *message = [[NSString alloc] initWithBytes:msg.ptr length:msg.size encoding:NSUTF8StringEncoding];
 
-	void *bytes = malloc(size);
-	if (bytes == nil) return nil;
-
-	// Although documented to return the size of the read data, this function
-	// actually returns the full size of the message, which may not match what
-	// gets copied into `bytes` (like if the file changed since we checked it
-	// originally). So we don't really care about that number except for error
-	// checking.
-	//
-	// See libgit2/libgit2#1519.
-	errorCode = git_repository_message(bytes, size, self.git_repository);
-	if (errorCode <= 0) {
-		setErrorFromCode(errorCode);
-		free(bytes);
-		return nil;
-	}
-
-	NSString *message = [[NSString alloc] initWithBytesNoCopy:bytes length:size - 1 encoding:NSUTF8StringEncoding freeWhenDone:YES];
-	if (message == nil) {
-		free(bytes);
-	}
+	git_buf_free(&msg);
 
 	return message;
 }
@@ -750,7 +728,7 @@ static int checkoutNotifyCallback(git_checkout_notify_t why, const char *path, c
 - (BOOL)moveHEADToReference:(GTReference *)reference error:(NSError **)error {
 	NSParameterAssert(reference != nil);
 	
-	int gitError = git_repository_set_head(self.git_repository, reference.name.UTF8String);
+	int gitError = git_repository_set_head(self.git_repository, reference.name.UTF8String, [self userSignatureForNow].git_signature, NULL);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to move HEAD to reference %@", reference.name];
 	}
@@ -761,7 +739,7 @@ static int checkoutNotifyCallback(git_checkout_notify_t why, const char *path, c
 - (BOOL)moveHEADToCommit:(GTCommit *)commit error:(NSError **)error {
 	NSParameterAssert(commit != nil);
 	
-	int gitError = git_repository_set_head_detached(self.git_repository, commit.OID.git_oid);
+	int gitError = git_repository_set_head_detached(self.git_repository, commit.OID.git_oid, [self userSignatureForNow].git_signature, NULL);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to move HEAD to commit %@", commit.SHA];
 	}
