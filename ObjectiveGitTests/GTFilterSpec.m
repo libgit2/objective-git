@@ -86,7 +86,7 @@ it(@"shouldn't call the apply block if the check block returns NO", ^{
 	expect(applyCalled).to.beFalsy();
 });
 
-fit(@"should write the data set by the apply block", ^{
+it(@"should write the data set by the apply block", ^{
 	NSData *replacementData = [@"oh hi mark" dataUsingEncoding:NSUTF8StringEncoding];
 	GTFilter *filter = [[GTFilter alloc] initWithName:filterName attributes:filterAttributes initializeBlock:nil shutdownBlock:nil checkBlock:nil applyBlock:^(void **payload, NSData *from, NSData **to, GTFilterSource *source) {
 		*to = replacementData;
