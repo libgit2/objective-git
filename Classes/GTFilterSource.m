@@ -21,7 +21,7 @@
 	if (self == nil) return nil;
 
 	const char *path = git_repository_path(git_filter_source_repo(source));
-	_repository = [[GTRepository alloc] initWithURL:[NSURL fileURLWithFileSystemRepresentation:path isDirectory:YES relativeToURL:nil] error:NULL];
+	_repository = [[GTRepository alloc] initWithURL:[NSURL fileURLWithPath:@(path)] error:NULL];
 	_path = @(git_filter_source_path(source));
 
 	const git_oid *gitOid = git_filter_source_id(source);
