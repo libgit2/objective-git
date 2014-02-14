@@ -9,14 +9,15 @@
 #import "GTFilter.h"
 #import "GTRepository.h"
 #import "NSError+Git.h"
+#import "GTFilterSource+Private.h"
 #import "git2/sys/filter.h"
 
 NSString * const GTFilterErrorDomain = @"GTFilterErrorDomain";
 
 const NSInteger GTFilterErrorNameAlreadyRegistered = -1;
 
-typedef BOOL (^GTFilterCheckBlock)(void **payload, const git_filter_source *src, const char **attr_values);
-typedef BOOL (^GTFilterApplyBlock)(void **payload, git_buf *to, const git_buf *from, const git_filter_source *src);
+typedef BOOL (^GTFilterCheckBlock)(void **payload, GTFilterSource *source, const char **attr_values);
+typedef BOOL (^GTFilterApplyBlock)(void **payload, NSData *from, NSData **to, GTFilterSource *source);
 typedef void (^GTFilterCleanupBlock)(void *payload);
 
 static NSMutableDictionary *GTFiltersNameToRegisteredFilters = nil;
@@ -68,13 +69,17 @@ static void GTFilterShutdown(git_filter *filter) {
 
 static int GTFilterCheck(git_filter *filter, void **payload, const git_filter_source *src, const char **attr_values) {
 	GTFilter *self = GTFiltersGitFilterToRegisteredFilters[[NSValue valueWithPointer:filter]];
-	BOOL accept = self.checkBlock(payload, src, attr_values);
+	BOOL accept = self.checkBlock(payload, [[GTFilterSource alloc] initWithGitFilterSource:src], attr_values);
 	return accept ? 0 : GIT_PASSTHROUGH;
 }
 
 static int GTFilterApply(git_filter *filter, void **payload, git_buf *to, const git_buf *from, const git_filter_source *src) {
 	GTFilter *self = GTFiltersGitFilterToRegisteredFilters[[NSValue valueWithPointer:filter]];
-	BOOL applied = self.applyBlock(payload, to, from, src);
+	NSData *fromData = [NSData dataWithBytesNoCopy:from->ptr length:from->size freeWhenDone:NO];
+	NSData *toData;
+	BOOL applied = self.applyBlock(payload, fromData, &toData, [[GTFilterSource alloc] initWithGitFilterSource:src]);
+	if (applied) git_buf_set(to, toData.bytes, toData.length);
+
 	return applied ? 0 : GIT_PASSTHROUGH;
 }
 
