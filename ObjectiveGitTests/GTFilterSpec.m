@@ -106,6 +106,24 @@ it(@"should write the data set in the apply block", ^{
 	expect(ODBObject.data).to.equal(replacementData);
 });
 
+it(@"should include the right filter source", ^{
+	__block GTFilterSource *filterSource;
+	filter = [[GTFilter alloc] initWithName:filterName attributes:filterAttributes initializeBlock:nil shutdownBlock:nil checkBlock:^(void **payload, GTFilterSource *source, const char **attr_values) {
+		filterSource = source;
+		return NO;
+	} applyBlock:nil cleanupBlock:nil];
+
+	BOOL success = [filter registerWithPriority:0 error:NULL];
+	expect(success).to.beTruthy();
+
+	addTestFileToIndex();
+
+	expect(filterSource).notTo.beNil();
+	expect(filterSource.path).to.equal(testFile);
+	expect(filterSource.mode).to.equal(GTFilterSourceModeClean);
+	expect(filterSource.repository).to.equal(repository);
+});
+
 afterEach(^{
 	BOOL success = [filter unregister:NULL];
 	expect(success).to.beTruthy();
