@@ -21,7 +21,8 @@ extern const NSInteger GTFilterErrorNameAlreadyRegistered;
 
 /// Git filter abstraction.
 ///
-/// **Note**: GTFilter is *not* thread safe.
+/// **Note**: GTFilter is *not* thread safe. Registration and unregistration
+/// should be done before any repository actions are taken.
 @interface GTFilter : NSObject
 
 /// Look up a filter based on its name.
@@ -47,7 +48,8 @@ extern const NSInteger GTFilterErrorNameAlreadyRegistered;
 /// Registers the filter with the given priority.
 ///
 /// priority - The priority for the filter. 0 is the standard for 3rd party
-///            filters.
+///            filters. Higher numbers are given more priority. A negative
+///            number is fine.
 /// error    - The error if one occurred.
 ///
 /// Returns whether the registration was successful.

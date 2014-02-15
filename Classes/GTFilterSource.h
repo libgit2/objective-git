@@ -23,6 +23,7 @@ typedef enum {
 	GTFilterSourceModeClean = GIT_FILTER_CLEAN,
 } GTFilterSourceMode;
 
+/// A source item for a filter.
 @interface GTFilterSource : NSObject
 
 /// The repository in which the item resides.
