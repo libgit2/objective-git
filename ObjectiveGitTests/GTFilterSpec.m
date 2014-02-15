@@ -15,6 +15,7 @@ static NSString * const filterName = @"special-filter";
 static NSString * const filterAttributes = @"special";
 
 __block GTRepository *repository;
+__block GTFilter *filter;
 
 __block void (^addTestFileToIndex)(void);
 
@@ -46,7 +47,7 @@ it(@"should call all the blocks", ^{
 	__block BOOL checkCalled = NO;
 	__block BOOL applyCalled = NO;
 	__block BOOL cleanupCalled = NO;
-	GTFilter *filter = [[GTFilter alloc] initWithName:filterName attributes:filterAttributes initializeBlock:^{
+	filter = [[GTFilter alloc] initWithName:filterName attributes:filterAttributes initializeBlock:^{
 		initializeCalled = YES;
 	} shutdownBlock:nil checkBlock:^(void **payload, GTFilterSource *source, const char **attr_values) {
 		checkCalled = YES;
@@ -71,7 +72,7 @@ it(@"should call all the blocks", ^{
 
 it(@"shouldn't call the apply block if the check block returns NO", ^{
 	__block BOOL applyCalled = NO;
-	GTFilter *filter = [[GTFilter alloc] initWithName:filterName attributes:filterAttributes initializeBlock:nil shutdownBlock:nil checkBlock:^(void **payload, GTFilterSource *source, const char **attr_values) {
+	filter = [[GTFilter alloc] initWithName:filterName attributes:filterAttributes initializeBlock:nil shutdownBlock:nil checkBlock:^(void **payload, GTFilterSource *source, const char **attr_values) {
 		return NO;
 	} applyBlock:^(void **payload, NSData *from, NSData **to, GTFilterSource *source) {
 		applyCalled = YES;
@@ -86,9 +87,9 @@ it(@"shouldn't call the apply block if the check block returns NO", ^{
 	expect(applyCalled).to.beFalsy();
 });
 
-it(@"should write the data set by the apply block", ^{
+it(@"should write the data set in the apply block", ^{
 	NSData *replacementData = [@"oh hi mark" dataUsingEncoding:NSUTF8StringEncoding];
-	GTFilter *filter = [[GTFilter alloc] initWithName:filterName attributes:filterAttributes initializeBlock:nil shutdownBlock:nil checkBlock:nil applyBlock:^(void **payload, NSData *from, NSData **to, GTFilterSource *source) {
+	filter = [[GTFilter alloc] initWithName:filterName attributes:filterAttributes initializeBlock:nil shutdownBlock:nil checkBlock:nil applyBlock:^(void **payload, NSData *from, NSData **to, GTFilterSource *source) {
 		*to = replacementData;
 		return YES;
 	} cleanupBlock:nil];
@@ -103,6 +104,11 @@ it(@"should write the data set by the apply block", ^{
 	GTTreeEntry *entry = [tree entryWithName:testFile];
 	GTOdbObject *ODBObject = [[entry GTObject:NULL] odbObjectWithError:NULL];
 	expect(ODBObject.data).to.equal(replacementData);
+});
+
+afterEach(^{
+	BOOL success = [filter unregister:NULL];
+	expect(success).to.beTruthy();
 });
 
 SpecEnd
