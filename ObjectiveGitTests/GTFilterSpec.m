@@ -169,7 +169,7 @@ it(@"should include the right filter source", ^{
 	expect(filterSource).notTo.beNil();
 	expect(filterSource.path).to.equal(testFile);
 	expect(filterSource.mode).to.equal(GTFilterSourceModeClean);
-	expect(filterSource.repository).to.equal(repository);
+	expect(filterSource.repositoryURL).to.equal(repository.fileURL);
 });
 
 SpecEnd

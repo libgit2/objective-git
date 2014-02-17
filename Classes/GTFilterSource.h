@@ -26,8 +26,8 @@ typedef enum {
 /// A source item for a filter.
 @interface GTFilterSource : NSObject
 
-/// The repository in which the item resides.
-@property (nonatomic, readonly, strong) GTRepository *repository;
+/// The URL for the repository in which the item resides.
+@property (nonatomic, readonly, strong) NSURL *repositoryURL;
 
 /// The path of the file from which the source data is coming.
 @property (nonatomic, readonly, copy) NSString *path;

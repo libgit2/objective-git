@@ -20,10 +20,9 @@
 	self = [super init];
 	if (self == nil) return nil;
 
-	// Note that we need to re-open the repository from the path so that we get
-	// an git_repository which we own.
-	const char *path = git_repository_path(git_filter_source_repo(source));
-	_repository = [[GTRepository alloc] initWithURL:[NSURL fileURLWithPath:@(path)] error:NULL];
+	const char *path = git_repository_workdir(git_filter_source_repo(source));
+	_repositoryURL = [NSURL fileURLWithPath:@(path)];
+	
 	_path = @(git_filter_source_path(source));
 
 	const git_oid *gitOid = git_filter_source_id(source);
