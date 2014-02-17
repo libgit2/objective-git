@@ -696,7 +696,7 @@ static int submoduleEnumerationCallback(git_submodule *git_submodule, const char
 	NSString *email = [configuration stringForKey:@"user.email"];
 	if (email == nil) {
 		NSString *username = NSUserName();
-		if (username.length != 0) username = @"nobody";
+		if (username.length == 0) username = @"nobody";
 		NSString *domain = NSProcessInfo.processInfo.hostName ?: @"nowhere.local";
 		email = [NSString stringWithFormat:@"%@@%@", username, domain];
 	}
