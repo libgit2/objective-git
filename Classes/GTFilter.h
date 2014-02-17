@@ -25,31 +25,45 @@ extern const NSInteger GTFilterErrorNameAlreadyRegistered;
 /// should be done before any repository actions are taken.
 @interface GTFilter : NSObject
 
+/// The initialize block. This will be called once before the filter is used for
+/// the first time.
+@property (nonatomic, copy) void (^initializeBlock)(void);
+
+/// The shutdown block. This will be called when libgit2 is shutting down.
+@property (nonatomic, copy) void (^shutdownBlock)(void);
+
+/// The check block. Determines whether the `applyBlock` should be run for given
+/// source.
+@property (nonatomic, copy) BOOL (^checkBlock)(void **payload, GTFilterSource *source, const char **attr_values);
+
+/// The apply block. Applies some transformation to the source.
+@property (nonatomic, copy) NSData * (^applyBlock)(void **payload, NSData *from, GTFilterSource *source, BOOL *applied);
+
+/// The cleanup block. Called after the `applyBlock` to given the filter a
+/// chance to clean up the `payload`.
+@property (nonatomic, copy) void (^cleanupBlock)(void *payload);
+
+/// Initializes the object with the given name and attributes.
+///
+/// name       - The name for the filter. Cannot be nil.
+/// attributes - The attributes to which this filter applies. May be nil.
+///
+/// Returns the initialized object.
+- (id)initWithName:(NSString *)name attributes:(NSString *)attributes;
+
 /// Look up a filter based on its name.
 ///
 /// Note that this will only find filters registered through
-/// -registerWithPriority:error:.
+/// -registerWithName:priority:error:.
 ///
 /// Returns the filter, or nil if none was found.
-+ (GTFilter *)lookUpFilterWithName:(NSString *)name;
-
-/// Initializes the receiver with the given name and attributes and callback
-/// blocks.
-///
-/// name       - The name of the filter. Cannot be nil.
-/// attributes - The attributes to match against. See libgit2's documentation
-///              for more details.
-///
-/// See the libgit2 description for the details on the various blocks.
-///
-/// Returns the initialized object.
-- (id)initWithName:(NSString *)name attributes:(NSString *)attributes initializeBlock:(void (^)(void))initializeBlock shutdownBlock:(void (^)(void))shutdownBlock checkBlock:(BOOL (^)(void **payload, GTFilterSource *source, const char **attr_values))checkBlock applyBlock:(BOOL (^)(void **payload, NSData *from, NSData **to, GTFilterSource *source))applyBlock cleanupBlock:(void (^)(void *payload))cleanupBlock;
++ (GTFilter *)filterWithName:(NSString *)name;
 
 /// Registers the filter with the given priority.
 ///
 /// priority - The priority for the filter. 0 is the standard for 3rd party
-///            filters. Higher numbers are given more priority. A negative
-///            number is fine.
+///            filters. Higher numbers are given more priority and therefore
+///            called before lower priority filters. A negative number is fine.
 /// error    - The error if one occurred.
 ///
 /// Returns whether the registration was successful.

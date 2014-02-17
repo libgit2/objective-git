@@ -9,35 +9,21 @@
 #import "GTFilter.h"
 #import "GTRepository.h"
 #import "NSError+Git.h"
-#import "GTFilterSource+Private.h"
+#import "GTFilterSource.h"
 #import "git2/sys/filter.h"
 
 NSString * const GTFilterErrorDomain = @"GTFilterErrorDomain";
 
 const NSInteger GTFilterErrorNameAlreadyRegistered = -1;
 
-typedef BOOL (^GTFilterCheckBlock)(void **payload, GTFilterSource *source, const char **attr_values);
-typedef BOOL (^GTFilterApplyBlock)(void **payload, NSData *from, NSData **to, GTFilterSource *source);
-typedef void (^GTFilterCleanupBlock)(void *payload);
-
 static NSMutableDictionary *GTFiltersNameToRegisteredFilters = nil;
 static NSMutableDictionary *GTFiltersGitFilterToRegisteredFilters = nil;
 
 @interface GTFilter () {
-	git_filter *_filter;
+	git_filter _filter;
 }
 
 @property (nonatomic, readonly, copy) NSString *name;
-
-@property (nonatomic, readonly, copy) void (^initializeBlock)(void);
-
-@property (nonatomic, readonly, copy) void (^shutdownBlock)(void);
-
-@property (nonatomic, readonly, copy) GTFilterCheckBlock checkBlock;
-
-@property (nonatomic, readonly, copy) GTFilterApplyBlock applyBlock;
-
-@property (nonatomic, readonly, copy) GTFilterCleanupBlock cleanupBlock;
 
 @end
 
@@ -46,69 +32,22 @@ static NSMutableDictionary *GTFiltersGitFilterToRegisteredFilters = nil;
 #pragma mark Lifecycle
 
 + (void)initialize {
-	if (self == GTFilter.class) {
-		GTFiltersNameToRegisteredFilters = [[NSMutableDictionary alloc] init];
-		GTFiltersGitFilterToRegisteredFilters = [[NSMutableDictionary alloc] init];
-	}
+	if (self != GTFilter.class) return;
+
+	GTFiltersNameToRegisteredFilters = [[NSMutableDictionary alloc] init];
+	GTFiltersGitFilterToRegisteredFilters = [[NSMutableDictionary alloc] init];
 }
 
-- (void)dealloc {
-	if (_filter != NULL) free(_filter);
-}
-
-static int GTFilterInit(git_filter *filter) {
-	GTFilter *self = GTFiltersGitFilterToRegisteredFilters[[NSValue valueWithPointer:filter]];
-	self.initializeBlock();
-	return 0;
-}
-
-static void GTFilterShutdown(git_filter *filter) {
-	GTFilter *self = GTFiltersGitFilterToRegisteredFilters[[NSValue valueWithPointer:filter]];
-	self.shutdownBlock();
-}
-
-static int GTFilterCheck(git_filter *filter, void **payload, const git_filter_source *src, const char **attr_values) {
-	GTFilter *self = GTFiltersGitFilterToRegisteredFilters[[NSValue valueWithPointer:filter]];
-	BOOL accept = self.checkBlock(payload, [[GTFilterSource alloc] initWithGitFilterSource:src], attr_values);
-	return accept ? 0 : GIT_PASSTHROUGH;
-}
-
-static int GTFilterApply(git_filter *filter, void **payload, git_buf *to, const git_buf *from, const git_filter_source *src) {
-	GTFilter *self = GTFiltersGitFilterToRegisteredFilters[[NSValue valueWithPointer:filter]];
-	NSData *fromData = [NSData dataWithBytesNoCopy:from->ptr length:from->size freeWhenDone:NO];
-	NSData *toData;
-	BOOL applied = self.applyBlock(payload, fromData, &toData, [[GTFilterSource alloc] initWithGitFilterSource:src]);
-	if (applied) git_buf_set(to, toData.bytes, toData.length);
-
-	return applied ? 0 : GIT_PASSTHROUGH;
-}
-
-static void GTFilterCleanup(git_filter *filter, void *payload) {
-	GTFilter *self = GTFiltersGitFilterToRegisteredFilters[[NSValue valueWithPointer:filter]];
-	self.cleanupBlock(payload);
-}
-
-- (id)initWithName:(NSString *)name attributes:(NSString *)attributes initializeBlock:(void (^)(void))initializeBlock shutdownBlock:(void (^)(void))shutdownBlock checkBlock:(GTFilterCheckBlock)checkBlock applyBlock:(GTFilterApplyBlock)applyBlock cleanupBlock:(GTFilterCleanupBlock)cleanupBlock {
+- (id)initWithName:(NSString *)name attributes:(NSString *)attributes {
 	NSParameterAssert(name != nil);
 
 	self = [super init];
 	if (self == nil) return nil;
 
-	_filter = calloc(1, sizeof(git_filter));
-	_filter->version = GIT_FILTER_VERSION;
-	_filter->attributes = attributes.UTF8String;
-	if (initializeBlock != NULL) _filter->initialize = &GTFilterInit;
-	if (shutdownBlock != NULL) _filter->shutdown = &GTFilterShutdown;
-	if (checkBlock != NULL) _filter->check = &GTFilterCheck;
-	if (applyBlock != NULL) _filter->apply = &GTFilterApply;
-	if (cleanupBlock != NULL) _filter->cleanup = &GTFilterCleanup;
+	_filter.version = GIT_FILTER_VERSION;
+	_filter.attributes = attributes.UTF8String;
 
 	_name = [name copy];
-	_initializeBlock = [initializeBlock copy];
-	_shutdownBlock = [shutdownBlock copy];
-	_checkBlock = [checkBlock copy];
-	_applyBlock = [applyBlock copy];
-	_cleanupBlock = [cleanupBlock copy];
 
 	return self;
 }
@@ -130,12 +69,72 @@ static void GTFilterCleanup(git_filter *filter, void *payload) {
 	return [NSString stringWithFormat:@"<%@: %p> name: %@", self.class, self, self.name];
 }
 
+#pragma mark Properties
+
+static int GTFilterInit(git_filter *filter) {
+	GTFilter *self = GTFiltersGitFilterToRegisteredFilters[[NSValue valueWithPointer:filter]];
+	self.initializeBlock();
+	return 0;
+}
+
+static void GTFilterShutdown(git_filter *filter) {
+	GTFilter *self = GTFiltersGitFilterToRegisteredFilters[[NSValue valueWithPointer:filter]];
+	self.shutdownBlock();
+}
+
+static int GTFilterCheck(git_filter *filter, void **payload, const git_filter_source *src, const char **attr_values) {
+	GTFilter *self = GTFiltersGitFilterToRegisteredFilters[[NSValue valueWithPointer:filter]];
+	BOOL accept = self.checkBlock(payload, [[GTFilterSource alloc] initWithGitFilterSource:src], attr_values);
+	return accept ? 0 : GIT_PASSTHROUGH;
+}
+
+static int GTFilterApply(git_filter *filter, void **payload, git_buf *to, const git_buf *from, const git_filter_source *src) {
+	GTFilter *self = GTFiltersGitFilterToRegisteredFilters[[NSValue valueWithPointer:filter]];
+	NSData *fromData = [NSData dataWithBytesNoCopy:from->ptr length:from->size freeWhenDone:NO];
+	BOOL applied = YES;
+	NSData *toData = self.applyBlock(payload, fromData, [[GTFilterSource alloc] initWithGitFilterSource:src], &applied);
+	if (!applied) return GIT_PASSTHROUGH;
+
+	git_buf_set(to, toData.bytes, toData.length);
+	return 0;
+}
+
+static void GTFilterCleanup(git_filter *filter, void *payload) {
+	GTFilter *self = GTFiltersGitFilterToRegisteredFilters[[NSValue valueWithPointer:filter]];
+	self.cleanupBlock(payload);
+}
+
+- (void)setInitializeBlock:(void (^)(void))initializeBlock {
+	_filter.initialize = (initializeBlock != nil ? &GTFilterInit : NULL);
+	_initializeBlock = [initializeBlock copy];
+}
+
+- (void)setShutdownBlock:(void (^)(void))shutdownBlock {
+	_filter.shutdown = (shutdownBlock != nil ? &GTFilterShutdown : NULL);
+	_shutdownBlock = [shutdownBlock copy];
+}
+
+- (void)setCheckBlock:(BOOL (^)(void **, GTFilterSource *, const char **))checkBlock {
+	_filter.check = (checkBlock != nil ? &GTFilterCheck : NULL);
+	_checkBlock = [checkBlock copy];
+}
+
+- (void)setApplyBlock:(NSData * (^)(void **, NSData *, GTFilterSource *, BOOL *))applyBlock {
+	_filter.apply = (applyBlock != nil ? &GTFilterApply : NULL);
+	_applyBlock = [applyBlock copy];
+}
+
+- (void)setCleanupBlock:(void (^)(void *))cleanupBlock {
+	_filter.cleanup = (cleanupBlock != nil ? &GTFilterCleanup : NULL);
+	_cleanupBlock = [cleanupBlock copy];
+}
+
 #pragma mark Registration
 
 - (BOOL)registerWithPriority:(int)priority error:(NSError **)error {
 	if (GTFiltersNameToRegisteredFilters[self.name] != nil) {
 		if (error != NULL) {
-			NSString *description = [NSString stringWithFormat:NSLocalizedString(@"A filter named \"%@\" has already been registered.", @""), self.name];
+			NSString *description = [NSString stringWithFormat:NSLocalizedString(@"A filter named \"%@\" has already been registered", @""), self.name];
 			NSString *recoverySuggestion = NSLocalizedString(@"Unregister the existing filter first.", @"");
 			NSDictionary *userInfo = @{
 				NSLocalizedDescriptionKey: description,
@@ -147,7 +146,7 @@ static void GTFilterCleanup(git_filter *filter, void *payload) {
 		return NO;
 	}
 
-	int result = git_filter_register(self.name.UTF8String, _filter, GIT_FILTER_DRIVER_PRIORITY + priority);
+	int result = git_filter_register(self.name.UTF8String, &_filter, GIT_FILTER_DRIVER_PRIORITY + priority);
 	if (result != GIT_OK) {
 		if (error != NULL) {
 			*error = [NSError git_errorFor:result description:@"Failed to register filter: %@", self.name];
@@ -157,7 +156,7 @@ static void GTFilterCleanup(git_filter *filter, void *payload) {
 	}
 
 	GTFiltersNameToRegisteredFilters[self.name] = self;
-	GTFiltersGitFilterToRegisteredFilters[[NSValue valueWithPointer:_filter]] = self;
+	GTFiltersGitFilterToRegisteredFilters[[NSValue valueWithPointer:&_filter]] = self;
 
 	return YES;
 }
@@ -173,14 +172,14 @@ static void GTFilterCleanup(git_filter *filter, void *payload) {
 	}
 
 	[GTFiltersNameToRegisteredFilters removeObjectForKey:self.name];
-	[GTFiltersGitFilterToRegisteredFilters removeObjectForKey:[NSValue valueWithPointer:_filter]];
+	[GTFiltersGitFilterToRegisteredFilters removeObjectForKey:[NSValue valueWithPointer:&_filter]];
 
 	return YES;
 }
 
 #pragma mark Lookup
 
-+ (GTFilter *)lookUpFilterWithName:(NSString *)name {
++ (GTFilter *)filterWithName:(NSString *)name {
 	NSParameterAssert(name != nil);
 
 	return GTFiltersNameToRegisteredFilters[name];

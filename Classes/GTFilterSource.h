@@ -39,4 +39,11 @@ typedef enum {
 /// The filter mode.
 @property (nonatomic, readonly, assign) GTFilterSourceMode mode;
 
+/// Intializes the receiver with the given filter source.
+///
+/// source - The filter source. Cannot be NULL.
+///
+/// Returns the initialized object.
+- (id)initWithGitFilterSource:(const git_filter_source *)source;
+
 @end

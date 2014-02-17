@@ -30,6 +30,11 @@ beforeEach(^{
 	success = [@"some stuff" writeToURL:[repository.fileURL URLByAppendingPathComponent:testFile] atomically:YES encoding:NSUTF8StringEncoding error:NULL];
 	expect(success).to.beTruthy();
 
+	filter = [[GTFilter alloc] initWithName:filterName attributes:filterAttributes];
+
+	success = [filter registerWithPriority:0 error:NULL];
+	expect(success).to.beTruthy();
+
 	addTestFileToIndex = ^{
 		GTIndex *index = [repository indexWithError:NULL];
 		expect(index).notTo.beNil();
@@ -42,25 +47,38 @@ beforeEach(^{
 	};
 });
 
+afterEach(^{
+	BOOL success = [filter unregister:NULL];
+	expect(success).to.beTruthy();
+});
+
+it(@"should be able to look up a registered filter by name", ^{
+	GTFilter *filter = [GTFilter filterWithName:filterName];
+	expect(filter).notTo.beNil();
+});
+
 it(@"should call all the blocks", ^{
 	__block BOOL initializeCalled = NO;
 	__block BOOL checkCalled = NO;
 	__block BOOL applyCalled = NO;
 	__block BOOL cleanupCalled = NO;
-	filter = [[GTFilter alloc] initWithName:filterName attributes:filterAttributes initializeBlock:^{
+	filter.initializeBlock = ^{
 		initializeCalled = YES;
-	} shutdownBlock:nil checkBlock:^(void **payload, GTFilterSource *source, const char **attr_values) {
+	};
+
+	filter.checkBlock = ^(void **payload, GTFilterSource *source, const char **attr_values) {
 		checkCalled = YES;
 		return YES;
-	} applyBlock:^(void **payload, NSData *from, NSData **to, GTFilterSource *source) {
-		applyCalled = YES;
-		return YES;
-	} cleanupBlock:^(void *payload) {
-		cleanupCalled = YES;
-	}];
+	};
 
-	BOOL success = [filter registerWithPriority:0 error:NULL];
-	expect(success).to.beTruthy();
+	filter.applyBlock = ^ NSData * (void **payload, NSData *from, GTFilterSource *source, BOOL *applied) {
+		applyCalled = YES;
+		return nil;
+	};
+
+	filter.cleanupBlock = ^(void *payload) {
+		cleanupCalled = YES;
+	};
 
 	addTestFileToIndex();
 
@@ -72,15 +90,14 @@ it(@"should call all the blocks", ^{
 
 it(@"shouldn't call the apply block if the check block returns NO", ^{
 	__block BOOL applyCalled = NO;
-	filter = [[GTFilter alloc] initWithName:filterName attributes:filterAttributes initializeBlock:nil shutdownBlock:nil checkBlock:^(void **payload, GTFilterSource *source, const char **attr_values) {
+	filter.checkBlock = ^(void **payload, GTFilterSource *source, const char **attr_values) {
 		return NO;
-	} applyBlock:^(void **payload, NSData *from, NSData **to, GTFilterSource *source) {
-		applyCalled = YES;
-		return YES;
-	} cleanupBlock:nil];
+	};
 
-	BOOL success = [filter registerWithPriority:0 error:NULL];
-	expect(success).to.beTruthy();
+	filter.applyBlock = ^ NSData * (void **payload, NSData *from, GTFilterSource *source, BOOL *applied) {
+		applyCalled = YES;
+		return nil;
+	};
 
 	addTestFileToIndex();
 
@@ -89,13 +106,9 @@ it(@"shouldn't call the apply block if the check block returns NO", ^{
 
 it(@"should write the data set in the apply block", ^{
 	NSData *replacementData = [@"oh hi mark" dataUsingEncoding:NSUTF8StringEncoding];
-	filter = [[GTFilter alloc] initWithName:filterName attributes:filterAttributes initializeBlock:nil shutdownBlock:nil checkBlock:nil applyBlock:^(void **payload, NSData *from, NSData **to, GTFilterSource *source) {
-		*to = replacementData;
-		return YES;
-	} cleanupBlock:nil];
-
-	BOOL success = [filter registerWithPriority:0 error:NULL];
-	expect(success).to.beTruthy();
+	filter.applyBlock = ^(void **payload, NSData *from, GTFilterSource *source, BOOL *applied) {
+		return replacementData;
+	};
 
 	addTestFileToIndex();
 
@@ -108,13 +121,10 @@ it(@"should write the data set in the apply block", ^{
 
 it(@"should include the right filter source", ^{
 	__block GTFilterSource *filterSource;
-	filter = [[GTFilter alloc] initWithName:filterName attributes:filterAttributes initializeBlock:nil shutdownBlock:nil checkBlock:^(void **payload, GTFilterSource *source, const char **attr_values) {
+	filter.checkBlock = ^(void **payload, GTFilterSource *source, const char **attr_values) {
 		filterSource = source;
 		return NO;
-	} applyBlock:nil cleanupBlock:nil];
-
-	BOOL success = [filter registerWithPriority:0 error:NULL];
-	expect(success).to.beTruthy();
+	};
 
 	addTestFileToIndex();
 
@@ -122,11 +132,6 @@ it(@"should include the right filter source", ^{
 	expect(filterSource.path).to.equal(testFile);
 	expect(filterSource.mode).to.equal(GTFilterSourceModeClean);
 	expect(filterSource.repository).to.equal(repository);
-});
-
-afterEach(^{
-	BOOL success = [filter unregister:NULL];
-	expect(success).to.beTruthy();
 });
 
 SpecEnd

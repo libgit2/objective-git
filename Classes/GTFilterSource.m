@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 GitHub, Inc. All rights reserved.
 //
 
-#import "GTFilterSource+Private.h"
+#import "GTFilterSource.h"
 #import "GTRepository.h"
 #import "GTOID.h"
 

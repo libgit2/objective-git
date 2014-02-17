@@ -594,7 +594,6 @@
 		883CD6AE1600F01000F57354 /* GTConfiguration+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GTConfiguration+Private.h"; sourceTree = "<group>"; };
 		886E622818AEBF75000611A0 /* GTFilterSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTFilterSource.h; sourceTree = "<group>"; };
 		886E622918AEBF75000611A0 /* GTFilterSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTFilterSource.m; sourceTree = "<group>"; };
-		886E623418AEC1A0000611A0 /* GTFilterSource+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GTFilterSource+Private.h"; sourceTree = "<group>"; };
 		886E623618AECD86000611A0 /* GTFilterSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTFilterSpec.m; sourceTree = "<group>"; };
 		88746CC217FA1C950005888A /* GTRepository+Committing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTRepository+Committing.h"; sourceTree = "<group>"; };
 		88746CC317FA1C950005888A /* GTRepository+Committing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GTRepository+Committing.m"; sourceTree = "<group>"; };
@@ -1011,7 +1010,6 @@
 				880EE65F18AE700500B82455 /* GTFilter.h */,
 				880EE66018AE700500B82455 /* GTFilter.m */,
 				886E622818AEBF75000611A0 /* GTFilterSource.h */,
-				886E623418AEC1A0000611A0 /* GTFilterSource+Private.h */,
 				886E622918AEBF75000611A0 /* GTFilterSource.m */,
 			);
 			path = Classes;
