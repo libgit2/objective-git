@@ -663,13 +663,9 @@ static int submoduleEnumerationCallback(git_submodule *git_submodule, const char
 	GTConfiguration *configuration = [self configurationWithError:NULL];
 	NSString *name = [configuration stringForKey:@"user.name"];
 	if (name == nil) {
-		if (NSFullUserName().length != 0) {
-			name = NSFullUserName();
-		} else if (NSUserName().length != 0) {
-			name = NSUserName();
-		} else {
-			name = @"Nobody";
-		}
+		name = NSFullUserName();
+		if (name.length == 0) name = NSUserName();
+		if (name.length == 0) name = @"nobody";
 	}
 
 	NSString *email = [configuration stringForKey:@"user.email"];
