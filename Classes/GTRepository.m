@@ -684,9 +684,9 @@ static int submoduleEnumerationCallback(git_submodule *git_submodule, const char
 	GTConfiguration *configuration = [self configurationWithError:NULL];
 	NSString *name = [configuration stringForKey:@"user.name"];
 	if (name == nil) {
-		if (![NSFullUserName() isEqualToString:@""] && NSFullUserName() != nil) {
+		if (NSFullUserName().length != 0) {
 			name = NSFullUserName();
-		} else if (![NSUserName() isEqualToString:@""] && NSUserName() != nil) {
+		} else if (NSUserName().length != 0) {
 			name = NSUserName();
 		} else {
 			name = @"Nobody";
@@ -696,7 +696,7 @@ static int submoduleEnumerationCallback(git_submodule *git_submodule, const char
 	NSString *email = [configuration stringForKey:@"user.email"];
 	if (email == nil) {
 		NSString *username = NSUserName();
-		if ([username isEqualToString:@""] && username != nil) username = @"nobody";
+		if (username.length != 0) username = @"nobody";
 		NSString *domain = NSProcessInfo.processInfo.hostName ?: @"nowhere.local";
 		email = [NSString stringWithFormat:@"%@@%@", username, domain];
 	}
