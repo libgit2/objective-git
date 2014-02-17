@@ -104,19 +104,57 @@ it(@"shouldn't call the apply block if the check block returns NO", ^{
 	expect(applyCalled).to.beFalsy();
 });
 
-it(@"should write the data set in the apply block", ^{
-	NSData *replacementData = [@"oh hi mark" dataUsingEncoding:NSUTF8StringEncoding];
-	filter.applyBlock = ^(void **payload, NSData *from, GTFilterSource *source, BOOL *applied) {
-		return replacementData;
-	};
+describe(@"application", ^{
+	it(@"should write the data returned by the apply block when cleaned", ^{
+		NSData *replacementData = [@"oh hi mark" dataUsingEncoding:NSUTF8StringEncoding];
+		filter.applyBlock = ^(void **payload, NSData *from, GTFilterSource *source, BOOL *applied) {
+			return replacementData;
+		};
 
-	addTestFileToIndex();
+		addTestFileToIndex();
 
-	GTIndex *index = [repository indexWithError:NULL];
-	GTTree *tree = [index writeTree:NULL];
-	GTTreeEntry *entry = [tree entryWithName:testFile];
-	GTOdbObject *ODBObject = [[entry GTObject:NULL] odbObjectWithError:NULL];
-	expect(ODBObject.data).to.equal(replacementData);
+		GTIndex *index = [repository indexWithError:NULL];
+		GTTree *tree = [index writeTree:NULL];
+		GTTreeEntry *entry = [tree entryWithName:testFile];
+		GTOdbObject *ODBObject = [[entry GTObject:NULL] odbObjectWithError:NULL];
+		expect(ODBObject.data).to.equal(replacementData);
+	});
+
+	it(@"should write the data returned by the apply block when smudged", ^{
+		BOOL success = [filter unregister:NULL];
+		expect(success).to.beTruthy();
+
+		addTestFileToIndex();
+		GTIndex *index = [repository indexWithError:NULL];
+		GTTree *tree = [index writeTree:NULL];
+		expect(tree).notTo.beNil();
+
+		GTReference *HEADRef = [repository headReferenceWithError:NULL];
+		expect(HEADRef).notTo.beNil();
+
+		GTCommit *HEADCommit = HEADRef.resolvedTarget;
+		expect(HEADCommit).notTo.beNil();
+
+		GTCommit *newCommit = [repository createCommitWithTree:tree message:@"" parents:@[ HEADCommit ] updatingReferenceNamed:HEADRef.name error:NULL];
+		expect(newCommit).notTo.beNil();
+
+		success = [filter registerWithPriority:0 error:NULL];
+		expect(success).to.beTruthy();
+
+		NSData *replacementData = [@"you're my favorite customer" dataUsingEncoding:NSUTF8StringEncoding];
+		filter.applyBlock = ^(void **payload, NSData *from, GTFilterSource *source, BOOL *applied) {
+			return replacementData;
+		};
+
+		NSURL *testFileURL = [repository.fileURL URLByAppendingPathComponent:testFile];
+		success = [NSFileManager.defaultManager removeItemAtURL:testFileURL error:NULL];
+		expect(success).to.beTruthy();
+
+		success = [repository checkoutCommit:newCommit strategy:GTCheckoutStrategyForce error:NULL progressBlock:NULL];
+		expect(success).to.beTruthy();
+
+		expect([NSData dataWithContentsOfURL:testFileURL]).to.equal(replacementData);
+	});
 });
 
 it(@"should include the right filter source", ^{
