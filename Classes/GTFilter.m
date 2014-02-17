@@ -179,7 +179,7 @@ static void GTFilterCleanup(git_filter *filter, void *payload) {
 
 #pragma mark Lookup
 
-+ (GTFilter *)filterWithName:(NSString *)name {
++ (GTFilter *)filterForName:(NSString *)name {
 	NSParameterAssert(name != nil);
 
 	return GTFiltersNameToRegisteredFilters[name];

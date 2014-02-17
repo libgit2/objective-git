@@ -64,7 +64,7 @@ afterEach(^{
 
 it(@"should be able to look up a registered filter by name", ^{
 	setUpFilterWithApplyBlock(nil);
-	GTFilter *filter = [GTFilter filterWithName:filterName];
+	GTFilter *filter = [GTFilter filterForName:filterName];
 	expect(filter).notTo.beNil();
 });
 

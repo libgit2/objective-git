@@ -55,7 +55,7 @@ extern const NSInteger GTFilterErrorNameAlreadyRegistered;
 /// -registerWithName:priority:error:.
 ///
 /// Returns the filter, or nil if none was found.
-+ (GTFilter *)filterWithName:(NSString *)name;
++ (GTFilter *)filterForName:(NSString *)name;
 
 /// Registers the filter with the given priority.
 ///
