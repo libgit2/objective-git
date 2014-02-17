@@ -36,9 +36,6 @@ extern const NSInteger GTFilterErrorNameAlreadyRegistered;
 /// source.
 @property (nonatomic, copy) BOOL (^checkBlock)(void **payload, GTFilterSource *source, const char **attr_values);
 
-/// The apply block. Applies some transformation to the source.
-@property (nonatomic, copy) NSData * (^applyBlock)(void **payload, NSData *from, GTFilterSource *source, BOOL *applied);
-
 /// The cleanup block. Called after the `applyBlock` to given the filter a
 /// chance to clean up the `payload`.
 @property (nonatomic, copy) void (^cleanupBlock)(void *payload);
@@ -47,9 +44,10 @@ extern const NSInteger GTFilterErrorNameAlreadyRegistered;
 ///
 /// name       - The name for the filter. Cannot be nil.
 /// attributes - The attributes to which this filter applies. May be nil.
+/// applyBlock - The block to use to apply the filter. Cannot be nil.
 ///
 /// Returns the initialized object.
-- (id)initWithName:(NSString *)name attributes:(NSString *)attributes;
+- (id)initWithName:(NSString *)name attributes:(NSString *)attributes applyBlock:(NSData * (^)(void **payload, NSData *from, GTFilterSource *source, BOOL *applied))applyBlock;
 
 /// Look up a filter based on its name.
 ///

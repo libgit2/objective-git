@@ -25,6 +25,8 @@ static NSMutableDictionary *GTFiltersGitFilterToRegisteredFilters = nil;
 
 @property (nonatomic, readonly, copy) NSString *name;
 
+@property (nonatomic, readonly, copy) NSData * (^applyBlock)(void **payload, NSData *from, GTFilterSource *source, BOOL *applied);
+
 @end
 
 @implementation GTFilter
@@ -38,16 +40,19 @@ static NSMutableDictionary *GTFiltersGitFilterToRegisteredFilters = nil;
 	GTFiltersGitFilterToRegisteredFilters = [[NSMutableDictionary alloc] init];
 }
 
-- (id)initWithName:(NSString *)name attributes:(NSString *)attributes {
+- (id)initWithName:(NSString *)name attributes:(NSString *)attributes applyBlock:(NSData * (^)(void **payload, NSData *from, GTFilterSource *source, BOOL *applied))applyBlock {
 	NSParameterAssert(name != nil);
+	NSParameterAssert(applyBlock != NULL);
 
 	self = [super init];
 	if (self == nil) return nil;
 
 	_filter.version = GIT_FILTER_VERSION;
 	_filter.attributes = attributes.UTF8String;
+	_filter.apply = &GTFilterApply;
 
 	_name = [name copy];
+	_applyBlock = [applyBlock copy];
 
 	return self;
 }
@@ -117,11 +122,6 @@ static void GTFilterCleanup(git_filter *filter, void *payload) {
 - (void)setCheckBlock:(BOOL (^)(void **, GTFilterSource *, const char **))checkBlock {
 	_filter.check = (checkBlock != nil ? &GTFilterCheck : NULL);
 	_checkBlock = [checkBlock copy];
-}
-
-- (void)setApplyBlock:(NSData * (^)(void **, NSData *, GTFilterSource *, BOOL *))applyBlock {
-	_filter.apply = (applyBlock != nil ? &GTFilterApply : NULL);
-	_applyBlock = [applyBlock copy];
 }
 
 - (void)setCleanupBlock:(void (^)(void *))cleanupBlock {
