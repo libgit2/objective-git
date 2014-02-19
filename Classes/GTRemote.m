@@ -33,6 +33,18 @@
 	return self;
 }
 
+- (id)initWithGitRepository:(git_repository *)repository name:(NSString *)name url:(NSString *)url error:(NSError **)error {
+	
+	git_remote *remote;
+	int gitError = git_remote_create(&remote, repository, [name UTF8String], [url UTF8String]);
+	if (gitError != GIT_OK || repository == NULL) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to create remote named %@ at %@", name, url];
+		return nil;
+	}
+	
+	return [[GTRemote alloc] initWithGitRemote:remote];
+}
+
 - (void)dealloc {
 	if (_git_remote != NULL) git_remote_free(_git_remote);
 }
