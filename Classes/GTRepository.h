@@ -34,6 +34,7 @@
 #import "GTObject.h"
 #import "GTReference.h"
 
+@class GTBlob;
 @class GTCommit;
 @class GTConfiguration;
 @class GTDiffFile;
