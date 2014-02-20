@@ -434,4 +434,7 @@ extern NSString *const GTRepositoryCloneOptionsCredentialProvider;
 // Convenience wrapper for checkoutReference:strategy:notifyFlags:error:notifyBlock:progressBlock without notifications
 - (BOOL)checkoutReference:(GTReference *)target strategy:(GTCheckoutStrategyType)strategy error:(NSError **)error progressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))progressBlock;
 
+/// Flush the gitattributes cache.
+- (void)flushAttributesCache;
+
 @end
