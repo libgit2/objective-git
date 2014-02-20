@@ -295,9 +295,9 @@
 		D09C2E391755F16200065E36 /* GTSubmodule.m in Sources */ = {isa = PBXBuildFile; fileRef = D09C2E351755F16200065E36 /* GTSubmodule.m */; };
 		D09C2E51175602A500065E36 /* fixtures.zip in Resources */ = {isa = PBXBuildFile; fileRef = D09C2E50175602A500065E36 /* fixtures.zip */; };
 		D0AC906C172F941F00347DC4 /* GTRepositorySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0AC906B172F941F00347DC4 /* GTRepositorySpec.m */; };
-		D0CE552018B6C58F008EB8E0 /* GTFilterList.h in Headers */ = {isa = PBXBuildFile; fileRef = D0CE551E18B6C58F008EB8E0 /* GTFilterList.h */; };
-		D0CE552118B6C58F008EB8E0 /* GTFilterList.h in Headers */ = {isa = PBXBuildFile; fileRef = D0CE551E18B6C58F008EB8E0 /* GTFilterList.h */; };
-		D0CE552218B6C58F008EB8E0 /* GTFilterList.h in Headers */ = {isa = PBXBuildFile; fileRef = D0CE551E18B6C58F008EB8E0 /* GTFilterList.h */; };
+		D0CE552018B6C58F008EB8E0 /* GTFilterList.h in Headers */ = {isa = PBXBuildFile; fileRef = D0CE551E18B6C58F008EB8E0 /* GTFilterList.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D0CE552118B6C58F008EB8E0 /* GTFilterList.h in Headers */ = {isa = PBXBuildFile; fileRef = D0CE551E18B6C58F008EB8E0 /* GTFilterList.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D0CE552218B6C58F008EB8E0 /* GTFilterList.h in Headers */ = {isa = PBXBuildFile; fileRef = D0CE551E18B6C58F008EB8E0 /* GTFilterList.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D0CE552318B6C58F008EB8E0 /* GTFilterList.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CE551F18B6C58F008EB8E0 /* GTFilterList.m */; };
 		D0CE552418B6C58F008EB8E0 /* GTFilterList.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CE551F18B6C58F008EB8E0 /* GTFilterList.m */; };
 		D0CE552518B6C58F008EB8E0 /* GTFilterList.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CE551F18B6C58F008EB8E0 /* GTFilterList.m */; };
