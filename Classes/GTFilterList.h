@@ -16,18 +16,20 @@
 @interface GTFilterList : NSObject
 
 /// Initializes the receiver to wrap the given `git_filter_list`.
+///
+/// filterList - The filter list to wrap. Must not be NULL.
 - (instancetype)initWithGitFilterList:(git_filter_list *)filterList;
 
 /// Returns the underlying `git_filter_list`.
 - (git_filter_list *)git_filter_list __attribute__((objc_returns_inner_pointer));
 
-/// Attempts to apply the filter list to `data`.
+/// Attempts to apply the filter list to a data buffer.
 ///
-/// data  - The data to filter. Must not be nil.
-/// error - If not NULL, set to any error that occurs.
+/// inputData - The data to filter. Must not be nil.
+/// error     - If not NULL, set to any error that occurs.
 ///
 /// Returns the filtered data, or nil if an error occurs.
-- (NSData *)applyToData:(NSData *)data error:(NSError **)error; 
+- (NSData *)applyToData:(NSData *)inputData error:(NSError **)error;
 
 /// Attempts to apply the filter list to a file in the given repository.
 ///
