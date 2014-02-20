@@ -792,4 +792,8 @@ static int checkoutNotifyCallback(git_checkout_notify_t why, const char *path, c
 	return [self checkoutReference:target strategy:strategy notifyFlags:GTCheckoutNotifyNone error:error progressBlock:progressBlock notifyBlock:nil];
 }
 
+- (void)flushAttributesCache {
+	git_attr_cache_flush(self.git_repository);
+}
+
 @end
