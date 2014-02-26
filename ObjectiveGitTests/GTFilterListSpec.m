@@ -101,4 +101,27 @@ it(@"should apply a single filter", ^{
 	expect(error).to.beNil();
 });
 
+describe(@"applying a list of multiple filters", ^{
+	__block GTFilterList *list;
+
+	beforeEach(^{
+		// This list should apply the `readFilter` first, then the `textFilter`.
+		list = [repository filterListWithPath:@"README1.txt" blob:nil mode:GTFilterSourceModeSmudge success:NULL error:NULL];
+		expect(list).notTo.beNil();
+	});
+
+	it(@"should apply to data", ^{
+		NSError *error = nil;
+		NSData *result = [list applyToData:[NSData data] error:&error];
+		expect(result).to.equal(textFilterResult);
+		expect(error).to.beNil();
+	});
+
+	pending(@"should apply to a file", ^{
+	});
+
+	pending(@"should apply to a blob", ^{
+	});
+});
+
 SpecEnd
