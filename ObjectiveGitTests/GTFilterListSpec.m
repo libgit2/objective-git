@@ -11,33 +11,36 @@
 
 SpecBegin(GTFilterList)
 
-__block GTFilter *readFilter;
-__block NSData *readFilterResult;
-
-__block GTFilter *textFilter;
-__block NSData *textFilterResult;
-
 __block GTRepository *repository;
+
+__block GTFilter *readFilter;
+__block GTFilter *textFilter;
+
+NSString *readFilterContent = @"\nthis was touched by the read-filter!";
+NSString *textFilterContent = @"\nohai text-filter!";
 
 beforeEach(^{
 	repository = self.testAppFixtureRepository;
 
-	NSString *attributes = @"READ* filter=read-filter\n*.txt filter=text-filter\n";
+	NSString *attributes = @"READ* rf=true\n*.txt tf=true\n";
 	BOOL success = [attributes writeToURL:[repository.fileURL URLByAppendingPathComponent:@".gitattributes"] atomically:YES encoding:NSUTF8StringEncoding error:NULL];
 	expect(success).to.beTruthy();
 
-	textFilterResult = [@"filtered text" dataUsingEncoding:NSUTF8StringEncoding];
-	readFilterResult = [@"filtered" dataUsingEncoding:NSUTF8StringEncoding];
+	readFilter = [[GTFilter alloc] initWithName:@"read-filter" attributes:@"rf=true" applyBlock:^(void **payload, NSData *from, GTFilterSource *source, BOOL *applied) {
+		NSMutableData *buffer = [from mutableCopy];
+		[buffer appendData:[readFilterContent dataUsingEncoding:NSUTF8StringEncoding]];
 
-	readFilter = [[GTFilter alloc] initWithName:@"read-filter" attributes:@"filter=read-filter" applyBlock:^(void **payload, NSData *from, GTFilterSource *source, BOOL *applied) {
-		return readFilterResult;
+		return buffer;
 	}];
 
 	expect(readFilter).notTo.beNil();
 	expect([readFilter registerWithPriority:1 error:NULL]).to.beTruthy();
 
-	textFilter = [[GTFilter alloc] initWithName:@"text-filter" attributes:@"filter=text-filter" applyBlock:^(void **payload, NSData *from, GTFilterSource *source, BOOL *applied) {
-		return textFilterResult;
+	textFilter = [[GTFilter alloc] initWithName:@"text-filter" attributes:@"tf=true" applyBlock:^(void **payload, NSData *from, GTFilterSource *source, BOOL *applied) {
+		NSMutableData *buffer = [from mutableCopy];
+		[buffer appendData:[textFilterContent dataUsingEncoding:NSUTF8StringEncoding]];
+
+		return buffer;
 	}];
 
 	expect(textFilter).notTo.beNil();
@@ -95,33 +98,59 @@ it(@"should apply a single filter", ^{
 	GTFilterList *list = [repository filterListWithPath:@"README.md" blob:nil mode:GTFilterSourceModeSmudge success:NULL error:NULL];
 	expect(list).notTo.beNil();
 
+	NSString *inputString = @"foobar";
+
 	NSError *error = nil;
-	NSData *result = [list applyToData:[NSData data] error:&error];
-	expect(result).to.equal(readFilterResult);
+	NSData *result = [list applyToData:[inputString dataUsingEncoding:NSUTF8StringEncoding] error:&error];
+	expect(result).notTo.beNil();
 	expect(error).to.beNil();
+
+	NSString *resultString = [[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];
+	expect(resultString).to.contain(inputString);
+	expect(resultString).to.contain(readFilterContent);
+	expect(resultString).notTo.contain(textFilterContent);
 });
 
 describe(@"applying a list of multiple filters", ^{
 	__block GTFilterList *list;
 
 	beforeEach(^{
-		// This list should apply the `readFilter` first, then the `textFilter`.
+		// This file should have `readFilter` applied first, then `textFilter`.
 		list = [repository filterListWithPath:@"README1.txt" blob:nil mode:GTFilterSourceModeSmudge success:NULL error:NULL];
 		expect(list).notTo.beNil();
 	});
 
 	it(@"should apply to data", ^{
+		NSString *inputString = @"foobar";
+
 		NSError *error = nil;
-		NSData *result = [list applyToData:[NSData data] error:&error];
-		expect(result).to.equal(textFilterResult);
+		NSData *result = [list applyToData:[inputString dataUsingEncoding:NSUTF8StringEncoding] error:&error];
+		expect(result).notTo.beNil();
 		expect(error).to.beNil();
+
+		NSString *resultString = [[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];
+		expect(resultString).to.contain(inputString);
+		expect(resultString).to.contain(readFilterContent);
+		expect(resultString).to.contain(textFilterContent);
 	});
 
 	it(@"should apply to a file", ^{
+		NSString *inputFilename = @"README";
+		GTRepository *inputRepo = self.conflictedFixtureRepository;
+
+		NSString *content = [NSString stringWithContentsOfURL:[inputRepo.fileURL URLByAppendingPathComponent:inputFilename] encoding:NSUTF8StringEncoding error:NULL];
+		expect(content).notTo.contain(readFilterContent);
+		expect(content).notTo.contain(textFilterContent);
+
 		NSError *error = nil;
-		NSData *result = [list applyToPath:@"README" inRepository:self.conflictedFixtureRepository error:&error];
-		expect(result).to.equal(textFilterResult);
+		NSData *result = [list applyToPath:inputFilename inRepository:inputRepo error:&error];
+		expect(result).notTo.beNil();
 		expect(error).to.beNil();
+
+		NSString *resultString = [[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];
+		expect(resultString).to.contain(content);
+		expect(resultString).to.contain(readFilterContent);
+		expect(resultString).to.contain(textFilterContent);
 	});
 
 	it(@"should apply to a blob", ^{
@@ -129,10 +158,19 @@ describe(@"applying a list of multiple filters", ^{
 		GTBlob *blob = [repository lookUpObjectBySHA:@"8b4a21733703ca50b96186691615e8d2f6314e79" objectType:GTObjectTypeBlob error:NULL];
 		expect(blob).notTo.beNil();
 
+		expect(blob.content).notTo.beNil();
+		expect(blob.content).notTo.contain(readFilterContent);
+		expect(blob.content).notTo.contain(textFilterContent);
+
 		NSError *error = nil;
 		NSData *result = [list applyToBlob:blob error:&error];
-		expect(result).to.equal(textFilterResult);
+		expect(result).notTo.beNil();
 		expect(error).to.beNil();
+
+		NSString *resultString = [[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];
+		expect(resultString).to.contain(blob.content);
+		expect(resultString).to.contain(readFilterContent);
+		expect(resultString).to.contain(textFilterContent);
 	});
 });
 
