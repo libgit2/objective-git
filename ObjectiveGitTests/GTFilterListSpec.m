@@ -117,10 +117,22 @@ describe(@"applying a list of multiple filters", ^{
 		expect(error).to.beNil();
 	});
 
-	pending(@"should apply to a file", ^{
+	it(@"should apply to a file", ^{
+		NSError *error = nil;
+		NSData *result = [list applyToPath:@"README" inRepository:self.conflictedFixtureRepository error:&error];
+		expect(result).to.equal(textFilterResult);
+		expect(error).to.beNil();
 	});
 
-	pending(@"should apply to a blob", ^{
+	it(@"should apply to a blob", ^{
+		// This is `REAME_` from `HEAD`.
+		GTBlob *blob = [repository lookUpObjectBySHA:@"8b4a21733703ca50b96186691615e8d2f6314e79" objectType:GTObjectTypeBlob error:NULL];
+		expect(blob).notTo.beNil();
+
+		NSError *error = nil;
+		NSData *result = [list applyToBlob:blob error:&error];
+		expect(result).to.equal(textFilterResult);
+		expect(error).to.beNil();
 	});
 });
 
