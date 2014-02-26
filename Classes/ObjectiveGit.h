@@ -29,6 +29,8 @@
 #import <ObjectiveGit/GTRepository+Stashing.h>
 #import <ObjectiveGit/GTRepository+Committing.h>
 #import <ObjectiveGit/GTRepository+Status.h>
+#import <ObjectiveGit/GTRepository+Pushing.h>
+#import <ObjectiveGit/GTRepository+Pulling.h>
 #import <ObjectiveGit/GTEnumerator.h>
 #import <ObjectiveGit/GTCommit.h>
 #import <ObjectiveGit/GTCredential.h>

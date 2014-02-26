@@ -18,6 +18,8 @@
 // remote - The underlying `git_remote` object.
 - (id)initWithGitRemote:(git_remote *)remote;
 
+- (id)initWithGitRepository:(git_repository *)repository name:(NSString *)name url:(NSString *)url error:(NSError **)error;
+
 // The underlying `git_remote` object.
 - (git_remote *)git_remote __attribute__((objc_returns_inner_pointer));
 
