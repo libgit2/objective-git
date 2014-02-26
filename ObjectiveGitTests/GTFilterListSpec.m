@@ -91,4 +91,14 @@ describe(@"loading a filter list", ^{
 	});
 });
 
+it(@"should apply a single filter", ^{
+	GTFilterList *list = [repository filterListWithPath:@"README.md" blob:nil mode:GTFilterSourceModeSmudge success:NULL error:NULL];
+	expect(list).notTo.beNil();
+
+	NSError *error = nil;
+	NSData *result = [list applyToData:[NSData data] error:&error];
+	expect(result).to.equal(readFilterResult);
+	expect(error).to.beNil();
+});
+
 SpecEnd

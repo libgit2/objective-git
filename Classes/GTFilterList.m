@@ -44,7 +44,7 @@
 		.size = inputData.length,
 	};
 
-	git_buf output;
+	git_buf output = GIT_BUF_INIT_CONST(0, NULL);
 	int gitError = git_filter_list_apply_to_data(&output, self.git_filter_list, &input);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to apply filter list to data buffer"];
@@ -62,7 +62,7 @@
 	NSParameterAssert(relativePath != nil);
 	NSParameterAssert(repository != nil);
 
-	git_buf output;
+	git_buf output = GIT_BUF_INIT_CONST(0, NULL);
 	int gitError = git_filter_list_apply_to_file(&output, self.git_filter_list, repository.git_repository, relativePath.fileSystemRepresentation);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to apply filter list to %@", relativePath];
@@ -79,7 +79,7 @@
 - (NSData *)applyToBlob:(GTBlob *)blob error:(NSError **)error {
 	NSParameterAssert(blob != nil);
 
-	git_buf output;
+	git_buf output = GIT_BUF_INIT_CONST(0, NULL);
 	int gitError = git_filter_list_apply_to_blob(&output, self.git_filter_list, blob.git_blob);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to apply filter list to blob %@", blob.OID];
