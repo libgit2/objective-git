@@ -82,20 +82,17 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 
 + (GTDiff *)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree inRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error {
 	NSParameterAssert(repository != nil);
-	NSParameterAssert(newTree == nil || [newTree.repository isEqual:repository]);
-	NSParameterAssert(oldTree == nil || [oldTree.repository isEqual:repository]);
 	
 	__block git_diff *diff;
-	int returnValue = [self handleParsedOptionsDictionary:options usingBlock:^(git_diff_options *optionsStruct) {
+	int status = [self handleParsedOptionsDictionary:options usingBlock:^(git_diff_options *optionsStruct) {
 		return git_diff_tree_to_tree(&diff, repository.git_repository, oldTree.git_tree, newTree.git_tree, optionsStruct);
 	}];
-	if (returnValue != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:returnValue description:@"Failed to create diff between %@ and %@", oldTree.SHA, newTree.SHA];
+	if (status != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to create diff between %@ and %@", oldTree.SHA, newTree.SHA];
 		return nil;
 	}
 	
-	GTDiff *newDiff = [[GTDiff alloc] initWithGitDiff:diff];
-	return newDiff;
+	return [[GTDiff alloc] initWithGitDiff:diff];
 }
 
 + (GTDiff *)diffIndexFromTree:(GTTree *)tree inRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error {
