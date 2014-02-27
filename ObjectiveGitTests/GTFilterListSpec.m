@@ -120,6 +120,11 @@ describe(@"applying a list of multiple filters", ^{
 		expect(list).notTo.beNil();
 	});
 
+	afterEach(^{
+		// Make sure the list is torn down before the repository.
+		list = nil;
+	});
+
 	it(@"should apply to data", ^{
 		NSString *inputString = @"foobar";
 
