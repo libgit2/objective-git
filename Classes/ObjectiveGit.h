@@ -54,6 +54,7 @@
 #import <ObjectiveGit/GTStatusDelta.h>
 #import <ObjectiveGit/GTRepository+Blame.h>
 #import <ObjectiveGit/GTFilter.h>
+#import <ObjectiveGit/GTFilterList.h>
 #import <ObjectiveGit/GTFilterSource.h>
 
 #import <ObjectiveGit/GTObjectDatabase.h>

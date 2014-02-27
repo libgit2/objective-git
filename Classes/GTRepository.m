@@ -28,26 +28,29 @@
 //
 
 #import "GTRepository.h"
+
+#import "GTBlob.h"
 #import "GTBranch.h"
 #import "GTCommit.h"
 #import "GTConfiguration+Private.h"
 #import "GTConfiguration.h"
+#import "GTCredential+Private.h"
+#import "GTCredential.h"
+#import "GTDiffFile.h"
 #import "GTEnumerator.h"
+#import "GTFilterList.h"
 #import "GTIndex.h"
+#import "GTOID.h"
 #import "GTObject.h"
 #import "GTObjectDatabase.h"
-#import "GTOID.h"
 #import "GTSignature.h"
 #import "GTSubmodule.h"
 #import "GTTag.h"
+#import "GTTree.h"
 #import "GTTreeBuilder.h"
+#import "NSArray+StringArray.h"
 #import "NSError+Git.h"
 #import "NSString+Git.h"
-#import "GTDiffFile.h"
-#import "GTTree.h"
-#import "GTCredential.h"
-#import "GTCredential+Private.h"
-#import "NSArray+StringArray.h"
 
 NSString *const GTRepositoryCloneOptionsBare = @"GTRepositoryCloneOptionsBare";
 NSString *const GTRepositoryCloneOptionsCheckout = @"GTRepositoryCloneOptionsCheckout";
@@ -794,6 +797,26 @@ static int checkoutNotifyCallback(git_checkout_notify_t why, const char *path, c
 
 - (void)flushAttributesCache {
 	git_attr_cache_flush(self.git_repository);
+}
+
+- (GTFilterList *)filterListWithPath:(NSString *)path blob:(GTBlob *)blob mode:(GTFilterSourceMode)mode success:(BOOL *)success error:(NSError **)error {
+	NSParameterAssert(path != nil);
+
+	git_filter_list *list = NULL;
+	int gitError = git_filter_list_load(&list, self.git_repository, blob.git_blob, path.fileSystemRepresentation, (git_filter_mode_t)mode);
+	if (gitError != GIT_OK) {
+		if (success != NULL) *success = NO;
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to load filter list for %@", path];
+
+		return nil;
+	}
+
+	if (success != NULL) *success = YES;
+	if (list == NULL) {
+		return nil;
+	} else {
+		return [[GTFilterList alloc] initWithGitFilterList:list];
+	}
 }
 
 @end
