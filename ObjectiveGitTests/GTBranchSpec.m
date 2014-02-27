@@ -185,6 +185,15 @@ describe(@"-trackingBranchWithError:success:", ^{
 	});
 });
 
+describe(@"-isEqual", ^{
+	it(@"should equal another instance of itself", ^{
+		GTRepository *sameRepo = self.testAppFixtureRepository;
+		GTBranch *sameMasterBranch = [sameRepo currentBranchWithError:NULL];
+
+		expect(masterBranch).to.equal(sameMasterBranch);
+	});
+});
+
 // TODO: Test branch renaming, branch upstream
 //- (void)testCanRenameBranch {
 //
