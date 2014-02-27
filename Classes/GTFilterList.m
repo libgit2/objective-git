@@ -33,6 +33,13 @@
 	return self;
 }
 
+- (void)dealloc {
+	if (_git_filter_list != NULL) {
+		git_filter_list_free(_git_filter_list);
+		_git_filter_list = NULL;
+	}
+}
+
 #pragma mark Application
 
 - (NSData *)applyToData:(NSData *)inputData error:(NSError **)error {

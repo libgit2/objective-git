@@ -17,7 +17,9 @@
 
 /// Initializes the receiver to wrap the given `git_filter_list`.
 ///
-/// filterList - The filter list to wrap. Must not be NULL.
+/// filterList - The filter list to wrap and take ownership of. This filter list
+///              will be automatically disposed when the receiver deallocates.
+///              Must not be NULL.
 - (instancetype)initWithGitFilterList:(git_filter_list *)filterList;
 
 /// Returns the underlying `git_filter_list`.
