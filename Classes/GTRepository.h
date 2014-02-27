@@ -446,8 +446,8 @@ extern NSString *const GTRepositoryCloneOptionsCredentialProvider;
 ///           filters to apply, and does not necessarily need to point to a file
 ///           that already exists. This must not be nil.
 /// blob    - The blob to which the filter will be applied, if known. This is
-///	          used to determine which filters to apply, and can differ from the
-///	          content of the file at `path`. This may be nil.
+///           used to determine which filters to apply, and can differ from the
+///           content of the file at `path`. This may be nil.
 /// mode    - The direction in which the data will be filtered.
 /// success - If not NULL, set to `NO` if an error occurs. If `nil` is
 ///           returned and this argument is set to `YES`, there were no filters
