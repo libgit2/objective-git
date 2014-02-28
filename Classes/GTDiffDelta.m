@@ -66,7 +66,7 @@
 		return nil;
 	}
 
-	return [[GTDiffPatch alloc] initWithGitPatch:patch];
+	return [[GTDiffPatch alloc] initWithGitPatch:patch delta:self];
 }
 
 #pragma mark NSObject

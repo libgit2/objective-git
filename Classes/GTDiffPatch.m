@@ -20,13 +20,15 @@
 
 #pragma mark Lifecycle
 
-- (instancetype)initWithGitPatch:(git_patch *)patch {
+- (instancetype)initWithGitPatch:(git_patch *)patch delta:(GTDiffDelta *)delta {
 	NSParameterAssert(patch != NULL);
+	NSParameterAssert(delta != nil);
 
 	self = [super init];
 	if (self == nil) return nil;
 
 	_git_patch = patch;
+	_delta = delta;
 
 	size_t adds = 0;
 	size_t deletes = 0;
