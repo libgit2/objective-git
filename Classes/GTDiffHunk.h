@@ -8,10 +8,10 @@
 
 #import "git2.h"
 
-@class GTDiffDelta;
 @class GTDiffLine;
+@class GTDiffPatch;
 
-// A class representing a hunk within a diff delta.
+// A class representing a hunk within a diff patch.
 @interface GTDiffHunk : NSObject
 
 // The header of the hunk.
@@ -23,8 +23,8 @@
 // Designated initialiser.
 //
 // The contents of a hunk are lazily loaded, therefore we initialise the object
-// simply with the delta it originates from and which hunk index it represents.
-- (instancetype)initWithDelta:(GTDiffDelta *)delta hunkIndex:(NSUInteger)hunkIndex;
+// simply with the patch it originates from and which hunk index it represents.
+- (instancetype)initWithPatch:(GTDiffPatch *)patch hunkIndex:(NSUInteger)hunkIndex;
 
 // Perfoms the given block on each line in the hunk.
 //
