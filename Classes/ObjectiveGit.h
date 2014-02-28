@@ -70,3 +70,4 @@
 #import <ObjectiveGit/GTDiffFile.h>
 #import <ObjectiveGit/GTDiffHunk.h>
 #import <ObjectiveGit/GTDiffLine.h>
+#import <ObjectiveGit/GTDiffPatch.h>
