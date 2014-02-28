@@ -56,10 +56,7 @@
 }
 
 - (NSUInteger)sizeWithContext:(BOOL)includeContext hunkHeaders:(BOOL)includeHunkHeaders fileHeaders:(BOOL)includeFileHeaders {
-	int shouldIncludeContext = (includeContext == YES ? 1 : 0);
-	int shouldIncludeHunkHeaders = (includeHunkHeaders == YES ? 1 : 0);
-	int shouldIncludeFileHeaders = (includeFileHeaders == YES ? 1 : 0);
-	return git_patch_size(self.git_patch, shouldIncludeContext, shouldIncludeHunkHeaders, shouldIncludeFileHeaders);
+	return git_patch_size(self.git_patch, includeContext, includeHunkHeaders, includeFileHeaders);
 }
 
 #pragma mark Hunks
