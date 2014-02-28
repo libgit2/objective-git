@@ -7,9 +7,9 @@
 //
 
 #import "git2.h"
+#import "GTDiffFile.h"
 
 @class GTDiff;
-@class GTDiffFile;
 @class GTDiffHunk;
 @class GTDiffPatch;
 
@@ -51,8 +51,8 @@ typedef enum {
 // The diff in which this delta is contained.
 @property (nonatomic, strong, readonly) GTDiff *diff;
 
-// Whether the file(s) are to be treated as binary.
-@property (nonatomic, readonly, getter = isBinary) BOOL binary;
+// Any flags set on the delta (see `GTDiffFileFlag` for more info).
+@property (nonatomic, assign, readonly) GTDiffFileFlag flags;
 
 // The file to the "left" of the diff.
 @property (nonatomic, readonly, copy) GTDiffFile *oldFile;

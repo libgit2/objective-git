@@ -89,7 +89,7 @@ describe(@"GTDiff diffing", ^{
 		[diff enumerateDeltasUsingBlock:^(GTDiffDelta *delta, BOOL *stop) {
 			expect(delta.oldFile.path).to.equal(@"TestAppWindowController.h");
 			expect(delta.oldFile.path).to.equal(delta.newFile.path);
-			expect(delta.binary).to.beFalsy();
+			expect(delta.flags & GTDiffFileFlagBinaryMask).to.equal(GTDiffFileFlagNotBinary);
 			expect(delta.type).to.equal(GTDiffFileDeltaModified);
 
 			NSError *error = nil;
@@ -164,7 +164,8 @@ describe(@"GTDiff diffing", ^{
 
 		expect(diff.deltaCount).to.equal(1);
 		[diff enumerateDeltasUsingBlock:^(GTDiffDelta *delta, BOOL *stop) {
-			expect(delta.binary).to.beTruthy();
+			expect(delta.flags & GTDiffFileFlagBinaryMask).to.equal(GTDiffFileFlagBinary);
+
 			*stop = YES;
 		}];
 		
@@ -224,8 +225,11 @@ describe(@"GTDiff diffing", ^{
 		
 		NSDictionary *expectedBinaryness = @{ @"README.md": @(NO), @"hero_slide1.png": @(YES), @"jquery-1.8.1.min.js": @(NO) };
 		[diff enumerateDeltasUsingBlock:^(GTDiffDelta *delta, BOOL *stop) {
-			BOOL expectedBinary = [expectedBinaryness[delta.newFile.path] boolValue];
-			expect(delta.binary).to.equal(expectedBinary);
+			if ([expectedBinaryness[delta.newFile.path] boolValue]) {
+				expect(delta.flags & GTDiffFileFlagBinaryMask).to.equal(GTDiffFileFlagBinary);
+			} else {
+				expect(delta.flags & GTDiffFileFlagBinaryMask).to.equal(GTDiffFileFlagNotBinary);
+			}
 		}];
 	});
 	
