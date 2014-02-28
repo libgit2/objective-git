@@ -87,15 +87,15 @@ describe(@"GTDiff diffing", ^{
 		expect([diff numberOfDeltasWithType:GTDiffFileDeltaModified]).to.equal(1);
 		
 		[diff enumerateDeltasUsingBlock:^(GTDiffDelta *delta, BOOL *stop) {
-			expect(delta.oldFile.path).to.equal(@"TestAppWindowController.h");
-			expect(delta.oldFile.path).to.equal(delta.newFile.path);
-			expect(delta.flags & GTDiffFileFlagBinaryMask).to.equal(GTDiffFileFlagNotBinary);
-			expect(delta.type).to.equal(GTDiffFileDeltaModified);
-
 			NSError *error = nil;
 			GTDiffPatch *patch = [delta generatePatch:&error];
 			expect(patch).notTo.beNil();
 			expect(error).to.beNil();
+
+			expect(delta.oldFile.path).to.equal(@"TestAppWindowController.h");
+			expect(delta.oldFile.path).to.equal(delta.newFile.path);
+			expect(delta.flags & GTDiffFileFlagBinaryMask).to.equal(GTDiffFileFlagNotBinary);
+			expect(delta.type).to.equal(GTDiffFileDeltaModified);
 
 			expect(patch.hunkCount).to.equal(1);
 			expect(patch.addedLinesCount).to.equal(1);
@@ -164,6 +164,9 @@ describe(@"GTDiff diffing", ^{
 
 		expect(diff.deltaCount).to.equal(1);
 		[diff enumerateDeltasUsingBlock:^(GTDiffDelta *delta, BOOL *stop) {
+			// Determine binary/not binary status.
+			[delta generatePatch:NULL];
+
 			expect(delta.flags & GTDiffFileFlagBinaryMask).to.equal(GTDiffFileFlagBinary);
 
 			*stop = YES;
@@ -225,6 +228,9 @@ describe(@"GTDiff diffing", ^{
 		
 		NSDictionary *expectedBinaryness = @{ @"README.md": @(NO), @"hero_slide1.png": @(YES), @"jquery-1.8.1.min.js": @(NO) };
 		[diff enumerateDeltasUsingBlock:^(GTDiffDelta *delta, BOOL *stop) {
+			// Determine binary/not binary status.
+			[delta generatePatch:NULL];
+
 			if ([expectedBinaryness[delta.newFile.path] boolValue]) {
 				expect(delta.flags & GTDiffFileFlagBinaryMask).to.equal(GTDiffFileFlagBinary);
 			} else {

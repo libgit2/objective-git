@@ -24,8 +24,12 @@
 
 #pragma mark Properties
 
-- (BOOL)isBinary {
-	return (self.git_diff_delta.flags & GIT_DIFF_FLAG_BINARY) != 0;
+- (git_diff_delta)git_diff_delta {
+	return *(git_diff_get_delta(self.diff.git_diff, self.deltaIndex));
+}
+
+- (GTDiffFileFlag)flags {
+	return (GTDiffFileFlag)self.git_diff_delta.flags;
 }
 
 - (GTDiffFile *)oldFile {
@@ -48,7 +52,6 @@
 
 	_diff = diff;
 	_deltaIndex = deltaIndex;
-	_git_diff_delta = *(git_diff_get_delta(self.diff.git_diff, self.deltaIndex));
 
 	return self;
 }

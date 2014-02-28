@@ -51,7 +51,11 @@ typedef enum {
 // The diff in which this delta is contained.
 @property (nonatomic, strong, readonly) GTDiff *diff;
 
-// Any flags set on the delta (see `GTDiffFileFlag` for more info).
+// Any flags set on the delta. See `GTDiffFileFlag` for more info.
+//
+// Note that this may not include `GTDiffFileFlagBinary` _or_
+// `GTDiffFileFlagNotBinary` until the content is loaded for this delta (e.g.,
+// through a call to -generatePatch:).
 @property (nonatomic, assign, readonly) GTDiffFileFlag flags;
 
 // The file to the "left" of the diff.
