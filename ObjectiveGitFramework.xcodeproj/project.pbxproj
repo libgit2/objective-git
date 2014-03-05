@@ -1852,8 +1852,9 @@
 					"-all_load",
 					"-lssh2-ios",
 				);
+				PRIVATE_HEADERS_FOLDER_PATH = include/ObjectiveGit;
 				PRODUCT_NAME = "ObjectiveGit-iOS";
-				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/ObjectiveGit;
+				PUBLIC_HEADERS_FOLDER_PATH = include/ObjectiveGit;
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;
@@ -1882,8 +1883,9 @@
 					"-all_load",
 					"-lssh2-ios",
 				);
+				PRIVATE_HEADERS_FOLDER_PATH = include/ObjectiveGit;
 				PRODUCT_NAME = "ObjectiveGit-iOS";
-				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/ObjectiveGit;
+				PUBLIC_HEADERS_FOLDER_PATH = include/ObjectiveGit;
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;
@@ -1953,6 +1955,7 @@
 					"$(inherited)",
 					"-DGIT_SSH",
 				);
+				PUBLIC_HEADERS_FOLDER_PATH = include/ObjectiveGit;
 				TEST_AFTER_BUILD = NO;
 			};
 			name = Debug;
@@ -1978,6 +1981,7 @@
 					"$(inherited)",
 					"-DGIT_SSH",
 				);
+				PUBLIC_HEADERS_FOLDER_PATH = include/ObjectiveGit;
 				TEST_AFTER_BUILD = NO;
 			};
 			name = Release;
@@ -2087,6 +2091,7 @@
 					"$(inherited)",
 					"-DGIT_SSH",
 				);
+				PUBLIC_HEADERS_FOLDER_PATH = include/ObjectiveGit;
 				TEST_AFTER_BUILD = NO;
 			};
 			name = Profile;
@@ -2137,8 +2142,9 @@
 					"-all_load",
 					"-lssh2-ios",
 				);
+				PRIVATE_HEADERS_FOLDER_PATH = include/ObjectiveGit;
 				PRODUCT_NAME = "ObjectiveGit-iOS";
-				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/ObjectiveGit;
+				PUBLIC_HEADERS_FOLDER_PATH = include/ObjectiveGit;
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Profile;
@@ -2230,8 +2236,9 @@
 					"-all_load",
 					"-lssh2-ios",
 				);
+				PRIVATE_HEADERS_FOLDER_PATH = include/ObjectiveGit;
 				PRODUCT_NAME = "ObjectiveGit-iOS";
-				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/ObjectiveGit;
+				PUBLIC_HEADERS_FOLDER_PATH = include/ObjectiveGit;
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;
@@ -2257,8 +2264,9 @@
 					"-all_load",
 					"-lssh2-ios",
 				);
+				PRIVATE_HEADERS_FOLDER_PATH = include/ObjectiveGit;
 				PRODUCT_NAME = "ObjectiveGit-iOS";
-				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/ObjectiveGit;
+				PUBLIC_HEADERS_FOLDER_PATH = include/ObjectiveGit;
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;
@@ -2284,8 +2292,9 @@
 					"-all_load",
 					"-lssh2-ios",
 				);
+				PRIVATE_HEADERS_FOLDER_PATH = include/ObjectiveGit;
 				PRODUCT_NAME = "ObjectiveGit-iOS";
-				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/ObjectiveGit;
+				PUBLIC_HEADERS_FOLDER_PATH = include/ObjectiveGit;
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Profile;
