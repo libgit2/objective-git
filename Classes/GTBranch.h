@@ -34,6 +34,10 @@ typedef enum {
     GTBranchTypeRemote = GIT_BRANCH_REMOTE,
 } GTBranchType;
 
+/// A git branch object.
+///
+/// Branches are considered to be equivalent iff both their `name` and `SHA` are
+/// equal.
 @interface GTBranch : NSObject
 
 @property (nonatomic, readonly) NSString *name;
