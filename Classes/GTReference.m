@@ -246,7 +246,7 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 	if (self == reference) return YES;
 	if (![reference isKindOfClass:GTReference.class]) return NO;
 
-	return [self.repository isEqual:reference.repository] && [self.name isEqual:reference.name] && [self.unresolvedTarget isEqual:reference.unresolvedTarget];
+	return [self.name isEqual:reference.name] && [self.unresolvedTarget isEqual:reference.unresolvedTarget];
 }
 
 @end
