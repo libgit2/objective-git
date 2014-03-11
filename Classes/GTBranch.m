@@ -39,7 +39,6 @@
 - (BOOL)isEqual:(GTBranch *)otherBranch {
 	if (otherBranch == self) return YES;
 	if (![otherBranch isKindOfClass:self.class]) return NO;
-	if (otherBranch.repository != self.repository) return NO;
 
 	return [self.name isEqual:otherBranch.name] && [self.SHA isEqual:otherBranch.SHA];
 }
