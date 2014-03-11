@@ -41,7 +41,10 @@ typedef enum {
 
 @class GTRepository;
 
-
+/// A git reference object
+///
+/// References are considered to be equivalent iff both their `name` and
+/// `unresolvedTarget` are equal.
 @interface GTReference : NSObject
 
 @property (nonatomic, readonly, strong) GTRepository *repository;
