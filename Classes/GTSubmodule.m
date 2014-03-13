@@ -140,6 +140,16 @@
 	return YES;
 }
 
+- (BOOL)addToIndex:(NSError **)error {
+	int gitError = git_submodule_add_to_index(self.git_submodule, 0);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to add submodule %@ to its parent's index.", self.name];
+		return NO;
+	}
+
+	return YES;
+}
+
 #pragma mark NSObject
 
 - (NSString *)description {

@@ -135,4 +135,13 @@ typedef enum {
 // Returns whether the initialization succeeded.
 - (BOOL)writeToParentConfigurationDestructively:(BOOL)overwrite error:(NSError **)error;
 
+/// Add the current HEAD to the parent repository's index.
+///
+/// Note that it does *not* write the index.
+///
+/// error - The error if one occurred.
+///
+/// Returns whether the add was successful.
+- (BOOL)addToIndex:(NSError **)error;
+
 @end
