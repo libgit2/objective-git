@@ -111,6 +111,8 @@
 
 // Add an entry to the index.
 //
+// Note that this *cannot* add submodules. See -[GTSubmodule addToIndex:].
+//
 // entry - The entry to add.
 // error - The error if one occurred.
 //
@@ -119,6 +121,8 @@
 
 // Add an entry (by relative path) to the index.
 // Will fail if the receiver's repository is nil.
+//
+// Note that this *cannot* add submodules. See -[GTSubmodule addToIndex:].
 //
 // file  - The path (relative to the root of the repository) of the file to add.
 // error - The error if one occurred.
