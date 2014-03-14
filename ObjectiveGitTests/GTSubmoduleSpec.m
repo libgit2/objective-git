@@ -99,6 +99,21 @@ it(@"should reload all submodules", ^{
 	expect(submodule.path).to.equal(@"new_submodule_path");
 });
 
+it(@"should add its HEAD to its parent's index", ^{
+	GTSubmodule *submodule = [repo submoduleWithName:@"Test_App" error:NULL];
+	expect(submodule).notTo.beNil();
+
+	GTRepository *submoduleRepository = [[GTRepository alloc] initWithURL:[repo.fileURL URLByAppendingPathComponent:submodule.path] error:NULL];
+	expect(submoduleRepository).notTo.beNil();
+
+	GTCommit *commit = [submoduleRepository lookUpObjectByRevParse:@"HEAD^" error:NULL];
+	BOOL success = [submoduleRepository checkoutCommit:commit strategy:GTCheckoutStrategyForce error:NULL progressBlock:nil];
+	expect(success).to.beTruthy();
+
+	success = [submodule addToIndex:NULL];
+	expect(success).to.beTruthy();
+});
+
 describe(@"clean, checked out submodule", ^{
 	__block GTSubmodule *submodule;
 
