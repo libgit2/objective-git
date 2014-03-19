@@ -258,7 +258,12 @@ typedef enum {
 + (GTDiff *)diffWorkingDirectoryToHEADInRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error;
 
 // Designated initialiser.
-- (instancetype)initWithGitDiff:(git_diff *)diff;
+//
+// diff       - The diff to represent. Cannot be NULL.
+// repository - The repository in which the diff lives. Cannot be nil.
+//
+// Returns the initialized object.
+- (instancetype)initWithGitDiff:(git_diff *)diff repository:(GTRepository *)repository;
 
 // The libgit2 diff object.
 - (git_diff *)git_diff __attribute__((objc_returns_inner_pointer));
