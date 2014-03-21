@@ -201,7 +201,7 @@ struct GTClonePayload {
 	BOOL withCheckout = (checkout == nil ? YES : checkout.boolValue);
 
 	if (withCheckout) {
-		git_checkout_opts checkoutOptions = GIT_CHECKOUT_OPTS_INIT;
+		git_checkout_options checkoutOptions = GIT_CHECKOUT_OPTIONS_INIT;
 		checkoutOptions.checkout_strategy = GIT_CHECKOUT_SAFE_CREATE;
 		checkoutOptions.progress_cb = checkoutProgressCallback;
 		checkoutOptions.progress_payload = (__bridge void *)checkoutProgressBlock;
@@ -755,7 +755,7 @@ static int checkoutNotifyCallback(git_checkout_notify_t why, const char *path, c
 
 - (BOOL)performCheckoutWithStrategy:(GTCheckoutStrategyType)strategy notifyFlags:(GTCheckoutNotifyFlags)notifyFlags error:(NSError **)error progressBlock:(GTCheckoutProgressBlock)progressBlock notifyBlock:(GTCheckoutNotifyBlock)notifyBlock {
 	
-	git_checkout_opts checkoutOptions = GIT_CHECKOUT_OPTS_INIT;
+	git_checkout_options checkoutOptions = GIT_CHECKOUT_OPTIONS_INIT;
 	
 	checkoutOptions.checkout_strategy = strategy;
 	checkoutOptions.progress_cb = checkoutProgressCallback;
