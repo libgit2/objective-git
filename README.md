@@ -21,6 +21,8 @@ Note that the `bootstrap` script automatically installs some libraries that
 ObjectiveGit relies upon, using Homebrew. If you want this behavior, please 
 make sure you have Homebrew installed.
 
+To develop ObjectiveGit on its own, open the `ObjectiveGitFramework.xcworkspace` file.
+
 ## Importing ObjectiveGit on OS X
 
 It is simple enough to add the ObjectiveGit framework to a desktop application
