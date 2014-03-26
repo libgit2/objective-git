@@ -71,6 +71,12 @@
 
 #pragma mark Lifecycle
 
+- (void)dealloc {
+	if (_git_submodule != NULL) {
+		git_submodule_free(_git_submodule);
+	}
+}
+
 - (id)initWithGitSubmodule:(git_submodule *)submodule parentRepository:(GTRepository *)repository {
 	NSParameterAssert(submodule != NULL);
 	NSParameterAssert(repository != nil);
@@ -100,7 +106,7 @@
 #pragma mark Manipulation
 
 - (BOOL)reload:(NSError **)error {
-	int gitError = git_submodule_reload(self.git_submodule);
+	int gitError = git_submodule_reload(self.git_submodule, 0);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to reload submodule %@.", self.name];
 		return NO;
