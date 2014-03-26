@@ -609,7 +609,8 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 static int submoduleEnumerationCallback(git_submodule *git_submodule, const char *name, void *payload) {
 	GTRepositorySubmoduleEnumerationInfo *info = payload;
 
-	GTSubmodule *submodule = [[GTSubmodule alloc] initWithGitSubmodule:git_submodule parentRepository:info->parentRepository];
+	// Use -submoduleWithName:error: so that we get a git_submodule that we own.
+	GTSubmodule *submodule = [info->parentRepository submoduleWithName:@(name) error:NULL];
 
 	BOOL stop = NO;
 	info->block(submodule, &stop);
@@ -623,7 +624,7 @@ static int submoduleEnumerationCallback(git_submodule *git_submodule, const char
 }
 
 - (BOOL)reloadSubmodules:(NSError **)error {
-	int gitError = git_submodule_reload_all(self.git_repository);
+	int gitError = git_submodule_reload_all(self.git_repository, 0);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to reload submodules."];
 		return NO;
