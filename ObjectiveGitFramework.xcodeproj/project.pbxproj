@@ -1543,7 +1543,6 @@
 					"$(inherited)",
 					"-DGIT_SSH",
 				);
-				PUBLIC_HEADERS_FOLDER_PATH = include/ObjectiveGit;
 				TEST_AFTER_BUILD = NO;
 			};
 			name = Debug;
@@ -1568,7 +1567,6 @@
 					"$(inherited)",
 					"-DGIT_SSH",
 				);
-				PUBLIC_HEADERS_FOLDER_PATH = include/ObjectiveGit;
 				TEST_AFTER_BUILD = NO;
 			};
 			name = Release;
@@ -1677,7 +1675,6 @@
 					"$(inherited)",
 					"-DGIT_SSH",
 				);
-				PUBLIC_HEADERS_FOLDER_PATH = include/ObjectiveGit;
 				TEST_AFTER_BUILD = NO;
 			};
 			name = Profile;
