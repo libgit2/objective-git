@@ -35,6 +35,12 @@ project. An example of this is the
 1. Add a new "Copy Files" build phase, set the destination to "Frameworks" and
    add `ObjectiveGit.framework` to that. This will package the framework with
    your application as an embedded private framework.
+1. Set the “Header Search Paths” (`HEADER_SEARCH_PATHS`) build setting to the
+   correct path for the libgit2 headers in your project. For example, if you
+   added the submodule to your project as `External/ObjectiveGit`, you would
+   set this build setting to `External/ObjectiveGit/External/libgit2/include`.
+   If you see build errors saying that `git2/filter.h` cannot be found, then
+   double-check that you set this setting correctly.
 1. Don't forget to `#import <ObjectiveGit/ObjectiveGit.h>` as you would with any
    other framework.
 
