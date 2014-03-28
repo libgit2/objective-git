@@ -72,9 +72,7 @@
 #pragma mark Lifecycle
 
 - (void)dealloc {
-	if (_git_submodule != NULL) {
-		git_submodule_free(_git_submodule);
-	}
+	git_submodule_free(_git_submodule);
 }
 
 - (id)initWithGitSubmodule:(git_submodule *)submodule parentRepository:(GTRepository *)repository {
