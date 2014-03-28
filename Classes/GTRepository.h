@@ -315,10 +315,12 @@ extern NSString *const GTRepositoryCloneOptionsCredentialProvider;
 // Enumerates over all the tracked submodules in the repository.
 //
 // recursive - Whether to recurse into nested submodules, depth-first.
-// block     - A block to execute for each `submodule` found. Setting `stop` to
-//             YES will cause enumeration to stop after the block returns. This
-//             must not be nil.
-- (void)enumerateSubmodulesRecursively:(BOOL)recursive usingBlock:(void (^)(GTSubmodule *submodule, BOOL *stop))block;
+// block     - A block to execute for each `submodule` found. If an error
+//             occurred while reading the submodule, `submodule` will be nil and
+//             `error` will contain the error information. Setting `stop` to YES
+//             will cause enumeration to stop after the block returns. This must
+//             not be nil.
+- (void)enumerateSubmodulesRecursively:(BOOL)recursive usingBlock:(void (^)(GTSubmodule *submodule, NSError *error, BOOL *stop))block;
 
 // Looks up the top-level submodule with the given name. This will not recurse
 // into submodule repositories.
