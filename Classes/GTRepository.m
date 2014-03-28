@@ -57,7 +57,7 @@ NSString *const GTRepositoryCloneOptionsCheckout = @"GTRepositoryCloneOptionsChe
 NSString *const GTRepositoryCloneOptionsTransportFlags = @"GTRepositoryCloneOptionsTransportFlags";
 NSString *const GTRepositoryCloneOptionsCredentialProvider = @"GTRepositoryCloneOptionsCredentialProvider";
 
-typedef void (^GTRepositorySubmoduleEnumerationBlock)(GTSubmodule *submodule, BOOL *stop);
+typedef void (^GTRepositorySubmoduleEnumerationBlock)(GTSubmodule *submodule, NSError *error, BOOL *stop);
 typedef void (^GTRepositoryTagEnumerationBlock)(GTTag *tag, BOOL *stop);
 
 // Used as a payload for submodule enumeration.
@@ -609,11 +609,12 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 static int submoduleEnumerationCallback(git_submodule *git_submodule, const char *name, void *payload) {
 	GTRepositorySubmoduleEnumerationInfo *info = payload;
 
+	NSError *error;
 	// Use -submoduleWithName:error: so that we get a git_submodule that we own.
-	GTSubmodule *submodule = [info->parentRepository submoduleWithName:@(name) error:NULL];
+	GTSubmodule *submodule = [info->parentRepository submoduleWithName:@(name) error:&error];
 
 	BOOL stop = NO;
-	info->block(submodule, &stop);
+	info->block(submodule, error, &stop);
 	if (stop) return 1;
 
 	if (info->recursive) {
@@ -633,7 +634,7 @@ static int submoduleEnumerationCallback(git_submodule *git_submodule, const char
 	return YES;
 }
 
-- (void)enumerateSubmodulesRecursively:(BOOL)recursive usingBlock:(void (^)(GTSubmodule *submodule, BOOL *stop))block {
+- (void)enumerateSubmodulesRecursively:(BOOL)recursive usingBlock:(void (^)(GTSubmodule *submodule, NSError *error, BOOL *stop))block {
 	NSParameterAssert(block != nil);
 
 	// Enumeration is synchronous, so it's okay for the objects here to be
