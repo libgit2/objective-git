@@ -80,7 +80,7 @@ int GTRemoteFetchTransferProgressCallback(const git_transfer_progress *stats, vo
 			return NO;
 		}
 
-		gitError = git_remote_update_tips(remote.git_remote);
+		gitError = git_remote_update_tips(remote.git_remote, self.userSignatureForNow.git_signature, NULL);
 		if (gitError != GIT_OK) {
 			if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to update tips"];
 			return NO;
@@ -190,7 +190,7 @@ int GTRemotePushTransferProgressCallback(unsigned int current, unsigned int tota
 			return NO;
 		}
 
-		gitError = git_push_update_tips(push);
+		gitError = git_push_update_tips(push, self.userSignatureForNow.git_signature, NULL);
 		if (gitError != GIT_OK) {
 			if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Update tips failed"];
 			return NO;

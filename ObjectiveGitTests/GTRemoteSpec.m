@@ -183,14 +183,14 @@ describe(@"network operations", ^{
 			expect(transferProgressed).to.beTruthy();
 			expect(receivedObjects).to.equal(10);
 
-			GTCommit *fetchedCommit = [fetchingRepo lookupObjectByOID:testCommit.OID objectType:GTObjectTypeCommit error:&error];
+			GTCommit *fetchedCommit = [fetchingRepo lookUpObjectByOID:testCommit.OID objectType:GTObjectTypeCommit error:&error];
 			expect(error).to.beNil();
 			expect(fetchedCommit).notTo.beNil();
 
 			GTTreeEntry *entry = [[fetchedCommit tree] entryWithName:fileName];
 			expect(entry).notTo.beNil();
 
-			GTBlob *fileData = (GTBlob *)[entry toObjectAndReturnError:&error];
+			GTBlob *fileData = (GTBlob *)[entry GTObject:&error];
 			expect(error).to.beNil();
 			expect(fileData).notTo.beNil();
 			expect(fileData.content).to.equal(testData);
@@ -233,14 +233,14 @@ describe(@"network operations", ^{
 			expect(receivedObjects).to.equal(0);
 
 			// Check that the origin repo has a new commit
-			GTCommit *pushedCommit = [repository lookupObjectByOID:testCommit.OID objectType:GTObjectTypeCommit error:&error];
+			GTCommit *pushedCommit = [repository lookUpObjectByOID:testCommit.OID objectType:GTObjectTypeCommit error:&error];
 			expect(error).to.beNil();
 			expect(pushedCommit).notTo.beNil();
 
 			GTTreeEntry *entry = [[pushedCommit tree] entryWithName:fileName];
 			expect(entry).notTo.beNil();
 
-			GTBlob *commitData = (GTBlob *)[entry toObjectAndReturnError:&error];
+			GTBlob *commitData = (GTBlob *)[entry GTObject:&error];
 			expect(error).to.beNil();
 			expect(commitData).notTo.beNil();
 			expect(commitData.content).to.equal(fileData);
