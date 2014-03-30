@@ -14,10 +14,9 @@ __block GTRepository *repository;
 __block GTIndex *index;
 
 beforeEach(^{
-	repository = self.bareFixtureRepository;
+	repository = self.testAppFixtureRepository;
 
-	NSURL *indexURL = [repository.gitDirectoryURL URLByAppendingPathComponent:@"index"];
-	index = [GTIndex indexWithFileURL:indexURL repository:self.bareFixtureRepository error:NULL];
+	index = [repository indexWithError:NULL];
 	expect(index).notTo.beNil();
 
 	BOOL success = [index refresh:NULL];
@@ -25,7 +24,7 @@ beforeEach(^{
 });
 
 it(@"should count the entries", ^{
-	expect(index.entryCount).to.equal(2);
+	expect(index.entryCount).to.equal(24);
 });
 
 it(@"should clear all entries", ^{
@@ -41,8 +40,6 @@ it(@"should read entry properties", ^{
 });
 
 it(@"should write to the repository and return a tree", ^{
-	GTRepository *repository = self.bareFixtureRepository;
-	GTIndex *index = [repository indexWithError:NULL];
 	GTTree *tree = [index writeTree:NULL];
 	expect(tree).notTo.beNil();
 	expect(tree.entryCount).to.equal(23);
