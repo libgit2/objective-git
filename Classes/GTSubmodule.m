@@ -71,6 +71,10 @@
 
 #pragma mark Lifecycle
 
+- (void)dealloc {
+	git_submodule_free(_git_submodule);
+}
+
 - (id)initWithGitSubmodule:(git_submodule *)submodule parentRepository:(GTRepository *)repository {
 	NSParameterAssert(submodule != NULL);
 	NSParameterAssert(repository != nil);
@@ -100,7 +104,7 @@
 #pragma mark Manipulation
 
 - (BOOL)reload:(NSError **)error {
-	int gitError = git_submodule_reload(self.git_submodule);
+	int gitError = git_submodule_reload(self.git_submodule, 0);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to reload submodule %@.", self.name];
 		return NO;
@@ -134,6 +138,16 @@
 	int gitError = git_submodule_init(self.git_submodule, (overwrite ? 1 : 0));
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to initialize submodule %@.", self.name];
+		return NO;
+	}
+
+	return YES;
+}
+
+- (BOOL)addToIndex:(NSError **)error {
+	int gitError = git_submodule_add_to_index(self.git_submodule, 0);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to add submodule %@ to its parent's index.", self.name];
 		return NO;
 	}
 

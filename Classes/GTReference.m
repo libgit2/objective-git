@@ -69,10 +69,6 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 	return [[self alloc] initByLookingUpReferenceNamed:refName inRepository:theRepo error:error];
 }
 
-+ (id)referenceByCreatingReferenceNamed:(NSString *)refName fromReferenceTarget:(NSString *)target inRepository:(GTRepository *)theRepo error:(NSError **)error {
-	return [[self alloc] initByCreatingReferenceNamed:refName fromReferenceTarget:target inRepository:theRepo error:error];
-}
-
 + (id)referenceByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error {	
 	return [[self alloc] initByResolvingSymbolicReference:symbolicRef error:error];
 }
@@ -85,28 +81,6 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 	int gitError = git_reference_lookup(&ref, repo.git_repository, refName.UTF8String);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to lookup reference %@.", refName];
-		return nil;
-	}
-
-	return [self initWithGitReference:ref repository:repo];
-}
-
-- (id)initByCreatingReferenceNamed:(NSString *)refName fromReferenceTarget:(NSString *)target inRepository:(GTRepository *)repo error:(NSError **)error {
-	NSParameterAssert(refName != nil);
-	NSParameterAssert(target != nil);
-	NSParameterAssert(repo != nil);
-
-	GTOID *oid = [GTOID oidWithSHA:target];
-	int gitError = GIT_OK;
-	git_reference *ref;
-	if (oid != nil) {
-		gitError = git_reference_create(&ref, repo.git_repository, refName.UTF8String, oid.git_oid, 0);
-	} else {
-		gitError = git_reference_symbolic_create(&ref, repo.git_repository, refName.UTF8String, target.UTF8String, 0);
-	}
-
-	if (gitError != GIT_OK) {
-		if(error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to create symbolic reference to %@.", target];
 		return nil;
 	}
 
@@ -150,7 +124,7 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 	NSParameterAssert(newName != nil);
 	
 	git_reference *newRef = NULL;
-	int gitError = git_reference_rename(&newRef, self.git_reference, newName.UTF8String, 0);
+	int gitError = git_reference_rename(&newRef, self.git_reference, newName.UTF8String, 0, [self.repository userSignatureForNow].git_signature, NULL);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to rename reference %@ to %@.", self.name, newName];
 		return NO;
@@ -168,7 +142,7 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 		const git_oid *oid = git_reference_target(self.git_reference);
 		if (oid == NULL) return nil;
 
-		return [self.repository lookupObjectByGitOid:oid error:NULL];
+		return [self.repository lookUpObjectByGitOid:oid error:NULL];
 	} else if (self.referenceType == GTReferenceTypeSymbolic) {
 		NSString *refName = @(git_reference_symbolic_target(self.git_reference));
 		if (refName == NULL) return nil;
@@ -195,7 +169,7 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 	return [self.resolvedTarget SHA];
 }
 
-- (GTReference *)referenceByUpdatingTarget:(NSString *)newTarget error:(NSError **)error {
+- (GTReference *)referenceByUpdatingTarget:(NSString *)newTarget committer:(GTSignature *)signature message:(NSString *)message error:(NSError **)error {
 	NSParameterAssert(newTarget != nil);
 
 	int gitError;
@@ -204,9 +178,9 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 		GTOID *oid = [[GTOID alloc] initWithSHA:newTarget error:error];
 		if (oid == nil) return nil;
 		
-		gitError = git_reference_set_target(&newRef, self.git_reference, oid.git_oid);
+		gitError = git_reference_set_target(&newRef, self.git_reference, oid.git_oid, signature.git_signature, message.UTF8String);
 	} else {
-		gitError = git_reference_symbolic_set_target(&newRef, self.git_reference, newTarget.UTF8String);
+		gitError = git_reference_symbolic_set_target(&newRef, self.git_reference, newTarget.UTF8String, signature.git_signature, message.UTF8String);
 	}
 
 	if (gitError != GIT_OK) {
@@ -272,7 +246,7 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 	if (self == reference) return YES;
 	if (![reference isKindOfClass:GTReference.class]) return NO;
 
-	return [self.repository isEqual:reference.repository] && [self.name isEqual:reference.name] && [self.unresolvedTarget isEqual:reference.unresolvedTarget];
+	return [self.name isEqual:reference.name] && [self.unresolvedTarget isEqual:reference.unresolvedTarget];
 }
 
 @end

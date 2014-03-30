@@ -17,7 +17,7 @@ beforeEach(^{
 
 it(@"should enumerate top-level submodules", ^{
 	NSMutableSet *names = [NSMutableSet set];
-	[repo enumerateSubmodulesRecursively:NO usingBlock:^(GTSubmodule *submodule, BOOL *stop) {
+	[repo enumerateSubmodulesRecursively:NO usingBlock:^(GTSubmodule *submodule, NSError *error, BOOL *stop) {
 		expect(stop).notTo.beNil();
 
 		expect(submodule).to.beKindOf(GTSubmodule.class);
@@ -32,7 +32,7 @@ it(@"should enumerate top-level submodules", ^{
 
 it(@"should enumerate submodules recursively", ^{
 	NSMutableSet *names = [NSMutableSet set];
-	[repo enumerateSubmodulesRecursively:YES usingBlock:^(GTSubmodule *submodule, BOOL *stop) {
+	[repo enumerateSubmodulesRecursively:YES usingBlock:^(GTSubmodule *submodule, NSError *error, BOOL *stop) {
 		expect(stop).notTo.beNil();
 
 		expect(submodule).to.beKindOf(GTSubmodule.class);
@@ -47,7 +47,7 @@ it(@"should enumerate submodules recursively", ^{
 
 it(@"should terminate enumeration early", ^{
 	__block NSUInteger count = 0;
-	[repo enumerateSubmodulesRecursively:NO usingBlock:^(GTSubmodule *submodule, BOOL *stop) {
+	[repo enumerateSubmodulesRecursively:NO usingBlock:^(GTSubmodule *submodule, NSError *error, BOOL *stop) {
 		if (count == 2) {
 			*stop = YES;
 		} else {
@@ -97,6 +97,21 @@ it(@"should reload all submodules", ^{
 	submodule = [repo submoduleWithName:@"new_submodule" error:NULL];
 	expect(submodule).notTo.beNil();
 	expect(submodule.path).to.equal(@"new_submodule_path");
+});
+
+it(@"should add its HEAD to its parent's index", ^{
+	GTSubmodule *submodule = [repo submoduleWithName:@"Test_App" error:NULL];
+	expect(submodule).notTo.beNil();
+
+	GTRepository *submoduleRepository = [[GTRepository alloc] initWithURL:[repo.fileURL URLByAppendingPathComponent:submodule.path] error:NULL];
+	expect(submoduleRepository).notTo.beNil();
+
+	GTCommit *commit = [submoduleRepository lookUpObjectByRevParse:@"HEAD^" error:NULL];
+	BOOL success = [submoduleRepository checkoutCommit:commit strategy:GTCheckoutStrategyForce error:NULL progressBlock:nil];
+	expect(success).to.beTruthy();
+
+	success = [submodule addToIndex:NULL];
+	expect(success).to.beTruthy();
 });
 
 describe(@"clean, checked out submodule", ^{
@@ -154,7 +169,7 @@ describe(@"clean, checked out submodule", ^{
 		GTRepository *submoduleRepo = [submodule submoduleRepository:NULL];
 		expect(submoduleRepo).notTo.beNil();
 
-		GTCommit *newHEAD = (id)[submoduleRepo lookupObjectBySHA:@"82dc47f6ba3beecab33080a1136d8913098e1801" objectType:GTObjectTypeCommit error:NULL];
+		GTCommit *newHEAD = (id)[submoduleRepo lookUpObjectBySHA:@"82dc47f6ba3beecab33080a1136d8913098e1801" objectType:GTObjectTypeCommit error:NULL];
 		expect(newHEAD).notTo.beNil();
 		expect([submoduleRepo resetToCommit:newHEAD withResetType:GTRepositoryResetTypeHard error:NULL]).to.beTruthy();
 

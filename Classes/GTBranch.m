@@ -40,7 +40,6 @@
 - (BOOL)isEqual:(GTBranch *)otherBranch {
 	if (otherBranch == self) return YES;
 	if (![otherBranch isKindOfClass:self.class]) return NO;
-	if (otherBranch.repository != self.repository) return NO;
 
 	return [self.name isEqual:otherBranch.name] && [self.SHA isEqual:otherBranch.SHA];
 }
@@ -60,22 +59,8 @@
 	return @"refs/remotes/";
 }
 
-+ (id)branchWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error {	
-	return [[self alloc] initWithName:branchName repository:repo error:error];
-}
-
 + (id)branchWithReference:(GTReference *)ref repository:(GTRepository *)repo {
 	return [[self alloc] initWithReference:ref repository:repo];
-}
-
-- (id)initWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error {
-	NSParameterAssert(branchName != nil);
-	NSParameterAssert(repo != nil);
-
-	GTReference *ref = [GTReference referenceByLookingUpReferencedNamed:branchName inRepository:repo error:error];
-	if (ref == nil) return nil;
-
-	return [self initWithReference:ref repository:repo];
 }
 
 - (id)initWithReference:(GTReference *)ref repository:(GTRepository *)repo {
@@ -139,7 +124,7 @@
 		return nil;
 	}
 
-	return [self.repository lookupObjectBySHA:self.SHA objectType:GTObjectTypeCommit error:error];
+	return [self.repository lookUpObjectBySHA:self.SHA objectType:GTObjectTypeCommit error:error];
 }
 
 - (NSUInteger)numberOfCommitsWithError:(NSError **)error {

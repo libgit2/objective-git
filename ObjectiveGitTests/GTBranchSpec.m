@@ -118,7 +118,7 @@ describe(@"-reloadedBranchWithError:", ^{
 		static NSString * const originalSHA = @"a4bca6b67a5483169963572ee3da563da33712f7";
 		static NSString * const updatedSHA = @"6b0c1c8b8816416089c534e474f4c692a76ac14f";
 		expect([masterBranch targetCommitAndReturnError:NULL].SHA).to.equal(originalSHA);
-		[masterBranch.reference referenceByUpdatingTarget:updatedSHA error:NULL];
+		[masterBranch.reference referenceByUpdatingTarget:updatedSHA committer:nil message:nil error:NULL];
 
 		GTBranch *reloadedBranch = [masterBranch reloadedBranchWithError:NULL];
 		expect(reloadedBranch).notTo.beNil();
@@ -139,7 +139,7 @@ describe(@"-numberOfCommitsWithError:", ^{
 describe(@"-trackingBranchWithError:success:", ^{
 	it(@"should return the tracking branch for a local branch that tracks a remote branch", ^{
 		NSError *error = nil;
-		GTBranch *masterBranch = [GTBranch branchWithName:@"refs/heads/master" repository:repository error:&error];
+		GTBranch *masterBranch = [repository lookUpBranchWithName:@"master" type:GTBranchTypeLocal success:NULL error:&error];
 		expect(masterBranch).notTo.beNil();
 		expect(error).to.beNil();
 
@@ -151,8 +151,10 @@ describe(@"-trackingBranchWithError:success:", ^{
 	});
 
 	it(@"should return nil for a local branch that doesn't track a remote branch", ^{
+		GTOID *OID = [[GTOID alloc] initWithSHA:@"6b0c1c8b8816416089c534e474f4c692a76ac14f"];
+
 		NSError *error = nil;
-		GTReference *otherRef = [GTReference referenceByCreatingReferenceNamed:@"refs/heads/yet-another-branch" fromReferenceTarget:@"6b0c1c8b8816416089c534e474f4c692a76ac14f" inRepository:repository error:&error];
+		GTReference *otherRef = [repository createReferenceNamed:@"refs/heads/yet-another-branch" fromOID:OID committer:nil message:nil error:&error];
 		expect(otherRef).notTo.beNil();
 		expect(error).to.beNil();
 

@@ -43,6 +43,9 @@ typedef enum GTTreeEnumerationOptions {
 // The number of entries in the tree.
 @property (nonatomic, readonly) NSUInteger entryCount;
 
+// The contents of the tree, as an array of whose objects are of type `GTTreeEntry`
+@property (nonatomic, strong, readonly) NSArray *entries;
+
 // The underlying `git_object` as a `git_tree` object.
 - (git_tree *)git_tree __attribute__((objc_returns_inner_pointer));
 
@@ -62,19 +65,18 @@ typedef enum GTTreeEnumerationOptions {
 
 // Enumerates the contents of the tree
 //
-// options - One of `GTTreeEnumerationOptionPre` (for pre-order walks) or
-//           `GTTreeEnumerationOptionPost` (for post-order walks).
-// error   - The error if one occurred.
-// block   - A block that will be called back with a path to the root of the tree
-//           and the current entry. Cannot be nil.
-//           Return a negative value to stop the walk, a positive one to skip the
-//           descendents of the entry, or 0 to continue the enumeration.
+// options -  One of `GTTreeEnumerationOptionPre` (for pre-order walks) or
+//            `GTTreeEnumerationOptionPost` (for post-order walks).
+// error   -  The error if one occurred.
+// block   -  A block that will be invoked with the current entry, a
+//            (repository relative) path to the root of the current entry,
+//            and a stop parameter to abort the walk. Cannot be nil.
+//            Return `YES` to move into the descendants of the entry.
+//            Return `NO` to skip the entry's descendants.
+//            Returning `YES` or `NO` only matters when in pre-order mode.
 //
-// returns YES if the enumeration completed successfully, NO otherwise
-- (BOOL)enumerateContentsWithOptions:(GTTreeEnumerationOptions)options error:(NSError **)error block:(int(^)(NSString *root, GTTreeEntry *entry))block;
-
-// Returns the contents of the tree, as an array of GTTreeEntries
-- (NSArray *)contents;
+// Returns `YES` if the enumeration completed successfully, `NO` otherwise.
+- (BOOL)enumerateEntriesWithOptions:(GTTreeEnumerationOptions)options error:(NSError **)error block:(BOOL (^)(GTTreeEntry *entry, NSString *root, BOOL *stop))block;
 
 // Merges the given tree into the receiver in memory and produces the result as
 // an index.

@@ -64,7 +64,7 @@
 
 #pragma mark API
 
-- (id)initWithEntry:(const git_tree_entry *)theEntry parentTree:(GTTree *)parent {
+- (instancetype)initWithEntry:(const git_tree_entry *)theEntry parentTree:(GTTree *)parent {
 	NSParameterAssert(theEntry != NULL);
 	if((self = [super init])) {
 		_git_tree_entry = theEntry;
@@ -73,12 +73,12 @@
 	return self;
 }
 
-+ (id)entryWithEntry:(const git_tree_entry *)theEntry parentTree:(GTTree *)parent {
++ (instancetype)entryWithEntry:(const git_tree_entry *)theEntry parentTree:(GTTree *)parent {
 	return [[self alloc] initWithEntry:theEntry parentTree:parent];
 }
 
 - (NSString *)name {
-	return [NSString stringWithUTF8String:git_tree_entry_name(self.git_tree_entry)];
+	return @(git_tree_entry_name(self.git_tree_entry));
 }
 
 - (NSInteger)attributes {
@@ -105,7 +105,7 @@
     return self.tree.repository;
 }
 
-- (GTObject *)toObjectAndReturnError:(NSError **)error {
+- (GTObject *)GTObject:(NSError **)error {
 	return [GTObject objectWithTreeEntry:self error:error];
 }
 
@@ -114,11 +114,11 @@
 
 @implementation GTObject (GTTreeEntry)
 
-+ (id)objectWithTreeEntry:(GTTreeEntry *)treeEntry error:(NSError **)error {
++ (instancetype)objectWithTreeEntry:(GTTreeEntry *)treeEntry error:(NSError **)error {
     return [[self alloc] initWithTreeEntry:treeEntry error:error];
 }
 
-- (id)initWithTreeEntry:(GTTreeEntry *)treeEntry error:(NSError **)error {
+- (instancetype)initWithTreeEntry:(GTTreeEntry *)treeEntry error:(NSError **)error {
     git_object *obj;
     int gitError = git_tree_entry_to_object(&obj, treeEntry.repository.git_repository, treeEntry.git_tree_entry);
     if (gitError < GIT_OK) {

@@ -28,19 +28,22 @@
 //
 
 
-#import "GTObject.h"
+#import "GTBranch.h"
 #import "GTEnumerator.h"
+#import "GTFilterSource.h"
+#import "GTObject.h"
 #import "GTReference.h"
 
-@class GTBranch;
+@class GTBlob;
 @class GTCommit;
 @class GTConfiguration;
+@class GTDiffFile;
+@class GTFilterList;
 @class GTIndex;
 @class GTObjectDatabase;
 @class GTOdbObject;
 @class GTSignature;
 @class GTSubmodule;
-@class GTDiffFile;
 @class GTTag;
 @class GTTree;
 @class GTRemote;
@@ -171,13 +174,27 @@ extern NSString *const GTRepositoryCloneOptionsCredentialProvider;
 + (id)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL options:(NSDictionary *)options error:(NSError **)error transferProgressBlock:(void (^)(const git_transfer_progress *))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))checkoutProgressBlock;
 
 // Lookup objects in the repo by oid or sha1
-- (id)lookupObjectByOID:(GTOID *)oid objectType:(GTObjectType)type error:(NSError **)error;
-- (id)lookupObjectByOID:(GTOID *)oid error:(NSError **)error;
-- (id)lookupObjectBySHA:(NSString *)sha objectType:(GTObjectType)type error:(NSError **)error;
-- (id)lookupObjectBySHA:(NSString *)sha error:(NSError **)error;
+- (id)lookUpObjectByOID:(GTOID *)oid objectType:(GTObjectType)type error:(NSError **)error;
+- (id)lookUpObjectByOID:(GTOID *)oid error:(NSError **)error;
+- (id)lookUpObjectBySHA:(NSString *)sha objectType:(GTObjectType)type error:(NSError **)error;
+- (id)lookUpObjectBySHA:(NSString *)sha error:(NSError **)error;
 
 // Lookup an object in the repo using a revparse spec
-- (id)lookupObjectByRevParse:(NSString *)spec error:(NSError **)error;
+- (id)lookUpObjectByRevParse:(NSString *)spec error:(NSError **)error;
+
+// Finds the branch with the given name and type.
+//
+// branchName - The name of the branch to look up (e.g., `master` or
+//              `origin/master`). This must not be nil.
+// branchType - Whether the branch to look up is local or remote.
+// success    - If not NULL, set to whether the branch lookup finished without
+//              any errors. This can be `YES` even if no matching branch is
+//              found.
+// error      - If not NULL, set to any error that occurs.
+//
+// Returns the matching branch, or nil if no match was found or an error occurs.
+// The latter two cases can be distinguished by checking `success`.
+- (GTBranch *)lookUpBranchWithName:(NSString *)branchName type:(GTBranchType)branchType success:(BOOL *)success error:(NSError **)error;
 
 // List all references in the repository
 //
@@ -213,14 +230,45 @@ extern NSString *const GTRepositoryCloneOptionsCredentialProvider;
 // returns number of commits in the current branch or NSNotFound if an error occurred
 - (NSUInteger)numberOfCommitsInCurrentBranch:(NSError **)error;
 
-// Create a new branch with this name and based off this reference.
+// Creates a direct reference to the given OID.
 //
-// name - the name for the new branch
-// ref - the reference to create the new branch off
-// error(out) - will be filled if an error occurs
+// name      - The full name for the new reference. This must not be nil.
+// targetOID - The OID that the new ref should point to. This must not be nil.
+// signature - A signature for the committer creating this ref, used for
+//             creating a reflog entry. This may be nil.
+// message   - A message to use when creating the reflog entry for this action.
+//             This may be nil.
+// error     - If not NULL, set to any error that occurs.
 //
-// returns the new branch or nil if an error occurred.
-- (GTBranch *)createBranchNamed:(NSString *)name fromReference:(GTReference *)ref error:(NSError **)error;
+// Returns the created ref, or nil if an error occurred.
+- (GTReference *)createReferenceNamed:(NSString *)name fromOID:(GTOID *)targetOID committer:(GTSignature *)signature message:(NSString *)message error:(NSError **)error;
+
+// Creates a symbolic reference to another ref.
+//
+// name      - The full name for the new reference. This must not be nil.
+// targetRef - The ref that the new ref should point to. This must not be nil.
+// signature - A signature for the committer creating this ref, used for
+//             creating a reflog entry. This may be nil.
+// message   - A message to use when creating the reflog entry for this action.
+//             This may be nil.
+// error     - If not NULL, set to any error that occurs.
+//
+// Returns the created ref, or nil if an error occurred.
+- (GTReference *)createReferenceNamed:(NSString *)name fromReference:(GTReference *)targetRef committer:(GTSignature *)signature message:(NSString *)message error:(NSError **)error;
+
+// Create a new local branch pointing to the given OID.
+//
+// name      - The name for the new branch (e.g., `master`). This must not be
+//             nil.
+// targetOID - The OID to create the new branch off. This must not be nil.
+// signature - A signature for the committer creating this branch, used for
+//             creating a reflog entry. This may be nil.
+// message   - A message to use when creating the reflog entry for this action.
+//             This may be nil.
+// error     - If not NULL, set to any error that occurs.
+//
+// Returns the new branch, or nil if an error occurred.
+- (GTBranch *)createBranchNamed:(NSString *)name fromOID:(GTOID *)targetOID committer:(GTSignature *)signature message:(NSString *)message error:(NSError **)error;
 
 // Get the current branch.
 //
@@ -274,10 +322,12 @@ extern NSString *const GTRepositoryCloneOptionsCredentialProvider;
 // Enumerates over all the tracked submodules in the repository.
 //
 // recursive - Whether to recurse into nested submodules, depth-first.
-// block     - A block to execute for each `submodule` found. Setting `stop` to
-//             YES will cause enumeration to stop after the block returns. This
-//             must not be nil.
-- (void)enumerateSubmodulesRecursively:(BOOL)recursive usingBlock:(void (^)(GTSubmodule *submodule, BOOL *stop))block;
+// block     - A block to execute for each `submodule` found. If an error
+//             occurred while reading the submodule, `submodule` will be nil and
+//             `error` will contain the error information. Setting `stop` to YES
+//             will cause enumeration to stop after the block returns. This must
+//             not be nil.
+- (void)enumerateSubmodulesRecursively:(BOOL)recursive usingBlock:(void (^)(GTSubmodule *submodule, NSError *error, BOOL *stop))block;
 
 // Looks up the top-level submodule with the given name. This will not recurse
 // into submodule repositories.
@@ -395,5 +445,27 @@ extern NSString *const GTRepositoryCloneOptionsCredentialProvider;
 
 // Convenience wrapper for checkoutReference:strategy:notifyFlags:error:notifyBlock:progressBlock without notifications
 - (BOOL)checkoutReference:(GTReference *)target strategy:(GTCheckoutStrategyType)strategy error:(NSError **)error progressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))progressBlock;
+
+/// Flush the gitattributes cache.
+- (void)flushAttributesCache;
+
+/// Loads the filter list for a given path in the repository.
+///
+/// path    - The path to load filters for. This is used to determine which
+///           filters to apply, and does not necessarily need to point to a file
+///           that already exists. This must not be nil.
+/// blob    - The blob to which the filter will be applied, if known. This is
+///           used to determine which filters to apply, and can differ from the
+///           content of the file at `path`. This may be nil.
+/// mode    - The direction in which the data will be filtered.
+/// success - If not NULL, set to `NO` if an error occurs. If `nil` is
+///           returned and this argument is set to `YES`, there were no filters
+///           to apply.
+/// error   - If not NULL, set to any error that occurs.
+///
+/// Returns the loaded filter list, or nil if an error occurs or there are no
+/// filters to apply to the given path. The latter two cases can be
+/// distinguished using the value of `success`.
+- (GTFilterList *)filterListWithPath:(NSString *)path blob:(GTBlob *)blob mode:(GTFilterSourceMode)mode success:(BOOL *)success error:(NSError **)error;
 
 @end

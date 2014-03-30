@@ -45,6 +45,18 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 
 @implementation GTIndex
 
+#pragma mark Properties
+
+- (NSURL *)fileURL {
+	const char *cPath = git_index_path(self.git_index);
+	if (cPath == NULL) return nil;
+
+	NSString *path = [NSFileManager.defaultManager stringWithFileSystemRepresentation:cPath length:strlen(cPath)];
+	if (path == nil) return nil;
+
+	return [NSURL fileURLWithPath:path];
+}
+
 #pragma mark NSObject
 
 - (NSString *)description {
@@ -57,11 +69,20 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 	if (_git_index != NULL) git_index_free(_git_index);
 }
 
-- (id)initWithFileURL:(NSURL *)fileURL error:(NSError **)error {
-	NSParameterAssert(fileURL != nil);
++ (instancetype)inMemoryIndexWithRepository:(GTRepository *)repository error:(NSError **)error {
+	git_index *index = NULL;
+	int status = git_index_new(&index);
+	if (status != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to initialize in-memory index"];
+		return nil;
+	}
 
-	self = [super init];
-	if (self == nil) return nil;
+	return [[self alloc] initWithGitIndex:index repository:repository];
+}
+
++ (instancetype)indexWithFileURL:(NSURL *)fileURL repository:(GTRepository *)repository error:(NSError **)error {
+	NSParameterAssert(fileURL != nil);
+	NSParameterAssert(fileURL.isFileURL);
 
 	git_index *index = NULL;
 	int status = git_index_open(&index, fileURL.path.fileSystemRepresentation);
@@ -70,10 +91,7 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 		return nil;
 	}
 
-	_fileURL = [fileURL copy];
-	_git_index = index;
-
-	return self;
+	return [[self alloc] initWithGitIndex:index repository:repository];
 }
 
 - (id)initWithGitIndex:(git_index *)index repository:(GTRepository *)repository {
@@ -150,6 +168,18 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 	return YES;
 }
 
+- (BOOL)addContentsOfTree:(GTTree *)tree error:(NSError **)error {
+	NSParameterAssert(tree != nil);
+
+	int status = git_index_read_tree(self.git_index, tree.git_tree);
+	if (status != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to read tree %@ into index.", tree];
+		return NO;
+	}
+
+	return YES;
+}
+
 - (BOOL)removeFile:(NSString *)file error:(NSError **)error {
 	int status = git_index_remove_bypath(self.git_index, file.fileSystemRepresentation);
 	if (status != GIT_OK) {
@@ -179,7 +209,20 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 		return NULL;
 	}
 
-	return [self.repository lookupObjectByGitOid:&oid objectType:GTObjectTypeTree error:NULL];
+	return [self.repository lookUpObjectByGitOid:&oid objectType:GTObjectTypeTree error:NULL];
+}
+
+- (GTTree *)writeTreeToRepository:(GTRepository *)repository error:(NSError **)error {
+	NSParameterAssert(repository != nil);
+	git_oid oid;
+	
+	int status = git_index_write_tree_to(&oid, self.git_index, repository.git_repository);
+	if (status != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to write index to repository %@", repository];
+		return NULL;
+	}
+	
+	return [repository lookUpObjectByGitOid:&oid objectType:GTObjectTypeTree error:NULL];
 }
 
 - (NSArray *)entries {
@@ -225,9 +268,21 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 			return NO;
 		}
 		
-		GTIndexEntry *blockAncestor = [[GTIndexEntry alloc] initWithGitIndexEntry:ancestor];
-		GTIndexEntry *blockOurs = [[GTIndexEntry alloc] initWithGitIndexEntry:ours];
-		GTIndexEntry *blockTheirs = [[GTIndexEntry alloc] initWithGitIndexEntry:theirs];
+		GTIndexEntry *blockAncestor;
+		if (ancestor != NULL) {
+			blockAncestor = [[GTIndexEntry alloc] initWithGitIndexEntry:ancestor];
+		}
+
+		GTIndexEntry *blockOurs;
+		if (ours != NULL) {
+			blockOurs = [[GTIndexEntry alloc] initWithGitIndexEntry:ours];
+		}
+
+		GTIndexEntry *blockTheirs;
+		if (theirs != NULL) {
+			blockTheirs = [[GTIndexEntry alloc] initWithGitIndexEntry:theirs];
+		}
+
 		BOOL stop = NO;
 		block(blockAncestor, blockOurs, blockTheirs, &stop);
 		if (stop) break;

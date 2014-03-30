@@ -27,6 +27,7 @@
 
 @class GTOID;
 @class GTReflog;
+@class GTSignature;
 
 typedef enum {
 	GTReferenceErrorCodeInvalidReference = -4,
@@ -40,7 +41,10 @@ typedef enum {
 
 @class GTRepository;
 
-
+/// A git reference object
+///
+/// References are considered to be equivalent iff both their `name` and
+/// `unresolvedTarget` are equal.
 @interface GTReference : NSObject
 
 @property (nonatomic, readonly, strong) GTRepository *repository;
@@ -57,9 +61,6 @@ typedef enum {
 // Convenience initializers
 + (id)referenceByLookingUpReferencedNamed:(NSString *)refName inRepository:(GTRepository *)theRepo error:(NSError **)error;
 - (id)initByLookingUpReferenceNamed:(NSString *)refName inRepository:(GTRepository *)theRepo error:(NSError **)error;
-
-+ (id)referenceByCreatingReferenceNamed:(NSString *)refName fromReferenceTarget:(NSString *)target inRepository:(GTRepository *)theRepo error:(NSError **)error;
-- (id)initByCreatingReferenceNamed:(NSString *)refName fromReferenceTarget:(NSString *)target inRepository:(GTRepository *)theRepo error:(NSError **)error;
 
 + (id)referenceByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error;
 - (id)initByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error;
@@ -86,11 +87,15 @@ typedef enum {
 //
 // Note that this does *not* change the receiver's target.
 //
-// newTarget - The target for the new reference. Cannot be nil.
+// newTarget - The target for the new reference. This must not be nil.
+// signature - A signature for the committer updating this ref, used for
+//             creating a reflog entry. This may be nil.
+// message   - A message to use when creating the reflog entry for this action.
+//             This may be nil.
 // error     - The error if one occurred.
 //
 // Returns the updated reference, or nil if an error occurred.
-- (GTReference *)referenceByUpdatingTarget:(NSString *)newTarget error:(NSError **)error;
+- (GTReference *)referenceByUpdatingTarget:(NSString *)newTarget committer:(GTSignature *)signature message:(NSString *)message error:(NSError **)error;
 
 // The name of the reference.
 @property (nonatomic, readonly, copy) NSString *name;

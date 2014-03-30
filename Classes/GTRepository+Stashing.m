@@ -25,7 +25,7 @@ typedef void (^GTRepositoryStashEnumerationBlock)(NSUInteger index, NSString *me
 		return nil;
 	}
 	
-	return [self lookupObjectByGitOid:&git_oid error:error];
+	return [self lookUpObjectByGitOid:&git_oid error:error];
 }
 
 static int stashEnumerationCallback(size_t index, const char *message, const git_oid *stash_id, void *payload) {

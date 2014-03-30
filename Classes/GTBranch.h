@@ -31,10 +31,14 @@
 @class GTRepository;
 
 typedef enum {
-    GTBranchTypeLocal = 1,
-    GTBranchTypeRemote
+    GTBranchTypeLocal = GIT_BRANCH_LOCAL,
+    GTBranchTypeRemote = GIT_BRANCH_REMOTE,
 } GTBranchType;
 
+/// A git branch object.
+///
+/// Branches are considered to be equivalent iff both their `name` and `SHA` are
+/// equal.
 @interface GTBranch : NSObject
 
 @property (nonatomic, readonly) NSString *name;
@@ -48,10 +52,6 @@ typedef enum {
 
 + (NSString *)localNamePrefix;
 + (NSString *)remoteNamePrefix;
-
-// Convenience initializers
-- (id)initWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error;
-+ (id)branchWithName:(NSString *)branchName repository:(GTRepository *)repo error:(NSError **)error;
 
 - (id)initWithReference:(GTReference *)ref repository:(GTRepository *)repo;
 + (id)branchWithReference:(GTReference *)ref repository:(GTRepository *)repo;
