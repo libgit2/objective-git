@@ -20,7 +20,9 @@
 	_size = (NSUInteger)file.size;
 	_flags = (GTDiffFileFlag)file.flags;
 	_mode = file.mode;
-	_path = [NSString stringWithUTF8String:file.path];
+	_path = [NSFileManager.defaultManager stringWithFileSystemRepresentation:file.path length:strlen(file.path)];
+
+	NSParameterAssert(_path != nil);
 	
 	return self;
 }
