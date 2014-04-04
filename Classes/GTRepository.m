@@ -662,7 +662,7 @@ static int submoduleEnumerationCallback(git_submodule *git_submodule, const char
 - (GTSignature *)userSignatureForNow {
 	GTConfiguration *configuration = [self configurationWithError:NULL];
 	NSString *name = [configuration stringForKey:@"user.name"];
-	if (name == nil) {
+	if (name.length == 0) {
 		name = NSFullUserName();
 		if (name.length == 0) name = NSUserName();
 		if (name.length == 0) name = @"nobody";
