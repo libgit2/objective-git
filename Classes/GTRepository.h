@@ -277,15 +277,6 @@ extern NSString *const GTRepositoryCloneOptionsCredentialProvider;
 // returns the local commits, an empty array if there is no remote branch, or nil if an error occurred
 - (NSArray *)localCommitsRelativeToRemoteBranch:(GTBranch *)remoteBranch error:(NSError **)error;
 
-// Reset the repository's HEAD to the given commit.
-//
-// commit - the commit the HEAD is to be reset to. Must not be nil.
-// resetType - The type of reset to be used.
-// error(out) - in the event of an error this may be set.
-//
-// Returns `YES` if successful, `NO` if not.
-- (BOOL)resetToCommit:(GTCommit *)commit withResetType:(GTRepositoryResetType)resetType error:(NSError **)error;
-
 // Retrieves git's "prepared message" for the next commit, like the default
 // message pre-filled when committing after a conflicting merge.
 //
