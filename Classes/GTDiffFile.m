@@ -16,16 +16,15 @@
 
 	self = [super init];
 	if (self == nil) return nil;
-	
+
+	_path = [NSFileManager.defaultManager stringWithFileSystemRepresentation:file.path length:strlen(file.path)];
+	if (_path == nil) return nil;
+
 	_git_diff_file = file;
-	
 	_size = (NSUInteger)file.size;
 	_flags = (GTDiffFileFlag)file.flags;
 	_mode = file.mode;
 
-	_path = [NSFileManager.defaultManager stringWithFileSystemRepresentation:file.path length:strlen(file.path)];
-	NSParameterAssert(_path != nil);
-	
 	return self;
 }
 
