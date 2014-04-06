@@ -12,6 +12,8 @@
 @implementation GTDiffFile
 
 - (instancetype)initWithGitDiffFile:(git_diff_file)file {
+	NSParameterAssert(file.path != NULL);
+
 	self = [super init];
 	if (self == nil) return nil;
 	
@@ -21,7 +23,6 @@
 	_flags = (GTDiffFileFlag)file.flags;
 	_mode = file.mode;
 
-	NSParameterAssert(file.path != NULL);
 	_path = [NSFileManager.defaultManager stringWithFileSystemRepresentation:file.path length:strlen(file.path)];
 	NSParameterAssert(_path != nil);
 	
