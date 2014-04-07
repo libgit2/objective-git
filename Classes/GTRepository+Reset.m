@@ -15,10 +15,10 @@
 @implementation GTRepository (Reset)
 
 - (BOOL)resetToCommit:(GTCommit *)commit withResetType:(GTRepositoryResetType)resetType error:(NSError **)error {
-    NSParameterAssert(commit != nil);
+	NSParameterAssert(commit != nil);
 
-    int gitError = git_reset(self.git_repository, commit.git_object, (git_reset_t)resetType, (git_signature *)[self userSignatureForNow].git_signature, NULL);
-    if (gitError != GIT_OK) {
+	int gitError = git_reset(self.git_repository, commit.git_object, (git_reset_t)resetType, (git_signature *)[self userSignatureForNow].git_signature, NULL);
+	if (gitError != GIT_OK) {
 		if (error != NULL) {
 			*error = [NSError git_errorFor:gitError description:@"Failed to reset repository to commit %@.", commit.SHA];
 		}
@@ -26,7 +26,7 @@
 		return NO;
 	}
 
-    return YES;
+	return YES;
 }
 
 - (BOOL)resetPathspecs:(NSArray *)paths toCommit:(GTCommit *)commit error:(NSError **)error {
