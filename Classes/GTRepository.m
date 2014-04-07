@@ -526,17 +526,6 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 	return (BOOL)git_repository_head_unborn(self.git_repository);
 }
 
-- (BOOL)resetToCommit:(GTCommit *)commit withResetType:(GTRepositoryResetType)resetType error:(NSError **)error {
-    NSParameterAssert(commit != nil);
-
-    int result = git_reset(self.git_repository, commit.git_object, (git_reset_t)resetType, (git_signature *)[self userSignatureForNow].git_signature, NULL);
-    if (result == GIT_OK) return YES;
-
-    if (error != NULL) *error = [NSError git_errorFor:result description:@"Failed to reset repository to commit %@.", commit.SHA];
-
-    return NO;
-}
-
 - (NSString *)preparedMessageWithError:(NSError **)error {
 	void (^setErrorFromCode)(int) = ^(int errorCode) {
 		if (errorCode == 0 || errorCode == GIT_ENOTFOUND) {
