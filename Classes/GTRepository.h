@@ -44,12 +44,6 @@
 @class GTTag;
 @class GTTree;
 
-typedef enum {
-	GTRepositoryResetTypeSoft = GIT_RESET_SOFT,
-	GTRepositoryResetTypeMixed = GIT_RESET_MIXED,
-	GTRepositoryResetTypeHard = GIT_RESET_HARD
-} GTRepositoryResetType;
-
 // Checkout strategies used by the various -checkout... methods
 // See git_checkout_strategy_t
 typedef enum {

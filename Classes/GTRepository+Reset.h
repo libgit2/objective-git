@@ -8,6 +8,13 @@
 
 #import "GTRepository.h"
 
+/// The rest types. See the libgit2 documentation for more info.
+typedef enum {
+	GTRepositoryResetTypeSoft = GIT_RESET_SOFT,
+	GTRepositoryResetTypeMixed = GIT_RESET_MIXED,
+	GTRepositoryResetTypeHard = GIT_RESET_HARD,
+} GTRepositoryResetType;
+
 @interface GTRepository (Reset)
 
 /// Reset the repository's HEAD to the given commit.
