@@ -210,6 +210,7 @@
 		8821547F17147B3600D76B76 /* GTOID.m in Sources */ = {isa = PBXBuildFile; fileRef = 8821547C17147B3600D76B76 /* GTOID.m */; };
 		8821548017147B3600D76B76 /* GTOID.m in Sources */ = {isa = PBXBuildFile; fileRef = 8821547C17147B3600D76B76 /* GTOID.m */; };
 		88215483171499BE00D76B76 /* GTReflogSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88215482171499BE00D76B76 /* GTReflogSpec.m */; };
+		88234B2618F2FE260039972E /* GTRepositoryResetSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88234B2518F2FE260039972E /* GTRepositoryResetSpec.m */; };
 		8832811F173D8816006D7DCF /* GTIndexSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8832811E173D8816006D7DCF /* GTIndexSpec.m */; };
 		88328128173D8A64006D7DCF /* GTTreeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88328127173D8A64006D7DCF /* GTTreeSpec.m */; };
 		883CD6AB1600EBC600F57354 /* GTRemote.h in Headers */ = {isa = PBXBuildFile; fileRef = 883CD6A91600EBC600F57354 /* GTRemote.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -591,6 +592,7 @@
 		8821547B17147B3600D76B76 /* GTOID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTOID.h; sourceTree = "<group>"; };
 		8821547C17147B3600D76B76 /* GTOID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTOID.m; sourceTree = "<group>"; };
 		88215482171499BE00D76B76 /* GTReflogSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTReflogSpec.m; sourceTree = "<group>"; };
+		88234B2518F2FE260039972E /* GTRepositoryResetSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTRepositoryResetSpec.m; sourceTree = "<group>"; };
 		8832811E173D8816006D7DCF /* GTIndexSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTIndexSpec.m; sourceTree = "<group>"; };
 		88328127173D8A64006D7DCF /* GTTreeSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTTreeSpec.m; sourceTree = "<group>"; };
 		883CD6A91600EBC600F57354 /* GTRemote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTRemote.h; sourceTree = "<group>"; };
@@ -900,6 +902,8 @@
 				D0F4E28917C7F24200BBDE30 /* NSErrorGitSpec.m */,
 				D015F7D417F6965400AD5E1F /* GTRepositoryStashingSpec.m */,
 				886E623618AECD86000611A0 /* GTFilterSpec.m */,
+				D0751CD818BE520400134314 /* GTFilterListSpec.m */,
+				88234B2518F2FE260039972E /* GTRepositoryResetSpec.m */,
 			);
 			path = ObjectiveGitTests;
 			sourceTree = "<group>";
@@ -1623,6 +1627,7 @@
 				8832811F173D8816006D7DCF /* GTIndexSpec.m in Sources */,
 				D0F4E28A17C7F24200BBDE30 /* NSErrorGitSpec.m in Sources */,
 				88328128173D8A64006D7DCF /* GTTreeSpec.m in Sources */,
+				88234B2618F2FE260039972E /* GTRepositoryResetSpec.m in Sources */,
 				5BE612931745EEBC00266D8C /* GTTreeBuilderSpec.m in Sources */,
 				D06D9E011755D10000558C17 /* GTEnumeratorSpec.m in Sources */,
 				D03B7C411756AB370034A610 /* GTSubmoduleSpec.m in Sources */,
