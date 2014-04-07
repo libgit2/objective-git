@@ -327,38 +327,6 @@ describe(@"-checkout:strategy:error:progressBlock:", ^{
 	});
 });
 
-describe(@"-resetToCommit:withResetType:error:", ^{
-	beforeEach(^{
-		repository = self.bareFixtureRepository;
-	});
-
-	it(@"should move HEAD when used", ^{
-		NSError *error = nil;
-		GTReference *originalHead = [repository headReferenceWithError:NULL];
-		NSString *resetTargetSHA = @"8496071c1b46c854b31185ea97743be6a8774479";
-
-		GTCommit *commit = [repository lookUpObjectBySHA:resetTargetSHA error:NULL];
-		expect(commit).notTo.beNil();
-		GTCommit *originalHeadCommit = [repository lookUpObjectBySHA:originalHead.targetSHA error:NULL];
-		expect(originalHeadCommit).notTo.beNil();
-
-		BOOL success = [repository resetToCommit:commit withResetType:GTRepositoryResetTypeSoft error:&error];
-		expect(success).to.beTruthy();
-		expect(error).to.beNil();
-
-		GTReference *head = [repository headReferenceWithError:&error];
-		expect(head).notTo.beNil();
-		expect(head.targetSHA).to.equal(resetTargetSHA);
-
-		success = [repository resetToCommit:originalHeadCommit withResetType:GTRepositoryResetTypeSoft error:&error];
-		expect(success).to.beTruthy();
-		expect(error).to.beNil();
-
-		head = [repository headReferenceWithError:&error];
-		expect(head.targetSHA).to.equal(originalHead.targetSHA);
-	});
-});
-
 describe(@"-lookUpBranchWithName:type:error:", ^{
 	it(@"should look up a local branch", ^{
 		NSError *error = nil;

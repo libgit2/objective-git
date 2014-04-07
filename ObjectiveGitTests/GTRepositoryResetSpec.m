@@ -14,14 +14,12 @@ SpecBegin(GTRepositoryReset)
 
 __block GTRepository *repository;
 
-beforeEach(^{
-	repository = [self testAppFixtureRepository];
-});
-
-fdescribe(@"-resetPaths:toCommit:error:", ^{
+describe(@"-resetPathspecs:toCommit:error:", ^{
 	__block NSUInteger (^countStagedFiles)(void);
 
 	beforeEach(^{
+		repository = [self testAppFixtureRepository];
+
 		countStagedFiles = ^{
 			__block NSUInteger count = 0;
 			[repository enumerateFileStatusWithOptions:nil error:NULL usingBlock:^(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop) {
@@ -53,6 +51,38 @@ fdescribe(@"-resetPaths:toCommit:error:", ^{
 		expect(success).to.beTruthy();
 
 		expect(countStagedFiles()).to.equal(0);
+	});
+});
+
+describe(@"-resetToCommit:resetType:error:", ^{
+	beforeEach(^{
+		repository = [self bareFixtureRepository];
+	});
+
+	it(@"should move HEAD when used", ^{
+		NSError *error = nil;
+		GTReference *originalHead = [repository headReferenceWithError:NULL];
+		NSString *resetTargetSHA = @"8496071c1b46c854b31185ea97743be6a8774479";
+
+		GTCommit *commit = [repository lookUpObjectBySHA:resetTargetSHA error:NULL];
+		expect(commit).notTo.beNil();
+		GTCommit *originalHeadCommit = [repository lookUpObjectBySHA:originalHead.targetSHA error:NULL];
+		expect(originalHeadCommit).notTo.beNil();
+
+		BOOL success = [repository resetToCommit:commit resetType:GTRepositoryResetTypeSoft error:&error];
+		expect(success).to.beTruthy();
+		expect(error).to.beNil();
+
+		GTReference *head = [repository headReferenceWithError:&error];
+		expect(head).notTo.beNil();
+		expect(head.targetSHA).to.equal(resetTargetSHA);
+
+		success = [repository resetToCommit:originalHeadCommit resetType:GTRepositoryResetTypeSoft error:&error];
+		expect(success).to.beTruthy();
+		expect(error).to.beNil();
+
+		head = [repository headReferenceWithError:&error];
+		expect(head.targetSHA).to.equal(originalHead.targetSHA);
 	});
 });
 

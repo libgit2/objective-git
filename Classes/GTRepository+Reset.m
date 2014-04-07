@@ -14,7 +14,7 @@
 
 @implementation GTRepository (Reset)
 
-- (BOOL)resetToCommit:(GTCommit *)commit withResetType:(GTRepositoryResetType)resetType error:(NSError **)error {
+- (BOOL)resetToCommit:(GTCommit *)commit resetType:(GTRepositoryResetType)resetType error:(NSError **)error {
 	NSParameterAssert(commit != nil);
 
 	int gitError = git_reset(self.git_repository, commit.git_object, (git_reset_t)resetType, (git_signature *)[self userSignatureForNow].git_signature, NULL);
