@@ -26,13 +26,13 @@ typedef enum {
 /// Returns whether the reset was succcessful.
 - (BOOL)resetToCommit:(GTCommit *)commit withResetType:(GTRepositoryResetType)resetType error:(NSError **)error;
 
-/// Resets the give paths in the index to the tree entries from the commit.
+/// Resets the given pathspecs in the index to the tree entries from the commit.
 ///
-/// paths  - The paths to reset. Cannot be nil.
-/// commit - The commit whose tree should be used to reset. Cannot be nil.
-/// error  - The error if one occurred.
+/// pathspecs - The pathspecs to reset. Cannot be nil.
+/// commit    - The commit whose tree should be used to reset. Cannot be nil.
+/// error     - The error if one occurred.
 ///
 /// Returns whether the reset was successful.
-- (BOOL)resetPaths:(NSArray *)paths toCommit:(GTCommit *)commit error:(NSError **)error;
+- (BOOL)resetPathspecs:(NSArray *)pathspecs toCommit:(GTCommit *)commit error:(NSError **)error;
 
 @end
