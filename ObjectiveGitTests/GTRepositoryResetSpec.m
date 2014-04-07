@@ -12,16 +12,19 @@
 
 SpecBegin(GTRepositoryReset)
 
+__block GTRepository *repository;
+
+beforeEach(^{
+	repository = [self testAppFixtureRepository];
+});
+
 fdescribe(@"-resetPaths:toCommit:error:", ^{
-	__block GTRepository *repository;
 	__block NSUInteger (^countStagedFiles)(void);
 
 	beforeEach(^{
-		repository = [self testAppFixtureRepository];
-
 		countStagedFiles = ^{
 			__block NSUInteger count = 0;
-			[repository enumerateFileStatusWithOptions:Nil error:NULL usingBlock:^(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop) {
+			[repository enumerateFileStatusWithOptions:nil error:NULL usingBlock:^(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop) {
 				if (headToIndex.status != GTStatusDeltaStatusUnmodified) count++;
 			}];
 
@@ -46,7 +49,7 @@ fdescribe(@"-resetPaths:toCommit:error:", ^{
 		GTCommit *HEAD = [repository lookUpObjectByRevParse:@"HEAD" error:NULL];
 		expect(HEAD).notTo.beNil();
 
-		success = [repository resetPaths:@[ fileName ] toCommit:HEAD error:NULL];
+		success = [repository resetPathspecs:@[ fileName ] toCommit:HEAD error:NULL];
 		expect(success).to.beTruthy();
 
 		expect(countStagedFiles()).to.equal(0);
