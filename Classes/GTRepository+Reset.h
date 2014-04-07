@@ -24,7 +24,7 @@ typedef enum {
 /// error     - The error if one occurred.
 ///
 /// Returns whether the reset was succcessful.
-- (BOOL)resetToCommit:(GTCommit *)commit withResetType:(GTRepositoryResetType)resetType error:(NSError **)error;
+- (BOOL)resetToCommit:(GTCommit *)commit resetType:(GTRepositoryResetType)resetType error:(NSError **)error;
 
 /// Resets the given pathspecs in the index to the tree entries from the commit.
 ///

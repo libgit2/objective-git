@@ -169,7 +169,7 @@ describe(@"clean, checked out submodule", ^{
 
 		GTCommit *newHEAD = (id)[submoduleRepo lookUpObjectBySHA:@"82dc47f6ba3beecab33080a1136d8913098e1801" objectType:GTObjectTypeCommit error:NULL];
 		expect(newHEAD).notTo.beNil();
-		expect([submoduleRepo resetToCommit:newHEAD withResetType:GTRepositoryResetTypeHard error:NULL]).to.beTruthy();
+		expect([submoduleRepo resetToCommit:newHEAD resetType:GTRepositoryResetTypeHard error:NULL]).to.beTruthy();
 
 		expect(submodule.workingDirectoryOID.SHA).notTo.equal(newHEAD.SHA);
 
