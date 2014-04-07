@@ -40,7 +40,11 @@ typedef enum {
 // The git_diff_file represented by the receiver.
 @property (nonatomic, readonly) git_diff_file git_diff_file;
 
-// Designated initialiser.
+/// Initializes the receiver with the provided libgit2 object.
+///
+/// file - The git_diff_file wrapped by the receiver.
+///
+/// Returns an initialized GTDiffFile.
 - (instancetype)initWithGitDiffFile:(git_diff_file)file;
 
 @end
