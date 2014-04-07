@@ -29,7 +29,7 @@
     return YES;
 }
 
-- (BOOL)resetPaths:(NSArray *)paths toCommit:(GTCommit *)commit error:(NSError **)error {
+- (BOOL)resetPathspecs:(NSArray *)paths toCommit:(GTCommit *)commit error:(NSError **)error {
 	NSParameterAssert(paths != nil);
 	NSParameterAssert(commit != nil);
 
