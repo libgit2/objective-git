@@ -21,6 +21,7 @@ External/libgit2-ios
 
 project.xcworkspace
 */xcuserdata/
+*.xccheckout
 
 ObjectiveGitTests/fixtures/Fixtures/*
 
