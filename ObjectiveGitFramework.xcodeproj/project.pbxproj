@@ -208,8 +208,6 @@
 		88746CC517FA1C950005888A /* GTRepository+Committing.h in Headers */ = {isa = PBXBuildFile; fileRef = 88746CC217FA1C950005888A /* GTRepository+Committing.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88746CC617FA1C950005888A /* GTRepository+Committing.m in Sources */ = {isa = PBXBuildFile; fileRef = 88746CC317FA1C950005888A /* GTRepository+Committing.m */; };
 		88746CC717FA1C950005888A /* GTRepository+Committing.m in Sources */ = {isa = PBXBuildFile; fileRef = 88746CC317FA1C950005888A /* GTRepository+Committing.m */; };
-		887DAFFC15CB1CBD00F30D0D /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 887DAFFB15CB1CBD00F30D0D /* libcrypto.dylib */; };
-		887DAFFD15CB1CE200F30D0D /* libssl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 887DAFF915CB1C9F00F30D0D /* libssl.dylib */; };
 		88948AC91779243600809CDA /* GTObjectDatabaseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88948AC81779243600809CDA /* GTObjectDatabaseSpec.m */; };
 		88A994BA16FCE7D400402C7B /* GTBranchSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A994B916FCE7D400402C7B /* GTBranchSpec.m */; };
 		88A994CB16FCED1D00402C7B /* GTTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A994CA16FCED1D00402C7B /* GTTestCase.m */; };
@@ -447,8 +445,6 @@
 		88746CC217FA1C950005888A /* GTRepository+Committing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTRepository+Committing.h"; sourceTree = "<group>"; };
 		88746CC317FA1C950005888A /* GTRepository+Committing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GTRepository+Committing.m"; sourceTree = "<group>"; };
 		887DAFF615CB1C8000F30D0D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		887DAFF915CB1C9F00F30D0D /* libssl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libssl.dylib; path = usr/lib/libssl.dylib; sourceTree = SDKROOT; };
-		887DAFFB15CB1CBD00F30D0D /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = usr/lib/libcrypto.dylib; sourceTree = SDKROOT; };
 		88948AC81779243600809CDA /* GTObjectDatabaseSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTObjectDatabaseSpec.m; sourceTree = "<group>"; };
 		88A994B916FCE7D400402C7B /* GTBranchSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTBranchSpec.m; sourceTree = "<group>"; };
 		88A994C916FCED1D00402C7B /* GTTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTTestCase.h; sourceTree = "<group>"; };
@@ -579,8 +575,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4D103ADD1819CFAA0029DB24 /* libiconv.dylib in Frameworks */,
-				887DAFFD15CB1CE200F30D0D /* libssl.dylib in Frameworks */,
-				887DAFFC15CB1CBD00F30D0D /* libcrypto.dylib in Frameworks */,
 				8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */,
 				8803DA871313145700E6E818 /* libz.dylib in Frameworks */,
 			);
@@ -643,8 +637,6 @@
 			children = (
 				4D103ADC1819CFAA0029DB24 /* libiconv.dylib */,
 				188DC01817FC1571007350CD /* libz.dylib */,
-				887DAFF915CB1C9F00F30D0D /* libssl.dylib */,
-				887DAFFB15CB1CBD00F30D0D /* libcrypto.dylib */,
 				8803DA861313145700E6E818 /* libz.dylib */,
 				04DB4671133AB5FE00D9C624 /* libz.dylib */,
 				6A1F2FD317C6A8F3003DFADE /* libcrypto.a */,
@@ -1510,6 +1502,8 @@
 					"-force_load",
 					External/libgit2.a,
 					/usr/local/lib/libssh2.a,
+					"-lcrypto",
+					"-lssl",
 				);
 				PRODUCT_NAME = ObjectiveGit;
 				USER_HEADER_SEARCH_PATHS = "";
@@ -1531,6 +1525,8 @@
 					"-force_load",
 					External/libgit2.a,
 					/usr/local/lib/libssh2.a,
+					"-lcrypto",
+					"-lssl",
 				);
 				PRODUCT_NAME = ObjectiveGit;
 				USER_HEADER_SEARCH_PATHS = "";
@@ -1709,6 +1705,8 @@
 					"-force_load",
 					External/libgit2.a,
 					/usr/local/lib/libssh2.a,
+					"-lcrypto",
+					"-lssl",
 				);
 				PRODUCT_NAME = ObjectiveGit;
 				USER_HEADER_SEARCH_PATHS = "";
