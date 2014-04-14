@@ -1489,6 +1489,10 @@
 				FRAMEWORK_VERSION = A;
 				GCC_PREFIX_HEADER = ObjectiveGitFramework_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/Cellar/openssl/1.0.1g/lib/,
+				);
 				OTHER_LDFLAGS = (
 					"-lgit2",
 					"-force_load",
@@ -1510,6 +1514,10 @@
 				FRAMEWORK_VERSION = A;
 				GCC_PREFIX_HEADER = ObjectiveGitFramework_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/Cellar/openssl/1.0.1g/lib/,
+				);
 				OTHER_LDFLAGS = (
 					"-lgit2",
 					"-force_load",
@@ -1688,6 +1696,10 @@
 				FRAMEWORK_VERSION = A;
 				GCC_PREFIX_HEADER = ObjectiveGitFramework_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/Cellar/openssl/1.0.1g/lib/,
+				);
 				OTHER_LDFLAGS = (
 					"-lgit2",
 					"-force_load",
