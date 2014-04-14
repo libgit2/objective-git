@@ -207,8 +207,6 @@
 		88746CC517FA1C950005888A /* GTRepository+Committing.h in Headers */ = {isa = PBXBuildFile; fileRef = 88746CC217FA1C950005888A /* GTRepository+Committing.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88746CC617FA1C950005888A /* GTRepository+Committing.m in Sources */ = {isa = PBXBuildFile; fileRef = 88746CC317FA1C950005888A /* GTRepository+Committing.m */; };
 		88746CC717FA1C950005888A /* GTRepository+Committing.m in Sources */ = {isa = PBXBuildFile; fileRef = 88746CC317FA1C950005888A /* GTRepository+Committing.m */; };
-		887DAFFC15CB1CBD00F30D0D /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 887DAFFB15CB1CBD00F30D0D /* libcrypto.dylib */; };
-		887DAFFD15CB1CE200F30D0D /* libssl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 887DAFF915CB1C9F00F30D0D /* libssl.dylib */; };
 		88948AC91779243600809CDA /* GTObjectDatabaseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88948AC81779243600809CDA /* GTObjectDatabaseSpec.m */; };
 		88A994BA16FCE7D400402C7B /* GTBranchSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A994B916FCE7D400402C7B /* GTBranchSpec.m */; };
 		88A994CB16FCED1D00402C7B /* GTTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A994CA16FCED1D00402C7B /* GTTestCase.m */; };
@@ -571,8 +569,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4D103ADD1819CFAA0029DB24 /* libiconv.dylib in Frameworks */,
-				887DAFFD15CB1CE200F30D0D /* libssl.dylib in Frameworks */,
-				887DAFFC15CB1CBD00F30D0D /* libcrypto.dylib in Frameworks */,
 				8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */,
 				8803DA871313145700E6E818 /* libz.dylib in Frameworks */,
 			);
@@ -1498,6 +1494,8 @@
 					"-force_load",
 					External/libgit2.a,
 					/usr/local/lib/libssh2.a,
+					"-lcrypto",
+					"-lssl",
 				);
 				PRODUCT_NAME = ObjectiveGit;
 				USER_HEADER_SEARCH_PATHS = "";
@@ -1523,6 +1521,8 @@
 					"-force_load",
 					External/libgit2.a,
 					/usr/local/lib/libssh2.a,
+					"-lcrypto",
+					"-lssl",
 				);
 				PRODUCT_NAME = ObjectiveGit;
 				USER_HEADER_SEARCH_PATHS = "";
@@ -1705,6 +1705,8 @@
 					"-force_load",
 					External/libgit2.a,
 					/usr/local/lib/libssh2.a,
+					"-lcrypto",
+					"-lssl",
 				);
 				PRODUCT_NAME = ObjectiveGit;
 				USER_HEADER_SEARCH_PATHS = "";
