@@ -1503,7 +1503,7 @@
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/usr/local/Cellar/openssl/1.0.1g/lib/,
+					/usr/local/opt/openssl/lib/,
 				);
 				OTHER_LDFLAGS = (
 					"-lgit2",
@@ -1530,7 +1530,7 @@
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/usr/local/Cellar/openssl/1.0.1g/lib/,
+					/usr/local/opt/openssl/lib/,
 				);
 				OTHER_LDFLAGS = (
 					"-lgit2",
@@ -1714,7 +1714,7 @@
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/usr/local/Cellar/openssl/1.0.1g/lib/,
+					/usr/local/opt/openssl/lib/,
 				);
 				OTHER_LDFLAGS = (
 					"-lgit2",
