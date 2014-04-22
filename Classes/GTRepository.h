@@ -30,12 +30,15 @@
 
 #import "GTBranch.h"
 #import "GTEnumerator.h"
+#import "GTFilterSource.h"
 #import "GTObject.h"
 #import "GTReference.h"
 
+@class GTBlob;
 @class GTCommit;
 @class GTConfiguration;
 @class GTDiffFile;
+@class GTFilterList;
 @class GTIndex;
 @class GTObjectDatabase;
 @class GTOdbObject;
@@ -297,10 +300,12 @@ extern NSString *const GTRepositoryCloneOptionsCredentialProvider;
 // Enumerates over all the tracked submodules in the repository.
 //
 // recursive - Whether to recurse into nested submodules, depth-first.
-// block     - A block to execute for each `submodule` found. Setting `stop` to
-//             YES will cause enumeration to stop after the block returns. This
-//             must not be nil.
-- (void)enumerateSubmodulesRecursively:(BOOL)recursive usingBlock:(void (^)(GTSubmodule *submodule, BOOL *stop))block;
+// block     - A block to execute for each `submodule` found. If an error
+//             occurred while reading the submodule, `submodule` will be nil and
+//             `error` will contain the error information. Setting `stop` to YES
+//             will cause enumeration to stop after the block returns. This must
+//             not be nil.
+- (void)enumerateSubmodulesRecursively:(BOOL)recursive usingBlock:(void (^)(GTSubmodule *submodule, NSError *error, BOOL *stop))block;
 
 // Looks up the top-level submodule with the given name. This will not recurse
 // into submodule repositories.
@@ -421,5 +426,24 @@ extern NSString *const GTRepositoryCloneOptionsCredentialProvider;
 
 /// Flush the gitattributes cache.
 - (void)flushAttributesCache;
+
+/// Loads the filter list for a given path in the repository.
+///
+/// path    - The path to load filters for. This is used to determine which
+///           filters to apply, and does not necessarily need to point to a file
+///           that already exists. This must not be nil.
+/// blob    - The blob to which the filter will be applied, if known. This is
+///           used to determine which filters to apply, and can differ from the
+///           content of the file at `path`. This may be nil.
+/// mode    - The direction in which the data will be filtered.
+/// success - If not NULL, set to `NO` if an error occurs. If `nil` is
+///           returned and this argument is set to `YES`, there were no filters
+///           to apply.
+/// error   - If not NULL, set to any error that occurs.
+///
+/// Returns the loaded filter list, or nil if an error occurs or there are no
+/// filters to apply to the given path. The latter two cases can be
+/// distinguished using the value of `success`.
+- (GTFilterList *)filterListWithPath:(NSString *)path blob:(GTBlob *)blob mode:(GTFilterSourceMode)mode success:(BOOL *)success error:(NSError **)error;
 
 @end

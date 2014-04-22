@@ -17,7 +17,7 @@ beforeEach(^{
 
 it(@"should enumerate top-level submodules", ^{
 	NSMutableSet *names = [NSMutableSet set];
-	[repo enumerateSubmodulesRecursively:NO usingBlock:^(GTSubmodule *submodule, BOOL *stop) {
+	[repo enumerateSubmodulesRecursively:NO usingBlock:^(GTSubmodule *submodule, NSError *error, BOOL *stop) {
 		expect(stop).notTo.beNil();
 
 		expect(submodule).to.beKindOf(GTSubmodule.class);
@@ -32,7 +32,7 @@ it(@"should enumerate top-level submodules", ^{
 
 it(@"should enumerate submodules recursively", ^{
 	NSMutableSet *names = [NSMutableSet set];
-	[repo enumerateSubmodulesRecursively:YES usingBlock:^(GTSubmodule *submodule, BOOL *stop) {
+	[repo enumerateSubmodulesRecursively:YES usingBlock:^(GTSubmodule *submodule, NSError *error, BOOL *stop) {
 		expect(stop).notTo.beNil();
 
 		expect(submodule).to.beKindOf(GTSubmodule.class);
@@ -47,7 +47,7 @@ it(@"should enumerate submodules recursively", ^{
 
 it(@"should terminate enumeration early", ^{
 	__block NSUInteger count = 0;
-	[repo enumerateSubmodulesRecursively:NO usingBlock:^(GTSubmodule *submodule, BOOL *stop) {
+	[repo enumerateSubmodulesRecursively:NO usingBlock:^(GTSubmodule *submodule, NSError *error, BOOL *stop) {
 		if (count == 2) {
 			*stop = YES;
 		} else {
