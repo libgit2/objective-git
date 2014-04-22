@@ -17,7 +17,7 @@
 	self = [super init];
 	if (self == nil) return nil;
 
-	_path = [NSFileManager.defaultManager stringWithFileSystemRepresentation:file.path length:strlen(file.path)];
+	_path = @(file.path);
 	if (_path == nil) return nil;
 
 	_git_diff_file = file;

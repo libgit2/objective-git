@@ -159,7 +159,7 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 }
 
 - (BOOL)addFile:(NSString *)file error:(NSError **)error {
-	int status = git_index_add_bypath(self.git_index, file.fileSystemRepresentation);
+	int status = git_index_add_bypath(self.git_index, file.UTF8String);
 	if (status != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to add file %@ to index.", file];
 		return NO;
@@ -181,7 +181,7 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 }
 
 - (BOOL)removeFile:(NSString *)file error:(NSError **)error {
-	int status = git_index_remove_bypath(self.git_index, file.fileSystemRepresentation);
+	int status = git_index_remove_bypath(self.git_index, file.UTF8String);
 	if (status != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to remove file %@ from index.", file];
 		return NO;
