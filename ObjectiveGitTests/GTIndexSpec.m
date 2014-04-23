@@ -145,7 +145,7 @@ describe(@"updating pathspecs", ^{
 		[@"The wild west..." writeToFile:filePath atomically:NO encoding:NSUTF8StringEncoding error:NULL];
 
 		expect(index).toNot.beNil();
-		expect([index.repository statusForFile:[NSURL URLWithString:fileName] success:NULL error:NULL]).to.equal(GTFileStatusModifiedInWorktree);
+		expect([index.repository statusForFile:fileName success:NULL error:NULL]).to.equal(GTFileStatusModifiedInWorktree);
 	});
 	
 	it(@"should update the Index", ^{
@@ -156,7 +156,7 @@ describe(@"updating pathspecs", ^{
 		}];
 		
 		expect(success).to.beTruthy();
-		expect([index.repository statusForFile:[NSURL URLWithString:fileName] success:NULL error:NULL]).to.equal(GTFileStatusModifiedInIndex);
+		expect([index.repository statusForFile:fileName success:NULL error:NULL]).to.equal(GTFileStatusModifiedInIndex);
 	});
 	
 	it(@"should skip a specific file", ^{
@@ -169,7 +169,7 @@ describe(@"updating pathspecs", ^{
 		}];
 		
 		expect(success).to.beTruthy();
-		expect([index.repository statusForFile:[NSURL URLWithString:fileName] success:NULL error:NULL]).to.equal(GTFileStatusModifiedInWorktree);
+		expect([index.repository statusForFile:fileName success:NULL error:NULL]).to.equal(GTFileStatusModifiedInWorktree);
 	});
 	
 	it(@"should stop be able to stop early", ^{
