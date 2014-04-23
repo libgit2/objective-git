@@ -35,4 +35,7 @@
 // A pristine repository.
 - (GTRepository *)blankFixtureRepository;
 
+// A repository with unicode files.
+- (GTRepository *)testUnicodeFixtureRepository;
+
 @end

@@ -102,6 +102,10 @@ static NSString * const GTTestCaseErrorDomain = @"com.objectivegit.GTTestCase";
 	return [self fixtureRepositoryNamed:@"Test_App"];
 }
 
+- (GTRepository *)testUnicodeFixtureRepository {
+	return [self fixtureRepositoryNamed:@"unicode-files-repo"];
+}
+
 - (GTRepository *)bareFixtureRepository {
 	return [self fixtureRepositoryNamed:@"testrepo.git"];
 }
