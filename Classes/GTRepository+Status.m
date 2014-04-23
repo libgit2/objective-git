@@ -7,7 +7,7 @@
 //
 
 #import "GTRepository+Status.h"
-
+#import "GTConfiguration.h"
 #import "GTStatusDelta.h"
 
 #import "NSError+Git.h"
@@ -92,14 +92,14 @@ NSString *const GTRepositoryStatusOptionsPathSpecArrayKey = @"GTRepositoryStatus
 	return clean;
 }
 
-- (GTFileStatusFlags)statusForFile:(NSURL *)fileURL success:(BOOL *)success error:(NSError **)error {
-	NSParameterAssert(fileURL != nil);
+- (GTFileStatusFlags)statusForFile:(NSString *)filePath success:(BOOL *)success error:(NSError **)error {
+	NSParameterAssert(filePath != nil);
 
 	git_status_t status;
 
-	int gitError = git_status_file(&status, self.git_repository, fileURL.path.fileSystemRepresentation);
+	int gitError = git_status_file(&status, self.git_repository, filePath.UTF8String);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Status failed" failureReason:@"Failed to get status for file \"%@\" in \"%@\"", fileURL.path, self.gitDirectoryURL];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Status failed" failureReason:@"Failed to get status for file \"%@\" in \"%@\"", filePath, self.gitDirectoryURL];
 		if (success != NULL) *success = NO;
 		return GTFileStatusCurrent;
 	}
