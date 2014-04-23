@@ -160,7 +160,9 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 }
 
 - (BOOL)addFile:(NSString *)file error:(NSError **)error {
-	int status = git_index_add_bypath(self.git_index, file.fileSystemRepresentation);
+	NSString *unicodeString = [self composedUnicodeStringWithString:file];
+
+	int status = git_index_add_bypath(self.git_index, unicodeString.UTF8String);
 	if (status != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to add file %@ to index.", file];
 		return NO;
@@ -182,7 +184,9 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 }
 
 - (BOOL)removeFile:(NSString *)file error:(NSError **)error {
-	int status = git_index_remove_bypath(self.git_index, file.fileSystemRepresentation);
+	NSString *unicodeString = [self composedUnicodeStringWithString:file];
+
+	int status = git_index_remove_bypath(self.git_index, unicodeString.UTF8String);
 	if (status != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to remove file %@ from index.", file];
 		return NO;
@@ -336,6 +340,14 @@ int GTIndexPathspecMatchFound(const char *path, const char *matched_pathspec, vo
 	} else {
 		return 1;
 	}
+}
+
+
+- (NSString *)composedUnicodeStringWithString:(NSString *)string {
+      GTConfiguration *repoConfig = [self.repository configurationWithError:NULL];
+      bool shouldPrecompose = [repoConfig boolForKey:@"core.precomposeunicode"];
+
+      return (shouldPrecompose ? [string precomposedStringWithCanonicalMapping] : [string decomposedStringWithCanonicalMapping]);
 }
 
 @end
