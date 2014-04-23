@@ -32,6 +32,7 @@
 #import "NSError+Git.h"
 #import "GTRepository.h"
 #import "GTRepository+Private.h"
+#import "GTConfiguration.h"
 #import "GTOID.h"
 #import "GTTree.h"
 #import "EXTScope.h"
@@ -140,7 +141,7 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 
 - (GTIndexEntry *)entryWithName:(NSString *)name error:(NSError **)error {
 	size_t pos = 0;
-	int gitError = git_index_find(&pos, self.git_index, name.fileSystemRepresentation);
+	int gitError = git_index_find(&pos, self.git_index, name.UTF8String);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"%@ not found in index", name];
 		return NULL;
