@@ -32,6 +32,7 @@
 #import "NSError+Git.h"
 #import "GTRepository.h"
 #import "GTRepository+Private.h"
+#import "GTConfiguration.h"
 #import "GTOID.h"
 #import "GTTree.h"
 #import "EXTScope.h"
@@ -140,7 +141,7 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 
 - (GTIndexEntry *)entryWithName:(NSString *)name error:(NSError **)error {
 	size_t pos = 0;
-	int gitError = git_index_find(&pos, self.git_index, name.fileSystemRepresentation);
+	int gitError = git_index_find(&pos, self.git_index, name.UTF8String);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"%@ not found in index", name];
 		return NULL;
@@ -159,7 +160,9 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 }
 
 - (BOOL)addFile:(NSString *)file error:(NSError **)error {
-	int status = git_index_add_bypath(self.git_index, file.fileSystemRepresentation);
+	NSString *unicodeString = [self composedUnicodeStringWithString:file];
+
+	int status = git_index_add_bypath(self.git_index, unicodeString.UTF8String);
 	if (status != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to add file %@ to index.", file];
 		return NO;
@@ -181,7 +184,9 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 }
 
 - (BOOL)removeFile:(NSString *)file error:(NSError **)error {
-	int status = git_index_remove_bypath(self.git_index, file.fileSystemRepresentation);
+	NSString *unicodeString = [self composedUnicodeStringWithString:file];
+
+	int status = git_index_remove_bypath(self.git_index, unicodeString.UTF8String);
 	if (status != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to remove file %@ from index.", file];
 		return NO;
@@ -335,6 +340,14 @@ int GTIndexPathspecMatchFound(const char *path, const char *matched_pathspec, vo
 	} else {
 		return 1;
 	}
+}
+
+
+- (NSString *)composedUnicodeStringWithString:(NSString *)string {
+      GTConfiguration *repoConfig = [self.repository configurationWithError:NULL];
+      bool shouldPrecompose = [repoConfig boolForKey:@"core.precomposeunicode"];
+
+      return (shouldPrecompose ? [string precomposedStringWithCanonicalMapping] : [string decomposedStringWithCanonicalMapping]);
 }
 
 @end
