@@ -62,21 +62,21 @@ describe(@"loading a filter list", ^{
 	});
 
 	it(@"should return nil on a path without any filters", ^{
-		GTFilterList *list = [repository filterListWithPath:@"TestAppDelegate.h" blob:nil mode:GTFilterSourceModeSmudge success:&success error:&error];
+		GTFilterList *list = [repository filterListWithPath:@"TestAppDelegate.h" blob:nil mode:GTFilterSourceModeSmudge options:GTFilterListOptionsAllowUnsafe success:&success error:&error];
 		expect(list).to.beNil();
 		expect(success).to.beTruthy();
 		expect(error).to.beNil();
 	});
 
 	it(@"should return non-nil on a path with a single filter", ^{
-		GTFilterList *list = [repository filterListWithPath:@"README.md" blob:nil mode:GTFilterSourceModeSmudge success:&success error:&error];
+		GTFilterList *list = [repository filterListWithPath:@"README.md" blob:nil mode:GTFilterSourceModeSmudge options:GTFilterListOptionsAllowUnsafe success:&success error:&error];
 		expect(list).notTo.beNil();
 		expect(success).to.beTruthy();
 		expect(error).to.beNil();
 	});
 
 	it(@"should return non-nil on a path with multiple filters", ^{
-		GTFilterList *list = [repository filterListWithPath:@"README1.txt" blob:nil mode:GTFilterSourceModeSmudge success:&success error:&error];
+		GTFilterList *list = [repository filterListWithPath:@"README1.txt" blob:nil mode:GTFilterSourceModeSmudge options:GTFilterListOptionsAllowUnsafe success:&success error:&error];
 		expect(list).notTo.beNil();
 		expect(success).to.beTruthy();
 		expect(error).to.beNil();
@@ -87,7 +87,7 @@ describe(@"loading a filter list", ^{
 		GTBlob *blob = [[GTBlob alloc] initWithData:data inRepository:repository error:NULL];
 		expect(blob).notTo.beNil();
 
-		GTFilterList *list = [repository filterListWithPath:@"haters-gonna-hate.txt" blob:blob mode:GTFilterSourceModeClean success:&success error:&error];
+		GTFilterList *list = [repository filterListWithPath:@"haters-gonna-hate.txt" blob:blob mode:GTFilterSourceModeClean options:GTFilterListOptionsAllowUnsafe success:&success error:&error];
 		expect(list).notTo.beNil();
 		expect(success).to.beTruthy();
 		expect(error).to.beNil();
@@ -95,7 +95,7 @@ describe(@"loading a filter list", ^{
 });
 
 it(@"should apply a single filter", ^{
-	GTFilterList *list = [repository filterListWithPath:@"README.md" blob:nil mode:GTFilterSourceModeSmudge success:NULL error:NULL];
+	GTFilterList *list = [repository filterListWithPath:@"README.md" blob:nil mode:GTFilterSourceModeSmudge options:GTFilterListOptionsAllowUnsafe success:NULL error:NULL];
 	expect(list).notTo.beNil();
 
 	NSString *inputString = @"foobar";
@@ -116,7 +116,7 @@ describe(@"applying a list of multiple filters", ^{
 
 	beforeEach(^{
 		// This file should have `readFilter` applied first, then `textFilter`.
-		list = [repository filterListWithPath:@"README1.txt" blob:nil mode:GTFilterSourceModeSmudge success:NULL error:NULL];
+		list = [repository filterListWithPath:@"README1.txt" blob:nil mode:GTFilterSourceModeSmudge options:GTFilterListOptionsAllowUnsafe success:NULL error:NULL];
 		expect(list).notTo.beNil();
 	});
 
