@@ -790,11 +790,11 @@ static int checkoutNotifyCallback(git_checkout_notify_t why, const char *path, c
 	git_attr_cache_flush(self.git_repository);
 }
 
-- (GTFilterList *)filterListWithPath:(NSString *)path blob:(GTBlob *)blob mode:(GTFilterSourceMode)mode success:(BOOL *)success error:(NSError **)error {
+- (GTFilterList *)filterListWithPath:(NSString *)path blob:(GTBlob *)blob mode:(GTFilterSourceMode)mode options:(GTFilterListOptions)options success:(BOOL *)success error:(NSError **)error {
 	NSParameterAssert(path != nil);
 
 	git_filter_list *list = NULL;
-	int gitError = git_filter_list_load(&list, self.git_repository, blob.git_blob, path.fileSystemRepresentation, (git_filter_mode_t)mode);
+	int gitError = git_filter_list_load(&list, self.git_repository, blob.git_blob, path.fileSystemRepresentation, (git_filter_mode_t)mode, options);
 	if (gitError != GIT_OK) {
 		if (success != NULL) *success = NO;
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to load filter list for %@", path];

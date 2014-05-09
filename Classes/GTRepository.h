@@ -33,12 +33,12 @@
 #import "GTFilterSource.h"
 #import "GTObject.h"
 #import "GTReference.h"
+#import "GTFilterList.h"
 
 @class GTBlob;
 @class GTCommit;
 @class GTConfiguration;
 @class GTDiffFile;
-@class GTFilterList;
 @class GTIndex;
 @class GTObjectDatabase;
 @class GTOdbObject;
@@ -436,6 +436,7 @@ extern NSString *const GTRepositoryCloneOptionsCredentialProvider;
 ///           used to determine which filters to apply, and can differ from the
 ///           content of the file at `path`. This may be nil.
 /// mode    - The direction in which the data will be filtered.
+/// options - The list options. See the libgit2 header for more information.
 /// success - If not NULL, set to `NO` if an error occurs. If `nil` is
 ///           returned and this argument is set to `YES`, there were no filters
 ///           to apply.
@@ -444,6 +445,6 @@ extern NSString *const GTRepositoryCloneOptionsCredentialProvider;
 /// Returns the loaded filter list, or nil if an error occurs or there are no
 /// filters to apply to the given path. The latter two cases can be
 /// distinguished using the value of `success`.
-- (GTFilterList *)filterListWithPath:(NSString *)path blob:(GTBlob *)blob mode:(GTFilterSourceMode)mode success:(BOOL *)success error:(NSError **)error;
+- (GTFilterList *)filterListWithPath:(NSString *)path blob:(GTBlob *)blob mode:(GTFilterSourceMode)mode options:(GTFilterListOptions)options success:(BOOL *)success error:(NSError **)error;
 
 @end
