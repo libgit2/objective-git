@@ -1435,9 +1435,9 @@
 					"External/libssh2-ios/include/libssh2",
 				);
 				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
 					"External/ios-openssl/lib",
 					"External/libssh2-ios/lib",
+					"$(inherited)",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = (
@@ -1467,9 +1467,9 @@
 					"External/libssh2-ios/include/libssh2",
 				);
 				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
 					"External/ios-openssl/lib",
 					"External/libssh2-ios/lib",
+					"$(inherited)",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = (
@@ -1725,9 +1725,9 @@
 					"External/libssh2-ios/include/libssh2",
 				);
 				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
 					"External/ios-openssl/lib",
 					"External/libssh2-ios/lib",
+					"$(inherited)",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = (
