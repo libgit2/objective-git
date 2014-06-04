@@ -67,6 +67,8 @@ typedef enum {
 	GTRepositoryStatusFlagsRenamesFromRewrites = GIT_STATUS_OPT_RENAMES_FROM_REWRITES,
 	GTRepositoryStatusFlagsSortCaseSensitively = GIT_STATUS_OPT_SORT_CASE_SENSITIVELY,
 	GTRepositoryStatusFlagsSortCaseInsensitively = GIT_STATUS_OPT_SORT_CASE_INSENSITIVELY,
+	GTRepositoryStatusFlagsIncludeUnreadable = GIT_STATUS_OPT_INCLUDE_UNREADABLE,
+	GTRepositoryStatusFlagsIncludeUnreadableAsUntracked = GIT_STATUS_OPT_INCLUDE_UNREADABLE_AS_UNTRACKED,
 } GTRepositoryStatusFlags;
 
 // An `NSArray` of `NSStrings`s to limit the status to specific paths inside the
