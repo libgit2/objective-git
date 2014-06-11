@@ -56,6 +56,7 @@ NSString *const GTRepositoryCloneOptionsBare = @"GTRepositoryCloneOptionsBare";
 NSString *const GTRepositoryCloneOptionsCheckout = @"GTRepositoryCloneOptionsCheckout";
 NSString *const GTRepositoryCloneOptionsTransportFlags = @"GTRepositoryCloneOptionsTransportFlags";
 NSString *const GTRepositoryCloneOptionsCredentialProvider = @"GTRepositoryCloneOptionsCredentialProvider";
+NSString *const GTRepositoryCloneOptionsCloneLocal = @"GTRepositoryCloneOptionsCloneLocal";
 
 typedef void (^GTRepositorySubmoduleEnumerationBlock)(GTSubmodule *submodule, NSError *error, BOOL *stop);
 typedef void (^GTRepositoryTagEnumerationBlock)(GTTag *tag, BOOL *stop);
@@ -221,6 +222,11 @@ struct GTClonePayload {
 
 	cloneOptions.remote_callbacks.transfer_progress = transferProgressCallback;
 	cloneOptions.remote_callbacks.payload = &payload;
+
+	BOOL localClone = [options[GTRepositoryCloneOptionsCloneLocal] boolValue];
+	if (localClone) {
+		cloneOptions.local = GIT_CLONE_NO_LOCAL;
+	}
 
 	// If our originURL is local, convert to a path before handing down.
 	const char *remoteURL = NULL;
