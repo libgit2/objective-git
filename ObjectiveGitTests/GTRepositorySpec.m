@@ -80,12 +80,10 @@ describe(@"+cloneFromURL:toWorkingDirectory:options:error:transferProgressBlock:
 
 		it(@"should handle normal clones", ^{
 			NSError *error = nil;
-			repository = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:nil error:&error transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
+			repository = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:@{ GTRepositoryCloneOptionsCloneLocal: @YES } error:&error transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
 			expect(repository).notTo.beNil();
 			expect(error).to.beNil();
-			// libgit2 does some Smart Things for local clones which mean we
-			// don't get transfer progress (since nothing's being transferred!)
-			expect(transferProgressCalled).to.beFalsy();
+			expect(transferProgressCalled).to.beTruthy();
 			expect(checkoutProgressCalled).to.beTruthy();
 
 			expect(repository.isBare).to.beFalsy();
@@ -99,13 +97,11 @@ describe(@"+cloneFromURL:toWorkingDirectory:options:error:transferProgressBlock:
 
 		it(@"should handle bare clones", ^{
 			NSError *error = nil;
-			NSDictionary *options = @{ GTRepositoryCloneOptionsBare: @YES };
+			NSDictionary *options = @{ GTRepositoryCloneOptionsBare: @YES, GTRepositoryCloneOptionsCloneLocal: @YES };
 			repository = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:options error:&error transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
 			expect(repository).notTo.beNil();
 			expect(error).to.beNil();
-			// libgit2 does some Smart Things for local clones which mean we
-			// don't get transfer progress (since nothing's being transferred!)
-			expect(transferProgressCalled).to.beFalsy();
+			expect(transferProgressCalled).to.beTruthy();
 			expect(checkoutProgressCalled).to.beFalsy();
 
 			expect(repository.isBare).to.beTruthy();
