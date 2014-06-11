@@ -83,7 +83,9 @@ describe(@"+cloneFromURL:toWorkingDirectory:options:error:transferProgressBlock:
 			repository = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:nil error:&error transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
 			expect(repository).notTo.beNil();
 			expect(error).to.beNil();
-			expect(transferProgressCalled).to.beTruthy();
+			// libgit2 does some Smart Things for local clones which mean we
+			// don't get transfer progress (since nothing's being transferred!)
+			expect(transferProgressCalled).to.beFalsy();
 			expect(checkoutProgressCalled).to.beTruthy();
 
 			expect(repository.isBare).to.beFalsy();
@@ -101,7 +103,9 @@ describe(@"+cloneFromURL:toWorkingDirectory:options:error:transferProgressBlock:
 			repository = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:options error:&error transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
 			expect(repository).notTo.beNil();
 			expect(error).to.beNil();
-			expect(transferProgressCalled).to.beTruthy();
+			// libgit2 does some Smart Things for local clones which mean we
+			// don't get transfer progress (since nothing's being transferred!)
+			expect(transferProgressCalled).to.beFalsy();
 			expect(checkoutProgressCalled).to.beFalsy();
 
 			expect(repository.isBare).to.beTruthy();
