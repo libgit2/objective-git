@@ -119,7 +119,7 @@ typedef struct {
 + (instancetype)initializeEmptyRepositoryAtFileURL:(NSURL *)localFileURL bare:(BOOL)bare error:(NSError **)error {
 	if (!localFileURL.isFileURL || localFileURL.path == nil) {
 		if (error != NULL) *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileWriteUnsupportedSchemeError userInfo:@{ NSLocalizedDescriptionKey: NSLocalizedString(@"Invalid file path URL to initialize repository.", @"") }];
-		return NO;
+		return nil;
 	}
 
 	const char *path = localFileURL.path.fileSystemRepresentation;
@@ -593,7 +593,7 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 	int gitError = git_repository_index(&index, self.git_repository);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to get index for repository."];
-		return NO;
+		return nil;
 	}
 
 	return [[GTIndex alloc] initWithGitIndex:index repository:self];
