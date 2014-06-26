@@ -37,4 +37,12 @@
 	return [self dataWithBytesNoCopy:buffer->ptr length:buffer->size freeWhenDone:YES];
 }
 
+- (git_buf)git_buf {
+	return (git_buf){
+		.ptr = (void *)self.bytes,
+		.asize = 0,
+		.size = self.length,
+	};
+}
+
 @end

@@ -18,4 +18,9 @@
 /// Returns the wrapped data, or nil if an error occurs.
 + (instancetype)git_dataWithBuffer:(git_buf *)buffer;
 
+/// Returns a read-only libgit2 buffer that will proxy the current bytes of the
+/// receiver. If the length of the receiver changes after this method, the
+/// behavior of the returned buffer is undefined.
+- (git_buf)git_buf;
+
 @end
