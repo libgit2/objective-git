@@ -10,6 +10,7 @@
 
 #import "GTBlob.h"
 #import "GTRepository.h"
+#import "NSData+Git.h"
 #import "NSError+Git.h"
 
 @interface GTFilterList ()
@@ -45,24 +46,16 @@
 - (NSData *)applyToData:(NSData *)inputData error:(NSError **)error {
 	NSParameterAssert(inputData != nil);
 
-	git_buf input = (git_buf){
-		.ptr = (void *)inputData.bytes,
-		.asize = 0,
-		.size = inputData.length,
-	};
-
+	git_buf input = inputData.git_buf;
 	git_buf output = GIT_BUF_INIT_CONST(0, NULL);
 	int gitError = git_filter_list_apply_to_data(&output, self.git_filter_list, &input);
+
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to apply filter list to data buffer"];
 		return nil;
 	}
 
-	// TODO: Reuse output buffers if possible.
-	NSData *data = [[NSData alloc] initWithBytes:output.ptr length:output.size];
-	git_buf_free(&output);
-
-	return data;
+	return [NSData git_dataWithBuffer:&output];
 }
 
 - (NSData *)applyToPath:(NSString *)relativePath inRepository:(GTRepository *)repository error:(NSError **)error {
@@ -71,16 +64,13 @@
 
 	git_buf output = GIT_BUF_INIT_CONST(0, NULL);
 	int gitError = git_filter_list_apply_to_file(&output, self.git_filter_list, repository.git_repository, relativePath.fileSystemRepresentation);
+
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to apply filter list to %@", relativePath];
 		return nil;
 	}
 
-	// TODO: Reuse output buffers if possible.
-	NSData *data = [[NSData alloc] initWithBytes:output.ptr length:output.size];
-	git_buf_free(&output);
-
-	return data;
+	return [NSData git_dataWithBuffer:&output];
 }
 
 - (NSData *)applyToBlob:(GTBlob *)blob error:(NSError **)error {
@@ -88,16 +78,13 @@
 
 	git_buf output = GIT_BUF_INIT_CONST(0, NULL);
 	int gitError = git_filter_list_apply_to_blob(&output, self.git_filter_list, blob.git_blob);
+
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to apply filter list to blob %@", blob.OID];
 		return nil;
 	}
 
-	// TODO: Reuse output buffers if possible.
-	NSData *data = [[NSData alloc] initWithBytes:output.ptr length:output.size];
-	git_buf_free(&output);
-
-	return data;
+	return [NSData git_dataWithBuffer:&output];
 }
 
 @end
