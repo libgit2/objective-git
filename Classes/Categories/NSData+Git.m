@@ -34,7 +34,10 @@
 	// some data which may disappear.
 	if (git_buf_grow(buffer, 0) != GIT_OK) return nil;
 	
-	return [self dataWithBytesNoCopy:buffer->ptr length:buffer->size freeWhenDone:YES];
+	NSData *data = [self dataWithBytesNoCopy:buffer->ptr length:buffer->size freeWhenDone:YES];
+	*buffer = (git_buf)GIT_BUF_INIT_CONST(0, NULL);
+
+	return data;
 }
 
 - (git_buf)git_buf {
