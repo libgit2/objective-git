@@ -196,7 +196,7 @@ typedef enum {
 //              available.
 //
 // Returns a newly created `GTDiff` object or nil on error.
-+ (GTDiff *)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree inRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error;
++ (instancetype)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree inRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error;
 
 // Create a diff between a repository's current index.
 //
@@ -216,7 +216,7 @@ typedef enum {
 //              available.
 //
 // Returns a newly created `GTDiff` object or nil on error.
-+ (GTDiff *)diffIndexFromTree:(GTTree *)tree inRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error;
++ (instancetype)diffIndexFromTree:(GTTree *)tree inRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error;
 
 // Create a diff between the index and working directory in a given repository.
 //
@@ -229,7 +229,7 @@ typedef enum {
 //              available.
 //
 // Returns a newly created `GTDiff` object or nil on error.
-+ (GTDiff *)diffIndexToWorkingDirectoryInRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error;
++ (instancetype)diffIndexToWorkingDirectoryInRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error;
 
 // Create a diff between a repository's working directory and a tree.
 //
@@ -242,7 +242,7 @@ typedef enum {
 //              available.
 //
 // Returns a newly created `GTDiff` object or nil on error.
-+ (GTDiff *)diffWorkingDirectoryFromTree:(GTTree *)tree inRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error;
++ (instancetype)diffWorkingDirectoryFromTree:(GTTree *)tree inRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error;
 
 // Create a diff between the working directory and HEAD.
 //
@@ -255,7 +255,7 @@ typedef enum {
 // error      - Populated if an error occurs.
 //
 // Returns a newly created GTDiff, or nil if an error occurred.
-+ (GTDiff *)diffWorkingDirectoryToHEADInRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error;
++ (instancetype)diffWorkingDirectoryToHEADInRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error;
 
 // Designated initialiser.
 //

@@ -76,7 +76,7 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 	return block(optionsPtr);
 }
 
-+ (GTDiff *)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree inRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error {
++ (instancetype)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree inRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error {
 	NSParameterAssert(repository != nil);
 	
 	__block git_diff *diff;
@@ -88,10 +88,10 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 		return nil;
 	}
 	
-	return [[GTDiff alloc] initWithGitDiff:diff];
+	return [[self alloc] initWithGitDiff:diff];
 }
 
-+ (GTDiff *)diffIndexFromTree:(GTTree *)tree inRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error {
++ (instancetype)diffIndexFromTree:(GTTree *)tree inRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error {
 	NSParameterAssert(repository != nil);
 	NSParameterAssert(tree == nil || [tree.repository isEqual:repository]);
 
@@ -104,10 +104,10 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 		return nil;
 	}
 	
-	return [[GTDiff alloc] initWithGitDiff:diff];
+	return [[self alloc] initWithGitDiff:diff];
 }
 
-+ (GTDiff *)diffIndexToWorkingDirectoryInRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error {
++ (instancetype)diffIndexToWorkingDirectoryInRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error {
 	NSParameterAssert(repository != nil);
 	
 	__block git_diff *diff;
@@ -119,10 +119,10 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 		return nil;
 	}
 	
-	return [[GTDiff alloc] initWithGitDiff:diff];
+	return [[self alloc] initWithGitDiff:diff];
 }
 
-+ (GTDiff *)diffWorkingDirectoryFromTree:(GTTree *)tree inRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error {
++ (instancetype)diffWorkingDirectoryFromTree:(GTTree *)tree inRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error {
 	NSParameterAssert(repository != nil);
 	NSParameterAssert(tree == nil || [tree.repository isEqual:repository]);
 
@@ -135,17 +135,17 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 		return nil;
 	}
 	
-	return [[GTDiff alloc] initWithGitDiff:diff];
+	return [[self alloc] initWithGitDiff:diff];
 }
 
-+ (GTDiff *)diffWorkingDirectoryToHEADInRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error {
++ (instancetype)diffWorkingDirectoryToHEADInRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error {
 	NSParameterAssert(repository != nil);
 
 	GTCommit *HEADCommit = [[repository headReferenceWithError:NULL] resolvedTarget];
-	GTDiff *HEADIndexDiff = [GTDiff diffIndexFromTree:HEADCommit.tree inRepository:repository options:options error:error];
+	GTDiff *HEADIndexDiff = [self diffIndexFromTree:HEADCommit.tree inRepository:repository options:options error:error];
 	if (HEADIndexDiff == nil) return nil;
 
-	GTDiff *WDDiff = [GTDiff diffIndexToWorkingDirectoryInRepository:repository options:options error:error];
+	GTDiff *WDDiff = [self diffIndexToWorkingDirectoryInRepository:repository options:options error:error];
 	if (WDDiff == nil) return nil;
 
 	git_diff_merge(HEADIndexDiff.git_diff, WDDiff.git_diff);
