@@ -8,6 +8,7 @@
 
 #import "GTDiffDelta.h"
 
+#import "GTBlob.h"
 #import "GTDiff+Private.h"
 #import "GTDiffFile.h"
 #import "GTDiffPatch.h"
@@ -41,6 +42,51 @@
 }
 
 #pragma mark Lifecycle
+
+static int GTDiffDeltaCallback(const git_diff_delta *delta, float progress, void *payload) {
+	git_diff_delta *storage = payload;
+	*storage = *delta;
+
+	return GIT_OK;
+}
+
++ (instancetype)diffDeltaFromBlob:(GTBlob *)blob forPath:(NSString *)blobPath toData:(NSData *)data forPath:(NSString *)dataPath options:(NSDictionary *)options error:(NSError **)error {
+	__block git_diff_delta diffDelta;
+
+	int returnValue = [GTDiff handleParsedOptionsDictionary:options usingBlock:^(git_diff_options *optionsStruct) {
+		return git_diff_blob_to_buffer(blob.git_blob, blobPath.fileSystemRepresentation, data.bytes, data.length, dataPath.fileSystemRepresentation, optionsStruct, &GTDiffDeltaCallback, NULL, NULL, &diffDelta);
+	}];
+
+	if (returnValue != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:returnValue description:@"Failed to create diff delta between blob %@ at path %@ and data at path %@", blob.SHA, blobPath, dataPath];
+		return nil;
+	}
+	
+	return [[self alloc] initWithGitDiffDelta:diffDelta patchGeneratorBlock:^(git_patch **patch) {
+		return [GTDiff handleParsedOptionsDictionary:options usingBlock:^(git_diff_options *optionsStruct) {
+			return git_patch_from_blob_and_buffer(patch, blob.git_blob, blobPath.fileSystemRepresentation, data.bytes, data.length, dataPath.fileSystemRepresentation, optionsStruct);
+		}];
+	}];
+}
+
++ (instancetype)diffDeltaFromData:(NSData *)oldData forPath:(NSString *)oldDataPath toData:(NSData *)newData forPath:(NSString *)newDataPath options:(NSDictionary *)options error:(NSError **)error {
+	__block git_diff_delta diffDelta;
+
+	int returnValue = [GTDiff handleParsedOptionsDictionary:options usingBlock:^(git_diff_options *optionsStruct) {
+		return git_diff_buffers(oldData.bytes, oldData.length, oldDataPath.fileSystemRepresentation, newData.bytes, newData.length, newDataPath.fileSystemRepresentation, optionsStruct, &GTDiffDeltaCallback, NULL, NULL, &diffDelta);
+	}];
+
+	if (returnValue != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:returnValue description:@"Failed to create diff delta between data at path %@ and data at path %@", oldDataPath, newDataPath];
+		return nil;
+	}
+	
+	return [[self alloc] initWithGitDiffDelta:diffDelta patchGeneratorBlock:^(git_patch **patch) {
+		return [GTDiff handleParsedOptionsDictionary:options usingBlock:^(git_diff_options *optionsStruct) {
+			return git_patch_from_buffers(patch, oldData.bytes, oldData.length, oldDataPath.fileSystemRepresentation, newData.bytes, newData.length, newDataPath.fileSystemRepresentation, optionsStruct);
+		}];
+	}];
+}
 
 - (instancetype)initWithDiff:(GTDiff *)diff deltaIndex:(NSUInteger)deltaIndex {
 	NSCParameterAssert(diff != nil);

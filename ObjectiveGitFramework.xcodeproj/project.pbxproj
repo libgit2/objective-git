@@ -506,6 +506,7 @@
 		D015F7C817F695E800AD5E1F /* GTRepository+Stashing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTRepository+Stashing.h"; sourceTree = "<group>"; };
 		D015F7C917F695E800AD5E1F /* GTRepository+Stashing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GTRepository+Stashing.m"; sourceTree = "<group>"; };
 		D015F7D417F6965400AD5E1F /* GTRepositoryStashingSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTRepositoryStashingSpec.m; sourceTree = "<group>"; };
+		D01EFDB6195E021800838D24 /* GTDiff+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GTDiff+Private.h"; sourceTree = "<group>"; };
 		D03B579F18BFFF07007124F4 /* GTDiffPatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTDiffPatch.h; sourceTree = "<group>"; };
 		D03B57A018BFFF07007124F4 /* GTDiffPatch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTDiffPatch.m; sourceTree = "<group>"; };
 		D03B7C401756AB370034A610 /* GTSubmoduleSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTSubmoduleSpec.m; sourceTree = "<group>"; };
@@ -676,6 +677,7 @@
 			isa = PBXGroup;
 			children = (
 				30A3D6521667F11C00C49A39 /* GTDiff.h */,
+				D01EFDB6195E021800838D24 /* GTDiff+Private.h */,
 				30A3D6531667F11C00C49A39 /* GTDiff.m */,
 				3011D8691668E48500CE3409 /* GTDiffFile.h */,
 				3011D86A1668E48500CE3409 /* GTDiffFile.m */,

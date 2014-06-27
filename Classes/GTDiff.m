@@ -8,9 +8,9 @@
 
 #import "GTDiff.h"
 
+#import "GTCommit.h"
 #import "GTRepository.h"
 #import "GTTree.h"
-#import "GTCommit.h"
 
 #import "NSArray+StringArray.h"
 #import "NSError+Git.h"
