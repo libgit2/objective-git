@@ -8,25 +8,21 @@
 
 #import "GTDiffDelta.h"
 
-#import "GTDiff.h"
+#import "GTDiff+Private.h"
 #import "GTDiffFile.h"
 #import "GTDiffPatch.h"
 #import "NSError+Git.h"
 
 @interface GTDiffDelta ()
 
-// The index of this delta within its parent `diff`.
-@property (nonatomic, assign, readonly) NSUInteger deltaIndex;
+/// Used to generate a patch from this delta.
+@property (nonatomic, copy, readonly) int (^patchGenerator)(git_patch **patch);
 
 @end
 
 @implementation GTDiffDelta
 
 #pragma mark Properties
-
-- (git_diff_delta)git_diff_delta {
-	return *(git_diff_get_delta(self.diff.git_diff, self.deltaIndex));
-}
 
 - (GTDiffFileFlag)flags {
 	return (GTDiffFileFlag)self.git_diff_delta.flags;
@@ -47,11 +43,22 @@
 #pragma mark Lifecycle
 
 - (instancetype)initWithDiff:(GTDiff *)diff deltaIndex:(NSUInteger)deltaIndex {
+	NSCParameterAssert(diff != nil);
+
+	git_diff_delta delta = *(git_diff_get_delta(diff.git_diff, deltaIndex));
+	return [self initWithGitDiffDelta:delta patchGeneratorBlock:^(git_patch **patch) {
+		return git_patch_from_diff(patch, diff.git_diff, deltaIndex);
+	}];
+}
+
+- (instancetype)initWithGitDiffDelta:(git_diff_delta)diffDelta patchGeneratorBlock:(int (^)(git_patch **patch))patchGenerator {
+	NSCParameterAssert(patchGenerator != nil);
+
 	self = [super init];
 	if (self == nil) return nil;
 
-	_diff = diff;
-	_deltaIndex = deltaIndex;
+	_git_diff_delta = diffDelta;
+	_patchGenerator = [patchGenerator copy];
 
 	return self;
 }
@@ -60,7 +67,7 @@
 
 - (GTDiffPatch *)generatePatch:(NSError **)error {
 	git_patch *patch = NULL;
-	int gitError = git_patch_from_diff(&patch, self.diff.git_diff, self.deltaIndex);
+	int gitError = self.patchGenerator(&patch);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Patch generation failed for delta %@", self];
 		return nil;

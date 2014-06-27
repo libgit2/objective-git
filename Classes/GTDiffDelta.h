@@ -48,9 +48,6 @@ typedef enum {
 // The `git_diff_delta` represented by the receiver.
 @property (nonatomic, assign, readonly) git_diff_delta git_diff_delta;
 
-// The diff in which this delta is contained.
-@property (nonatomic, strong, readonly) GTDiff *diff;
-
 // Any flags set on the delta. See `GTDiffFileFlag` for more info.
 //
 // Note that this may not include `GTDiffFileFlagBinary` _or_
@@ -69,8 +66,17 @@ typedef enum {
 // Think "status" as in `git status`.
 @property (nonatomic, readonly) GTDiffDeltaType type;
 
-// Initializes the receiver to wrap the delta at the given index.
+/// Initializes the receiver to wrap the delta at the given index.
 - (instancetype)initWithDiff:(GTDiff *)diff deltaIndex:(NSUInteger)deltaIndex;
+
+/// Initializes the receiver to wrap the given diff delta.
+///
+/// diffDelta      - The diff delta to wrap.
+/// patchGenerator - A block that will be used to lazily generate a patch for
+///                  the given diff delta. Must not be nil.
+///
+/// This is the designated initializer for this class.
+- (instancetype)initWithGitDiffDelta:(git_diff_delta)diffDelta patchGeneratorBlock:(int (^)(git_patch **patch))patchGenerator;
 
 // Creates a patch from a text delta.
 //
