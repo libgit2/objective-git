@@ -41,11 +41,7 @@
 }
 
 - (git_buf)git_buf {
-	return (git_buf){
-		.ptr = (void *)self.bytes,
-		.asize = 0,
-		.size = self.length,
-	};
+	return (git_buf)GIT_BUF_INIT_CONST((void *)self.bytes, self.length);
 }
 
 @end
