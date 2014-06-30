@@ -15,7 +15,7 @@
 ///          necessary. This method will replace the buffer's content with
 ///          a NULL pointer on success. This argument must not be NULL.
 ///
-/// Returns the wrapped data, or nil if an error occurs.
+/// Returns the wrapped data, or nil if memory allocation fails.
 + (instancetype)git_dataWithBuffer:(git_buf *)buffer;
 
 /// Returns a read-only libgit2 buffer that will proxy the current bytes of the
