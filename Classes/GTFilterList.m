@@ -63,7 +63,7 @@
 	NSParameterAssert(repository != nil);
 
 	git_buf output = GIT_BUF_INIT_CONST(0, NULL);
-	int gitError = git_filter_list_apply_to_file(&output, self.git_filter_list, repository.git_repository, relativePath.fileSystemRepresentation);
+	int gitError = git_filter_list_apply_to_file(&output, self.git_filter_list, repository.git_repository, relativePath.UTF8String);
 
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to apply filter list to %@", relativePath];

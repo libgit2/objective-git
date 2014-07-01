@@ -134,7 +134,7 @@
 	NSCParameterAssert(path != nil);
 
 	git_buf buffer = GIT_BUF_INIT_CONST(0, NULL);
-	int gitError = git_blob_filtered_content(&buffer, self.git_blob, path.fileSystemRepresentation, 1);
+	int gitError = git_blob_filtered_content(&buffer, self.git_blob, path.UTF8String, 1);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to apply filters for path %@ to blob", path];
 		return nil;
