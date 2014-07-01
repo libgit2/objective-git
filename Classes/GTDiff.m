@@ -36,6 +36,8 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 
 @property (nonatomic, assign, readonly) git_diff *git_diff;
 
+@property (nonatomic, strong, readonly) GTRepository *repository;
+
 @end
 
 @implementation GTDiff
@@ -88,7 +90,7 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 		return nil;
 	}
 	
-	return [[self alloc] initWithGitDiff:diff];
+	return [[self alloc] initWithGitDiff:diff repository:repository];
 }
 
 + (instancetype)diffIndexFromTree:(GTTree *)tree inRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error {
@@ -104,7 +106,7 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 		return nil;
 	}
 	
-	return [[self alloc] initWithGitDiff:diff];
+	return [[self alloc] initWithGitDiff:diff repository:repository];
 }
 
 + (instancetype)diffIndexToWorkingDirectoryInRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error {
@@ -119,7 +121,7 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 		return nil;
 	}
 	
-	return [[self alloc] initWithGitDiff:diff];
+	return [[self alloc] initWithGitDiff:diff repository:repository];
 }
 
 + (instancetype)diffWorkingDirectoryFromTree:(GTTree *)tree inRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error {
@@ -135,7 +137,7 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 		return nil;
 	}
 	
-	return [[self alloc] initWithGitDiff:diff];
+	return [[self alloc] initWithGitDiff:diff repository:repository];
 }
 
 + (instancetype)diffWorkingDirectoryToHEADInRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error {
@@ -153,13 +155,15 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 	return HEADIndexDiff;
 }
 
-- (instancetype)initWithGitDiff:(git_diff *)diff {
+- (instancetype)initWithGitDiff:(git_diff *)diff repository:(GTRepository *)repository {
 	NSParameterAssert(diff != NULL);
+	NSParameterAssert(repository != nil);
 	
 	self = [super init];
 	if (self == nil) return nil;
 	
 	_git_diff = diff;
+	_repository = repository;
 	
 	return self;
 }
