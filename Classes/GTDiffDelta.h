@@ -100,15 +100,6 @@ typedef enum {
 /// Initializes the receiver to wrap the delta at the given index.
 - (instancetype)initWithDiff:(GTDiff *)diff deltaIndex:(NSUInteger)deltaIndex;
 
-/// Initializes the receiver to wrap the given diff delta.
-///
-/// diffDelta      - The diff delta to wrap.
-/// patchGenerator - A block that will be used to lazily generate a patch for
-///                  the given diff delta. Must not be nil.
-///
-/// This is the designated initializer for this class.
-- (instancetype)initWithGitDiffDelta:(git_diff_delta)diffDelta patchGeneratorBlock:(int (^)(git_patch **patch))patchGenerator;
-
 // Creates a patch from a text delta.
 //
 // If the receiver represents a binary delta, this method will return an error.

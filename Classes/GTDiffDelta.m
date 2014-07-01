@@ -16,14 +16,31 @@
 
 @interface GTDiffDelta ()
 
+/// Used to dynamically access the underlying `git_diff_delta`.
+@property (nonatomic, copy, readonly) git_diff_delta (^deltaAccessor)(void);
+
 /// Used to generate a patch from this delta.
 @property (nonatomic, copy, readonly) int (^patchGenerator)(git_patch **patch);
+
+/// Initializes the diff delta with blocks that will fulfill its contract.
+///
+/// deltaAccessor  - A block that will return the `git_diff_delta` underlying
+///                  this object. Must not be nil.
+/// patchGenerator - A block that will be used to lazily generate a patch for
+///                  the given diff delta. Must not be nil.
+///
+/// This is the designated initializer for this class.
+- (instancetype)initWithGitDiffDeltaBlock:(git_diff_delta (^)(void))deltaAccessor patchGeneratorBlock:(int (^)(git_patch **patch))patchGenerator;
 
 @end
 
 @implementation GTDiffDelta
 
 #pragma mark Properties
+
+- (git_diff_delta)git_diff_delta {
+	return self.deltaAccessor();
+}
 
 - (GTDiffFileFlag)flags {
 	return (GTDiffFileFlag)self.git_diff_delta.flags;
@@ -62,7 +79,9 @@ static int GTDiffDeltaCallback(const git_diff_delta *delta, float progress, void
 		return nil;
 	}
 	
-	return [[self alloc] initWithGitDiffDelta:diffDelta patchGeneratorBlock:^(git_patch **patch) {
+	return [[self alloc] initWithGitDiffDeltaBlock:^{
+		return diffDelta;
+	} patchGeneratorBlock:^(git_patch **patch) {
 		return [GTDiff handleParsedOptionsDictionary:options usingBlock:^(git_diff_options *optionsStruct) {
 			return git_patch_from_blob_and_buffer(patch, blob.git_blob, blobPath.fileSystemRepresentation, data.bytes, data.length, dataPath.fileSystemRepresentation, optionsStruct);
 		}];
@@ -81,7 +100,9 @@ static int GTDiffDeltaCallback(const git_diff_delta *delta, float progress, void
 		return nil;
 	}
 	
-	return [[self alloc] initWithGitDiffDelta:diffDelta patchGeneratorBlock:^(git_patch **patch) {
+	return [[self alloc] initWithGitDiffDeltaBlock:^{
+		return diffDelta;
+	} patchGeneratorBlock:^(git_patch **patch) {
 		return [GTDiff handleParsedOptionsDictionary:options usingBlock:^(git_diff_options *optionsStruct) {
 			return git_patch_from_buffers(patch, oldData.bytes, oldData.length, oldDataPath.fileSystemRepresentation, newData.bytes, newData.length, newDataPath.fileSystemRepresentation, optionsStruct);
 		}];
@@ -91,19 +112,21 @@ static int GTDiffDeltaCallback(const git_diff_delta *delta, float progress, void
 - (instancetype)initWithDiff:(GTDiff *)diff deltaIndex:(NSUInteger)deltaIndex {
 	NSCParameterAssert(diff != nil);
 
-	git_diff_delta delta = *(git_diff_get_delta(diff.git_diff, deltaIndex));
-	return [self initWithGitDiffDelta:delta patchGeneratorBlock:^(git_patch **patch) {
+	return [self initWithGitDiffDeltaBlock:^{
+		return *(git_diff_get_delta(diff.git_diff, deltaIndex));
+	} patchGeneratorBlock:^(git_patch **patch) {
 		return git_patch_from_diff(patch, diff.git_diff, deltaIndex);
 	}];
 }
 
-- (instancetype)initWithGitDiffDelta:(git_diff_delta)diffDelta patchGeneratorBlock:(int (^)(git_patch **patch))patchGenerator {
+- (instancetype)initWithGitDiffDeltaBlock:(git_diff_delta (^)(void))deltaAccessor patchGeneratorBlock:(int (^)(git_patch **patch))patchGenerator {
+	NSCParameterAssert(deltaAccessor != nil);
 	NSCParameterAssert(patchGenerator != nil);
 
 	self = [super init];
 	if (self == nil) return nil;
 
-	_git_diff_delta = diffDelta;
+	_deltaAccessor = [deltaAccessor copy];
 	_patchGenerator = [patchGenerator copy];
 
 	return self;
