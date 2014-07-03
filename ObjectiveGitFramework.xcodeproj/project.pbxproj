@@ -272,6 +272,7 @@
 		D01EFDA0195DEF2200838D24 /* NSDataGitSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D01EFD9F195DEF2200838D24 /* NSDataGitSpec.m */; };
 		D021DF4F1806899000934E32 /* NSArray+StringArray.h in Headers */ = {isa = PBXBuildFile; fileRef = 30DCBA6F17B4791A009B0EBD /* NSArray+StringArray.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D021DF501806899200934E32 /* NSArray+StringArray.h in Headers */ = {isa = PBXBuildFile; fileRef = 30DCBA6F17B4791A009B0EBD /* NSArray+StringArray.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D03B07F71965DAB0009E5624 /* NSData+Git.m in Sources */ = {isa = PBXBuildFile; fileRef = BD6C2267131459E700992935 /* NSData+Git.m */; };
 		D03B57A118BFFF07007124F4 /* GTDiffPatch.h in Headers */ = {isa = PBXBuildFile; fileRef = D03B579F18BFFF07007124F4 /* GTDiffPatch.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D03B57A218BFFF07007124F4 /* GTDiffPatch.h in Headers */ = {isa = PBXBuildFile; fileRef = D03B579F18BFFF07007124F4 /* GTDiffPatch.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D03B57A418BFFF07007124F4 /* GTDiffPatch.m in Sources */ = {isa = PBXBuildFile; fileRef = D03B57A018BFFF07007124F4 /* GTDiffPatch.m */; };
@@ -508,8 +509,8 @@
 		D015F7C817F695E800AD5E1F /* GTRepository+Stashing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTRepository+Stashing.h"; sourceTree = "<group>"; };
 		D015F7C917F695E800AD5E1F /* GTRepository+Stashing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GTRepository+Stashing.m"; sourceTree = "<group>"; };
 		D015F7D417F6965400AD5E1F /* GTRepositoryStashingSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTRepositoryStashingSpec.m; sourceTree = "<group>"; };
-		D01EFDB6195E021800838D24 /* GTDiff+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GTDiff+Private.h"; sourceTree = "<group>"; };
 		D01EFD9F195DEF2200838D24 /* NSDataGitSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDataGitSpec.m; sourceTree = "<group>"; };
+		D01EFDB6195E021800838D24 /* GTDiff+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GTDiff+Private.h"; sourceTree = "<group>"; };
 		D03B579F18BFFF07007124F4 /* GTDiffPatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTDiffPatch.h; sourceTree = "<group>"; };
 		D03B57A018BFFF07007124F4 /* GTDiffPatch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTDiffPatch.m; sourceTree = "<group>"; };
 		D03B7C401756AB370034A610 /* GTSubmoduleSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTSubmoduleSpec.m; sourceTree = "<group>"; };
@@ -1370,6 +1371,7 @@
 				8821547817147A5200D76B76 /* GTReflogEntry.m in Sources */,
 				8821547F17147B3600D76B76 /* GTOID.m in Sources */,
 				D03B57A418BFFF07007124F4 /* GTDiffPatch.m in Sources */,
+				D03B07F71965DAB0009E5624 /* NSData+Git.m in Sources */,
 				20F43DE618A2F668007D3621 /* GTRepository+Blame.m in Sources */,
 				5BE6128A1745EE3400266D8C /* GTTreeBuilder.m in Sources */,
 				D09C2E381755F16200065E36 /* GTSubmodule.m in Sources */,
