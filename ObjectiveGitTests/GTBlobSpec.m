@@ -87,4 +87,8 @@ describe(@"blobs can be created", ^{
 	});
 });
 
+afterEach(^{
+	[self tearDown];
+});
+
 SpecEnd

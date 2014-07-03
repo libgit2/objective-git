@@ -179,4 +179,8 @@ it(@"should include the right filter source", ^{
 	expect(filterSource.repositoryURL).to.equal(repository.fileURL);
 });
 
+afterEach(^{
+	[self tearDown];
+});
+
 SpecEnd

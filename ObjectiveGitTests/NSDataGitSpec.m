@@ -63,4 +63,8 @@ describe(@"git_buf", ^{
 	});
 });
 
+afterEach(^{
+	[self tearDown];
+});
+
 SpecEnd

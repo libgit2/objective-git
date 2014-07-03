@@ -96,4 +96,8 @@ it(@"should return nil for non-existent entries", ^{
 	expect([tree entryWithName:@"_does not exist"]).to.beNil();
 });
 
+afterEach(^{
+	[self tearDown];
+});
+
 SpecEnd

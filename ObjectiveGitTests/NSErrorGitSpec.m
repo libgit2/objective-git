@@ -52,4 +52,8 @@ it(@"should create an error with a formatted failure reason", ^{
 	expect(error.userInfo[NSLocalizedFailureReasonErrorKey]).to.equal(@"foo 1 bar buzz");
 });
 
+afterEach(^{
+	[self tearDown];
+});
+
 SpecEnd

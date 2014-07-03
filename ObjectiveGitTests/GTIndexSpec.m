@@ -276,4 +276,8 @@ describe(@"adding files", ^{
 	});
 });
 
+afterEach(^{
+	[self tearDown];
+});
+
 SpecEnd

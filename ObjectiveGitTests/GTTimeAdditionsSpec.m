@@ -51,4 +51,8 @@ describe(@"Conversion between git_time and NSDate", ^{
 	});
 });
 
+afterEach(^{
+	[self tearDown];
+});
+
 SpecEnd

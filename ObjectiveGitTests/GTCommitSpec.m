@@ -59,4 +59,8 @@ it(@"can have multiple parents", ^{
 	expect(commit.parents.count).to.equal(2);
 });
 
+afterEach(^{
+	[self tearDown];
+});
+
 SpecEnd
