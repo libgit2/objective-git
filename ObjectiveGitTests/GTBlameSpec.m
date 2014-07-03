@@ -78,4 +78,8 @@ describe(@"Creating a blame with options", ^{
 	});
 });
 
+afterEach(^{
+	[self tearDown];
+});
+
 SpecEnd

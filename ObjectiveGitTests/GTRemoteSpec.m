@@ -65,4 +65,8 @@ describe(@"updating", ^{
 	});
 });
 
+afterEach(^{
+	[self tearDown];
+});
+
 SpecEnd

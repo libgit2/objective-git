@@ -35,4 +35,8 @@ it(@"can read tag data", ^{
 	expect(signature.email).to.equal(@"schacon@gmail.com");
 });
 
+afterEach(^{
+	[self tearDown];
+});
+
 SpecEnd

@@ -52,4 +52,8 @@ describe(@"writing", ^{
 	});
 });
 
+afterEach(^{
+	[self tearDown];
+});
+
 SpecEnd

@@ -70,4 +70,12 @@
 - (NSString *)content;
 - (NSData *)data;
 
+/// Attempts to apply the filter list for `path` to the blob.
+///
+/// path  - The path to use filters from. Must not be nil.
+/// error - If not NULL, set to any error that occurs.
+///
+/// Returns the filtered data, or nil if an error occurs.
+- (NSData *)applyFiltersForPath:(NSString *)path error:(NSError **)error;
+
 @end

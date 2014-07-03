@@ -388,4 +388,8 @@ describe(@"-lookUpObjectByRevParse:error:", ^{
 	});
 });
 
+afterEach(^{
+	[self tearDown];
+});
+
 SpecEnd
