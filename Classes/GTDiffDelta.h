@@ -69,6 +69,21 @@ typedef enum {
 
 /// Diffs the given blob and data buffer.
 ///
+/// oldBlob     - The blob which should comprise the left side of the diff. May be
+///               nil to represent an empty blob.
+/// oldBlobPath - The path to which `oldBlob` corresponds. May be nil.
+/// newBlob     - The blob which should comprise the right side of the diff. May be
+///               nil to represent an empty blob.
+/// newBlobPath - The path to which `newBlob` corresponds. May be nil.
+/// options     - A dictionary containing any of the above options key constants,
+//                or nil to use the defaults.
+/// error       - If not NULL, set to any error that occurs.
+///
+/// Returns a diff delta, or nil if an error occurs.
++ (instancetype)diffDeltaFromBlob:(GTBlob *)oldBlob forPath:(NSString *)oldBlobPath toBlob:(GTBlob *)newBlob forPath:(NSString *)newBlobPath options:(NSDictionary *)options error:(NSError **)error;
+
+/// Diffs the given blob and data buffer.
+///
 /// blob     - The blob which should comprise the left side of the diff. May be
 ///            nil to represent an empty blob.
 /// blobPath - The path to which `blob` corresponds. May be nil.

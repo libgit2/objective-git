@@ -67,6 +67,27 @@ static int GTDiffDeltaCallback(const git_diff_delta *delta, float progress, void
 	return GIT_OK;
 }
 
++ (instancetype)diffDeltaFromBlob:(GTBlob *)oldBlob forPath:(NSString *)oldBlobPath toBlob:(GTBlob *)newBlob forPath:(NSString *)newBlobPath options:(NSDictionary *)options error:(NSError **)error {
+	__block git_diff_delta diffDelta;
+
+	int returnValue = [GTDiff handleParsedOptionsDictionary:options usingBlock:^(git_diff_options *optionsStruct) {
+		return git_diff_blobs(oldBlob.git_blob, oldBlobPath.UTF8String, newBlob.git_blob, newBlobPath.UTF8String, optionsStruct, &GTDiffDeltaCallback, NULL, NULL, &diffDelta);
+	}];
+
+	if (returnValue != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:returnValue description:@"Failed to create diff delta between blob %@ at path %@ and blob %@ at path %@", oldBlob.SHA, oldBlobPath, newBlob.SHA, newBlobPath];
+		return nil;
+	}
+	
+	return [[self alloc] initWithGitDiffDeltaBlock:^{
+		return diffDelta;
+	} patchGeneratorBlock:^(git_patch **patch) {
+		return [GTDiff handleParsedOptionsDictionary:options usingBlock:^(git_diff_options *optionsStruct) {
+			return git_patch_from_blobs(patch, oldBlob.git_blob, oldBlobPath.UTF8String, newBlob.git_blob, newBlobPath.UTF8String, optionsStruct);
+		}];
+	}];
+}
+
 + (instancetype)diffDeltaFromBlob:(GTBlob *)blob forPath:(NSString *)blobPath toData:(NSData *)data forPath:(NSString *)dataPath options:(NSDictionary *)options error:(NSError **)error {
 	__block git_diff_delta diffDelta;
 
