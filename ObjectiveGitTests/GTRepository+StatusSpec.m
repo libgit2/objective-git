@@ -101,4 +101,8 @@ describe(@"Checking status", ^{
 	});
 });
 
+afterEach(^{
+	[self tearDown];
+});
+
 SpecEnd

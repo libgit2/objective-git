@@ -47,4 +47,8 @@ describe(@"+defaultConfiguration", ^{
 	});
 });
 
+afterEach(^{
+	[self tearDown];
+});
+
 SpecEnd

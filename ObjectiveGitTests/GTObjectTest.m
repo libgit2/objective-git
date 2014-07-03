@@ -44,8 +44,8 @@
 	NSError *error = nil;
 	GTObject *obj = [repo lookUpObjectBySHA:@"" error:&error];
 	
-	STAssertNotNil(error, nil);
-	STAssertNil(obj, nil);
+	XCTAssertNotNil(error);
+	XCTAssertNil(obj);
 	NSLog(@"Error = %@", [error localizedDescription]);
 }
 
@@ -54,8 +54,8 @@
 	NSError *error = nil;
 	GTObject *obj = [repo lookUpObjectBySHA:@"a496071c1b46c854b31185ea97743be6a8774479" error:&error];
 	
-	STAssertNotNil(error, nil);
-	STAssertNil(obj, nil);
+	XCTAssertNotNil(error);
+	XCTAssertNil(obj);
 	NSLog(@"Error = %@", [error localizedDescription]);
 }
 
@@ -64,10 +64,10 @@
 	NSError *error = nil;
 	GTObject *obj = [repo lookUpObjectBySHA:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error];
 	
-	STAssertNil(error, [error localizedDescription]);
-	STAssertNotNil(obj, nil);
-	STAssertEqualObjects(obj.type, @"commit", nil);
-	STAssertEqualObjects(obj.SHA, @"8496071c1b46c854b31185ea97743be6a8774479", nil);
+	XCTAssertNil(error, "%@", error.localizedDescription);
+	XCTAssertNotNil(obj);
+	XCTAssertEqualObjects(obj.type, @"commit");
+	XCTAssertEqualObjects(obj.SHA, @"8496071c1b46c854b31185ea97743be6a8774479");
 }
 
 - (void)testTwoObjectsAreTheSame {
@@ -76,9 +76,9 @@
 	GTObject *obj1 = [repo lookUpObjectBySHA:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error];
 	GTObject *obj2 = [repo lookUpObjectBySHA:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error];
 	
-	STAssertNotNil(obj1, nil);
-	STAssertNotNil(obj2, nil);
-	STAssertTrue([obj1 isEqual:obj2], nil);
+	XCTAssertNotNil(obj1);
+	XCTAssertNotNil(obj2);
+	XCTAssertTrue([obj1 isEqual:obj2]);
 }
 
 - (void)testCanReadRawDataFromObject {
@@ -86,11 +86,11 @@
 	NSError *error = nil;
 	GTObject *obj = [repo lookUpObjectBySHA:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error];
 	
-	STAssertNotNil(obj, nil);
+	XCTAssertNotNil(obj);
 	
 	GTOdbObject *rawObj = [obj odbObjectWithError:&error];
-	STAssertNotNil(rawObj, nil);
-	STAssertNil(error, [error localizedDescription]);
+	XCTAssertNotNil(rawObj);
+	XCTAssertNil(error, @"%@", error.localizedDescription);
 	NSLog(@"rawObj len = %ld", [rawObj.data length]);
 }
 

@@ -86,4 +86,8 @@ describe(@"-resetToCommit:resetType:error:", ^{
 	});
 });
 
+afterEach(^{
+	[self tearDown];
+});
+
 SpecEnd

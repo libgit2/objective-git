@@ -9,6 +9,8 @@
 #import "GTTestCase.h"
 #import "GTRepository.h"
 
+#import "SPTSpec.h"
+
 static const NSInteger GTTestCaseErrorUnzipFailed = 666;
 
 static NSString * const GTTestCaseErrorDomain = @"com.objectivegit.GTTestCase";	
@@ -21,10 +23,6 @@ static NSString * const GTTestCaseErrorDomain = @"com.objectivegit.GTTestCase";
 @implementation GTTestCase
 
 #pragma mark Setup/Teardown
-
-- (void)SPT_tearDown {
-	[self cleanUp];
-}
 
 - (void)tearDown {
 	[super tearDown];
@@ -48,7 +46,7 @@ static NSString * const GTTestCaseErrorDomain = @"com.objectivegit.GTTestCase";
 
 	NSError *error = nil;
 	BOOL success = [NSFileManager.defaultManager createDirectoryAtPath:self.tempDirectoryPath withIntermediateDirectories:YES attributes:nil error:&error];
-	STAssertTrue(success, @"Couldn't create the temp fixtures directory at %@: %@", self.tempDirectoryPath, error);
+	XCTAssertTrue(success, @"Couldn't create the temp fixtures directory at %@: %@", self.tempDirectoryPath, error);
 }
 
 - (void)setUpRepositoryFixtureIfNeeded:(NSString *)repositoryName {
@@ -59,13 +57,13 @@ static NSString * const GTTestCaseErrorDomain = @"com.objectivegit.GTTestCase";
 
 	NSError *error = nil;
 	BOOL success = [NSFileManager.defaultManager createDirectoryAtPath:self.repositoryFixturesPath withIntermediateDirectories:YES attributes:nil error:&error];
-	STAssertTrue(success, @"Couldn't create the repository fixtures directory at %@: %@", self.repositoryFixturesPath, error);
+	XCTAssertTrue(success, @"Couldn't create the repository fixtures directory at %@: %@", self.repositoryFixturesPath, error);
 
 	NSString *zippedRepositoriesPath = [[NSBundle bundleForClass:self.class] pathForResource:@"fixtures" ofType:@"zip"];
 
 	error = nil;
 	success = [self unzipFile:repositoryName fromArchiveAtPath:zippedRepositoriesPath intoDirectory:self.repositoryFixturesPath error:&error];
-	STAssertTrue(success, @"Couldn't unzip fixture \"%@\" from %@ to %@: %@", repositoryName, zippedRepositoriesPath, self.repositoryFixturesPath, error);
+	XCTAssertTrue(success, @"Couldn't unzip fixture \"%@\" from %@ to %@: %@", repositoryName, zippedRepositoriesPath, self.repositoryFixturesPath, error);
 }
 
 - (NSString *)pathForFixtureRepositoryNamed:(NSString *)repositoryName {
@@ -94,7 +92,7 @@ static NSString * const GTTestCaseErrorDomain = @"com.objectivegit.GTTestCase";
 
 - (GTRepository *)fixtureRepositoryNamed:(NSString *)name {
 	GTRepository *repository = [[GTRepository alloc] initWithURL:[NSURL fileURLWithPath:[self pathForFixtureRepositoryNamed:name]] error:NULL];
-	STAssertNotNil(repository, @"Couldn't create a repository for %@", name);
+	XCTAssertNotNil(repository, @"Couldn't create a repository for %@", name);
 	return repository;
 }
 
@@ -122,7 +120,7 @@ static NSString * const GTTestCaseErrorDomain = @"com.objectivegit.GTTestCase";
 	NSURL *repoURL = [self.tempDirectoryFileURL URLByAppendingPathComponent:@"blank-repo"];
 
 	GTRepository *repository = [GTRepository initializeEmptyRepositoryAtFileURL:repoURL bare:NO error:NULL];
-	STAssertNotNil(repository, @"Couldn't create a blank repository");
+	XCTAssertNotNil(repository, @"Couldn't create a blank repository");
 	return repository;
 }
 
@@ -130,7 +128,7 @@ static NSString * const GTTestCaseErrorDomain = @"com.objectivegit.GTTestCase";
 	NSURL *repoURL = [self.tempDirectoryFileURL URLByAppendingPathComponent:@"blank-repo.git"];
 
 	GTRepository *repository = [GTRepository initializeEmptyRepositoryAtFileURL:repoURL bare:YES error:NULL];
-	STAssertNotNil(repository, @"Couldn't create a blank repository");
+	XCTAssertNotNil(repository, @"Couldn't create a blank repository");
 	return repository;
 }
 

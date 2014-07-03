@@ -297,4 +297,8 @@ describe(@"GTDiff diffing", ^{
 	});
 });
 
+afterEach(^{
+	[self tearDown];
+});
+
 SpecEnd
