@@ -264,4 +264,8 @@ describe(@"dirty, checked out submodule", ^{
 	});
 });
 
+afterEach(^{
+	[self tearDown];
+});
+
 SpecEnd

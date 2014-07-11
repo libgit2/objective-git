@@ -100,6 +100,9 @@ extern NSString *const GTRepositoryCloneOptionsCheckout;
 // A `GTCredentialProvider`, that will be used to authenticate against the remote.
 extern NSString *const GTRepositoryCloneOptionsCredentialProvider;
 
+/// A BOOL indicating whether local clones should actually clone, or just link.
+extern NSString *const GTRepositoryCloneOptionsCloneLocal;
+
 @interface GTRepository : NSObject
 
 // The file URL for the repository's working directory.
@@ -157,7 +160,10 @@ extern NSString *const GTRepositoryCloneOptionsCredentialProvider;
 // workdirURL            - A URL to the desired working directory on the local machine.
 // options               - A dictionary consisting of the options:
 //                         `GTRepositoryCloneOptionsTransportFlags`,
-//                         `GTRepositoryCloneOptionsBare`, and `GTRepositoryCloneOptionsCheckout`.
+//                         `GTRepositoryCloneOptionsBare`,
+//                         `GTRepositoryCloneOptionsCheckout`,
+//                         `GTRepositoryCloneOptionsCredentialProvider`,
+//                         `GTRepositoryCloneOptionsCloneLocal`
 // error                 - A pointer to fill in case of trouble.
 // transferProgressBlock - This block is called with network transfer updates.
 // checkoutProgressBlock - This block is called with checkout updates

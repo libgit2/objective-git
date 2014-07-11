@@ -28,10 +28,11 @@
 //
 
 #import "GTBlob.h"
-#import "NSError+Git.h"
-#import "GTRepository.h"
-#import "NSString+Git.h"
 
+#import "GTRepository.h"
+#import "NSData+Git.h"
+#import "NSError+Git.h"
+#import "NSString+Git.h"
 
 @implementation GTBlob
 
@@ -127,6 +128,19 @@
     if (s <= 0) return [NSData data];
     
     return [NSData dataWithBytes:git_blob_rawcontent(self.git_blob) length:(NSUInteger)s];
+}
+
+- (NSData *)applyFiltersForPath:(NSString *)path error:(NSError **)error {
+	NSCParameterAssert(path != nil);
+
+	git_buf buffer = GIT_BUF_INIT_CONST(0, NULL);
+	int gitError = git_blob_filtered_content(&buffer, self.git_blob, path.UTF8String, 1);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to apply filters for path %@ to blob", path];
+		return nil;
+	}
+
+	return [NSData git_dataWithBuffer:&buffer];
 }
 
 @end

@@ -116,4 +116,8 @@ it(@"should enumerate stashes", ^{
 	expect(lastIndex).to.equal(2);
 });
 
+afterEach(^{
+	[self tearDown];
+});
+
 SpecEnd

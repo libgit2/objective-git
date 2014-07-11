@@ -127,7 +127,7 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 	int gitError = git_reference_rename(&newRef, self.git_reference, newName.UTF8String, 0, [self.repository userSignatureForNow].git_signature, NULL);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to rename reference %@ to %@.", self.name, newName];
-		return NO;
+		return nil;
 	}
 
 	return [[self.class alloc] initWithGitReference:newRef repository:self.repository];

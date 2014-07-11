@@ -179,4 +179,8 @@ describe(@"applying a list of multiple filters", ^{
 	});
 });
 
+afterEach(^{
+	[self tearDown];
+});
+
 SpecEnd

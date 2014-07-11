@@ -56,6 +56,7 @@ NSString *const GTRepositoryCloneOptionsBare = @"GTRepositoryCloneOptionsBare";
 NSString *const GTRepositoryCloneOptionsCheckout = @"GTRepositoryCloneOptionsCheckout";
 NSString *const GTRepositoryCloneOptionsTransportFlags = @"GTRepositoryCloneOptionsTransportFlags";
 NSString *const GTRepositoryCloneOptionsCredentialProvider = @"GTRepositoryCloneOptionsCredentialProvider";
+NSString *const GTRepositoryCloneOptionsCloneLocal = @"GTRepositoryCloneOptionsCloneLocal";
 
 typedef void (^GTRepositorySubmoduleEnumerationBlock)(GTSubmodule *submodule, NSError *error, BOOL *stop);
 typedef void (^GTRepositoryTagEnumerationBlock)(GTTag *tag, BOOL *stop);
@@ -118,7 +119,7 @@ typedef struct {
 + (instancetype)initializeEmptyRepositoryAtFileURL:(NSURL *)localFileURL bare:(BOOL)bare error:(NSError **)error {
 	if (!localFileURL.isFileURL || localFileURL.path == nil) {
 		if (error != NULL) *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileWriteUnsupportedSchemeError userInfo:@{ NSLocalizedDescriptionKey: NSLocalizedString(@"Invalid file path URL to initialize repository.", @"") }];
-		return NO;
+		return nil;
 	}
 
 	const char *path = localFileURL.path.fileSystemRepresentation;
@@ -187,15 +188,32 @@ struct GTClonePayload {
 	__unsafe_unretained GTTransferProgressBlock transferProgressBlock;
 };
 
+static int remoteCreate(git_remote **remote, git_repository *repo, const char *name, const char *url, void *payload)
+{
+	int error;
+	struct GTRemoteCreatePayload *pld = payload;
+	git_remote_callbacks *callbacks = &pld->remoteCallbacks;
+	
+	if ((error = git_remote_create(remote, repo, name, url)) < 0)
+		return error;
+	
+	if (pld->ignoreCertErrors)
+		git_remote_check_cert(*remote, pld->ignoreCertErrors);
+	
+	return git_remote_set_callbacks(*remote, callbacks);
+}
+
+struct GTRemoteCreatePayload {
+	git_remote_callbacks remoteCallbacks;
+	BOOL ignoreCertErrors;
+};
+
 + (id)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL options:(NSDictionary *)options error:(NSError **)error transferProgressBlock:(void (^)(const git_transfer_progress *))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))checkoutProgressBlock {
 
 	git_clone_options cloneOptions = GIT_CLONE_OPTIONS_INIT;
 
 	NSNumber *bare = options[GTRepositoryCloneOptionsBare];
 	cloneOptions.bare = (bare == nil ? 0 : bare.boolValue);
-
-	NSNumber *transportFlags = options[GTRepositoryCloneOptionsTransportFlags];
-	cloneOptions.ignore_cert_errors = (transportFlags == nil ? 0 : 1);
 
 	NSNumber *checkout = options[GTRepositoryCloneOptionsCheckout];
 	BOOL withCheckout = (checkout == nil ? YES : checkout.boolValue);
@@ -221,6 +239,20 @@ struct GTClonePayload {
 
 	cloneOptions.remote_callbacks.transfer_progress = transferProgressCallback;
 	cloneOptions.remote_callbacks.payload = &payload;
+	
+	NSNumber *transportFlags = options[GTRepositoryCloneOptionsTransportFlags];
+
+	struct GTRemoteCreatePayload remoteCreatePayload;
+	remoteCreatePayload.remoteCallbacks = cloneOptions.remote_callbacks;
+	remoteCreatePayload.ignoreCertErrors = (transportFlags == nil ? 0 : 1);
+	
+	cloneOptions.remote_cb = remoteCreate;
+	cloneOptions.remote_cb_payload = &remoteCreatePayload;
+
+	BOOL localClone = [options[GTRepositoryCloneOptionsCloneLocal] boolValue];
+	if (localClone) {
+		cloneOptions.local = GIT_CLONE_NO_LOCAL;
+	}
 
 	// If our originURL is local, convert to a path before handing down.
 	const char *remoteURL = NULL;
@@ -587,7 +619,7 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 	int gitError = git_repository_index(&index, self.git_repository);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to get index for repository."];
-		return NO;
+		return nil;
 	}
 
 	return [[GTIndex alloc] initWithGitIndex:index repository:self];
