@@ -15,7 +15,7 @@
 // An enum representing the status of the file.
 //
 // See diff.h for documentation of individual flags.
-typedef enum {
+typedef NS_ENUM(NSInteger, GTStatusDeltaStatus) {
 	GTStatusDeltaStatusUnmodified = GIT_DELTA_UNMODIFIED,
 	GTStatusDeltaStatusAdded = GIT_DELTA_ADDED,
 	GTStatusDeltaStatusDeleted = GIT_DELTA_DELETED,
@@ -25,7 +25,7 @@ typedef enum {
 	GTStatusDeltaStatusIgnored = GIT_DELTA_IGNORED,
 	GTStatusDeltaStatusUntracked = GIT_DELTA_UNTRACKED,
 	GTStatusDeltaStatusTypeChange = GIT_DELTA_TYPECHANGE,
-} GTStatusDeltaStatus;
+};
 
 // Represents the status of a file in a repository.
 @interface GTStatusDelta : NSObject
