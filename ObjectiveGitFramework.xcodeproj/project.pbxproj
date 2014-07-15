@@ -204,6 +204,7 @@
 		886E622C18AEBF75000611A0 /* GTFilterSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 886E622918AEBF75000611A0 /* GTFilterSource.m */; };
 		886E622D18AEBF75000611A0 /* GTFilterSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 886E622918AEBF75000611A0 /* GTFilterSource.m */; };
 		886E623718AECD86000611A0 /* GTFilterSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 886E623618AECD86000611A0 /* GTFilterSpec.m */; };
+		8870390B1975E3F2004118D7 /* GTDiffDeltaSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8870390A1975E3F2004118D7 /* GTDiffDeltaSpec.m */; };
 		88746CC417FA1C950005888A /* GTRepository+Committing.h in Headers */ = {isa = PBXBuildFile; fileRef = 88746CC217FA1C950005888A /* GTRepository+Committing.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88746CC517FA1C950005888A /* GTRepository+Committing.h in Headers */ = {isa = PBXBuildFile; fileRef = 88746CC217FA1C950005888A /* GTRepository+Committing.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88746CC617FA1C950005888A /* GTRepository+Committing.m in Sources */ = {isa = PBXBuildFile; fileRef = 88746CC317FA1C950005888A /* GTRepository+Committing.m */; };
@@ -444,6 +445,7 @@
 		886E622818AEBF75000611A0 /* GTFilterSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTFilterSource.h; sourceTree = "<group>"; };
 		886E622918AEBF75000611A0 /* GTFilterSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTFilterSource.m; sourceTree = "<group>"; };
 		886E623618AECD86000611A0 /* GTFilterSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTFilterSpec.m; sourceTree = "<group>"; };
+		8870390A1975E3F2004118D7 /* GTDiffDeltaSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTDiffDeltaSpec.m; sourceTree = "<group>"; };
 		88746CC217FA1C950005888A /* GTRepository+Committing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTRepository+Committing.h"; sourceTree = "<group>"; };
 		88746CC317FA1C950005888A /* GTRepository+Committing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GTRepository+Committing.m"; sourceTree = "<group>"; };
 		887DAFF615CB1C8000F30D0D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -743,6 +745,7 @@
 				886E623618AECD86000611A0 /* GTFilterSpec.m */,
 				D0751CD818BE520400134314 /* GTFilterListSpec.m */,
 				88234B2518F2FE260039972E /* GTRepositoryResetSpec.m */,
+				8870390A1975E3F2004118D7 /* GTDiffDeltaSpec.m */,
 			);
 			path = ObjectiveGitTests;
 			sourceTree = "<group>";
@@ -1298,6 +1301,7 @@
 				D015F7D517F6965400AD5E1F /* GTRepositoryStashingSpec.m in Sources */,
 				88A994CB16FCED1D00402C7B /* GTTestCase.m in Sources */,
 				30B1E8001703871900D0814D /* GTTimeAdditionsSpec.m in Sources */,
+				8870390B1975E3F2004118D7 /* GTDiffDeltaSpec.m in Sources */,
 				30DCBA6617B45A78009B0EBD /* GTRepository+Status.m in Sources */,
 				88C0BC5917038CF3009E99AA /* GTConfigurationSpec.m in Sources */,
 				30DCBA5F17B45213009B0EBD /* GTStatusDelta.m in Sources */,
