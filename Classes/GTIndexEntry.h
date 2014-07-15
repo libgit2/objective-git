@@ -29,13 +29,13 @@
 
 #include "git2.h"
 
-typedef enum {
+typedef NS_ENUM(NSInteger, GTIndexEntryStatus) {
 	GTIndexEntryStatusUpdated = 0,
 	GTIndexEntryStatusConflicted,
 	GTIndexEntryStatusAdded,
 	GTIndexEntryStatusRemoved,
 	GTIndexEntryStatusUpToDate,
-} GTIndexEntryStatus;
+};
 
 @interface GTIndexEntry : NSObject
 

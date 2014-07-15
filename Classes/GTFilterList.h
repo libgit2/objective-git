@@ -13,10 +13,10 @@
 @class GTRepository;
 
 /// The options for loading a filter list. See libgit2 for more information.
-typedef enum {
+typedef NS_OPTIONS(NSInteger, GTFilterListOptions) {
 	GTFilterListOptionsDefault = GIT_FILTER_OPT_DEFAULT,
 	GTFilterListOptionsAllowUnsafe = GIT_FILTER_OPT_ALLOW_UNSAFE,
-} GTFilterListOptions;
+};
 
 /// An opaque list of filters that apply to a given path.
 @interface GTFilterList : NSObject

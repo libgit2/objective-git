@@ -29,10 +29,10 @@
 @class GTReference;
 @class GTRepository;
 
-typedef enum {
+typedef NS_ENUM(NSInteger, GTBranchType) {
     GTBranchTypeLocal = GIT_BRANCH_LOCAL,
     GTBranchTypeRemote = GIT_BRANCH_REMOTE,
-} GTBranchType;
+};
 
 /// A git branch object.
 ///
