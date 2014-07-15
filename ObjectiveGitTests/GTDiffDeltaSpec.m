@@ -39,6 +39,26 @@ describe(@"blob-to-blob diffing", ^{
 	});
 });
 
+describe(@"blob-to-data diffing", ^{
+	beforeEach(^{
+		GTBlob *blob = [repository lookUpObjectBySHA:@"847cd4b33f4e33bc413468bab016303b50d26d95" error:NULL];
+		expect(blob).notTo.beNil();
+
+		NSData *data = [@"hello, world" dataUsingEncoding:NSUTF8StringEncoding];
+
+		delta = [GTDiffDelta diffDeltaFromBlob:blob forPath:@"README" toData:data forPath:@"README" options:nil error:NULL];
+		expect(delta).notTo.beNil();
+	});
+
+	it(@"should generate a patch", ^{
+		GTDiffPatch *patch = [delta generatePatch:NULL];
+		expect(patch).notTo.beNil();
+		expect(patch.hunkCount).to.equal(1);
+		expect(patch.addedLinesCount).to.equal(1);
+		expect(patch.deletedLinesCount).to.equal(26);
+	});
+});
+
 describe(@"data-to-data diffing", ^{
 	beforeEach(^{
 		NSData *data1 = [@"hello world!\nwhat's up" dataUsingEncoding:NSUTF8StringEncoding];
