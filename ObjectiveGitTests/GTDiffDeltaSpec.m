@@ -39,4 +39,21 @@ describe(@"blob-to-blob diffing", ^{
 	});
 });
 
+describe(@"data-to-data diffing", ^{
+	beforeEach(^{
+		NSData *data1 = [@"hello world!\nwhat's up" dataUsingEncoding:NSUTF8StringEncoding];
+		NSData *data2 = [@"hello, world" dataUsingEncoding:NSUTF8StringEncoding];
+		delta = [GTDiffDelta diffDeltaFromData:data1 forPath:@"README" toData:data2 forPath:@"README" options:nil error:NULL];
+		expect(delta).notTo.beNil();
+	});
+
+	it(@"should generate a patch", ^{
+		GTDiffPatch *patch = [delta generatePatch:NULL];
+		expect(patch).notTo.beNil();
+		expect(patch.hunkCount).to.equal(1);
+		expect(patch.addedLinesCount).to.equal(1);
+		expect(patch.deletedLinesCount).to.equal(2);
+	});
+});
+
 SpecEnd
