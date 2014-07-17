@@ -18,10 +18,10 @@
 /// GTFilterSourceModeSmudge - Performed when the source is going into the work
 ///                            tree.
 /// GTFilterSourceModeClean  - Performed when the source is going into the ODB.
-typedef enum {
+typedef NS_ENUM(NSInteger, GTFilterSourceMode) {
 	GTFilterSourceModeSmudge = GIT_FILTER_SMUDGE,
 	GTFilterSourceModeClean = GIT_FILTER_CLEAN,
-} GTFilterSourceMode;
+};
 
 /// A source item for a filter.
 @interface GTFilterSource : NSObject

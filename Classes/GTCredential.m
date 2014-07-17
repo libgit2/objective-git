@@ -9,7 +9,6 @@
 #import <ObjectiveGit/NSError+Git.h>
 #import "GTCredential.h"
 #import "GTCredential+Private.h"
-#import <libssh2.h>
 
 typedef GTCredential *(^GTCredentialProviderBlock)(GTCredentialType allowedTypes, NSString *URL, NSString *userName);
 

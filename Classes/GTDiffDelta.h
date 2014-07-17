@@ -27,7 +27,7 @@
 //                             and is therefore currently untracked.
 // GTDiffFileDeltaTypeChange - The file has changed from a blob to either a
 //                             submodule, symlink or directory. Or vice versa.
-typedef enum {
+typedef NS_ENUM(NSInteger, GTDiffDeltaType) {
 	GTDiffFileDeltaUnmodified = GIT_DELTA_UNMODIFIED,
 	GTDiffFileDeltaAdded = GIT_DELTA_ADDED,
 	GTDiffFileDeltaDeleted = GIT_DELTA_DELETED,
@@ -37,7 +37,7 @@ typedef enum {
 	GTDiffFileDeltaIgnored = GIT_DELTA_IGNORED,
 	GTDiffFileDeltaUntracked = GIT_DELTA_UNTRACKED,
 	GTDiffFileDeltaTypeChange = GIT_DELTA_TYPECHANGE,
-} GTDiffDeltaType;
+};
 
 // A class representing a single change within a diff.
 //

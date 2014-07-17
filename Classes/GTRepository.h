@@ -49,7 +49,7 @@
 
 // Checkout strategies used by the various -checkout... methods
 // See git_checkout_strategy_t
-typedef enum {
+typedef NS_OPTIONS(NSInteger, GTCheckoutStrategyType) {
 	GTCheckoutStrategyNone = GIT_CHECKOUT_NONE,
 	GTCheckoutStrategySafe = GIT_CHECKOUT_SAFE,
 	GTCheckoutStrategySafeCreate = GIT_CHECKOUT_SAFE_CREATE,
@@ -62,11 +62,11 @@ typedef enum {
 	GTCheckoutStrategyNoRefresh = GIT_CHECKOUT_NO_REFRESH,
 	GTCheckoutStrategyDisablePathspecMatch = GIT_CHECKOUT_DISABLE_PATHSPEC_MATCH,
 	GTCheckoutStrategySkipLockedDirectories = GIT_CHECKOUT_SKIP_LOCKED_DIRECTORIES,
-} GTCheckoutStrategyType;
+};
 
 // Checkout notification flags used by the various -checkout... methods
 // See git_checkout_notify_t
-typedef enum {
+typedef NS_OPTIONS(NSInteger, GTCheckoutNotifyFlags) {
 	GTCheckoutNotifyNone = GIT_CHECKOUT_NOTIFY_NONE,
 	GTCheckoutNotifyConflict = GIT_CHECKOUT_NOTIFY_CONFLICT,
 	GTCheckoutNotifyDirty = GIT_CHECKOUT_NOTIFY_DIRTY,
@@ -75,15 +75,15 @@ typedef enum {
 	GTCheckoutNotifyIgnored = GIT_CHECKOUT_NOTIFY_IGNORED,
 
 	GTCheckoutNotifyAll = GIT_CHECKOUT_NOTIFY_ALL,
-} GTCheckoutNotifyFlags;
+};
 
 // Transport flags sent as options to +cloneFromURL... method
-typedef enum {
+typedef NS_OPTIONS(NSInteger, GTTransportFlags) {
 	GTTransportFlagsNone = GIT_TRANSPORTFLAGS_NONE,
 	// If you pass this flag and the connection is secured with SSL/TLS,
 	// the authenticity of the server certificate will not be verified.
 	GTTransportFlagsNoCheckCert = GIT_TRANSPORTFLAGS_NO_CHECK_CERT,
-} GTTransportFlags;
+};
 
 // An `NSNumber` wrapped `GTTransportFlags`, documented above.
 // Default value is `GTTransportFlagsNone`.

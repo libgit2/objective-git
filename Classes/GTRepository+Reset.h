@@ -9,11 +9,11 @@
 #import "GTRepository.h"
 
 /// The reset types. See the libgit2 documentation for more info.
-typedef enum {
+typedef NS_ENUM(NSInteger, GTRepositoryResetType) {
 	GTRepositoryResetTypeSoft = GIT_RESET_SOFT,
 	GTRepositoryResetTypeMixed = GIT_RESET_MIXED,
 	GTRepositoryResetTypeHard = GIT_RESET_HARD,
-} GTRepositoryResetType;
+};
 
 @interface GTRepository (Reset)
 
