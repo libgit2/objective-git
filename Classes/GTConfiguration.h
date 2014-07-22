@@ -16,6 +16,8 @@
 /// The repository to which the configuration belongs. Note that this may be
 /// nil.
 @property (nonatomic, readonly, strong) GTRepository *repository;
+
+/// All the keys in the configuration.
 @property (nonatomic, readonly, copy) NSArray *configurationKeys;
 
 // The GTRemotes in the config. If the configuration isn't associated with any
