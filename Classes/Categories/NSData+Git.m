@@ -46,4 +46,14 @@
 	return (git_buf)GIT_BUF_INIT_CONST((void *)self.bytes, self.length);
 }
 
+- (BOOL)git_containsNUL {
+	git_buf buffer = self.git_buf;
+	return git_buf_contains_nul(&buffer) > 0;
+}
+
+- (BOOL)git_isBinary {
+	git_buf buffer = self.git_buf;
+	return git_buf_is_binary(&buffer) > 0;
+}
+
 @end
