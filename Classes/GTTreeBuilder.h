@@ -31,14 +31,14 @@
 #include "git2.h"
 
 // The mode of an index or tree entry.
-typedef enum {
+typedef NS_ENUM(NSInteger, GTFileMode) {
 	GTFileModeUnreadable = GIT_FILEMODE_UNREADABLE,
 	GTFileModeTree = GIT_FILEMODE_TREE,
 	GTFileModeBlob = GIT_FILEMODE_BLOB,
 	GTFileModeBlobExecutable = GIT_FILEMODE_BLOB_EXECUTABLE,
 	GTFileModeLink = GIT_FILEMODE_LINK,
 	GTFileModeCommit = GIT_FILEMODE_COMMIT
-} GTFileMode;
+};
 
 @class GTTree;
 @class GTTreeEntry;

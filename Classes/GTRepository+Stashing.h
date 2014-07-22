@@ -10,12 +10,12 @@
 
 // Flags for -stashChangesWithMessage:flags:error:.
 // Those can be ORed together. See git_stash_flags for additional information.
-typedef enum {
+typedef NS_OPTIONS(NSInteger, GTRepositoryStashFlag) {
 	GTRepositoryStashFlagDefault = GIT_STASH_DEFAULT,
 	GTRepositoryStashFlagKeepIndex = GIT_STASH_KEEP_INDEX,
 	GTRepositoryStashFlagIncludeUntracked = GIT_STASH_INCLUDE_UNTRACKED,
 	GTRepositoryStashFlagIncludeIgnored = GIT_STASH_INCLUDE_IGNORED
-} GTRepositoryStashFlag;
+};
 
 @interface GTRepository (Stashing)
 

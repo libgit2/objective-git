@@ -198,7 +198,7 @@ static int remoteCreate(git_remote **remote, git_repository *repo, const char *n
 		return error;
 	
 	if (pld->ignoreCertErrors)
-		git_remote_check_cert(*remote, pld->ignoreCertErrors);
+		git_remote_check_cert(*remote, !pld->ignoreCertErrors);
 	
 	return git_remote_set_callbacks(*remote, callbacks);
 }

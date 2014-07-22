@@ -14,13 +14,13 @@
 //                            information from a set of flags.
 //
 // See diff.h for further documentation.
-typedef enum {
+typedef NS_OPTIONS(NSInteger, GTDiffFileFlag) {
 	GTDiffFileFlagValidID = GIT_DIFF_FLAG_VALID_ID,
 	GTDiffFileFlagBinary = GIT_DIFF_FLAG_BINARY,
 	GTDiffFileFlagNotBinary = GIT_DIFF_FLAG_NOT_BINARY,
 
 	GTDiffFileFlagBinaryMask = GTDiffFileFlagBinary | GTDiffFileFlagNotBinary,
-} GTDiffFileFlag;
+};
 
 @class GTOID;
 

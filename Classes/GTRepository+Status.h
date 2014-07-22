@@ -12,7 +12,7 @@
 
 // An enum representing the status of a file
 // See git_status_t
-typedef enum {
+typedef NS_OPTIONS(NSInteger, GTFileStatusFlags) {
 	GTFileStatusCurrent = GIT_STATUS_CURRENT,
 
 	GTFileStatusNewInIndex         = GIT_STATUS_INDEX_NEW,
@@ -28,7 +28,7 @@ typedef enum {
 	GTFileStatusRenamedInWorktree     = GIT_STATUS_WT_RENAMED,
 
 	GTFileStatusIgnored = GIT_STATUS_IGNORED,
-} GTFileStatusFlags;
+};
 
 // An `NSNumber` wrapped `GTRepositoryStatusOptionsShow` bitmask.
 //

@@ -61,7 +61,7 @@ extern NSString *const GTDiffOptionsPathSpecArrayKey;
 // `GTDiffOptionsFlagsKey` key.
 //
 // See diff.h for documentation of each individual flag. 
-typedef enum {
+typedef NS_OPTIONS(NSInteger, GTDiffOptionsFlags) {
 	GTDiffOptionsFlagsNormal = GIT_DIFF_NORMAL,
 
 	/*
@@ -97,7 +97,7 @@ typedef enum {
 
 	GTDiffOptionsFlagsPatience = GIT_DIFF_PATIENCE,
 	GTDiffOptionsFlagsMinimal = GIT_DIFF_MINIMAL,
-} GTDiffOptionsFlags;
+};
 
 // An `NSNumber` wrapped `GTDiffOptionsFlags` bitmask containing any of the
 // flags documented below.
@@ -152,7 +152,7 @@ extern NSString *const GTDiffFindOptionsRenameLimitKey;
 // Enum for options passed into `-findSimilarWithOptions:`.
 //
 // For individual case documentation see `diff.h`.
-typedef enum {
+typedef NS_OPTIONS(NSInteger, GTDiffFindOptionsFlags) {
 	GTDiffFindOptionsFlagsFindRenames = GIT_DIFF_FIND_RENAMES,
 	GTDiffFindOptionsFlagsFindRenamesFromRewrites = GIT_DIFF_FIND_RENAMES_FROM_REWRITES,
 	GTDiffFindOptionsFlagsFindCopies = GIT_DIFF_FIND_COPIES,
@@ -170,7 +170,7 @@ typedef enum {
 	GTDiffFindOptionsFlagsExactMatchOnly = GIT_DIFF_FIND_EXACT_MATCH_ONLY,
 
 	GTDiffFindOptionsFlagsBreakRewritesForRenamesOnly = GIT_DIFF_BREAK_REWRITES_FOR_RENAMES_ONLY,
-} GTDiffFindOptionsFlags;
+};
 
 // A class representing a single "diff".
 //

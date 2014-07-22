@@ -29,7 +29,7 @@
 
 #include "git2.h"
 
-typedef enum {
+typedef NS_ENUM(int, GTObjectType) {
 	GTObjectTypeAny = GIT_OBJ_ANY,				/**< Object can be any of the following */
 	GTObjectTypeBad = GIT_OBJ_BAD,				/**< Object is invalid. */
 	GTObjectTypeExt1 = GIT_OBJ__EXT1,			/**< Reserved for future use. */
@@ -40,7 +40,7 @@ typedef enum {
 	GTObjectTypeExt2 = GIT_OBJ__EXT2,			/**< Reserved for future use. */
 	GTObjectTypeOffsetDelta = GIT_OBJ_OFS_DELTA,/**< A delta, base is given by an offset. */
 	GTObjectTypeRefDelta = GIT_OBJ_REF_DELTA,	/**< A delta, base is given by object id. */
-} GTObjectType;
+};
 
 @class GTRepository;
 @class GTOdbObject;
