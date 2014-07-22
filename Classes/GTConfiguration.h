@@ -33,7 +33,7 @@
 /// path  - The path for the config file. Cannot be nil.
 /// error - The error if one occurred.
 ///
-/// Returns the initialized object.
+/// Returns the initialized object or nil if an error occurred.
 - (id)initWithPath:(NSString *)path error:(NSError **)error;
 
 // The underlying `git_config` object.
