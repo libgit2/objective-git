@@ -13,6 +13,8 @@
 
 @interface GTConfiguration : NSObject
 
+/// The repository to which the configuration belongs. Note that this may be
+/// nil.
 @property (nonatomic, readonly, strong) GTRepository *repository;
 @property (nonatomic, readonly, copy) NSArray *configurationKeys;
 
