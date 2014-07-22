@@ -23,4 +23,12 @@
 /// behavior of the returned buffer is undefined.
 - (git_buf)git_buf;
 
+/// Creates a git_buf from the data and then checks if the buffer contains a NUL
+/// byte.
+- (BOOL)git_containsNUL;
+
+/// Creates a git_buf from the data and then checks if the buffer looks like it
+/// contains binary data.
+- (BOOL)git_isBinary;
+
 @end
