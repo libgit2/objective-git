@@ -47,7 +47,7 @@ describe(@"+defaultConfiguration", ^{
 	});
 });
 
-fdescribe(@"-initWithPath:error:", ^{
+describe(@"-initWithPath:error:", ^{
 	beforeEach(^{
 		NSString *rawConfig = @"[test]\n\tname = josh\n";
 		NSString *path = [self.tempDirectoryFileURL URLByAppendingPathComponent:@"config.ini"].path;
