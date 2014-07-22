@@ -30,6 +30,8 @@
 + (instancetype)git_dataWithBuffer:(git_buf *)buffer {
 	NSCParameterAssert(buffer != NULL);
 
+	if (buffer->size == 0) return [self data];
+
 	// Ensure that the buffer is actually allocated dynamically, not pointing to
 	// some data which may disappear.
 	if (git_buf_grow(buffer, 0) != GIT_OK) return nil;
