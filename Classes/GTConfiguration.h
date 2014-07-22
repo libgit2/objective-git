@@ -24,6 +24,14 @@
 // system configurations.
 + (instancetype)defaultConfiguration;
 
+/// Initializes the receiver with the config at the given path.
+///
+/// path  - The path for the config file. Cannot be nil.
+/// error - The error if one occurred.
+///
+/// Returns the initialized object.
+- (id)initWithPath:(NSString *)path error:(NSError **)error;
+
 // The underlying `git_config` object.
 - (git_config *)git_config __attribute__((objc_returns_inner_pointer));
 
