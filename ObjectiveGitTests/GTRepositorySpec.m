@@ -83,6 +83,7 @@ describe(@"+cloneFromURL:toWorkingDirectory:options:error:transferProgressBlock:
 			repository = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:@{ GTRepositoryCloneOptionsCloneLocal: @YES } error:&error transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
 			expect(repository).notTo.beNil();
 			expect(error).to.beNil();
+			expect(transferProgressCalled).to.beTruthy();
 			expect(checkoutProgressCalled).to.beTruthy();
 
 			expect(repository.isBare).to.beFalsy();
@@ -100,6 +101,7 @@ describe(@"+cloneFromURL:toWorkingDirectory:options:error:transferProgressBlock:
 			repository = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:options error:&error transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
 			expect(repository).notTo.beNil();
 			expect(error).to.beNil();
+			expect(transferProgressCalled).to.beTruthy();
 			expect(checkoutProgressCalled).to.beFalsy();
 
 			expect(repository.isBare).to.beTruthy();
