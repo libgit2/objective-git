@@ -32,7 +32,7 @@
 
 // The mode of an index or tree entry.
 typedef NS_ENUM(NSInteger, GTFileMode) {
-	GTFileModeNew = GIT_FILEMODE_NEW,
+	GTFileModeUnreadable = GIT_FILEMODE_UNREADABLE,
 	GTFileModeTree = GIT_FILEMODE_TREE,
 	GTFileModeBlob = GIT_FILEMODE_BLOB,
 	GTFileModeBlobExecutable = GIT_FILEMODE_BLOB_EXECUTABLE,
