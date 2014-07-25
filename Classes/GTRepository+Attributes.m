@@ -12,6 +12,9 @@
 @implementation GTRepository (Attributes)
 
 - (NSString *)attributeWithName:(NSString *)name path:(NSString *)path {
+	NSParameterAssert(name != nil);
+	NSParameterAssert(path != nil);
+
 	const char *val = NULL;
 	git_attr_get(&val, self.git_repository, 0, path.UTF8String, name.UTF8String);
 	if (val == NULL) return nil;
