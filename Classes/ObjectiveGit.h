@@ -26,6 +26,7 @@
 #import "git2.h"
 
 #import <ObjectiveGit/GTRepository.h>
+#import <ObjectiveGit/GTRepository+Attributes.h>
 #import <ObjectiveGit/GTRepository+Stashing.h>
 #import <ObjectiveGit/GTRepository+Committing.h>
 #import <ObjectiveGit/GTRepository+Status.h>
