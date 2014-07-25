@@ -13,7 +13,11 @@
 
 @interface GTConfiguration : NSObject
 
+/// The repository to which the configuration belongs. Note that this may be
+/// nil.
 @property (nonatomic, readonly, strong) GTRepository *repository;
+
+/// All the keys in the configuration.
 @property (nonatomic, readonly, copy) NSArray *configurationKeys;
 
 // The GTRemotes in the config. If the configuration isn't associated with any
@@ -23,6 +27,14 @@
 // Creates and returns a configuration which includes the global, XDG, and
 // system configurations.
 + (instancetype)defaultConfiguration;
+
+/// Initializes the receiver with the config at the given path.
+///
+/// path  - The path for the config file. Cannot be nil.
+/// error - The error if one occurred.
+///
+/// Returns the initialized object or nil if an error occurred.
+- (id)initWithPath:(NSString *)path error:(NSError **)error;
 
 // The underlying `git_config` object.
 - (git_config *)git_config __attribute__((objc_returns_inner_pointer));

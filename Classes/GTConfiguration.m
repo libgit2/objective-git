@@ -40,6 +40,19 @@
 	return self;
 }
 
+- (id)initWithPath:(NSString *)path error:(NSError **)error {
+	NSParameterAssert(path != nil);
+
+	git_config *config = NULL;
+	int status = git_config_open_ondisk(&config, path.fileSystemRepresentation);
+	if (status != GIT_OK || config == NULL) {
+		if (error != NULL) *error = [NSError git_errorFor:status description:@"Couldn't open the configuration at %@", path];
+		return nil;
+	}
+
+	return [self initWithGitConfig:config repository:nil];
+}
+
 + (instancetype)defaultConfiguration {
 	git_config *config = NULL;
 	int error = git_config_open_default(&config);
