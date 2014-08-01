@@ -89,7 +89,11 @@
 
 // Clear all the entries from the index. This happens in memory. Changes can be
 // written to the datastore by calling -write:.
-- (void)clear;
+//
+// error - The error if one ocurred.
+//
+// Returns whether the clear operation was successful.
+- (BOOL)clear:(NSError **)error;
 
 // Get the entry at the given index.
 //
