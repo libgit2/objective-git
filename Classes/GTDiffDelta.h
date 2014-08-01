@@ -9,6 +9,7 @@
 #import "git2.h"
 #import "GTDiffFile.h"
 
+@class GTBlob;
 @class GTDiff;
 @class GTDiffHunk;
 @class GTDiffPatch;
@@ -26,7 +27,7 @@
 //                             and is therefore currently untracked.
 // GTDiffFileDeltaTypeChange - The file has changed from a blob to either a
 //                             submodule, symlink or directory. Or vice versa.
-typedef enum {
+typedef NS_ENUM(NSInteger, GTDiffDeltaType) {
 	GTDiffFileDeltaUnmodified = GIT_DELTA_UNMODIFIED,
 	GTDiffFileDeltaAdded = GIT_DELTA_ADDED,
 	GTDiffFileDeltaDeleted = GIT_DELTA_DELETED,
@@ -36,7 +37,7 @@ typedef enum {
 	GTDiffFileDeltaIgnored = GIT_DELTA_IGNORED,
 	GTDiffFileDeltaUntracked = GIT_DELTA_UNTRACKED,
 	GTDiffFileDeltaTypeChange = GIT_DELTA_TYPECHANGE,
-} GTDiffDeltaType;
+};
 
 // A class representing a single change within a diff.
 //
@@ -47,9 +48,6 @@ typedef enum {
 
 // The `git_diff_delta` represented by the receiver.
 @property (nonatomic, assign, readonly) git_diff_delta git_diff_delta;
-
-// The diff in which this delta is contained.
-@property (nonatomic, strong, readonly) GTDiff *diff;
 
 // Any flags set on the delta. See `GTDiffFileFlag` for more info.
 //
@@ -69,7 +67,52 @@ typedef enum {
 // Think "status" as in `git status`.
 @property (nonatomic, readonly) GTDiffDeltaType type;
 
-// Initializes the receiver to wrap the delta at the given index.
+/// Diffs the given blob and data buffer.
+///
+/// oldBlob     - The blob which should comprise the left side of the diff. May be
+///               nil to represent an empty blob.
+/// oldBlobPath - The path to which `oldBlob` corresponds. May be nil.
+/// newBlob     - The blob which should comprise the right side of the diff. May be
+///               nil to represent an empty blob.
+/// newBlobPath - The path to which `newBlob` corresponds. May be nil.
+/// options     - A dictionary containing any of the above options key constants,
+//                or nil to use the defaults.
+/// error       - If not NULL, set to any error that occurs.
+///
+/// Returns a diff delta, or nil if an error occurs.
++ (instancetype)diffDeltaFromBlob:(GTBlob *)oldBlob forPath:(NSString *)oldBlobPath toBlob:(GTBlob *)newBlob forPath:(NSString *)newBlobPath options:(NSDictionary *)options error:(NSError **)error;
+
+/// Diffs the given blob and data buffer.
+///
+/// blob     - The blob which should comprise the left side of the diff. May be
+///            nil to represent an empty blob.
+/// blobPath - The path to which `blob` corresponds. May be nil.
+/// data     - The data which should comprise the right side of the diff. May be
+///            nil to represent an empty blob.
+/// dataPath - The path to which `data` corresponds. May be nil.
+/// options  - A dictionary containing any of the above options key constants,
+//             or nil to use the defaults.
+/// error    - If not NULL, set to any error that occurs.
+///
+/// Returns a diff delta, or nil if an error occurs.
++ (instancetype)diffDeltaFromBlob:(GTBlob *)blob forPath:(NSString *)blobPath toData:(NSData *)data forPath:(NSString *)dataPath options:(NSDictionary *)options error:(NSError **)error;
+
+/// Diffs the given data buffers.
+///
+/// oldData     - The data which should comprise the left side of the diff. May be
+///               nil to represent an empty blob.
+/// oldDataPath - The path to which `oldData` corresponds. May be nil.
+/// newData     - The data which should comprise the right side of the diff. May
+///               be nil to represent an empty blob.
+/// newDataPath - The path to which `newData` corresponds. May be nil.
+/// options     - A dictionary containing any of the above options key constants,
+//                or nil to use the defaults.
+/// error       - If not NULL, set to any error that occurs.
+///
+/// Returns a diff delta, or nil if an error occurs.
++ (instancetype)diffDeltaFromData:(NSData *)oldData forPath:(NSString *)oldDataPath toData:(NSData *)newData forPath:(NSString *)newDataPath options:(NSDictionary *)options error:(NSError **)error;
+
+/// Initializes the receiver to wrap the delta at the given index.
 - (instancetype)initWithDiff:(GTDiff *)diff deltaIndex:(NSUInteger)deltaIndex;
 
 // Creates a patch from a text delta.

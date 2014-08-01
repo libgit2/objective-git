@@ -87,8 +87,6 @@ describe(@"GTDiff diffing", ^{
 		expect([diff numberOfDeltasWithType:GTDiffFileDeltaModified]).to.equal(1);
 		
 		[diff enumerateDeltasUsingBlock:^(GTDiffDelta *delta, BOOL *stop) {
-			expect(delta.diff).to.beIdenticalTo(diff);
-
 			NSError *error = nil;
 			GTDiffPatch *patch = [delta generatePatch:&error];
 			expect(patch).notTo.beNil();
@@ -146,7 +144,6 @@ describe(@"GTDiff diffing", ^{
 
 		expect(diff.deltaCount).to.equal(1);
 		[diff enumerateDeltasUsingBlock:^(GTDiffDelta *delta, BOOL *stop) {
-			expect(delta.diff).to.beIdenticalTo(diff);
 			expect(delta.newFile.path).to.equal(@"REAME"); //loltypo
 			expect(delta.type).to.equal(GTDiffFileDeltaAdded);
 
@@ -159,7 +156,6 @@ describe(@"GTDiff diffing", ^{
 
 		expect(diff.deltaCount).to.equal(1);
 		[diff enumerateDeltasUsingBlock:^(GTDiffDelta *delta, BOOL *stop) {
-			expect(delta.diff).to.beIdenticalTo(diff);
 			expect(delta.type).to.equal(GTDiffFileDeltaDeleted);
 
 			*stop = YES;
@@ -174,7 +170,6 @@ describe(@"GTDiff diffing", ^{
 			// Determine binary/not binary status.
 			[delta generatePatch:NULL];
 
-			expect(delta.diff).to.beIdenticalTo(diff);
 			expect(delta.flags & GTDiffFileFlagBinaryMask).to.equal(GTDiffFileFlagBinary);
 
 			*stop = YES;
@@ -188,7 +183,6 @@ describe(@"GTDiff diffing", ^{
 
 		expect(diff.deltaCount).to.equal(1);
 		[diff enumerateDeltasUsingBlock:^(GTDiffDelta *delta, BOOL *stop) {
-			expect(delta.diff).to.beIdenticalTo(diff);
 			expect(delta.type).to.equal(GTDiffFileDeltaRenamed);
 			expect(delta.oldFile.path).to.equal(@"README");
 			expect(delta.newFile.path).to.equal(@"README_renamed");
@@ -203,8 +197,6 @@ describe(@"GTDiff diffing", ^{
 
 		expect(diff.deltaCount).to.equal(1);
 		[diff enumerateDeltasUsingBlock:^(GTDiffDelta *delta, BOOL *stop) {
-			expect(delta.diff).to.beIdenticalTo(diff);
-
 			NSError *error = nil;
 			GTDiffPatch *patch = [delta generatePatch:&error];
 			expect(patch).notTo.beNil();
@@ -242,8 +234,6 @@ describe(@"GTDiff diffing", ^{
 		
 		NSDictionary *expectedBinaryness = @{ @"README.md": @(NO), @"hero_slide1.png": @(YES), @"jquery-1.8.1.min.js": @(NO) };
 		[diff enumerateDeltasUsingBlock:^(GTDiffDelta *delta, BOOL *stop) {
-			expect(delta.diff).to.beIdenticalTo(diff);
-
 			// Determine binary/not binary status.
 			[delta generatePatch:NULL];
 
@@ -259,8 +249,6 @@ describe(@"GTDiff diffing", ^{
 		setupDiffFromCommitSHAsAndOptions(@"6b0c1c8b8816416089c534e474f4c692a76ac14f", @"a4bca6b67a5483169963572ee3da563da33712f7", nil);
 		
 		[diff enumerateDeltasUsingBlock:^(GTDiffDelta *delta, BOOL *stop) {
-			expect(delta.diff).to.beIdenticalTo(diff);
-
 			if (![delta.newFile.path isEqualToString:@"jquery-1.8.1.min.js"]) return;
 
 			NSError *error = nil;
@@ -285,8 +273,6 @@ describe(@"GTDiff diffing", ^{
 
 		__block BOOL foundImage = NO;
 		[diff enumerateDeltasUsingBlock:^(GTDiffDelta *delta, BOOL *stop) {
-			expect(delta.diff).to.beIdenticalTo(diff);
-
 			if (![delta.newFile.path isEqualToString:@"UntrackedImage.png"]) return;
 
 			foundImage = YES;			
@@ -295,6 +281,10 @@ describe(@"GTDiff diffing", ^{
 		
 		expect(foundImage).to.beTruthy();
 	});
+});
+
+afterEach(^{
+	[self tearDown];
 });
 
 SpecEnd

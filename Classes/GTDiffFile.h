@@ -14,13 +14,13 @@
 //                            information from a set of flags.
 //
 // See diff.h for further documentation.
-typedef enum {
+typedef NS_OPTIONS(NSInteger, GTDiffFileFlag) {
 	GTDiffFileFlagValidID = GIT_DIFF_FLAG_VALID_ID,
 	GTDiffFileFlagBinary = GIT_DIFF_FLAG_BINARY,
 	GTDiffFileFlagNotBinary = GIT_DIFF_FLAG_NOT_BINARY,
 
 	GTDiffFileFlagBinaryMask = GTDiffFileFlagBinary | GTDiffFileFlagNotBinary,
-} GTDiffFileFlag;
+};
 
 @class GTOID;
 
@@ -45,7 +45,11 @@ typedef enum {
 // The git_diff_file represented by the receiver.
 @property (nonatomic, readonly) git_diff_file git_diff_file;
 
-// Designated initialiser.
+/// Initializes the receiver with the provided libgit2 object.
+///
+/// file - The git_diff_file wrapped by the receiver.
+///
+/// Returns an initialized GTDiffFile.
 - (instancetype)initWithGitDiffFile:(git_diff_file)file;
 
 @end

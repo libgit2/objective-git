@@ -10,11 +10,11 @@
 
 // An enum describing the data needed for authentication.
 // See `git_credtype_t`.
-typedef enum {
+typedef NS_ENUM(NSInteger, GTCredentialType) {
     GTCredentialTypeUserPassPlaintext = GIT_CREDTYPE_USERPASS_PLAINTEXT,
     GTCredentialTypeSSHKey = GIT_CREDTYPE_SSH_KEY,
     GTCredentialTypeSSHCustom = GIT_CREDTYPE_SSH_CUSTOM,
-} GTCredentialType;
+};
 
 @class GTCredential;
 

@@ -15,18 +15,18 @@
 // ignored when retrieving its status.
 //
 // These flags are mutually exclusive.
-typedef enum {
+typedef NS_ENUM(NSInteger, GTSubmoduleIgnoreRule) {
 	GTSubmoduleIgnoreReset = GIT_SUBMODULE_IGNORE_RESET,
 	GTSubmoduleIgnoreNone = GIT_SUBMODULE_IGNORE_NONE,
 	GTSubmoduleIgnoreUntracked = GIT_SUBMODULE_IGNORE_UNTRACKED,
 	GTSubmoduleIgnoreDirty = GIT_SUBMODULE_IGNORE_DIRTY,
 	GTSubmoduleIgnoreAll = GIT_SUBMODULE_IGNORE_ALL
-} GTSubmoduleIgnoreRule;
+};
 
 // Describes the status of a submodule.
 //
 // These flags may be ORed together.
-typedef enum {
+typedef NS_OPTIONS(NSInteger, GTSubmoduleStatus) {
 	GTSubmoduleStatusUnknown = 0,
 
 	GTSubmoduleStatusExistsInHEAD = GIT_SUBMODULE_STATUS_IN_HEAD,
@@ -46,7 +46,7 @@ typedef enum {
 	GTSubmoduleStatusDirtyIndex = GIT_SUBMODULE_STATUS_WD_INDEX_MODIFIED,
 	GTSubmoduleStatusDirtyWorkingDirectory = GIT_SUBMODULE_STATUS_WD_WD_MODIFIED,
 	GTSubmoduleStatusUntrackedFilesInWorkingDirectory = GIT_SUBMODULE_STATUS_WD_UNTRACKED
-} GTSubmoduleStatus;
+};
 
 // Represents a submodule within its parent repository.
 @interface GTSubmodule : NSObject

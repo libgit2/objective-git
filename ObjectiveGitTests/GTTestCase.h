@@ -11,7 +11,7 @@
 
 @class GTRepository;
 
-@interface GTTestCase : SPTSenTestCase
+@interface GTTestCase : SPTXCTestCase
 
 // The file URL for a temporary directory which will live for the length of each
 // example (`it`).
@@ -34,5 +34,8 @@
 
 // A pristine repository.
 - (GTRepository *)blankFixtureRepository;
+
+// A repository with unicode files.
+- (GTRepository *)testUnicodeFixtureRepository;
 
 @end

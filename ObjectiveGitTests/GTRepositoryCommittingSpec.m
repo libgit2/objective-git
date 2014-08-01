@@ -52,4 +52,8 @@ it(@"can create commits", ^{
 	expect(ref.resolvedTarget).to.equal(initialCommit);
 });
 
+afterEach(^{
+	[self tearDown];
+});
+
 SpecEnd

@@ -15,6 +15,10 @@
 // The SHA pointed to by the OID.
 @property (nonatomic, readonly, copy) NSString *SHA;
 
+/// Is the OID all zero? This usually indicates that the object has not been
+/// inserted into the ODB yet.
+@property (nonatomic, readonly, assign, getter = isZero) BOOL zero;
+
 // Initializes the receiver with the given git_oid.
 //
 // git_oid - The underlying git_oid. Cannot be NULL.

@@ -52,4 +52,8 @@ it(@"should keep the git_signature alive even if the object goes out of scope", 
 	expect(testSignature.email).to.equal(email);
 });
 
+afterEach(^{
+	[self tearDown];
+});
+
 SpecEnd

@@ -95,4 +95,8 @@ describe(@"String arrays", ^{
 	});
 });
 
+afterEach(^{
+	[self tearDown];
+});
+
 SpecEnd

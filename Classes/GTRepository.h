@@ -33,12 +33,12 @@
 #import "GTFilterSource.h"
 #import "GTObject.h"
 #import "GTReference.h"
+#import "GTFilterList.h"
 
 @class GTBlob;
 @class GTCommit;
 @class GTConfiguration;
 @class GTDiffFile;
-@class GTFilterList;
 @class GTIndex;
 @class GTObjectDatabase;
 @class GTOdbObject;
@@ -48,15 +48,9 @@
 @class GTTree;
 @class GTRemote;
 
-typedef enum {
-	GTRepositoryResetTypeSoft = GIT_RESET_SOFT,
-	GTRepositoryResetTypeMixed = GIT_RESET_MIXED,
-	GTRepositoryResetTypeHard = GIT_RESET_HARD
-} GTRepositoryResetType;
-
 // Checkout strategies used by the various -checkout... methods
 // See git_checkout_strategy_t
-typedef enum {
+typedef NS_OPTIONS(NSInteger, GTCheckoutStrategyType) {
 	GTCheckoutStrategyNone = GIT_CHECKOUT_NONE,
 	GTCheckoutStrategySafe = GIT_CHECKOUT_SAFE,
 	GTCheckoutStrategySafeCreate = GIT_CHECKOUT_SAFE_CREATE,
@@ -69,11 +63,11 @@ typedef enum {
 	GTCheckoutStrategyNoRefresh = GIT_CHECKOUT_NO_REFRESH,
 	GTCheckoutStrategyDisablePathspecMatch = GIT_CHECKOUT_DISABLE_PATHSPEC_MATCH,
 	GTCheckoutStrategySkipLockedDirectories = GIT_CHECKOUT_SKIP_LOCKED_DIRECTORIES,
-} GTCheckoutStrategyType;
+};
 
 // Checkout notification flags used by the various -checkout... methods
 // See git_checkout_notify_t
-typedef enum {
+typedef NS_OPTIONS(NSInteger, GTCheckoutNotifyFlags) {
 	GTCheckoutNotifyNone = GIT_CHECKOUT_NOTIFY_NONE,
 	GTCheckoutNotifyConflict = GIT_CHECKOUT_NOTIFY_CONFLICT,
 	GTCheckoutNotifyDirty = GIT_CHECKOUT_NOTIFY_DIRTY,
@@ -82,15 +76,15 @@ typedef enum {
 	GTCheckoutNotifyIgnored = GIT_CHECKOUT_NOTIFY_IGNORED,
 
 	GTCheckoutNotifyAll = GIT_CHECKOUT_NOTIFY_ALL,
-} GTCheckoutNotifyFlags;
+};
 
 // Transport flags sent as options to +cloneFromURL... method
-typedef enum {
+typedef NS_OPTIONS(NSInteger, GTTransportFlags) {
 	GTTransportFlagsNone = GIT_TRANSPORTFLAGS_NONE,
 	// If you pass this flag and the connection is secured with SSL/TLS,
 	// the authenticity of the server certificate will not be verified.
 	GTTransportFlagsNoCheckCert = GIT_TRANSPORTFLAGS_NO_CHECK_CERT,
-} GTTransportFlags;
+};
 
 // An `NSNumber` wrapped `GTTransportFlags`, documented above.
 // Default value is `GTTransportFlagsNone`.
@@ -106,6 +100,9 @@ extern NSString *const GTRepositoryCloneOptionsCheckout;
 
 // A `GTCredentialProvider`, that will be used to authenticate against the remote.
 extern NSString *const GTRepositoryCloneOptionsCredentialProvider;
+
+/// A BOOL indicating whether local clones should actually clone, or just link.
+extern NSString *const GTRepositoryCloneOptionsCloneLocal;
 
 @interface GTRepository : NSObject
 
@@ -164,7 +161,10 @@ extern NSString *const GTRepositoryCloneOptionsCredentialProvider;
 // workdirURL            - A URL to the desired working directory on the local machine.
 // options               - A dictionary consisting of the options:
 //                         `GTRepositoryCloneOptionsTransportFlags`,
-//                         `GTRepositoryCloneOptionsBare`, and `GTRepositoryCloneOptionsCheckout`.
+//                         `GTRepositoryCloneOptionsBare`,
+//                         `GTRepositoryCloneOptionsCheckout`,
+//                         `GTRepositoryCloneOptionsCredentialProvider`,
+//                         `GTRepositoryCloneOptionsCloneLocal`
 // error                 - A pointer to fill in case of trouble.
 // transferProgressBlock - This block is called with network transfer updates.
 // checkoutProgressBlock - This block is called with checkout updates
@@ -283,15 +283,6 @@ extern NSString *const GTRepositoryCloneOptionsCredentialProvider;
 //
 // returns the local commits, an empty array if there is no remote branch, or nil if an error occurred
 - (NSArray *)localCommitsRelativeToRemoteBranch:(GTBranch *)remoteBranch error:(NSError **)error;
-
-// Reset the repository's HEAD to the given commit.
-//
-// commit - the commit the HEAD is to be reset to. Must not be nil.
-// resetType - The type of reset to be used.
-// error(out) - in the event of an error this may be set.
-//
-// Returns `YES` if successful, `NO` if not.
-- (BOOL)resetToCommit:(GTCommit *)commit withResetType:(GTRepositoryResetType)resetType error:(NSError **)error;
 
 // Retrieves git's "prepared message" for the next commit, like the default
 // message pre-filled when committing after a conflicting merge.
@@ -458,6 +449,7 @@ extern NSString *const GTRepositoryCloneOptionsCredentialProvider;
 ///           used to determine which filters to apply, and can differ from the
 ///           content of the file at `path`. This may be nil.
 /// mode    - The direction in which the data will be filtered.
+/// options - The list options. See the libgit2 header for more information.
 /// success - If not NULL, set to `NO` if an error occurs. If `nil` is
 ///           returned and this argument is set to `YES`, there were no filters
 ///           to apply.
@@ -466,6 +458,6 @@ extern NSString *const GTRepositoryCloneOptionsCredentialProvider;
 /// Returns the loaded filter list, or nil if an error occurs or there are no
 /// filters to apply to the given path. The latter two cases can be
 /// distinguished using the value of `success`.
-- (GTFilterList *)filterListWithPath:(NSString *)path blob:(GTBlob *)blob mode:(GTFilterSourceMode)mode success:(BOOL *)success error:(NSError **)error;
+- (GTFilterList *)filterListWithPath:(NSString *)path blob:(GTBlob *)blob mode:(GTFilterSourceMode)mode options:(GTFilterListOptions)options success:(BOOL *)success error:(NSError **)error;
 
 @end

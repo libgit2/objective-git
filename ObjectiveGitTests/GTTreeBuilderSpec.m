@@ -141,4 +141,8 @@ describe(@"GTTreeBuilder building", ^{
 	});
 });
 
+afterEach(^{
+	[self tearDown];
+});
+
 SpecEnd

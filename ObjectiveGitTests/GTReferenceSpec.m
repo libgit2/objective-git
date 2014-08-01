@@ -184,4 +184,8 @@ describe(@"-deleteWithError:", ^{
 	});
 });
 
+afterEach(^{
+	[self tearDown];
+});
+
 SpecEnd

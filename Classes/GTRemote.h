@@ -98,10 +98,11 @@ typedef enum {
 // Rename the remote.
 //
 // name - The new name for the remote.
+// problematicRefspecs - If there's an error, returns a list of the refspecs with error for further processing by the caller.
 // error - Will be set if an error occurs.
 //
 // Return YES if successful, NO otherwise.
-- (BOOL)rename:(NSString *)name error:(NSError **)error;
+- (BOOL)rename:(NSString *)name problematicRefspecs:(NSArray **)problematicRefspecs error:(NSError **)error;
 
 // Updates the URL string for this remote.
 //

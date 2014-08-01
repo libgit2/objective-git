@@ -246,6 +246,10 @@ describe(@"network operations", ^{
 			expect(commitData.content).to.equal(fileData);
 		});
 	});
+
+afterEach(^{
+	[self tearDown];
+
 });
 
 SpecEnd

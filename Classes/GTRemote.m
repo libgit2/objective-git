@@ -176,37 +176,25 @@
 
 #pragma mark Renaming
 
-typedef int (^GTRemoteRenameBlock)(NSString *refspec);
-
-typedef struct {
-	__unsafe_unretained GTRemote *myself;
-	__unsafe_unretained GTRemoteRenameBlock renameBlock;
-} GTRemoteRenameInfo;
-
-static int remote_rename_problem_cb(const char *problematic_refspec, void *payload) {
-	GTRemoteRenameInfo *info = payload;
-	if (info->renameBlock == nil) return GIT_ERROR;
-
-	return info->renameBlock(@(problematic_refspec));
-}
-
-- (BOOL)rename:(NSString *)name failureBlock:(GTRemoteRenameBlock)renameBlock error:(NSError **)error {
+- (BOOL)rename:(NSString *)name problematicRefspecs:(NSArray **)problematicRefspecs error:(NSError **)error {
 	NSParameterAssert(name != nil);
 
-	GTRemoteRenameInfo info = {
-		.myself = self,
-		.renameBlock = renameBlock,
-	};
-
-	int gitError = git_remote_rename(self.git_remote, name.UTF8String, remote_rename_problem_cb, &info);
+	*problematicRefspecs = nil;
+	
+	git_strarray problematic_refspecs;
+	
+	int gitError = git_remote_rename(&problematic_refspecs, self.git_remote, name.UTF8String);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to rename remote" failureReason:@"Couldn't rename remote %@ to %@", self.name, name];
+		NSMutableArray *problems = [NSMutableArray arrayWithCapacity:problematic_refspecs.count];
+		for (size_t i = 0; i < problematic_refspecs.count; i++) {
+			const char *refspec = problematic_refspecs.strings[i];
+			[problems addObject:@(refspec)];
+			
+			*problematicRefspecs = [problems copy];
+		}
 	}
 	return gitError == GIT_OK;
-}
-
-- (BOOL)rename:(NSString *)name error:(NSError **)error {
-	return [self rename:name failureBlock:nil error:error];
 }
 
 - (NSArray *)fetchRefspecs {

@@ -12,7 +12,7 @@
 
 // An enum representing the status of a file
 // See git_status_t
-typedef enum {
+typedef NS_OPTIONS(NSInteger, GTFileStatusFlags) {
 	GTFileStatusCurrent = GIT_STATUS_CURRENT,
 
 	GTFileStatusNewInIndex         = GIT_STATUS_INDEX_NEW,
@@ -28,7 +28,7 @@ typedef enum {
 	GTFileStatusRenamedInWorktree     = GIT_STATUS_WT_RENAMED,
 
 	GTFileStatusIgnored = GIT_STATUS_IGNORED,
-} GTFileStatusFlags;
+};
 
 // An `NSNumber` wrapped `GTRepositoryStatusOptionsShow` bitmask.
 //
@@ -67,6 +67,8 @@ typedef enum {
 	GTRepositoryStatusFlagsRenamesFromRewrites = GIT_STATUS_OPT_RENAMES_FROM_REWRITES,
 	GTRepositoryStatusFlagsSortCaseSensitively = GIT_STATUS_OPT_SORT_CASE_SENSITIVELY,
 	GTRepositoryStatusFlagsSortCaseInsensitively = GIT_STATUS_OPT_SORT_CASE_INSENSITIVELY,
+	GTRepositoryStatusFlagsIncludeUnreadable = GIT_STATUS_OPT_INCLUDE_UNREADABLE,
+	GTRepositoryStatusFlagsIncludeUnreadableAsUntracked = GIT_STATUS_OPT_INCLUDE_UNREADABLE_AS_UNTRACKED,
 } GTRepositoryStatusFlags;
 
 // An `NSArray` of `NSStrings`s to limit the status to specific paths inside the
@@ -110,7 +112,7 @@ extern NSString *const GTRepositoryStatusOptionsPathSpecArrayKey;
 - (BOOL)enumerateFileStatusWithOptions:(NSDictionary *)options error:(NSError **)error usingBlock:(void (^)(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop))block;
 
 // Query the status of one file
-- (GTFileStatusFlags)statusForFile:(NSURL *)fileURL success:(BOOL *)success error:(NSError **)error;
+- (GTFileStatusFlags)statusForFile:(NSString *)filePath success:(BOOL *)success error:(NSError **)error;
 
 // Should the file be considered as ignored ?
 - (BOOL)shouldFileBeIgnored:(NSURL *)fileURL success:(BOOL *)success error:(NSError **)error;

@@ -208,4 +208,8 @@ describe(@"-trackingBranchWithError:success:", ^{
 //	STAssertEqualObjects(firstBranch.name, originalBranchName, nil);
 //}
 
+afterEach(^{
+	[self tearDown];
+});
+
 SpecEnd

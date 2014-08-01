@@ -66,7 +66,8 @@ it(@"should write to the parent .git/config", ^{
 	expect(@(git_submodule_url(submodule.git_submodule))).notTo.equal(testURLString);
 
 	git_submodule_set_url(submodule.git_submodule, testURLString.UTF8String);
-	
+	git_submodule_save(submodule.git_submodule);
+
 	__block NSError *error = nil;
 	expect([submodule writeToParentConfigurationDestructively:YES error:&error]).to.beTruthy();
 	expect(error).to.beNil();
@@ -86,9 +87,6 @@ it(@"should reload all submodules", ^{
 
 	[gitmodules appendString:@"[submodule \"new_submodule\"]\n\turl = some_url\n\tpath = new_submodule_path"];
 	expect([gitmodules writeToURL:gitmodulesURL atomically:YES encoding:NSUTF8StringEncoding error:NULL]).to.beTruthy();
-
-	submodule = [repo submoduleWithName:@"new_submodule" error:NULL];
-	expect(submodule).to.beNil();
 
 	__block NSError *error = nil;
 	expect([repo reloadSubmodules:&error]).to.beTruthy();
@@ -171,7 +169,7 @@ describe(@"clean, checked out submodule", ^{
 
 		GTCommit *newHEAD = (id)[submoduleRepo lookUpObjectBySHA:@"82dc47f6ba3beecab33080a1136d8913098e1801" objectType:GTObjectTypeCommit error:NULL];
 		expect(newHEAD).notTo.beNil();
-		expect([submoduleRepo resetToCommit:newHEAD withResetType:GTRepositoryResetTypeHard error:NULL]).to.beTruthy();
+		expect([submoduleRepo resetToCommit:newHEAD resetType:GTRepositoryResetTypeHard error:NULL]).to.beTruthy();
 
 		expect(submodule.workingDirectoryOID.SHA).notTo.equal(newHEAD.SHA);
 
@@ -264,6 +262,10 @@ describe(@"dirty, checked out submodule", ^{
 		expect([config refresh:NULL]).to.beTruthy();
 		expect([config stringForKey:configKey]).to.equal(@"../Test_App");
 	});
+});
+
+afterEach(^{
+	[self tearDown];
 });
 
 SpecEnd

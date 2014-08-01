@@ -145,4 +145,8 @@ describe(@"globbing", ^{
 	});
 });
 
+afterEach(^{
+	[self tearDown];
+});
+
 SpecEnd

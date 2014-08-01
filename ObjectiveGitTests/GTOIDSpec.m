@@ -74,4 +74,8 @@ it(@"should return an error when initialized with a string shorter than 40 chara
 	expect(error).notTo.beNil();
 });
 
+afterEach(^{
+	[self tearDown];
+});
+
 SpecEnd
