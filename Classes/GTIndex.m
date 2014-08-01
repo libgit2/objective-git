@@ -124,8 +124,13 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 	return YES;
 }
 
-- (void)clear {
-	git_index_clear(self.git_index);
+- (BOOL)clear:(NSError **)error {
+	int gitError = git_index_clear(self.git_index);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to clear index"];
+		return NO;
+	}
+	return YES;
 }
 
 - (GTIndexEntry *)entryAtIndex:(NSUInteger)index {
