@@ -37,12 +37,12 @@
 // GTEnumeratorOptionsTopologicalSort - Sort parents before children.
 // GTEnumeratorOptionsTimeSort        - Sort by commit time.
 // GTEnumeratorOptionsReverse         - Iterate in reverse order.
-typedef enum : unsigned int {
+typedef NS_OPTIONS(unsigned int, GTEnumeratorOptions) {
 	GTEnumeratorOptionsNone = GIT_SORT_NONE,
 	GTEnumeratorOptionsTopologicalSort = GIT_SORT_TOPOLOGICAL,
 	GTEnumeratorOptionsTimeSort = GIT_SORT_TIME,
 	GTEnumeratorOptionsReverse = GIT_SORT_REVERSE,
-} GTEnumeratorOptions;
+};
 
 @class GTRepository;
 @class GTCommit;

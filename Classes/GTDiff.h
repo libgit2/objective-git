@@ -61,7 +61,7 @@ extern NSString *const GTDiffOptionsPathSpecArrayKey;
 // `GTDiffOptionsFlagsKey` key.
 //
 // See diff.h for documentation of each individual flag. 
-typedef enum {
+typedef NS_OPTIONS(NSInteger, GTDiffOptionsFlags) {
 	GTDiffOptionsFlagsNormal = GIT_DIFF_NORMAL,
 
 	/*
@@ -97,7 +97,7 @@ typedef enum {
 
 	GTDiffOptionsFlagsPatience = GIT_DIFF_PATIENCE,
 	GTDiffOptionsFlagsMinimal = GIT_DIFF_MINIMAL,
-} GTDiffOptionsFlags;
+};
 
 // An `NSNumber` wrapped `GTDiffOptionsFlags` bitmask containing any of the
 // flags documented below.
@@ -152,7 +152,7 @@ extern NSString *const GTDiffFindOptionsRenameLimitKey;
 // Enum for options passed into `-findSimilarWithOptions:`.
 //
 // For individual case documentation see `diff.h`.
-typedef enum {
+typedef NS_OPTIONS(NSInteger, GTDiffFindOptionsFlags) {
 	GTDiffFindOptionsFlagsFindRenames = GIT_DIFF_FIND_RENAMES,
 	GTDiffFindOptionsFlagsFindRenamesFromRewrites = GIT_DIFF_FIND_RENAMES_FROM_REWRITES,
 	GTDiffFindOptionsFlagsFindCopies = GIT_DIFF_FIND_COPIES,
@@ -170,7 +170,7 @@ typedef enum {
 	GTDiffFindOptionsFlagsExactMatchOnly = GIT_DIFF_FIND_EXACT_MATCH_ONLY,
 
 	GTDiffFindOptionsFlagsBreakRewritesForRenamesOnly = GIT_DIFF_BREAK_REWRITES_FOR_RENAMES_ONLY,
-} GTDiffFindOptionsFlags;
+};
 
 // A class representing a single "diff".
 //
@@ -196,7 +196,7 @@ typedef enum {
 //              available.
 //
 // Returns a newly created `GTDiff` object or nil on error.
-+ (GTDiff *)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree inRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error;
++ (instancetype)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree inRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error;
 
 // Create a diff between a repository's current index.
 //
@@ -216,7 +216,7 @@ typedef enum {
 //              available.
 //
 // Returns a newly created `GTDiff` object or nil on error.
-+ (GTDiff *)diffIndexFromTree:(GTTree *)tree inRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error;
++ (instancetype)diffIndexFromTree:(GTTree *)tree inRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error;
 
 // Create a diff between the index and working directory in a given repository.
 //
@@ -229,7 +229,7 @@ typedef enum {
 //              available.
 //
 // Returns a newly created `GTDiff` object or nil on error.
-+ (GTDiff *)diffIndexToWorkingDirectoryInRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error;
++ (instancetype)diffIndexToWorkingDirectoryInRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error;
 
 // Create a diff between a repository's working directory and a tree.
 //
@@ -242,7 +242,7 @@ typedef enum {
 //              available.
 //
 // Returns a newly created `GTDiff` object or nil on error.
-+ (GTDiff *)diffWorkingDirectoryFromTree:(GTTree *)tree inRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error;
++ (instancetype)diffWorkingDirectoryFromTree:(GTTree *)tree inRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error;
 
 // Create a diff between the working directory and HEAD.
 //
@@ -255,7 +255,7 @@ typedef enum {
 // error      - Populated if an error occurs.
 //
 // Returns a newly created GTDiff, or nil if an error occurred.
-+ (GTDiff *)diffWorkingDirectoryToHEADInRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error;
++ (instancetype)diffWorkingDirectoryToHEADInRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error;
 
 // Designated initialiser.
 //

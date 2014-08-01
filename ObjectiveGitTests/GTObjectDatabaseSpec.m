@@ -70,4 +70,8 @@ it(@"should be able to write", ^{
 	expect([database containsObjectWithSHA:testContentSHA error:NULL]).to.beTruthy();
 });
 
+afterEach(^{
+	[self tearDown];
+});
+
 SpecEnd

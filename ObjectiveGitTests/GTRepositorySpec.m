@@ -80,7 +80,7 @@ describe(@"+cloneFromURL:toWorkingDirectory:options:error:transferProgressBlock:
 
 		it(@"should handle normal clones", ^{
 			NSError *error = nil;
-			repository = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:nil error:&error transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
+			repository = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:@{ GTRepositoryCloneOptionsCloneLocal: @YES } error:&error transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
 			expect(repository).notTo.beNil();
 			expect(error).to.beNil();
 			expect(transferProgressCalled).to.beTruthy();
@@ -97,7 +97,7 @@ describe(@"+cloneFromURL:toWorkingDirectory:options:error:transferProgressBlock:
 
 		it(@"should handle bare clones", ^{
 			NSError *error = nil;
-			NSDictionary *options = @{ GTRepositoryCloneOptionsBare: @YES };
+			NSDictionary *options = @{ GTRepositoryCloneOptionsBare: @YES, GTRepositoryCloneOptionsCloneLocal: @YES };
 			repository = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:options error:&error transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
 			expect(repository).notTo.beNil();
 			expect(error).to.beNil();
@@ -436,6 +436,10 @@ describe(@"-lookUpObjectByRevParse:error:", ^{
 		expectSHAForRevParse(nil, @"");
 		expectSHAForRevParse(@"0c37a5391bbff43c37f0d0371823a5509eed5b1d", @"v1.0");
 	});
+});
+
+afterEach(^{
+	[self tearDown];
 });
 
 SpecEnd

@@ -11,9 +11,9 @@
 // Enum for options passed to the dictionary in `-blameWithFile:inRepository:options:`
 //
 // For flag documentation see `blame.h`.
-typedef enum {
+typedef NS_OPTIONS(NSInteger, GTBlameOptions) {
 	GTBlameOptionsNormal = GIT_BLAME_NORMAL,
-} GTBlameOptions;
+};
 
 // A `NSNumber` wrapped `GTBlameOptions`. Flags are documented above.
 extern NSString * const GTBlameOptionsFlags;
