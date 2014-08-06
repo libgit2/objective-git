@@ -89,6 +89,10 @@
 	return [[self alloc] initWithSHACString:SHA];
 }
 
+- (BOOL)isZero {
+	return git_oid_iszero(self.git_oid) != 0;
+}
+
 #pragma mark NSObject
 
 - (NSString *)description {

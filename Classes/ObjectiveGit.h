@@ -22,10 +22,11 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 //
-
 #import "git2.h"
+#import <Foundation/Foundation.h>
 
 #import <ObjectiveGit/GTRepository.h>
+#import <ObjectiveGit/GTRepository+Attributes.h>
 #import <ObjectiveGit/GTRepository+Stashing.h>
 #import <ObjectiveGit/GTRepository+Committing.h>
 #import <ObjectiveGit/GTRepository+Status.h>

@@ -30,7 +30,7 @@ it(@"should count the entries", ^{
 });
 
 it(@"should clear all entries", ^{
-	[index clear];
+	[index clear:NULL];
 	expect(index.entryCount).to.equal(0);
 });
 
