@@ -22,8 +22,8 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 //
-
 #import "git2.h"
+#import <Foundation/Foundation.h>
 
 #import <ObjectiveGit/GTRepository.h>
 #import <ObjectiveGit/GTRepository+Attributes.h>
