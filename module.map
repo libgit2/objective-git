@@ -1,0 +1,5 @@
+module ObjectiveGit  {
+	header "Classes/ObjectiveGit.h"
+	link framework "ObjectiveGit"
+	export *
+}
