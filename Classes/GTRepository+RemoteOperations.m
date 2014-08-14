@@ -12,6 +12,8 @@
 #import "GTCredential+Private.h"
 #import "EXTScope.h"
 
+NSString *const GTRepositoryRemoteOptionsCredentialProvider = @"GTRepositoryRemoteOptionsCredentialProvider";
+
 @implementation GTRepository (RemoteOperations)
 
 #pragma mark -
@@ -42,9 +44,8 @@ int GTRemoteFetchTransferProgressCallback(const git_transfer_progress *stats, vo
 #pragma mark Fetch
 
 - (BOOL)fetchRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error progress:(GTRemoteFetchTransferProgressBlock)progressBlock {
-//	NSArray *references = options[@"references"];
 	@synchronized (self) {
-		id credProvider = (options[@"credentialProvider"] ?: nil);
+		id credProvider = (options[GTRepositoryRemoteOptionsCredentialProvider] ?: nil);
 		GTRemoteConnectionInfo connectionInfo = {
 			.credProvider = credProvider,
 			.direction = GIT_DIRECTION_FETCH,
@@ -62,27 +63,10 @@ int GTRemoteFetchTransferProgressCallback(const git_transfer_progress *stats, vo
 			if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to set callbacks on remote"];
 			return NO;
 		}
-
-		gitError = git_remote_connect(remote.git_remote, GIT_DIRECTION_FETCH);
+		
+		gitError = git_remote_fetch(remote.git_remote, self.userSignatureForNow.git_signature, NULL);
 		if (gitError != GIT_OK) {
-			if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to connect remote"];
-			return NO;
-		}
-		@onExit {
-			git_remote_disconnect(remote.git_remote);
-			// FIXME: Can't unset callbacks without asserting
-			// git_remote_set_callbacks(self.git_remote, NULL);
-		};
-
-		gitError = git_remote_download(remote.git_remote);
-		if (gitError != GIT_OK) {
-			if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to fetch remote"];
-			return NO;
-		}
-
-		gitError = git_remote_update_tips(remote.git_remote, self.userSignatureForNow.git_signature, NULL);
-		if (gitError != GIT_OK) {
-			if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to update tips"];
+			if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to fetch from remote"];
 			return NO;
 		}
 
@@ -149,7 +133,7 @@ int GTRemotePushTransferProgressCallback(unsigned int current, unsigned int tota
 	}
 
 	@synchronized (self) {
-		id credProvider = (options[@"credentialProvider"] ?: nil);
+		id credProvider = (options[GTRepositoryRemoteOptionsCredentialProvider] ?: nil);
 		GTRemoteConnectionInfo connectionInfo = {
 			.credProvider = credProvider,
 			.direction = GIT_DIRECTION_PUSH,

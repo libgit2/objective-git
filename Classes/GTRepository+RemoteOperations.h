@@ -8,6 +8,9 @@
 
 #import <ObjectiveGit/ObjectiveGit.h>
 
+// A `GTCredentialProvider`, that will be used to authenticate against the remote.
+extern NSString *const GTRepositoryRemoteOptionsCredentialProvider;
+
 @interface GTRepository (RemoteOperations)
 
 // Fetch a remote.
