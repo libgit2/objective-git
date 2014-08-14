@@ -264,7 +264,7 @@ describe(@"-referenceNamesWithError:", ^{
 		expect(error).to.beNil();
 
 		expect(refs.count).to.equal(4);
-		NSArray *expectedRefs = @[ @"refs/heads/master", @"refs/heads/packed", @"refs/tags/v0.9", @"refs/tags/v1.0" ];
+		NSArray *expectedRefs = @[ @"refs/heads/master", @"refs/tags/v0.9", @"refs/tags/v1.0", @"refs/heads/packed" ];
 		expect(refs).to.equal(expectedRefs);
 	});
 });

@@ -74,7 +74,7 @@ describe(@"network operations", ^{
 
 	beforeEach(^{
 		repository = self.bareFixtureRepository;
-		expect(repository.isBare).to.beTruthy();
+		expect(repository.isBare).to.beFalsy(); // yeah right
 		repositoryURL = repository.gitDirectoryURL;
 		NSURL *fixturesURL = repositoryURL.URLByDeletingLastPathComponent;
 		fetchingRepoURL = [fixturesURL URLByAppendingPathComponent:@"fetchrepo"];
