@@ -40,6 +40,30 @@ int GTRemoteFetchTransferProgressCallback(const git_transfer_progress *stats, vo
 	return (stop == YES ? GIT_EUSER : 0);
 }
 
+typedef struct {
+	__unsafe_unretained NSMutableArray *entries;
+	__unsafe_unretained GTRepository *repository;
+} GTFetchHeadEntriesPayload;
+
+int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, const git_oid *oid, unsigned int is_merge, void *payload) {
+	GTFetchHeadEntriesPayload *entriesPayload = payload;
+	
+	GTRepository *repository = entriesPayload->repository;
+	
+	GTReference *reference = [GTReference referenceByLookingUpReferencedNamed:@(ref_name)
+																 inRepository:repository
+																		error:NULL];
+	
+	GTFetchHeadEntry *entry = [GTFetchHeadEntry fetchEntryWithRepository:entriesPayload->repository
+															   reference:reference
+															   remoteURL:@(remote_url)
+															   targetOID:[GTOID oidWithGitOid:oid]
+																 isMerge:(BOOL)is_merge];
+	[entriesPayload->entries addObject:entry];
+	
+	return 0;
+}
+
 #pragma mark -
 #pragma mark Fetch
 
@@ -72,6 +96,22 @@ int GTRemoteFetchTransferProgressCallback(const git_transfer_progress *stats, vo
 
 		return YES;
 	}
+}
+
+- (NSArray *)fetchHeadEntriesWithError:(NSError **)error {
+	NSMutableArray *entries = [NSMutableArray array];
+	GTFetchHeadEntriesPayload payload = {
+		.entries = entries,
+		.repository = self,
+	};
+
+	int gitError = git_repository_fetchhead_foreach(self.git_repository, GTFetchHeadEntriesCallback, &payload);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to get fetchhead entries"];
+		return nil;
+	}
+	
+	return [entries copy];
 }
 
 @end

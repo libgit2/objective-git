@@ -26,4 +26,9 @@ extern NSString *const GTRepositoryRemoteOptionsCredentialProvider;
 // will point to an error describing what happened).
 - (BOOL)fetchRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error progress:(void (^)(const git_transfer_progress *stats, BOOL *stop))progressBlock;
 
+// Returns an array of GTFetchHeadEntry objects containing the entries in the FETCH_HEAD file.
+//
+// error - The error if one ocurred. Can be NULL.
+- (NSArray *)fetchHeadEntriesWithError:(NSError **)error;
+
 @end

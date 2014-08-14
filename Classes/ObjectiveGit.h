@@ -59,6 +59,7 @@
 #import <ObjectiveGit/GTFilter.h>
 #import <ObjectiveGit/GTFilterList.h>
 #import <ObjectiveGit/GTFilterSource.h>
+#import <ObjectiveGit/GTFetchHeadEntry.h>
 
 #import <ObjectiveGit/GTObjectDatabase.h>
 #import <ObjectiveGit/GTOdbObject.h>
