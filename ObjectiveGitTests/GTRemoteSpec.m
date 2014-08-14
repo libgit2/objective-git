@@ -56,7 +56,7 @@ describe(@"updating", ^{
 		expect(remote.fetchRefspecs).to.equal(@[ fetchRefspec ]);
 
 		NSString *newFetchRefspec = @"+refs/heads/master:refs/remotes/origin/master";
-		
+
 		__block NSError *error = nil;
 		expect([remote addFetchRefspec:newFetchRefspec error:&error]).to.beTruthy();
 		expect(error).to.beNil();
@@ -246,10 +246,10 @@ describe(@"network operations", ^{
 			expect(commitData.content).to.equal(fileData);
 		});
 	});
-
-afterEach(^{
-	[self tearDown];
-
+	
+	afterEach(^{
+		[self tearDown];
+	});
 });
 
 SpecEnd

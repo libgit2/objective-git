@@ -360,7 +360,7 @@ describe(@"-resetToCommit:withResetType:error:", ^{
 		GTCommit *originalHeadCommit = [repository lookUpObjectBySHA:originalHead.targetSHA error:NULL];
 		expect(originalHeadCommit).notTo.beNil();
 
-		BOOL success = [repository resetToCommit:commit withResetType:GTRepositoryResetTypeSoft error:&error];
+		BOOL success = [repository resetToCommit:commit resetType:GTRepositoryResetTypeSoft error:&error];
 		expect(success).to.beTruthy();
 		expect(error).to.beNil();
 
@@ -368,7 +368,7 @@ describe(@"-resetToCommit:withResetType:error:", ^{
 		expect(head).notTo.beNil();
 		expect(head.targetSHA).to.equal(resetTargetSHA);
 
-		success = [repository resetToCommit:originalHeadCommit withResetType:GTRepositoryResetTypeSoft error:&error];
+		success = [repository resetToCommit:originalHeadCommit resetType:GTRepositoryResetTypeSoft error:&error];
 		expect(success).to.beTruthy();
 		expect(error).to.beNil();
 
