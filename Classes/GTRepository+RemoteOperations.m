@@ -45,7 +45,7 @@ int GTRemoteFetchTransferProgressCallback(const git_transfer_progress *stats, vo
 
 - (BOOL)fetchRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error progress:(GTRemoteFetchTransferProgressBlock)progressBlock {
 	@synchronized (self) {
-		id credProvider = (options[GTRepositoryRemoteOptionsCredentialProvider] ?: nil);
+		GTCredentialProvider *credProvider = (options[GTRepositoryRemoteOptionsCredentialProvider] ?: nil);
 		GTRemoteConnectionInfo connectionInfo = {
 			.credProvider = credProvider,
 			.direction = GIT_DIRECTION_FETCH,
