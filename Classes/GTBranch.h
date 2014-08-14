@@ -54,49 +54,49 @@ typedef NS_ENUM(NSInteger, GTBranchType) {
 - (id)initWithReference:(GTReference *)ref repository:(GTRepository *)repo;
 + (id)branchWithReference:(GTReference *)ref repository:(GTRepository *)repo;
 
-// Get the target commit for this branch
-// 
-// error(out) - will be filled if an error occurs
-// 
-// returns a GTCommit object or nil if an error occurred
+/// Get the target commit for this branch
+///
+/// error(out) - will be filled if an error occurs
+///
+/// returns a GTCommit object or nil if an error occurred
 - (GTCommit *)targetCommitAndReturnError:(NSError **)error;
 
-// Count all commits in this branch
-//
-// error(out) - will be filled if an error occurs
-//
-// returns number of commits in the branch or NSNotFound if an error occurred
+/// Count all commits in this branch
+///
+/// error(out) - will be filled if an error occurs
+///
+/// returns number of commits in the branch or NSNotFound if an error occurred
 - (NSUInteger)numberOfCommitsWithError:(NSError **)error;
 
 - (NSArray *)uniqueCommitsRelativeToBranch:(GTBranch *)otherBranch error:(NSError **)error;
 
-// Deletes the local branch and nils out the reference.
+/// Deletes the local branch and nils out the reference.
 - (BOOL)deleteWithError:(NSError **)error;
 
-// If the receiver is a local branch, looks up and returns its tracking branch.
-// If the receiver is a remote branch, returns self. If no tracking branch was
-// found, returns nil and sets `success` to YES.
+/// If the receiver is a local branch, looks up and returns its tracking branch.
+/// If the receiver is a remote branch, returns self. If no tracking branch was
+/// found, returns nil and sets `success` to YES.
 - (GTBranch *)trackingBranchWithError:(NSError **)error success:(BOOL *)success;
 
-// Reloads the branch's reference and creates a new branch based off that newly
-// loaded reference.
-//
-// This does *not* change the receiver.
-//
-// error - The error if one occurred.
-//
-// Returns the reloaded branch, or nil if an error occurred.
+/// Reloads the branch's reference and creates a new branch based off that newly
+/// loaded reference.
+///
+/// This does *not* change the receiver.
+///
+/// error - The error if one occurred.
+///
+/// Returns the reloaded branch, or nil if an error occurred.
 - (GTBranch *)reloadedBranchWithError:(NSError **)error;
 
-// Calculate the ahead/behind count from this branch to the given branch.
-//
-// ahead  - The number of commits which are unique to the receiver. Cannot be
-//          NULL.
-// behind - The number of commits which are unique to `branch`. Cannot be NULL.
-// branch - The branch to which the receiver should be compared.
-// error  - The error if one occurs.
-//
-// Returns whether the calculation was successful.
+/// Calculate the ahead/behind count from this branch to the given branch.
+///
+/// ahead  - The number of commits which are unique to the receiver. Cannot be
+///          NULL.
+/// behind - The number of commits which are unique to `branch`. Cannot be NULL.
+/// branch - The branch to which the receiver should be compared.
+/// error  - The error if one occurs.
+///
+/// Returns whether the calculation was successful.
 - (BOOL)calculateAhead:(size_t *)ahead behind:(size_t *)behind relativeTo:(GTBranch *)branch error:(NSError **)error;
 
 @end
