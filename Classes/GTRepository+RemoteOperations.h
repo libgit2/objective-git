@@ -29,19 +29,4 @@ extern NSString *const GTRepositoryRemoteOptionsCredentialProvider;
 // will point to an error describing what happened).
 - (BOOL)fetchRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error progress:(void (^)(const git_transfer_progress *stats, BOOL *stop))progressBlock;
 
-// Push to a remote.
-//
-// TODO: progress ?
-//
-// remote  - The remote to fetch from.
-// options - Options applied to the fetch operation.
-//           Recognized options are :
-//           `GTRemoteOptionsReferences`,
-//           `GTRemoteOptionsCredentialProvider`,
-// error   - The error if one occurred. Can be NULL.
-//
-// Returns YES if the fetch was successful, NO otherwise (and `error`, if provided,
-// will point to an error describing what happened).
-- (BOOL)pushRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error progress:(void (^)(unsigned int current, unsigned int total, size_t bytes, BOOL *stop))progressBlock;
-
 @end

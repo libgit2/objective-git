@@ -196,56 +196,6 @@ describe(@"network operations", ^{
 			expect(fileData.content).to.equal(testData);
 		});
 	});
-
-	describe(@"-[GTRepository pushRemote:withOptions:error:progress:]", ^{
-
-		it(@"allows remotes to be pushed", ^{
-			NSError *error = nil;
-			GTRemote *remote = [GTRemote remoteWithName:@"origin" inRepository:fetchingRepo error:&error];
-
-			BOOL success = [fetchingRepo pushRemote:remote withOptions:nil error:&error progress:nil];
-			expect(success).to.beTruthy();
-			expect(error).to.beNil();
-		});
-
-		it(@"pushes new commits", ^{
-			NSError *error = nil;
-
-			NSString *fileData = @"Another test";
-			NSString *fileName = @"Another file.txt";
-
-			GTCommit *testCommit = createCommitInRepository(@"Another test commit", [fileData dataUsingEncoding:NSUTF8StringEncoding], fileName, fetchingRepo);
-
-			// Issue a push
-			GTRemote *remote = [GTRemote remoteWithName:@"origin" inRepository:fetchingRepo error:nil];
-
-			__block unsigned int receivedObjects = 0;
-			__block BOOL transferProgressed = NO;
-			BOOL success = [fetchingRepo pushRemote:remote withOptions:nil error:&error progress:^(unsigned int current, unsigned int total, size_t bytes, BOOL *stop) {
-				receivedObjects += current;
-				transferProgressed = YES;
-			}];
-
-			expect(success).to.beTruthy();
-			expect(error).to.beNil();
-			// FIXME: those are reversed because local pushes doesn't handle progress yet
-			expect(transferProgressed).to.beFalsy();
-			expect(receivedObjects).to.equal(0);
-
-			// Check that the origin repo has a new commit
-			GTCommit *pushedCommit = [repository lookUpObjectByOID:testCommit.OID objectType:GTObjectTypeCommit error:&error];
-			expect(error).to.beNil();
-			expect(pushedCommit).notTo.beNil();
-
-			GTTreeEntry *entry = [[pushedCommit tree] entryWithName:fileName];
-			expect(entry).notTo.beNil();
-
-			GTBlob *commitData = (GTBlob *)[entry GTObject:&error];
-			expect(error).to.beNil();
-			expect(commitData).notTo.beNil();
-			expect(commitData.content).to.equal(fileData);
-		});
-	});
 	
 	afterEach(^{
 		[self tearDown];
