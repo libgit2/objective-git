@@ -12,9 +12,9 @@
 
 @class GTDiffFile;
 
-// An enum representing the status of the file.
-//
-// See diff.h for documentation of individual flags.
+/// An enum representing the status of the file.
+///
+/// See diff.h for documentation of individual flags.
 typedef NS_ENUM(NSInteger, GTStatusDeltaStatus) {
 	GTStatusDeltaStatusUnmodified = GIT_DELTA_UNMODIFIED,
 	GTStatusDeltaStatusAdded = GIT_DELTA_ADDED,
@@ -27,26 +27,26 @@ typedef NS_ENUM(NSInteger, GTStatusDeltaStatus) {
 	GTStatusDeltaStatusTypeChange = GIT_DELTA_TYPECHANGE,
 };
 
-// Represents the status of a file in a repository.
+/// Represents the status of a file in a repository.
 @interface GTStatusDelta : NSObject
 
-// The file as it was prior to the change represented by this status delta.
+/// The file as it was prior to the change represented by this status delta.
 @property (nonatomic, readonly, copy) GTDiffFile *oldFile;
 
-// The file after the change represented by this status delta
+/// The file after the change represented by this status delta
 @property (nonatomic, readonly, copy) GTDiffFile *newFile __attribute__((ns_returns_not_retained));
 
-// The status of the file.
+/// The status of the file.
 @property (nonatomic, readonly) GTStatusDeltaStatus status;
 
-// A float between 0 and 1 describing how similar the old and new
-// files are (where 0 is not at all and 1 is identical).
-//
-// Only useful when the status is `GTStatusDeltaStatusRenamed` or
-// `GTStatusDeltaStatusCopied`.
+/// A float between 0 and 1 describing how similar the old and new
+/// files are (where 0 is not at all and 1 is identical).
+///
+/// Only useful when the status is `GTStatusDeltaStatusRenamed` or
+/// `GTStatusDeltaStatusCopied`.
 @property (nonatomic, readonly) double similarity;
 
-// Designated initializer.
+/// Designated initializer.
 - (instancetype)initWithGitDiffDelta:(const git_diff_delta *)delta;
 
 @end

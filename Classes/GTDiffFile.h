@@ -8,12 +8,12 @@
 
 #import "git2.h"
 
-// Flags which may be set on the file.
-//
-// GTDiffFileFlagBinaryMask - A mask to just retrieve the binary/not binary
-//                            information from a set of flags.
-//
-// See diff.h for further documentation.
+/// Flags which may be set on the file.
+///
+/// GTDiffFileFlagBinaryMask - A mask to just retrieve the binary/not binary
+///                            information from a set of flags.
+///
+/// See diff.h for further documentation.
 typedef NS_OPTIONS(NSInteger, GTDiffFileFlag) {
 	GTDiffFileFlagValidID = GIT_DIFF_FLAG_VALID_ID,
 	GTDiffFileFlagBinary = GIT_DIFF_FLAG_BINARY,
@@ -24,25 +24,25 @@ typedef NS_OPTIONS(NSInteger, GTDiffFileFlag) {
 
 @class GTOID;
 
-// A class representing a file on one side of a diff.
+/// A class representing a file on one side of a diff.
 @interface GTDiffFile : NSObject
 
-// The location within the working directory of the file.
+/// The location within the working directory of the file.
 @property (nonatomic, readonly, copy) NSString *path;
 
-// The size (in bytes) of the file.
+/// The size (in bytes) of the file.
 @property (nonatomic, readonly) NSUInteger size;
 
-// Any flags set on the file (see `GTDiffFileFlag` for more info).
+/// Any flags set on the file (see `GTDiffFileFlag` for more info).
 @property (nonatomic, readonly) GTDiffFileFlag flags;
 
-// The mode of the file.
+/// The mode of the file.
 @property (nonatomic, readonly) mode_t mode;
 
-// The OID for the file.
+/// The OID for the file.
 @property (nonatomic, readonly, copy) GTOID *OID;
 
-// The git_diff_file represented by the receiver.
+/// The git_diff_file represented by the receiver.
 @property (nonatomic, readonly) git_diff_file git_diff_file;
 
 /// Initializes the receiver with the provided libgit2 object.

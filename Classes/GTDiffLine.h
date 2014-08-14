@@ -8,9 +8,9 @@
 
 #import "git2.h"
 
-// A character representing the origin of a given line.
-//
-// See diff.h for individual documentation.
+/// A character representing the origin of a given line.
+///
+/// See diff.h for individual documentation.
 typedef NS_ENUM(char, GTDiffLineOrigin) {
 	GTDiffLineOriginContext = GIT_DIFF_LINE_CONTEXT,
 	GTDiffLineOriginAddition = GIT_DIFF_LINE_ADDITION,
@@ -20,29 +20,29 @@ typedef NS_ENUM(char, GTDiffLineOrigin) {
 	GTDiffLineOriginDeleteEOFNewLine = GIT_DIFF_LINE_DEL_EOFNL,
 };
 
-// Represents an individual line in a diff hunk.
+/// Represents an individual line in a diff hunk.
 @interface GTDiffLine : NSObject
 
-// The content string of the line.
+/// The content string of the line.
 @property (nonatomic, readonly, copy) NSString *content;
 
-// The line number of this line in the left side of the diff.
-//
-// -1 if the line is an addition.
+/// The line number of this line in the left side of the diff.
+///
+/// -1 if the line is an addition.
 @property (nonatomic, readonly) NSInteger oldLineNumber;
 
-// The line number of this line in the right side of the diff.
-//
-// -1 if the line is a deletion.
+/// The line number of this line in the right side of the diff.
+///
+/// -1 if the line is a deletion.
 @property (nonatomic, readonly) NSInteger newLineNumber;
 
-// The origin of the line, see the enum above for possible values.
+/// The origin of the line, see the enum above for possible values.
 @property (nonatomic, readonly) GTDiffLineOrigin origin;
 
-// The number of newlines appearing in `-content`.
+/// The number of newlines appearing in `-content`.
 @property (nonatomic, readonly) NSInteger lineCount;
 
-// Designated initialiser.
+/// Designated initialiser.
 - (instancetype)initWithGitLine:(const git_diff_line *)line;
 
 @end

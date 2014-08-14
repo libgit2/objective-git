@@ -46,7 +46,7 @@
 @property (nonatomic, readonly) NSTimeZone *commitTimeZone;
 @property (nonatomic, readonly) GTTree *tree;
 
-// The underlying `git_object` as a `git_commit` object.
+/// The underlying `git_object` as a `git_commit` object.
 - (git_commit *)git_commit __attribute__((objc_returns_inner_pointer));
 
 @end
