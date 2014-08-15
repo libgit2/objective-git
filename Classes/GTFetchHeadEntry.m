@@ -23,10 +23,7 @@
 }
 
 + (instancetype)fetchEntryWithReference:(GTReference *)reference remoteURL:(NSString *)remoteURL targetOID:(GTOID *)targetOID isMerge:(BOOL)merge {
-	return [[self alloc] initWithReference:reference
-	                             remoteURL:remoteURL
-								 targetOID:targetOID
-								   isMerge:merge];
+	return [[self alloc] initWithReference:reference remoteURL:remoteURL targetOID:targetOID isMerge:merge];
 	
 }
 
