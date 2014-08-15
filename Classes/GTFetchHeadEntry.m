@@ -12,12 +12,13 @@
 
 - (instancetype)initWithReference:(GTReference *)reference remoteURL:(NSString *)remoteURL targetOID:(GTOID *)targetOID isMerge:(BOOL)merge {
 	self = [super init];
-	if (self) {
-		_reference = reference;
-		_remoteURL = [remoteURL copy];
-		_targetOID = targetOID;
-		_merge = merge;
-	}
+	if (self == nil) return nil;
+
+	_reference = reference;
+	_remoteURL = [remoteURL copy];
+	_targetOID = targetOID;
+	_merge = merge;
+
 	return self;
 }
 
