@@ -10,10 +10,9 @@
 
 @implementation GTFetchHeadEntry
 
-- (instancetype)initWithRepository:(GTRepository *)repository reference:(GTReference *)reference remoteURL:(NSString *)remoteURL targetOID:(GTOID *)targetOID isMerge:(BOOL)merge {
+- (instancetype)initWithReference:(GTReference *)reference remoteURL:(NSString *)remoteURL targetOID:(GTOID *)targetOID isMerge:(BOOL)merge {
 	self = [super init];
 	if (self) {
-		_repository = repository;
 		_reference = reference;
 		_remoteURL = [remoteURL copy];
 		_targetOID = targetOID;
@@ -22,20 +21,19 @@
 	return self;
 }
 
-+ (instancetype)fetchEntryWithRepository:(GTRepository *)repository reference:(GTReference *)reference remoteURL:(NSString *)remoteURL targetOID:(GTOID *)targetOID isMerge:(BOOL)merge {
-	return [[self alloc] initWithRepository:repository
-								  reference:reference
-								  remoteURL:remoteURL
-								  targetOID:targetOID
-									isMerge:merge];
++ (instancetype)fetchEntryWithReference:(GTReference *)reference remoteURL:(NSString *)remoteURL targetOID:(GTOID *)targetOID isMerge:(BOOL)merge {
+	return [[self alloc] initWithReference:reference
+	                             remoteURL:remoteURL
+								 targetOID:targetOID
+								   isMerge:merge];
 	
 }
 
 #pragma mark NSObject
 
 - (NSString *)description {
-	return [NSString stringWithFormat:@"<%@: %p>{ repository: %@, reference: %@, remoteURL: %@, targetOID: %@, merge: %i }",
-			self.class, self, self.repository, self.reference, self.remoteURL, self.targetOID, (int)_merge];
+	return [NSString stringWithFormat:@"<%@: %p>{ reference: %@, remoteURL: %@, targetOID: %@, merge: %i }",
+			self.class, self, self.reference, self.remoteURL, self.targetOID, (int)_merge];
 }
 
 @end

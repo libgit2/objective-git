@@ -50,15 +50,9 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 	
 	GTRepository *repository = entriesPayload->repository;
 	
-	GTReference *reference = [GTReference referenceByLookingUpReferencedNamed:@(ref_name)
-																 inRepository:repository
-																		error:NULL];
+	GTReference *reference = [GTReference referenceByLookingUpReferencedNamed:@(ref_name) inRepository:repository error:NULL];
 	
-	GTFetchHeadEntry *entry = [GTFetchHeadEntry fetchEntryWithRepository:entriesPayload->repository
-															   reference:reference
-															   remoteURL:@(remote_url)
-															   targetOID:[GTOID oidWithGitOid:oid]
-																 isMerge:(BOOL)is_merge];
+	GTFetchHeadEntry *entry = [GTFetchHeadEntry fetchEntryWithReference:reference remoteURL:@(remote_url) targetOID:[GTOID oidWithGitOid:oid] isMerge:(BOOL)is_merge];
 	[entriesPayload->entries addObject:entry];
 	
 	return 0;

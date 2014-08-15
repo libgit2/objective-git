@@ -15,9 +15,6 @@
 // A class representing an entry on the FETCH_HEAD file, as returned by the callback of git_repository_fetchhead_foreach.
 @interface GTFetchHeadEntry : NSObject
 
-// The repository owning this fetch entry.
-@property (nonatomic, readonly, strong) GTRepository *repository;
-
 // The reference of this fetch entry.
 @property (nonatomic, readonly, strong) GTReference *reference;
 
@@ -32,22 +29,20 @@
 
 // Initializes a GTFetchHeadEntry.
 //
-// repository - Parent repository
 // reference - Reference on the repository
 // remoteURL - URL where this was originally fetched from
 // targetOID - Target OID
 // merge - Indicates if this is pending a merge.
-- (instancetype)initWithRepository:(GTRepository *)repository reference:(GTReference *)reference remoteURL:(NSString *)remoteURL targetOID:(GTOID *)targetOID isMerge:(BOOL)merge;
+- (instancetype)initWithReference:(GTReference *)reference remoteURL:(NSString *)remoteURL targetOID:(GTOID *)targetOID isMerge:(BOOL)merge;
 
 // Returns a new GTFetchHeadEntry instance.
 //
-// repository - Parent repository
 // reference - Reference on the repository
 // remoteURL - URL where this was originally fetched from
 // targetOID - Target OID
 // merge - Indicates if this is pending a merge.
 //
 // Returns a new GTFetchHeadEntry already initialized.
-+ (instancetype)fetchEntryWithRepository:(GTRepository *)repository reference:(GTReference *)reference remoteURL:(NSString *)remoteURL targetOID:(GTOID *)targetOID isMerge:(BOOL)merge;
++ (instancetype)fetchEntryWithReference:(GTReference *)reference remoteURL:(NSString *)remoteURL targetOID:(GTOID *)targetOID isMerge:(BOOL)merge;
 
 @end
