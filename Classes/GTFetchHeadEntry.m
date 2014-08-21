@@ -11,6 +11,10 @@
 @implementation GTFetchHeadEntry
 
 - (instancetype)initWithReference:(GTReference *)reference remoteURL:(NSString *)remoteURL targetOID:(GTOID *)targetOID isMerge:(BOOL)merge {
+	NSParameterAssert(reference != nil);
+	NSParameterAssert(remoteURL != nil);
+	NSParameterAssert(targetOID != nil);
+	
 	self = [super init];
 	if (self == nil) return nil;
 
