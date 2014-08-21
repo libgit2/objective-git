@@ -59,9 +59,7 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 	
 	BOOL stop = NO;
 	
-	if (enumerationBlock) {
-		enumerationBlock(entry, &stop);
-	}
+	enumerationBlock(entry, &stop);
 	
 	return (int)stop;
 }
