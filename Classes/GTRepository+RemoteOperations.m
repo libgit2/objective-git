@@ -99,6 +99,8 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 }
 
 - (BOOL)enumerateFetchHeadEntriesWithError:(NSError **)error usingBlock:(void (^)(GTFetchHeadEntry *fetchHeadEntry, BOOL *stop))block {
+	NSParameterAssert(block != nil);
+	
 	GTEnumerateHeadEntriesPayload payload = {
 		.repository = self,
 		.enumerationBlock = block,
