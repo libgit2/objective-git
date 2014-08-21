@@ -116,7 +116,7 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 }
 
 - (NSArray *)fetchHeadEntriesWithError:(NSError **)error {
-	__block NSMutableArray *entries = [NSMutableArray array];
+	NSMutableArray *entries = [NSMutableArray array];
 	
 	[self enumerateFetchHeadEntriesWithError:error usingBlock:^(GTFetchHeadEntry *fetchHeadEntry, BOOL *stop) {
 		[entries addObject:fetchHeadEntry];
