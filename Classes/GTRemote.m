@@ -166,7 +166,7 @@
 }
 
 - (BOOL)isConnected {
-	return git_remote_connected(self.git_remote) == 0;
+	return git_remote_connected(self.git_remote) == 1;
 }
 
 #pragma mark Renaming
