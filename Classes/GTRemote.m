@@ -150,7 +150,7 @@
 }
 
 - (BOOL)updatesFetchHead {
-	return git_remote_update_fetchhead(self.git_remote) == 0;
+	return git_remote_update_fetchhead(self.git_remote) == 1;
 }
 
 - (void)setUpdatesFetchHead:(BOOL)updatesFetchHead {
