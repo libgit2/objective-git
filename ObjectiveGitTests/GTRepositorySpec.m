@@ -431,7 +431,7 @@ describe(@"-lookUpObjectByRevParse:error:", ^{
 	it(@"should parse various revspecs", ^{
 		expectSHAForRevParse(@"36060c58702ed4c2a40832c51758d5344201d89a", @"master");
 		expectSHAForRevParse(@"5b5b025afb0b4c913b4c338a42934a3863bf3644", @"master~");
-//		expectSHAForRevParse(@"8496071c1b46c854b31185ea97743be6a8774479", @"master@{2}");
+		expectSHAForRevParse(@"8496071c1b46c854b31185ea97743be6a8774479", @"master@{2}");
 		expectSHAForRevParse(nil, @"master^2");
 		expectSHAForRevParse(nil, @"");
 		expectSHAForRevParse(@"0c37a5391bbff43c37f0d0371823a5509eed5b1d", @"v1.0");
