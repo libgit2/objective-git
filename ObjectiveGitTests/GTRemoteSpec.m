@@ -79,9 +79,6 @@ describe(@"network operations", ^{
 		NSURL *fixturesURL = repositoryURL.URLByDeletingLastPathComponent;
 		fetchingRepoURL = [fixturesURL URLByAppendingPathComponent:@"fetchrepo"];
 
-		// Make sure there's no leftover
-		[NSFileManager.defaultManager removeItemAtURL:fetchingRepoURL error:nil];
-
 		NSError *error = nil;
 		fetchingRepo = [GTRepository cloneFromURL:repositoryURL toWorkingDirectory:fetchingRepoURL options:nil error:&error transferProgressBlock:nil checkoutProgressBlock:nil];
 		expect(fetchingRepo).notTo.beNil();
@@ -105,6 +102,8 @@ describe(@"network operations", ^{
 			GTRemote *originRemote = [GTRemote remoteWithName:remoteName inRepository:fetchingRepo error:&error];
 			expect(error).to.beNil();
 			expect(originRemote).notTo.beNil();
+			expect(originRemote.name).to.equal(@"origin");
+			expect(originRemote.URLString).to.equal(repositoryURL.path);
 		});
 
 		it(@"should fail for non-existent remotes", ^{
@@ -126,6 +125,7 @@ describe(@"network operations", ^{
 			GTRemote *newRemote = [GTRemote remoteWithName:@"newremote" inRepository:fetchingRepo error:&error];
 			expect(error).to.beNil();
 			expect(newRemote).notTo.beNil();
+			expect(newRemote.URLString).to.equal(@"git://user@example.com/testrepo.git");
 		});
 	});
 
@@ -137,14 +137,13 @@ describe(@"network operations", ^{
 		GTTree *testTree = [treeBuilder writeTreeToRepository:repo error:nil];
 
 		// We need the parent commit to make the new one
-		GTBranch *currentBranch = [repo currentBranchWithError:nil];
-		GTReference *currentReference = [currentBranch reference];
+		GTReference *headReference = [repo headReferenceWithError:nil];
 
 		GTEnumerator *commitEnum = [[GTEnumerator alloc] initWithRepository:repo error:nil];
-		[commitEnum pushSHA:[currentReference targetSHA] error:nil];
+		[commitEnum pushSHA:[headReference targetSHA] error:nil];
 		GTCommit *parent = [commitEnum nextObject];
 
-		GTCommit *testCommit = [repo createCommitWithTree:testTree message:message parents:@[parent] updatingReferenceNamed:currentReference.name error:nil];
+		GTCommit *testCommit = [repo createCommitWithTree:testTree message:message parents:@[parent] updatingReferenceNamed:headReference.name error:nil];
 		expect(testCommit).notTo.beNil();
 
 		return testCommit;
@@ -195,10 +194,6 @@ describe(@"network operations", ^{
 			expect(fileData).notTo.beNil();
 			expect(fileData.content).to.equal(testData);
 		});
-	});
-	
-	afterEach(^{
-		[self tearDown];
 	});
 });
 
