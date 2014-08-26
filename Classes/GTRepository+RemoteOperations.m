@@ -67,7 +67,7 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 #pragma mark Fetch
 
 - (BOOL)fetchRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error progress:(GTRemoteFetchTransferProgressBlock)progressBlock {
-	GTCredentialProvider *credProvider = (options[GTRepositoryRemoteOptionsCredentialProvider] ?: nil);
+	GTCredentialProvider *credProvider = options[GTRepositoryRemoteOptionsCredentialProvider];
 	GTRemoteConnectionInfo connectionInfo = {
 		.credProvider = (__bridge GTCredentialAcquireCallbackInfo *)(credProvider),
 		.direction = GIT_DIRECTION_FETCH,
