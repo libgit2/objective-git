@@ -335,7 +335,7 @@ describe(@"-remoteNamesWithError:", ^{
 	it(@"returns remote names if there are any", ^{
 		NSError *error = nil;
 		NSString *remoteName = @"testremote";
-		GTRemote *remote = [GTRemote createRemoteWithName:remoteName url:@"git://user@example.com/testrepo" inRepository:repository error:&error];
+		GTRemote *remote = [GTRemote createRemoteWithName:remoteName URLString:@"git://user@example.com/testrepo" inRepository:repository error:&error];
 		expect(error.localizedDescription).to.beNil();
 		expect(remote).notTo.beNil();
 

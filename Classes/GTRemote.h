@@ -60,23 +60,23 @@ typedef enum {
 @property (nonatomic, readonly, copy) NSArray *pushRefspecs;
 
 // Tests if a URL is supported (e.g. it's a supported URL scheme)
-+ (BOOL)isSupportedURL:(NSString *)URL;
++ (BOOL)isSupportedURLString:(NSString *)URLString;
 
 // Tests if a URL is valid (e.g. it actually makes sense as a URL)
-+ (BOOL)isValidURL:(NSString *)URL;
++ (BOOL)isValidURLString:(NSString *)URLString;
 
 // Tests if a name is valid
 + (BOOL)isValidRemoteName:(NSString *)name;
 
 // Create a new remote in a repository.
 //
-// name - The name for the new remote.
-// URL  - The origin URL for the remote.
-// repo - The repository the remote should be created in.
-// error - Will be set if an error occurs.
+// name      - The name for the new remote.
+// URLString - The origin URL for the remote.
+// repo      - The repository the remote should be created in.
+// error     - Will be set if an error occurs.
 //
 // Returns a new remote, or nil if an error occurred
-+ (instancetype)createRemoteWithName:(NSString *)name url:(NSString *)URL inRepository:(GTRepository *)repo error:(NSError **)error;
++ (instancetype)createRemoteWithName:(NSString *)name URLString:(NSString *)URLString inRepository:(GTRepository *)repo error:(NSError **)error;
 
 // Load a remote from a repository.
 //

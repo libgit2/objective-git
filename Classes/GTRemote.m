@@ -56,16 +56,16 @@
 
 #pragma mark API
 
-+ (BOOL)isValidURL:(NSString *)URL {
-	NSParameterAssert(URL != nil);
++ (BOOL)isValidURLString:(NSString *)URLString {
+	NSParameterAssert(URLString != nil);
 
-	return git_remote_valid_url(URL.UTF8String) == GIT_OK;
+	return git_remote_valid_url(URLString.UTF8String) == GIT_OK;
 }
 
-+ (BOOL)isSupportedURL:(NSString *)URL {
-	NSParameterAssert(URL != nil);
++ (BOOL)isSupportedURLString:(NSString *)URLString {
+	NSParameterAssert(URLString != nil);
 
-	return git_remote_supported_url(URL.UTF8String) == GIT_OK;
+	return git_remote_supported_url(URLString.UTF8String) == GIT_OK;
 }
 
 + (BOOL)isValidRemoteName:(NSString *)name {
@@ -74,13 +74,13 @@
 	return git_remote_is_valid_name(name.UTF8String) == GIT_OK;
 }
 
-+ (instancetype)createRemoteWithName:(NSString *)name url:(NSString *)URL inRepository:(GTRepository *)repo error:(NSError **)error {
++ (instancetype)createRemoteWithName:(NSString *)name URLString:(NSString *)URLString inRepository:(GTRepository *)repo error:(NSError **)error {
 	NSParameterAssert(name != nil);
-	NSParameterAssert(URL != nil);
+	NSParameterAssert(URLString != nil);
 	NSParameterAssert(repo != nil);
 
 	git_remote *remote;
-	int gitError = git_remote_create(&remote, repo.git_repository, name.UTF8String, URL.UTF8String);
+	int gitError = git_remote_create(&remote, repo.git_repository, name.UTF8String, URLString.UTF8String);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Remote creation failed" failureReason:nil];
 

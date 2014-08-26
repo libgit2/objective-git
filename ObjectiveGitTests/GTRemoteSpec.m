@@ -119,7 +119,7 @@ describe(@"network operations", ^{
 	describe(@"-createRemoteWithName:url:inRepository:error", ^{
 		it(@"should allow creating new remotes", ^{
 			NSError *error = nil;
-			GTRemote *remote = [GTRemote createRemoteWithName:@"newremote" url:@"git://user@example.com/testrepo.git" inRepository:fetchingRepo	error:&error];
+			GTRemote *remote = [GTRemote createRemoteWithName:@"newremote" URLString:@"git://user@example.com/testrepo.git" inRepository:fetchingRepo error:&error];
 			expect(error).to.beNil();
 			expect(remote).notTo.beNil();
 
