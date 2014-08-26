@@ -39,23 +39,23 @@ typedef NS_ENUM(NSInteger, GTIndexEntryStatus) {
 
 @interface GTIndexEntry : NSObject
 
-// The repository-relative path for the entry.
+/// The repository-relative path for the entry.
 @property (nonatomic, readonly, copy) NSString *path;
 
-// Has the entry been staged?
+/// Has the entry been staged?
 @property (nonatomic, getter = isStaged, readonly) BOOL staged;
 
-// What is the entry's status?
+/// What is the entry's status?
 @property (nonatomic, readonly) GTIndexEntryStatus status;
 
-// Initializes the receiver with the given libgit2 index entry.
-//
-// entry - The libgit2 index entry. Cannot be NULL.
-//
-// Returns the initialized object.
+/// Initializes the receiver with the given libgit2 index entry.
+///
+/// entry - The libgit2 index entry. Cannot be NULL.
+///
+/// Returns the initialized object.
 - (id)initWithGitIndexEntry:(const git_index_entry *)entry;
 
-// The underlying `git_index_entry` object.
+/// The underlying `git_index_entry` object.
 - (const git_index_entry *)git_index_entry __attribute__((objc_returns_inner_pointer));
 
 @end

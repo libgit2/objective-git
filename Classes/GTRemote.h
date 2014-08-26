@@ -20,109 +20,114 @@ typedef enum {
 	GTRemoteDownloadTagsAll = GIT_REMOTE_DOWNLOAD_TAGS_ALL,
 } GTRemoteAutoTagOption;
 
-// A class representing a remote for a git repository.
-//
-// Analogous to `git_remote` in libgit2.
+/// A class representing a remote for a git repository.
+///
+/// Analogous to `git_remote` in libgit2.
 @interface GTRemote : NSObject
 
-// The repository owning this remote.
-@property (nonatomic, readonly, strong) GTRepository *repository;
+/// Initializes a new GTRemote to represent an underlying `git_remote`.
+///
+/// remote - The underlying `git_remote` object.
+- (id)initWithGitRemote:(git_remote *)remote;
 
-// The name of the remote.
-@property (nonatomic, readonly, copy) NSString *name;
-
-// The fetch URL for the remote.
-@property (nonatomic, copy) NSString *URLString;
-
-// The push URL for the remote, if provided.
-@property (nonatomic, copy) NSString *pushURLString;
-
-// Whether the remote is connected or not.
-@property (nonatomic, readonly, getter=isConnected) BOOL connected;
-
-// Whether the remote updates FETCH_HEAD when fetched.
-// Defaults to YES.
-@property (nonatomic) BOOL updatesFetchHead;
-
-// The auto-tag setting for the remote.
-@property (nonatomic) GTRemoteAutoTagOption autoTag;
-
-// The fetch refspecs for this remote.
-//
-// This array will contain NSStrings of the form
-// `+refs/heads/*:refs/remotes/REMOTE/*`.
-@property (nonatomic, readonly, copy) NSArray *fetchRefspecs;
-
-// The push refspecs for this remote.
-//
-// This array will contain NSStrings of the form
-// `+refs/heads/*:refs/remotes/REMOTE/*`.
-@property (nonatomic, readonly, copy) NSArray *pushRefspecs;
-
-// Tests if a URL is supported (e.g. it's a supported URL scheme)
-+ (BOOL)isSupportedURLString:(NSString *)URLString;
-
-// Tests if a URL is valid (e.g. it actually makes sense as a URL)
-+ (BOOL)isValidURLString:(NSString *)URLString;
-
-// Tests if a name is valid
-+ (BOOL)isValidRemoteName:(NSString *)name;
-
-// Create a new remote in a repository.
-//
-// name      - The name for the new remote.
-// URLString - The origin URL for the remote.
-// repo      - The repository the remote should be created in.
-// error     - Will be set if an error occurs.
-//
-// Returns a new remote, or nil if an error occurred
-+ (instancetype)createRemoteWithName:(NSString *)name URLString:(NSString *)URLString inRepository:(GTRepository *)repo error:(NSError **)error;
-
-// Load a remote from a repository.
-//
-// name - The name for the new remote.
-// repo - The repository the remote should be created in.
-// error - Will be set if an error occurs.
-//
-// Returns the loaded remote, or nil if an error occurred.
-+ (instancetype)remoteWithName:(NSString *)name inRepository:(GTRepository *)repo error:(NSError **)error;
-
-// Initialize a remote from a `git_remote`.
-//
-// remote - The underlying `git_remote` object.
-- (instancetype)initWithGitRemote:(git_remote *)remote inRepository:(GTRepository *)repo;
-
-// The underlying `git_remote` object.
+/// The underlying `git_remote` object.
 - (git_remote *)git_remote __attribute__((objc_returns_inner_pointer));
 
-// Rename the remote.
-//
-// name - The new name for the remote.
-// problematicRefspecs - If there's an error, returns a list of the refspecs with error for further processing by the caller.
-// error - Will be set if an error occurs.
-//
-// Return YES if successful, NO otherwise.
+/// The repository owning this remote.
+@property (nonatomic, readonly, strong) GTRepository *repository;
+
+/// The name of the remote.
+@property (nonatomic, readonly, copy) NSString *name;
+
+/// The URL string for the remote.
+@property (nonatomic, readonly, copy) NSString *URLString;
+
+/// The push URL for the remote, if provided.
+@property (nonatomic, copy) NSString *pushURLString;
+
+/// Whether the remote is connected or not.
+@property (nonatomic, readonly, getter=isConnected) BOOL connected;
+
+/// Whether the remote updates FETCH_HEAD when fetched.
+/// Defaults to YES.
+@property (nonatomic) BOOL updatesFetchHead;
+
+/// The auto-tag setting for the remote.
+@property (nonatomic) GTRemoteAutoTagOption autoTag;
+
+/// The fetch refspecs for this remote.
+///
+/// This array will contain NSStrings of the form
+/// `+refs/heads/*:refs/remotes/REMOTE/*`.
+@property (nonatomic, readonly, copy) NSArray *fetchRefspecs;
+
+/// The push refspecs for this remote.
+///
+/// This array will contain NSStrings of the form
+/// `+refs/heads/*:refs/remotes/REMOTE/*`.
+@property (nonatomic, readonly, copy) NSArray *pushRefspecs;
+
+/// Tests if a URL is supported (e.g. it's a supported URL scheme)
++ (BOOL)isSupportedURLString:(NSString *)URLString;
+
+/// Tests if a URL is valid (e.g. it actually makes sense as a URL)
++ (BOOL)isValidURLString:(NSString *)URLString;
+
+/// Tests if a name is valid
++ (BOOL)isValidRemoteName:(NSString *)name;
+
+/// Create a new remote in a repository.
+///
+/// name      - The name for the new remote.
+/// URLString - The origin URL for the remote.
+/// repo      - The repository the remote should be created in.
+/// error     - Will be set if an error occurs.
+///
+/// Returns a new remote, or nil if an error occurred
++ (instancetype)createRemoteWithName:(NSString *)name URLString:(NSString *)URLString inRepository:(GTRepository *)repo error:(NSError **)error;
+
+/// Load a remote from a repository.
+///
+/// name - The name for the new remote.
+/// repo - The repository the remote should be created in.
+/// error - Will be set if an error occurs.
+///
+/// Returns the loaded remote, or nil if an error occurred.
++ (instancetype)remoteWithName:(NSString *)name inRepository:(GTRepository *)repo error:(NSError **)error;
+
+/// Initialize a remote from a `git_remote`.
+///
+/// remote - The underlying `git_remote` object.
+- (instancetype)initWithGitRemote:(git_remote *)remote inRepository:(GTRepository *)repo;
+
+/// Rename the remote.
+///
+/// name - The new name for the remote.
+/// problematicRefspecs - If there's an error, returns a list of the refspecs with error for further processing by the caller.
+/// error - Will be set if an error occurs.
+///
+/// Return YES if successful, NO otherwise.
 - (BOOL)rename:(NSString *)name problematicRefspecs:(NSArray **)problematicRefspecs error:(NSError **)error;
 
-// Updates the URL string for this remote.
-//
-// URLString - The URLString to update to. May not be nil.
-// error     - If not NULL, this will be set to any error that occurs when
-//             updating the URLString or saving the remote.
-//
-// Returns YES if the URLString was successfully updated, NO and an error
-// if updating or saving the remote failed.
+/// Updates the URL string for this remote.
+///
+/// URLString - The URLString to update to. May not be nil.
+/// error     - If not NULL, this will be set to any error that occurs when
+///             updating the URLString or saving the remote.
+///
+/// Returns YES if the URLString was successfully updated, NO and an error
+/// if updating or saving the remote failed.
 - (BOOL)updateURLString:(NSString *)URLString error:(NSError **)error;
 
-// Adds a fetch refspec to this remote.
-//
-// fetchRefspec - The fetch refspec string to add. May not be nil.
-// error        - If not NULL, this will be set to any error that occurs
-//                when adding the refspec or saving the remote.
-//
-// Returns YES if there is the refspec is successfully added
-// or a matching refspec is already present, NO and an error if
-// adding the refspec or saving the remote failed.
+/// Adds a fetch refspec to this remote.
+///
+/// fetchRefspec - The fetch refspec string to add. May not be nil.
+/// error        - If not NULL, this will be set to any error that occurs
+///                when adding the refspec or saving the remote.
+///
+/// Returns YES if there is the refspec is successfully added
+/// or a matching refspec is already present, NO and an error if
+/// adding the refspec or saving the remote failed.
 - (BOOL)addFetchRefspec:(NSString *)fetchRefspec error:(NSError **)error;
 
 @end

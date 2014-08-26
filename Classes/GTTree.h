@@ -40,54 +40,54 @@ typedef NS_ENUM(NSInteger, GTTreeEnumerationOptions) {
 
 @interface GTTree : GTObject
 
-// The number of entries in the tree.
+/// The number of entries in the tree.
 @property (nonatomic, readonly) NSUInteger entryCount;
 
-// The contents of the tree, as an array of whose objects are of type `GTTreeEntry`
+/// The contents of the tree, as an array of whose objects are of type `GTTreeEntry`
 @property (nonatomic, strong, readonly) NSArray *entries;
 
-// The underlying `git_object` as a `git_tree` object.
+/// The underlying `git_object` as a `git_tree` object.
 - (git_tree *)git_tree __attribute__((objc_returns_inner_pointer));
 
-// Get a entry at the specified index
-//
-// index - index to retreive entry from
-//
-// returns a GTTreeEntry or nil if there is nothing at the index
+/// Get a entry at the specified index
+///
+/// index - index to retreive entry from
+///
+/// returns a GTTreeEntry or nil if there is nothing at the index
 - (GTTreeEntry *)entryAtIndex:(NSUInteger)index;
 
-// Get a entry by name
-//
-// name - the name of the entry
-//
-// returns a GTTreeEntry or nil if there is nothing with the specified name
+/// Get a entry by name
+///
+/// name - the name of the entry
+///
+/// returns a GTTreeEntry or nil if there is nothing with the specified name
 - (GTTreeEntry *)entryWithName:(NSString *)name;
 
-// Enumerates the contents of the tree
-//
-// options -  One of `GTTreeEnumerationOptionPre` (for pre-order walks) or
-//            `GTTreeEnumerationOptionPost` (for post-order walks).
-// error   -  The error if one occurred.
-// block   -  A block that will be invoked with the current entry, a
-//            (repository relative) path to the root of the current entry,
-//            and a stop parameter to abort the walk. Cannot be nil.
-//            Return `YES` to move into the descendants of the entry.
-//            Return `NO` to skip the entry's descendants.
-//            Returning `YES` or `NO` only matters when in pre-order mode.
-//
-// Returns `YES` if the enumeration completed successfully, `NO` otherwise.
+/// Enumerates the contents of the tree
+///
+/// options -  One of `GTTreeEnumerationOptionPre` (for pre-order walks) or
+///            `GTTreeEnumerationOptionPost` (for post-order walks).
+/// error   -  The error if one occurred.
+/// block   -  A block that will be invoked with the current entry, a
+///            (repository relative) path to the root of the current entry,
+///            and a stop parameter to abort the walk. Cannot be nil.
+///            Return `YES` to move into the descendants of the entry.
+///            Return `NO` to skip the entry's descendants.
+///            Returning `YES` or `NO` only matters when in pre-order mode.
+///
+/// Returns `YES` if the enumeration completed successfully, `NO` otherwise.
 - (BOOL)enumerateEntriesWithOptions:(GTTreeEnumerationOptions)options error:(NSError **)error block:(BOOL (^)(GTTreeEntry *entry, NSString *root, BOOL *stop))block;
 
-// Merges the given tree into the receiver in memory and produces the result as
-// an index.
-//
-// otherTree    - The tree with which the receiver should be merged. Cannot be
-//                nil.
-// ancestorTree - The common ancestor of the two trees, or nil if none.
-// error        - The error if one occurred.
-//
-// Returns an index which represents the result of the merge, or nil if an error
-// occurred.
+/// Merges the given tree into the receiver in memory and produces the result as
+/// an index.
+///
+/// otherTree    - The tree with which the receiver should be merged. Cannot be
+///                nil.
+/// ancestorTree - The common ancestor of the two trees, or nil if none.
+/// error        - The error if one occurred.
+///
+/// Returns an index which represents the result of the merge, or nil if an error
+/// occurred.
 - (GTIndex *)merge:(GTTree *)otherTree ancestor:(GTTree *)ancestorTree error:(NSError **)error;
 
 @end

@@ -33,36 +33,36 @@
 
 @interface GTTreeEntry : NSObject
 
-// Initializer and convience methods.
+/// Initializer and convience methods.
 - (instancetype)initWithEntry:(const git_tree_entry *)theEntry parentTree:(GTTree *)parent;
 + (instancetype)entryWithEntry:(const git_tree_entry *)theEntry parentTree:(GTTree *)parent;
 
-// The underlying `git_tree_entry`.
+/// The underlying `git_tree_entry`.
 - (const git_tree_entry *)git_tree_entry __attribute__((objc_returns_inner_pointer));
 
-// The entry's parent tree. This may be nil if nil is passed in to -initWithEntry:
+/// The entry's parent tree. This may be nil if nil is passed in to -initWithEntry:
 @property (nonatomic, strong, readonly) GTTree *tree;
 
-// The filename of the entry
+/// The filename of the entry
 @property (nonatomic, copy, readonly) NSString *name;
 
-// The UNIX file attributes of the entry.
+/// The UNIX file attributes of the entry.
 @property (nonatomic, readonly) NSInteger attributes;
 
-// The SHA hash of the entry
+/// The SHA hash of the entry
 @property (nonatomic, copy, readonly) NSString *SHA;
 
-// The type of GTObject that -object: will return.
+/// The type of GTObject that -object: will return.
 @property (nonatomic, readonly) GTObjectType type;
 
-// The OID of the entry.
+/// The OID of the entry.
 @property (nonatomic, strong, readonly) GTOID *OID;
 
-// Convert the entry into an GTObject
-//
-// error - will be filled if an error occurs
-//
-// Returns this entry as a GTObject or nil if an error occurred.
+/// Convert the entry into an GTObject
+///
+/// error - will be filled if an error occurs
+///
+/// Returns this entry as a GTObject or nil if an error occurred.
 - (GTObject *)GTObject:(NSError **)error;
 
 @end
