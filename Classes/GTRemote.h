@@ -90,7 +90,7 @@ typedef enum {
 // Initialize a remote from a `git_remote`.
 //
 // remote - The underlying `git_remote` object.
-- (id)initWithGitRemote:(git_remote *)remote inRepository:(GTRepository *)repo;
+- (instancetype)initWithGitRemote:(git_remote *)remote inRepository:(GTRepository *)repo;
 
 // The underlying `git_remote` object.
 - (git_remote *)git_remote __attribute__((objc_returns_inner_pointer));

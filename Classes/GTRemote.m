@@ -105,7 +105,7 @@
 	return [[self alloc] initWithGitRemote:remote inRepository:repo];
 }
 
-- (id)initWithGitRemote:(git_remote *)remote inRepository:(GTRepository *)repo {
+- (instancetype)initWithGitRemote:(git_remote *)remote inRepository:(GTRepository *)repo {
 	NSParameterAssert(remote != NULL);
 	NSParameterAssert(repo != nil);
 
