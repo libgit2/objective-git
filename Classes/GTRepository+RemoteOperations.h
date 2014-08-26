@@ -20,8 +20,7 @@ extern NSString *const GTRepositoryRemoteOptionsCredentialProvider;
 // remote  - The remote to fetch from.
 // options - Options applied to the fetch operation.
 //           Recognized options are :
-//           `GTRemoteOptionsCredentialProvider`, which should be a GTCredentialProvider,
-//			 in case authentication is needed.
+//           `GTRepositoryRemoteOptionsCredentialProvider`
 // error   - The error if one occurred. Can be NULL.
 //
 // Returns YES if the fetch was successful, NO otherwise (and `error`, if provided,
