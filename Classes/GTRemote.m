@@ -184,6 +184,9 @@
 
 		if (problematicRefspecs) *problematicRefspecs = [NSArray git_arrayWithStrarray:problematic_refspecs];
 	}
+
+	git_strarray_free(&problematic_refspecs);
+
 	return gitError == GIT_OK;
 }
 
