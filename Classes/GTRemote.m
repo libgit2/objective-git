@@ -81,7 +81,7 @@
 	git_remote *remote;
 	int gitError = git_remote_create(&remote, repo.git_repository, name.UTF8String, URLString.UTF8String);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Remote creation failed" failureReason:nil];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Remote creation failed" failureReason:@"Failed to create a remote named \"%@\" for \"%@\"", name, URLString];
 
 		return nil;
 	}
