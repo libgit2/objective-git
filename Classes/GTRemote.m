@@ -19,7 +19,6 @@
 @interface GTRemote ()
 
 @property (nonatomic, readonly, assign) git_remote *git_remote;
-@property (nonatomic, strong) GTRepository *repository;
 @end
 
 @implementation GTRemote
@@ -120,10 +119,6 @@
 }
 
 #pragma mark Properties
-
-- (GTRepository *)repository {
-	return _repository;
-}
 
 - (NSString *)name {
 	const char *name = git_remote_name(self.git_remote);
