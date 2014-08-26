@@ -183,8 +183,7 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 }
 
 struct GTClonePayload {
-	// credProvider must be first for compatibility with GTCredentialAcquireCallbackInfo
-	__unsafe_unretained GTCredentialProvider *credProvider;
+	GTCredentialAcquireCallbackInfo *credProvider;
 	__unsafe_unretained GTTransferProgressBlock transferProgressBlock;
 };
 
@@ -231,7 +230,7 @@ struct GTRemoteCreatePayload {
 
 	GTCredentialProvider *provider = options[GTRepositoryCloneOptionsCredentialProvider];
 	if (provider) {
-		payload.credProvider = provider;
+		payload.credProvider = (__bridge GTCredentialAcquireCallbackInfo *)(provider);
 		cloneOptions.remote_callbacks.credentials = GTCredentialAcquireCallback;
 	}
 

@@ -22,8 +22,7 @@ NSString *const GTRepositoryRemoteOptionsCredentialProvider = @"GTRepositoryRemo
 typedef void (^GTRemoteFetchTransferProgressBlock)(const git_transfer_progress *stats, BOOL *stop);
 
 typedef struct {
-	// WARNING: Provider must come first to be layout-compatible with GTCredentialAcquireCallbackInfo
-	__unsafe_unretained GTCredentialProvider *credProvider;
+	GTCredentialAcquireCallbackInfo *credProvider;
 	__unsafe_unretained GTRemoteFetchTransferProgressBlock fetchProgressBlock;
 	__unsafe_unretained GTRemoteFetchTransferProgressBlock pushProgressBlock;
 	git_direction direction;
@@ -71,7 +70,7 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 	@synchronized (self) {
 		GTCredentialProvider *credProvider = (options[GTRepositoryRemoteOptionsCredentialProvider] ?: nil);
 		GTRemoteConnectionInfo connectionInfo = {
-			.credProvider = credProvider,
+			.credProvider = (__bridge GTCredentialAcquireCallbackInfo *)(credProvider),
 			.direction = GIT_DIRECTION_FETCH,
 			.fetchProgressBlock = progressBlock,
 		};
