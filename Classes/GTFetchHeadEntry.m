@@ -34,8 +34,7 @@
 #pragma mark NSObject
 
 - (NSString *)description {
-	return [NSString stringWithFormat:@"<%@: %p>{ reference: %@, remoteURL: %@, targetOID: %@, merge: %i }",
-			self.class, self, self.reference, self.remoteURL, self.targetOID, (int)_merge];
+	return [NSString stringWithFormat:@"<%@: %p>{ reference: %@, remoteURL: %@, targetOID: %@, merge: %i }", self.class, self, self.reference, self.remoteURL, self.targetOID, (int)_merge];
 }
 
 @end
