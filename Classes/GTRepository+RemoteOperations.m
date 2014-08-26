@@ -33,7 +33,7 @@ int GTRemoteFetchTransferProgressCallback(const git_transfer_progress *stats, vo
 	GTRemoteConnectionInfo *info = payload;
 	BOOL stop = NO;
 
-	if (info->fetchProgressBlock) {
+	if (info->fetchProgressBlock != nil) {
 		info->fetchProgressBlock(stats, &stop);
 	}
 
