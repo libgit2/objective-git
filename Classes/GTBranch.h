@@ -48,7 +48,6 @@ typedef NS_ENUM(NSInteger, GTBranchType) {
 @property (nonatomic, readonly) GTBranchType branchType;
 @property (nonatomic, readonly, strong) GTRepository *repository;
 @property (nonatomic, readonly, strong) GTReference *reference;
-@property (nonatomic, readonly, strong) GTRemote *remote;
 
 + (NSString *)localNamePrefix;
 + (NSString *)remoteNamePrefix;

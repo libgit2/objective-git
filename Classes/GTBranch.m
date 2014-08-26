@@ -114,10 +114,6 @@
 	return [[NSString alloc] initWithBytes:name length:end - name encoding:NSUTF8StringEncoding];
 }
 
-- (GTRemote *)remote {
-	return self.remoteName ? [GTRemote remoteWithName:self.remoteName inRepository:self.repository error:NULL] : nil;
-}
-
 - (GTCommit *)targetCommitAndReturnError:(NSError **)error {
 	if (self.SHA == nil) {
 		if (error != NULL) *error = GTReference.invalidReferenceError;
