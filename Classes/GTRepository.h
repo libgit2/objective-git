@@ -217,7 +217,7 @@ extern NSString *const GTRepositoryCloneOptionsCloneLocal;
 //
 // error - will be filled if an error occurs
 //
-// returns an array of NSStrings holding the names of the references, or nil if an error occurred
+// returns an array of NSStrings holding the names of the remotes, or nil if an error occurred
 - (NSArray *)remoteNamesWithError:(NSError **)error;
 
 // Convenience method to return all tags in the repository
