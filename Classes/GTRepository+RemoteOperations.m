@@ -67,34 +67,32 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 #pragma mark Fetch
 
 - (BOOL)fetchRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error progress:(GTRemoteFetchTransferProgressBlock)progressBlock {
-	@synchronized (self) {
-		GTCredentialProvider *credProvider = (options[GTRepositoryRemoteOptionsCredentialProvider] ?: nil);
-		GTRemoteConnectionInfo connectionInfo = {
-			.credProvider = (__bridge GTCredentialAcquireCallbackInfo *)(credProvider),
-			.direction = GIT_DIRECTION_FETCH,
-			.fetchProgressBlock = progressBlock,
-		};
-		git_remote_callbacks remote_callbacks = {
-			.version = GIT_REMOTE_CALLBACKS_VERSION,
-			.credentials = (credProvider != nil ? GTCredentialAcquireCallback : NULL),
-			.transfer_progress = GTRemoteFetchTransferProgressCallback,
-			.payload = &connectionInfo,
-		};
+	GTCredentialProvider *credProvider = (options[GTRepositoryRemoteOptionsCredentialProvider] ?: nil);
+	GTRemoteConnectionInfo connectionInfo = {
+		.credProvider = (__bridge GTCredentialAcquireCallbackInfo *)(credProvider),
+		.direction = GIT_DIRECTION_FETCH,
+		.fetchProgressBlock = progressBlock,
+	};
+	git_remote_callbacks remote_callbacks = {
+		.version = GIT_REMOTE_CALLBACKS_VERSION,
+		.credentials = (credProvider != nil ? GTCredentialAcquireCallback : NULL),
+		.transfer_progress = GTRemoteFetchTransferProgressCallback,
+		.payload = &connectionInfo,
+	};
 
-		int gitError = git_remote_set_callbacks(remote.git_remote, &remote_callbacks);
-		if (gitError != GIT_OK) {
-			if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to set callbacks on remote"];
-			return NO;
-		}
-		
-		gitError = git_remote_fetch(remote.git_remote, self.userSignatureForNow.git_signature, NULL);
-		if (gitError != GIT_OK) {
-			if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to fetch from remote"];
-			return NO;
-		}
-
-		return YES;
+	int gitError = git_remote_set_callbacks(remote.git_remote, &remote_callbacks);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to set callbacks on remote"];
+		return NO;
 	}
+
+	gitError = git_remote_fetch(remote.git_remote, self.userSignatureForNow.git_signature, NULL);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to fetch from remote"];
+		return NO;
+	}
+
+	return YES;
 }
 
 - (BOOL)enumerateFetchHeadEntriesWithError:(NSError **)error usingBlock:(void (^)(GTFetchHeadEntry *fetchHeadEntry, BOOL *stop))block {
