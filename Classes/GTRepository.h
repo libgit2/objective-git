@@ -34,6 +34,7 @@
 #import "GTObject.h"
 #import "GTReference.h"
 #import "GTFilterList.h"
+#import "git2/sys/transport.h"
 
 @class GTBlob;
 @class GTCommit;
