@@ -421,19 +421,11 @@ struct GTRemoteCreatePayload {
 		return nil;
 	}
 
-	NSMutableArray *remotes = [NSMutableArray arrayWithCapacity:array.count];
-	for (NSUInteger i = 0; i < array.count; i++) {
-		if (array.strings[i] == NULL) continue;
-
-		NSString *remoteName = @(array.strings[i]);
-		if (remoteName == nil) continue;
-
-		[remotes addObject:remoteName];
-	}
+	NSArray *remoteNames = [NSArray git_arrayWithStrarray:array];
 
 	git_strarray_free(&array);
 
-	return remotes;
+	return remoteNames;
 }
 
 struct GTRepositoryTagEnumerationInfo {

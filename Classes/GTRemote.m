@@ -186,13 +186,8 @@
 	int gitError = git_remote_rename(&problematic_refspecs, self.git_remote, name.UTF8String);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to rename remote" failureReason:@"Couldn't rename remote %@ to %@", self.name, name];
-		NSMutableArray *problems = [NSMutableArray arrayWithCapacity:problematic_refspecs.count];
-		for (size_t i = 0; i < problematic_refspecs.count; i++) {
-			const char *refspec = problematic_refspecs.strings[i];
-			[problems addObject:@(refspec)];
-			
-			*problematicRefspecs = [problems copy];
-		}
+
+		if (problematicRefspecs) *problematicRefspecs = [NSArray git_arrayWithStrarray:problematic_refspecs];
 	}
 	return gitError == GIT_OK;
 }
