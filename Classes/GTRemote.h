@@ -70,9 +70,9 @@ typedef enum {
 
 /// Create a new remote in a repository.
 ///
-/// name      - The name for the new remote.
-/// URLString - The origin URL for the remote.
-/// repo      - The repository the remote should be created in.
+/// name      - The name for the new remote. Cannot be nil.
+/// URLString - The origin URL for the remote. Cannot be nil.
+/// repo      - The repository the remote should be created in. Cannot be nil.
 /// error     - Will be set if an error occurs.
 ///
 /// Returns a new remote, or nil if an error occurred
@@ -80,8 +80,8 @@ typedef enum {
 
 /// Load a remote from a repository.
 ///
-/// name - The name for the new remote.
-/// repo - The repository the remote should be created in.
+/// name - The name for the new remote. Cannot be nil.
+/// repo - The repository the remote should be looked up in. Cannot be nil.
 /// error - Will be set if an error occurs.
 ///
 /// Returns the loaded remote, or nil if an error occurred.
@@ -89,7 +89,8 @@ typedef enum {
 
 /// Initialize a remote from a `git_remote`.
 ///
-/// remote - The underlying `git_remote` object.
+/// remote - The underlying `git_remote` object. Cannot be nil.
+/// repo   - The repository the remote belongs to. Cannot be nil.
 - (instancetype)initWithGitRemote:(git_remote *)remote inRepository:(GTRepository *)repo;
 
 /// The underlying `git_remote` object.
@@ -97,7 +98,7 @@ typedef enum {
 
 /// Rename the remote.
 ///
-/// name - The new name for the remote.
+/// name - The new name for the remote. Cannot be nil.
 /// problematicRefspecs - If there's an error, returns a list of the refspecs with error for further processing by the caller.
 /// error - Will be set if an error occurs.
 ///
