@@ -25,54 +25,6 @@
 
 #pragma mark Lifecycle
 
-- (id)initWithGitRemote:(git_remote *)remote {
-	NSParameterAssert(remote != NULL);
-
-	self = [super init];
-	if (self == nil) return nil;
-
-	_git_remote = remote;
-
-	return self;
-}
-
-- (void)dealloc {
-	if (_git_remote != NULL) git_remote_free(_git_remote);
-}
-
-#pragma mark NSObject
-
-- (BOOL)isEqual:(GTRemote *)object {
-	if (object == self) return YES;
-	if (![object isKindOfClass:[self class]]) return NO;
-
-	return [object.name isEqual:self.name] && [object.URLString isEqual:self.URLString];
-}
-
-- (NSUInteger)hash {
-	return self.name.hash ^ self.URLString.hash;
-}
-
-#pragma mark API
-
-+ (BOOL)isValidURLString:(NSString *)URLString {
-	NSParameterAssert(URLString != nil);
-
-	return git_remote_valid_url(URLString.UTF8String) == GIT_OK;
-}
-
-+ (BOOL)isSupportedURLString:(NSString *)URLString {
-	NSParameterAssert(URLString != nil);
-
-	return git_remote_supported_url(URLString.UTF8String) == GIT_OK;
-}
-
-+ (BOOL)isValidRemoteName:(NSString *)name {
-	NSParameterAssert(name != nil);
-
-	return git_remote_is_valid_name(name.UTF8String) == GIT_OK;
-}
-
 + (instancetype)createRemoteWithName:(NSString *)name URLString:(NSString *)URLString inRepository:(GTRepository *)repo error:(NSError **)error {
 	NSParameterAssert(name != nil);
 	NSParameterAssert(URLString != nil);
@@ -112,10 +64,46 @@
 	if (self == nil) return nil;
 
 	_git_remote = remote;
-
 	_repository = repo;
 
 	return self;
+}
+
+- (void)dealloc {
+	if (_git_remote != NULL) git_remote_free(_git_remote);
+}
+
+#pragma mark NSObject
+
+- (BOOL)isEqual:(GTRemote *)object {
+	if (object == self) return YES;
+	if (![object isKindOfClass:[self class]]) return NO;
+
+	return [object.name isEqual:self.name] && [object.URLString isEqual:self.URLString];
+}
+
+- (NSUInteger)hash {
+	return self.name.hash ^ self.URLString.hash;
+}
+
+#pragma mark API
+
++ (BOOL)isValidURLString:(NSString *)URLString {
+	NSParameterAssert(URLString != nil);
+
+	return git_remote_valid_url(URLString.UTF8String) == GIT_OK;
+}
+
++ (BOOL)isSupportedURLString:(NSString *)URLString {
+	NSParameterAssert(URLString != nil);
+
+	return git_remote_supported_url(URLString.UTF8String) == GIT_OK;
+}
+
++ (BOOL)isValidRemoteName:(NSString *)name {
+	NSParameterAssert(name != nil);
+
+	return git_remote_is_valid_name(name.UTF8String) == GIT_OK;
 }
 
 #pragma mark Properties

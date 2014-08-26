@@ -25,14 +25,6 @@ typedef enum {
 /// Analogous to `git_remote` in libgit2.
 @interface GTRemote : NSObject
 
-/// Initializes a new GTRemote to represent an underlying `git_remote`.
-///
-/// remote - The underlying `git_remote` object.
-- (id)initWithGitRemote:(git_remote *)remote;
-
-/// The underlying `git_remote` object.
-- (git_remote *)git_remote __attribute__((objc_returns_inner_pointer));
-
 /// The repository owning this remote.
 @property (nonatomic, readonly, strong) GTRepository *repository;
 
@@ -99,6 +91,9 @@ typedef enum {
 ///
 /// remote - The underlying `git_remote` object.
 - (instancetype)initWithGitRemote:(git_remote *)remote inRepository:(GTRepository *)repo;
+
+/// The underlying `git_remote` object.
+- (git_remote *)git_remote __attribute__((objc_returns_inner_pointer));
 
 /// Rename the remote.
 ///
