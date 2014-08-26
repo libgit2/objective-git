@@ -60,7 +60,7 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 	
 	enumerationBlock(entry, &stop);
 	
-	return (int)stop;
+	return (stop == YES ? GIT_EUSER : 0);
 }
 
 #pragma mark -
