@@ -199,13 +199,8 @@
 	@onExit {
 		git_strarray_free(&refspecs);
 	};
-
-	NSMutableArray *pushRefspecs = [NSMutableArray arrayWithCapacity:refspecs.count];
-	for (size_t i = 0; i < refspecs.count; i++) {
-		if (refspecs.strings[i] == NULL) continue;
-		[pushRefspecs addObject:@(refspecs.strings[i])];
-	}
-	return [pushRefspecs copy];
+	
+	return [NSArray git_arrayWithStrarray:refspecs];
 }
 
 #pragma mark Update the remote
