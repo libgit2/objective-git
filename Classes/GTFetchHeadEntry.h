@@ -22,7 +22,7 @@
 @property (nonatomic, readonly, copy) NSString *remoteURL;
 
 /// The target OID of this fetch entry (what we need to merge with)
-@property (nonatomic, readonly, strong) GTOID *targetOID;
+@property (nonatomic, readonly, copy) GTOID *targetOID;
 
 /// Flag indicating if we need to merge this entry or not.
 @property (nonatomic, getter = isMerge, readonly) BOOL merge;
