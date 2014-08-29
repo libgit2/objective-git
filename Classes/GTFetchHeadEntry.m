@@ -7,20 +7,21 @@
 //
 
 #import "GTFetchHeadEntry.h"
+#import "GTOID.h"
 
 @implementation GTFetchHeadEntry
 
-- (instancetype)initWithReference:(GTReference *)reference remoteURL:(NSString *)remoteURL targetOID:(GTOID *)targetOID isMerge:(BOOL)merge {
+- (instancetype)initWithReference:(GTReference *)reference remoteURLString:(NSString *)remoteURLString targetOID:(GTOID *)targetOID isMerge:(BOOL)merge {
 	NSParameterAssert(reference != nil);
-	NSParameterAssert(remoteURL != nil);
+	NSParameterAssert(remoteURLString != nil);
 	NSParameterAssert(targetOID != nil);
 	
 	self = [super init];
 	if (self == nil) return nil;
 
 	_reference = reference;
-	_remoteURL = [remoteURL copy];
-	_targetOID = targetOID;
+	_remoteURLString = [remoteURLString copy];
+	_targetOID = [targetOID copy];
 	_merge = merge;
 
 	return self;
@@ -29,7 +30,7 @@
 #pragma mark NSObject
 
 - (NSString *)description {
-	return [NSString stringWithFormat:@"<%@: %p>{ reference: %@, remoteURL: %@, targetOID: %@, merge: %i }", self.class, self, self.reference, self.remoteURL, self.targetOID, (int)_merge];
+	return [NSString stringWithFormat:@"<%@: %p>{ reference: %@, remoteURL: %@, targetOID: %@, merge: %i }", self.class, self, self.reference, self.remoteURLString, self.targetOID, (int)_merge];
 }
 
 @end
