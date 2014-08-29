@@ -35,14 +35,4 @@
 /// merge     - Indicates if this is pending a merge.
 - (instancetype)initWithReference:(GTReference *)reference remoteURL:(NSString *)remoteURL targetOID:(GTOID *)targetOID isMerge:(BOOL)merge;
 
-/// Returns a new GTFetchHeadEntry instance.
-///
-/// reference - Reference on the repository. Cannot be nil.
-/// remoteURL - URL where this was originally fetched from. Cannot be nil.
-/// targetOID - Target OID. Cannot be nil.
-/// merge     - Indicates if this is pending a merge.
-///
-/// Returns a new GTFetchHeadEntry already initialized.
-+ (instancetype)fetchEntryWithReference:(GTReference *)reference remoteURL:(NSString *)remoteURL targetOID:(GTOID *)targetOID isMerge:(BOOL)merge;
-
 @end

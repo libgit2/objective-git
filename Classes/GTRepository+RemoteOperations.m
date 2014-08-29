@@ -54,7 +54,7 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 	
 	GTReference *reference = [GTReference referenceByLookingUpReferencedNamed:@(ref_name) inRepository:repository error:NULL];
 	
-	GTFetchHeadEntry *entry = [GTFetchHeadEntry fetchEntryWithReference:reference remoteURL:@(remote_url) targetOID:[GTOID oidWithGitOid:oid] isMerge:(BOOL)is_merge];
+	GTFetchHeadEntry *entry = [[GTFetchHeadEntry alloc] initWithReference:reference remoteURL:@(remote_url) targetOID:[GTOID oidWithGitOid:oid] isMerge:(BOOL)is_merge];
 	
 	BOOL stop = NO;
 	
