@@ -22,7 +22,10 @@
 		const char *cStr = strarray.strings[i];
 		if (cStr == NULL) continue;
 
-		strings[stringsCount++] = @(cStr);
+		NSString *string = @(cStr);
+		if (string == nil) continue;
+
+		strings[stringsCount++] = string;
 	}
 
 	@onExit {
