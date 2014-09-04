@@ -22,7 +22,7 @@ NSString *const GTRepositoryRemoteOptionsCredentialProvider = @"GTRepositoryRemo
 typedef void (^GTRemoteFetchTransferProgressBlock)(const git_transfer_progress *stats, BOOL *stop);
 
 typedef struct {
-	GTCredentialAcquireCallbackInfo *credProvider;
+	GTCredentialAcquireCallbackInfo credProvider;
 	__unsafe_unretained GTRemoteFetchTransferProgressBlock fetchProgressBlock;
 	__unsafe_unretained GTRemoteFetchTransferProgressBlock pushProgressBlock;
 	git_direction direction;
@@ -45,7 +45,7 @@ int GTRemoteFetchTransferProgressCallback(const git_transfer_progress *stats, vo
 - (BOOL)fetchRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error progress:(GTRemoteFetchTransferProgressBlock)progressBlock {
 	GTCredentialProvider *credProvider = options[GTRepositoryRemoteOptionsCredentialProvider];
 	GTRemoteConnectionInfo connectionInfo = {
-		.credProvider = (__bridge GTCredentialAcquireCallbackInfo *)(credProvider),
+		.credProvider = {credProvider},
 		.direction = GIT_DIRECTION_FETCH,
 		.fetchProgressBlock = progressBlock,
 	};
