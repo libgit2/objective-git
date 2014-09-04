@@ -115,11 +115,11 @@ describe(@"+cloneFromURL:toWorkingDirectory:options:error:transferProgressBlock:
 
 		it(@"should have set a valid remote URL", ^{
 			NSError *error = nil;
-			GTRepository *repo = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:nil error:&error transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
-			expect(repo).notTo.beNil();
+			repository = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:nil error:&error transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
+			expect(repository).notTo.beNil();
 			expect(error).to.beNil();
 
-			GTRemote *originRemote = [GTRemote remoteWithName:@"origin" inRepository:repo error:&error];
+			GTRemote *originRemote = [GTRemote remoteWithName:@"origin" inRepository:repository error:&error];
 			expect(error).to.beNil();
 			expect(originRemote.URLString).to.equal(originURL.path);
 		});
