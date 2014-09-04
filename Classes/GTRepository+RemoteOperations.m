@@ -124,7 +124,7 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 		*stop = NO;
 	}];
 	
-	return [entries copy];
+	return entries;
 }
 
 @end
