@@ -39,30 +39,6 @@ int GTRemoteFetchTransferProgressCallback(const git_transfer_progress *stats, vo
 	return (stop == YES ? GIT_EUSER : 0);
 }
 
-typedef void (^GTRemoteEnumerateFetchHeadEntryBlock)(GTFetchHeadEntry *entry, BOOL *stop);
-
-typedef struct {
-	__unsafe_unretained GTRepository *repository;
-	__unsafe_unretained GTRemoteEnumerateFetchHeadEntryBlock enumerationBlock;
-} GTEnumerateHeadEntriesPayload;
-
-int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, const git_oid *oid, unsigned int is_merge, void *payload) {
-	GTEnumerateHeadEntriesPayload *entriesPayload = payload;
-	
-	GTRepository *repository = entriesPayload->repository;
-	GTRemoteEnumerateFetchHeadEntryBlock enumerationBlock = entriesPayload->enumerationBlock;
-	
-	GTReference *reference = [GTReference referenceByLookingUpReferencedNamed:@(ref_name) inRepository:repository error:NULL];
-	
-	GTFetchHeadEntry *entry = [[GTFetchHeadEntry alloc] initWithReference:reference remoteURLString:@(remote_url) targetOID:[GTOID oidWithGitOid:oid] isMerge:(BOOL)is_merge];
-	
-	BOOL stop = NO;
-	
-	enumerationBlock(entry, &stop);
-	
-	return (stop == YES ? GIT_EUSER : 0);
-}
-
 #pragma mark -
 #pragma mark Fetch
 
@@ -93,6 +69,33 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 	}
 
 	return YES;
+}
+
+#pragma mark -
+#pragma mark Fetch Head enumeration
+
+typedef void (^GTRemoteEnumerateFetchHeadEntryBlock)(GTFetchHeadEntry *entry, BOOL *stop);
+
+typedef struct {
+	__unsafe_unretained GTRepository *repository;
+	__unsafe_unretained GTRemoteEnumerateFetchHeadEntryBlock enumerationBlock;
+} GTEnumerateHeadEntriesPayload;
+
+int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, const git_oid *oid, unsigned int is_merge, void *payload) {
+	GTEnumerateHeadEntriesPayload *entriesPayload = payload;
+
+	GTRepository *repository = entriesPayload->repository;
+	GTRemoteEnumerateFetchHeadEntryBlock enumerationBlock = entriesPayload->enumerationBlock;
+
+	GTReference *reference = [GTReference referenceByLookingUpReferencedNamed:@(ref_name) inRepository:repository error:NULL];
+
+	GTFetchHeadEntry *entry = [[GTFetchHeadEntry alloc] initWithReference:reference remoteURLString:@(remote_url) targetOID:[GTOID oidWithGitOid:oid] isMerge:(BOOL)is_merge];
+
+	BOOL stop = NO;
+
+	enumerationBlock(entry, &stop);
+
+	return (stop == YES ? GIT_EUSER : 0);
 }
 
 - (BOOL)enumerateFetchHeadEntriesWithError:(NSError **)error usingBlock:(void (^)(GTFetchHeadEntry *fetchHeadEntry, BOOL *stop))block {
