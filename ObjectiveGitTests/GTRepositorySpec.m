@@ -8,6 +8,7 @@
 
 #import "GTRepository.h"
 #import "GTRepository+Committing.h"
+#import "SPTExample.h"
 
 SpecBegin(GTRepository)
 
@@ -123,6 +124,48 @@ describe(@"+cloneFromURL:toWorkingDirectory:options:error:transferProgressBlock:
 			expect(error).to.beNil();
 			expect(originRemote.URLString).to.equal(originURL.path);
 		});
+	});
+
+	describe(@"with remote repositories", ^{
+		__block GTCredentialProvider *provider = nil;
+		NSString *userName = [[NSProcessInfo processInfo] environment][@"GTUserName"];
+		NSString *publicKeyPath = [[[NSProcessInfo processInfo] environment][@"GTPublicKey"] stringByStandardizingPath];
+		NSString *privateKeyPath = [[[NSProcessInfo processInfo] environment][@"GTPrivateKey"] stringByStandardizingPath];
+		NSString *privateKeyPassword = [[NSProcessInfo processInfo] environment][@"GTPrivateKeyPassword"];
+
+		beforeEach(^{
+			// Let's clone libgit2's documentation
+			originURL = [NSURL URLWithString:@"git@github.com:libgit2/libgit2.github.com.git"];
+		});
+
+		if (!userName || !publicKeyPath || !privateKeyPath || !privateKeyPassword) {
+			pending(@"should handle normal clones (pending environment)");
+		} else {
+			it(@"should handle clones", ^{
+				__block NSError *error = nil;
+
+				provider = [GTCredentialProvider providerWithBlock:^GTCredential *(GTCredentialType type, NSString *URL, NSString *credUserName) {
+					expect(URL).to.equal(originURL.absoluteString);
+					expect(type & GTCredentialTypeSSHKey).to.beTruthy();
+					GTCredential *cred = nil;
+					// cred = [GTCredential credentialWithUserName:userName password:password error:&error];
+					cred = [GTCredential credentialWithUserName:credUserName publicKeyURL:[NSURL fileURLWithPath:publicKeyPath] privateKeyURL:[NSURL fileURLWithPath:privateKeyPath] passphrase:privateKeyPassword error:&error];
+					expect(cred).notTo.beNil();
+					expect(error).to.beNil();
+					return cred;
+				}];
+
+				repository = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:@{GTRepositoryCloneOptionsCredentialProvider: provider} error:&error transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
+				expect(repository).notTo.beNil();
+				expect(error).to.beNil();
+				expect(transferProgressCalled).to.beTruthy();
+				expect(checkoutProgressCalled).to.beTruthy();
+
+				GTRemote *originRemote = [GTRemote remoteWithName:@"origin" inRepository:repository error:&error];
+				expect(error).to.beNil();
+				expect(originRemote.URLString).to.equal(originURL.absoluteString);
+			});
+		}
 	});
 });
 
