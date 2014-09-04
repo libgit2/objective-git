@@ -140,7 +140,7 @@ NSString * const GTRemoteRenameProblematicRefSpecs = @"GTRemoteRenameProblematic
 }
 
 - (BOOL)updatesFetchHead {
-	return git_remote_update_fetchhead(self.git_remote) == 1;
+	return git_remote_update_fetchhead(self.git_remote) != 0;
 }
 
 - (void)setUpdatesFetchHead:(BOOL)updatesFetchHead {
@@ -156,7 +156,7 @@ NSString * const GTRemoteRenameProblematicRefSpecs = @"GTRemoteRenameProblematic
 }
 
 - (BOOL)isConnected {
-	return git_remote_connected(self.git_remote) == 1;
+	return git_remote_connected(self.git_remote) != 0;
 }
 
 #pragma mark Renaming
