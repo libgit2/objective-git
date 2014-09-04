@@ -16,6 +16,8 @@
 #import "NSArray+StringArray.h"
 #import "EXTScope.h"
 
+NSString * const GTRemoteRenameProblematicRefSpecs = @"GTRemoteRenameProblematicRefSpecs";
+
 @interface GTRemote ()
 
 @property (nonatomic, readonly, assign) git_remote *git_remote;
@@ -159,18 +161,17 @@
 
 #pragma mark Renaming
 
-- (BOOL)rename:(NSString *)name problematicRefspecs:(NSArray **)problematicRefspecs error:(NSError **)error {
+- (BOOL)rename:(NSString *)name error:(NSError **)error {
 	NSParameterAssert(name != nil);
-
-	*problematicRefspecs = nil;
 	
 	git_strarray problematic_refspecs;
 	
 	int gitError = git_remote_rename(&problematic_refspecs, self.git_remote, name.UTF8String);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to rename remote" failureReason:@"Couldn't rename remote %@ to %@", self.name, name];
+		NSArray *problematicRefspecs = [NSArray git_arrayWithStrarray:problematic_refspecs];
+		NSDictionary *userInfo = [NSDictionary dictionaryWithObject:problematicRefspecs forKey:GTRemoteRenameProblematicRefSpecs];
 
-		if (problematicRefspecs) *problematicRefspecs = [NSArray git_arrayWithStrarray:problematic_refspecs];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to rename remote" userInfo:userInfo failureReason:@"Couldn't rename remote %@ to %@", self.name, name];
 	}
 
 	git_strarray_free(&problematic_refspecs);

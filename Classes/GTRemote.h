@@ -13,6 +13,8 @@
 @class GTReference;
 @class GTCredentialProvider;
 
+extern NSString * const GTRemoteRenameProblematicRefSpecs;
+
 // Auto Tag settings. See `git_remote_autotag_option_t`.
 typedef enum {
 	GTRemoteDownloadTagsAuto = GIT_REMOTE_DOWNLOAD_TAGS_AUTO,
@@ -98,12 +100,13 @@ typedef enum {
 
 /// Rename the remote.
 ///
-/// name - The new name for the remote. Cannot be nil.
-/// problematicRefspecs - If there's an error, returns a list of the refspecs with error for further processing by the caller.
-/// error - Will be set if an error occurs.
+/// name  - The new name for the remote. Cannot be nil.
+/// error - Will be set if an error occurs. If there was an error renaming some
+///         refspecs, their names will be available as an arry under the
+///         `GTRemoteRenameProblematicRefSpecs` key.
 ///
 /// Return YES if successful, NO otherwise.
-- (BOOL)rename:(NSString *)name problematicRefspecs:(NSArray **)problematicRefspecs error:(NSError **)error;
+- (BOOL)rename:(NSString *)name error:(NSError **)error;
 
 /// Updates the URL string for this remote.
 ///
