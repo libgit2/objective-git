@@ -22,7 +22,10 @@
 		const char *cStr = strarray.strings[i];
 		if (cStr == NULL) continue;
 
-		NSString *string = @(cStr);
+		NSUInteger length = strlen(cStr);
+		NSString *string =
+			[[NSString alloc] initWithBytes:cStr length:length encoding:NSUTF8StringEncoding]
+		?:	[[NSString alloc] initWithBytes:cStr length:length encoding:NSASCIIStringEncoding];
 		if (string == nil) continue;
 
 		strings[stringsCount++] = string;
