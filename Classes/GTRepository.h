@@ -47,6 +47,7 @@
 @class GTSubmodule;
 @class GTTag;
 @class GTTree;
+@class GTRemote;
 
 /// Checkout strategies used by the various -checkout... methods
 /// See git_checkout_strategy_t
@@ -214,6 +215,13 @@ extern NSString *const GTRepositoryCloneOptionsCloneLocal;
 - (NSArray *)localBranchesWithError:(NSError **)error;
 - (NSArray *)remoteBranchesWithError:(NSError **)error;
 - (NSArray *)branchesWithPrefix:(NSString *)prefix error:(NSError **)error;
+
+/// List all remotes in the repository
+///
+/// error - will be filled if an error occurs
+///
+/// returns an array of NSStrings holding the names of the remotes, or nil if an error occurred
+- (NSArray *)remoteNamesWithError:(NSError **)error;
 
 /// Convenience method to return all tags in the repository
 - (NSArray *)allTagsWithError:(NSError **)error;

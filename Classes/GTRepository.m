@@ -183,8 +183,7 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 }
 
 struct GTClonePayload {
-	// credProvider must be first for compatibility with GTCredentialAcquireCallbackInfo
-	__unsafe_unretained GTCredentialProvider *credProvider;
+	GTCredentialAcquireCallbackInfo credProvider;
 	__unsafe_unretained GTTransferProgressBlock transferProgressBlock;
 };
 
@@ -226,12 +225,14 @@ struct GTRemoteCreatePayload {
 		cloneOptions.checkout_opts = checkoutOptions;
 	}
 
-	struct GTClonePayload payload;
+	GTCredentialProvider *provider = options[GTRepositoryCloneOptionsCredentialProvider];
+	struct GTClonePayload payload = {
+		.credProvider = {provider},
+	};
+
 	cloneOptions.remote_callbacks.version = GIT_REMOTE_CALLBACKS_VERSION;
 
-	GTCredentialProvider *provider = options[GTRepositoryCloneOptionsCredentialProvider];
 	if (provider) {
-		payload.credProvider = provider;
 		cloneOptions.remote_callbacks.credentials = GTCredentialAcquireCallback;
 	}
 
@@ -382,7 +383,7 @@ struct GTRemoteCreatePayload {
 
 		GTBranch *branch = [[GTBranch alloc] initWithReference:ref repository:self];
 		if (branch == nil) continue;
-		
+
 		[branches addObject:branch];
 	}
 
@@ -411,6 +412,21 @@ struct GTRemoteCreatePayload {
 	}
 
     return allBranches;
+}
+
+- (NSArray *)remoteNamesWithError:(NSError **)error {
+	git_strarray array;
+	int gitError = git_remote_list(&array, self.git_repository);
+	if (gitError < GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to list all remotes."];
+		return nil;
+	}
+
+	NSArray *remoteNames = [NSArray git_arrayWithStrarray:array];
+
+	git_strarray_free(&array);
+
+	return remoteNames;
 }
 
 struct GTRepositoryTagEnumerationInfo {
@@ -595,7 +611,7 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 		if (error != NULL) *error = [NSError git_errorFor:errorCode description:@"Failed to find merge base between commits %@ and %@.", firstOID.SHA, secondOID.SHA];
 		return nil;
 	}
-	
+
 	return [self lookUpObjectByGitOid:&mergeBase objectType:GTObjectTypeCommit error:error];
 }
 
@@ -756,57 +772,57 @@ static int checkoutNotifyCallback(git_checkout_notify_t why, const char *path, c
 
 - (BOOL)moveHEADToReference:(GTReference *)reference error:(NSError **)error {
 	NSParameterAssert(reference != nil);
-	
+
 	int gitError = git_repository_set_head(self.git_repository, reference.name.UTF8String, [self userSignatureForNow].git_signature, NULL);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to move HEAD to reference %@", reference.name];
 	}
-	
+
 	return gitError == GIT_OK;
 }
 
 - (BOOL)moveHEADToCommit:(GTCommit *)commit error:(NSError **)error {
 	NSParameterAssert(commit != nil);
-	
+
 	int gitError = git_repository_set_head_detached(self.git_repository, commit.OID.git_oid, [self userSignatureForNow].git_signature, NULL);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to move HEAD to commit %@", commit.SHA];
 	}
-	
+
 	return gitError == GIT_OK;
 }
 
 - (BOOL)performCheckoutWithStrategy:(GTCheckoutStrategyType)strategy notifyFlags:(GTCheckoutNotifyFlags)notifyFlags error:(NSError **)error progressBlock:(GTCheckoutProgressBlock)progressBlock notifyBlock:(GTCheckoutNotifyBlock)notifyBlock {
-	
+
 	git_checkout_options checkoutOptions = GIT_CHECKOUT_OPTIONS_INIT;
-	
+
 	checkoutOptions.checkout_strategy = strategy;
 	checkoutOptions.progress_cb = checkoutProgressCallback;
 	checkoutOptions.progress_payload = (__bridge void *)progressBlock;
-	
+
 	checkoutOptions.notify_cb = checkoutNotifyCallback;
 	checkoutOptions.notify_flags = notifyFlags;
 	checkoutOptions.notify_payload = (__bridge void *)notifyBlock;
-	
+
 	int gitError = git_checkout_head(self.git_repository, &checkoutOptions);
 	if (gitError < GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to checkout tree."];
 	}
-	
+
 	return gitError == GIT_OK;
 }
 
 - (BOOL)checkoutCommit:(GTCommit *)targetCommit strategy:(GTCheckoutStrategyType)strategy notifyFlags:(GTCheckoutNotifyFlags)notifyFlags error:(NSError **)error progressBlock:(GTCheckoutProgressBlock)progressBlock notifyBlock:(GTCheckoutNotifyBlock)notifyBlock {
 	BOOL success = [self moveHEADToCommit:targetCommit error:error];
 	if (success == NO) return NO;
-	
+
 	return [self performCheckoutWithStrategy:strategy notifyFlags:notifyFlags error:error progressBlock:progressBlock notifyBlock:notifyBlock];
 }
 
 - (BOOL)checkoutReference:(GTReference *)targetReference strategy:(GTCheckoutStrategyType)strategy notifyFlags:(GTCheckoutNotifyFlags)notifyFlags error:(NSError **)error progressBlock:(GTCheckoutProgressBlock)progressBlock notifyBlock:(GTCheckoutNotifyBlock)notifyBlock {
 	BOOL success = [self moveHEADToReference:targetReference error:error];
 	if (success == NO) return NO;
-	
+
 	return [self performCheckoutWithStrategy:strategy notifyFlags:notifyFlags error:error progressBlock:progressBlock notifyBlock:notifyBlock];
 }
 

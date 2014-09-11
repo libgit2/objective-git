@@ -28,6 +28,7 @@
 #import "GTEnumerator.h"
 #import "GTRepository.h"
 #import "GTCommit.h"
+#import "GTRemote.h"
 #import "NSError+Git.h"
 
 @implementation GTBranch

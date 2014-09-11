@@ -67,6 +67,26 @@ NSString * const GTGitErrorDomain = @"GTGitErrorDomain";
 	return [NSError errorWithDomain:GTGitErrorDomain code:code userInfo:userInfo];
 }
 
++ (NSError *)git_errorFor:(int)code description:(NSString *)desc userInfo:(NSDictionary *)additionalUserInfo failureReason:(NSString *)reason, ... {
+	NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithDictionary:additionalUserInfo];
+
+	if (desc != nil) userInfo[NSLocalizedDescriptionKey] = desc;
+	if (reason != nil) {
+		va_list args;
+		va_start(args, reason);
+
+		NSString *formattedReason = [[NSString alloc] initWithFormat:reason arguments:args];
+		va_end(args);
+
+		userInfo[NSLocalizedFailureReasonErrorKey] = formattedReason;
+	}
+
+	NSError *underError = [self git_errorFor:code];
+	if (underError != nil) userInfo[NSUnderlyingErrorKey] = underError;
+
+	return [NSError errorWithDomain:GTGitErrorDomain code:code userInfo:userInfo];
+}
+
 + (NSError *)git_errorFor:(int)code {
 	NSDictionary *userInfo = nil;
 

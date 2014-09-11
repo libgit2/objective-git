@@ -30,6 +30,7 @@
 #import <ObjectiveGit/GTRepository+Stashing.h>
 #import <ObjectiveGit/GTRepository+Committing.h>
 #import <ObjectiveGit/GTRepository+Status.h>
+#import <ObjectiveGit/GTRepository+RemoteOperations.h>
 #import <ObjectiveGit/GTRepository+Reset.h>
 #import <ObjectiveGit/GTEnumerator.h>
 #import <ObjectiveGit/GTCommit.h>
@@ -58,6 +59,7 @@
 #import <ObjectiveGit/GTFilter.h>
 #import <ObjectiveGit/GTFilterList.h>
 #import <ObjectiveGit/GTFilterSource.h>
+#import <ObjectiveGit/GTFetchHeadEntry.h>
 
 #import <ObjectiveGit/GTObjectDatabase.h>
 #import <ObjectiveGit/GTOdbObject.h>

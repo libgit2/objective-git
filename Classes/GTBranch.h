@@ -27,6 +27,7 @@
 
 @class GTCommit;
 @class GTReference;
+@class GTRemote;
 @class GTRepository;
 
 typedef NS_ENUM(NSInteger, GTBranchType) {

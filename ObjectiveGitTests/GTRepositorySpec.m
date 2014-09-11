@@ -8,6 +8,7 @@
 
 #import "GTRepository.h"
 #import "GTRepository+Committing.h"
+#import "SPTExample.h"
 
 SpecBegin(GTRepository)
 
@@ -115,17 +116,56 @@ describe(@"+cloneFromURL:toWorkingDirectory:options:error:transferProgressBlock:
 
 		it(@"should have set a valid remote URL", ^{
 			NSError *error = nil;
-			GTRepository *repo = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:nil error:&error transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
-			expect(repo).notTo.beNil();
+			repository = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:nil error:&error transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
+			expect(repository).notTo.beNil();
 			expect(error).to.beNil();
 
-			// FIXME: Move that to a method in GTRepository ?
-			// Or use the new initializers in GTRemote that are waiting in #224
-			git_remote *remote;
-			git_remote_load(&remote, repo.git_repository, "origin");
-			GTRemote *originRemote = [[GTRemote alloc] initWithGitRemote:remote];
+			GTRemote *originRemote = [GTRemote remoteWithName:@"origin" inRepository:repository error:&error];
+			expect(error).to.beNil();
 			expect(originRemote.URLString).to.equal(originURL.path);
 		});
+	});
+
+	describe(@"with remote repositories", ^{
+		__block GTCredentialProvider *provider = nil;
+		NSString *userName = [[NSProcessInfo processInfo] environment][@"GTUserName"];
+		NSString *publicKeyPath = [[[NSProcessInfo processInfo] environment][@"GTPublicKey"] stringByStandardizingPath];
+		NSString *privateKeyPath = [[[NSProcessInfo processInfo] environment][@"GTPrivateKey"] stringByStandardizingPath];
+		NSString *privateKeyPassword = [[NSProcessInfo processInfo] environment][@"GTPrivateKeyPassword"];
+
+		beforeEach(^{
+			// Let's clone libgit2's documentation
+			originURL = [NSURL URLWithString:@"git@github.com:libgit2/libgit2.github.com.git"];
+		});
+
+		if (!userName || !publicKeyPath || !privateKeyPath || !privateKeyPassword) {
+			pending(@"should handle normal clones (pending environment)");
+		} else {
+			it(@"should handle clones", ^{
+				__block NSError *error = nil;
+
+				provider = [GTCredentialProvider providerWithBlock:^GTCredential *(GTCredentialType type, NSString *URL, NSString *credUserName) {
+					expect(URL).to.equal(originURL.absoluteString);
+					expect(type & GTCredentialTypeSSHKey).to.beTruthy();
+					GTCredential *cred = nil;
+					// cred = [GTCredential credentialWithUserName:userName password:password error:&error];
+					cred = [GTCredential credentialWithUserName:credUserName publicKeyURL:[NSURL fileURLWithPath:publicKeyPath] privateKeyURL:[NSURL fileURLWithPath:privateKeyPath] passphrase:privateKeyPassword error:&error];
+					expect(cred).notTo.beNil();
+					expect(error).to.beNil();
+					return cred;
+				}];
+
+				repository = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:@{GTRepositoryCloneOptionsCredentialProvider: provider} error:&error transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
+				expect(repository).notTo.beNil();
+				expect(error).to.beNil();
+				expect(transferProgressCalled).to.beTruthy();
+				expect(checkoutProgressCalled).to.beTruthy();
+
+				GTRemote *originRemote = [GTRemote remoteWithName:@"origin" inRepository:repository error:&error];
+				expect(error).to.beNil();
+				expect(originRemote.URLString).to.equal(originURL.absoluteString);
+			});
+		}
 	});
 });
 
@@ -324,6 +364,59 @@ describe(@"-checkout:strategy:error:progressBlock:", ^{
 		BOOL result = [repository checkoutCommit:commit strategy:GTCheckoutStrategyAllowConflicts error:&error progressBlock:nil];
 		expect(result).to.beTruthy();
 		expect(error.localizedDescription).to.beNil();
+	});
+});
+
+describe(@"-remoteNamesWithError:", ^{
+	it(@"allows access to remote names", ^{
+		NSError *error = nil;
+		NSArray *remoteNames = [repository remoteNamesWithError:&error];
+		expect(error.localizedDescription).to.beNil();
+		expect(remoteNames).notTo.beNil();
+	});
+
+	it(@"returns remote names if there are any", ^{
+		NSError *error = nil;
+		NSString *remoteName = @"testremote";
+		GTRemote *remote = [GTRemote createRemoteWithName:remoteName URLString:@"git://user@example.com/testrepo" inRepository:repository error:&error];
+		expect(error.localizedDescription).to.beNil();
+		expect(remote).notTo.beNil();
+
+		NSArray *remoteNames = [repository remoteNamesWithError:&error];
+		expect(error.localizedDescription).to.beNil();
+		expect(remoteNames).to.contain(remoteName);
+	});
+});
+
+describe(@"-resetToCommit:withResetType:error:", ^{
+	beforeEach(^{
+		repository = self.bareFixtureRepository;
+	});
+
+	it(@"should move HEAD when used", ^{
+		NSError *error = nil;
+		GTReference *originalHead = [repository headReferenceWithError:NULL];
+		NSString *resetTargetSHA = @"8496071c1b46c854b31185ea97743be6a8774479";
+
+		GTCommit *commit = [repository lookUpObjectBySHA:resetTargetSHA error:NULL];
+		expect(commit).notTo.beNil();
+		GTCommit *originalHeadCommit = [repository lookUpObjectBySHA:originalHead.targetSHA error:NULL];
+		expect(originalHeadCommit).notTo.beNil();
+
+		BOOL success = [repository resetToCommit:commit resetType:GTRepositoryResetTypeSoft error:&error];
+		expect(success).to.beTruthy();
+		expect(error).to.beNil();
+
+		GTReference *head = [repository headReferenceWithError:&error];
+		expect(head).notTo.beNil();
+		expect(head.targetSHA).to.equal(resetTargetSHA);
+
+		success = [repository resetToCommit:originalHeadCommit resetType:GTRepositoryResetTypeSoft error:&error];
+		expect(success).to.beTruthy();
+		expect(error).to.beNil();
+
+		head = [repository headReferenceWithError:&error];
+		expect(head.targetSHA).to.equal(originalHead.targetSHA);
 	});
 });
 
