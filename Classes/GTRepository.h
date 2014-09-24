@@ -81,10 +81,7 @@ typedef NS_OPTIONS(NSInteger, GTCheckoutNotifyFlags) {
 
 /// Transport flags sent as options to +cloneFromURL... method
 typedef NS_OPTIONS(NSInteger, GTTransportFlags) {
-	GTTransportFlagsNone = GIT_TRANSPORTFLAGS_NONE,
-	// If you pass this flag and the connection is secured with SSL/TLS,
-	// the authenticity of the server certificate will not be verified.
-	GTTransportFlagsNoCheckCert = GIT_TRANSPORTFLAGS_NO_CHECK_CERT,
+	GTTransportFlagsNone = GIT_TRANSPORTFLAGS_NONE
 };
 
 /// An `NSNumber` wrapped `GTTransportFlags`, documented above.
