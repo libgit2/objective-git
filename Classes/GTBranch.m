@@ -215,7 +215,7 @@
 		return YES;
 	}
 
-	int errorCode = git_graph_ahead_behind(ahead, behind, self.repository.git_repository, branch.reference.git_oid, self.reference.git_oid);
+	int errorCode = git_graph_ahead_behind(ahead, behind, self.repository.git_repository, self.reference.git_oid, branch.reference.git_oid);
 	if (errorCode != GIT_OK && error != NULL) {
 		*error = [NSError git_errorFor:errorCode description:@"Failed to calculate ahead/behind count of %@ relative to %@", self, branch];
 		return NO;

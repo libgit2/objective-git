@@ -196,15 +196,11 @@ static int remoteCreate(git_remote **remote, git_repository *repo, const char *n
 	if ((error = git_remote_create(remote, repo, name, url)) < 0)
 		return error;
 	
-	if (pld->ignoreCertErrors)
-		git_remote_check_cert(*remote, !pld->ignoreCertErrors);
-	
 	return git_remote_set_callbacks(*remote, callbacks);
 }
 
 struct GTRemoteCreatePayload {
 	git_remote_callbacks remoteCallbacks;
-	BOOL ignoreCertErrors;
 };
 
 + (id)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL options:(NSDictionary *)options error:(NSError **)error transferProgressBlock:(void (^)(const git_transfer_progress *))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))checkoutProgressBlock {
@@ -240,12 +236,9 @@ struct GTRemoteCreatePayload {
 
 	cloneOptions.remote_callbacks.transfer_progress = transferProgressCallback;
 	cloneOptions.remote_callbacks.payload = &payload;
-	
-	NSNumber *transportFlags = options[GTRepositoryCloneOptionsTransportFlags];
 
 	struct GTRemoteCreatePayload remoteCreatePayload;
 	remoteCreatePayload.remoteCallbacks = cloneOptions.remote_callbacks;
-	remoteCreatePayload.ignoreCertErrors = (transportFlags == nil ? 0 : 1);
 	
 	cloneOptions.remote_cb = remoteCreate;
 	cloneOptions.remote_cb_payload = &remoteCreatePayload;
