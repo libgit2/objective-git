@@ -46,6 +46,9 @@
 @property (nonatomic, readonly) NSTimeZone *commitTimeZone;
 @property (nonatomic, readonly) GTTree *tree;
 
+/// Is this a merge commit?
+@property (nonatomic, readonly, assign, getter = isMerge) BOOL merge;
+
 /// The underlying `git_object` as a `git_commit` object.
 - (git_commit *)git_commit __attribute__((objc_returns_inner_pointer));
 
