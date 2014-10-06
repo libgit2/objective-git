@@ -87,12 +87,14 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 	GTRepository *repository = entriesPayload->repository;
 	GTRemoteEnumerateFetchHeadEntryBlock enumerationBlock = entriesPayload->enumerationBlock;
 
+  BOOL stop = NO;
+  
 	GTReference *reference = [GTReference referenceByLookingUpReferencedNamed:@(ref_name) inRepository:repository error:NULL];
-
-	GTFetchHeadEntry *entry = [[GTFetchHeadEntry alloc] initWithReference:reference remoteURLString:@(remote_url) targetOID:[GTOID oidWithGitOid:oid] isMerge:(BOOL)is_merge];
-
-	BOOL stop = NO;
-
+  GTFetchHeadEntry *entry = nil;
+  if (reference) {
+    entry = [[GTFetchHeadEntry alloc] initWithReference:reference remoteURLString:@(remote_url) targetOID:[GTOID oidWithGitOid:oid] isMerge:(BOOL)is_merge];
+  }
+  
 	enumerationBlock(entry, &stop);
 
 	return (stop == YES ? GIT_EUSER : 0);
@@ -119,7 +121,8 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 	NSMutableArray *entries = [NSMutableArray array];
 	
 	[self enumerateFetchHeadEntriesWithError:error usingBlock:^(GTFetchHeadEntry *fetchHeadEntry, BOOL *stop) {
-		[entries addObject:fetchHeadEntry];
+    if (fetchHeadEntry)
+      [entries addObject:fetchHeadEntry];
 		
 		*stop = NO;
 	}];
