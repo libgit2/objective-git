@@ -34,7 +34,7 @@ extern NSString *const GTRepositoryRemoteOptionsCredentialProvider;
 ///         fetch head entry. Setting `stop` to YES will cause enumeration to stop after the block returns.
 ///
 /// Returns YES if the operation succedded, NO otherwise.
-- (BOOL)enumerateFetchHeadEntriesWithError:(NSError **)error usingBlock:(void (^)(GTFetchHeadEntry *fetchHeadEntry, BOOL *stop))block;
+- (BOOL)enumerateFetchHeadEntriesWithError:(NSError **)error usingBlock:(void (^)(GTFetchHeadEntry *fetchHeadEntry, NSError *error, BOOL *stop))block;
 
 /// Convenience method for -enumerateFetchHeadEntriesWithError:usingBlock: that retuns an NSArray with all the fetch head entries.
 ///
