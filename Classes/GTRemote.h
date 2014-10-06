@@ -42,6 +42,9 @@ typedef enum {
 /// Whether the remote is connected or not.
 @property (nonatomic, readonly, getter=isConnected) BOOL connected;
 
+/// whether the remote checks SSL certificates
+- (void)setCheckCert:(BOOL)check;
+
 /// Whether the remote updates FETCH_HEAD when fetched.
 /// Defaults to YES.
 @property (nonatomic) BOOL updatesFetchHead;

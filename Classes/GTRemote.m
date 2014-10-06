@@ -153,6 +153,11 @@ NSString * const GTRemoteRenameProblematicRefSpecs = @"GTRemoteRenameProblematic
 	return git_remote_connected(self.git_remote) != 0;
 }
 
+- (void)setCheckCert:(BOOL)check {
+	git_remote_check_cert(self.git_remote, check);
+}
+
+
 #pragma mark Renaming
 
 - (BOOL)rename:(NSString *)name error:(NSError **)error {
