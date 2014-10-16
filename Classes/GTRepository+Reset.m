@@ -17,7 +17,8 @@
 - (BOOL)resetToCommit:(GTCommit *)commit resetType:(GTRepositoryResetType)resetType error:(NSError **)error {
 	NSParameterAssert(commit != nil);
 
-	int gitError = git_reset(self.git_repository, commit.git_object, (git_reset_t)resetType, (git_signature *)[self userSignatureForNow].git_signature, NULL);
+	git_checkout_options options = GIT_CHECKOUT_OPTIONS_INIT;
+	int gitError = git_reset(self.git_repository, commit.git_object, (git_reset_t)resetType, &options, (git_signature *)[self userSignatureForNow].git_signature, NULL);
 	if (gitError != GIT_OK) {
 		if (error != NULL) {
 			*error = [NSError git_errorFor:gitError description:@"Failed to reset repository to commit %@.", commit.SHA];

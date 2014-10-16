@@ -62,7 +62,7 @@ int GTRemoteFetchTransferProgressCallback(const git_transfer_progress *stats, vo
 		return NO;
 	}
 
-	gitError = git_remote_fetch(remote.git_remote, self.userSignatureForNow.git_signature, NULL);
+	gitError = git_remote_fetch(remote.git_remote, NULL, self.userSignatureForNow.git_signature, NULL);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to fetch from remote"];
 		return NO;
