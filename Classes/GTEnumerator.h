@@ -66,6 +66,13 @@ typedef NS_OPTIONS(unsigned int, GTEnumeratorOptions) {
 /// Returns an initialized enumerator, or nil if an error occurs.
 - (id)initWithRepository:(GTRepository *)repo error:(NSError **)error;
 
+/// Marks HEAD to start traversal from.
+///
+/// error - If not NULL, this will be set to any error that occurs.
+///
+/// Returns whether pushing the commit was successful.
+- (BOOL)pushHeadWithError:(NSError **)error;
+
 /// Marks a commit to start traversal from.
 ///
 /// sha   - The SHA of a commit in the receiver's repository. This must not be

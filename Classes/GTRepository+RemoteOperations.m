@@ -31,11 +31,11 @@ typedef struct {
 int GTRemoteFetchTransferProgressCallback(const git_transfer_progress *stats, void *payload) {
 	GTRemoteConnectionInfo *info = payload;
 	BOOL stop = NO;
-
+	
 	if (info->fetchProgressBlock != nil) {
 		info->fetchProgressBlock(stats, &stop);
 	}
-
+	
 	return (stop == YES ? GIT_EUSER : 0);
 }
 
@@ -55,26 +55,26 @@ int GTRemoteFetchTransferProgressCallback(const git_transfer_progress *stats, vo
 		.transfer_progress = GTRemoteFetchTransferProgressCallback,
 		.payload = &connectionInfo,
 	};
-
+	
 	int gitError = git_remote_set_callbacks(remote.git_remote, &remote_callbacks);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to set callbacks on remote"];
 		return NO;
 	}
-
+	
 	gitError = git_remote_fetch(remote.git_remote, self.userSignatureForNow.git_signature, NULL);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to fetch from remote"];
 		return NO;
 	}
-
+	
 	return YES;
 }
 
 #pragma mark -
 #pragma mark Fetch Head enumeration
 
-typedef void (^GTRemoteEnumerateFetchHeadEntryBlock)(GTFetchHeadEntry *entry, BOOL *stop);
+typedef void (^GTRemoteEnumerateFetchHeadEntryBlock)(GTFetchHeadEntry *entry, NSError *error, BOOL *stop);
 
 typedef struct {
 	__unsafe_unretained GTRepository *repository;
@@ -83,22 +83,26 @@ typedef struct {
 
 int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, const git_oid *oid, unsigned int is_merge, void *payload) {
 	GTEnumerateHeadEntriesPayload *entriesPayload = payload;
-
+	
 	GTRepository *repository = entriesPayload->repository;
 	GTRemoteEnumerateFetchHeadEntryBlock enumerationBlock = entriesPayload->enumerationBlock;
-
-	GTReference *reference = [GTReference referenceByLookingUpReferencedNamed:@(ref_name) inRepository:repository error:NULL];
-
-	GTFetchHeadEntry *entry = [[GTFetchHeadEntry alloc] initWithReference:reference remoteURLString:@(remote_url) targetOID:[GTOID oidWithGitOid:oid] isMerge:(BOOL)is_merge];
-
+	
+	NSError *error = nil;
+	
+	GTReference *reference = [GTReference referenceByLookingUpReferencedNamed:@(ref_name) inRepository:repository error:&error];
+	GTFetchHeadEntry *entry = nil;
+	if (reference) {
+		entry = [[GTFetchHeadEntry alloc] initWithReference:reference remoteURLString:@(remote_url) targetOID:[GTOID oidWithGitOid:oid] isMerge:(BOOL)is_merge];
+	}
+	
 	BOOL stop = NO;
-
-	enumerationBlock(entry, &stop);
-
+	
+	enumerationBlock(entry, error, &stop);
+	
 	return (stop == YES ? GIT_EUSER : 0);
 }
 
-- (BOOL)enumerateFetchHeadEntriesWithError:(NSError **)error usingBlock:(void (^)(GTFetchHeadEntry *fetchHeadEntry, BOOL *stop))block {
+- (BOOL)enumerateFetchHeadEntriesWithError:(NSError **)error usingBlock:(void (^)(GTFetchHeadEntry *fetchHeadEntry, NSError *error, BOOL *stop))block {
 	NSParameterAssert(block != nil);
 	
 	GTEnumerateHeadEntriesPayload payload = {
@@ -106,7 +110,7 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 		.enumerationBlock = block,
 	};
 	int gitError = git_repository_fetchhead_foreach(self.git_repository, GTFetchHeadEntriesCallback, &payload);
-
+	
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to get fetchhead entries"];
 		return NO;
@@ -118,8 +122,9 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 - (NSArray *)fetchHeadEntriesWithError:(NSError **)error {
 	NSMutableArray *entries = [NSMutableArray array];
 	
-	[self enumerateFetchHeadEntriesWithError:error usingBlock:^(GTFetchHeadEntry *fetchHeadEntry, BOOL *stop) {
-		[entries addObject:fetchHeadEntry];
+	[self enumerateFetchHeadEntriesWithError:error usingBlock:^(GTFetchHeadEntry *fetchHeadEntry, NSError *error, BOOL *stop) {
+		if (fetchHeadEntry && !error)
+			[entries addObject:fetchHeadEntry];
 		
 		*stop = NO;
 	}];
