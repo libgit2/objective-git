@@ -27,7 +27,6 @@
 #import "GTReference.h"
 #import "GTEnumerator.h"
 #import "GTRepository.h"
-#import "GTConfiguration.h"
 #import "GTCommit.h"
 #import "GTRemote.h"
 #import "NSError+Git.h"
@@ -174,19 +173,6 @@
 	if (self.branchType == GTBranchTypeRemote) {
 		if (success != NULL) *success = YES;
 		return self;
-	}
-
-	// Refresh configuration first so that libgit2 gets any updated tracking
-	// refs in the repository's config.
-	GTConfiguration *configuration = [self.repository configurationWithError:error];
-	if (configuration == nil) {
-		if (success != NULL) *success = NO;
-		return nil;
-	}
-
-	if (![configuration refresh:error]) {
-		if (success != NULL) *success = NO;
-		return nil;
 	}
 
 	git_reference *trackingRef = NULL;
