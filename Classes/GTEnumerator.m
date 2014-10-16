@@ -73,6 +73,17 @@
 
 #pragma mark Pushing and Hiding
 
+- (BOOL)pushHeadWithError:(NSError **)error
+{
+	int gitError = git_revwalk_push_head(self.walk);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to push HEAD onto rev walker."];
+		return NO;
+	}
+	
+	return YES;
+}
+
 - (BOOL)pushSHA:(NSString *)sha error:(NSError **)error {
 	NSParameterAssert(sha != nil);
 
