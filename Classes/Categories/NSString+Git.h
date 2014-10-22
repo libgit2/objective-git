@@ -31,10 +31,10 @@
 
 @interface NSString (Git)
 
-// Get a short unique sha1 for a full sha1
-//
-// returns a NSString of the shortened sha1
-// returns nil if the receiver is not a sha string or is too short
+/// Get a short unique sha1 for a full sha1
+///
+/// returns a NSString of the shortened sha1
+/// returns nil if the receiver is not a sha string or is too short
 - (NSString *)git_shortUniqueShaString;
 
 @end

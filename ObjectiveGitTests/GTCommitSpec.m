@@ -59,6 +59,15 @@ it(@"can have multiple parents", ^{
 	expect(commit.parents.count).to.equal(2);
 });
 
+it(@"can identify merges", ^{
+	NSError *error;
+	NSString *commitSHA = @"a4a7dce85cf63874e984719f4fdd239f5145052f";
+	GTCommit *commit = [repository lookUpObjectBySHA:commitSHA error:&error];
+	expect(commit).notTo.beNil();
+
+	expect(commit.merge).to.beTruthy();
+});
+
 afterEach(^{
 	[self tearDown];
 });

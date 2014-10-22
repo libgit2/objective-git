@@ -108,6 +108,10 @@
 	return (GTTree *)[GTObject objectWithObj:(git_object *)tree inRepository:self.repository];
 }
 
+- (BOOL)isMerge {
+	return git_commit_parentcount(self.git_commit) > 1;
+}
+
 - (NSArray *)parents {
 	unsigned numberOfParents = git_commit_parentcount(self.git_commit);
 	NSMutableArray *parents = [NSMutableArray arrayWithCapacity:numberOfParents];

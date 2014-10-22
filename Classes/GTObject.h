@@ -54,29 +54,29 @@ typedef NS_ENUM(int, GTObjectType) {
 @property (nonatomic, readonly, strong) GTRepository *repository;
 @property (nonatomic, readonly) GTOID *OID;
 
-// Convenience initializers
+/// Convenience initializers
 - (id)initWithObj:(git_object *)theObject inRepository:(GTRepository *)theRepo;
 + (id)objectWithObj:(git_object *)theObject inRepository:(GTRepository *)theRepo;
 
-// The underlying `git_object`.
+/// The underlying `git_object`.
 - (git_object *)git_object __attribute__((objc_returns_inner_pointer));
 
-// Read the raw object from the datastore
-//
-// error(out) - will be filled if an error occurs
-// 
-// returns a GTOdbObject or nil if an error occurred.
+/// Read the raw object from the datastore
+///
+/// error(out) - will be filled if an error occurs
+///
+/// returns a GTOdbObject or nil if an error occurred.
 - (GTOdbObject *)odbObjectWithError:(NSError **)error;
 
-// Recursively peel an object until an object of the specified type is met.
-//
-// type  - The type of the requested object. If you pass GTObjectTypeAny
-//         the object will be peeled until the type changes (e.g. a tag will
-//         be chased until the referenced object is no longer a tag).
-// error - Will be filled with a NSError object on failure.
-//         May be NULL.
-//
-// Returns the found object or nil on error.
+/// Recursively peel an object until an object of the specified type is met.
+///
+/// type  - The type of the requested object. If you pass GTObjectTypeAny
+///         the object will be peeled until the type changes (e.g. a tag will
+///         be chased until the referenced object is no longer a tag).
+/// error - Will be filled with a NSError object on failure.
+///         May be NULL.
+///
+/// Returns the found object or nil on error.
 - (id)objectByPeelingToType:(GTObjectType)type error:(NSError **)error;
 
 @end

@@ -12,11 +12,11 @@
 
 @interface GTReflog ()
 
-// Initializes the receiver with a reference.
-//
-// reference - The reference whose reflog is being represented. Cannot be nil.
-//
-// Returns the initialized object.
+/// Initializes the receiver with a reference.
+///
+/// reference - The reference whose reflog is being represented. Cannot be nil.
+///
+/// Returns the initialized object.
 - (id)initWithReference:(GTReference *)reference;
 
 @end
