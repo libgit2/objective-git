@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8DC2EF4F0486A6940098B216"
                BuildableName = "ObjectiveGit.framework"
-               BlueprintName = "ObjectiveGit"
+               BlueprintName = "ObjectiveGit-Mac"
                ReferencedContainer = "container:ObjectiveGitFramework.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -29,8 +29,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "88F05A6A16011E5400B7AD1D"
-               BuildableName = "ObjectiveGitTests.xctest"
-               BlueprintName = "ObjectiveGitTests"
+               BuildableName = "ObjectiveGit-MacTests.xctest"
+               BlueprintName = "ObjectiveGit-MacTests"
                ReferencedContainer = "container:ObjectiveGitFramework.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -47,8 +47,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "88F05A6A16011E5400B7AD1D"
-               BuildableName = "ObjectiveGitTests.xctest"
-               BlueprintName = "ObjectiveGitTests"
+               BuildableName = "ObjectiveGit-MacTests.xctest"
+               BlueprintName = "ObjectiveGit-MacTests"
                ReferencedContainer = "container:ObjectiveGitFramework.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -58,7 +58,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8DC2EF4F0486A6940098B216"
             BuildableName = "ObjectiveGit.framework"
-            BlueprintName = "ObjectiveGit"
+            BlueprintName = "ObjectiveGit-Mac"
             ReferencedContainer = "container:ObjectiveGitFramework.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -78,7 +78,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8DC2EF4F0486A6940098B216"
             BuildableName = "ObjectiveGit.framework"
-            BlueprintName = "ObjectiveGit"
+            BlueprintName = "ObjectiveGit-Mac"
             ReferencedContainer = "container:ObjectiveGitFramework.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -96,7 +96,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8DC2EF4F0486A6940098B216"
             BuildableName = "ObjectiveGit.framework"
-            BlueprintName = "ObjectiveGit"
+            BlueprintName = "ObjectiveGit-Mac"
             ReferencedContainer = "container:ObjectiveGitFramework.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

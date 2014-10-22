@@ -1101,9 +1101,9 @@
 			productReference = 04DB4645133AB57600D9C624 /* libObjectiveGit-iOS.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		88F05A6A16011E5400B7AD1D /* ObjectiveGitTests */ = {
+		88F05A6A16011E5400B7AD1D /* ObjectiveGit-MacTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 88F05A7F16011E5400B7AD1D /* Build configuration list for PBXNativeTarget "ObjectiveGitTests" */;
+			buildConfigurationList = 88F05A7F16011E5400B7AD1D /* Build configuration list for PBXNativeTarget "ObjectiveGit-MacTests" */;
 			buildPhases = (
 				88F05A6616011E5400B7AD1D /* Sources */,
 				88F05A6716011E5400B7AD1D /* Frameworks */,
@@ -1114,14 +1114,14 @@
 			dependencies = (
 				88F05AA016011F9000B7AD1D /* PBXTargetDependency */,
 			);
-			name = ObjectiveGitTests;
+			name = "ObjectiveGit-MacTests";
 			productName = ObjectiveGitTests;
 			productReference = 88F05A6B16011E5400B7AD1D /* ObjectiveGitTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		8DC2EF4F0486A6940098B216 /* ObjectiveGit */ = {
+		8DC2EF4F0486A6940098B216 /* ObjectiveGit-Mac */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1DEB91AD08733DA50010E9CD /* Build configuration list for PBXNativeTarget "ObjectiveGit" */;
+			buildConfigurationList = 1DEB91AD08733DA50010E9CD /* Build configuration list for PBXNativeTarget "ObjectiveGit-Mac" */;
 			buildPhases = (
 				8DC2EF500486A6940098B216 /* Headers */,
 				79262F0F13C697BE00A4B1EA /* Copy git2 Headers */,
@@ -1134,7 +1134,7 @@
 			dependencies = (
 				D0A330F816027F4900A616FA /* PBXTargetDependency */,
 			);
-			name = ObjectiveGit;
+			name = "ObjectiveGit-Mac";
 			productInstallPath = "$(HOME)/Library/Frameworks";
 			productName = ObjectiveGitFramework;
 			productReference = 8DC2EF5B0486A6940098B216 /* ObjectiveGit.framework */;
@@ -1166,9 +1166,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8DC2EF4F0486A6940098B216 /* ObjectiveGit */,
+				8DC2EF4F0486A6940098B216 /* ObjectiveGit-Mac */,
 				04DB4644133AB57600D9C624 /* ObjectiveGit-iOS */,
-				88F05A6A16011E5400B7AD1D /* ObjectiveGitTests */,
+				88F05A6A16011E5400B7AD1D /* ObjectiveGit-MacTests */,
 				D0A330ED16027F1E00A616FA /* libgit2 */,
 				D0A330F216027F3600A616FA /* libgit2-iOS */,
 				6A28265217C69CB400C6A948 /* OpenSSL-iOS */,
@@ -1433,7 +1433,7 @@
 		};
 		88F05AA016011F9000B7AD1D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 8DC2EF4F0486A6940098B216 /* ObjectiveGit */;
+			target = 8DC2EF4F0486A6940098B216 /* ObjectiveGit-Mac */;
 			targetProxy = 88F05A9F16011F9000B7AD1D /* PBXContainerItemProxy */;
 		};
 		D0A330F816027F4900A616FA /* PBXTargetDependency */ = {
@@ -1875,7 +1875,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1DEB91AD08733DA50010E9CD /* Build configuration list for PBXNativeTarget "ObjectiveGit" */ = {
+		1DEB91AD08733DA50010E9CD /* Build configuration list for PBXNativeTarget "ObjectiveGit-Mac" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DEB91AE08733DA50010E9CD /* Debug */,
@@ -1915,7 +1915,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		88F05A7F16011E5400B7AD1D /* Build configuration list for PBXNativeTarget "ObjectiveGitTests" */ = {
+		88F05A7F16011E5400B7AD1D /* Build configuration list for PBXNativeTarget "ObjectiveGit-MacTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				88F05A8016011E5400B7AD1D /* Debug */,
