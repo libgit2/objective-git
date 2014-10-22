@@ -14,8 +14,8 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "04DB4644133AB57600D9C624"
-               BuildableName = "libObjectiveGit-iOS.a"
+               BlueprintIdentifier = "D01B6ED219F82E2000D411BC"
+               BuildableName = "ObjectiveGit-iOS.framework"
                BlueprintName = "ObjectiveGit-iOS"
                ReferencedContainer = "container:ObjectiveGitFramework.xcodeproj">
             </BuildableReference>
@@ -28,7 +28,26 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       buildConfiguration = "Debug">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "D01B6EDC19F82E2000D411BC"
+               BuildableName = "ObjectiveGit-iOSTests.xctest"
+               BlueprintName = "ObjectiveGit-iOSTests"
+               ReferencedContainer = "container:ObjectiveGitFramework.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "D01B6ED219F82E2000D411BC"
+            BuildableName = "ObjectiveGit-iOS.framework"
+            BlueprintName = "ObjectiveGit-iOS"
+            ReferencedContainer = "container:ObjectiveGitFramework.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </TestAction>
    <LaunchAction
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
@@ -39,6 +58,15 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "D01B6ED219F82E2000D411BC"
+            BuildableName = "ObjectiveGit-iOS.framework"
+            BlueprintName = "ObjectiveGit-iOS"
+            ReferencedContainer = "container:ObjectiveGitFramework.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -48,6 +76,15 @@
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Profile"
       debugDocumentVersioning = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "D01B6ED219F82E2000D411BC"
+            BuildableName = "ObjectiveGit-iOS.framework"
+            BlueprintName = "ObjectiveGit-iOS"
+            ReferencedContainer = "container:ObjectiveGitFramework.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

@@ -23,7 +23,14 @@
 //  THE SOFTWARE.
 //
 
+#import <Foundation/Foundation.h>
 #import "git2.h"
+
+//! Project version number for ObjectiveGit.
+FOUNDATION_EXPORT double ObjectiveGitVersionNumber;
+
+//! Project version string for ObjectiveGit.
+FOUNDATION_EXPORT const unsigned char ObjectiveGitVersionString[];
 
 #import <ObjectiveGit/GTRepository.h>
 #import <ObjectiveGit/GTRepository+Attributes.h>
