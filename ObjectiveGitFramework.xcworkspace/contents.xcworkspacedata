@@ -4,10 +4,4 @@
    <FileRef
       location = "group:ObjectiveGitFramework.xcodeproj">
    </FileRef>
-   <FileRef
-      location = "group:ObjectiveGitTests/specta/Specta.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:ObjectiveGitTests/expecta/Expecta.xcodeproj">
-   </FileRef>
 </Workspace>

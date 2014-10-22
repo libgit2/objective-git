@@ -275,8 +275,6 @@
 		BDFAF9C4131C1845000508BC /* GTIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = BDFAF9C2131C1845000508BC /* GTIndex.m */; };
 		BDFAF9C9131C1868000508BC /* GTIndexEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = BDFAF9C7131C1868000508BC /* GTIndexEntry.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BDFAF9CA131C1868000508BC /* GTIndexEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = BDFAF9C8131C1868000508BC /* GTIndexEntry.m */; };
-		BE9AB96719659A9A0054F3D6 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE9AB96619659A9A0054F3D6 /* XCTest.framework */; };
-		BE9AB96919659A9E0054F3D6 /* libSpecta-OSX.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BE9AB96819659A9E0054F3D6 /* libSpecta-OSX.a */; };
 		D00F6816175D373C004DB9D6 /* GTReferenceSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D00F6815175D373C004DB9D6 /* GTReferenceSpec.m */; };
 		D015F7CA17F695E800AD5E1F /* GTRepository+Stashing.h in Headers */ = {isa = PBXBuildFile; fileRef = D015F7C817F695E800AD5E1F /* GTRepository+Stashing.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D015F7CB17F695E800AD5E1F /* GTRepository+Stashing.h in Headers */ = {isa = PBXBuildFile; fileRef = D015F7C817F695E800AD5E1F /* GTRepository+Stashing.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -525,8 +523,6 @@
 		BDFAF9C2131C1845000508BC /* GTIndex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTIndex.m; sourceTree = "<group>"; };
 		BDFAF9C7131C1868000508BC /* GTIndexEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTIndexEntry.h; sourceTree = "<group>"; };
 		BDFAF9C8131C1868000508BC /* GTIndexEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = GTIndexEntry.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		BE9AB96619659A9A0054F3D6 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		BE9AB96819659A9E0054F3D6 /* libSpecta-OSX.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libSpecta-OSX.a"; path = "ObjectiveGitTests/specta/build/Debug/libSpecta-OSX.a"; sourceTree = "<group>"; };
 		D00F6815175D373C004DB9D6 /* GTReferenceSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTReferenceSpec.m; sourceTree = "<group>"; };
 		D015F7C817F695E800AD5E1F /* GTRepository+Stashing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTRepository+Stashing.h"; sourceTree = "<group>"; };
 		D015F7C917F695E800AD5E1F /* GTRepository+Stashing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GTRepository+Stashing.m"; sourceTree = "<group>"; };
@@ -589,8 +585,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				88F05A9E16011F6E00B7AD1D /* ObjectiveGit.framework in Frameworks */,
-				BE9AB96719659A9A0054F3D6 /* XCTest.framework in Frameworks */,
-				BE9AB96919659A9E0054F3D6 /* libSpecta-OSX.a in Frameworks */,
 				D4ACA56318DBA89300EBD899 /* libExpecta.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -621,8 +615,6 @@
 		0867D691FE84028FC02AAC07 /* ObjectiveGitFramework */ = {
 			isa = PBXGroup;
 			children = (
-				BE9AB96819659A9E0054F3D6 /* libSpecta-OSX.a */,
-				BE9AB96619659A9A0054F3D6 /* XCTest.framework */,
 				BDD8AB01130F01AB00CB5D40 /* README.md */,
 				88F6D9D81320451F00CC0BA8 /* ObjectiveGit.h */,
 				88F05AC51601209A00B7AD1D /* ObjectiveGit.m */,
