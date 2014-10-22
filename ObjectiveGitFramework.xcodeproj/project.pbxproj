@@ -362,6 +362,13 @@
 			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = ObjectiveGit;
 		};
+		D019779619F8335100F523DA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D0A330F216027F3600A616FA;
+			remoteInfo = "libgit2-iOS";
+		};
 		D01B6EDF19F82E2000D411BC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
@@ -1146,6 +1153,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				D019779719F8335100F523DA /* PBXTargetDependency */,
 			);
 			name = "ObjectiveGit-iOS";
 			productName = ObjectiveGit;
@@ -1523,6 +1531,11 @@
 			target = 8DC2EF4F0486A6940098B216 /* ObjectiveGit-Mac */;
 			targetProxy = 88F05A9F16011F9000B7AD1D /* PBXContainerItemProxy */;
 		};
+		D019779719F8335100F523DA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D0A330F216027F3600A616FA /* libgit2-iOS */;
+			targetProxy = D019779619F8335100F523DA /* PBXContainerItemProxy */;
+		};
 		D01B6EE019F82E2000D411BC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = D01B6ED219F82E2000D411BC /* ObjectiveGit-iOS */;
@@ -1770,11 +1783,17 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D019778C19F830D100F523DA /* iOS-Framework.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				INFOPLIST_FILE = Info.plist;
+				OTHER_LDFLAGS = (
+					"-lgit2-ios",
+					"-lssh-ios",
+					"-all_load",
+				);
 				PRODUCT_NAME = ObjectiveGit;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1830,11 +1849,17 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D019778C19F830D100F523DA /* iOS-Framework.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				INFOPLIST_FILE = Info.plist;
+				OTHER_LDFLAGS = (
+					"-lgit2-ios",
+					"-lssh-ios",
+					"-all_load",
+				);
 				PRODUCT_NAME = ObjectiveGit;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1845,11 +1870,17 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D019778C19F830D100F523DA /* iOS-Framework.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				INFOPLIST_FILE = Info.plist;
+				OTHER_LDFLAGS = (
+					"-lgit2-ios",
+					"-lssh-ios",
+					"-all_load",
+				);
 				PRODUCT_NAME = ObjectiveGit;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1860,11 +1891,17 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D019778C19F830D100F523DA /* iOS-Framework.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				INFOPLIST_FILE = Info.plist;
+				OTHER_LDFLAGS = (
+					"-lgit2-ios",
+					"-lssh-ios",
+					"-all_load",
+				);
 				PRODUCT_NAME = ObjectiveGit;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";

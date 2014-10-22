@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D01B6ED219F82E2000D411BC"
-               BuildableName = "ObjectiveGit-iOS.framework"
+               BuildableName = "ObjectiveGit.framework"
                BlueprintName = "ObjectiveGit-iOS"
                ReferencedContainer = "container:ObjectiveGitFramework.xcodeproj">
             </BuildableReference>
@@ -43,7 +43,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D01B6ED219F82E2000D411BC"
-            BuildableName = "ObjectiveGit-iOS.framework"
+            BuildableName = "ObjectiveGit.framework"
             BlueprintName = "ObjectiveGit-iOS"
             ReferencedContainer = "container:ObjectiveGitFramework.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D01B6ED219F82E2000D411BC"
-            BuildableName = "ObjectiveGit-iOS.framework"
+            BuildableName = "ObjectiveGit.framework"
             BlueprintName = "ObjectiveGit-iOS"
             ReferencedContainer = "container:ObjectiveGitFramework.xcodeproj">
          </BuildableReference>
@@ -80,7 +80,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D01B6ED219F82E2000D411BC"
-            BuildableName = "ObjectiveGit-iOS.framework"
+            BuildableName = "ObjectiveGit.framework"
             BlueprintName = "ObjectiveGit-iOS"
             ReferencedContainer = "container:ObjectiveGitFramework.xcodeproj">
          </BuildableReference>
