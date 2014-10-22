@@ -6,6 +6,7 @@
 //  Copyright (c) 2012 GitHub, Inc. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
 #import "git2.h"
 
 /// Flags which may be set on the file.

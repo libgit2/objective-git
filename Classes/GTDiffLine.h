@@ -6,6 +6,7 @@
 //  Copyright (c) 2012 GitHub, Inc. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
 #import "git2.h"
 
 /// A character representing the origin of a given line.

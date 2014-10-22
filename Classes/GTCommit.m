@@ -101,7 +101,7 @@
 	int gitError = git_commit_tree(&tree, self.git_commit);
 	if (gitError < GIT_OK) {
 		// todo: might want to return this error (and change method signature)
-		GTLog("Failed to get tree with error code: %d", gitError);
+		NSLog(@"Failed to get tree with error code: %d", gitError);
 		return nil;
 	}
 	

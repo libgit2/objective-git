@@ -6,6 +6,7 @@
 //  Copyright (c) 2011 GitHub, Inc. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
 #include "git2.h"
 
 @class GTRepository;

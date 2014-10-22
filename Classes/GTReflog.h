@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 GitHub, Inc. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
 #import "git2.h"
 
 @class GTSignature;

@@ -27,6 +27,7 @@
 //  THE SOFTWARE.
 //
 
+#import <Foundation/Foundation.h>
 #include "git2.h"
 
 typedef NS_ENUM(NSInteger, GTIndexEntryStatus) {

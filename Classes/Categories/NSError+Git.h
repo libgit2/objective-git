@@ -27,6 +27,8 @@
 //  THE SOFTWARE.
 //
 
+#import <Foundation/Foundation.h>
+
 extern NSString * const GTGitErrorDomain;
 
 @interface NSError (Git)
