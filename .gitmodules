@@ -10,3 +10,6 @@
 [submodule "libssh2"]
 	path = External/libssh2
 	url = git://git.libssh2.org/libssh2.git
+[submodule "External/Quick"]
+	path = External/Quick
+	url = https://github.com/github/Quick.git
