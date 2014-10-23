@@ -11,6 +11,7 @@
 
 #import "git2/commit.h"
 #import "GTCommit.h"
+#import "GTSignature.h"
 #import "NSError+Git.h"
 
 @implementation GTRepository (Committing)
