@@ -1802,7 +1802,16 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"External/libssh2-ios/include/libssh2",
+				);
 				INFOPLIST_FILE = Info.plist;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"External/ios-openssl/lib",
+					"External/libssh2-ios/lib",
+				);
 				OTHER_LDFLAGS = (
 					"-lgit2-ios",
 					"-lssh-ios",
@@ -1871,7 +1880,16 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"External/libssh2-ios/include/libssh2",
+				);
 				INFOPLIST_FILE = Info.plist;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"External/ios-openssl/lib",
+					"External/libssh2-ios/lib",
+				);
 				OTHER_LDFLAGS = (
 					"-lgit2-ios",
 					"-lssh-ios",
@@ -1892,7 +1910,16 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"External/libssh2-ios/include/libssh2",
+				);
 				INFOPLIST_FILE = Info.plist;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"External/ios-openssl/lib",
+					"External/libssh2-ios/lib",
+				);
 				OTHER_LDFLAGS = (
 					"-lgit2-ios",
 					"-lssh-ios",
@@ -1913,7 +1940,16 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"External/libssh2-ios/include/libssh2",
+				);
 				INFOPLIST_FILE = Info.plist;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"External/ios-openssl/lib",
+					"External/libssh2-ios/lib",
+				);
 				OTHER_LDFLAGS = (
 					"-lgit2-ios",
 					"-lssh-ios",
