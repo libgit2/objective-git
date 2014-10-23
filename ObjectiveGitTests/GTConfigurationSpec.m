@@ -6,9 +6,13 @@
 //  Copyright (c) 2013 GitHub, Inc. All rights reserved.
 //
 
-#import "GTConfiguration.h"
+#import <Nimble/Nimble.h>
+#import <ObjectiveGit/ObjectiveGit.h>
+#import <Quick/Quick.h>
 
-SpecBegin(GTConfiguration)
+#import "QuickSpec+GTFixtures.h"
+
+QuickSpecBegin(GTConfigurationSpec)
 
 describe(@"+defaultConfiguration", ^{
 	static NSString * const testKey = @"universe.answer";
@@ -51,4 +55,4 @@ afterEach(^{
 	[self tearDown];
 });
 
-SpecEnd
+QuickSpecEnd

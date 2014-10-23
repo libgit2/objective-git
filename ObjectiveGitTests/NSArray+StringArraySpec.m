@@ -6,7 +6,13 @@
 //  Copyright (c) 2013 GitHub, Inc. All rights reserved.
 //
 
-SpecBegin(StringArray)
+#import <Nimble/Nimble.h>
+#import <ObjectiveGit/ObjectiveGit.h>
+#import <Quick/Quick.h>
+
+#import "QuickSpec+GTFixtures.h"
+
+QuickSpecBegin(StringArray)
 
 describe(@"String arrays", ^{
 
@@ -99,4 +105,4 @@ afterEach(^{
 	[self tearDown];
 });
 
-SpecEnd
+QuickSpecEnd

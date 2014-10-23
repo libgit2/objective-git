@@ -6,9 +6,13 @@
 //  Copyright (c) 2014 GitHub, Inc. All rights reserved.
 //
 
-#import "NSData+Git.h"
+#import <Nimble/Nimble.h>
+#import <ObjectiveGit/ObjectiveGit.h>
+#import <Quick/Quick.h>
 
-SpecBegin(NSDataGit)
+#import "QuickSpec+GTFixtures.h"
+
+QuickSpecBegin(NSDataGit)
 
 const void *testData = "hello world";
 const size_t testDataSize = strlen(testData) + 1;
@@ -49,7 +53,7 @@ describe(@"+git_dataWithBuffer:", ^{
 
 describe(@"git_buf", ^{
 	__block NSData *data;
-	
+
 	beforeEach(^{
 		data = [NSData dataWithBytes:testData length:testDataSize];
 		expect(data).notTo.beNil();
@@ -67,4 +71,4 @@ afterEach(^{
 	[self tearDown];
 });
 
-SpecEnd
+QuickSpecEnd

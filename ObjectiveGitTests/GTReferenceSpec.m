@@ -6,7 +6,13 @@
 //  Copyright (c) 2013 GitHub, Inc. All rights reserved.
 //
 
-SpecBegin(GTReference)
+#import <Nimble/Nimble.h>
+#import <ObjectiveGit/ObjectiveGit.h>
+#import <Quick/Quick.h>
+
+#import "QuickSpec+GTFixtures.h"
+
+QuickSpecBegin(GTReferenceSpec)
 
 __block GTRepository *repository;
 
@@ -188,4 +194,4 @@ afterEach(^{
 	[self tearDown];
 });
 
-SpecEnd
+QuickSpecEnd

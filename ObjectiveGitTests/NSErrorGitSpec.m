@@ -6,9 +6,13 @@
 //  Copyright (c) 2013 GitHub, Inc. All rights reserved.
 //
 
-#import "NSError+Git.h"
+#import <Nimble/Nimble.h>
+#import <ObjectiveGit/ObjectiveGit.h>
+#import <Quick/Quick.h>
 
-SpecBegin(NSErrorGit)
+#import "QuickSpec+GTFixtures.h"
+
+QuickSpecBegin(NSErrorGit)
 
 it(@"should create an error with a nil description", ^{
 	NSError *error = [NSError git_errorFor:GIT_OK description:nil];
@@ -56,4 +60,4 @@ afterEach(^{
 	[self tearDown];
 });
 
-SpecEnd
+QuickSpecEnd

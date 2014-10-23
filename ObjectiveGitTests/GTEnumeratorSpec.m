@@ -6,9 +6,13 @@
 //  Copyright (c) 2013 GitHub, Inc. All rights reserved.
 //
 
-#import "GTEnumerator.h"
+#import <Nimble/Nimble.h>
+#import <ObjectiveGit/ObjectiveGit.h>
+#import <Quick/Quick.h>
 
-SpecBegin(GTEnumerator)
+#import "QuickSpec+GTFixtures.h"
+
+QuickSpecBegin(GTEnumeratorSpec)
 
 __block GTRepository *repo;
 __block GTEnumerator *enumerator;
@@ -26,7 +30,7 @@ it(@"should walk from repository HEAD", ^{
 
 	GTReference *HEADRef = [repo headReferenceWithError:NULL];
 	expect(HEADRef).notTo.beNil();
-	
+
 	[enumerator pushSHA:HEADRef.targetSHA error:NULL];
 	NSUInteger count = [enumerator allObjects].count;
 	expect(count).to.equal(3);
@@ -36,7 +40,7 @@ it(@"should walk from repository HEAD", ^{
 describe(@"with a rev list", ^{
 	__block NSMutableArray *expectedSHAs;
 	__block void (^verifyEnumerator)(void);
-	
+
 	beforeEach(^{
 		expectedSHAs = [@[
 			@"9fd738e8f7967c078dceed8190330fc8648ee56a",
@@ -100,7 +104,7 @@ describe(@"globbing", ^{
 
 	__block NSMutableArray *expectedSHAs;
 	__block void (^verifyEnumerator)(void);
-	
+
 	beforeEach(^{
 		expectedSHAs = [@[
 			@"36060c58702ed4c2a40832c51758d5344201d89a",
@@ -128,7 +132,7 @@ describe(@"globbing", ^{
 		__block NSError *error = nil;
 		expect([enumerator pushGlob:branchGlob error:&error]).to.beTruthy();
 		expect(error).to.beNil();
-		
+
 		verifyEnumerator();
 	});
 
@@ -139,7 +143,7 @@ describe(@"globbing", ^{
 
 		expect([enumerator hideGlob:branchGlob error:&error]).to.beTruthy();
 		expect(error).to.beNil();
-		
+
 		[expectedSHAs removeAllObjects];
 		verifyEnumerator();
 	});
@@ -149,4 +153,4 @@ afterEach(^{
 	[self tearDown];
 });
 
-SpecEnd
+QuickSpecEnd

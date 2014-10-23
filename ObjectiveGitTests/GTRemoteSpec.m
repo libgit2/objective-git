@@ -6,9 +6,13 @@
 //  Copyright (c) 2013 GitHub, Inc. All rights reserved.
 //
 
-#import "GTRemote.h"
+#import <Nimble/Nimble.h>
+#import <ObjectiveGit/ObjectiveGit.h>
+#import <Quick/Quick.h>
 
-SpecBegin(GTRemote)
+#import "QuickSpec+GTFixtures.h"
+
+QuickSpecBegin(GTRemoteSpec)
 
 __block GTRemote *remote = nil;
 __block GTRepository *repository = nil;
@@ -197,4 +201,4 @@ describe(@"network operations", ^{
 	});
 });
 
-SpecEnd
+QuickSpecEnd

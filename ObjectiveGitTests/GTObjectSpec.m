@@ -29,6 +29,7 @@
 
 #import <ObjectiveGit/ObjectiveGit.h>
 #import <Quick/Quick.h>
+
 #import "QuickSpec+GTFixtures.h"
 
 QuickSpecBegin(GTObjectSpec)

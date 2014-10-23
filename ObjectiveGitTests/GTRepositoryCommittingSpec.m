@@ -6,10 +6,13 @@
 //  Copyright (c) 2013 GitHub, Inc. All rights reserved.
 //
 
-#import "GTRepository.h"
-#import "GTRepository+Committing.h"
+#import <Nimble/Nimble.h>
+#import <ObjectiveGit/ObjectiveGit.h>
+#import <Quick/Quick.h>
 
-SpecBegin(GTRepositoryCommitting)
+#import "QuickSpec+GTFixtures.h"
+
+QuickSpecBegin(GTRepositoryCommitting)
 
 __block GTRepository *repository;
 
@@ -56,4 +59,4 @@ afterEach(^{
 	[self tearDown];
 });
 
-SpecEnd
+QuickSpecEnd

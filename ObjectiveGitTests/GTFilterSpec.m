@@ -6,9 +6,13 @@
 //  Copyright (c) 2014 GitHub, Inc. All rights reserved.
 //
 
-#import "GTFilter.h"
+#import <Nimble/Nimble.h>
+#import <ObjectiveGit/ObjectiveGit.h>
+#import <Quick/Quick.h>
 
-SpecBegin(GTFilter)
+#import "QuickSpec+GTFixtures.h"
+
+QuickSpecBegin(GTFilterSpec)
 
 static NSString * const testFile = @"stuff.txt";
 static NSString * const filterName = @"special-filter";
@@ -183,4 +187,4 @@ afterEach(^{
 	[self tearDown];
 });
 
-SpecEnd
+QuickSpecEnd

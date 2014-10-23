@@ -6,10 +6,13 @@
 //  Copyright (c) 2014 GitHub, Inc. All rights reserved.
 //
 
-#import "GTDiffDelta.h"
-#import "GTDiffPatch.h"
+#import <Nimble/Nimble.h>
+#import <ObjectiveGit/ObjectiveGit.h>
+#import <Quick/Quick.h>
 
-SpecBegin(GTDiffDelta)
+#import "QuickSpec+GTFixtures.h"
+
+QuickSpecBegin(GTDiffDeltaSpec)
 
 __block GTRepository *repository;
 __block GTDiffDelta *delta;
@@ -76,4 +79,4 @@ describe(@"data-to-data diffing", ^{
 	});
 });
 
-SpecEnd
+QuickSpecEnd

@@ -6,11 +6,13 @@
 //  Copyright (c) 2013 GitHub, Inc. All rights reserved.
 //
 
-#import "GTRepository.h"
-#import "GTRepository+Committing.h"
-#import "SPTExample.h"
+#import <Nimble/Nimble.h>
+#import <ObjectiveGit/ObjectiveGit.h>
+#import <Quick/Quick.h>
 
-SpecBegin(GTRepository)
+#import "QuickSpec+GTFixtures.h"
+
+QuickSpecBegin(GTRepositorySpec)
 
 __block GTRepository *repository;
 
@@ -355,7 +357,7 @@ describe(@"-checkout:strategy:error:progressBlock:", ^{
 		expect(result).to.beTruthy();
 		expect(error.localizedDescription).to.beNil();
 	});
-	
+
 	it(@"should allow commits", ^{
 		NSError *error = nil;
 		GTCommit *commit = [repository lookUpObjectBySHA:@"1d69f3c0aeaf0d62e25591987b93b8ffc53abd77" objectType:GTObjectTypeCommit error:&error];
@@ -485,4 +487,4 @@ afterEach(^{
 	[self tearDown];
 });
 
-SpecEnd
+QuickSpecEnd

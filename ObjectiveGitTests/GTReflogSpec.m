@@ -6,9 +6,13 @@
 //  Copyright (c) 2013 GitHub, Inc. All rights reserved.
 //
 
-#import "GTReflog.h"
+#import <Nimble/Nimble.h>
+#import <ObjectiveGit/ObjectiveGit.h>
+#import <Quick/Quick.h>
 
-SpecBegin(GTReflog)
+#import "QuickSpec+GTFixtures.h"
+
+QuickSpecBegin(GTReflogSpec)
 
 __block GTReflog *reflog;
 __block GTRepository *repository;
@@ -18,7 +22,7 @@ beforeEach(^{
 
 	GTBranch *branch = [repository currentBranchWithError:NULL];
 	expect(branch).notTo.beNil();
-	
+
 	reflog = branch.reference.reflog;
 	expect(reflog).notTo.beNil();
 });
@@ -56,4 +60,4 @@ afterEach(^{
 	[self tearDown];
 });
 
-SpecEnd
+QuickSpecEnd

@@ -6,10 +6,13 @@
 //  Copyright (c) 2013 GitHub, Inc. All rights reserved.
 //
 
-#import "GTIndex.h"
-#import "GTConfiguration.h"
+#import <Nimble/Nimble.h>
+#import <ObjectiveGit/ObjectiveGit.h>
+#import <Quick/Quick.h>
 
-SpecBegin(GTIndex)
+#import "QuickSpec+GTFixtures.h"
+
+QuickSpecBegin(GTIndexSpec)
 
 __block GTRepository *repository;
 __block GTIndex *index;
@@ -277,4 +280,4 @@ afterEach(^{
 	[self tearDown];
 });
 
-SpecEnd
+QuickSpecEnd

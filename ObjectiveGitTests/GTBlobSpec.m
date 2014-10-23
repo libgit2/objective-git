@@ -6,9 +6,13 @@
 //  Copyright (c) 2013 GitHub, Inc. All rights reserved.
 //
 
-#import "GTBlob.h"
+#import <Nimble/Nimble.h>
+#import <ObjectiveGit/ObjectiveGit.h>
+#import <Quick/Quick.h>
 
-SpecBegin(GTBlob)
+#import "QuickSpec+GTFixtures.h"
+
+QuickSpecBegin(GTBlobSpec)
 
 __block GTRepository *repository;
 __block NSString *blobSHA;
@@ -91,4 +95,4 @@ afterEach(^{
 	[self tearDown];
 });
 
-SpecEnd
+QuickSpecEnd

@@ -6,9 +6,13 @@
 //  Copyright (c) 2013 GitHub, Inc. All rights reserved.
 //
 
-#import "GTTag.h"
+#import <Nimble/Nimble.h>
+#import <ObjectiveGit/ObjectiveGit.h>
+#import <Quick/Quick.h>
 
-SpecBegin(GTTag)
+#import "QuickSpec+GTFixtures.h"
+
+QuickSpecBegin(GTTagSpec)
 
 __block GTTag *tag;
 
@@ -28,7 +32,7 @@ it(@"can read tag data", ^{
 	expect(tag.message).to.equal(@"test tag message\n");
 	expect(tag.target.SHA).to.equal(@"5b5b025afb0b4c913b4c338a42934a3863bf3644");
 	expect(GTObjectTypeCommit).to.equal(tag.targetType);
-	
+
 	GTSignature *signature = tag.tagger;
 	expect(signature.name).to.equal(@"Scott Chacon");
 	expect((int)[signature.time timeIntervalSince1970]).to.equal(1288114383);
@@ -39,4 +43,4 @@ afterEach(^{
 	[self tearDown];
 });
 
-SpecEnd
+QuickSpecEnd

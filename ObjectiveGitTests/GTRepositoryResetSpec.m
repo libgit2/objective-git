@@ -6,11 +6,13 @@
 //  Copyright (c) 2014 GitHub, Inc. All rights reserved.
 //
 
-#import "GTRepository+Reset.h"
-#import "GTRepository.h"
-#import "GTIndex.h"
+#import <Nimble/Nimble.h>
+#import <ObjectiveGit/ObjectiveGit.h>
+#import <Quick/Quick.h>
 
-SpecBegin(GTRepositoryReset)
+#import "QuickSpec+GTFixtures.h"
+
+QuickSpecBegin(GTRepositoryReset)
 
 __block GTRepository *repository;
 
@@ -90,4 +92,4 @@ afterEach(^{
 	[self tearDown];
 });
 
-SpecEnd
+QuickSpecEnd

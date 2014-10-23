@@ -6,9 +6,13 @@
 //  Copyright (c) 2013 GitHub, Inc. All rights reserved.
 //
 
-#import "GTRepository+Stashing.h"
+#import <Nimble/Nimble.h>
+#import <ObjectiveGit/ObjectiveGit.h>
+#import <Quick/Quick.h>
 
-SpecBegin(GTRepositoryStashing)
+#import "QuickSpec+GTFixtures.h"
+
+QuickSpecBegin(GTRepositoryStashing)
 
 __block GTRepository *repository;
 
@@ -120,4 +124,4 @@ afterEach(^{
 	[self tearDown];
 });
 
-SpecEnd
+QuickSpecEnd

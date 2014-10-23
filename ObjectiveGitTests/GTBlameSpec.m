@@ -6,7 +6,13 @@
 //  Copyright (c) 2014 GitHub, Inc. All rights reserved.
 //
 
-SpecBegin(GTBlame)
+#import <Nimble/Nimble.h>
+#import <ObjectiveGit/ObjectiveGit.h>
+#import <Quick/Quick.h>
+
+#import "QuickSpec+GTFixtures.h"
+
+QuickSpecBegin(GTBlameSpec)
 
 __block GTBlame *blame = nil;
 
@@ -21,7 +27,7 @@ it(@"can count the hunks", ^{
 
 it(@"can read hunk properties", ^{
 	GTBlameHunk *hunk = [blame hunkAtIndex:1];
-	
+
 	expect(hunk).notTo.beNil();
 	expect(NSEqualRanges(hunk.lines, NSMakeRange(22, 1))).to.beTruthy();
 	expect(hunk.finalCommitOID.SHA).to.equal(@"82dc47f6ba3beecab33080a1136d8913098e1801");
@@ -40,7 +46,7 @@ it(@"should be able to enumerate all the hunks in a blame, stopping when instruc
 		[mutableArray addObject:hunk];
 		*stop = YES;
 	}];
-	
+
 	expect(mutableArray).to.haveCountOf(1);
 });
 
@@ -58,7 +64,7 @@ describe(@"Creating a blame with options", ^{
 		expect(optionsBlame).toNot.beNil();
 		expect(optionsBlame).notTo.equal(blame);
 	});
-	
+
 	it(@"should follow the instructions provided by the GTBlameOptionsNewestCommitOID key", ^{
 		GTOID *newOID = [GTOID oidWithSHA:@"6317779b4731d9c837dcc6972b964bdf4211eeef"];
 		GTBlame *optionsBlame = [self.testAppFixtureRepository blameWithFile:@"README1.txt" options:@{ GTBlameOptionsNewestCommitOID: newOID } error:nil];
@@ -67,11 +73,11 @@ describe(@"Creating a blame with options", ^{
 		expect(hunk.lines.location).to.equal(1);
 		expect(hunk.lines.length).to.equal(25);
 	});
-	
+
 	it(@"should follow the instructions provided by GTBlameOptionsFirstLine and GTBlameOptionsLastLine keys", ^{
 		GTBlame *optionsBlame = [self.testAppFixtureRepository blameWithFile:@"README1.txt" options:@{ GTBlameOptionsFirstLine: @22, GTBlameOptionsLastLine: @24 } error:nil];
 		GTBlameHunk *hunk = [optionsBlame hunkAtIndex:0];
-		
+
 		expect(optionsBlame).toNot.beNil();
 		expect(hunk.lines.location).to.equal(22);
 		expect(hunk.lines.length).to.equal(1);
@@ -82,4 +88,4 @@ afterEach(^{
 	[self tearDown];
 });
 
-SpecEnd
+QuickSpecEnd

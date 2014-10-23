@@ -6,12 +6,15 @@
 //  Copyright (c) 2013 GitHub, Inc. All rights reserved.
 //
 
-#import "GTTree.h"
-#import "GTTreeEntry.h"
+#import <Nimble/Nimble.h>
+#import <ObjectiveGit/ObjectiveGit.h>
+#import <Quick/Quick.h>
+
+#import "QuickSpec+GTFixtures.h"
 
 static NSString * const testTreeSHA = @"c4dc1555e4d4fa0e0c9c3fc46734c7c35b3ce90b";
 
-SpecBegin(GTTree)
+QuickSpecBegin(GTTreeSpec)
 
 __block GTTree *tree;
 
@@ -73,11 +76,11 @@ describe(@"tree enumeration", ^{
 			}
 			return YES;
 		}];
-		
+
 		expect(success).to.beTruthy;
 		expect(entriesInASubtree.count).to.equal(5);
 	});
-	
+
 	it(@"should be able to enumerate in post-order", ^{
 		NSMutableArray *entries = [NSMutableArray array];
 		BOOL success = [tree enumerateEntriesWithOptions:GTTreeEnumerationOptionPost error:nil block:^(GTTreeEntry *entry, NSString *root, BOOL *stop) {
@@ -85,7 +88,7 @@ describe(@"tree enumeration", ^{
 			// Because we are enumerating in post-order the return statement has no impact.
 			return NO;
 		}];
-		
+
 		expect(success).to.beTruthy();
 		expect(entries.count).to.equal(8);
 	});
@@ -100,4 +103,4 @@ afterEach(^{
 	[self tearDown];
 });
 
-SpecEnd
+QuickSpecEnd

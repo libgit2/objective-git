@@ -6,9 +6,13 @@
 //  Copyright (c) 2014 GitHub, Inc. All rights reserved.
 //
 
-#import "GTRepository+Attributes.h"
+#import <Nimble/Nimble.h>
+#import <ObjectiveGit/ObjectiveGit.h>
+#import <Quick/Quick.h>
 
-SpecBegin(GTRepositoryAttributes)
+#import "QuickSpec+GTFixtures.h"
+
+QuickSpecBegin(GTRepositoryAttributes)
 
 __block GTRepository *repository;
 
@@ -32,4 +36,4 @@ it(@"should be able to look up attributes", ^{
 	expect(value).to.beNil();
 });
 
-SpecEnd
+QuickSpecEnd

@@ -6,9 +6,13 @@
 //  Copyright (c) 2013 GitHub, Inc. All rights reserved.
 //
 
-#import "GTObjectDatabase.h"
+#import <Nimble/Nimble.h>
+#import <ObjectiveGit/ObjectiveGit.h>
+#import <Quick/Quick.h>
 
-SpecBegin(GTObjectDatabase)
+#import "QuickSpec+GTFixtures.h"
+
+QuickSpecBegin(GTObjectDatabaseSpec)
 
 __block GTObjectDatabase *database;
 
@@ -48,7 +52,7 @@ it(@"should be able to read an object", ^{
 	NSData *data = object.data;
 	expect(data).notTo.beNil();
 	expect(data.length).to.equal(172);
-	
+
 	NSString *stringContents = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 	expect(stringContents).notTo.beNil();
 
@@ -74,4 +78,4 @@ afterEach(^{
 	[self tearDown];
 });
 
-SpecEnd
+QuickSpecEnd
