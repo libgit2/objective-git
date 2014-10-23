@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <ObjectiveGit/GTObject.h>
+#import "GTObject.h"
 
 @class GTOID;
 

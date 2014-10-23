@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 GitHub, Inc. All rights reserved.
 //
 
-#import <ObjectiveGit/git2.h>
-#import <ObjectiveGit/GTObject.h>
+#import "git2.h"
+#import "GTObject.h"
 
 /// Represents an object ID.
 @interface GTOID : NSObject <NSCopying>

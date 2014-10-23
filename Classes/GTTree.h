@@ -28,7 +28,7 @@
 //
 
 
-#import <ObjectiveGit/GTObject.h>
+#import "GTObject.h"
 
 @class GTTreeEntry;
 @class GTIndex;

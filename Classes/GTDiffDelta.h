@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <ObjectiveGit/git2.h>
-#import <ObjectiveGit/GTDiffFile.h>
+#import "git2.h"
+#import "GTDiffFile.h"
 
 @class GTBlob;
 @class GTDiff;

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <ObjectiveGit/git2.h>
+#import "git2.h"
 
 /// An enum describing the data needed for authentication.
 /// See `git_credtype_t`.

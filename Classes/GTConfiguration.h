@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <ObjectiveGit/git2.h>
+#import "git2.h"
 
 @class GTRepository;
 @class GTSignature;

@@ -7,7 +7,7 @@
 //
 
 
-#import <ObjectiveGit/GTObject.h>
+#import "GTObject.h"
 
 
 @interface GTOdbObject : NSObject

@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 GitHub, Inc. All rights reserved.
 //
 
-#import <ObjectiveGit/GTDiff.h>
+#import "GTDiff.h"
 
 @interface GTDiff ()
 

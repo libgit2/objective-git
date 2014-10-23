@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 GitHub, Inc. All rights reserved.
 //
 
-#import <ObjectiveGit/GTReflog.h>
+#import "GTReflog.h"
 
 @class GTReference;
 

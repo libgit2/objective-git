@@ -28,7 +28,7 @@
 //
 
 
-#import <ObjectiveGit/GTObject.h>
+#import "GTObject.h"
 
 
 @interface GTBlob : GTObject

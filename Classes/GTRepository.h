@@ -28,13 +28,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <ObjectiveGit/GTBranch.h>
-#import <ObjectiveGit/GTEnumerator.h>
-#import <ObjectiveGit/GTFilterSource.h>
-#import <ObjectiveGit/GTObject.h>
-#import <ObjectiveGit/GTReference.h>
-#import <ObjectiveGit/GTFilterList.h>
-#import <ObjectiveGit/git2/sys/transport.h>
+#import "GTBranch.h"
+#import "GTEnumerator.h"
+#import "GTFilterSource.h"
+#import "GTObject.h"
+#import "GTReference.h"
+#import "GTFilterList.h"
+#import "git2/sys/transport.h"
 
 @class GTBlob;
 @class GTCommit;

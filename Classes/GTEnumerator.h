@@ -28,7 +28,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <ObjectiveGit/GTObject.h>
+#import "GTObject.h"
 
 /// Options to specify enumeration order when enumerating through a repository.
 /// With the exception of GTEnumeratorOptionsNone, the values here can be ORed

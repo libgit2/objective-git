@@ -24,7 +24,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <ObjectiveGit/git2.h>
+#import "git2.h"
 
 //! Project version number for ObjectiveGit.
 FOUNDATION_EXPORT double ObjectiveGitVersionNumber;

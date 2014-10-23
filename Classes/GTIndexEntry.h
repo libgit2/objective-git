@@ -28,7 +28,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <ObjectiveGit/git2.h>
+#include "git2.h"
 
 typedef NS_ENUM(NSInteger, GTIndexEntryStatus) {
 	GTIndexEntryStatusUpdated = 0,
