@@ -1814,7 +1814,7 @@
 				);
 				OTHER_LDFLAGS = (
 					"-lgit2-ios",
-					"-lssh-ios",
+					"-lssh2-ios",
 					"-all_load",
 				);
 				PRODUCT_NAME = ObjectiveGit;
@@ -1892,7 +1892,7 @@
 				);
 				OTHER_LDFLAGS = (
 					"-lgit2-ios",
-					"-lssh-ios",
+					"-lssh2-ios",
 					"-all_load",
 				);
 				PRODUCT_NAME = ObjectiveGit;
@@ -1922,7 +1922,7 @@
 				);
 				OTHER_LDFLAGS = (
 					"-lgit2-ios",
-					"-lssh-ios",
+					"-lssh2-ios",
 					"-all_load",
 				);
 				PRODUCT_NAME = ObjectiveGit;
@@ -1952,7 +1952,7 @@
 				);
 				OTHER_LDFLAGS = (
 					"-lgit2-ios",
-					"-lssh-ios",
+					"-lssh2-ios",
 					"-all_load",
 				);
 				PRODUCT_NAME = ObjectiveGit;
