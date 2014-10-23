@@ -1,26 +1,50 @@
 //
-//  GTTestCase.m
+//  QuickSpec+GTFixtures.m
 //  ObjectiveGitFramework
 //
 //  Created by Josh Abernathy on 3/22/13.
 //  Copyright (c) 2013 GitHub, Inc. All rights reserved.
 //
 
-#import "GTTestCase.h"
-#import "GTRepository.h"
+#import "QuickSpec+GTFixtures.h"
 
-#import "SPTSpec.h"
+#import <ObjectiveGit/ObjectiveGit.h>
+#import <objc/runtime.h>
 
-static const NSInteger GTTestCaseErrorUnzipFailed = 666;
+static const NSInteger FixturesErrorUnzipFailed = 666;
 
-static NSString * const GTTestCaseErrorDomain = @"com.objectivegit.GTTestCase";	
+static NSString * const FixturesErrorDomain = @"com.objectivegit.Fixtures";
 
-@interface GTTestCase ()
+@interface QuickSpec (Fixtures)
+
 @property (nonatomic, readonly, copy) NSString *repositoryFixturesPath;
 @property (nonatomic, copy) NSString *tempDirectoryPath;
+
 @end
 
-@implementation GTTestCase
+@implementation QuickSpec (Fixtures)
+
+#pragma mark Properties
+
+- (NSString *)tempDirectoryPath {
+	NSString *path = objc_getAssociatedObject(self, _cmd);
+	if (path != nil) return path;
+
+	[self setUpTempDirectoryPath];
+	return objc_getAssociatedObject(self, _cmd);
+}
+
+- (void)setTempDirectoryPath:(NSString *)path {
+	objc_setAssociatedObject(self, @selector(tempDirectoryPath), path, OBJC_ASSOCIATION_COPY);
+}
+
+- (NSURL *)tempDirectoryFileURL {
+	return [NSURL fileURLWithPath:self.tempDirectoryPath isDirectory:YES];
+}
+
+- (NSString *)repositoryFixturesPath {
+	return [self.tempDirectoryPath stringByAppendingPathComponent:@"repositories"];
+}
 
 #pragma mark Setup/Teardown
 
@@ -34,14 +58,13 @@ static NSString * const GTTestCaseErrorDomain = @"com.objectivegit.GTTestCase";
 	NSString *path = self.tempDirectoryPath;
 	if (path == nil) return;
 
-	expect([NSFileManager.defaultManager removeItemAtPath:path error:NULL]).to.beTruthy();
-
+	[NSFileManager.defaultManager removeItemAtPath:path error:NULL];
 	self.tempDirectoryPath = nil;
 }
 
 #pragma mark Fixtures
 
-- (void)setupTempDirectoryPath {
+- (void)setUpTempDirectoryPath {
 	self.tempDirectoryPath = [[NSTemporaryDirectory() stringByAppendingPathComponent:@"com.libgit2.objectivegit"] stringByAppendingPathComponent:NSProcessInfo.processInfo.globallyUniqueString];
 
 	NSError *error = nil;
@@ -82,7 +105,7 @@ static NSString * const GTTestCaseErrorDomain = @"com.objectivegit.GTTestCase";
 
 	BOOL success = (task.terminationStatus == 0);
 	if (!success) {
-		if (error != NULL) *error = [NSError errorWithDomain:GTTestCaseErrorDomain code:GTTestCaseErrorUnzipFailed userInfo:@{ NSLocalizedDescriptionKey: NSLocalizedString(@"Unzip failed", @"") }];
+		if (error != NULL) *error = [NSError errorWithDomain:FixturesErrorDomain code:FixturesErrorUnzipFailed userInfo:@{ NSLocalizedDescriptionKey: NSLocalizedString(@"Unzip failed", @"") }];
 	}
 
 	return success;
@@ -136,22 +159,6 @@ static NSString * const GTTestCaseErrorDomain = @"com.objectivegit.GTTestCase";
 
 - (NSBundle *)mainTestBundle {
 	return [NSBundle bundleForClass:self.class];
-}
-
-- (NSString *)tempDirectoryPath {
-	if (_tempDirectoryPath == nil) {
-		[self setupTempDirectoryPath];
-	}
-
-	return _tempDirectoryPath;
-}
-
-- (NSURL *)tempDirectoryFileURL {
-	return [NSURL fileURLWithPath:self.tempDirectoryPath isDirectory:YES];
-}
-
-- (NSString *)repositoryFixturesPath {
-	return [self.tempDirectoryPath stringByAppendingPathComponent:@"repositories"];
 }
 
 @end

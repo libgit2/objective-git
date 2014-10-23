@@ -1,17 +1,19 @@
 //
-//  GTTestCase.h
+//  QuickSpec+GTFixtures.h
 //  ObjectiveGitFramework
 //
 //  Created by Josh Abernathy on 3/22/13.
 //  Copyright (c) 2013 GitHub, Inc. All rights reserved.
 //
 
-#define SPT_SUBCLASS GTTestCase
-#import "Specta.h"
+#import <Quick/Quick.h>
 
 @class GTRepository;
 
-@interface GTTestCase : SPTXCTestCase
+// FIXME: This category is a total hack, but there's no other way to run
+// teardown logic for every example yet:
+// https://github.com/Quick/Quick/issues/163
+@interface QuickSpec (GTFixtures)
 
 // The file URL for a temporary directory which will live for the length of each
 // example (`it`).
