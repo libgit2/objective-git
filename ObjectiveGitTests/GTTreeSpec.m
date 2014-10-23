@@ -20,37 +20,37 @@ __block GTTree *tree;
 
 beforeEach(^{
 	GTRepository *repo = self.bareFixtureRepository;
-	expect(repo).notTo.beNil();
+	expect(repo).notTo(beNil());
 
 	tree = (GTTree *)[repo lookUpObjectBySHA:testTreeSHA error:NULL];
-	expect(tree).notTo.beNil();
+	expect(tree).notTo(beNil());
 });
 
 it(@"should be able to read tree properties", ^{
-	expect(tree.SHA).to.equal(testTreeSHA);
-	expect(tree.entryCount).to.equal(3);
+	expect(tree.SHA).to(equal(testTreeSHA));
+	expect(tree.entryCount).to(equal(3));
 });
 
 it(@"should be able to read tree entry properties", ^{
 	GTTreeEntry *entry = [tree entryAtIndex:0];
-	expect(entry).notTo.beNil();
-	expect(entry.name).to.equal(@"README");
-	expect(entry.SHA).to.equal(@"1385f264afb75a56a5bec74243be9b367ba4ca08");
+	expect(entry).notTo(beNil());
+	expect(entry.name).to(equal(@"README"));
+	expect(entry.SHA).to(equal(@"1385f264afb75a56a5bec74243be9b367ba4ca08"));
 });
 
 it(@"should give quick access to its entries", ^{
 	NSArray *treeEntries = tree.entries;
-	expect(treeEntries).notTo.beNil();
-	expect(treeEntries.count).to.equal(3);
+	expect(treeEntries).notTo(beNil());
+	expect(treeEntries.count).to(equal(3));
 	GTTreeEntry *readme = [tree entryWithName:@"README"];
 	GTTreeEntry *newTxt = [tree entryWithName:@"new.txt"];
 	GTTreeEntry *subdir = [tree entryWithName:@"subdir"];
-	expect(readme).notTo.beNil();
-	expect(newTxt).notTo.beNil();
-	expect(subdir).notTo.beNil();
-	expect(treeEntries).to.contain(readme);
-	expect(treeEntries).to.contain(newTxt);
-	expect(treeEntries).to.contain(subdir);
+	expect(readme).notTo(beNil());
+	expect(newTxt).notTo(beNil());
+	expect(subdir).notTo(beNil());
+	expect(treeEntries).to(contain(readme));
+	expect(treeEntries).to(contain(newTxt));
+	expect(treeEntries).to(contain(subdir));
 });
 
 describe(@"tree enumeration", ^{
@@ -64,8 +64,8 @@ describe(@"tree enumeration", ^{
 			return YES;
 		}];
 
-		expect(success).to.beTruthy();
-		expect(mutableArray.count).to.equal(1);
+		expect(success).to(beTruthy());
+		expect(mutableArray.count).to(equal(1));
 	});
 
 	it(@"should be able to enumerate descendants", ^{
@@ -77,8 +77,8 @@ describe(@"tree enumeration", ^{
 			return YES;
 		}];
 
-		expect(success).to.beTruthy;
-		expect(entriesInASubtree.count).to.equal(5);
+		expect(success).to(beTruthy);
+		expect(entriesInASubtree.count).to(equal(5));
 	});
 
 	it(@"should be able to enumerate in post-order", ^{
@@ -89,14 +89,14 @@ describe(@"tree enumeration", ^{
 			return NO;
 		}];
 
-		expect(success).to.beTruthy();
-		expect(entries.count).to.equal(8);
+		expect(success).to(beTruthy());
+		expect(entries.count).to(equal(8));
 	});
 });
 
 it(@"should return nil for non-existent entries", ^{
-	expect([tree entryAtIndex:99]).to.beNil();
-	expect([tree entryWithName:@"_does not exist"]).to.beNil();
+	expect([tree entryAtIndex:99]).to(beNil());
+	expect([tree entryWithName:@"_does not exist"]).to(beNil());
 });
 
 afterEach(^{

@@ -17,12 +17,12 @@ QuickSpecBegin(StringArray)
 describe(@"String arrays", ^{
 
 	void (^validateStrArray)(NSArray *, git_strarray) = ^(NSArray *array, git_strarray strArray) {
-		expect(strArray.count).to.equal(array.count);
+		expect(strArray.count).to(equal(array.count));
 
 		for (NSUInteger idx = 0; idx < array.count; idx++) {
 			const char *convertedString = strArray.strings[idx];
 			NSString *comparisonString = @(convertedString);
-			expect(array[idx]).to.equal(comparisonString);
+			expect(array[idx]).to(equal(comparisonString));
 		}
 	};
 
@@ -41,8 +41,8 @@ describe(@"String arrays", ^{
 
 		it(@"should return null for an empty array", ^{
 			NSArray *emptyArray = [NSArray array];
-			expect(emptyArray.git_strarray.count).to.equal(0);
-			expect(emptyArray.git_strarray.strings).to.beNil();
+			expect(emptyArray.git_strarray.count).to(equal(0));
+			expect(emptyArray.git_strarray.strings).to(beNil());
 		});
 
 		it(@"should correctly translate the strings", ^{
@@ -84,7 +84,7 @@ describe(@"String arrays", ^{
 		it(@"should return an empty array for an NULL strarray", ^{
 			git_strarray strarray = { .strings = NULL, .count = 0 };
 			NSArray *array = [NSArray git_arrayWithStrarray:strarray];
-			expect(array.count).to.equal(0);
+			expect(array.count).to(equal(0));
 		});
 
 		it(@"should correctly translate the strarray", ^{
@@ -96,7 +96,7 @@ describe(@"String arrays", ^{
 			originalStrArray.strings[1] = NULL;
 
 			NSArray *array = [NSArray git_arrayWithStrarray:originalStrArray];
-			expect(array).to.equal((@[ @"First", @"Third" ]));
+			expect(array).to(equal((@[ @"First", @"Third" ])));
 		});
 	});
 });

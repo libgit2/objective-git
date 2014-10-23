@@ -22,32 +22,32 @@ describe(@"+defaultConfiguration", ^{
 
 	beforeEach(^{
 		config = [GTConfiguration defaultConfiguration];
-		expect(config).notTo.beNil();
+		expect(config).notTo(beNil());
 	});
 
 	it(@"should return nil for -remotes", ^{
-		expect(config.remotes).to.beNil();
+		expect(config.remotes).to(beNil());
 	});
 
 	it(@"should support reading and writing", ^{
 		id value = [config stringForKey:testKey];
-		expect(value).to.beNil();
+		expect(value).to(beNil());
 
 		[config setString:testValue forKey:testKey];
 		value = [config stringForKey:testKey];
-		expect(value).to.equal(testValue);
+		expect(value).to(equal(testValue));
 	});
 
 	it(@"should support deletion", ^{
 		[config setString:testValue forKey:testKey];
 		id value = [config stringForKey:testKey];
-		expect(value).notTo.beNil();
+		expect(value).notTo(beNil());
 
 		BOOL success = [config deleteValueForKey:testKey error:NULL];
-		expect(success).to.beTruthy();
+		expect(success).to(beTruthy());
 
 		value = [config stringForKey:testKey];
-		expect(value).to.beNil();
+		expect(value).to(beNil());
 	});
 });
 

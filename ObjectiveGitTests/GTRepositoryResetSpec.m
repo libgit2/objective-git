@@ -36,23 +36,23 @@ describe(@"-resetPathspecs:toCommit:error:", ^{
 		static NSString * const fileName = @"README.md";
 		NSURL *fileURL = [repository.fileURL URLByAppendingPathComponent:fileName];
 		BOOL success = [@"blahahaha" writeToURL:fileURL atomically:YES encoding:NSUTF8StringEncoding error:NULL];
-		expect(success).to.beTruthy();
+		expect(success).to(beTruthy());
 
 		GTIndex *index = [repository indexWithError:NULL];
-		expect(index).notTo.beNil();
+		expect(index).notTo(beNil());
 
 		success = [index addFile:fileName error:NULL];
-		expect(success).to.beTruthy();
+		expect(success).to(beTruthy());
 
-		expect(countStagedFiles()).to.equal(1);
+		expect(countStagedFiles()).to(equal(1));
 
 		GTCommit *HEAD = [repository lookUpObjectByRevParse:@"HEAD" error:NULL];
-		expect(HEAD).notTo.beNil();
+		expect(HEAD).notTo(beNil());
 
 		success = [repository resetPathspecs:@[ fileName ] toCommit:HEAD error:NULL];
-		expect(success).to.beTruthy();
+		expect(success).to(beTruthy());
 
-		expect(countStagedFiles()).to.equal(0);
+		expect(countStagedFiles()).to(equal(0));
 	});
 });
 
@@ -67,24 +67,24 @@ describe(@"-resetToCommit:resetType:error:", ^{
 		NSString *resetTargetSHA = @"8496071c1b46c854b31185ea97743be6a8774479";
 
 		GTCommit *commit = [repository lookUpObjectBySHA:resetTargetSHA error:NULL];
-		expect(commit).notTo.beNil();
+		expect(commit).notTo(beNil());
 		GTCommit *originalHeadCommit = [repository lookUpObjectBySHA:originalHead.targetSHA error:NULL];
-		expect(originalHeadCommit).notTo.beNil();
+		expect(originalHeadCommit).notTo(beNil());
 
 		BOOL success = [repository resetToCommit:commit resetType:GTRepositoryResetTypeSoft error:&error];
-		expect(success).to.beTruthy();
-		expect(error).to.beNil();
+		expect(success).to(beTruthy());
+		expect(error).to(beNil());
 
 		GTReference *head = [repository headReferenceWithError:&error];
-		expect(head).notTo.beNil();
-		expect(head.targetSHA).to.equal(resetTargetSHA);
+		expect(head).notTo(beNil());
+		expect(head.targetSHA).to(equal(resetTargetSHA));
 
 		success = [repository resetToCommit:originalHeadCommit resetType:GTRepositoryResetTypeSoft error:&error];
-		expect(success).to.beTruthy();
-		expect(error).to.beNil();
+		expect(success).to(beTruthy());
+		expect(error).to(beNil());
 
 		head = [repository headReferenceWithError:&error];
-		expect(head.targetSHA).to.equal(originalHead.targetSHA);
+		expect(head.targetSHA).to(equal(originalHead.targetSHA));
 	});
 });
 

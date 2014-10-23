@@ -20,52 +20,52 @@ NSString *fetchRefspec = @"+refs/heads/*:refs/remotes/origin/*";
 
 beforeEach(^{
 	repository = self.testAppFixtureRepository;
-	expect(repository).notTo.beNil();
+	expect(repository).notTo(beNil());
 
 	NSError *error = nil;
 	GTConfiguration *configuration = [repository configurationWithError:&error];
-	expect(configuration).toNot.beNil();
-	expect(error).to.beNil();
+	expect(configuration).notTo(beNil());
+	expect(error).to(beNil());
 
-	expect(configuration.remotes.count).to.beGreaterThanOrEqualTo(1);
+	expect(configuration.remotes.count).to(beGreaterThanOrEqualTo(1));
 
 	remote = configuration.remotes[0];
-	expect(remote.name).to.equal(@"origin");
+	expect(remote.name).to(equal(@"origin"));
 });
 
 describe(@"properties", ^{
 	it(@"should have values", ^{
-		expect(remote.git_remote).toNot.beNil();
-		expect(remote.name).to.equal(@"origin");
-		expect(remote.URLString).to.equal(@"git@github.com:github/Test_App.git");
+		expect(remote.git_remote).notTo(beNil());
+		expect(remote.name).to(equal(@"origin"));
+		expect(remote.URLString).to(equal(@"git@github.com:github/Test_App.git"));
 
-		expect(remote.fetchRefspecs).to.equal(@[ fetchRefspec ]);
+		expect(remote.fetchRefspecs).to(equal(@[ fetchRefspec ]));
 	});
 });
 
 describe(@"updating", ^{
 	it(@"URL string", ^{
-		expect(remote.URLString).to.equal(@"git@github.com:github/Test_App.git");
+		expect(remote.URLString).to(equal(@"git@github.com:github/Test_App.git"));
 
 		NSString *newURLString = @"https://github.com/github/Test_App.git";
 
 		__block NSError *error = nil;
-		expect([remote updateURLString:newURLString error:&error]).to.beTruthy();
-		expect(error).to.beNil();
+		expect([remote updateURLString:newURLString error:&error]).to(beTruthy());
+		expect(error).to(beNil());
 
-		expect(remote.URLString).to.equal(newURLString);
+		expect(remote.URLString).to(equal(newURLString));
 	});
 
 	it(@"fetch refspecs", ^{
-		expect(remote.fetchRefspecs).to.equal(@[ fetchRefspec ]);
+		expect(remote.fetchRefspecs).to(equal(@[ fetchRefspec ]));
 
 		NSString *newFetchRefspec = @"+refs/heads/master:refs/remotes/origin/master";
 
 		__block NSError *error = nil;
-		expect([remote addFetchRefspec:newFetchRefspec error:&error]).to.beTruthy();
-		expect(error).to.beNil();
+		expect([remote addFetchRefspec:newFetchRefspec error:&error]).to(beTruthy());
+		expect(error).to(beNil());
 
-		expect(remote.fetchRefspecs).to.equal((@[ fetchRefspec, newFetchRefspec ]));
+		expect(remote.fetchRefspecs).to(equal((@[ fetchRefspec, newFetchRefspec ])));
 	});
 });
 
@@ -78,19 +78,19 @@ describe(@"network operations", ^{
 
 	beforeEach(^{
 		repository = self.bareFixtureRepository;
-		expect(repository.isBare).to.beFalsy(); // yeah right
+		expect(repository.isBare).to(beFalsy()); // yeah right
 		repositoryURL = repository.gitDirectoryURL;
 		NSURL *fixturesURL = repositoryURL.URLByDeletingLastPathComponent;
 		fetchingRepoURL = [fixturesURL URLByAppendingPathComponent:@"fetchrepo"];
 
 		NSError *error = nil;
 		fetchingRepo = [GTRepository cloneFromURL:repositoryURL toWorkingDirectory:fetchingRepoURL options:nil error:&error transferProgressBlock:nil checkoutProgressBlock:nil];
-		expect(fetchingRepo).notTo.beNil();
-		expect(error).to.beNil();
+		expect(fetchingRepo).notTo(beNil());
+		expect(error).to(beNil());
 
 		remoteNames = [fetchingRepo remoteNamesWithError:&error];
-		expect(error).to.beNil();
-		expect(remoteNames.count).to.beGreaterThanOrEqualTo(1);
+		expect(error).to(beNil());
+		expect(remoteNames.count).to(beGreaterThanOrEqualTo(1));
 
 		remoteName = remoteNames[0];
 	});
@@ -104,18 +104,18 @@ describe(@"network operations", ^{
 			NSError *error = nil;
 
 			GTRemote *originRemote = [GTRemote remoteWithName:remoteName inRepository:fetchingRepo error:&error];
-			expect(error).to.beNil();
-			expect(originRemote).notTo.beNil();
-			expect(originRemote.name).to.equal(@"origin");
-			expect(originRemote.URLString).to.equal(repositoryURL.path);
+			expect(error).to(beNil());
+			expect(originRemote).notTo(beNil());
+			expect(originRemote.name).to(equal(@"origin"));
+			expect(originRemote.URLString).to(equal(repositoryURL.path));
 		});
 
 		it(@"should fail for non-existent remotes", ^{
 			NSError *error = nil;
 
 			GTRemote *originRemote = [GTRemote remoteWithName:@"blork" inRepository:fetchingRepo error:&error];
-			expect(error).notTo.beNil();
-			expect(originRemote).to.beNil();
+			expect(error).notTo(beNil());
+			expect(originRemote).to(beNil());
 		});
 	});
 
@@ -123,13 +123,13 @@ describe(@"network operations", ^{
 		it(@"should allow creating new remotes", ^{
 			NSError *error = nil;
 			GTRemote *remote = [GTRemote createRemoteWithName:@"newremote" URLString:@"git://user@example.com/testrepo.git" inRepository:fetchingRepo error:&error];
-			expect(error).to.beNil();
-			expect(remote).notTo.beNil();
+			expect(error).to(beNil());
+			expect(remote).notTo(beNil());
 
 			GTRemote *newRemote = [GTRemote remoteWithName:@"newremote" inRepository:fetchingRepo error:&error];
-			expect(error).to.beNil();
-			expect(newRemote).notTo.beNil();
-			expect(newRemote.URLString).to.equal(@"git://user@example.com/testrepo.git");
+			expect(error).to(beNil());
+			expect(newRemote).notTo(beNil());
+			expect(newRemote.URLString).to(equal(@"git://user@example.com/testrepo.git"));
 		});
 	});
 
@@ -148,7 +148,7 @@ describe(@"network operations", ^{
 		GTCommit *parent = [commitEnum nextObject];
 
 		GTCommit *testCommit = [repo createCommitWithTree:testTree message:message parents:@[parent] updatingReferenceNamed:headReference.name error:nil];
-		expect(testCommit).notTo.beNil();
+		expect(testCommit).notTo(beNil());
 
 		return testCommit;
 	};
@@ -159,8 +159,8 @@ describe(@"network operations", ^{
 			GTRemote *remote = [GTRemote remoteWithName:remoteName inRepository:fetchingRepo error:nil]; // Tested above
 
 			BOOL result = [fetchingRepo fetchRemote:remote withOptions:nil error:&error progress:nil];
-			expect(error).to.beNil();
-			expect(result).to.beTruthy();
+			expect(error).to(beNil());
+			expect(result).to(beTruthy());
 		});
 
 		it(@"brings in new commits", ^{
@@ -181,22 +181,22 @@ describe(@"network operations", ^{
 				receivedObjects += stats->received_objects;
 				transferProgressed = YES;
 			}];
-			expect(error).to.beNil();
-			expect(success).to.beTruthy();
-			expect(transferProgressed).to.beTruthy();
-			expect(receivedObjects).to.equal(10);
+			expect(error).to(beNil());
+			expect(success).to(beTruthy());
+			expect(transferProgressed).to(beTruthy());
+			expect(receivedObjects).to(equal(10));
 
 			GTCommit *fetchedCommit = [fetchingRepo lookUpObjectByOID:testCommit.OID objectType:GTObjectTypeCommit error:&error];
-			expect(error).to.beNil();
-			expect(fetchedCommit).notTo.beNil();
+			expect(error).to(beNil());
+			expect(fetchedCommit).notTo(beNil());
 
 			GTTreeEntry *entry = [[fetchedCommit tree] entryWithName:fileName];
-			expect(entry).notTo.beNil();
+			expect(entry).notTo(beNil());
 
 			GTBlob *fileData = (GTBlob *)[entry GTObject:&error];
-			expect(error).to.beNil();
-			expect(fileData).notTo.beNil();
-			expect(fileData.content).to.equal(testData);
+			expect(error).to(beNil());
+			expect(fileData).notTo(beNil());
+			expect(fileData.content).to(equal(testData));
 		});
 	});
 });
