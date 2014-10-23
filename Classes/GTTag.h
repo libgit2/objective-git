@@ -27,7 +27,7 @@
 //  THE SOFTWARE.
 //
 
-#import "GTObject.h"
+#import <ObjectiveGit/GTObject.h>
 
 @class GTSignature;
 @class GTRepository;

@@ -27,7 +27,7 @@
 //  THE SOFTWARE.
 //
 
-#import "GTObject.h"
+#import <ObjectiveGit/GTObject.h>
 
 /// Options to specify enumeration order when enumerating through a repository.
 /// With the exception of GTEnumeratorOptionsNone, the values here can be ORed

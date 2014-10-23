@@ -23,7 +23,7 @@
 //  THE SOFTWARE.
 //
 
-#import "GTObject.h"
+#import <ObjectiveGit/GTObject.h>
 
 @class GTCommit;
 @class GTReference;

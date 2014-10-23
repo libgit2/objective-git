@@ -28,7 +28,7 @@
 //
 
 
-#import "GTObject.h"
+#import <ObjectiveGit/GTObject.h>
 
 /// A git signature.
 @interface GTSignature : NSObject

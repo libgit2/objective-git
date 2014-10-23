@@ -6,8 +6,8 @@
 //  Copyright (c) 2012 GitHub, Inc. All rights reserved.
 //
 
-#import "git2.h"
-#import "GTDiffFile.h"
+#import <ObjectiveGit/git2.h>
+#import <ObjectiveGit/GTDiffFile.h>
 
 @class GTBlob;
 @class GTDiff;

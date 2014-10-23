@@ -6,9 +6,9 @@
 //  Copyright (c) 2012 GitHub, Inc. All rights reserved.
 //
 
-#import "git2.h"
+#import <ObjectiveGit/git2.h>
 
-#import "GTDiffDelta.h"
+#import <ObjectiveGit/GTDiffDelta.h>
 
 @class GTDiffDelta;
 @class GTRepository;

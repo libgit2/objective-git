@@ -28,7 +28,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#include "git2.h"
+#import <ObjectiveGit/git2.h>
 
 @class GTIndexEntry;
 @class GTRepository;

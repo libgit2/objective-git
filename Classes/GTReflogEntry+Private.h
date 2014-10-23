@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 GitHub, Inc. All rights reserved.
 //
 
-#import "GTReflogEntry.h"
+#import <ObjectiveGit/GTReflogEntry.h>
 
 @interface GTReflogEntry ()
 

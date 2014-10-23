@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 GitHub, Inc. All rights reserved.
 //
 
-#import "GTRepository.h"
+#import <ObjectiveGit/GTRepository.h>
 
 /// The reset types. See the libgit2 documentation for more info.
 typedef NS_ENUM(NSInteger, GTRepositoryResetType) {
