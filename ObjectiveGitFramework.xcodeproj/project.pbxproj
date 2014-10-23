@@ -322,6 +322,10 @@
 		D09C2E361755F16200065E36 /* GTSubmodule.h in Headers */ = {isa = PBXBuildFile; fileRef = D09C2E341755F16200065E36 /* GTSubmodule.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D09C2E381755F16200065E36 /* GTSubmodule.m in Sources */ = {isa = PBXBuildFile; fileRef = D09C2E351755F16200065E36 /* GTSubmodule.m */; };
 		D09C2E51175602A500065E36 /* fixtures.zip in Resources */ = {isa = PBXBuildFile; fileRef = D09C2E50175602A500065E36 /* fixtures.zip */; };
+		D0A0128A19F98475007F1914 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0A0128819F98475007F1914 /* Quick.framework */; };
+		D0A0128C19F9853D007F1914 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0A0128B19F9853D007F1914 /* Nimble.framework */; };
+		D0A0128D19F9853D007F1914 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0A0128B19F9853D007F1914 /* Nimble.framework */; };
+		D0A0128E19F98546007F1914 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0A0128819F98475007F1914 /* Quick.framework */; };
 		D0AC906C172F941F00347DC4 /* GTRepositorySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0AC906B172F941F00347DC4 /* GTRepositorySpec.m */; };
 		D0CE552018B6C58F008EB8E0 /* GTFilterList.h in Headers */ = {isa = PBXBuildFile; fileRef = D0CE551E18B6C58F008EB8E0 /* GTFilterList.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D0CE552318B6C58F008EB8E0 /* GTFilterList.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CE551F18B6C58F008EB8E0 /* GTFilterList.m */; };
@@ -401,8 +405,6 @@
 
 /* Begin PBXFileReference section */
 		04DB4671133AB5FE00D9C624 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
-		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		188DC01817FC1571007350CD /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -530,9 +532,6 @@
 		BDD8AB01130F01AB00CB5D40 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		BDD8AE6D13131B8800CB5D40 /* GTEnumerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTEnumerator.h; sourceTree = "<group>"; };
 		BDD8AE6E13131B8800CB5D40 /* GTEnumerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = GTEnumerator.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		BDD9C3FB133BA604003708E7 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		BDD9C3FD133BA604003708E7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		BDD9C3FF133BA604003708E7 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		BDE4C060130EFE2C00851650 /* NSError+Git.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+Git.h"; sourceTree = "<group>"; };
 		BDE4C061130EFE2C00851650 /* NSError+Git.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+Git.m"; sourceTree = "<group>"; };
 		BDE4C062130EFE2C00851650 /* GTRepository.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTRepository.h; sourceTree = "<group>"; };
@@ -562,6 +561,8 @@
 		D09C2E341755F16200065E36 /* GTSubmodule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTSubmodule.h; sourceTree = "<group>"; };
 		D09C2E351755F16200065E36 /* GTSubmodule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTSubmodule.m; sourceTree = "<group>"; };
 		D09C2E50175602A500065E36 /* fixtures.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; name = fixtures.zip; path = fixtures/fixtures.zip; sourceTree = "<group>"; };
+		D0A0128819F98475007F1914 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Quick.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0A0128B19F9853D007F1914 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Nimble.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0A463D617E57C45000F5021 /* Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
 		D0A463D817E57C45000F5021 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		D0A463D917E57C45000F5021 /* Profile.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Profile.xcconfig; sourceTree = "<group>"; };
@@ -582,7 +583,6 @@
 		D0D8186B174421EB00995A2E /* Mac-StaticLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-StaticLibrary.xcconfig"; sourceTree = "<group>"; };
 		D0D8186C174421EB00995A2E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		D0F4E28917C7F24200BBDE30 /* NSErrorGitSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSErrorGitSpec.m; sourceTree = "<group>"; };
-		D2F7E79907B2D74100F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		D4ACA56018DBA88E00EBD899 /* libSpecta.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSpecta.a; path = specta/build/Debug/libSpecta.a; sourceTree = "<group>"; };
 		D4ACA56218DBA89300EBD899 /* libExpecta.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libExpecta.a; path = expecta/build/Debug/libExpecta.a; sourceTree = "<group>"; };
 		DD3D9510182A81E1004AF532 /* GTBlame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTBlame.h; sourceTree = "<group>"; };
@@ -598,8 +598,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0A0128A19F98475007F1914 /* Quick.framework in Frameworks */,
 				88F05A9E16011F6E00B7AD1D /* ObjectiveGit.framework in Frameworks */,
 				D4ACA56318DBA89300EBD899 /* libExpecta.a in Frameworks */,
+				D0A0128C19F9853D007F1914 /* Nimble.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -625,6 +627,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				D01B6EDE19F82E2000D411BC /* ObjectiveGit.framework in Frameworks */,
+				D0A0128D19F9853D007F1914 /* Nimble.framework in Frameworks */,
+				D0A0128E19F98546007F1914 /* Quick.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -666,8 +670,17 @@
 			children = (
 				4D8DADBE181A7D9F001B1202 /* libgit2 */,
 				306123A817EA5261006591D4 /* extobjc */,
-				1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */,
-				1058C7B2FEA5585E11CA2CBB /* Other Frameworks */,
+				4D103ADC1819CFAA0029DB24 /* libiconv.dylib */,
+				188DC01817FC1571007350CD /* libz.dylib */,
+				8803DA861313145700E6E818 /* libz.dylib */,
+				04DB4671133AB5FE00D9C624 /* libz.dylib */,
+				6A1F2FD317C6A8F3003DFADE /* libcrypto.a */,
+				6A1F2FD417C6A8F3003DFADE /* libssl.a */,
+				6A502B8617D6892D00BAF4A5 /* libssh2.a */,
+				887DAFF615CB1C8000F30D0D /* Security.framework */,
+				1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */,
+				D0A0128819F98475007F1914 /* Quick.framework */,
+				D0A0128B19F9853D007F1914 /* Nimble.framework */,
 			);
 			name = "External Frameworks and Libraries";
 			sourceTree = "<group>";
@@ -679,35 +692,6 @@
 				089C1666FE841158C02AAC07 /* InfoPlist.strings */,
 			);
 			name = Resources;
-			sourceTree = "<group>";
-		};
-		1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				4D103ADC1819CFAA0029DB24 /* libiconv.dylib */,
-				188DC01817FC1571007350CD /* libz.dylib */,
-				8803DA861313145700E6E818 /* libz.dylib */,
-				04DB4671133AB5FE00D9C624 /* libz.dylib */,
-				6A1F2FD317C6A8F3003DFADE /* libcrypto.a */,
-				6A1F2FD417C6A8F3003DFADE /* libssl.a */,
-				6A502B8617D6892D00BAF4A5 /* libssh2.a */,
-				887DAFF615CB1C8000F30D0D /* Security.framework */,
-				1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */,
-			);
-			name = "Linked Frameworks";
-			sourceTree = "<group>";
-		};
-		1058C7B2FEA5585E11CA2CBB /* Other Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				0867D6A5FE840307C02AAC07 /* AppKit.framework */,
-				D2F7E79907B2D74100F64583 /* CoreData.framework */,
-				BDD9C3FB133BA604003708E7 /* CoreGraphics.framework */,
-				0867D69BFE84028FC02AAC07 /* Foundation.framework */,
-				BDD9C3FD133BA604003708E7 /* Foundation.framework */,
-				BDD9C3FF133BA604003708E7 /* UIKit.framework */,
-			);
-			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
 		306123A817EA5261006591D4 /* extobjc */ = {
