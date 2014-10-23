@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 GitHub, Inc. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
 #import <ObjectiveGit/git2.h>
 
 /// An enum describing the data needed for authentication.

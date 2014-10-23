@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 GitHub, Inc. All rights reserved.
 //
 
-#import <ObjectiveGit/ObjectiveGit.h>
+#import <ObjectiveGit/GTRepository.h>
 
 /// A `GTCredentialProvider`, that will be used to authenticate against the remote.
 extern NSString *const GTRepositoryRemoteOptionsCredentialProvider;

@@ -27,6 +27,7 @@
 //  THE SOFTWARE.
 //
 
+#import <Foundation/Foundation.h>
 #import <ObjectiveGit/GTObject.h>
 
 /// Options to specify enumeration order when enumerating through a repository.

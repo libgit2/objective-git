@@ -27,7 +27,7 @@
 //  THE SOFTWARE.
 //
 
-
+#import <Foundation/Foundation.h>
 #import <ObjectiveGit/GTBranch.h>
 #import <ObjectiveGit/GTEnumerator.h>
 #import <ObjectiveGit/GTFilterSource.h>

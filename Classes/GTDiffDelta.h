@@ -6,6 +6,7 @@
 //  Copyright (c) 2012 GitHub, Inc. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
 #import <ObjectiveGit/git2.h>
 #import <ObjectiveGit/GTDiffFile.h>
 
