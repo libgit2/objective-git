@@ -26,7 +26,7 @@ describe(@"instance", ^{
 	});
 
 	it(@"should expose the git_oid", ^{
-		expect(testOID.git_oid).notTo(beNil());
+		expect([NSValue valueWithPointer:testOID.git_oid]).notTo(equal([NSValue valueWithPointer:NULL]));
 		expect(testOID).to(equal([[GTOID alloc] initWithGitOid:testOID.git_oid]));
 	});
 

@@ -30,7 +30,7 @@ beforeEach(^{
 	BOOL success = NO;
 	trackingBranch = [masterBranch trackingBranchWithError:&error success:&success];
 	expect(trackingBranch).notTo(equal(masterBranch));
-	expect(success).to(beTruthy());
+	expect(@(success)).to(beTruthy());
 	expect(error).to(beNil());
 });
 
@@ -56,11 +56,11 @@ describe(@"remoteName", ^{
 
 describe(@"branchType", ^{
 	it(@"should be GTBranchTypeLocal for a local branch", ^{
-		expect(masterBranch.branchType).to(equal(GTBranchTypeLocal));
+		expect(@(masterBranch.branchType)).to(equal(@(GTBranchTypeLocal)));
 	});
 
 	it(@"should be GTBranchTypeRemote for a tracking branch", ^{
-		expect(trackingBranch.branchType).to(equal(GTBranchTypeRemote));
+		expect(@(trackingBranch.branchType)).to(equal(@(GTBranchTypeRemote)));
 	});
 });
 
@@ -69,16 +69,16 @@ describe(@"-calculateAhead:behind:relativeTo:error:", ^{
 		size_t ahead = 0;
 		size_t behind = 0;
 		[masterBranch calculateAhead:&ahead behind:&behind relativeTo:trackingBranch error:NULL];
-		expect(ahead).to(equal(9));
-		expect(behind).to(equal(0));
+		expect(@(ahead)).to(equal(@9));
+		expect(@(behind)).to(equal(@0));
 	});
 
 	it(@"should calculate ahead/behind relative to the local branch", ^{
 		size_t ahead = 0;
 		size_t behind = 0;
 		[trackingBranch calculateAhead:&ahead behind:&behind relativeTo:masterBranch error:NULL];
-		expect(ahead).to(equal(0));
-		expect(behind).to(equal(9));
+		expect(@(ahead)).to(equal(@0));
+		expect(@(behind)).to(equal(@9));
 	});
 });
 
@@ -135,7 +135,7 @@ describe(@"-numberOfCommitsWithError:", ^{
 	it(@"should return the count of commits in the branch", ^{
 		NSError *error = nil;
 		NSUInteger commitCount = [masterBranch numberOfCommitsWithError:&error];
-		expect(commitCount).to(equal(164));
+		expect(@(commitCount)).to(equal(@164));
 		expect(error).to(beNil());
 	});
 });
@@ -150,7 +150,7 @@ describe(@"-trackingBranchWithError:success:", ^{
 		BOOL success = NO;
 		GTBranch *trackingBranch = [masterBranch trackingBranchWithError:&error success:&success];
 		expect(trackingBranch).notTo(beNil());
-		expect(success).to(beTruthy());
+		expect(@(success)).to(beTruthy());
 		expect(error).to(beNil());
 	});
 
@@ -168,7 +168,7 @@ describe(@"-trackingBranchWithError:success:", ^{
 		BOOL success = NO;
 		trackingBranch = [otherBranch trackingBranchWithError:&error success:&success];
 		expect(trackingBranch).to(beNil());
-		expect(success).to(beTruthy());
+		expect(@(success)).to(beTruthy());
 		expect(error).to(beNil());
 	});
 
@@ -184,7 +184,7 @@ describe(@"-trackingBranchWithError:success:", ^{
 		BOOL success = NO;
 		GTBranch *remoteTrackingBranch = [remoteBranch trackingBranchWithError:&error success:&success];
 		expect(remoteTrackingBranch).to(equal(remoteBranch));
-		expect(success).to(beTruthy());
+		expect(@(success)).to(beTruthy());
 		expect(error).to(beNil());
 	});
 });

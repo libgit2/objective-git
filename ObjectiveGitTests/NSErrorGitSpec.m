@@ -19,7 +19,7 @@ it(@"should create an error with a nil description", ^{
 	expect(error).notTo(beNil());
 
 	expect(error.domain).to(equal(GTGitErrorDomain));
-	expect(error.code).to(equal(GIT_OK));
+	expect(@(error.code)).to(equal(@(GIT_OK)));
 
 	// Test the keys because NSError adds its own defaults sometimes.
 	expect(error.userInfo[NSLocalizedDescriptionKey]).to(beNil());
@@ -31,7 +31,7 @@ it(@"should create an error with a formatted description", ^{
 	expect(error).notTo(beNil());
 
 	expect(error.domain).to(equal(GTGitErrorDomain));
-	expect(error.code).to(equal(GIT_OK));
+	expect(@(error.code)).to(equal(@(GIT_OK)));
 	expect(error.userInfo[NSLocalizedDescriptionKey]).to(equal(@"foo 1 bar buzz"));
 	expect(error.userInfo[NSLocalizedFailureReasonErrorKey]).to(beNil());
 });
@@ -41,7 +41,7 @@ it(@"should create an error with a nil description and failure reason", ^{
 	expect(error).notTo(beNil());
 
 	expect(error.domain).to(equal(GTGitErrorDomain));
-	expect(error.code).to(equal(GIT_OK));
+	expect(@(error.code)).to(equal(@(GIT_OK)));
 	expect(error.userInfo[NSLocalizedDescriptionKey]).to(beNil());
 	expect(error.userInfo[NSLocalizedFailureReasonErrorKey]).to(beNil());
 });
@@ -51,7 +51,7 @@ it(@"should create an error with a formatted failure reason", ^{
 	expect(error).notTo(beNil());
 
 	expect(error.domain).to(equal(GTGitErrorDomain));
-	expect(error.code).to(equal(GIT_OK));
+	expect(@(error.code)).to(equal(@(GIT_OK)));
 	expect(error.userInfo[NSLocalizedDescriptionKey]).to(equal(@"foobar"));
 	expect(error.userInfo[NSLocalizedFailureReasonErrorKey]).to(equal(@"foo 1 bar buzz"));
 });

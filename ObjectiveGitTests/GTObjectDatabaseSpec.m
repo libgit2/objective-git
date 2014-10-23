@@ -36,22 +36,22 @@ it(@"should know what objects exist", ^{
 	];
 
 	for (NSString *SHA in existentSHAs) {
-		expect([database containsObjectWithSHA:SHA error:NULL]).to(beTruthy());
+		expect(@([database containsObjectWithSHA:SHA error:NULL])).to(beTruthy());
 	}
 
 	for (NSString *SHA in nonExistentSHAs) {
-		expect([database containsObjectWithSHA:SHA error:NULL]).to(beFalsy());
+		expect(@([database containsObjectWithSHA:SHA error:NULL])).to(beFalsy());
 	}
 });
 
 it(@"should be able to read an object", ^{
 	GTOdbObject *object = [database objectWithSHA:@"8496071c1b46c854b31185ea97743be6a8774479" error:NULL];
 	expect(object).notTo(beNil());
-	expect(object.type).to(equal(GTObjectTypeCommit));
+	expect(@(object.type)).to(equal(@(GTObjectTypeCommit)));
 
 	NSData *data = object.data;
 	expect(data).notTo(beNil());
-	expect(data.length).to(equal(172));
+	expect(@(data.length)).to(equal(@172));
 
 	NSString *stringContents = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 	expect(stringContents).notTo(beNil());
@@ -71,7 +71,7 @@ it(@"should be able to write", ^{
 	static NSString * const testContentSHA = @"76b1b55ab653581d6f2c7230d34098e837197674";
 	GTOID *oid = [database writeData:[testContent dataUsingEncoding:NSUTF8StringEncoding] type:testContentType error:NULL];
 	expect(oid.SHA).to(equal(testContentSHA));
-	expect([database containsObjectWithSHA:testContentSHA error:NULL]).to(beTruthy());
+	expect(@([database containsObjectWithSHA:testContentSHA error:NULL])).to(beTruthy());
 });
 
 afterEach(^{

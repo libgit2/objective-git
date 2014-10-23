@@ -33,7 +33,7 @@ it(@"should walk from repository HEAD", ^{
 
 	[enumerator pushSHA:HEADRef.targetSHA error:NULL];
 	NSUInteger count = [enumerator allObjects].count;
-	expect(count).to(equal(3));
+	expect(@(count)).to(equal(@3));
 	expect(error).to(beNil());
 });
 
@@ -51,12 +51,12 @@ describe(@"with a rev list", ^{
 
 		verifyEnumerator = ^{
 			__block NSError *error = nil;
-			expect([enumerator pushSHA:expectedSHAs[0] error:&error]).to(beTruthy());
+			expect(@([enumerator pushSHA:expectedSHAs[0] error:&error])).to(beTruthy());
 			expect(error).to(beNil());
 
 			NSMutableArray *SHAs = [NSMutableArray array];
 			for (GTCommit *commit in enumerator) {
-				expect(commit).to(beKindOf(GTCommit.class));
+				expect(commit).to(beAnInstanceOf(GTCommit.class));
 				[SHAs addObject:commit.SHA];
 			}
 
@@ -64,7 +64,7 @@ describe(@"with a rev list", ^{
 
 			__block BOOL success;
 			expect([enumerator nextObjectWithSuccess:&success error:&error]).to(beNil());
-			expect(success).to(beTruthy());
+			expect(@(success)).to(beTruthy());
 			expect(error).to(beNil());
 		};
 	});
@@ -81,7 +81,7 @@ describe(@"with a rev list", ^{
 
 	it(@"should hide a SHA", ^{
 		__block NSError *error = nil;
-		expect([enumerator hideSHA:expectedSHAs[2] error:&error]).to(beTruthy());
+		expect(@([enumerator hideSHA:expectedSHAs[2] error:&error])).to(beTruthy());
 		expect(error).to(beNil());
 
 		[expectedSHAs removeObjectsInRange:NSMakeRange(2, expectedSHAs.count - 2)];
@@ -89,12 +89,12 @@ describe(@"with a rev list", ^{
 	});
 
 	it(@"should reset with options", ^{
-		expect(enumerator.options).to(equal(GTEnumeratorOptionsNone));
+		expect(@(enumerator.options)).to(equal(@(GTEnumeratorOptionsNone)));
 		verifyEnumerator();
 
 		[enumerator resetWithOptions:GTEnumeratorOptionsTimeSort];
 
-		expect(enumerator.options).to(equal(GTEnumeratorOptionsTimeSort));
+		expect(@(enumerator.options)).to(equal(@(GTEnumeratorOptionsTimeSort)));
 		verifyEnumerator();
 	});
 });
@@ -123,14 +123,14 @@ describe(@"globbing", ^{
 			__block NSError *error = nil;
 			__block BOOL success;
 			expect([enumerator nextObjectWithSuccess:&success error:&error]).to(beNil());
-			expect(success).to(beTruthy());
+			expect(@(success)).to(beTruthy());
 			expect(error).to(beNil());
 		};
 	});
 
 	it(@"should push a glob", ^{
 		__block NSError *error = nil;
-		expect([enumerator pushGlob:branchGlob error:&error]).to(beTruthy());
+		expect(@([enumerator pushGlob:branchGlob error:&error])).to(beTruthy());
 		expect(error).to(beNil());
 
 		verifyEnumerator();
@@ -138,10 +138,10 @@ describe(@"globbing", ^{
 
 	it(@"should hide a glob", ^{
 		__block NSError *error = nil;
-		expect([enumerator pushSHA:expectedSHAs[0] error:&error]).to(beTruthy());
+		expect(@([enumerator pushSHA:expectedSHAs[0] error:&error])).to(beTruthy());
 		expect(error).to(beNil());
 
-		expect([enumerator hideGlob:branchGlob error:&error]).to(beTruthy());
+		expect(@([enumerator hideGlob:branchGlob error:&error])).to(beTruthy());
 		expect(error).to(beNil());
 
 		[expectedSHAs removeAllObjects];

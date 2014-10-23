@@ -36,9 +36,9 @@ describe(@"blob-to-blob diffing", ^{
 	it(@"should generate a patch", ^{
 		GTDiffPatch *patch = [delta generatePatch:NULL];
 		expect(patch).notTo(beNil());
-		expect(patch.hunkCount).to(equal(1));
-		expect(patch.addedLinesCount).to(equal(1));
-		expect(patch.deletedLinesCount).to(equal(1));
+		expect(@(patch.hunkCount)).to(equal(@1));
+		expect(@(patch.addedLinesCount)).to(equal(@1));
+		expect(@(patch.deletedLinesCount)).to(equal(@1));
 	});
 });
 
@@ -56,9 +56,9 @@ describe(@"blob-to-data diffing", ^{
 	it(@"should generate a patch", ^{
 		GTDiffPatch *patch = [delta generatePatch:NULL];
 		expect(patch).notTo(beNil());
-		expect(patch.hunkCount).to(equal(1));
-		expect(patch.addedLinesCount).to(equal(1));
-		expect(patch.deletedLinesCount).to(equal(26));
+		expect(@(patch.hunkCount)).to(equal(@1));
+		expect(@(patch.addedLinesCount)).to(equal(@1));
+		expect(@(patch.deletedLinesCount)).to(equal(@26));
 	});
 });
 
@@ -73,9 +73,9 @@ describe(@"data-to-data diffing", ^{
 	it(@"should generate a patch", ^{
 		GTDiffPatch *patch = [delta generatePatch:NULL];
 		expect(patch).notTo(beNil());
-		expect(patch.hunkCount).to(equal(1));
-		expect(patch.addedLinesCount).to(equal(1));
-		expect(patch.deletedLinesCount).to(equal(2));
+		expect(@(patch.hunkCount)).to(equal(@1));
+		expect(@(patch.addedLinesCount)).to(equal(@1));
+		expect(@(patch.deletedLinesCount)).to(equal(@2));
 	});
 });
 

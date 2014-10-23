@@ -24,9 +24,7 @@ beforeEach(^{
 it(@"should enumerate top-level submodules", ^{
 	NSMutableSet *names = [NSMutableSet set];
 	[repo enumerateSubmodulesRecursively:NO usingBlock:^(GTSubmodule *submodule, NSError *error, BOOL *stop) {
-		expect(stop).notTo(beNil());
-
-		expect(submodule).to(beKindOf(GTSubmodule.class));
+		expect(submodule).to(beAnInstanceOf(GTSubmodule.class));
 		expect(submodule.name).notTo(beNil());
 
 		[names addObject:submodule.name];
@@ -39,9 +37,7 @@ it(@"should enumerate top-level submodules", ^{
 it(@"should enumerate submodules recursively", ^{
 	NSMutableSet *names = [NSMutableSet set];
 	[repo enumerateSubmodulesRecursively:YES usingBlock:^(GTSubmodule *submodule, NSError *error, BOOL *stop) {
-		expect(stop).notTo(beNil());
-
-		expect(submodule).to(beKindOf(GTSubmodule.class));
+		expect(submodule).to(beAnInstanceOf(GTSubmodule.class));
 		expect(submodule.name).notTo(beNil());
 
 		[names addObject:submodule.name];
@@ -61,7 +57,7 @@ it(@"should terminate enumeration early", ^{
 		}
 	}];
 
-	expect(count).to(equal(2));
+	expect(@(count)).to(equal(@2));
 });
 
 it(@"should write to the parent .git/config", ^{
@@ -75,7 +71,7 @@ it(@"should write to the parent .git/config", ^{
 	git_submodule_save(submodule.git_submodule);
 
 	__block NSError *error = nil;
-	expect([submodule writeToParentConfigurationDestructively:YES error:&error]).to(beTruthy());
+	expect(@([submodule writeToParentConfigurationDestructively:YES error:&error])).to(beTruthy());
 	expect(error).to(beNil());
 
 	submodule = [repo submoduleWithName:@"Test_App" error:NULL];
@@ -92,10 +88,10 @@ it(@"should reload all submodules", ^{
 	expect(gitmodules).notTo(beNil());
 
 	[gitmodules appendString:@"[submodule \"new_submodule\"]\n\turl = some_url\n\tpath = new_submodule_path"];
-	expect([gitmodules writeToURL:gitmodulesURL atomically:YES encoding:NSUTF8StringEncoding error:NULL]).to(beTruthy());
+	expect(@([gitmodules writeToURL:gitmodulesURL atomically:YES encoding:NSUTF8StringEncoding error:NULL])).to(beTruthy());
 
 	__block NSError *error = nil;
-	expect([repo reloadSubmodules:&error]).to(beTruthy());
+	expect(@([repo reloadSubmodules:&error])).to(beTruthy());
 	expect(error).to(beNil());
 
 	submodule = [repo submoduleWithName:@"new_submodule" error:NULL];
@@ -112,10 +108,10 @@ it(@"should add its HEAD to its parent's index", ^{
 
 	GTCommit *commit = [submoduleRepository lookUpObjectByRevParse:@"HEAD^" error:NULL];
 	BOOL success = [submoduleRepository checkoutCommit:commit strategy:GTCheckoutStrategyForce error:NULL progressBlock:nil];
-	expect(success).to(beTruthy());
+	expect(@(success)).to(beTruthy());
 
 	success = [submodule addToIndex:NULL];
-	expect(success).to(beTruthy());
+	expect(@(success)).to(beTruthy());
 });
 
 describe(@"clean, checked out submodule", ^{
@@ -131,7 +127,7 @@ describe(@"clean, checked out submodule", ^{
 		expect(submodule.path).to(equal(@"Test_App"));
 		expect(submodule.URLString).to(equal(@"../Test_App"));
 		expect(submodule.parentRepository).to(beIdenticalTo(repo));
-		expect(submodule.git_submodule).notTo(beNil());
+		expect([NSValue valueWithPointer:submodule.git_submodule]).notTo(equal([NSValue valueWithPointer:NULL]));
 	});
 
 	it(@"should compare equal to the same submodule", ^{
@@ -152,7 +148,7 @@ describe(@"clean, checked out submodule", ^{
 		GTSubmoduleStatus expectedStatus = GTSubmoduleStatusExistsInHEAD | GTSubmoduleStatusExistsInIndex | GTSubmoduleStatusExistsInConfig | GTSubmoduleStatusExistsInWorkingDirectory;
 
 		__block NSError *error = nil;
-		expect([submodule status:&error]).to(equal(expectedStatus));
+		expect(@([submodule status:&error])).to(equal(@(expectedStatus)));
 		expect(error).to(beNil());
 	});
 
@@ -163,10 +159,10 @@ describe(@"clean, checked out submodule", ^{
 		expect(error).to(beNil());
 
 		expect(submoduleRepo.fileURL).to(equal([repo.fileURL URLByAppendingPathComponent:@"Test_App"]));
-		expect(submoduleRepo.bare).to(beFalsy());
-		expect(submoduleRepo.empty).to(beFalsy());
-		expect(submoduleRepo.HEADDetached).to(beTruthy());
-		expect([submoduleRepo isWorkingDirectoryClean]).to(beTruthy());
+		expect(@(submoduleRepo.bare)).to(beFalsy());
+		expect(@(submoduleRepo.empty)).to(beFalsy());
+		expect(@(submoduleRepo.HEADDetached)).to(beTruthy());
+		expect(@([submoduleRepo isWorkingDirectoryClean])).to(beTruthy());
 	});
 
 	it(@"should reload", ^{
@@ -175,12 +171,12 @@ describe(@"clean, checked out submodule", ^{
 
 		GTCommit *newHEAD = (id)[submoduleRepo lookUpObjectBySHA:@"82dc47f6ba3beecab33080a1136d8913098e1801" objectType:GTObjectTypeCommit error:NULL];
 		expect(newHEAD).notTo(beNil());
-		expect([submoduleRepo resetToCommit:newHEAD resetType:GTRepositoryResetTypeHard error:NULL]).to(beTruthy());
+		expect(@([submoduleRepo resetToCommit:newHEAD resetType:GTRepositoryResetTypeHard error:NULL])).to(beTruthy());
 
 		expect(submodule.workingDirectoryOID.SHA).notTo(equal(newHEAD.SHA));
 
 		__block NSError *error = nil;
-		expect([submodule reload:&error]).to(beTruthy());
+		expect(@([submodule reload:&error])).to(beTruthy());
 		expect(error).to(beNil());
 
 		expect(submodule.workingDirectoryOID.SHA).to(equal(newHEAD.SHA));
@@ -200,7 +196,7 @@ describe(@"dirty, checked out submodule", ^{
 		expect(submodule.path).to(equal(@"Test_App2"));
 		expect(submodule.URLString).to(equal(@"../Test_App"));
 		expect(submodule.parentRepository).to(beIdenticalTo(repo));
-		expect(submodule.git_submodule).notTo(beNil());
+		expect([NSValue valueWithPointer:submodule.git_submodule]).notTo(equal([NSValue valueWithPointer:NULL]));
 	});
 
 	it(@"should compare equal to the same submodule", ^{
@@ -224,7 +220,7 @@ describe(@"dirty, checked out submodule", ^{
 			GTSubmoduleStatusDirtyIndex | GTSubmoduleStatusDirtyWorkingDirectory | GTSubmoduleStatusUntrackedFilesInWorkingDirectory;
 
 		__block NSError *error = nil;
-		expect([submodule status:&error]).to(equal(expectedStatus));
+		expect(@([submodule status:&error])).to(equal(@(expectedStatus)));
 		expect(error).to(beNil());
 	});
 
@@ -235,7 +231,7 @@ describe(@"dirty, checked out submodule", ^{
 			GTSubmoduleStatusExistsInHEAD | GTSubmoduleStatusExistsInIndex | GTSubmoduleStatusExistsInConfig | GTSubmoduleStatusExistsInWorkingDirectory |
 			GTSubmoduleStatusModifiedInIndex | GTSubmoduleStatusModifiedInWorkingDirectory;
 
-		expect([submodule status:NULL]).to(equal(expectedStatus));
+		expect(@([submodule status:NULL])).to(equal(@(expectedStatus)));
 	});
 
 	it(@"should open a repository" ,^{
@@ -245,10 +241,10 @@ describe(@"dirty, checked out submodule", ^{
 		expect(error).to(beNil());
 
 		expect(submoduleRepo.fileURL).to(equal([repo.fileURL URLByAppendingPathComponent:@"Test_App2"]));
-		expect(submoduleRepo.bare).to(beFalsy());
-		expect(submoduleRepo.empty).to(beFalsy());
-		expect(submoduleRepo.HEADDetached).to(beTruthy());
-		expect([submoduleRepo isWorkingDirectoryClean]).to(beFalsy());
+		expect(@(submoduleRepo.bare)).to(beFalsy());
+		expect(@(submoduleRepo.empty)).to(beFalsy());
+		expect(@(submoduleRepo.HEADDetached)).to(beTruthy());
+		expect(@([submoduleRepo isWorkingDirectoryClean])).to(beFalsy());
 	});
 
 	it(@"should synchronize the remote URL", ^{
@@ -259,13 +255,13 @@ describe(@"dirty, checked out submodule", ^{
 		NSString *newOrigin = @"https://github.com/libgit2/objective-git.git";
 		[config setString:newOrigin forKey:configKey];
 
-		expect([config refresh:NULL]).to(beTruthy());
+		expect(@([config refresh:NULL])).to(beTruthy());
 		expect([config stringForKey:configKey]).to(equal(newOrigin));
 
 		__block NSError *error = nil;
-		expect([submodule sync:&error]).to(beTruthy());
+		expect(@([submodule sync:&error])).to(beTruthy());
 
-		expect([config refresh:NULL]).to(beTruthy());
+		expect(@([config refresh:NULL])).to(beTruthy());
 		expect([config stringForKey:configKey]).to(equal(@"../Test_App"));
 	});
 });

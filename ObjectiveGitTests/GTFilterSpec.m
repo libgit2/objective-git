@@ -33,10 +33,10 @@ beforeEach(^{
 
 	NSString *attributes = @"*.txt special\n";
 	BOOL success = [attributes writeToURL:[repository.fileURL URLByAppendingPathComponent:@".gitattributes"] atomically:YES encoding:NSUTF8StringEncoding error:NULL];
-	expect(success).to(beTruthy());
+	expect(@(success)).to(beTruthy());
 
 	success = [@"some stuff" writeToURL:[repository.fileURL URLByAppendingPathComponent:testFile] atomically:YES encoding:NSUTF8StringEncoding error:NULL];
-	expect(success).to(beTruthy());
+	expect(@(success)).to(beTruthy());
 
 	setUpFilterWithApplyBlock = ^(GTFilterApplyBlock applyBlock) {
 		applyBlock = applyBlock ?: ^ NSData * (void **payload, NSData *from, GTFilterSource *source, BOOL *applied) {
@@ -46,7 +46,7 @@ beforeEach(^{
 		filter = [[GTFilter alloc] initWithName:filterName attributes:filterAttributes applyBlock:applyBlock];
 
 		BOOL success = [filter registerWithPriority:0 error:NULL];
-		expect(success).to(beTruthy());
+		expect(@(success)).to(beTruthy());
 	};
 
 	addTestFileToIndex = ^{
@@ -54,16 +54,16 @@ beforeEach(^{
 		expect(index).notTo(beNil());
 
 		BOOL success = [index addFile:@"stuff.txt" error:NULL];
-		expect(success).to(beTruthy());
+		expect(@(success)).to(beTruthy());
 
 		success = [index write:NULL];
-		expect(success).to(beTruthy());
+		expect(@(success)).to(beTruthy());
 	};
 });
 
 afterEach(^{
 	BOOL success = [filter unregister:NULL];
-	expect(success).to(beTruthy());
+	expect(@(success)).to(beTruthy());
 });
 
 it(@"should be able to look up a registered filter by name", ^{
@@ -97,10 +97,10 @@ it(@"should call all the blocks", ^{
 
 	addTestFileToIndex();
 
-	expect(initializeCalled).to(beTruthy());
-	expect(checkCalled).to(beTruthy());
-	expect(applyCalled).to(beTruthy());
-	expect(cleanupCalled).to(beTruthy());
+	expect(@(initializeCalled)).to(beTruthy());
+	expect(@(checkCalled)).to(beTruthy());
+	expect(@(applyCalled)).to(beTruthy());
+	expect(@(cleanupCalled)).to(beTruthy());
 });
 
 it(@"shouldn't call the apply block if the check block returns NO", ^{
@@ -116,7 +116,7 @@ it(@"shouldn't call the apply block if the check block returns NO", ^{
 
 	addTestFileToIndex();
 
-	expect(applyCalled).to(beFalsy());
+	expect(@(applyCalled)).to(beFalsy());
 });
 
 describe(@"application", ^{
@@ -157,10 +157,10 @@ describe(@"application", ^{
 
 		NSURL *testFileURL = [repository.fileURL URLByAppendingPathComponent:testFile];
 		BOOL success = [NSFileManager.defaultManager removeItemAtURL:testFileURL error:NULL];
-		expect(success).to(beTruthy());
+		expect(@(success)).to(beTruthy());
 
 		success = [repository checkoutCommit:newCommit strategy:GTCheckoutStrategyForce error:NULL progressBlock:NULL];
-		expect(success).to(beTruthy());
+		expect(@(success)).to(beTruthy());
 
 		expect([NSData dataWithContentsOfURL:testFileURL]).to(equal(replacementData));
 	});
@@ -179,7 +179,7 @@ it(@"should include the right filter source", ^{
 
 	expect(filterSource).notTo(beNil());
 	expect(filterSource.path).to(equal(testFile));
-	expect(filterSource.mode).to(equal(GTFilterSourceModeClean));
+	expect(@(filterSource.mode)).to(equal(@(GTFilterSourceModeClean)));
 	expect(filterSource.repositoryURL).to(equal(repository.fileURL));
 });
 

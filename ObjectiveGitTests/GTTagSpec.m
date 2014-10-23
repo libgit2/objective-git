@@ -21,8 +21,8 @@ beforeEach(^{
 	GTRepository *repo = self.bareFixtureRepository;
 	NSString *tagSHA = @"0c37a5391bbff43c37f0d0371823a5509eed5b1d";
 	tag = (GTTag *)[repo lookUpObjectBySHA:tagSHA error:&error];
-	expect(error).to(beFalsy());
-	expect(tag).to(beTruthy());
+	expect(error).to(beNil());
+	expect(tag).notTo(beNil());
 	expect(tagSHA).to(equal(tag.SHA));
 });
 
@@ -31,11 +31,11 @@ it(@"can read tag data", ^{
 	expect(tag.name).to(equal(@"v1.0"));
 	expect(tag.message).to(equal(@"test tag message\n"));
 	expect(tag.target.SHA).to(equal(@"5b5b025afb0b4c913b4c338a42934a3863bf3644"));
-	expect(GTObjectTypeCommit).to(equal(tag.targetType));
+	expect(@(GTObjectTypeCommit)).to(equal(@(tag.targetType)));
 
 	GTSignature *signature = tag.tagger;
 	expect(signature.name).to(equal(@"Scott Chacon"));
-	expect((int)[signature.time timeIntervalSince1970]).to(equal(1288114383));
+	expect(@(signature.time.timeIntervalSince1970)).to(equal(@1288114383));
 	expect(signature.email).to(equal(@"schacon@gmail.com"));
 });
 

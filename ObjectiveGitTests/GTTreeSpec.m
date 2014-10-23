@@ -28,7 +28,7 @@ beforeEach(^{
 
 it(@"should be able to read tree properties", ^{
 	expect(tree.SHA).to(equal(testTreeSHA));
-	expect(tree.entryCount).to(equal(3));
+	expect(@(tree.entryCount)).to(equal(@3));
 });
 
 it(@"should be able to read tree entry properties", ^{
@@ -41,7 +41,7 @@ it(@"should be able to read tree entry properties", ^{
 it(@"should give quick access to its entries", ^{
 	NSArray *treeEntries = tree.entries;
 	expect(treeEntries).notTo(beNil());
-	expect(treeEntries.count).to(equal(3));
+	expect(@(treeEntries.count)).to(equal(@3));
 	GTTreeEntry *readme = [tree entryWithName:@"README"];
 	GTTreeEntry *newTxt = [tree entryWithName:@"new.txt"];
 	GTTreeEntry *subdir = [tree entryWithName:@"subdir"];
@@ -64,8 +64,8 @@ describe(@"tree enumeration", ^{
 			return YES;
 		}];
 
-		expect(success).to(beTruthy());
-		expect(mutableArray.count).to(equal(1));
+		expect(@(success)).to(beTruthy());
+		expect(@(mutableArray.count)).to(equal(@1));
 	});
 
 	it(@"should be able to enumerate descendants", ^{
@@ -77,8 +77,8 @@ describe(@"tree enumeration", ^{
 			return YES;
 		}];
 
-		expect(success).to(beTruthy);
-		expect(entriesInASubtree.count).to(equal(5));
+		expect(@(success)).to(beTruthy());
+		expect(@(entriesInASubtree.count)).to(equal(@5));
 	});
 
 	it(@"should be able to enumerate in post-order", ^{
@@ -89,8 +89,8 @@ describe(@"tree enumeration", ^{
 			return NO;
 		}];
 
-		expect(success).to(beTruthy());
-		expect(entries.count).to(equal(8));
+		expect(@(success)).to(beTruthy());
+		expect(@(entries.count)).to(equal(@8));
 	});
 });
 

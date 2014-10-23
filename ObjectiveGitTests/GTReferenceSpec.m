@@ -37,7 +37,7 @@ describe(@"remote property", ^{
 		expect(error).to(beNil());
 
 		expect(ref.OID.SHA).to(equal(@"d603d61ea756eb881ba440b3e66b561d070aec6e"));
-		expect(ref.remote).to(beTruthy());
+		expect(@(ref.remote)).to(beTruthy());
 	});
 
 	it(@"should be NO for a local branch", ^{
@@ -47,7 +47,7 @@ describe(@"remote property", ^{
 		expect(error).to(beNil());
 
 		expect(ref.OID.SHA).to(equal(@"a4bca6b67a5483169963572ee3da563da33712f7"));
-		expect(ref.remote).to(beFalsy());
+		expect(@(ref.remote)).to(beFalsy());
 	});
 });
 
@@ -89,29 +89,29 @@ describe(@"transformations", ^{
 
 describe(@"valid names",^{
 	it(@"should accept uppercase top-level names", ^{
-		expect([GTReference isValidReferenceName:@"HEAD"]).to(beTruthy());
-		expect([GTReference isValidReferenceName:@"ORIG_HEAD"]).to(beTruthy());
+		expect(@([GTReference isValidReferenceName:@"HEAD"])).to(beTruthy());
+		expect(@([GTReference isValidReferenceName:@"ORIG_HEAD"])).to(beTruthy());
 	});
 
 	it(@"should not accept lowercase top-level names",^{
-		expect([GTReference isValidReferenceName:@"head"]).notTo(beTruthy());
+		expect(@([GTReference isValidReferenceName:@"head"])).notTo(beTruthy());
 	});
 
 	it(@"should accept names with the refs/ prefix",^{
-		expect([GTReference isValidReferenceName:@"refs/stuff"]).to(beTruthy());
-		expect([GTReference isValidReferenceName:@"refs/multiple/components"]).to(beTruthy());
+		expect(@([GTReference isValidReferenceName:@"refs/stuff"])).to(beTruthy());
+		expect(@([GTReference isValidReferenceName:@"refs/multiple/components"])).to(beTruthy());
 	});
 
 	it(@"should not accept names with invalid parts",^{
-		expect([GTReference isValidReferenceName:@"refs/stuff~"]).notTo(beTruthy());
-		expect([GTReference isValidReferenceName:@"refs/stuff^"]).notTo(beTruthy());
-		expect([GTReference isValidReferenceName:@"refs/stuff:"]).notTo(beTruthy());
-		expect([GTReference isValidReferenceName:@"refs/stuff\\"]).notTo(beTruthy());
-		expect([GTReference isValidReferenceName:@"refs/stuff?"]).notTo(beTruthy());
-		expect([GTReference isValidReferenceName:@"refs/stuff["]).notTo(beTruthy());
-		expect([GTReference isValidReferenceName:@"refs/stuff*"]).notTo(beTruthy());
-		expect([GTReference isValidReferenceName:@"refs/stuff.."]).notTo(beTruthy());
-		expect([GTReference isValidReferenceName:@"refs/stuff@{"]).notTo(beTruthy());
+		expect(@([GTReference isValidReferenceName:@"refs/stuff~"])).notTo(beTruthy());
+		expect(@([GTReference isValidReferenceName:@"refs/stuff^"])).notTo(beTruthy());
+		expect(@([GTReference isValidReferenceName:@"refs/stuff:"])).notTo(beTruthy());
+		expect(@([GTReference isValidReferenceName:@"refs/stuff\\"])).notTo(beTruthy());
+		expect(@([GTReference isValidReferenceName:@"refs/stuff?"])).notTo(beTruthy());
+		expect(@([GTReference isValidReferenceName:@"refs/stuff["])).notTo(beTruthy());
+		expect(@([GTReference isValidReferenceName:@"refs/stuff*"])).notTo(beTruthy());
+		expect(@([GTReference isValidReferenceName:@"refs/stuff.."])).notTo(beTruthy());
+		expect(@([GTReference isValidReferenceName:@"refs/stuff@{"])).notTo(beTruthy());
 	});
 });
 
@@ -120,7 +120,7 @@ __block GTRepository *bareRepository;
 void (^expectValidReference)(GTReference *ref, NSString *SHA, GTReferenceType type, NSString *name) = ^(GTReference *ref, NSString *SHA, GTReferenceType type, NSString *name) {
 	expect(ref).notTo(beNil());
 	expect(ref.targetSHA).to(equal(SHA));
-	expect(ref.referenceType).to(equal(type));
+	expect(@(ref.referenceType)).to(equal(@(type)));
 	expect(ref.name).to(equal(name));
 };
 
@@ -185,7 +185,7 @@ describe(@"-deleteWithError:", ^{
 		expect(ref).notTo(beNil());
 
 		BOOL success = [ref deleteWithError:&error];
-		expect(success).to(beTruthy());
+		expect(@(success)).to(beTruthy());
 		expect(error).to(beNil());
 	});
 });

@@ -55,7 +55,7 @@ describe(@"GTTreeBuilder building", ^{
 		expect(entry).notTo(beNil());
 		expect(error).to(beNil());
 
-		expect(builder.entryCount).to(equal(1));
+		expect(@(builder.entryCount)).to(equal(@1));
 	});
 
 	it(@"should be possible to remove an entry from a builder", ^{
@@ -64,13 +64,13 @@ describe(@"GTTreeBuilder building", ^{
 		expect(entry).notTo(beNil());
 		expect(error).to(beNil());
 
-		expect(builder.entryCount).to(equal(1));
+		expect(@(builder.entryCount)).to(equal(@1));
 
 		BOOL success = [builder removeEntryWithFileName:fileName error:&error];
-		expect(success).to(beTruthy());
+		expect(@(success)).to(beTruthy());
 		expect(error).to(beNil());
 
-		expect(builder.entryCount).to(equal(0));
+		expect(@(builder.entryCount)).to(equal(@0));
 	});
 
 	it(@"should be possible to filter a builder", ^{
@@ -83,13 +83,13 @@ describe(@"GTTreeBuilder building", ^{
 
 		[builder addEntryWithOID:blob.OID fileName:@"hi.txt" fileMode:GTFileModeBlob error:&error];
 
-		expect(builder.entryCount).to(equal(1));
+		expect(@(builder.entryCount)).to(equal(@1));
 
 		[builder filter:^(const git_tree_entry *entry) {
 			return YES;
 		}];
 
-		expect(builder.entryCount).to(equal(0));
+		expect(@(builder.entryCount)).to(equal(@0));
 	});
 
 	it(@"should be possible to find an entry by file name in a builder", ^{
@@ -112,12 +112,12 @@ describe(@"GTTreeBuilder building", ^{
 		GTObjectDatabase *database = [repo objectDatabaseWithError:NULL];
 		expect(database).notTo(beNil());
 
-		expect([database containsObjectWithOID:entry.OID]).to(beFalsy());
+		expect(@([database containsObjectWithOID:entry.OID])).to(beFalsy());
 
 		GTTree *tree = [builder writeTreeToRepository:repo error:NULL];
 		expect(tree).notTo(beNil());
 
-		expect([database containsObjectWithOID:entry.OID]).to(beTruthy());
+		expect(@([database containsObjectWithOID:entry.OID])).to(beTruthy());
 	});
 
 	it(@"should be possible to write a builder to a repository", ^{

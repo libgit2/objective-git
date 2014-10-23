@@ -32,7 +32,7 @@ describe(@"instance", ^{
 	});
 
 	it(@"should expose the git_signature", ^{
-		expect(testSignature.git_signature).notTo(beNil());
+		expect([NSValue valueWithPointer:testSignature.git_signature]).notTo(equal([NSValue valueWithPointer:NULL]));
 		expect(testSignature).to(equal([[GTSignature alloc] initWithGitSignature:testSignature.git_signature]));
 	});
 

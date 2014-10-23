@@ -22,22 +22,22 @@ beforeEach(^{
 });
 
 it(@"can count the hunks", ^{
-	expect(blame.hunkCount).to(equal(4));
+	expect(@(blame.hunkCount)).to(equal(@4));
 });
 
 it(@"can read hunk properties", ^{
 	GTBlameHunk *hunk = [blame hunkAtIndex:1];
 
 	expect(hunk).notTo(beNil());
-	expect(NSEqualRanges(hunk.lines, NSMakeRange(22, 1))).to(beTruthy());
+	expect(@(NSEqualRanges(hunk.lines, NSMakeRange(22, 1)))).to(beTruthy());
 	expect(hunk.finalCommitOID.SHA).to(equal(@"82dc47f6ba3beecab33080a1136d8913098e1801"));
 	expect(hunk.finalSignature).notTo(beNil());
 	expect(hunk.originalPath).to(equal(@"README1.txt"));
-	expect(hunk.isBoundary).to(beFalsy());
+	expect(@(hunk.isBoundary)).to(beFalsy());
 });
 
 it(@"The number of hunks in the `hunks` array should match `hunkCount`", ^{
-	expect(blame.hunks).to(haveCountOf(blame.hunkCount));
+	expect(@(blame.hunks.count)).to(equal(@(blame.hunkCount)));
 });
 
 it(@"should be able to enumerate all the hunks in a blame, stopping when instructed", ^{
@@ -47,7 +47,7 @@ it(@"should be able to enumerate all the hunks in a blame, stopping when instruc
 		*stop = YES;
 	}];
 
-	expect(mutableArray).to(haveCountOf(1));
+	expect(@(mutableArray.count)).to(equal(@(1)));
 });
 
 it(@"should be able to get the same hunk from an index or a line", ^{
@@ -70,8 +70,8 @@ describe(@"Creating a blame with options", ^{
 		GTBlame *optionsBlame = [self.testAppFixtureRepository blameWithFile:@"README1.txt" options:@{ GTBlameOptionsNewestCommitOID: newOID } error:nil];
 
 		GTBlameHunk *hunk = [optionsBlame hunkAtIndex:0];
-		expect(hunk.lines.location).to(equal(1));
-		expect(hunk.lines.length).to(equal(25));
+		expect(@(hunk.lines.location)).to(equal(@1));
+		expect(@(hunk.lines.length)).to(equal(@25));
 	});
 
 	it(@"should follow the instructions provided by GTBlameOptionsFirstLine and GTBlameOptionsLastLine keys", ^{
@@ -79,8 +79,8 @@ describe(@"Creating a blame with options", ^{
 		GTBlameHunk *hunk = [optionsBlame hunkAtIndex:0];
 
 		expect(optionsBlame).notTo(beNil());
-		expect(hunk.lines.location).to(equal(22));
-		expect(hunk.lines.length).to(equal(1));
+		expect(@(hunk.lines.location)).to(equal(@22));
+		expect(@(hunk.lines.length)).to(equal(@1));
 	});
 });
 

@@ -24,7 +24,7 @@ it(@"should be able to look up attributes", ^{
 	static NSString * const testAttributes = @"*.txt filter=reverse";
 	NSURL *attributesURL = [repository.fileURL URLByAppendingPathComponent:@".gitattributes"];
 	BOOL success = [testAttributes writeToURL:attributesURL atomically:YES encoding:NSUTF8StringEncoding error:NULL];
-	expect(success).to(beTruthy());
+	expect(@(success)).to(beTruthy());
 
 	NSString *value = [repository attributeWithName:@"filter" path:@"*.txt"];
 	expect(value).to(equal(@"reverse"));

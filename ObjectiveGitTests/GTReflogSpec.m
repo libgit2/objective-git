@@ -44,7 +44,7 @@ describe(@"writing", ^{
 		static NSString * const message = @"Refloggin' ain't easy.";
 		GTSignature *user = repository.userSignatureForNow;
 		BOOL success = [reflog writeEntryWithCommitter:user message:message error:NULL];
-		expect(success).to(beTruthy());
+		expect(@(success)).to(beTruthy());
 
 		GTReflogEntry *entry = [reflog entryAtIndex:0];
 		expect(entry).notTo(beNil());

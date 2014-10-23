@@ -28,7 +28,7 @@ it(@"can read commit data", ^{
 	expect(commit).notTo(beNil());
 	expect(error).to(beNil());
 
-	expect(commit).to(beInstanceOf(GTCommit.class));
+	expect(commit).to(beAnInstanceOf(GTCommit.class));
 	expect(commit.type).to(equal(@"commit"));
 	expect(commit.SHA).to(equal(commitSHA));
 
@@ -50,7 +50,7 @@ it(@"can read commit data", ^{
 	expect(committer.time).to(equal([NSDate dateWithTimeIntervalSince1970:1273360386]));
 
 	expect(commit.tree.SHA).to(equal(@"181037049a54a1eb5fab404658a3a250b44335d7"));
-	expect(commit.parents.count).to(equal(0));
+	expect(@(commit.parents.count)).to(equal(@0));
 });
 
 it(@"can have multiple parents", ^{
@@ -60,7 +60,7 @@ it(@"can have multiple parents", ^{
 	expect(commit).notTo(beNil());
 	expect(error).to(beNil());
 
-	expect(commit.parents.count).to(equal(2));
+	expect(@(commit.parents.count)).to(equal(@2));
 });
 
 it(@"can identify merges", ^{
@@ -69,7 +69,7 @@ it(@"can identify merges", ^{
 	GTCommit *commit = [repository lookUpObjectBySHA:commitSHA error:&error];
 	expect(commit).notTo(beNil());
 
-	expect(commit.merge).to(beTruthy());
+	expect(@(commit.merge)).to(beTruthy());
 });
 
 afterEach(^{

@@ -73,6 +73,7 @@ FOUNDATION_EXPORT const unsigned char ObjectiveGitVersionString[];
 
 #import <ObjectiveGit/NSError+Git.h>
 #import <ObjectiveGit/NSData+Git.h>
+#import <ObjectiveGit/NSDate+GTTimeAdditions.h>
 #import <ObjectiveGit/NSString+Git.h>
 #import <ObjectiveGit/NSArray+StringArray.h>
 

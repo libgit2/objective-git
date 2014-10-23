@@ -44,7 +44,7 @@ describe(@"+defaultConfiguration", ^{
 		expect(value).notTo(beNil());
 
 		BOOL success = [config deleteValueForKey:testKey error:NULL];
-		expect(success).to(beTruthy());
+		expect(@(success)).to(beTruthy());
 
 		value = [config stringForKey:testKey];
 		expect(value).to(beNil());

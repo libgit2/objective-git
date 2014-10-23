@@ -28,7 +28,7 @@ describe(@"+initializeEmptyRepositoryAtFileURL:bare:error:", ^{
 		GTRepository *repository = [GTRepository initializeEmptyRepositoryAtFileURL:newRepoURL bare:NO error:NULL];
 		expect(repository).notTo(beNil());
 		expect(repository.gitDirectoryURL).notTo(beNil());
-		expect(repository.bare).to(beFalsy());
+		expect(@(repository.bare)).to(beFalsy());
 	});
 
 	it(@"should initialize a bare repository", ^{
@@ -37,8 +37,7 @@ describe(@"+initializeEmptyRepositoryAtFileURL:bare:error:", ^{
 		GTRepository *repository = [GTRepository initializeEmptyRepositoryAtFileURL:newRepoURL bare:YES error:NULL];
 		expect(repository).notTo(beNil());
 		expect(repository.gitDirectoryURL).notTo(beNil());
-		return repository;
-		expect(repository.bare).to(beTruthy());
+		expect(@(repository.bare)).to(beTruthy());
 	});
 });
 
@@ -49,7 +48,7 @@ describe(@"+repositoryWithURL:error:", ^{
 		expect(badRepo).to(beNil());
 		expect(error).notTo(beNil());
 		expect(error.domain).to(equal(GTGitErrorDomain));
-		expect(error.code).to(equal(GIT_ENOTFOUND));
+		expect(@(error.code)).to(equal(@(GIT_ENOTFOUND)));
 	});
 });
 
@@ -86,16 +85,16 @@ describe(@"+cloneFromURL:toWorkingDirectory:options:error:transferProgressBlock:
 			repository = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:@{ GTRepositoryCloneOptionsCloneLocal: @YES } error:&error transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
 			expect(repository).notTo(beNil());
 			expect(error).to(beNil());
-			expect(transferProgressCalled).to(beTruthy());
-			expect(checkoutProgressCalled).to(beTruthy());
+			expect(@(transferProgressCalled)).to(beTruthy());
+			expect(@(checkoutProgressCalled)).to(beTruthy());
 
-			expect(repository.isBare).to(beFalsy());
+			expect(@(repository.isBare)).to(beFalsy());
 
 			GTReference *head = [repository headReferenceWithError:&error];
 			expect(head).notTo(beNil());
 			expect(error).to(beNil());
 			expect(head.targetSHA).to(equal(@"36060c58702ed4c2a40832c51758d5344201d89a"));
-			expect(head.referenceType).to(equal(GTReferenceTypeOid));
+			expect(@(head.referenceType)).to(equal(@(GTReferenceTypeOid)));
 		});
 
 		it(@"should handle bare clones", ^{
@@ -104,16 +103,16 @@ describe(@"+cloneFromURL:toWorkingDirectory:options:error:transferProgressBlock:
 			repository = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:options error:&error transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
 			expect(repository).notTo(beNil());
 			expect(error).to(beNil());
-			expect(transferProgressCalled).to(beTruthy());
-			expect(checkoutProgressCalled).to(beFalsy());
+			expect(@(transferProgressCalled)).to(beTruthy());
+			expect(@(checkoutProgressCalled)).to(beFalsy());
 
-			expect(repository.isBare).to(beTruthy());
+			expect(@(repository.isBare)).to(beTruthy());
 
 			GTReference *head = [repository headReferenceWithError:&error];
 			expect(head).notTo(beNil());
 			expect(error).to(beNil());
 			expect(head.targetSHA).to(equal(@"36060c58702ed4c2a40832c51758d5344201d89a"));
-			expect(head.referenceType).to(equal(GTReferenceTypeOid));
+			expect(@(head.referenceType)).to(equal(@(GTReferenceTypeOid)));
 		});
 
 		it(@"should have set a valid remote URL", ^{
@@ -140,15 +139,13 @@ describe(@"+cloneFromURL:toWorkingDirectory:options:error:transferProgressBlock:
 			originURL = [NSURL URLWithString:@"git@github.com:libgit2/libgit2.github.com.git"];
 		});
 
-		if (!userName || !publicKeyPath || !privateKeyPath || !privateKeyPassword) {
-			pending(@"should handle normal clones (pending environment)");
-		} else {
+		if (userName && publicKeyPath && privateKeyPath && privateKeyPassword) {
 			it(@"should handle clones", ^{
 				__block NSError *error = nil;
 
 				provider = [GTCredentialProvider providerWithBlock:^GTCredential *(GTCredentialType type, NSString *URL, NSString *credUserName) {
 					expect(URL).to(equal(originURL.absoluteString));
-					expect(type & GTCredentialTypeSSHKey).to(beTruthy());
+					expect(@(type & GTCredentialTypeSSHKey)).to(beTruthy());
 					GTCredential *cred = nil;
 					// cred = [GTCredential credentialWithUserName:userName password:password error:&error];
 					cred = [GTCredential credentialWithUserName:credUserName publicKeyURL:[NSURL fileURLWithPath:publicKeyPath] privateKeyURL:[NSURL fileURLWithPath:privateKeyPath] passphrase:privateKeyPassword error:&error];
@@ -160,8 +157,8 @@ describe(@"+cloneFromURL:toWorkingDirectory:options:error:transferProgressBlock:
 				repository = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:@{GTRepositoryCloneOptionsCredentialProvider: provider} error:&error transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
 				expect(repository).notTo(beNil());
 				expect(error).to(beNil());
-				expect(transferProgressCalled).to(beTruthy());
-				expect(checkoutProgressCalled).to(beTruthy());
+				expect(@(transferProgressCalled)).to(beTruthy());
+				expect(@(checkoutProgressCalled)).to(beTruthy());
 
 				GTRemote *originRemote = [GTRemote remoteWithName:@"origin" inRepository:repository error:&error];
 				expect(error).to(beNil());
@@ -178,32 +175,32 @@ describe(@"-headReferenceWithError:", ^{
 		expect(head).notTo(beNil());
 		expect(error).to(beNil());
 		expect(head.targetSHA).to(equal(@"36060c58702ed4c2a40832c51758d5344201d89a"));
-		expect(head.referenceType).to(equal(GTReferenceTypeOid));
+		expect(@(head.referenceType)).to(equal(@(GTReferenceTypeOid)));
 	});
 
 	it(@"should fail to return HEAD for an unborn repo", ^{
 		GTRepository *repo = self.blankFixtureRepository;
-		expect(repo.isHEADUnborn).to(beTruthy());
+		expect(@(repo.isHEADUnborn)).to(beTruthy());
 
 		NSError *error = nil;
 		GTReference *head = [repo headReferenceWithError:&error];
 		expect(head).to(beNil());
 		expect(error).notTo(beNil());
 		expect(error.domain).to(equal(GTGitErrorDomain));
-        expect(error.code).to(equal(GIT_EUNBORNBRANCH));
+        expect(@(error.code)).to(equal(@(GIT_EUNBORNBRANCH)));
 	});
 });
 
 describe(@"-isEmpty", ^{
 	it(@"should return NO for a non-empty repository", ^{
-		expect(repository.isEmpty).to(beFalsy());
+		expect(@(repository.isEmpty)).to(beFalsy());
 	});
 
 	it(@"should return YES for a new repository", ^{
 		NSError *error = nil;
 		NSURL *fileURL = [self.tempDirectoryFileURL URLByAppendingPathComponent:@"newrepo"];
 		GTRepository *newRepo = [GTRepository initializeEmptyRepositoryAtFileURL:fileURL error:&error];
-		expect(newRepo.isEmpty).to(beTruthy());
+		expect(@(newRepo.isEmpty)).to(beTruthy());
 		[NSFileManager.defaultManager removeItemAtURL:fileURL error:NULL];
 	});
 });
@@ -217,7 +214,7 @@ describe(@"-preparedMessage", ^{
 
 	it(@"should return the contents of MERGE_MSG", ^{
 		NSString *message = @"Commit summary\n\ndescription";
-		expect([message writeToURL:[repository.gitDirectoryURL URLByAppendingPathComponent:@"MERGE_MSG"] atomically:YES encoding:NSUTF8StringEncoding error:NULL]).to(beTruthy());
+		expect(@([message writeToURL:[repository.gitDirectoryURL URLByAppendingPathComponent:@"MERGE_MSG"] atomically:YES encoding:NSUTF8StringEncoding error:NULL])).to(beTruthy());
 
 		__block NSError *error = nil;
 		expect([repository preparedMessageWithError:&error]).to(equal(message));
@@ -247,7 +244,7 @@ describe(@"-allTagsWithError:", ^{
 		NSError *error = nil;
 		NSArray *tags = [repository allTagsWithError:&error];
 		expect(tags).notTo(beNil());
-		expect(tags.count).to(equal(0));
+		expect(@(tags.count)).to(equal(@0));
 	});
 });
 
@@ -274,7 +271,7 @@ describe(@"-createBranchNamed:fromOID:committer:message:error:", ^{
 		expect(error).to(beNil());
 
 		expect(newBranch.shortName).to(equal(branchName));
-		expect(newBranch.branchType).to(equal(GTBranchTypeLocal));
+		expect(@(newBranch.branchType)).to(equal(@(GTBranchTypeLocal)));
 		expect(newBranch.SHA).to(equal(currentBranch.SHA));
 	});
 });
@@ -285,7 +282,7 @@ describe(@"-localBranchesWithError:", ^{
 		NSArray *branches = [repository localBranchesWithError:&error];
 		expect(branches).notTo(beNil());
 		expect(error).to(beNil());
-		expect(branches.count).to(equal(13));
+		expect(@(branches.count)).to(equal(@13));
 	});
 });
 
@@ -295,7 +292,7 @@ describe(@"-remoteBranchesWithError:", ^{
 		NSArray *branches = [repository remoteBranchesWithError:&error];
 		expect(branches).notTo(beNil());
 		expect(error).to(beNil());
-		expect(branches.count).to(equal(1));
+		expect(@(branches.count)).to(equal(@1));
 		GTBranch *remoteBranch = branches[0];
 		expect(remoteBranch.name).to(equal(@"refs/remotes/origin/master"));
 	});
@@ -308,7 +305,7 @@ describe(@"-referenceNamesWithError:", ^{
 		expect(refs).notTo(beNil());
 		expect(error).to(beNil());
 
-		expect(refs.count).to(equal(4));
+		expect(@(refs.count)).to(equal(@4));
 		NSArray *expectedRefs = @[ @"refs/heads/master", @"refs/tags/v0.9", @"refs/tags/v1.0", @"refs/heads/packed" ];
 		expect(refs).to(equal(expectedRefs));
 	});
@@ -332,7 +329,7 @@ describe(@"-OIDByCreatingTagNamed:target:tagger:message:error", ^{
 		expect(tag.message).to(equal(@"my tag\n"));
 		expect(tag.name).to(equal(@"a_new_tag"));
 		expect(tag.target.SHA).to(equal(@"5b5b025afb0b4c913b4c338a42934a3863bf3644"));
-		expect(tag.targetType).to(equal(GTObjectTypeCommit));
+		expect(@(tag.targetType)).to(equal(@(GTObjectTypeCommit)));
 	});
 
 	it(@"should fail to create an already existing tag", ^{
@@ -351,20 +348,20 @@ describe(@"-checkout:strategy:error:progressBlock:", ^{
 	it(@"should allow references", ^{
 		NSError *error = nil;
 		GTReference *ref = [GTReference referenceByLookingUpReferencedNamed:@"refs/heads/other-branch" inRepository:repository error:&error];
-		expect(ref).to(beTruthy());
+		expect(ref).notTo(beNil());
 		expect(error.localizedDescription).to(beNil());
 		BOOL result = [repository checkoutReference:ref strategy:GTCheckoutStrategyAllowConflicts error:&error progressBlock:nil];
-		expect(result).to(beTruthy());
+		expect(@(result)).to(beTruthy());
 		expect(error.localizedDescription).to(beNil());
 	});
 
 	it(@"should allow commits", ^{
 		NSError *error = nil;
 		GTCommit *commit = [repository lookUpObjectBySHA:@"1d69f3c0aeaf0d62e25591987b93b8ffc53abd77" objectType:GTObjectTypeCommit error:&error];
-		expect(commit).to(beTruthy());
+		expect(commit).notTo(beNil());
 		expect(error.localizedDescription).to(beNil());
 		BOOL result = [repository checkoutCommit:commit strategy:GTCheckoutStrategyAllowConflicts error:&error progressBlock:nil];
-		expect(result).to(beTruthy());
+		expect(@(result)).to(beTruthy());
 		expect(error.localizedDescription).to(beNil());
 	});
 });
@@ -406,7 +403,7 @@ describe(@"-resetToCommit:withResetType:error:", ^{
 		expect(originalHeadCommit).notTo(beNil());
 
 		BOOL success = [repository resetToCommit:commit resetType:GTRepositoryResetTypeSoft error:&error];
-		expect(success).to(beTruthy());
+		expect(@(success)).to(beTruthy());
 		expect(error).to(beNil());
 
 		GTReference *head = [repository headReferenceWithError:&error];
@@ -414,7 +411,7 @@ describe(@"-resetToCommit:withResetType:error:", ^{
 		expect(head.targetSHA).to(equal(resetTargetSHA));
 
 		success = [repository resetToCommit:originalHeadCommit resetType:GTRepositoryResetTypeSoft error:&error];
-		expect(success).to(beTruthy());
+		expect(@(success)).to(beTruthy());
 		expect(error).to(beNil());
 
 		head = [repository headReferenceWithError:&error];
@@ -429,7 +426,7 @@ describe(@"-lookUpBranchWithName:type:error:", ^{
 		GTBranch *branch = [repository lookUpBranchWithName:@"master" type:GTBranchTypeLocal success:&success error:&error];
 
 		expect(branch).notTo(beNil());
-		expect(success).to(beTruthy());
+		expect(@(success)).to(beTruthy());
 		expect(error).to(beNil());
 	});
 
@@ -439,7 +436,7 @@ describe(@"-lookUpBranchWithName:type:error:", ^{
 		GTBranch *branch = [repository lookUpBranchWithName:@"origin/master" type:GTBranchTypeRemote success:&success error:&error];
 
 		expect(branch).notTo(beNil());
-		expect(success).to(beTruthy());
+		expect(@(success)).to(beTruthy());
 		expect(error).to(beNil());
 	});
 
@@ -449,7 +446,7 @@ describe(@"-lookUpBranchWithName:type:error:", ^{
 		GTBranch *branch = [repository lookUpBranchWithName:@"foobar" type:GTBranchTypeLocal success:&success error:&error];
 
 		expect(branch).to(beNil());
-		expect(success).to(beTruthy());
+		expect(@(success)).to(beTruthy());
 		expect(error).to(beNil());
 	});
 });

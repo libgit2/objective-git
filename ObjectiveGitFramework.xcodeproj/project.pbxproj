@@ -326,6 +326,7 @@
 		D0A0128C19F9853D007F1914 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0A0128B19F9853D007F1914 /* Nimble.framework */; };
 		D0A0128D19F9853D007F1914 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0A0128B19F9853D007F1914 /* Nimble.framework */; };
 		D0A0128E19F98546007F1914 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0A0128819F98475007F1914 /* Quick.framework */; };
+		D0A0129519F99EF8007F1914 /* NSDate+GTTimeAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 30B1E7EC1703522100D0814D /* NSDate+GTTimeAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D0AC906C172F941F00347DC4 /* GTRepositorySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0AC906B172F941F00347DC4 /* GTRepositorySpec.m */; };
 		D0CE552018B6C58F008EB8E0 /* GTFilterList.h in Headers */ = {isa = PBXBuildFile; fileRef = D0CE551E18B6C58F008EB8E0 /* GTFilterList.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D0CE552318B6C58F008EB8E0 /* GTFilterList.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CE551F18B6C58F008EB8E0 /* GTFilterList.m */; };
@@ -994,6 +995,7 @@
 				88F6D9FA1320467100CC0BA8 /* GTCommit.h in Headers */,
 				88F6D9FB1320467500CC0BA8 /* GTObject.h in Headers */,
 				AA046112134F4D2000DF526B /* GTOdbObject.h in Headers */,
+				D0A0129519F99EF8007F1914 /* NSDate+GTTimeAdditions.h in Headers */,
 				4DFFB15B183AA8D600D1565E /* GTRepository+RemoteOperations.h in Headers */,
 				BDB2B1301386F34300C88D55 /* GTObjectDatabase.h in Headers */,
 				88F6D9FC1320467800CC0BA8 /* GTSignature.h in Headers */,

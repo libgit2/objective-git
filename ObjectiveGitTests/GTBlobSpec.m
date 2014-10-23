@@ -27,7 +27,7 @@ describe(@"blob properties can be accessed", ^{
 	});
 
 	it(@"has a size", ^{
-		expect(blob.size).to(equal(9));
+		expect(@(blob.size)).to(equal(@9));
 	});
 
 	it(@"has content", ^{
@@ -79,7 +79,7 @@ describe(@"blobs can be created", ^{
 
 			NSError *error = nil;
 			BOOL success = [fileContent writeToURL:fileURL atomically:YES encoding:NSUTF8StringEncoding error:&error];
-			expect(success).to(beTruthy());
+			expect(@(success)).to(beTruthy());
 			expect(error).to(beNil());
 
 			blob = [GTBlob blobWithFile:fileURL inRepository:repository error:&error];

@@ -28,7 +28,7 @@ it(@"should fail to create a stash if there's nothing to stash", ^{
 
 	expect(error).notTo(beNil());
 	expect(error.domain).to(equal(GTGitErrorDomain));
-	expect(error.code).to(equal(GIT_ENOTFOUND));
+	expect(@(error.code)).to(equal(@(GIT_ENOTFOUND)));
 });
 
 it(@"should create a stash with modified file content", ^{
@@ -38,7 +38,7 @@ it(@"should create a stash with modified file content", ^{
 	NSString *oldContent = [NSString stringWithContentsOfURL:fileURL encoding:NSUTF8StringEncoding error:NULL];
 	expect(oldContent).notTo(equal(newContent));
 
-	expect([newContent writeToURL:fileURL atomically:YES encoding:NSUTF8StringEncoding error:NULL]).to(beTruthy());
+	expect(@([newContent writeToURL:fileURL atomically:YES encoding:NSUTF8StringEncoding error:NULL])).to(beTruthy());
 	expect([NSString stringWithContentsOfURL:fileURL encoding:NSUTF8StringEncoding error:NULL]).to(equal(newContent));
 
 	NSError *error = nil;
@@ -56,7 +56,7 @@ it(@"should create a stash with uncommitted changes", ^{
 	NSString *oldContent = [NSString stringWithContentsOfURL:fileURL encoding:NSUTF8StringEncoding error:NULL];
 	expect(oldContent).notTo(equal(newContent));
 
-	expect([newContent writeToURL:fileURL atomically:YES encoding:NSUTF8StringEncoding error:NULL]).to(beTruthy());
+	expect(@([newContent writeToURL:fileURL atomically:YES encoding:NSUTF8StringEncoding error:NULL])).to(beTruthy());
 	expect([NSString stringWithContentsOfURL:fileURL encoding:NSUTF8StringEncoding error:NULL]).to(equal(newContent));
 
 	NSError *error = nil;
@@ -68,7 +68,7 @@ it(@"should create a stash with uncommitted changes", ^{
 });
 
 it(@"should fail to create a stash with an untracked file using default options", ^{
-	expect([@"foobar" writeToURL:[repository.fileURL URLByAppendingPathComponent:@"new-test-file"] atomically:YES encoding:NSUTF8StringEncoding error:NULL]).to(beTruthy());
+	expect(@([@"foobar" writeToURL:[repository.fileURL URLByAppendingPathComponent:@"new-test-file"] atomically:YES encoding:NSUTF8StringEncoding error:NULL])).to(beTruthy());
 
 	NSError *error = nil;
 	GTCommit *stash = [repository stashChangesWithMessage:nil flags:GTRepositoryStashFlagDefault error:&error];
@@ -76,11 +76,11 @@ it(@"should fail to create a stash with an untracked file using default options"
 
 	expect(error).notTo(beNil());
 	expect(error.domain).to(equal(GTGitErrorDomain));
-	expect(error.code).to(equal(GIT_ENOTFOUND));
+	expect(@(error.code)).to(equal(@(GIT_ENOTFOUND)));
 });
 
 it(@"should stash an untracked file when enabled", ^{
-	expect([@"foobar" writeToURL:[repository.fileURL URLByAppendingPathComponent:@"new-test-file"] atomically:YES encoding:NSUTF8StringEncoding error:NULL]).to(beTruthy());
+	expect(@([@"foobar" writeToURL:[repository.fileURL URLByAppendingPathComponent:@"new-test-file"] atomically:YES encoding:NSUTF8StringEncoding error:NULL])).to(beTruthy());
 
 	NSError *error = nil;
 	GTCommit *stash = [repository stashChangesWithMessage:nil flags:GTRepositoryStashFlagIncludeUntracked error:&error];
@@ -94,7 +94,7 @@ it(@"should enumerate stashes", ^{
 
 	for (int i = stashCount; i >= 0; i--) {
 		NSString *filename = [NSString stringWithFormat:@"new-test-file-%i", i];
-		expect([@"foobar" writeToURL:[repository.fileURL URLByAppendingPathComponent:filename] atomically:YES encoding:NSUTF8StringEncoding error:NULL]).to(beTruthy());
+		expect(@([@"foobar" writeToURL:[repository.fileURL URLByAppendingPathComponent:filename] atomically:YES encoding:NSUTF8StringEncoding error:NULL])).to(beTruthy());
 
 		NSString *message = [NSString stringWithFormat:@"stash %i", i];
 
@@ -117,7 +117,7 @@ it(@"should enumerate stashes", ^{
 		if (i == 2) *stop = YES;
 	}];
 
-	expect(lastIndex).to(equal(2));
+	expect(@(lastIndex)).to(equal(@2));
 });
 
 afterEach(^{
