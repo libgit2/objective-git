@@ -7,7 +7,10 @@
 //
 
 #import "GTRepository+Blame.h"
+
 #import "git2.h"
+#import "GTBlame.h"
+#import "NSError+Git.h"
 
 NSString * const GTBlameOptionsFlags = @"GTBlameOptionsFlags";
 NSString * const GTBlameOptionsNewestCommitOID = @"GTBlameOptionsNewestCommitOID";

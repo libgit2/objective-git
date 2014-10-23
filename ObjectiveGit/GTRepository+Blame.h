@@ -7,7 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <ObjectiveGit/GTRepository.h>
+#import "GTRepository.h"
+
+@class GTBlame;
 
 /// Enum for options passed to the dictionary in `-blameWithFile:inRepository:options:`
 ///

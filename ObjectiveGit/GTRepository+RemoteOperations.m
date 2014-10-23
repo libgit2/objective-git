@@ -8,9 +8,14 @@
 
 #import "GTRepository+RemoteOperations.h"
 
+#import "EXTScope.h"
 #import "GTCredential.h"
 #import "GTCredential+Private.h"
-#import "EXTScope.h"
+#import "GTFetchHeadEntry.h"
+#import "GTOID.h"
+#import "GTRemote.h"
+#import "GTSignature.h"
+#import "NSError+Git.h"
 
 NSString *const GTRepositoryRemoteOptionsCredentialProvider = @"GTRepositoryRemoteOptionsCredentialProvider";
 
