@@ -28,14 +28,16 @@
 //
 
 #import "GTIndex.h"
-#import "GTIndexEntry.h"
-#import "NSError+Git.h"
-#import "GTRepository.h"
-#import "GTRepository+Private.h"
-#import "GTConfiguration.h"
-#import "GTOID.h"
-#import "GTTree.h"
+
 #import "EXTScope.h"
+#import "GTConfiguration.h"
+#import "GTIndexEntry.h"
+#import "GTOID.h"
+#import "GTRepository+Private.h"
+#import "GTRepository.h"
+#import "GTTree.h"
+#import "NSArray+StringArray.h"
+#import "NSError+Git.h"
 
 // The block synonymous with libgit2's `git_index_matched_path_cb` callback.
 typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString *path, BOOL *stop);
@@ -196,7 +198,7 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to remove file %@ from index.", file];
 		return NO;
 	}
-	
+
 	return YES;
 }
 
@@ -212,7 +214,7 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 
 - (GTTree *)writeTree:(NSError **)error {
 	git_oid oid;
-  
+
 	int status = git_index_write_tree(&oid, self.git_index);
 	if (status != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to write index."];
@@ -225,13 +227,13 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 - (GTTree *)writeTreeToRepository:(GTRepository *)repository error:(NSError **)error {
 	NSParameterAssert(repository != nil);
 	git_oid oid;
-	
+
 	int status = git_index_write_tree_to(&oid, self.git_index, repository.git_repository);
 	if (status != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to write index to repository %@", repository];
 		return NULL;
 	}
-	
+
 	return [repository lookUpObjectByGitOid:&oid objectType:GTObjectTypeTree error:NULL];
 }
 
@@ -253,31 +255,31 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 - (BOOL)enumerateConflictedFilesWithError:(NSError **)error usingBlock:(void (^)(GTIndexEntry *ancestor, GTIndexEntry *ours, GTIndexEntry *theirs, BOOL *stop))block {
 	NSParameterAssert(block != nil);
 	if (!self.hasConflicts) return YES;
-	
+
 	git_index_conflict_iterator *iterator = NULL;
 	int returnCode = git_index_conflict_iterator_new(&iterator, self.git_index);
 	if (returnCode != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:returnCode description:NSLocalizedString(@"Could not create git index iterator.", nil)];
 		return NO;
 	}
-	
+
 	@onExit {
 		if (iterator != NULL) git_index_conflict_iterator_free(iterator);
 	};
-	
+
 	while (YES) {
 		const git_index_entry *ancestor = NULL;
 		const git_index_entry *ours = NULL;
 		const git_index_entry *theirs = NULL;
-		
+
 		returnCode = git_index_conflict_next(&ancestor, &ours, &theirs, iterator);
 		if (returnCode == GIT_ITEROVER) break;
-		
+
 		if (returnCode != GIT_OK) {
 			if (error != NULL) *error = [NSError git_errorFor:returnCode description:NSLocalizedString(@"Could not iterate conflict.", nil)];
 			return NO;
 		}
-		
+
 		GTIndexEntry *blockAncestor;
 		if (ancestor != NULL) {
 			blockAncestor = [[GTIndexEntry alloc] initWithGitIndexEntry:ancestor];
@@ -297,7 +299,7 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 		block(blockAncestor, blockOurs, blockTheirs, &stop);
 		if (stop) break;
 	}
-	
+
 	return YES;
 }
 
@@ -308,7 +310,7 @@ struct GTIndexPathspecMatchedInfo {
 
 - (BOOL)updatePathspecs:(NSArray *)pathspecs error:(NSError **)error passingTest:(GTIndexPathspecMatchedBlock)block {
 	NSAssert(self.repository.isBare == NO, @"This method only works with non-bare repositories.");
-	
+
 	const git_strarray strarray = pathspecs.git_strarray;
 	struct GTIndexPathspecMatchedInfo payload = {
 		.block = block,
@@ -320,7 +322,7 @@ struct GTIndexPathspecMatchedInfo {
 		if (error != nil) *error = [NSError git_errorFor:returnCode description:NSLocalizedString(@"Could not update index.", nil)];
 		return NO;
 	}
-	
+
 	return YES;
 }
 
@@ -330,11 +332,11 @@ int GTIndexPathspecMatchFound(const char *path, const char *matched_pathspec, vo
 	if (info->shouldAbortImmediately) {
 		return GIT_EUSER;
 	}
-	
+
 	BOOL shouldStop = NO;
 	NSString *matchedPathspec = (matched_pathspec != nil ? @(matched_pathspec): nil);
 	BOOL shouldUpdate = block(matchedPathspec, @(path), &shouldStop);
-	
+
 	if (shouldUpdate) {
 		if (shouldStop) {
 			info->shouldAbortImmediately = YES;

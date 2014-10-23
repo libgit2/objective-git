@@ -9,6 +9,10 @@
 #import "GTRepository+Committing.h"
 #import "GTRepository+Private.h"
 
+#import "git2/commit.h"
+#import "GTCommit.h"
+#import "NSError+Git.h"
+
 @implementation GTRepository (Committing)
 
 - (GTCommit *)createCommitWithTree:(GTTree *)tree message:(NSString *)message parents:(NSArray *)parents updatingReferenceNamed:(NSString *)refName error:(NSError **)error {

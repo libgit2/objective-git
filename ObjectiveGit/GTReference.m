@@ -24,10 +24,12 @@
 //
 
 #import "GTReference.h"
+
 #import "GTOID.h"
 #import "GTReflog+Private.h"
-#import "GTRepository.h"
 #import "GTRepository+Private.h"
+#import "GTRepository.h"
+#import "GTSignature.h"
 #import "NSError+Git.h"
 #import "NSString+Git.h"
 
@@ -69,7 +71,7 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 	return [[self alloc] initByLookingUpReferenceNamed:refName inRepository:theRepo error:error];
 }
 
-+ (id)referenceByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error {	
++ (id)referenceByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error {
 	return [[self alloc] initByResolvingSymbolicReference:symbolicRef error:error];
 }
 
@@ -116,13 +118,13 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 - (NSString *)name {
 	const char *refName = git_reference_name(self.git_reference);
 	if (refName == NULL) return nil;
-	
+
 	return @(refName);
 }
 
 - (GTReference *)referenceByRenaming:(NSString *)newName error:(NSError **)error {
 	NSParameterAssert(newName != nil);
-	
+
 	git_reference *newRef = NULL;
 	int gitError = git_reference_rename(&newRef, self.git_reference, newName.UTF8String, 0, [self.repository userSignatureForNow].git_signature, NULL);
 	if (gitError != GIT_OK) {
@@ -177,7 +179,7 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 	if (git_reference_type(self.git_reference) == GIT_REF_OID) {
 		GTOID *oid = [[GTOID alloc] initWithSHA:newTarget error:error];
 		if (oid == nil) return nil;
-		
+
 		gitError = git_reference_set_target(&newRef, self.git_reference, oid.git_oid, signature.git_signature, message.UTF8String);
 	} else {
 		gitError = git_reference_symbolic_set_target(&newRef, self.git_reference, newTarget.UTF8String, signature.git_signature, message.UTF8String);
