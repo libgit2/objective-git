@@ -62,7 +62,18 @@ int GTRemoteFetchTransferProgressCallback(const git_transfer_progress *stats, vo
 		return NO;
 	}
 
-	gitError = git_remote_fetch(remote.git_remote, self.userSignatureForNow.git_signature, NULL);
+	__block git_strarray refspecs;
+	gitError = git_remote_get_fetch_refspecs(&refspecs, remote.git_remote);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to get fetch refspecs for remote"];
+		return NO;
+	}
+
+	@onExit {
+		git_strarray_free(&refspecs);
+	};
+
+	gitError = git_remote_fetch(remote.git_remote, &refspecs, self.userSignatureForNow.git_signature, NULL);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to fetch from remote"];
 		return NO;
