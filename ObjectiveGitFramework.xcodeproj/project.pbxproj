@@ -332,6 +332,7 @@
 		D0AC906C172F941F00347DC4 /* GTRepositorySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0AC906B172F941F00347DC4 /* GTRepositorySpec.m */; };
 		D0CE552018B6C58F008EB8E0 /* GTFilterList.h in Headers */ = {isa = PBXBuildFile; fileRef = D0CE551E18B6C58F008EB8E0 /* GTFilterList.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D0CE552318B6C58F008EB8E0 /* GTFilterList.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CE551F18B6C58F008EB8E0 /* GTFilterList.m */; };
+		D0E0171519F9AD820019930C /* ObjectiveGit.h in Headers */ = {isa = PBXBuildFile; fileRef = 88F6D9D81320451F00CC0BA8 /* ObjectiveGit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D0F4E28A17C7F24200BBDE30 /* NSErrorGitSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F4E28917C7F24200BBDE30 /* NSErrorGitSpec.m */; };
 		DD3D9512182A81E1004AF532 /* GTBlame.h in Headers */ = {isa = PBXBuildFile; fileRef = DD3D9510182A81E1004AF532 /* GTBlame.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DD3D9513182A81E1004AF532 /* GTBlame.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3D9511182A81E1004AF532 /* GTBlame.m */; };
@@ -505,10 +506,10 @@
 		88F05A6B16011E5400B7AD1D /* ObjectiveGit-MacTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ObjectiveGit-MacTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		88F05AA416011FFD00B7AD1D /* GTCommitSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTCommitSpec.m; sourceTree = "<group>"; };
 		88F05AA816011FFD00B7AD1D /* GTObjectSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTObjectSpec.m; sourceTree = "<group>"; };
-		88F05AC51601209A00B7AD1D /* ObjectiveGit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ObjectiveGit.m; path = Classes/ObjectiveGit.m; sourceTree = "<group>"; };
+		88F05AC51601209A00B7AD1D /* ObjectiveGit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjectiveGit.m; sourceTree = "<group>"; };
 		88F50F56132054D800584FBE /* GTBranch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTBranch.h; sourceTree = "<group>"; };
 		88F50F57132054D800584FBE /* GTBranch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = GTBranch.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		88F6D9D81320451F00CC0BA8 /* ObjectiveGit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = ObjectiveGit.h; path = Classes/ObjectiveGit.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		88F6D9D81320451F00CC0BA8 /* ObjectiveGit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ObjectiveGit.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		8DC2EF5A0486A6940098B216 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* ObjectiveGit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ObjectiveGit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA046110134F4D2000DF526B /* GTOdbObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTOdbObject.h; sourceTree = "<group>"; };
@@ -650,9 +651,7 @@
 			isa = PBXGroup;
 			children = (
 				BDD8AB01130F01AB00CB5D40 /* README.md */,
-				88F6D9D81320451F00CC0BA8 /* ObjectiveGit.h */,
-				88F05AC51601209A00B7AD1D /* ObjectiveGit.m */,
-				BDE4C05E130EFE2C00851650 /* Classes */,
+				BDE4C05E130EFE2C00851650 /* ObjectiveGit */,
 				88F05A7516011E5400B7AD1D /* ObjectiveGitTests */,
 				32C88DFF0371C24200C91783 /* Other Sources */,
 				089C1665FE841158C02AAC07 /* Resources */,
@@ -786,9 +785,11 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		BDE4C05E130EFE2C00851650 /* Classes */ = {
+		BDE4C05E130EFE2C00851650 /* ObjectiveGit */ = {
 			isa = PBXGroup;
 			children = (
+				88F6D9D81320451F00CC0BA8 /* ObjectiveGit.h */,
+				88F05AC51601209A00B7AD1D /* ObjectiveGit.m */,
 				BDE4C05F130EFE2C00851650 /* Categories */,
 				BDE4C062130EFE2C00851650 /* GTRepository.h */,
 				4DE864341794A37E00371A65 /* GTRepository+Private.h */,
@@ -871,7 +872,7 @@
 				6EEB519F199D62B9001D72C0 /* GTFetchHeadEntry.h */,
 				6EEB51A0199D62B9001D72C0 /* GTFetchHeadEntry.m */,
 			);
-			path = Classes;
+			path = ObjectiveGit;
 			sourceTree = "<group>";
 		};
 		BDE4C05F130EFE2C00851650 /* Categories */ = {
@@ -1040,6 +1041,7 @@
 				D01B6F4D19F82F8700D411BC /* GTRemote.h in Headers */,
 				D01B6F1519F82F7B00D411BC /* NSData+Git.h in Headers */,
 				D01B6F6119F82FA600D411BC /* GTFilterSource.h in Headers */,
+				D0E0171519F9AD820019930C /* ObjectiveGit.h in Headers */,
 				D01B6F4919F82F8700D411BC /* GTOdbObject.h in Headers */,
 				D01B6F3919F82F8700D411BC /* GTTreeEntry.h in Headers */,
 				D01B6F5B19F82FA600D411BC /* GTSubmodule.h in Headers */,
