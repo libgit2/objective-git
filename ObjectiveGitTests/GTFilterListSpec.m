@@ -109,8 +109,8 @@ it(@"should apply a single filter", ^{
 	expect(error).to(beNil());
 
 	NSString *resultString = [[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];
-	expect(resultString).to(contain(inputString));
-	expect(resultString).to(contain(readFilterContent));
+	expect(resultString).to(beginWith(inputString));
+	expect(resultString).to(endWith(readFilterContent));
 	expect(resultString).notTo(contain(textFilterContent));
 });
 
@@ -137,9 +137,9 @@ describe(@"applying a list of multiple filters", ^{
 		expect(error).to(beNil());
 
 		NSString *resultString = [[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];
-		expect(resultString).to(contain(inputString));
-		expect(resultString).to(contain(readFilterContent));
-		expect(resultString).to(contain(textFilterContent));
+		expect(resultString).to(beginWith(inputString));
+		expect(resultString).to(endWith(readFilterContent));
+		expect(@([resultString rangeOfString:textFilterContent].location)).notTo(equal(@(NSNotFound)));
 	});
 
 	it(@"should apply to a file", ^{
@@ -156,9 +156,9 @@ describe(@"applying a list of multiple filters", ^{
 		expect(error).to(beNil());
 
 		NSString *resultString = [[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];
-		expect(resultString).to(contain(content));
-		expect(resultString).to(contain(readFilterContent));
-		expect(resultString).to(contain(textFilterContent));
+		expect(resultString).to(beginWith(content));
+		expect(resultString).to(endWith(readFilterContent));
+		expect(@([resultString rangeOfString:textFilterContent].location)).notTo(equal(@(NSNotFound)));
 	});
 
 	it(@"should apply to a blob", ^{
@@ -176,9 +176,9 @@ describe(@"applying a list of multiple filters", ^{
 		expect(error).to(beNil());
 
 		NSString *resultString = [[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];
-		expect(resultString).to(contain(blob.content));
-		expect(resultString).to(contain(readFilterContent));
-		expect(resultString).to(contain(textFilterContent));
+		expect(resultString).to(beginWith(blob.content));
+		expect(resultString).to(endWith(readFilterContent));
+		expect(@([resultString rangeOfString:textFilterContent].location)).notTo(equal(@(NSNotFound)));
 	});
 });
 
