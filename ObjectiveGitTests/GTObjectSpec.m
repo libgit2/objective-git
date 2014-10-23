@@ -27,71 +27,66 @@
 //  THE SOFTWARE.
 //
 
-@interface GTObjectTest : GTTestCase {
-	
-	GTRepository *repo;
-}
-@end
+#import <ObjectiveGit/ObjectiveGit.h>
+#import <Quick/Quick.h>
+#import "QuickSpec+GTFixtures.h"
 
-@implementation GTObjectTest
+QuickSpecBegin(GTObjectSpec)
 
-- (void)setUp {
-    repo = self.bareFixtureRepository;
-}
+__block GTRepository *repo;
 
-- (void)testCanLookupEmptyStringFails {
-	
+beforeEach(^{
+	repo = self.bareFixtureRepository;
+});
+
+it(@"should fail to look up an empty string", ^{
 	NSError *error = nil;
 	GTObject *obj = [repo lookUpObjectBySHA:@"" error:&error];
-	
+
 	XCTAssertNotNil(error);
 	XCTAssertNil(obj);
 	NSLog(@"Error = %@", [error localizedDescription]);
-}
+});
 
-- (void)testCanLookupBadObjectFails {
-	
+it(@"should fail to look up a bad object", ^{
 	NSError *error = nil;
 	GTObject *obj = [repo lookUpObjectBySHA:@"a496071c1b46c854b31185ea97743be6a8774479" error:&error];
-	
+
 	XCTAssertNotNil(error);
 	XCTAssertNil(obj);
 	NSLog(@"Error = %@", [error localizedDescription]);
-}
+});
 
-- (void)testCanLookupAnObject {
-	
+it(@"should look up a valid object", ^{
 	NSError *error = nil;
 	GTObject *obj = [repo lookUpObjectBySHA:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error];
-	
+
 	XCTAssertNil(error, "%@", error.localizedDescription);
 	XCTAssertNotNil(obj);
 	XCTAssertEqualObjects(obj.type, @"commit");
 	XCTAssertEqualObjects(obj.SHA, @"8496071c1b46c854b31185ea97743be6a8774479");
-}
+});
 
-- (void)testTwoObjectsAreTheSame {
-	
+it(@"should look up equivalent objects", ^{
 	NSError *error = nil;
 	GTObject *obj1 = [repo lookUpObjectBySHA:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error];
 	GTObject *obj2 = [repo lookUpObjectBySHA:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error];
-	
+
 	XCTAssertNotNil(obj1);
 	XCTAssertNotNil(obj2);
 	XCTAssertTrue([obj1 isEqual:obj2]);
-}
+});
 
-- (void)testCanReadRawDataFromObject {
-	
+it(@"should read the raw data from an object", ^{
 	NSError *error = nil;
 	GTObject *obj = [repo lookUpObjectBySHA:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error];
-	
+
 	XCTAssertNotNil(obj);
-	
+
 	GTOdbObject *rawObj = [obj odbObjectWithError:&error];
 	XCTAssertNotNil(rawObj);
 	XCTAssertNil(error, @"%@", error.localizedDescription);
 	NSLog(@"rawObj len = %ld", [rawObj.data length]);
-}
+});
 
-@end
+QuickSpecEnd
