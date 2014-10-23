@@ -1606,6 +1606,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D0A463D817E57C45000F5021 /* Debug.xcconfig */;
 			buildSettings = {
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO;
 				HEADER_SEARCH_PATHS = (
 					External/libgit2/include,
@@ -1622,6 +1623,10 @@
 					"-DGIT_SSH",
 				);
 				TARGETED_DEVICE_FAMILY = "1,2";
+				WARNING_CFLAGS = (
+					"$(inherited)",
+					"-Wno-incomplete-umbrella",
+				);
 			};
 			name = Debug;
 		};
@@ -1629,6 +1634,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D0A463DA17E57C45000F5021 /* Release.xcconfig */;
 			buildSettings = {
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO;
 				HEADER_SEARCH_PATHS = (
 					External/libgit2/include,
@@ -1645,6 +1651,10 @@
 					"-DGIT_SSH",
 				);
 				TARGETED_DEVICE_FAMILY = "1,2";
+				WARNING_CFLAGS = (
+					"$(inherited)",
+					"-Wno-incomplete-umbrella",
+				);
 			};
 			name = Release;
 		};
@@ -1726,6 +1736,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D0A463DB17E57C45000F5021 /* Test.xcconfig */;
 			buildSettings = {
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO;
 				HEADER_SEARCH_PATHS = (
 					External/libgit2/include,
@@ -1742,6 +1753,10 @@
 					"-DGIT_SSH",
 				);
 				TARGETED_DEVICE_FAMILY = "1,2";
+				WARNING_CFLAGS = (
+					"$(inherited)",
+					"-Wno-incomplete-umbrella",
+				);
 			};
 			name = Test;
 		};
@@ -1951,6 +1966,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D0A463D917E57C45000F5021 /* Profile.xcconfig */;
 			buildSettings = {
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO;
 				HEADER_SEARCH_PATHS = (
 					External/libgit2/include,
@@ -1967,6 +1983,10 @@
 					"-DGIT_SSH",
 				);
 				TARGETED_DEVICE_FAMILY = "1,2";
+				WARNING_CFLAGS = (
+					"$(inherited)",
+					"-Wno-incomplete-umbrella",
+				);
 			};
 			name = Profile;
 		};
