@@ -319,7 +319,7 @@
 		D040AF78177B9A9E001AD9EB /* GTSignatureSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D040AF77177B9A9E001AD9EB /* GTSignatureSpec.m */; };
 		D05FC5E219FAD039008C9348 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A1F2FD317C6A8F3003DFADE /* libcrypto.a */; };
 		D05FC5E319FAD03C008C9348 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A1F2FD417C6A8F3003DFADE /* libssl.a */; };
-		D05FC5E419FAD040008C9348 /* libssh2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A502B8617D6892D00BAF4A5 /* libssh2.a */; };
+		D05FC5E419FAD040008C9348 /* libssh2-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A502B8617D6892D00BAF4A5 /* libssh2-ios.a */; };
 		D06D9E011755D10000558C17 /* GTEnumeratorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D06D9E001755D10000558C17 /* GTEnumeratorSpec.m */; };
 		D0751CD918BE520400134314 /* GTFilterListSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0751CD818BE520400134314 /* GTFilterListSpec.m */; };
 		D09C2E361755F16200065E36 /* GTSubmodule.h in Headers */ = {isa = PBXBuildFile; fileRef = D09C2E341755F16200065E36 /* GTSubmodule.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -462,7 +462,7 @@
 		6A1F2FD317C6A8F3003DFADE /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = "External/ios-openssl/lib/libcrypto.a"; sourceTree = "<group>"; };
 		6A1F2FD417C6A8F3003DFADE /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = "External/ios-openssl/lib/libssl.a"; sourceTree = "<group>"; };
 		6A3C60A017D5987600382DFF /* update_libssh2_ios */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = update_libssh2_ios; path = script/update_libssh2_ios; sourceTree = SOURCE_ROOT; };
-		6A502B8617D6892D00BAF4A5 /* libssh2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssh2.a; path = "External/libssh2-ios/lib/libssh2.a"; sourceTree = "<group>"; };
+		6A502B8617D6892D00BAF4A5 /* libssh2-ios.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libssh2-ios.a"; path = "External/libssh2-ios/lib/libssh2-ios.a"; sourceTree = "<group>"; };
 		6EEB519F199D62B9001D72C0 /* GTFetchHeadEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTFetchHeadEntry.h; sourceTree = "<group>"; };
 		6EEB51A0199D62B9001D72C0 /* GTFetchHeadEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTFetchHeadEntry.m; sourceTree = "<group>"; };
 		79262F0E13C697BE00A4B1EA /* git2 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = git2; path = External/libgit2/include/git2; sourceTree = "<group>"; };
@@ -623,7 +623,7 @@
 			files = (
 				D05FC5E319FAD03C008C9348 /* libssl.a in Frameworks */,
 				D05FC5E219FAD039008C9348 /* libcrypto.a in Frameworks */,
-				D05FC5E419FAD040008C9348 /* libssh2.a in Frameworks */,
+				D05FC5E419FAD040008C9348 /* libssh2-ios.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -677,7 +677,7 @@
 				8803DA861313145700E6E818 /* libz.dylib */,
 				6A1F2FD317C6A8F3003DFADE /* libcrypto.a */,
 				6A1F2FD417C6A8F3003DFADE /* libssl.a */,
-				6A502B8617D6892D00BAF4A5 /* libssh2.a */,
+				6A502B8617D6892D00BAF4A5 /* libssh2-ios.a */,
 				887DAFF615CB1C8000F30D0D /* Security.framework */,
 				1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */,
 				D0A0128819F98475007F1914 /* Quick.framework */,
@@ -1816,7 +1816,6 @@
 				);
 				OTHER_LDFLAGS = (
 					"-lgit2-ios",
-					"-lssh2-ios",
 					"-all_load",
 				);
 				PRODUCT_NAME = ObjectiveGit;
@@ -1894,7 +1893,6 @@
 				);
 				OTHER_LDFLAGS = (
 					"-lgit2-ios",
-					"-lssh2-ios",
 					"-all_load",
 				);
 				PRODUCT_NAME = ObjectiveGit;
@@ -1924,7 +1922,6 @@
 				);
 				OTHER_LDFLAGS = (
 					"-lgit2-ios",
-					"-lssh2-ios",
 					"-all_load",
 				);
 				PRODUCT_NAME = ObjectiveGit;
@@ -1954,7 +1951,6 @@
 				);
 				OTHER_LDFLAGS = (
 					"-lgit2-ios",
-					"-lssh2-ios",
 					"-all_load",
 				);
 				PRODUCT_NAME = ObjectiveGit;
