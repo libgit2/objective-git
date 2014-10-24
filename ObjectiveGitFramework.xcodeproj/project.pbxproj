@@ -1557,6 +1557,7 @@
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Info.plist;
 				OTHER_LDFLAGS = (
+					"-lgit2",
 					"-force_load",
 					External/libgit2.a,
 					/usr/local/lib/libssh2.a,
@@ -1577,6 +1578,7 @@
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Info.plist;
 				OTHER_LDFLAGS = (
+					"-lgit2",
 					"-force_load",
 					External/libgit2.a,
 					/usr/local/lib/libssh2.a,
@@ -1762,6 +1764,7 @@
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Info.plist;
 				OTHER_LDFLAGS = (
+					"-lgit2",
 					"-force_load",
 					External/libgit2.a,
 					/usr/local/lib/libssh2.a,
@@ -1810,10 +1813,10 @@
 					"External/libssh2-ios/lib",
 				);
 				OTHER_LDFLAGS = (
-					"-force_load",
-					"External/libgit2-ios.a",
-					"External/libssh2-ios/lib/libssh2-ios.a",
-					"External/ios-openssl/lib/libssl.a",
+					"-lgit2-ios",
+					"-lssh2-ios",
+					"-lssl",
+					"-all_load",
 				);
 				PRODUCT_NAME = ObjectiveGit;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1889,10 +1892,10 @@
 					"External/libssh2-ios/lib",
 				);
 				OTHER_LDFLAGS = (
-					"-force_load",
-					"External/libgit2-ios.a",
-					"External/libssh2-ios/lib/libssh2-ios.a",
-					"External/ios-openssl/lib/libssl.a",
+					"-lgit2-ios",
+					"-lssh2-ios",
+					"-lssl",
+					"-all_load",
 				);
 				PRODUCT_NAME = ObjectiveGit;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1920,10 +1923,10 @@
 					"External/libssh2-ios/lib",
 				);
 				OTHER_LDFLAGS = (
-					"-force_load",
-					"External/libgit2-ios.a",
-					"External/libssh2-ios/lib/libssh2-ios.a",
-					"External/ios-openssl/lib/libssl.a",
+					"-lgit2-ios",
+					"-lssh2-ios",
+					"-lssl",
+					"-all_load",
 				);
 				PRODUCT_NAME = ObjectiveGit;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1951,10 +1954,10 @@
 					"External/libssh2-ios/lib",
 				);
 				OTHER_LDFLAGS = (
-					"-force_load",
-					"External/libgit2-ios.a",
-					"External/libssh2-ios/lib/libssh2-ios.a",
-					"External/ios-openssl/lib/libssl.a",
+					"-lgit2-ios",
+					"-lssh2-ios",
+					"-lssl",
+					"-all_load",
 				);
 				PRODUCT_NAME = ObjectiveGit;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -2045,6 +2048,7 @@
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Info.plist;
 				OTHER_LDFLAGS = (
+					"-lgit2",
 					"-force_load",
 					External/libgit2.a,
 					/usr/local/lib/libssh2.a,
