@@ -6,9 +6,13 @@
 //  Copyright (c) 2014 GitHub, Inc. All rights reserved.
 //
 
-#import "GTFilter.h"
+#import <Nimble/Nimble.h>
+#import <ObjectiveGit/ObjectiveGit.h>
+#import <Quick/Quick.h>
 
-SpecBegin(GTFilter)
+#import "QuickSpec+GTFixtures.h"
+
+QuickSpecBegin(GTFilterSpec)
 
 static NSString * const testFile = @"stuff.txt";
 static NSString * const filterName = @"special-filter";
@@ -25,14 +29,14 @@ __block void (^setUpFilterWithApplyBlock)(GTFilterApplyBlock block);
 
 beforeEach(^{
 	repository = self.testAppFixtureRepository;
-	expect(repository).notTo.beNil();
+	expect(repository).notTo(beNil());
 
 	NSString *attributes = @"*.txt special\n";
 	BOOL success = [attributes writeToURL:[repository.fileURL URLByAppendingPathComponent:@".gitattributes"] atomically:YES encoding:NSUTF8StringEncoding error:NULL];
-	expect(success).to.beTruthy();
+	expect(@(success)).to(beTruthy());
 
 	success = [@"some stuff" writeToURL:[repository.fileURL URLByAppendingPathComponent:testFile] atomically:YES encoding:NSUTF8StringEncoding error:NULL];
-	expect(success).to.beTruthy();
+	expect(@(success)).to(beTruthy());
 
 	setUpFilterWithApplyBlock = ^(GTFilterApplyBlock applyBlock) {
 		applyBlock = applyBlock ?: ^ NSData * (void **payload, NSData *from, GTFilterSource *source, BOOL *applied) {
@@ -42,30 +46,30 @@ beforeEach(^{
 		filter = [[GTFilter alloc] initWithName:filterName attributes:filterAttributes applyBlock:applyBlock];
 
 		BOOL success = [filter registerWithPriority:0 error:NULL];
-		expect(success).to.beTruthy();
+		expect(@(success)).to(beTruthy());
 	};
 
 	addTestFileToIndex = ^{
 		GTIndex *index = [repository indexWithError:NULL];
-		expect(index).notTo.beNil();
+		expect(index).notTo(beNil());
 
 		BOOL success = [index addFile:@"stuff.txt" error:NULL];
-		expect(success).to.beTruthy();
+		expect(@(success)).to(beTruthy());
 
 		success = [index write:NULL];
-		expect(success).to.beTruthy();
+		expect(@(success)).to(beTruthy());
 	};
 });
 
 afterEach(^{
 	BOOL success = [filter unregister:NULL];
-	expect(success).to.beTruthy();
+	expect(@(success)).to(beTruthy());
 });
 
 it(@"should be able to look up a registered filter by name", ^{
 	setUpFilterWithApplyBlock(nil);
 	GTFilter *filter = [GTFilter filterForName:filterName];
-	expect(filter).notTo.beNil();
+	expect(filter).notTo(beNil());
 });
 
 it(@"should call all the blocks", ^{
@@ -93,10 +97,10 @@ it(@"should call all the blocks", ^{
 
 	addTestFileToIndex();
 
-	expect(initializeCalled).to.beTruthy();
-	expect(checkCalled).to.beTruthy();
-	expect(applyCalled).to.beTruthy();
-	expect(cleanupCalled).to.beTruthy();
+	expect(@(initializeCalled)).to(beTruthy());
+	expect(@(checkCalled)).to(beTruthy());
+	expect(@(applyCalled)).to(beTruthy());
+	expect(@(cleanupCalled)).to(beTruthy());
 });
 
 it(@"shouldn't call the apply block if the check block returns NO", ^{
@@ -112,7 +116,7 @@ it(@"shouldn't call the apply block if the check block returns NO", ^{
 
 	addTestFileToIndex();
 
-	expect(applyCalled).to.beFalsy();
+	expect(@(applyCalled)).to(beFalsy());
 });
 
 describe(@"application", ^{
@@ -128,23 +132,23 @@ describe(@"application", ^{
 		GTTree *tree = [index writeTree:NULL];
 		GTTreeEntry *entry = [tree entryWithName:testFile];
 		GTOdbObject *ODBObject = [[entry GTObject:NULL] odbObjectWithError:NULL];
-		expect(ODBObject.data).to.equal(replacementData);
+		expect(ODBObject.data).to(equal(replacementData));
 	});
 
 	it(@"should write the data returned by the apply block when smudged", ^{
 		addTestFileToIndex();
 		GTIndex *index = [repository indexWithError:NULL];
 		GTTree *tree = [index writeTree:NULL];
-		expect(tree).notTo.beNil();
+		expect(tree).notTo(beNil());
 
 		GTReference *HEADRef = [repository headReferenceWithError:NULL];
-		expect(HEADRef).notTo.beNil();
+		expect(HEADRef).notTo(beNil());
 
 		GTCommit *HEADCommit = HEADRef.resolvedTarget;
-		expect(HEADCommit).notTo.beNil();
+		expect(HEADCommit).notTo(beNil());
 
 		GTCommit *newCommit = [repository createCommitWithTree:tree message:@"" parents:@[ HEADCommit ] updatingReferenceNamed:HEADRef.name error:NULL];
-		expect(newCommit).notTo.beNil();
+		expect(newCommit).notTo(beNil());
 
 		NSData *replacementData = [@"you're my favorite customer" dataUsingEncoding:NSUTF8StringEncoding];
 		setUpFilterWithApplyBlock(^(void **payload, NSData *from, GTFilterSource *source, BOOL *applied) {
@@ -153,12 +157,12 @@ describe(@"application", ^{
 
 		NSURL *testFileURL = [repository.fileURL URLByAppendingPathComponent:testFile];
 		BOOL success = [NSFileManager.defaultManager removeItemAtURL:testFileURL error:NULL];
-		expect(success).to.beTruthy();
+		expect(@(success)).to(beTruthy());
 
 		success = [repository checkoutCommit:newCommit strategy:GTCheckoutStrategyForce error:NULL progressBlock:NULL];
-		expect(success).to.beTruthy();
+		expect(@(success)).to(beTruthy());
 
-		expect([NSData dataWithContentsOfURL:testFileURL]).to.equal(replacementData);
+		expect([NSData dataWithContentsOfURL:testFileURL]).to(equal(replacementData));
 	});
 });
 
@@ -173,14 +177,14 @@ it(@"should include the right filter source", ^{
 
 	addTestFileToIndex();
 
-	expect(filterSource).notTo.beNil();
-	expect(filterSource.path).to.equal(testFile);
-	expect(filterSource.mode).to.equal(GTFilterSourceModeClean);
-	expect(filterSource.repositoryURL).to.equal(repository.fileURL);
+	expect(filterSource).notTo(beNil());
+	expect(filterSource.path).to(equal(testFile));
+	expect(@(filterSource.mode)).to(equal(@(GTFilterSourceModeClean)));
+	expect(filterSource.repositoryURL).to(equal(repository.fileURL));
 });
 
 afterEach(^{
 	[self tearDown];
 });
 
-SpecEnd
+QuickSpecEnd

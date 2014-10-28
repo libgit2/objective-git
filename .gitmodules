@@ -1,12 +1,6 @@
 [submodule "libgit2"]
 	path = External/libgit2
 	url = https://github.com/libgit2/libgit2.git
-[submodule "ObjectiveGitTests/specta"]
-	path = ObjectiveGitTests/specta
-	url = https://github.com/specta/specta.git
-[submodule "ObjectiveGitTests/expecta"]
-	path = ObjectiveGitTests/expecta
-	url = https://github.com/specta/expecta.git
 [submodule "Configuration"]
 	path = External/Configuration
 	url = https://github.com/jspahrsummers/xcconfigs.git
@@ -16,3 +10,6 @@
 [submodule "libssh2"]
 	path = External/libssh2
 	url = git://git.libssh2.org/libssh2.git
+[submodule "External/Quick"]
+	path = External/Quick
+	url = https://github.com/github/Quick.git

@@ -6,7 +6,13 @@
 //  Copyright (c) 2013 GitHub, Inc. All rights reserved.
 //
 
-SpecBegin(GTSignature)
+#import <Nimble/Nimble.h>
+#import <ObjectiveGit/ObjectiveGit.h>
+#import <Quick/Quick.h>
+
+#import "QuickSpec+GTFixtures.h"
+
+QuickSpecBegin(GTSignatureSpec)
 
 NSString *name = @"test_user";
 NSString *email = @"test@example.com";
@@ -22,20 +28,20 @@ describe(@"instance", ^{
 
 	beforeEach(^{
 		testSignature = [[GTSignature alloc] initWithName:name email:email time:time];
-		expect(testSignature).notTo.beNil();
+		expect(testSignature).notTo(beNil());
 	});
 
 	it(@"should expose the git_signature", ^{
-		expect(testSignature.git_signature).notTo.beNil();
-		expect(testSignature).to.equal([[GTSignature alloc] initWithGitSignature:testSignature.git_signature]);
+		expect([NSValue valueWithPointer:testSignature.git_signature]).notTo(equal([NSValue valueWithPointer:NULL]));
+		expect(testSignature).to(equal([[GTSignature alloc] initWithGitSignature:testSignature.git_signature]));
 	});
 
 	it(@"should compare equal to a signature created with the same information", ^{
-		expect(testSignature).to.equal([[GTSignature alloc] initWithName:name email:email time:time]);
+		expect(testSignature).to(equal([[GTSignature alloc] initWithName:name email:email time:time]));
 	});
 
 	it(@"should compare unequal to a different signature", ^{
-		expect(testSignature).notTo.equal([[GTSignature alloc] initWithName:name email:email time:[NSDate dateWithTimeIntervalSinceNow:10]]);
+		expect(testSignature).notTo(equal([[GTSignature alloc] initWithName:name email:email time:[NSDate dateWithTimeIntervalSinceNow:10]]));
 	});
 });
 
@@ -48,12 +54,12 @@ it(@"should keep the git_signature alive even if the object goes out of scope", 
 	}
 
 	GTSignature *testSignature = [[GTSignature alloc] initWithGitSignature:git_signature];
-	expect(testSignature.name).to.equal(name);
-	expect(testSignature.email).to.equal(email);
+	expect(testSignature.name).to(equal(name));
+	expect(testSignature.email).to(equal(email));
 });
 
 afterEach(^{
 	[self tearDown];
 });
 
-SpecEnd
+QuickSpecEnd
