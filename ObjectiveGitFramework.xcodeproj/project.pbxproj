@@ -116,6 +116,8 @@
 		88328128173D8A64006D7DCF /* GTTreeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88328127173D8A64006D7DCF /* GTTreeSpec.m */; };
 		883CD6AB1600EBC600F57354 /* GTRemote.h in Headers */ = {isa = PBXBuildFile; fileRef = 883CD6A91600EBC600F57354 /* GTRemote.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		883CD6AC1600EBC600F57354 /* GTRemote.m in Sources */ = {isa = PBXBuildFile; fileRef = 883CD6AA1600EBC600F57354 /* GTRemote.m */; };
+		884C8A3719FF4B4D0017E98D /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 884C8A3619FF4B4D0017E98D /* libz.dylib */; };
+		884C8A3919FF4B6D0017E98D /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 884C8A3819FF4B6D0017E98D /* libiconv.dylib */; };
 		884C8A3A19FF4B890017E98D /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = 306123AA17EA5261006591D4 /* EXTScope.m */; };
 		886E622A18AEBF75000611A0 /* GTFilterSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 886E622818AEBF75000611A0 /* GTFilterSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		886E622C18AEBF75000611A0 /* GTFilterSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 886E622918AEBF75000611A0 /* GTFilterSource.m */; };
@@ -486,6 +488,8 @@
 		883CD6A91600EBC600F57354 /* GTRemote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTRemote.h; sourceTree = "<group>"; };
 		883CD6AA1600EBC600F57354 /* GTRemote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTRemote.m; sourceTree = "<group>"; };
 		883CD6AE1600F01000F57354 /* GTConfiguration+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GTConfiguration+Private.h"; sourceTree = "<group>"; };
+		884C8A3619FF4B4D0017E98D /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/usr/lib/libz.dylib; sourceTree = DEVELOPER_DIR; };
+		884C8A3819FF4B6D0017E98D /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/usr/lib/libiconv.dylib; sourceTree = DEVELOPER_DIR; };
 		886E622818AEBF75000611A0 /* GTFilterSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTFilterSource.h; sourceTree = "<group>"; };
 		886E622918AEBF75000611A0 /* GTFilterSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTFilterSource.m; sourceTree = "<group>"; };
 		886E623618AECD86000611A0 /* GTFilterSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTFilterSpec.m; sourceTree = "<group>"; };
@@ -622,6 +626,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				884C8A3919FF4B6D0017E98D /* libiconv.dylib in Frameworks */,
+				884C8A3719FF4B4D0017E98D /* libz.dylib in Frameworks */,
 				D05FC5E319FAD03C008C9348 /* libssl.a in Frameworks */,
 				D05FC5E219FAD039008C9348 /* libcrypto.a in Frameworks */,
 				D05FC5E419FAD040008C9348 /* libssh2-ios.a in Frameworks */,
@@ -655,6 +661,8 @@
 		0867D691FE84028FC02AAC07 /* ObjectiveGitFramework */ = {
 			isa = PBXGroup;
 			children = (
+				884C8A3819FF4B6D0017E98D /* libiconv.dylib */,
+				884C8A3619FF4B4D0017E98D /* libz.dylib */,
 				BDD8AB01130F01AB00CB5D40 /* README.md */,
 				BDE4C05E130EFE2C00851650 /* ObjectiveGit */,
 				88F05A7516011E5400B7AD1D /* ObjectiveGitTests */,
