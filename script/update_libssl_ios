@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -e
-
 # source the common build functions
 SCRIPT_DIR=$(dirname "$0")
 source "${SCRIPT_DIR}/ios_build_functions.sh"
