@@ -1820,9 +1820,9 @@
 				);
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
 					"External/ios-openssl/lib",
 					"External/libssh2-ios/lib",
+					"External/libgit2-ios",
 				);
 				OTHER_LDFLAGS = (
 					"-lgit2-ios",
@@ -1897,9 +1897,9 @@
 				);
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
 					"External/ios-openssl/lib",
 					"External/libssh2-ios/lib",
+					"External/libgit2-ios",
 				);
 				OTHER_LDFLAGS = (
 					"-lgit2-ios",
@@ -1926,9 +1926,9 @@
 				);
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
 					"External/ios-openssl/lib",
 					"External/libssh2-ios/lib",
+					"External/libgit2-ios",
 				);
 				OTHER_LDFLAGS = (
 					"-lgit2-ios",
@@ -1955,9 +1955,9 @@
 				);
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
 					"External/ios-openssl/lib",
 					"External/libssh2-ios/lib",
+					"External/libgit2-ios",
 				);
 				OTHER_LDFLAGS = (
 					"-lgit2-ios",
