@@ -116,6 +116,7 @@
 		88328128173D8A64006D7DCF /* GTTreeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88328127173D8A64006D7DCF /* GTTreeSpec.m */; };
 		883CD6AB1600EBC600F57354 /* GTRemote.h in Headers */ = {isa = PBXBuildFile; fileRef = 883CD6A91600EBC600F57354 /* GTRemote.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		883CD6AC1600EBC600F57354 /* GTRemote.m in Sources */ = {isa = PBXBuildFile; fileRef = 883CD6AA1600EBC600F57354 /* GTRemote.m */; };
+		884C8A3A19FF4B890017E98D /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = 306123AA17EA5261006591D4 /* EXTScope.m */; };
 		886E622A18AEBF75000611A0 /* GTFilterSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 886E622818AEBF75000611A0 /* GTFilterSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		886E622C18AEBF75000611A0 /* GTFilterSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 886E622918AEBF75000611A0 /* GTFilterSource.m */; };
 		886E623718AECD86000611A0 /* GTFilterSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 886E623618AECD86000611A0 /* GTFilterSpec.m */; };
@@ -1415,6 +1416,7 @@
 				D01B6F3219F82F8700D411BC /* GTCommit.m in Sources */,
 				D01B6F3819F82F8700D411BC /* GTTree.m in Sources */,
 				D01B6F6C19F82FB300D411BC /* GTDiff.m in Sources */,
+				884C8A3A19FF4B890017E98D /* EXTScope.m in Sources */,
 				D01B6F4E19F82F8700D411BC /* GTRemote.m in Sources */,
 				D01B6F3019F82F8700D411BC /* GTObject.m in Sources */,
 				D01B6F4619F82F8700D411BC /* GTBranch.m in Sources */,
