@@ -87,7 +87,6 @@ it(@"should read the raw data from an object", ^{
 	GTOdbObject *rawObj = [obj odbObjectWithError:&error];
 	XCTAssertNotNil(rawObj);
 	XCTAssertNil(error, @"%@", error.localizedDescription);
-	NSLog(@"rawObj len = %ld", [rawObj.data length]);
 });
 
 QuickSpecEnd

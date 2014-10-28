@@ -22,9 +22,9 @@ describe(@"Conversion between git_time and NSDate", ^{
 		NSDate *date = [NSDate gt_dateFromGitTime:time];
 		expect(date).notTo(beNil());
 
-		NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+		NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
 		gregorianCalendar.timeZone = [NSTimeZone timeZoneForSecondsFromGMT:0];
-		NSDateComponents *components = [gregorianCalendar components:NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit | NSHourCalendarUnit fromDate:date];
+		NSDateComponents *components = [gregorianCalendar components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear | NSCalendarUnitHour fromDate:date];
 		expect(components).notTo(beNil());
 
 		expect(@(components.day)).to(equal(@5));
