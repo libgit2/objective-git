@@ -663,8 +663,6 @@
 		0867D691FE84028FC02AAC07 /* ObjectiveGitFramework */ = {
 			isa = PBXGroup;
 			children = (
-				884C8A3819FF4B6D0017E98D /* libiconv.dylib */,
-				884C8A3619FF4B4D0017E98D /* libz.dylib */,
 				BDD8AB01130F01AB00CB5D40 /* README.md */,
 				BDE4C05E130EFE2C00851650 /* ObjectiveGit */,
 				88F05A7516011E5400B7AD1D /* ObjectiveGitTests */,
@@ -686,6 +684,8 @@
 				306123A817EA5261006591D4 /* extobjc */,
 				4D103ADC1819CFAA0029DB24 /* libiconv.dylib */,
 				8803DA861313145700E6E818 /* libz.dylib */,
+				884C8A3619FF4B4D0017E98D /* libz.dylib */,
+				884C8A3819FF4B6D0017E98D /* libiconv.dylib */,
 				6A1F2FD317C6A8F3003DFADE /* libcrypto.a */,
 				6A1F2FD417C6A8F3003DFADE /* libssl.a */,
 				6A502B8617D6892D00BAF4A5 /* libssh2-ios.a */,
