@@ -499,7 +499,6 @@
 		887DAFF615CB1C8000F30D0D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		88948AC81779243600809CDA /* GTObjectDatabaseSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTObjectDatabaseSpec.m; sourceTree = "<group>"; };
 		889923F919FF5DD40092A9A6 /* git2 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = git2; path = External/libgit2/include/git2; sourceTree = "<group>"; };
-		889923FA19FF5DD40092A9A6 /* git2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = git2.h; path = External/libgit2/include/git2.h; sourceTree = "<group>"; };
 		88A994B916FCE7D400402C7B /* GTBranchSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTBranchSpec.m; sourceTree = "<group>"; };
 		88A994C916FCED1D00402C7B /* QuickSpec+GTFixtures.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QuickSpec+GTFixtures.h"; sourceTree = "<group>"; };
 		88A994CA16FCED1D00402C7B /* QuickSpec+GTFixtures.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "QuickSpec+GTFixtures.m"; sourceTree = "<group>"; };
@@ -1813,6 +1812,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"External/libssh2-ios/include/libssh2",
+					External/libgit2/include,
 				);
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = (
@@ -1838,6 +1838,10 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(OBJROOT)/UninstalledProducts/include",
+					External/libgit2/include,
 				);
 				INFOPLIST_FILE = ObjectiveGitTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -1890,6 +1894,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"External/libssh2-ios/include/libssh2",
+					External/libgit2/include,
 				);
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = (
@@ -1919,6 +1924,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"External/libssh2-ios/include/libssh2",
+					External/libgit2/include,
 				);
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = (
@@ -1948,6 +1954,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"External/libssh2-ios/include/libssh2",
+					External/libgit2/include,
 				);
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = (
@@ -1974,6 +1981,10 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 				);
+				HEADER_SEARCH_PATHS = (
+					"$(OBJROOT)/UninstalledProducts/include",
+					External/libgit2/include,
+				);
 				INFOPLIST_FILE = ObjectiveGitTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1990,6 +2001,10 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 				);
+				HEADER_SEARCH_PATHS = (
+					"$(OBJROOT)/UninstalledProducts/include",
+					External/libgit2/include,
+				);
 				INFOPLIST_FILE = ObjectiveGitTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2004,6 +2019,10 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(OBJROOT)/UninstalledProducts/include",
+					External/libgit2/include,
 				);
 				INFOPLIST_FILE = ObjectiveGitTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
