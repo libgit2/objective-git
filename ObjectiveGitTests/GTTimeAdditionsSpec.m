@@ -43,16 +43,6 @@ describe(@"Conversion between git_time and NSDate", ^{
 		expect(timeZone).notTo(beNil());
 		expect(@(timeZone.gt_gitTimeOffset)).to(equal(@180));
 	});
-
-	it(@"should return a correct git_time for an NSDate", ^{
-		NSDate *date = [NSDate dateWithString:@"2010-05-12 18:29:13 +0000"];
-		expect(date).notTo(beNil());
-
-		NSTimeZone *twoHoursAheadOfGMT = [NSTimeZone timeZoneForSecondsFromGMT:120 * 60];
-		git_time time = [date gt_gitTimeUsingTimeZone:twoHoursAheadOfGMT];
-		expect(@(time.time)).to(equal(@1273688953));
-		expect(@(time.offset)).to(equal(@120));
-	});
 });
 
 afterEach(^{
