@@ -49,7 +49,7 @@ function build_ssl ()
     perl -i -pe "s|^CFLAG= (.*)|CFLAG= -isysroot ${SDKROOT} \$1|g" Makefile >> "${LOG}" 2>&1
     make >> "${LOG}" 2>&1
 
-    make install >> "${LOG}" 2>&1
+    make install_sw >> "${LOG}" 2>&1
     popd > /dev/null
     rm -rf "/tmp/openssl"
 
