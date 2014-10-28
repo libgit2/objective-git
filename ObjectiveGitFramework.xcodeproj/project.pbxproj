@@ -693,6 +693,8 @@
 				1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */,
 				D0A0128819F98475007F1914 /* Quick.framework */,
 				D0A0128B19F9853D007F1914 /* Nimble.framework */,
+				889923F919FF5DD40092A9A6 /* git2 */,
+				889923FA19FF5DD40092A9A6 /* git2.h */,
 			);
 			name = "External Frameworks and Libraries";
 			sourceTree = "<group>";
