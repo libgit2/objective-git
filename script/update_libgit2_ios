@@ -8,7 +8,7 @@ source "${SCRIPT_DIR}/ios_build_functions.sh"
 
 function setup ()
 {
-    if [ "${ROOT_PATH}/External/libgit2-ios.a" -nt "${ROOT_PATH}/External/libgit2" ]
+    if [ "${ROOT_PATH}/External/libgit2-ios/libgit2-ios.a" -nt "${ROOT_PATH}/External/libgit2" ]
     then
         echo "No update needed."
         exit 0
@@ -68,7 +68,7 @@ function fat_binary ()
 {
     echo "Building fat binary..."
 
-    lipo -create "${BUILT_LIB_PATHS[@]}" -output "${ROOT_PATH}/External/libgit2-ios.a"
+    lipo -create "${BUILT_LIB_PATHS[@]}" -output "${ROOT_PATH}/External/libgit2-ios/libgit2-ios.a"
 
     echo "Building done."
 
