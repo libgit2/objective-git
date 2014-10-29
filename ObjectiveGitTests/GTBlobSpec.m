@@ -6,9 +6,13 @@
 //  Copyright (c) 2013 GitHub, Inc. All rights reserved.
 //
 
-#import "GTBlob.h"
+#import <Nimble/Nimble.h>
+#import <ObjectiveGit/ObjectiveGit.h>
+#import <Quick/Quick.h>
 
-SpecBegin(GTBlob)
+#import "QuickSpec+GTFixtures.h"
+
+QuickSpecBegin(GTBlobSpec)
 
 __block GTRepository *repository;
 __block NSString *blobSHA;
@@ -19,23 +23,23 @@ describe(@"blob properties can be accessed", ^{
 		repository = self.bareFixtureRepository;
 		blobSHA = @"fa49b077972391ad58037050f2a75f74e3671e92";
 		blob = [repository lookUpObjectBySHA:blobSHA objectType:GTObjectTypeBlob error:NULL];
-		expect(blob).notTo.beNil();
+		expect(blob).notTo(beNil());
 	});
 
 	it(@"has a size", ^{
-		expect(blob.size).to.equal(9);
+		expect(@(blob.size)).to(equal(@9));
 	});
 
 	it(@"has content", ^{
-		expect(blob.content).to.equal(@"new file\n");
+		expect(blob.content).to(equal(@"new file\n"));
 	});
 
 	it(@"has type", ^{
-		expect(blob.type).to.equal(@"blob");
+		expect(blob.type).to(equal(@"blob"));
 	});
 
 	it(@"has a SHA", ^{
-		expect(blob.SHA).to.equal(blobSHA);
+		expect(blob.SHA).to(equal(blobSHA));
 	});
 });
 
@@ -48,9 +52,9 @@ describe(@"blobs can be created", ^{
 		it(@"works with valid parameters", ^{
 			NSError *error = nil;
 			blob = [GTBlob blobWithString:@"a new blob content" inRepository:repository error:&error];
-			expect(error).to.beNil();
-			expect(blob).notTo.beNil();
-			expect(blob.SHA).notTo.beNil();
+			expect(error).to(beNil());
+			expect(blob).notTo(beNil());
+			expect(blob.SHA).notTo(beNil());
 		});
 	});
 
@@ -61,9 +65,9 @@ describe(@"blobs can be created", ^{
 
 			NSError *error = nil;
 			blob = [GTBlob blobWithData:content inRepository:repository error:&error];
-			expect(error).to.beNil();
-			expect(blob).notTo.beNil();
-			expect(blob.SHA).notTo.beNil();
+			expect(error).to(beNil());
+			expect(blob).notTo(beNil());
+			expect(blob.SHA).notTo(beNil());
 		});
 	});
 
@@ -75,14 +79,14 @@ describe(@"blobs can be created", ^{
 
 			NSError *error = nil;
 			BOOL success = [fileContent writeToURL:fileURL atomically:YES encoding:NSUTF8StringEncoding error:&error];
-			expect(success).to.beTruthy();
-			expect(error).to.beNil();
+			expect(@(success)).to(beTruthy());
+			expect(error).to(beNil());
 
 			blob = [GTBlob blobWithFile:fileURL inRepository:repository error:&error];
-			expect(error).to.beNil();
-			expect(blob).notTo.beNil();
-			expect(blob.SHA).notTo.beNil();
-			expect(blob.content).to.equal(fileContent);
+			expect(error).to(beNil());
+			expect(blob).notTo(beNil());
+			expect(blob.SHA).notTo(beNil());
+			expect(blob.content).to(equal(fileContent));
 		});
 	});
 });
@@ -91,4 +95,4 @@ afterEach(^{
 	[self tearDown];
 });
 
-SpecEnd
+QuickSpecEnd

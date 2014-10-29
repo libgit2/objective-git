@@ -6,10 +6,13 @@
 //  Copyright (c) 2013 GitHub, Inc. All rights reserved.
 //
 
-#import "GTRepository.h"
-#import "GTRepository+Committing.h"
+#import <Nimble/Nimble.h>
+#import <ObjectiveGit/ObjectiveGit.h>
+#import <Quick/Quick.h>
 
-SpecBegin(GTRepositoryCommitting)
+#import "QuickSpec+GTFixtures.h"
+
+QuickSpecBegin(GTRepositoryCommitting)
 
 __block GTRepository *repository;
 
@@ -20,40 +23,40 @@ beforeEach(^{
 
 	NSURL *fileURL = [self.tempDirectoryFileURL URLByAppendingPathComponent:UUID isDirectory:NO];
 	repository = [GTRepository initializeEmptyRepositoryAtFileURL:fileURL error:NULL];
-	expect(repository).notTo.beNil();
+	expect(repository).notTo(beNil());
 });
 
 it(@"can create commits", ^{
 	GTTreeBuilder *builder = [[GTTreeBuilder alloc] initWithTree:nil error:NULL];
-	expect(builder).toNot.beNil();
+	expect(builder).notTo(beNil());
 
 	GTTreeEntry *entry = [builder addEntryWithData:[@"Another file contents" dataUsingEncoding:NSUTF8StringEncoding] fileName:@"Test file 2.txt" fileMode:GTFileModeBlob error:NULL];
-	expect(entry).notTo.beNil();
+	expect(entry).notTo(beNil());
 
 	GTTree *subtree = [builder writeTreeToRepository:repository error:NULL];
-	expect(subtree).notTo.beNil();
+	expect(subtree).notTo(beNil());
 
 	[builder clear];
 
 	entry = [builder addEntryWithData:[@"Test contents" dataUsingEncoding:NSUTF8StringEncoding] fileName:@"Test file.txt" fileMode:GTFileModeBlob error:NULL];
-	expect(entry).notTo.beNil();
+	expect(entry).notTo(beNil());
 
 	entry = [builder addEntryWithOID:subtree.OID fileName:@"subdir" fileMode:GTFileModeTree error:NULL];
-	expect(entry).notTo.beNil();
+	expect(entry).notTo(beNil());
 
 	GTTree *tree = [builder writeTreeToRepository:repository error:NULL];
-	expect(tree).notTo.beNil();
+	expect(tree).notTo(beNil());
 
 	GTCommit *initialCommit = [repository createCommitWithTree:tree message:@"Initial commit" parents:nil updatingReferenceNamed:@"refs/heads/master" error:NULL];
-	expect(initialCommit).notTo.beNil();
+	expect(initialCommit).notTo(beNil());
 
 	GTReference *ref = [repository headReferenceWithError:NULL];
-	expect(ref).notTo.beNil();
-	expect(ref.resolvedTarget).to.equal(initialCommit);
+	expect(ref).notTo(beNil());
+	expect(ref.resolvedTarget).to(equal(initialCommit));
 });
 
 afterEach(^{
 	[self tearDown];
 });
 
-SpecEnd
+QuickSpecEnd
