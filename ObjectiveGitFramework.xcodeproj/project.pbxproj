@@ -538,7 +538,6 @@
 		D0AC906B172F941F00347DC4 /* GTRepositorySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTRepositorySpec.m; sourceTree = "<group>"; };
 		D0CE551E18B6C58F008EB8E0 /* GTFilterList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTFilterList.h; sourceTree = "<group>"; };
 		D0CE551F18B6C58F008EB8E0 /* GTFilterList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTFilterList.m; sourceTree = "<group>"; };
-		D0D0D6251A0C30320016EF62 /* ObjectiveGit-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "ObjectiveGit-Prefix.pch"; path = "ObjectiveGit/ObjectiveGit-Prefix.pch"; sourceTree = "<group>"; };
 		D0D81863174421EB00995A2E /* iOS-Application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "iOS-Application.xcconfig"; sourceTree = "<group>"; };
 		D0D81864174421EB00995A2E /* iOS-Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "iOS-Base.xcconfig"; sourceTree = "<group>"; };
 		D0D81865174421EB00995A2E /* iOS-StaticLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "iOS-StaticLibrary.xcconfig"; sourceTree = "<group>"; };
@@ -686,7 +685,6 @@
 			children = (
 				79262F0E13C697BE00A4B1EA /* git2 */,
 				79262F8A13C69B1600A4B1EA /* git2.h */,
-				D0D0D6251A0C30320016EF62 /* ObjectiveGit-Prefix.pch */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -1470,7 +1468,6 @@
 			baseConfigurationReference = D0A463D817E57C45000F5021 /* Debug.xcconfig */;
 			buildSettings = {
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
-				GCC_PREFIX_HEADER = "ObjectiveGit/ObjectiveGit-Prefix.pch";
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO;
 				HEADER_SEARCH_PATHS = (
 					External/libgit2/include,
@@ -1499,7 +1496,6 @@
 			baseConfigurationReference = D0A463DA17E57C45000F5021 /* Release.xcconfig */;
 			buildSettings = {
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
-				GCC_PREFIX_HEADER = "ObjectiveGit/ObjectiveGit-Prefix.pch";
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO;
 				HEADER_SEARCH_PATHS = (
 					External/libgit2/include,
@@ -1604,7 +1600,6 @@
 			baseConfigurationReference = D0A463DB17E57C45000F5021 /* Test.xcconfig */;
 			buildSettings = {
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
-				GCC_PREFIX_HEADER = "ObjectiveGit/ObjectiveGit-Prefix.pch";
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO;
 				HEADER_SEARCH_PATHS = (
 					External/libgit2/include,
@@ -1820,7 +1815,6 @@
 			baseConfigurationReference = D0A463D917E57C45000F5021 /* Profile.xcconfig */;
 			buildSettings = {
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
-				GCC_PREFIX_HEADER = "ObjectiveGit/ObjectiveGit-Prefix.pch";
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO;
 				HEADER_SEARCH_PATHS = (
 					External/libgit2/include,
