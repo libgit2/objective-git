@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "git2.h"
+#import "git2/diff.h"
 #import "GTDiffDelta.h"
 
 @class GTDiffDelta;

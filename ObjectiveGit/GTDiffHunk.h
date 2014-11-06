@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "git2.h"
 
 @class GTDiffLine;
 @class GTDiffPatch;
