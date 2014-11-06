@@ -8,6 +8,8 @@
 
 #import "GTRepository.h"
 
+#import "git2/reset.h"
+
 /// The reset types. See the libgit2 documentation for more info.
 typedef NS_ENUM(NSInteger, GTRepositoryResetType) {
 	GTRepositoryResetTypeSoft = GIT_RESET_SOFT,

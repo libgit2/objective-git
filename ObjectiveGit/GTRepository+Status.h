@@ -8,6 +8,8 @@
 
 #import "GTRepository.h"
 
+#import "git2/status.h"
+
 @class GTStatusDelta;
 
 /// An enum representing the status of a file

@@ -9,6 +9,8 @@
 #import "GTRepository+Attributes.h"
 #import "NSError+Git.h"
 
+#import "git2/attr.h"
+
 @implementation GTRepository (Attributes)
 
 - (NSString *)attributeWithName:(NSString *)name path:(NSString *)path {

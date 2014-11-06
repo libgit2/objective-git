@@ -13,6 +13,8 @@
 #import "NSData+Git.h"
 #import "NSError+Git.h"
 
+#import "git2/errors.h"
+
 @interface GTFilterList ()
 
 @property (nonatomic, assign, readonly) git_filter_list *git_filter_list;

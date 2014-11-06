@@ -29,6 +29,7 @@
 
 #import <Foundation/Foundation.h>
 #import "GTObject.h"
+#import "git2/revwalk.h"
 
 /// Options to specify enumeration order when enumerating through a repository.
 /// With the exception of GTEnumeratorOptionsNone, the values here can be ORed
