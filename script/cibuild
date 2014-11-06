@@ -106,9 +106,6 @@ build_scheme ()
 {
     local scheme=$1
 
-    echo "*** Cleaning $scheme..."
-    run_xctool -scheme "$scheme" clean >/dev/null || exit $?
-
     echo "*** Building and testing $scheme..."
     echo
 
