@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "GTObject.h"
 
+#import "git2/buffer.h"
+#import "git2/submodule.h"
+
 @class GTOID;
 
 /// Determines which kinds of changes within the submodule repository will be

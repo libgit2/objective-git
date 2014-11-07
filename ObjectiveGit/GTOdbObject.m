@@ -9,6 +9,7 @@
 #import "GTOdbObject.h"
 #import "NSString+Git.h"
 #import "GTOID.h"
+#import "git2/odb.h"
 
 @interface GTOdbObject ()
 @property (nonatomic, assign, readonly) git_odb_object *git_odb_object;

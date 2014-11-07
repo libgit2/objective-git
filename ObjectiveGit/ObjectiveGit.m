@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 GitHub, Inc. All rights reserved.
 //
 
-#import "git2.h"
+#import "git2/threads.h"
 
 __attribute__((constructor))
 static void GTSetupThreads(void) {

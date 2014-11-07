@@ -12,6 +12,9 @@
 #import "GTDiffPatch.h"
 #import "NSError+Git.h"
 
+#import "git2/errors.h"
+#import "git2/patch.h"
+
 @interface GTDiffHunk ()
 
 @property (nonatomic, assign, readonly) const git_diff_hunk *git_hunk;

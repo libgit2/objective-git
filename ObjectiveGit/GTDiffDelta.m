@@ -14,6 +14,8 @@
 #import "GTDiffPatch.h"
 #import "NSError+Git.h"
 
+#import "git2/errors.h"
+
 @interface GTDiffDelta ()
 
 /// Used to dynamically access the underlying `git_diff_delta`.

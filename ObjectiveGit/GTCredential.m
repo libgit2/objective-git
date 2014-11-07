@@ -10,6 +10,8 @@
 #import "GTCredential+Private.h"
 #import "NSError+Git.h"
 
+#import "git2/errors.h"
+
 typedef GTCredential *(^GTCredentialProviderBlock)(GTCredentialType allowedTypes, NSString *URL, NSString *userName);
 
 @interface GTCredentialProvider ()
