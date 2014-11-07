@@ -12,8 +12,6 @@
 #import "NSError+Git.h"
 #import "GTSignature.h"
 
-#import "git2/errors.h"
-
 @implementation GTRepository (Reset)
 
 - (BOOL)resetToCommit:(GTCommit *)commit resetType:(GTRepositoryResetType)resetType error:(NSError **)error {

@@ -35,9 +35,6 @@
 #import "NSString+Git.h"
 #import "GTOID.h"
 
-#import "git2/errors.h"
-#import "git2/tag.h"
-
 @implementation GTTag
 
 - (NSString *)description {

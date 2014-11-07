@@ -36,9 +36,6 @@
 #import "NSDate+GTTimeAdditions.h"
 #import "GTOID.h"
 
-#import "git2/commit.h"
-#import "git2/errors.h"
-
 @implementation GTCommit
 
 - (NSString *)description {

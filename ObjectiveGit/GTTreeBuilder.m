@@ -36,8 +36,6 @@
 #import "NSError+Git.h"
 #import "GTOID.h"
 
-#import "git2/errors.h"
-
 @interface GTTreeBuilder ()
 
 @property (nonatomic, assign, readonly) git_treebuilder *git_treebuilder;

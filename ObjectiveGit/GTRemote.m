@@ -16,8 +16,6 @@
 #import "NSArray+StringArray.h"
 #import "EXTScope.h"
 
-#import "git2/errors.h"
-
 NSString * const GTRemoteRenameProblematicRefSpecs = @"GTRemoteRenameProblematicRefSpecs";
 
 @interface GTRemote ()

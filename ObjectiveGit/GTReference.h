@@ -24,7 +24,6 @@
 //
 
 #import "GTObject.h"
-#import "git2/oid.h"
 
 @class GTOID;
 @class GTReflog;

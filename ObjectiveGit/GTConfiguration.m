@@ -13,9 +13,6 @@
 #import "NSError+Git.h"
 #import "GTSignature.h"
 
-#import "git2/config.h"
-#import "git2/errors.h"
-
 @interface GTConfiguration ()
 @property (nonatomic, readonly, assign) git_config *git_config;
 @end

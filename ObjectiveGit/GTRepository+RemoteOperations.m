@@ -17,8 +17,6 @@
 #import "GTSignature.h"
 #import "NSError+Git.h"
 
-#import "git2/errors.h"
-
 NSString *const GTRepositoryRemoteOptionsCredentialProvider = @"GTRepositoryRemoteOptionsCredentialProvider";
 
 @implementation GTRepository (RemoteOperations)

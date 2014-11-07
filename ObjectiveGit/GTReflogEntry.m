@@ -11,8 +11,6 @@
 #import "GTOID.h"
 #import "GTSignature.h"
 
-#import "git2/reflog.h"
-
 @interface GTReflogEntry ()
 
 @property (nonatomic, readonly, assign) const git_reflog_entry *git_reflog_entry;

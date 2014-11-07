@@ -7,7 +7,6 @@
 //
 
 #import "GTReflogEntry.h"
-#import "git2/types.h"
 
 @interface GTReflogEntry ()
 

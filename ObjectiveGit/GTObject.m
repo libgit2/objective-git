@@ -38,8 +38,6 @@
 #import "GTTag.h"
 #import "GTOID.h"
 
-#import "git2/errors.h"
-
 @interface GTObject ()
 @property (nonatomic, readonly, assign) git_object *git_object;
 @end

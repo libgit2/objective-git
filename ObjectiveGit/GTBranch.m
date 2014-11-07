@@ -31,10 +31,6 @@
 #import "GTRemote.h"
 #import "NSError+Git.h"
 
-#import "git2/branch.h"
-#import "git2/errors.h"
-#import "git2/graph.h"
-
 @implementation GTBranch
 
 - (NSString *)description {

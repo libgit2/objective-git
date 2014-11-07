@@ -35,8 +35,6 @@
 #import "NSString+Git.h"
 #import "GTOID.h"
 
-#import "git2/errors.h"
-
 @interface GTTreeEntry ()
 @property (nonatomic, assign, readonly) const git_tree_entry *git_tree_entry;
 @end

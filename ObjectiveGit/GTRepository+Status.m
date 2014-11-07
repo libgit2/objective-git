@@ -9,12 +9,11 @@
 #import "GTRepository+Status.h"
 #import "GTConfiguration.h"
 #import "GTStatusDelta.h"
+
 #import "NSError+Git.h"
 #import "NSArray+StringArray.h"
 
 #import "EXTScope.h"
-
-#import "git2/errors.h"
 
 NSString *const GTRepositoryStatusOptionsShowKey = @"GTRepositoryStatusOptionsShow";
 NSString *const GTRepositoryStatusOptionsFlagsKey = @"GTRepositoryStatusOptionsFlags";

@@ -9,8 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "GTRepository.h"
 
-#import "git2/blame.h"
-
 @class GTBlame;
 
 /// Enum for options passed to the dictionary in `-blameWithFile:inRepository:options:`

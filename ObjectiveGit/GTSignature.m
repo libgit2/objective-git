@@ -30,9 +30,6 @@
 #import "GTSignature.h"
 #import "NSDate+GTTimeAdditions.h"
 
-#import "git2/errors.h"
-#import "git2/signature.h"
-
 @interface GTSignature ()
 @property (nonatomic, assign, readonly) git_signature *git_signature;
 @end

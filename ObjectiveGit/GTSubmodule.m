@@ -11,8 +11,6 @@
 #import "GTRepository.h"
 #import "NSError+Git.h"
 
-#import "git2/errors.h"
-
 @interface GTSubmodule ()
 @property (nonatomic, assign, readonly) git_submodule *git_submodule;
 @end

@@ -11,12 +11,11 @@
 #import "GTCommit.h"
 #import "GTRepository.h"
 #import "GTTree.h"
+
 #import "NSArray+StringArray.h"
 #import "NSError+Git.h"
 
 #import "EXTScope.h"
-
-#import "git2/errors.h"
 
 NSString *const GTDiffOptionsFlagsKey = @"GTDiffOptionsFlagsKey";
 NSString *const GTDiffOptionsContextLinesKey = @"GTDiffOptionsContextLinesKey";
