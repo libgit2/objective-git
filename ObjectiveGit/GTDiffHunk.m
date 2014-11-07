@@ -11,7 +11,6 @@
 #import "GTDiffLine.h"
 #import "GTDiffPatch.h"
 #import "NSError+Git.h"
-#import "git2/patch.h"
 
 @interface GTDiffHunk ()
 

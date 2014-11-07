@@ -8,7 +8,7 @@
 
 #import "GTRepository+Blame.h"
 
-#import "git2/blame.h"
+#import "git2.h"
 #import "GTBlame.h"
 #import "NSError+Git.h"
 

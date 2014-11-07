@@ -28,7 +28,7 @@
 //
 
 #import "NSError+Git.h"
-#import "git2/errors.h"
+#import "git2.h"
 
 NSString * const GTGitErrorDomain = @"GTGitErrorDomain";
 

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "git2/diff.h"
+#import "git2.h"
 
 /// A character representing the origin of a given line.
 ///
