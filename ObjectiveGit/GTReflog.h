@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "git2.h"
 
 @class GTSignature;
 @class GTReflogEntry;

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "git2.h"
+#import "git2/blame.h"
 
 @class GTOID;
 @class GTSignature;

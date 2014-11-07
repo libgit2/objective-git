@@ -33,6 +33,9 @@
 #import "GTIndex.h"
 #import "NSError+Git.h"
 
+#import "git2/errors.h"
+#import "git2/merge.h"
+
 typedef BOOL (^GTTreeEnumerationBlock)(GTTreeEntry *entry, NSString *root, BOOL *stop);
 
 typedef struct GTTreeEnumerationStruct {

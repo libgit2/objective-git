@@ -6,7 +6,8 @@
 //  Copyright (c) 2013 GitHub, Inc. All rights reserved.
 //
 
-#import "git2.h"
+#import <Foundation/Foundation.h>
+#import "git2/oid.h"
 #import "GTObject.h"
 
 /// Represents an object ID.

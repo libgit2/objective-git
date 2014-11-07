@@ -9,6 +9,7 @@
 #import "GTRepository+Committing.h"
 #import "GTRepository+Private.h"
 
+#import "git2/errors.h"
 #import "git2/commit.h"
 #import "GTCommit.h"
 #import "GTSignature.h"

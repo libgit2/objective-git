@@ -5,6 +5,8 @@
 #import "NSData+Git.h"
 #import "NSError+Git.h"
 
+#import "git2/errors.h"
+
 @implementation NSData (Git)
 
 + (NSData *)git_dataWithOid:(git_oid *)oid {
