@@ -61,11 +61,11 @@ NSString * const GTRepositoryCloneOptionsCredentialProvider = @"GTRepositoryClon
 NSString * const GTRepositoryCloneOptionsCloneLocal = @"GTRepositoryCloneOptionsCloneLocal";
 NSString * const GTRepositoryInitOptionsFlags = @"GTRepositoryInitOptionsFlags";
 NSString * const GTRepositoryInitOptionsMode = @"GTRepositoryInitOptionsMode";
-NSString * const GTRepositoryInitWorkingDirectoryPath = @"GTRepositoryInitWorkingDirectoryPath";
-NSString * const GTRepositoryInitDescription = @"GTRepositoryInitDescription";
-NSString * const GTRepositoryInitTemplateURL = @"GTRepositoryInitTemplateURL";
-NSString * const GTRepositoryInitInitialHEAD = @"GTRepositoryInitInitialHEAD";
-NSString * const GTRepositoryInitOriginURLString = @"GTRepositoryInitOriginURLString";
+NSString * const GTRepositoryInitOptionsWorkingDirectoryPath = @"GTRepositoryInitOptionsWorkingDirectoryPath";
+NSString * const GTRepositoryInitOptionsDescription = @"GTRepositoryInitOptionsDescription";
+NSString * const GTRepositoryInitOptionsTemplateURL = @"GTRepositoryInitOptionsTemplateURL";
+NSString * const GTRepositoryInitOptionsInitialHEAD = @"GTRepositoryInitOptionsInitialHEAD";
+NSString * const GTRepositoryInitOptionsOriginURLString = @"GTRepositoryInitOptionsOriginURLString";
 
 typedef void (^GTRepositorySubmoduleEnumerationBlock)(GTSubmodule *submodule, NSError *error, BOOL *stop);
 typedef void (^GTRepositoryTagEnumerationBlock)(GTTag *tag, BOOL *stop);
@@ -130,11 +130,11 @@ typedef struct {
 	git_repository_init_options options = GIT_REPOSITORY_INIT_OPTIONS_INIT;
 	options.mode = (uint32_t)
 	[optionsDict[GTRepositoryInitOptionsMode] unsignedIntegerValue];
-	options.workdir_path = [optionsDict[GTRepositoryInitWorkingDirectoryPath] UTF8String];
-	options.description = [optionsDict[GTRepositoryInitDescription] UTF8String];
-	options.template_path = [optionsDict[GTRepositoryInitTemplateURL] path].UTF8String;
-	options.initial_head = [optionsDict[GTRepositoryInitInitialHEAD] UTF8String];
-	options.origin_url = [optionsDict[GTRepositoryInitOriginURLString] UTF8String];
+	options.workdir_path = [optionsDict[GTRepositoryInitOptionsWorkingDirectoryPath] UTF8String];
+	options.description = [optionsDict[GTRepositoryInitOptionsDescription] UTF8String];
+	options.template_path = [optionsDict[GTRepositoryInitOptionsTemplateURL] path].UTF8String;
+	options.initial_head = [optionsDict[GTRepositoryInitOptionsInitialHEAD] UTF8String];
+	options.origin_url = [optionsDict[GTRepositoryInitOptionsOriginURLString] UTF8String];
 
 	// This default mirrors git_repository_init().
 	NSNumber *flags = optionsDict[GTRepositoryInitOptionsFlags];

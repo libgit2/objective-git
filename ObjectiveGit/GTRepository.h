@@ -130,21 +130,21 @@ extern NSString * const GTRepositoryInitOptionsMode;
 
 /// An `NSString` to the working directory that should be used. If this is a
 /// relative path, it will be resolved against the repository path.
-extern NSString * const GTRepositoryInitWorkingDirectoryPath;
+extern NSString * const GTRepositoryInitOptionsWorkingDirectoryPath;
 
 /// An `NSString` of the Git description to use for the new repository.
-extern NSString * const GTRepositoryInitDescription;
+extern NSString * const GTRepositoryInitOptionsDescription;
 
 /// A file `NSURL` to the template directory that should be used instead of the
 /// defaults, if the `GTRepositoryInitWithExternalTemplate` flag is specified.
-extern NSString * const GTRepositoryInitTemplateURL;
+extern NSString * const GTRepositoryInitOptionsTemplateURL;
 
 /// An `NSString` of the name to use for the initial `HEAD` reference.
-extern NSString * const GTRepositoryInitInitialHEAD;
+extern NSString * const GTRepositoryInitOptionsInitialHEAD;
 
 /// An `NSString` representing an origin URL to add to the repository after
 /// initialization.
-extern NSString * const GTRepositoryInitOriginURLString;
+extern NSString * const GTRepositoryInitOptionsOriginURLString;
 
 @interface GTRepository : NSObject
 
@@ -168,8 +168,8 @@ extern NSString * const GTRepositoryInitOriginURLString;
 /// Initializes a new repository at the given file URL.
 ///
 /// fileURL - The file URL for the new repository. Cannot be nil.
-/// options - A dictionary of `GTRepositoryInit…` keys controlling how the
-///           repository is initialized, or nil to use the defaults.
+/// options - A dictionary of `GTRepositoryInitOptions…` keys controlling how
+///           the repository is initialized, or nil to use the defaults.
 /// error   - The error if one occurs.
 ///
 /// Returns the initialized repository, or nil if an error occurred.
