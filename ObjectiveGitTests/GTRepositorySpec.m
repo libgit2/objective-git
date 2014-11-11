@@ -25,8 +25,11 @@ describe(@"+initializeEmptyRepositoryAtFileURL:bare:error:", ^{
 	it(@"should initialize a repository with a working directory by default", ^{
 		NSURL *newRepoURL = [self.tempDirectoryFileURL URLByAppendingPathComponent:@"init-repo"];
 
-		GTRepository *repository = [GTRepository initializeEmptyRepositoryAtFileURL:newRepoURL options:nil error:NULL];
+		NSError *error;
+		GTRepository *repository = [GTRepository initializeEmptyRepositoryAtFileURL:newRepoURL options:nil error:&error];
 		expect(repository).notTo(beNil());
+		expect(error).to(beNil());
+		
 		expect(repository.gitDirectoryURL).notTo(beNil());
 		expect(@(repository.bare)).to(beFalsy());
 	});
@@ -37,8 +40,11 @@ describe(@"+initializeEmptyRepositoryAtFileURL:bare:error:", ^{
 			GTRepositoryInitOptionsFlags: @(GTRepositoryInitBare)
 		};
 
-		GTRepository *repository = [GTRepository initializeEmptyRepositoryAtFileURL:newRepoURL options:options error:NULL];
+		NSError *error;
+		GTRepository *repository = [GTRepository initializeEmptyRepositoryAtFileURL:newRepoURL options:options error:&error];
 		expect(repository).notTo(beNil());
+		expect(error).to(beNil());
+		
 		expect(repository.gitDirectoryURL).notTo(beNil());
 		expect(@(repository.bare)).to(beTruthy());
 	});
@@ -203,6 +209,7 @@ describe(@"-isEmpty", ^{
 		NSError *error = nil;
 		NSURL *fileURL = [self.tempDirectoryFileURL URLByAppendingPathComponent:@"newrepo"];
 		GTRepository *newRepo = [GTRepository initializeEmptyRepositoryAtFileURL:fileURL options:nil error:&error];
+		expect(newRepo).notTo(beNil());
 		expect(@(newRepo.isEmpty)).to(beTruthy());
 		[NSFileManager.defaultManager removeItemAtURL:fileURL error:NULL];
 	});

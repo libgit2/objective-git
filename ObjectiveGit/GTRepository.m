@@ -128,7 +128,6 @@ typedef struct {
 	}
 
 	git_repository_init_options options = GIT_REPOSITORY_INIT_OPTIONS_INIT;
-	options.flags = (uint32_t)[optionsDict[GTRepositoryInitOptionsFlags] unsignedIntegerValue];
 	options.mode = (uint32_t)
 	[optionsDict[GTRepositoryInitOptionsMode] unsignedIntegerValue];
 	options.workdir_path = [optionsDict[GTRepositoryInitWorkingDirectoryPath] UTF8String];
@@ -136,6 +135,10 @@ typedef struct {
 	options.template_path = [optionsDict[GTRepositoryInitTemplateURL] path].UTF8String;
 	options.initial_head = [optionsDict[GTRepositoryInitInitialHEAD] UTF8String];
 	options.origin_url = [optionsDict[GTRepositoryInitOriginURLString] UTF8String];
+
+	// This default mirrors git_repository_init().
+	NSNumber *flags = optionsDict[GTRepositoryInitOptionsFlags];
+	options.flags = (flags == nil ? GIT_REPOSITORY_INIT_MKPATH : (uint32_t)flags.unsignedIntegerValue);
 
 	const char *path = localFileURL.path.fileSystemRepresentation;
 	git_repository *repository = NULL;
