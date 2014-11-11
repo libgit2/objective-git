@@ -22,7 +22,7 @@ beforeEach(^{
 	CFRelease(UUIDRef);
 
 	NSURL *fileURL = [self.tempDirectoryFileURL URLByAppendingPathComponent:UUID isDirectory:NO];
-	repository = [GTRepository initializeEmptyRepositoryAtFileURL:fileURL error:NULL];
+	repository = [GTRepository initializeEmptyRepositoryAtFileURL:fileURL options:nil error:NULL];
 	expect(repository).notTo(beNil());
 });
 
