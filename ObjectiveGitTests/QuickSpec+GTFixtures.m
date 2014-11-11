@@ -149,8 +149,11 @@ static NSString * const FixturesErrorDomain = @"com.objectivegit.Fixtures";
 
 - (GTRepository *)blankBareFixtureRepository {
 	NSURL *repoURL = [self.tempDirectoryFileURL URLByAppendingPathComponent:@"blank-repo.git"];
+	NSDictionary *options = @{
+		GTRepositoryInitOptionsFlags: @(GTRepositoryInitBare | GTRepositoryInitCreatingRepositoryDirectory)
+	};
 
-	GTRepository *repository = [GTRepository initializeEmptyRepositoryAtFileURL:repoURL options:nil error:NULL];
+	GTRepository *repository = [GTRepository initializeEmptyRepositoryAtFileURL:repoURL options:options error:NULL];
 	XCTAssertNotNil(repository, @"Couldn't create a blank repository");
 	return repository;
 }

@@ -37,7 +37,7 @@ describe(@"+initializeEmptyRepositoryAtFileURL:bare:error:", ^{
 	it(@"should initialize a bare repository", ^{
 		NSURL *newRepoURL = [self.tempDirectoryFileURL URLByAppendingPathComponent:@"init-repo.git"];
 		NSDictionary *options = @{
-			GTRepositoryInitOptionsFlags: @(GTRepositoryInitBare)
+			GTRepositoryInitOptionsFlags: @(GTRepositoryInitBare | GTRepositoryInitCreatingRepositoryDirectory)
 		};
 
 		NSError *error;
