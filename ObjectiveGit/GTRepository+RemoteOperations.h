@@ -54,13 +54,13 @@ typedef void (^GTRemotePushTransferProgressBlock)(unsigned int current, unsigned
 ///
 /// branch        - The branch to push.
 /// remote        - The remote to push to.
-/// options       - Options applied to the fetch operation.
+/// options       - Options applied to the push operation.
 ///                 Recognized options are:
 ///                 `OP_GTRepositoryRemoteOptionsCredentialProvider`
 /// error         - The error if one occurred. Can be NULL.
 /// progressBlock - An optional callback for monitoring progress.
 ///
-/// Returns YES if the fetch was successful, NO otherwise (and `error`, if provided,
+/// Returns YES if the push was successful, NO otherwise (and `error`, if provided,
 /// will point to an error describing what happened).
 - (BOOL)pushBranch:(GTBranch *)branch toRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error progress:(GTRemotePushTransferProgressBlock)progressBlock;
 
@@ -68,13 +68,13 @@ typedef void (^GTRemotePushTransferProgressBlock)(unsigned int current, unsigned
 ///
 /// branches      - An array of branches to push.
 /// remote        - The remote to push to.
-/// options       - Options applied to the fetch operation.
+/// options       - Options applied to the push operation.
 ///                 Recognized options are:
 ///                 `OP_GTRepositoryRemoteOptionsCredentialProvider`
 /// error         - The error if one occurred. Can be NULL.
 /// progressBlock - An optional callback for monitoring progress.
 ///
-/// Returns YES if the fetch was successful, NO otherwise (and `error`, if provided,
+/// Returns YES if the push was successful, NO otherwise (and `error`, if provided,
 /// will point to an error describing what happened).
 - (BOOL)pushBranches:(NSArray *)branches toRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error progress:(GTRemotePushTransferProgressBlock)progressBlock;
 
