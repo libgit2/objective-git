@@ -8,12 +8,17 @@
 
 #import "GTRepository.h"
 
+@class GTFetchHeadEntry;
+
 /// A `GTCredentialProvider`, that will be used to authenticate against the remote.
 extern NSString *const GTRepositoryRemoteOptionsCredentialProvider;
 
-@class GTFetchHeadEntry;
+typedef void (^GTRemoteFetchTransferProgressBlock)(const git_transfer_progress *stats, BOOL *stop);
+typedef void (^GTRemotePushTransferProgressBlock)(unsigned int current, unsigned int total, size_t bytes, BOOL *stop);
 
 @interface GTRepository (RemoteOperations)
+
+#pragma mark - Fetch
 
 /// Fetch a remote.
 ///
@@ -25,7 +30,7 @@ extern NSString *const GTRepositoryRemoteOptionsCredentialProvider;
 ///
 /// Returns YES if the fetch was successful, NO otherwise (and `error`, if provided,
 /// will point to an error describing what happened).
-- (BOOL)fetchRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error progress:(void (^)(const git_transfer_progress *stats, BOOL *stop))progressBlock;
+- (BOOL)fetchRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error progress:(GTRemoteFetchTransferProgressBlock)progressBlock;
 
 /// Enumerate all available fetch head entries.
 ///
@@ -42,5 +47,35 @@ extern NSString *const GTRepositoryRemoteOptionsCredentialProvider;
 ///
 /// Retruns an array with GTFetchHeadEntry objects
 - (NSArray *)fetchHeadEntriesWithError:(NSError **)error;
+
+#pragma mark - Push
+
+/// Push a single branch to a remote.
+///
+/// branch        - The branch to push.
+/// remote        - The remote to push to.
+/// options       - Options applied to the fetch operation.
+///                 Recognized options are:
+///                 `OP_GTRepositoryRemoteOptionsCredentialProvider`
+/// error         - The error if one occurred. Can be NULL.
+/// progressBlock - An optional callback for monitoring progress.
+///
+/// Returns YES if the fetch was successful, NO otherwise (and `error`, if provided,
+/// will point to an error describing what happened).
+- (BOOL)pushBranch:(GTBranch *)branch toRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error progress:(GTRemotePushTransferProgressBlock)progressBlock;
+
+/// Push an array of branches to a remote.
+///
+/// branches      - An array of branches to push.
+/// remote        - The remote to push to.
+/// options       - Options applied to the fetch operation.
+///                 Recognized options are:
+///                 `OP_GTRepositoryRemoteOptionsCredentialProvider`
+/// error         - The error if one occurred. Can be NULL.
+/// progressBlock - An optional callback for monitoring progress.
+///
+/// Returns YES if the fetch was successful, NO otherwise (and `error`, if provided,
+/// will point to an error describing what happened).
+- (BOOL)pushBranches:(NSArray *)branches toRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error progress:(GTRemotePushTransferProgressBlock)progressBlock;
 
 @end

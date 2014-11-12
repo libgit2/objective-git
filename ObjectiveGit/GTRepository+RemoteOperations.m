@@ -18,6 +18,8 @@
 #import "NSError+Git.h"
 
 #import "git2/errors.h"
+#import "git2/remote.h"
+#import "git2/push.h"
 
 NSString *const GTRepositoryRemoteOptionsCredentialProvider = @"GTRepositoryRemoteOptionsCredentialProvider";
 
@@ -26,12 +28,10 @@ NSString *const GTRepositoryRemoteOptionsCredentialProvider = @"GTRepositoryRemo
 #pragma mark -
 #pragma mark Common Remote code
 
-typedef void (^GTRemoteFetchTransferProgressBlock)(const git_transfer_progress *stats, BOOL *stop);
-
 typedef struct {
 	GTCredentialAcquireCallbackInfo credProvider;
 	__unsafe_unretained GTRemoteFetchTransferProgressBlock fetchProgressBlock;
-	__unsafe_unretained GTRemoteFetchTransferProgressBlock pushProgressBlock;
+	__unsafe_unretained GTRemotePushTransferProgressBlock pushProgressBlock;
 	git_direction direction;
 } GTRemoteConnectionInfo;
 
@@ -44,6 +44,25 @@ int GTRemoteFetchTransferProgressCallback(const git_transfer_progress *stats, vo
 	}
 
 	return (stop == YES ? GIT_EUSER : 0);
+}
+
+int GTRemotePushTransferProgressCallback(unsigned int current, unsigned int total, size_t bytes, void *payload) {
+	GTRemoteConnectionInfo *pushPayload = payload;
+
+	BOOL stop = NO;
+	if (pushPayload->pushProgressBlock) {
+		pushPayload->pushProgressBlock(current, total, bytes, &stop);
+	}
+
+	return (stop == YES ? GIT_EUSER : 0);
+}
+
+static int GTRemotePushRefspecStatusCallback(const char *ref, const char *msg, void *data) {
+	if (msg != NULL) {
+		return GIT_ERROR;
+	}
+
+	return GIT_OK;
 }
 
 #pragma mark -
@@ -143,6 +162,133 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 	}];
 	
 	return entries;
+}
+
+#pragma mark - Push (Public)
+
+- (BOOL)pushBranch:(GTBranch *)branch toRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error progress:(GTRemotePushTransferProgressBlock)progressBlock
+{
+	return [self pushBranches:@[branch] toRemote:remote withOptions:options error:error progress:progressBlock];
+}
+
+- (BOOL)pushBranches:(NSArray *)branches toRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error progress:(GTRemotePushTransferProgressBlock)progressBlock
+{
+	NSMutableArray *refspecs = nil;
+	if (branches != nil && branches.count != 0) {
+		// Build refspecs for the passed in branches
+		refspecs = [NSMutableArray arrayWithCapacity:branches.count];
+		for (GTBranch *branch in branches) {
+			// Assumes upstream branch reference has same name as local tracking branch
+			[refspecs addObject:[NSString stringWithFormat:@"%@:%@", branch.reference.name, branch.reference.name]];
+		}
+	}
+
+	return [self pushRefspecs:refspecs toRemote:remote withOptions:options error:error progress:progressBlock];
+}
+
+#pragma mark - Push (Private)
+
+- (BOOL)pushRefspecs:(NSArray *)refspecs toRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error progress:(GTRemotePushTransferProgressBlock)progressBlock
+{
+	int gitError;
+	GTCredentialProvider *credProvider = options[GTRepositoryRemoteOptionsCredentialProvider];
+
+	GTRemoteConnectionInfo connectionInfo = {
+		.credProvider = { .credProvider = credProvider },
+		.direction = GIT_DIRECTION_PUSH,
+		.pushProgressBlock = progressBlock,
+	};
+
+	git_remote_callbacks remote_callbacks = {
+		.version = GIT_REMOTE_CALLBACKS_VERSION,
+		.credentials = (credProvider != nil ? GTCredentialAcquireCallback : NULL),
+		//        .completion = GTRemotePushCompletionCallback, // unused
+		.transfer_progress = GTRemoteFetchTransferProgressCallback,
+		.payload = &connectionInfo,
+	};
+
+	gitError = git_remote_set_callbacks(remote.git_remote, &remote_callbacks);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to set callbacks on remote"];
+		return NO;
+	}
+
+	gitError = git_remote_connect(remote.git_remote, GIT_DIRECTION_PUSH);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to connect remote"];
+		return NO;
+	}
+	@onExit {
+		git_remote_disconnect(remote.git_remote);
+		// Clear out callbacks by overwriting with an effectively empty git_remote_callbacks struct
+		git_remote_set_callbacks(remote.git_remote, &((git_remote_callbacks)GIT_REMOTE_CALLBACKS_INIT));
+	};
+
+	git_push *push;
+	gitError = git_push_new(&push, remote.git_remote);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Push object creation failed"
+											failureReason:@"Failed to create push object for remote \"%@\"", self];
+		return NO;
+	}
+	@onExit {
+		git_push_free(push);
+	};
+
+	git_push_options push_options = { //GIT_PUSH_OPTIONS_INIT;
+		.version = GIT_PUSH_OPTIONS_VERSION,
+		.pb_parallelism = 1,
+	};
+	gitError = git_push_set_options(push, &push_options);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to add options"];
+		return NO;
+	}
+
+	GTRemoteConnectionInfo payload = {
+		.pushProgressBlock = progressBlock,
+	};
+	gitError = git_push_set_callbacks(push, NULL, NULL, GTRemotePushTransferProgressCallback, &payload);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Setting push callbacks failed"];
+		return NO;
+	}
+
+	for (NSString *refspec in refspecs) {
+		gitError = git_push_add_refspec(push, refspec.UTF8String);
+		if (gitError != GIT_OK) {
+			if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Adding reference failed"
+												failureReason:@"Failed to add refspec \"%@\" to push object", refspec];
+			return NO;
+		}
+	}
+
+	gitError = git_push_finish(push);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Push to remote failed"];
+		return NO;
+	}
+
+	int unpackSuccessful = git_push_unpack_ok(push);
+	if (unpackSuccessful == 0) {
+		if (error != NULL) *error = [NSError errorWithDomain:GTGitErrorDomain code:GIT_ERROR
+													userInfo:@{ NSLocalizedDescriptionKey: @"Unpacking failed" }];
+		return NO;
+	}
+
+	gitError = git_push_update_tips(push, self.userSignatureForNow.git_signature, NULL);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Update tips failed"];
+		return NO;
+	}
+
+	gitError = git_push_status_foreach(push, GTRemotePushRefspecStatusCallback, NULL);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"One or references failed to update"];
+		return NO;
+	}
+
+	return YES;
 }
 
 @end
