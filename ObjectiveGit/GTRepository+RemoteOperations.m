@@ -202,7 +202,6 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 	git_remote_callbacks remote_callbacks = {
 		.version = GIT_REMOTE_CALLBACKS_VERSION,
 		.credentials = (credProvider != nil ? GTCredentialAcquireCallback : NULL),
-		//        .completion = GTRemotePushCompletionCallback, // unused
 		.transfer_progress = GTRemoteFetchTransferProgressCallback,
 		.payload = &connectionInfo,
 	};
