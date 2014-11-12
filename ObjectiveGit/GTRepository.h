@@ -35,6 +35,7 @@
 #import "GTReference.h"
 #import "GTFilterList.h"
 #import "git2/checkout.h"
+#import "git2/repository.h"
 #import "git2/transport.h"
 #import "git2/sys/transport.h"
 
@@ -88,22 +89,62 @@ typedef NS_OPTIONS(NSInteger, GTTransportFlags) {
 
 /// An `NSNumber` wrapped `GTTransportFlags`, documented above.
 /// Default value is `GTTransportFlagsNone`.
-extern NSString *const GTRepositoryCloneOptionsTransportFlags;
+extern NSString * const GTRepositoryCloneOptionsTransportFlags;
 
 /// An `NSNumber` wrapped `BOOL`, if YES, create a bare clone.
 /// Default value is `NO`.
-extern NSString *const GTRepositoryCloneOptionsBare;
+extern NSString * const GTRepositoryCloneOptionsBare;
 
 /// An `NSNumber` wrapped `BOOL`, if NO, don't checkout the remote HEAD.
 /// Default value is `YES`.
-extern NSString *const GTRepositoryCloneOptionsCheckout;
+extern NSString * const GTRepositoryCloneOptionsCheckout;
 
 /// A `GTCredentialProvider`, that will be used to authenticate against the
 /// remote.
-extern NSString *const GTRepositoryCloneOptionsCredentialProvider;
+extern NSString * const GTRepositoryCloneOptionsCredentialProvider;
 
 /// A BOOL indicating whether local clones should actually clone, or just link.
-extern NSString *const GTRepositoryCloneOptionsCloneLocal;
+extern NSString * const GTRepositoryCloneOptionsCloneLocal;
+
+/// Initialization flags associated with `GTRepositoryInitOptionsFlags` for
+/// +initializeEmptyRepositoryAtFileURL:options:error:.
+///
+/// See `git_repository_init_flag_t` for more information.
+typedef NS_OPTIONS(NSInteger, GTRepositoryInitFlags) {
+	GTRepositoryInitBare = GIT_REPOSITORY_INIT_BARE,
+	GTRepositoryInitWithoutReinitializing = GIT_REPOSITORY_INIT_NO_REINIT,
+	GTRepositoryInitWithoutDotGit = GIT_REPOSITORY_INIT_NO_DOTGIT_DIR,
+	GTRepositoryInitCreatingRepositoryDirectory = GIT_REPOSITORY_INIT_MKDIR,
+	GTRepositoryInitCreatingIntermediateDirectories = GIT_REPOSITORY_INIT_MKPATH,
+	GTRepositoryInitWithExternalTemplate = GIT_REPOSITORY_INIT_EXTERNAL_TEMPLATE,
+	GTRepositoryInitWithRelativeGitLink = GIT_REPOSITORY_INIT_RELATIVE_GITLINK,
+};
+
+/// An `NSNumber` wrapping `GTRepositoryInitFlags` with which to initialize the
+/// repository.
+extern NSString * const GTRepositoryInitOptionsFlags;
+
+/// An `NSNumber` wrapping a `mode_t` or `git_repository_init_mode_t` to use
+/// for the initialized repository.
+extern NSString * const GTRepositoryInitOptionsMode;
+
+/// An `NSString` to the working directory that should be used. If this is a
+/// relative path, it will be resolved against the repository path.
+extern NSString * const GTRepositoryInitOptionsWorkingDirectoryPath;
+
+/// An `NSString` of the Git description to use for the new repository.
+extern NSString * const GTRepositoryInitOptionsDescription;
+
+/// A file `NSURL` to the template directory that should be used instead of the
+/// defaults, if the `GTRepositoryInitWithExternalTemplate` flag is specified.
+extern NSString * const GTRepositoryInitOptionsTemplateURL;
+
+/// An `NSString` of the name to use for the initial `HEAD` reference.
+extern NSString * const GTRepositoryInitOptionsInitialHEAD;
+
+/// An `NSString` representing an origin URL to add to the repository after
+/// initialization.
+extern NSString * const GTRepositoryInitOptionsOriginURLString;
 
 @interface GTRepository : NSObject
 
@@ -127,19 +168,12 @@ extern NSString *const GTRepositoryCloneOptionsCloneLocal;
 /// Initializes a new repository at the given file URL.
 ///
 /// fileURL - The file URL for the new repository. Cannot be nil.
+/// options - A dictionary of `GTRepositoryInitOptions…` keys controlling how
+///           the repository is initialized, or nil to use the defaults.
 /// error   - The error if one occurs.
 ///
 /// Returns the initialized repository, or nil if an error occurred.
-+ (instancetype)initializeEmptyRepositoryAtFileURL:(NSURL *)fileURL error:(NSError **)error;
-
-/// Initializes a new repository at the given file URL.
-///
-/// fileURL - The file URL for the new repository. Cannot be nil.
-/// error   - The error if one occurs.
-/// bare    - Should the repository be created bare?
-///
-/// Returns the initialized repository, or nil if an error occurred.
-+ (instancetype)initializeEmptyRepositoryAtFileURL:(NSURL *)fileURL bare:(BOOL)bare error:(NSError **)error;
++ (instancetype)initializeEmptyRepositoryAtFileURL:(NSURL *)fileURL options:(NSDictionary *)options error:(NSError **)error;
 
 + (id)repositoryWithURL:(NSURL *)localFileURL error:(NSError **)error;
 - (id)initWithURL:(NSURL *)localFileURL error:(NSError **)error;

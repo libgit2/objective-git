@@ -54,11 +54,18 @@
 
 #import "git2.h"
 
-NSString *const GTRepositoryCloneOptionsBare = @"GTRepositoryCloneOptionsBare";
-NSString *const GTRepositoryCloneOptionsCheckout = @"GTRepositoryCloneOptionsCheckout";
-NSString *const GTRepositoryCloneOptionsTransportFlags = @"GTRepositoryCloneOptionsTransportFlags";
-NSString *const GTRepositoryCloneOptionsCredentialProvider = @"GTRepositoryCloneOptionsCredentialProvider";
-NSString *const GTRepositoryCloneOptionsCloneLocal = @"GTRepositoryCloneOptionsCloneLocal";
+NSString * const GTRepositoryCloneOptionsBare = @"GTRepositoryCloneOptionsBare";
+NSString * const GTRepositoryCloneOptionsCheckout = @"GTRepositoryCloneOptionsCheckout";
+NSString * const GTRepositoryCloneOptionsTransportFlags = @"GTRepositoryCloneOptionsTransportFlags";
+NSString * const GTRepositoryCloneOptionsCredentialProvider = @"GTRepositoryCloneOptionsCredentialProvider";
+NSString * const GTRepositoryCloneOptionsCloneLocal = @"GTRepositoryCloneOptionsCloneLocal";
+NSString * const GTRepositoryInitOptionsFlags = @"GTRepositoryInitOptionsFlags";
+NSString * const GTRepositoryInitOptionsMode = @"GTRepositoryInitOptionsMode";
+NSString * const GTRepositoryInitOptionsWorkingDirectoryPath = @"GTRepositoryInitOptionsWorkingDirectoryPath";
+NSString * const GTRepositoryInitOptionsDescription = @"GTRepositoryInitOptionsDescription";
+NSString * const GTRepositoryInitOptionsTemplateURL = @"GTRepositoryInitOptionsTemplateURL";
+NSString * const GTRepositoryInitOptionsInitialHEAD = @"GTRepositoryInitOptionsInitialHEAD";
+NSString * const GTRepositoryInitOptionsOriginURLString = @"GTRepositoryInitOptionsOriginURLString";
 
 typedef void (^GTRepositorySubmoduleEnumerationBlock)(GTSubmodule *submodule, NSError *error, BOOL *stop);
 typedef void (^GTRepositoryTagEnumerationBlock)(GTTag *tag, BOOL *stop);
@@ -114,19 +121,28 @@ typedef struct {
 	return NO;
 }
 
-+ (instancetype)initializeEmptyRepositoryAtFileURL:(NSURL *)localFileURL error:(NSError **)error {
-	return [self initializeEmptyRepositoryAtFileURL:localFileURL bare:NO error:error];
-}
-
-+ (instancetype)initializeEmptyRepositoryAtFileURL:(NSURL *)localFileURL bare:(BOOL)bare error:(NSError **)error {
++ (instancetype)initializeEmptyRepositoryAtFileURL:(NSURL *)localFileURL options:(NSDictionary *)optionsDict error:(NSError **)error {
 	if (!localFileURL.isFileURL || localFileURL.path == nil) {
 		if (error != NULL) *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileWriteUnsupportedSchemeError userInfo:@{ NSLocalizedDescriptionKey: NSLocalizedString(@"Invalid file path URL to initialize repository.", @"") }];
 		return nil;
 	}
 
+	git_repository_init_options options = GIT_REPOSITORY_INIT_OPTIONS_INIT;
+	options.mode = (uint32_t)
+	[optionsDict[GTRepositoryInitOptionsMode] unsignedIntegerValue];
+	options.workdir_path = [optionsDict[GTRepositoryInitOptionsWorkingDirectoryPath] UTF8String];
+	options.description = [optionsDict[GTRepositoryInitOptionsDescription] UTF8String];
+	options.template_path = [optionsDict[GTRepositoryInitOptionsTemplateURL] path].UTF8String;
+	options.initial_head = [optionsDict[GTRepositoryInitOptionsInitialHEAD] UTF8String];
+	options.origin_url = [optionsDict[GTRepositoryInitOptionsOriginURLString] UTF8String];
+
+	// This default mirrors git_repository_init().
+	NSNumber *flags = optionsDict[GTRepositoryInitOptionsFlags];
+	options.flags = (flags == nil ? GIT_REPOSITORY_INIT_MKPATH : (uint32_t)flags.unsignedIntegerValue);
+
 	const char *path = localFileURL.path.fileSystemRepresentation;
 	git_repository *repository = NULL;
-	int gitError = git_repository_init(&repository, path, bare);
+	int gitError = git_repository_init_ext(&repository, path, &options);
 	if (gitError != GIT_OK || repository == NULL) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to initialize empty repository at URL %@.", localFileURL];
 		return nil;
@@ -194,10 +210,10 @@ static int remoteCreate(git_remote **remote, git_repository *repo, const char *n
 	int error;
 	struct GTRemoteCreatePayload *pld = payload;
 	git_remote_callbacks *callbacks = &pld->remoteCallbacks;
-	
+
 	if ((error = git_remote_create(remote, repo, name, url)) < 0)
 		return error;
-	
+
 	return git_remote_set_callbacks(*remote, callbacks);
 }
 
@@ -241,7 +257,7 @@ struct GTRemoteCreatePayload {
 
 	struct GTRemoteCreatePayload remoteCreatePayload;
 	remoteCreatePayload.remoteCallbacks = cloneOptions.remote_callbacks;
-	
+
 	cloneOptions.remote_cb = remoteCreate;
 	cloneOptions.remote_cb_payload = &remoteCreatePayload;
 
