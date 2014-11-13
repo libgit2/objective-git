@@ -169,15 +169,13 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 
 #pragma mark - Push (Public)
 
-- (BOOL)pushBranch:(GTBranch *)branch toRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error progress:(GTRemotePushTransferProgressBlock)progressBlock
-{
-	return [self pushBranches:@[branch] toRemote:remote withOptions:options error:error progress:progressBlock];
+- (BOOL)pushBranch:(GTBranch *)branch toRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error progress:(GTRemotePushTransferProgressBlock)progressBlock {
+	return [self pushBranches:@[ branch ] toRemote:remote withOptions:options error:error progress:progressBlock];
 }
 
-- (BOOL)pushBranches:(NSArray *)branches toRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error progress:(GTRemotePushTransferProgressBlock)progressBlock
-{
+- (BOOL)pushBranches:(NSArray *)branches toRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error progress:(GTRemotePushTransferProgressBlock)progressBlock {
 	NSMutableArray *refspecs = nil;
-	if (branches != nil && branches.count != 0) {
+	if (branches.count != 0) {
 		// Build refspecs for the passed in branches
 		refspecs = [NSMutableArray arrayWithCapacity:branches.count];
 		for (GTBranch *branch in branches) {
@@ -191,8 +189,7 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 
 #pragma mark - Push (Private)
 
-- (BOOL)pushRefspecs:(NSArray *)refspecs toRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error progress:(GTRemotePushTransferProgressBlock)progressBlock
-{
+- (BOOL)pushRefspecs:(NSArray *)refspecs toRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error progress:(GTRemotePushTransferProgressBlock)progressBlock {
 	int gitError;
 	GTCredentialProvider *credProvider = options[GTRepositoryRemoteOptionsCredentialProvider];
 
@@ -229,8 +226,7 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 	git_push *push;
 	gitError = git_push_new(&push, remote.git_remote);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Push object creation failed"
-											failureReason:@"Failed to create push object for remote \"%@\"", self];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Push object creation failed" failureReason:@"Failed to create push object for remote \"%@\"", self];
 		return NO;
 	}
 	@onExit {
@@ -259,8 +255,7 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 	for (NSString *refspec in refspecs) {
 		gitError = git_push_add_refspec(push, refspec.UTF8String);
 		if (gitError != GIT_OK) {
-			if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Adding reference failed"
-												failureReason:@"Failed to add refspec \"%@\" to push object", refspec];
+			if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Adding reference failed" failureReason:@"Failed to add refspec \"%@\" to push object", refspec];
 			return NO;
 		}
 	}
@@ -273,8 +268,7 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 
 	int unpackSuccessful = git_push_unpack_ok(push);
 	if (unpackSuccessful == 0) {
-		if (error != NULL) *error = [NSError errorWithDomain:GTGitErrorDomain code:GIT_ERROR
-													userInfo:@{ NSLocalizedDescriptionKey: @"Unpacking failed" }];
+		if (error != NULL) *error = [NSError errorWithDomain:GTGitErrorDomain code:GIT_ERROR userInfo:@{ NSLocalizedDescriptionKey: @"Unpacking failed" }];
 		return NO;
 	}
 
