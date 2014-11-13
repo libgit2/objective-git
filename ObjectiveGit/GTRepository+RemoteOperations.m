@@ -199,12 +199,10 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 		.pushProgressBlock = progressBlock,
 	};
 
-	git_remote_callbacks remote_callbacks = {
-		.version = GIT_REMOTE_CALLBACKS_VERSION,
-		.credentials = (credProvider != nil ? GTCredentialAcquireCallback : NULL),
-		.transfer_progress = GTRemoteFetchTransferProgressCallback,
-		.payload = &connectionInfo,
-	};
+	git_remote_callbacks remote_callbacks = GIT_REMOTE_CALLBACKS_INIT;
+	remote_callbacks.credentials = (credProvider != nil ? GTCredentialAcquireCallback : NULL),
+	remote_callbacks.transfer_progress = GTRemoteFetchTransferProgressCallback,
+	remote_callbacks.payload = &connectionInfo,
 
 	gitError = git_remote_set_callbacks(remote.git_remote, &remote_callbacks);
 	if (gitError != GIT_OK) {
@@ -233,10 +231,8 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 		git_push_free(push);
 	};
 
-	git_push_options push_options = { //GIT_PUSH_OPTIONS_INIT;
-		.version = GIT_PUSH_OPTIONS_VERSION,
-		.pb_parallelism = 1,
-	};
+	git_push_options push_options = GIT_PUSH_OPTIONS_INIT;
+
 	gitError = git_push_set_options(push, &push_options);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to add options"];
