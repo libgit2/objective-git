@@ -53,7 +53,7 @@ extern NSString *const GTRepositoryRemoteOptionsCredentialProvider;
 /// remote        - The remote to push to.
 /// options       - Options applied to the push operation.
 ///                 Recognized options are:
-///                 `OP_GTRepositoryRemoteOptionsCredentialProvider`
+///                 `GTRepositoryRemoteOptionsCredentialProvider`
 /// error         - The error if one occurred. Can be NULL.
 /// progressBlock - An optional callback for monitoring progress.
 ///
@@ -67,7 +67,7 @@ extern NSString *const GTRepositoryRemoteOptionsCredentialProvider;
 /// remote        - The remote to push to.
 /// options       - Options applied to the push operation.
 ///                 Recognized options are:
-///                 `OP_GTRepositoryRemoteOptionsCredentialProvider`
+///                 `GTRepositoryRemoteOptionsCredentialProvider`
 /// error         - The error if one occurred. Can be NULL.
 /// progressBlock - An optional callback for monitoring progress.
 ///
