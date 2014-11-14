@@ -249,6 +249,14 @@ extern NSString * const GTRepositoryInitOptionsOriginURLString;
 - (NSArray *)remoteBranchesWithError:(NSError **)error;
 - (NSArray *)branchesWithPrefix:(NSString *)prefix error:(NSError **)error;
 
+/// Get the local and remote branches and merge them together by combining local
+/// branches with their remote branch, if they have one.
+///
+/// error - The error if one occurs.
+///
+/// Returns the branches or nil if an error occurs.
+- (NSArray *)branches:(NSError **)error;
+
 /// List all remotes in the repository
 ///
 /// error - will be filled if an error occurs

@@ -425,6 +425,28 @@ struct GTRemoteCreatePayload {
     return allBranches;
 }
 
+- (NSArray *)branches:(NSError **)error {
+	NSArray *localBranches = [self localBranchesWithError:error];
+	if (localBranches == nil) return nil;
+
+	NSMutableArray *remoteBranches = [[self remoteBranchesWithError:error] mutableCopy];
+	if (remoteBranches == nil) return nil;
+
+	NSMutableArray *branches = [NSMutableArray array];
+	for (GTBranch *branch in localBranches) {
+		BOOL success = NO;
+		GTBranch *trackingBranch = [branch trackingBranchWithError:error success:&success];
+		if (!success) continue;
+
+		[remoteBranches removeObject:trackingBranch];
+		[branches addObject:branch];
+	}
+
+	[branches addObjectsFromArray:remoteBranches];
+
+	return branches;
+}
+
 - (NSArray *)remoteNamesWithError:(NSError **)error {
 	git_strarray array;
 	int gitError = git_remote_list(&array, self.git_repository);
