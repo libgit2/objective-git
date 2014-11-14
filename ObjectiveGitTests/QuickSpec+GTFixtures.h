@@ -22,6 +22,9 @@
 // A fully fledged repository, great for testing nearly everything.
 - (GTRepository *)testAppFixtureRepository;
 
+/// A fork of Test_App.
+- (GTRepository *)testAppForkFixtureRepository;
+
 // A bare repository with a minimal history.
 - (GTRepository *)bareFixtureRepository;
 
