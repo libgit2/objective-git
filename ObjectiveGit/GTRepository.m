@@ -434,10 +434,7 @@ struct GTRemoteCreatePayload {
 
 	NSMutableArray *branches = [NSMutableArray array];
 	for (GTBranch *branch in localBranches) {
-		BOOL success = NO;
-		GTBranch *trackingBranch = [branch trackingBranchWithError:error success:&success];
-		if (!success) continue;
-
+		GTBranch *trackingBranch = [branch trackingBranchWithError:NULL success:NULL];
 		[remoteBranches removeObject:trackingBranch];
 		[branches addObject:branch];
 	}
