@@ -525,7 +525,7 @@ describe(@"-branches:", ^{
 	});
 
 	it(@"should contain local branches", ^{
-		NSInteger index = [branches indexOfObjectPassingTest:^BOOL(GTBranch *branch, NSUInteger idx, BOOL *stop) {
+		NSInteger index = [branches indexOfObjectPassingTest:^(GTBranch *branch, NSUInteger idx, BOOL *stop) {
 			return [branch.shortName isEqual:@"new-shite"];
 		}];
 		expect(@(index)).notTo(equal(@(NSNotFound)));
