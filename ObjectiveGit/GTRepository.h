@@ -242,9 +242,6 @@ extern NSString * const GTRepositoryInitOptionsOriginURLString;
 
 - (GTReference *)headReferenceWithError:(NSError **)error;
 
-/// Convenience methods to return branches in the repository
-- (NSArray *)allBranchesWithError:(NSError **)error;
-
 - (NSArray *)localBranchesWithError:(NSError **)error;
 - (NSArray *)remoteBranchesWithError:(NSError **)error;
 - (NSArray *)branchesWithPrefix:(NSString *)prefix error:(NSError **)error;
