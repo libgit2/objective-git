@@ -500,27 +500,27 @@ describe(@"-branches:", ^{
 	});
 
 	it(@"should combine a local branch with its remote branch", ^{
-		NSMutableArray *localBranchAs = [NSMutableArray array];
-		NSMutableArray *remoteBranchAs = [NSMutableArray array];
+		NSMutableArray *localBranches = [NSMutableArray array];
+		NSMutableArray *remoteBranches = [NSMutableArray array];
 		for (GTBranch *branch in branches) {
 			if ([branch.shortName isEqual:@"BranchA"]) {
 				if (branch.branchType == GTBranchTypeLocal) {
-					[localBranchAs addObject:branch];
+					[localBranches addObject:branch];
 				} else {
-					[remoteBranchAs addObject:branch];
+					[remoteBranches addObject:branch];
 				}
 			}
 		}
 
-		expect(@(localBranchAs.count)).to(equal(@1));
+		expect(@(localBranches.count)).to(equal(@1));
 
-		GTBranch *localBranchA = localBranchAs[0];
+		GTBranch *localBranchA = localBranches[0];
 		GTBranch *trackingBranch = [localBranchA trackingBranchWithError:NULL success:NULL];
 		expect(trackingBranch.remoteName).to(equal(@"origin"));
 
-		expect(@(remoteBranchAs.count)).to(equal(@1));
+		expect(@(remoteBranches.count)).to(equal(@1));
 
-		GTBranch *remoteBranchA = remoteBranchAs[0];
+		GTBranch *remoteBranchA = remoteBranches[0];
 		expect(remoteBranchA.remoteName).to(equal(@"github"));
 	});
 
