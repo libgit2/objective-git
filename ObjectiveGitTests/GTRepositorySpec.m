@@ -490,6 +490,58 @@ describe(@"-lookUpObjectByRevParse:error:", ^{
 	});
 });
 
+describe(@"-branches:", ^{
+	__block NSArray *branches;
+
+	beforeEach(^{
+		GTRepository *repository = [self testAppForkFixtureRepository];
+		branches = [repository branches:NULL];
+		expect(branches).notTo(beNil());
+	});
+
+	it(@"should combine a local branch with its remote branch", ^{
+		NSMutableArray *localBranches = [NSMutableArray array];
+		NSMutableArray *remoteBranches = [NSMutableArray array];
+		for (GTBranch *branch in branches) {
+			if ([branch.shortName isEqual:@"BranchA"]) {
+				if (branch.branchType == GTBranchTypeLocal) {
+					[localBranches addObject:branch];
+				} else {
+					[remoteBranches addObject:branch];
+				}
+			}
+		}
+
+		expect(@(localBranches.count)).to(equal(@1));
+
+		GTBranch *localBranchA = localBranches[0];
+		GTBranch *trackingBranch = [localBranchA trackingBranchWithError:NULL success:NULL];
+		expect(trackingBranch.remoteName).to(equal(@"origin"));
+
+		expect(@(remoteBranches.count)).to(equal(@1));
+
+		GTBranch *remoteBranchA = remoteBranches[0];
+		expect(remoteBranchA.remoteName).to(equal(@"github"));
+	});
+
+	it(@"should contain local branches", ^{
+		NSInteger index = [branches indexOfObjectPassingTest:^(GTBranch *branch, NSUInteger idx, BOOL *stop) {
+			return [branch.shortName isEqual:@"new-shite"];
+		}];
+		expect(@(index)).notTo(equal(@(NSNotFound)));
+	});
+
+	it(@"should contain remote branches which exist on multiple remotes", ^{
+		NSUInteger matches = 0;
+		for (GTBranch *branch in branches) {
+			if ([branch.shortName isEqual:@"blah"] && branch.branchType == GTBranchTypeRemote) {
+				matches++;
+			}
+		}
+		expect(@(matches)).to(equal(@2));
+	});
+});
+
 afterEach(^{
 	[self tearDown];
 });

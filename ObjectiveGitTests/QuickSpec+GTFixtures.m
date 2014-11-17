@@ -123,6 +123,10 @@ static NSString * const FixturesErrorDomain = @"com.objectivegit.Fixtures";
 	return [self fixtureRepositoryNamed:@"Test_App"];
 }
 
+- (GTRepository *)testAppForkFixtureRepository {
+	return [self fixtureRepositoryNamed:@"Test_App_fork"];
+}
+
 - (GTRepository *)testUnicodeFixtureRepository {
 	return [self fixtureRepositoryNamed:@"unicode-files-repo"];
 }
