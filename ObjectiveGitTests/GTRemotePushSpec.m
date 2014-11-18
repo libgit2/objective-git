@@ -101,9 +101,13 @@ describe(@"push to remote", ^{
 		it(@"pushes nothing when the branch on local and remote are in sync", ^{
 			NSError *error = nil;
 
-			BOOL result = [localRepo pushBranch:masterBranch toRemote:remote withOptions:nil error:&error progress:NULL];
+			__block BOOL transferProgressed = NO;
+			BOOL result = [localRepo pushBranch:masterBranch toRemote:remote withOptions:nil error:&error progress:^(unsigned int current, unsigned int total, size_t bytes, BOOL *stop) {
+				transferProgressed = YES;
+			}];
 			expect(error).to(beNil());
 			expect(@(result)).to(beTruthy());
+			expect(@(transferProgressed)).to(beFalse()); // Local transport doesn't currently call progress callbacks
 		});
 
 		it(@"pushes a new local commit to the remote", ^{
@@ -116,9 +120,13 @@ describe(@"push to remote", ^{
 			expect(testCommit).notTo(beNil());
 
 			// Push
-			BOOL result = [localRepo pushBranch:masterBranch toRemote:remote withOptions:nil error:&error progress:NULL];
+			__block BOOL transferProgressed = NO;
+			BOOL result = [localRepo pushBranch:masterBranch toRemote:remote withOptions:nil error:&error progress:^(unsigned int current, unsigned int total, size_t bytes, BOOL *stop) {
+				transferProgressed = YES;
+			}];
 			expect(error).to(beNil());
 			expect(@(result)).to(beTruthy());
+			expect(@(transferProgressed)).to(beFalse()); // Local transport doesn't currently call progress callbacks
 
 			// Verify commit is in remote
 			GTCommit *pushedCommit = [remoteRepo lookUpObjectByOID:testCommit.OID objectType:GTObjectTypeCommit error:&error];
