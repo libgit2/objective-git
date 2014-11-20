@@ -22,6 +22,7 @@ describe(@"push to remote", ^{
 	__block NSURL *remoteRepoFileURL;
 	__block NSURL *localRepoURL;
 	__block GTBranch *masterBranch;
+	__block GTBranch *remoteMasterBranch;
 
 	beforeEach(^{
 		NSError *error = nil;
@@ -38,6 +39,14 @@ describe(@"push to remote", ^{
 		expect(error).to(beNil());
 		expect(remoteRepo).notTo(beNil());
 		expect(@(remoteRepo.isBare)).to(beTruthy()); // that's better
+
+		NSArray *remoteBranches = [remoteRepo localBranchesWithError:&error];
+		expect(error).to(beNil());
+		expect(remoteBranches).notTo(beNil());
+		expect(@(remoteBranches.count)).to(beGreaterThanOrEqualTo(@1));
+
+		remoteMasterBranch = remoteBranches[0];
+		expect(@([remoteMasterBranch numberOfCommitsWithError:NULL])).to(equal(@3));
 
 		NSURL *remoteRepoFileURL = remoteRepo.gitDirectoryURL;
 		expect(remoteRepoFileURL).notTo(beNil());
@@ -62,13 +71,14 @@ describe(@"push to remote", ^{
 		remote = configuration.remotes[0];
 		expect(remote.name).to(equal(@"origin"));
 
-		// TODO: Verify tracking between local and remote branches
-		NSArray *branches = [localRepo allBranchesWithError:&error];
+		NSArray *branches = [localRepo localBranchesWithError:&error];
 		expect(error).to(beNil());
 		expect(branches).notTo(beNil());
+		expect(@(branches.count)).to(beGreaterThanOrEqualTo(@1));
 
 		masterBranch = branches[0];
 		expect(masterBranch.shortName).to(equal(@"master"));
+		expect(@([masterBranch numberOfCommitsWithError:NULL])).to(equal(@3));
 	});
 
 	afterEach(^{
@@ -101,6 +111,8 @@ describe(@"push to remote", ^{
 		it(@"pushes nothing when the branch on local and remote are in sync", ^{
 			NSError *error = nil;
 
+			expect(@([remoteMasterBranch numberOfCommitsWithError:NULL])).to(equal(@3));
+
 			__block BOOL transferProgressed = NO;
 			BOOL result = [localRepo pushBranch:masterBranch toRemote:remote withOptions:nil error:&error progress:^(unsigned int current, unsigned int total, size_t bytes, BOOL *stop) {
 				transferProgressed = YES;
@@ -108,6 +120,9 @@ describe(@"push to remote", ^{
 			expect(error).to(beNil());
 			expect(@(result)).to(beTruthy());
 			expect(@(transferProgressed)).to(beFalse()); // Local transport doesn't currently call progress callbacks
+
+			// Same number of commits after push
+			expect(@([remoteMasterBranch numberOfCommitsWithError:NULL])).to(equal(@3));
 		});
 
 		it(@"pushes a new local commit to the remote", ^{
@@ -119,6 +134,13 @@ describe(@"push to remote", ^{
 			GTCommit *testCommit = createCommitInRepository(@"Test commit", [testData dataUsingEncoding:NSUTF8StringEncoding], fileName, localRepo);
 			expect(testCommit).notTo(beNil());
 
+			// Refetch master branch to ensure the commit count is accurate
+			masterBranch = [localRepo localBranchesWithError:NULL][0];
+			expect(@([masterBranch numberOfCommitsWithError:NULL])).to(equal(@4));
+
+			// Number of commits on remote before push
+			expect(@([remoteMasterBranch numberOfCommitsWithError:NULL])).to(equal(@3));
+
 			// Push
 			__block BOOL transferProgressed = NO;
 			BOOL result = [localRepo pushBranch:masterBranch toRemote:remote withOptions:nil error:&error progress:^(unsigned int current, unsigned int total, size_t bytes, BOOL *stop) {
@@ -127,6 +149,12 @@ describe(@"push to remote", ^{
 			expect(error).to(beNil());
 			expect(@(result)).to(beTruthy());
 			expect(@(transferProgressed)).to(beFalse()); // Local transport doesn't currently call progress callbacks
+
+			// Refetch master branch to ensure the commit count is accurate
+			remoteMasterBranch = [remoteRepo localBranchesWithError:NULL][0];
+
+			// Number of commits on remote after push
+			expect(@([remoteMasterBranch numberOfCommitsWithError:NULL])).to(equal(@4));
 
 			// Verify commit is in remote
 			GTCommit *pushedCommit = [remoteRepo lookUpObjectByOID:testCommit.OID objectType:GTObjectTypeCommit error:&error];
