@@ -401,28 +401,23 @@ struct GTRemoteCreatePayload {
 	return branches;
 }
 
-- (NSArray *)allBranchesWithError:(NSError **)error {
-	NSMutableArray *allBranches = [NSMutableArray array];
+- (NSArray *)branches:(NSError **)error {
 	NSArray *localBranches = [self localBranchesWithError:error];
-	NSArray *remoteBranches = [self remoteBranchesWithError:error];
-	if (localBranches == nil || remoteBranches == nil) return nil;
+	if (localBranches == nil) return nil;
 
-	[allBranches addObjectsFromArray:localBranches];
+	NSMutableArray *remoteBranches = [[self remoteBranchesWithError:error] mutableCopy];
+	if (remoteBranches == nil) return nil;
 
-	// we want to add the remote branches that we don't already have as a local branch
-	NSMutableDictionary *shortNamesToBranches = [NSMutableDictionary dictionary];
+	NSMutableArray *branches = [NSMutableArray array];
 	for (GTBranch *branch in localBranches) {
-		[shortNamesToBranches setObject:branch forKey:branch.shortName];
+		GTBranch *trackingBranch = [branch trackingBranchWithError:NULL success:NULL];
+		if (trackingBranch != nil) [remoteBranches removeObject:trackingBranch];
+		[branches addObject:branch];
 	}
 
-	for (GTBranch *branch in remoteBranches) {
-		GTBranch *localBranch = [shortNamesToBranches objectForKey:branch.shortName];
-		if (localBranch == nil) {
-			[allBranches addObject:branch];
-		}
-	}
+	[branches addObjectsFromArray:remoteBranches];
 
-    return allBranches;
+	return branches;
 }
 
 - (NSArray *)remoteNamesWithError:(NSError **)error {
