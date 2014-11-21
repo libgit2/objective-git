@@ -888,7 +888,7 @@
 				D0D8186C174421EB00995A2E /* README.md */,
 			);
 			name = Configuration;
-			path = External/Configuration;
+			path = Carthage.checkout/xcconfigs;
 			sourceTree = "<group>";
 		};
 		D0D81862174421EB00995A2E /* iOS */ = {
