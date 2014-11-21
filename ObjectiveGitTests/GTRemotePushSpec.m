@@ -165,22 +165,13 @@ describe(@"pushing", ^{
 			expect(fileData.content).to(equal(testData));
 		});
 
-		pending(@"can push two branches", ^{
-			GTBranch *masterBranch = localBranchWithName(@"master", localRepo);
-			GTBranch *remoteMasterBranch = localBranchWithName(@"master", remoteRepo);
-			expect(@([remoteMasterBranch numberOfCommitsWithError:NULL])).to(equal(@3));
+		it(@"can push two branches", ^{
+			GTBranch *branch1 = localBranchWithName(@"master", localRepo);
+			GTBranch *branch2 = localBranchWithName(@"packed", remoteRepo);
 
-			// Push
-			__block BOOL transferProgressed = NO;
-			BOOL result = [localRepo pushBranch:masterBranch toRemote:remote withOptions:nil error:&error progress:^(unsigned int current, unsigned int total, size_t bytes, BOOL *stop) {
-				transferProgressed = YES;
-			}];
+			BOOL result = [localRepo pushBranches:@[ branch1, branch2 ] toRemote:remote withOptions:nil error:&error progress:NULL];
 			expect(error).to(beNil());
 			expect(@(result)).to(beTruthy());
-			expect(@(transferProgressed)).to(beFalse()); // Local transport doesn't currently call progress callbacks
-
-			// Same number of commits after push
-			expect(@([remoteMasterBranch numberOfCommitsWithError:NULL])).to(equal(@3));
 		});
 	});
 
