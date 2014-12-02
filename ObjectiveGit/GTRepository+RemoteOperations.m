@@ -170,18 +170,23 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 #pragma mark - Push (Public)
 
 - (BOOL)pushBranch:(GTBranch *)branch toRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error progress:(GTRemotePushTransferProgressBlock)progressBlock {
+	NSParameterAssert(branch != nil);
+	NSParameterAssert(remote != nil);
+
 	return [self pushBranches:@[ branch ] toRemote:remote withOptions:options error:error progress:progressBlock];
 }
 
 - (BOOL)pushBranches:(NSArray *)branches toRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error progress:(GTRemotePushTransferProgressBlock)progressBlock {
+	NSParameterAssert(branches != nil);
+	NSParameterAssert(branches.count != 0);
+	NSParameterAssert(remote != nil);
+
 	NSMutableArray *refspecs = nil;
-	if (branches.count != 0) {
-		// Build refspecs for the passed in branches
-		refspecs = [NSMutableArray arrayWithCapacity:branches.count];
-		for (GTBranch *branch in branches) {
-			// Assumes upstream branch reference has same name as local tracking branch
-			[refspecs addObject:[NSString stringWithFormat:@"%@:%@", branch.reference.name, branch.reference.name]];
-		}
+	// Build refspecs for the passed in branches
+	refspecs = [NSMutableArray arrayWithCapacity:branches.count];
+	for (GTBranch *branch in branches) {
+		// Assumes upstream branch reference has same name as local tracking branch
+		[refspecs addObject:[NSString stringWithFormat:@"%@:%@", branch.reference.name, branch.reference.name]];
 	}
 
 	return [self pushRefspecs:refspecs toRemote:remote withOptions:options error:error progress:progressBlock];

@@ -100,6 +100,32 @@ describe(@"pushing", ^{
 			error = NULL;
 		});
 
+		context(@"when -pushBranch: is given invalid parameters", ^{
+			it(@"needs a non-nil branch", ^{
+				XCTAssertThrowsSpecificNamed([localRepo pushBranch:nil toRemote:remote withOptions:nil error:&error progress:NULL], NSException, NSInternalInconsistencyException, @"should throw NSInternalInconsistencyException");
+			});
+
+			it(@"needs a non-nil remote", ^{
+				GTBranch *masterBranch = localBranchWithName(@"master", localRepo);
+				XCTAssertThrowsSpecificNamed([localRepo pushBranch:masterBranch toRemote:nil withOptions:nil error:&error progress:NULL], NSException, NSInternalInconsistencyException, @"should throw NSInternalInconsistencyException");
+			});
+		});
+
+		context(@"when -pushBranches: is given invalid parameters", ^{
+			it(@"needs a non-nil branch array", ^{
+				XCTAssertThrowsSpecificNamed([localRepo pushBranches:nil toRemote:remote withOptions:nil error:&error progress:NULL], NSException, NSInternalInconsistencyException, @"should throw NSInternalInconsistencyException");
+			});
+
+			it(@"needs a non-empty branch array", ^{
+				XCTAssertThrowsSpecificNamed([localRepo pushBranches:@[] toRemote:remote withOptions:nil error:&error progress:NULL], NSException, NSInternalInconsistencyException, @"should throw NSInternalInconsistencyException");
+			});
+
+			it(@"needs a non-nil remote", ^{
+				GTBranch *masterBranch = localBranchWithName(@"master", localRepo);
+				XCTAssertThrowsSpecificNamed([localRepo pushBranches:@[masterBranch] toRemote:nil withOptions:nil error:&error progress:NULL], NSException, NSInternalInconsistencyException, @"should throw NSInternalInconsistencyException");
+			});
+		});
+
 		context(@"when the local and remote branches are in sync", ^{
 			it(@"should push no commits", ^{
 				GTBranch *masterBranch = localBranchWithName(@"master", localRepo);
@@ -142,8 +168,8 @@ describe(@"pushing", ^{
 			expect(@([localTrackingBranch numberOfCommitsWithError:NULL])).to(equal(@3));
 
 			// Number of commits on remote before push
-//			GTBranch *remoteMasterBranch = localBranchWithName(@"master", remoteRepo);
-//			expect(@([remoteMasterBranch numberOfCommitsWithError:NULL])).to(equal(@3));
+			GTBranch *remoteMasterBranch = localBranchWithName(@"master", remoteRepo);
+			expect(@([remoteMasterBranch numberOfCommitsWithError:NULL])).to(equal(@3));
 
 			// Push
 			__block BOOL transferProgressed = NO;
@@ -158,13 +184,13 @@ describe(@"pushing", ^{
 			localTrackingBranch = [masterBranch trackingBranchWithError:&error success:&success];
 			expect(error).to(beNil());
 			expect(@(success)).to(beTrue());
-			expect(@([localTrackingBranch numberOfCommitsWithError:NULL])).to(equal(@3));
+//			expect(@([localTrackingBranch numberOfCommitsWithError:NULL])).to(equal(@3));
 
 			// Refetch master branch to ensure the commit count is accurate
-//			remoteMasterBranch = localBranchWithName(@"master", remoteRepo);
+			remoteMasterBranch = localBranchWithName(@"master", remoteRepo);
 
 			// Number of commits on remote after push
-//			expect(@([remoteMasterBranch numberOfCommitsWithError:NULL])).to(equal(@4));
+			expect(@([remoteMasterBranch numberOfCommitsWithError:NULL])).to(equal(@4));
 
 			// Verify commit is in remote
 			GTCommit *pushedCommit = [remoteRepo lookUpObjectByOID:testCommit.OID objectType:GTObjectTypeCommit error:&error];
