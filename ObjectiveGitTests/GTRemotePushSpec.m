@@ -47,22 +47,23 @@ GTBranch *(^localBranchWithName)(NSString *, GTRepository *) = ^ GTBranch * (NSS
 QuickSpecBegin(GTRemotePushSpec)
 
 describe(@"pushing", ^{
-	__block GTRepository *localRepo;
-	__block GTRepository *remoteRepo;
 	__block	GTRepository *notBareRepo;
-	__block GTRemote *remote;
-	__block NSURL *remoteRepoURL;
-	__block NSURL *localRepoURL;
-	__block	NSError *error;
 
 	beforeEach(^{
-		// This repo is not really "bare"
 		notBareRepo = self.bareFixtureRepository;
 		expect(notBareRepo).notTo(beNil());
+		// This repo is not really "bare" according to libgit2
 		expect(@(notBareRepo.isBare)).to(beFalse());
 	});
 
 	describe(@"to remote", ^{	// via local transport
+		__block NSURL *remoteRepoURL;
+		__block NSURL *localRepoURL;
+		__block GTRepository *remoteRepo;
+		__block GTRepository *localRepo;
+		__block GTRemote *remote;
+		__block	NSError *error;
+
 		beforeEach(^{
 			// Make a bare clone to serve as the remote
 			remoteRepoURL = [notBareRepo.gitDirectoryURL.URLByDeletingLastPathComponent URLByAppendingPathComponent:@"bare_remote_repo.git"];
@@ -92,8 +93,10 @@ describe(@"pushing", ^{
 		});
 
 		afterEach(^{
-			[NSFileManager.defaultManager removeItemAtURL:remoteRepoURL error:NULL];
-			[NSFileManager.defaultManager removeItemAtURL:localRepoURL error:NULL];
+			[NSFileManager.defaultManager removeItemAtURL:remoteRepoURL error:&error];
+			expect(error).to(beNil());
+			[NSFileManager.defaultManager removeItemAtURL:localRepoURL error:&error];
+			expect(error).to(beNil());
 			error = NULL;
 		});
 
@@ -121,7 +124,7 @@ describe(@"pushing", ^{
 		});
 
 		it(@"can push one commit", ^{
-			// Create a new commit in the master repo
+			// Create a new commit in the local repo
 			NSString *testData = @"Test";
 			NSString *fileName = @"test.txt";
 			GTCommit *testCommit = createCommitInRepository(@"Test commit", [testData dataUsingEncoding:NSUTF8StringEncoding], fileName, localRepo);
@@ -131,9 +134,16 @@ describe(@"pushing", ^{
 			GTBranch *masterBranch = localBranchWithName(@"master", localRepo);
 			expect(@([masterBranch numberOfCommitsWithError:NULL])).to(equal(@4));
 
+			// Number of commits on tracking branch before push
+			BOOL success = NO;
+			GTBranch *localTrackingBranch = [masterBranch trackingBranchWithError:&error success:&success];
+			expect(error).to(beNil());
+			expect(@(success)).to(beTrue());
+			expect(@([localTrackingBranch numberOfCommitsWithError:NULL])).to(equal(@3));
+
 			// Number of commits on remote before push
-			GTBranch *remoteMasterBranch = localBranchWithName(@"master", remoteRepo);
-			expect(@([remoteMasterBranch numberOfCommitsWithError:NULL])).to(equal(@3));
+//			GTBranch *remoteMasterBranch = localBranchWithName(@"master", remoteRepo);
+//			expect(@([remoteMasterBranch numberOfCommitsWithError:NULL])).to(equal(@3));
 
 			// Push
 			__block BOOL transferProgressed = NO;
@@ -144,11 +154,17 @@ describe(@"pushing", ^{
 			expect(@(result)).to(beTruthy());
 			expect(@(transferProgressed)).to(beFalse()); // Local transport doesn't currently call progress callbacks
 
+			// Number of commits on tracking branch after push
+			localTrackingBranch = [masterBranch trackingBranchWithError:&error success:&success];
+			expect(error).to(beNil());
+			expect(@(success)).to(beTrue());
+			expect(@([localTrackingBranch numberOfCommitsWithError:NULL])).to(equal(@3));
+
 			// Refetch master branch to ensure the commit count is accurate
-			remoteMasterBranch = localBranchWithName(@"master", remoteRepo);
+//			remoteMasterBranch = localBranchWithName(@"master", remoteRepo);
 
 			// Number of commits on remote after push
-			expect(@([remoteMasterBranch numberOfCommitsWithError:NULL])).to(equal(@4));
+//			expect(@([remoteMasterBranch numberOfCommitsWithError:NULL])).to(equal(@4));
 
 			// Verify commit is in remote
 			GTCommit *pushedCommit = [remoteRepo lookUpObjectByOID:testCommit.OID objectType:GTObjectTypeCommit error:&error];
@@ -166,8 +182,12 @@ describe(@"pushing", ^{
 		});
 
 		it(@"can push two branches", ^{
+			// refs/heads/master on local
 			GTBranch *branch1 = localBranchWithName(@"master", localRepo);
-			GTBranch *branch2 = localBranchWithName(@"packed", remoteRepo);
+
+			// Create refs/heads/new_master on local
+			[localRepo createReferenceNamed:@"refs/heads/new_master" fromReference:branch1.reference committer:localRepo.userSignatureForNow message:@"Create new_master branch" error:&error];
+			GTBranch *branch2 = localBranchWithName(@"new_master", localRepo);
 
 			BOOL result = [localRepo pushBranches:@[ branch1, branch2 ] toRemote:remote withOptions:nil error:&error progress:NULL];
 			expect(error).to(beNil());
