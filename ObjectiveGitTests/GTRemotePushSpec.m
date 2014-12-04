@@ -184,12 +184,12 @@ describe(@"pushing", ^{
 			localTrackingBranch = [masterBranch trackingBranchWithError:&error success:&success];
 			expect(error).to(beNil());
 			expect(@(success)).to(beTrue());
-//			expect(@([localTrackingBranch numberOfCommitsWithError:NULL])).to(equal(@3));
+			expect(@([localTrackingBranch numberOfCommitsWithError:NULL])).to(equal(@4));
 
-			// Refetch master branch to ensure the commit count is accurate
+			// Refresh remote master branch to ensure the commit count is accurate
 			remoteMasterBranch = localBranchWithName(@"master", remoteRepo);
 
-			// Number of commits on remote after push
+			// Number of commits in remote repo after push
 			expect(@([remoteMasterBranch numberOfCommitsWithError:NULL])).to(equal(@4));
 
 			// Verify commit is in remote

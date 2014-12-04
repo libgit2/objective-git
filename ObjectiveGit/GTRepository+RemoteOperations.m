@@ -185,8 +185,19 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 	// Build refspecs for the passed in branches
 	refspecs = [NSMutableArray arrayWithCapacity:branches.count];
 	for (GTBranch *branch in branches) {
-		// Assumes upstream branch reference has same name as local tracking branch
-		[refspecs addObject:[NSString stringWithFormat:@"%@:%@", branch.reference.name, branch.reference.name]];
+		// Default remote reference for when branch doesn't exist on remote - create with same short name
+		NSString *remoteBranchReference = [NSString stringWithFormat:@"refs/heads/%@", branch.shortName];
+
+		BOOL success = NO;
+		GTBranch *trackingBranch = [branch trackingBranchWithError:error success:&success];
+
+		if (success && trackingBranch) {
+			// Use remote branch short name from trackingBranch, which could be different
+			// (e.g. refs/heads/master:refs/heads/my_master)
+			remoteBranchReference = [NSString stringWithFormat:@"refs/heads/%@", trackingBranch.shortName];
+		}
+
+		[refspecs addObject:[NSString stringWithFormat:@"refs/heads/%@:%@", branch.shortName, remoteBranchReference]];
 	}
 
 	return [self pushRefspecs:refspecs toRemote:remote withOptions:options error:error progress:progressBlock];
