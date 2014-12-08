@@ -140,17 +140,4 @@ static int configCallback(const git_config_entry *entry, void *payload) {
 	return remotes;
 }
 
-#pragma mark Refresh
-
-- (BOOL)refresh:(NSError **)error {
-	int success = git_config_refresh(self.git_config);
-	if (success != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:success description:@"Couldn't reload the configuration from disk."];
-
-		return NO;
-	}
-
-	return YES;
-}
-
 @end

@@ -42,12 +42,4 @@
 
 - (BOOL)deleteValueForKey:(NSString *)key error:(NSError **)error;
 
-/// Reloads the configuration from the files on disk if they have changed since
-/// it was originally loaded.
-///
-/// error - The error if one occurred.
-///
-/// Returns whether the refresh was successful.
-- (BOOL)refresh:(NSError **)error;
-
 @end
