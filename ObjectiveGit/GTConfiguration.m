@@ -130,7 +130,7 @@ static int configCallback(const git_config_entry *entry, void *payload) {
 		const char *name = names.strings[i];
 		git_remote *remote = NULL;
 
-		if (git_remote_load(&remote, repository.git_repository, name) == 0) {
+		if (git_remote_lookup(&remote, repository.git_repository, name) == 0) {
 			[remotes addObject:[[GTRemote alloc] initWithGitRemote:remote inRepository:repository]];
 		}
 	}

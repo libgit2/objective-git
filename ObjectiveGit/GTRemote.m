@@ -50,7 +50,7 @@ NSString * const GTRemoteRenameProblematicRefSpecs = @"GTRemoteRenameProblematic
 	NSParameterAssert(repo != nil);
 
 	git_remote *remote;
-	int gitError = git_remote_load(&remote, repo.git_repository, name.UTF8String);
+	int gitError = git_remote_lookup(&remote, repo.git_repository, name.UTF8String);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Remote loading failed" failureReason:nil];
 
