@@ -50,7 +50,7 @@ NSString * const GTRemoteRenameProblematicRefSpecs = @"GTRemoteRenameProblematic
 	NSParameterAssert(repo != nil);
 
 	git_remote *remote;
-	int gitError = git_remote_load(&remote, repo.git_repository, name.UTF8String);
+	int gitError = git_remote_lookup(&remote, repo.git_repository, name.UTF8String);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Remote loading failed" failureReason:nil];
 
@@ -91,12 +91,6 @@ NSString * const GTRemoteRenameProblematicRefSpecs = @"GTRemoteRenameProblematic
 }
 
 #pragma mark API
-
-+ (BOOL)isSupportedURLString:(NSString *)URLString {
-	NSParameterAssert(URLString != nil);
-
-	return git_remote_supported_url(URLString.UTF8String) == GIT_OK;
-}
 
 + (BOOL)isValidRemoteName:(NSString *)name {
 	NSParameterAssert(name != nil);
@@ -162,7 +156,7 @@ NSString * const GTRemoteRenameProblematicRefSpecs = @"GTRemoteRenameProblematic
 	
 	git_strarray problematic_refspecs;
 	
-	int gitError = git_remote_rename(&problematic_refspecs, self.git_remote, name.UTF8String);
+	int gitError = git_remote_rename(&problematic_refspecs, self.repository.git_repository, git_remote_name(self.git_remote), name.UTF8String);
 	if (gitError != GIT_OK) {
 		NSArray *problematicRefspecs = [NSArray git_arrayWithStrarray:problematic_refspecs];
 		NSDictionary *userInfo = [NSDictionary dictionaryWithObject:problematicRefspecs forKey:GTRemoteRenameProblematicRefSpecs];

@@ -6,9 +6,9 @@
 //  Copyright (c) 2012 GitHub, Inc. All rights reserved.
 //
 
-#import "git2/threads.h"
+#import "git2/global.h"
 
 __attribute__((constructor))
-static void GTSetupThreads(void) {
-	git_threads_init();
+static void GTSetup(void) {
+	git_libgit2_init();
 }

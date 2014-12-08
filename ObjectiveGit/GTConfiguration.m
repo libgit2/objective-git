@@ -130,7 +130,7 @@ static int configCallback(const git_config_entry *entry, void *payload) {
 		const char *name = names.strings[i];
 		git_remote *remote = NULL;
 
-		if (git_remote_load(&remote, repository.git_repository, name) == 0) {
+		if (git_remote_lookup(&remote, repository.git_repository, name) == 0) {
 			[remotes addObject:[[GTRemote alloc] initWithGitRemote:remote inRepository:repository]];
 		}
 	}
@@ -138,19 +138,6 @@ static int configCallback(const git_config_entry *entry, void *payload) {
 	git_strarray_free(&names);
 
 	return remotes;
-}
-
-#pragma mark Refresh
-
-- (BOOL)refresh:(NSError **)error {
-	int success = git_config_refresh(self.git_config);
-	if (success != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:success description:@"Couldn't reload the configuration from disk."];
-
-		return NO;
-	}
-
-	return YES;
 }
 
 @end

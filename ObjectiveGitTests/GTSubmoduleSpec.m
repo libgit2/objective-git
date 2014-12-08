@@ -253,15 +253,12 @@ describe(@"dirty, checked out submodule", ^{
 
 		NSString *configKey = @"submodule.Test_App2.url";
 		NSString *newOrigin = @"https://github.com/libgit2/objective-git.git";
-		[config setString:newOrigin forKey:configKey];
 
-		expect(@([config refresh:NULL])).to(beTruthy());
+		[config setString:newOrigin forKey:configKey];
 		expect([config stringForKey:configKey]).to(equal(newOrigin));
 
 		__block NSError *error = nil;
 		expect(@([submodule sync:&error])).to(beTruthy());
-
-		expect(@([config refresh:NULL])).to(beTruthy());
 		expect([config stringForKey:configKey]).to(equal(@"../Test_App"));
 	});
 });
