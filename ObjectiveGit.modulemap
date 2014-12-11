@@ -1,7 +1,6 @@
 framework module ObjectiveGit {
 	umbrella header "ObjectiveGit.h"
 
-	header "git2/annotated_commit.h"
 	header "git2/attr.h"
 	header "git2/blob.h"
 	header "git2/blame.h"
@@ -29,12 +28,10 @@ framework module ObjectiveGit {
 	header "git2/odb.h"
 	header "git2/odb_backend.h"
 	header "git2/oid.h"
-	header "git2/oidarray.h"
 	header "git2/pack.h"
 	header "git2/patch.h"
 	header "git2/pathspec.h"
 	header "git2/push.h"
-	header "git2/rebase.h"
 	header "git2/refdb.h"
 	header "git2/reflog.h"
 	header "git2/refs.h"
@@ -48,7 +45,6 @@ framework module ObjectiveGit {
 	header "git2/signature.h"
 	header "git2/stash.h"
 	header "git2/status.h"
-	header "git2/strarray.h"
 	header "git2/submodule.h"
 	header "git2/tag.h"
 	header "git2/threads.h"
@@ -56,6 +52,19 @@ framework module ObjectiveGit {
 	header "git2/tree.h"
 	header "git2/types.h"
 	header "git2/version.h"
+	header "git2/sys/commit.h"
+	header "git2/sys/config.h"
+	header "git2/sys/diff.h"
+	header "git2/sys/filter.h"
+	header "git2/sys/hashsig.h"
+	header "git2/sys/index.h"
+	header "git2/sys/mempack.h"
+	header "git2/sys/odb_backend.h"
+	header "git2/sys/refdb_backend.h"
+	header "git2/sys/reflog.h"
+	header "git2/sys/refs.h"
+	header "git2/sys/repository.h"
+	header "git2/sys/transport.h"
 
 	export *
 	module * { export * }
