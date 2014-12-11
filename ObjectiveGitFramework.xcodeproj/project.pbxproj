@@ -451,6 +451,7 @@
 		8870390A1975E3F2004118D7 /* GTDiffDeltaSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTDiffDeltaSpec.m; sourceTree = "<group>"; };
 		88746CC217FA1C950005888A /* GTRepository+Committing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTRepository+Committing.h"; sourceTree = "<group>"; };
 		88746CC317FA1C950005888A /* GTRepository+Committing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GTRepository+Committing.m"; sourceTree = "<group>"; };
+		887B948D1A3A38130070D41D /* module.map */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.map; sourceTree = "<group>"; };
 		887DAFF615CB1C8000F30D0D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		88948AC81779243600809CDA /* GTObjectDatabaseSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTObjectDatabaseSpec.m; sourceTree = "<group>"; };
 		889923F919FF5DD40092A9A6 /* git2 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = git2; path = External/libgit2/include/git2; sourceTree = "<group>"; };
@@ -606,6 +607,7 @@
 			isa = PBXGroup;
 			children = (
 				BDD8AB01130F01AB00CB5D40 /* README.md */,
+				887B948D1A3A38130070D41D /* module.map */,
 				BDE4C05E130EFE2C00851650 /* ObjectiveGit */,
 				88F05A7516011E5400B7AD1D /* ObjectiveGitTests */,
 				32C88DFF0371C24200C91783 /* Other Sources */,
@@ -1429,6 +1431,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Info.plist;
+				MODULEMAP_FILE = module.map;
 				OTHER_LDFLAGS = (
 					"-lgit2",
 					"-force_load",
@@ -1450,6 +1453,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Info.plist;
+				MODULEMAP_FILE = module.map;
 				OTHER_LDFLAGS = (
 					"-lgit2",
 					"-force_load",
@@ -1631,6 +1635,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Info.plist;
+				MODULEMAP_FILE = module.map;
 				OTHER_LDFLAGS = (
 					"-lgit2",
 					"-force_load",
@@ -1846,6 +1851,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Info.plist;
+				MODULEMAP_FILE = module.map;
 				OTHER_LDFLAGS = (
 					"-lgit2",
 					"-force_load",
