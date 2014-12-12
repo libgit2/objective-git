@@ -1,18 +1,15 @@
 [submodule "libgit2"]
 	path = External/libgit2
 	url = https://github.com/libgit2/libgit2.git
+[submodule "Configuration"]
+	path = External/Configuration
+	url = https://github.com/jspahrsummers/xcconfigs.git
 [submodule "openssl"]
 	path = External/openssl
 	url = https://github.com/openssl/openssl.git
 [submodule "libssh2"]
 	path = External/libssh2
 	url = git://git.libssh2.org/libssh2.git
-[submodule "Carthage.checkout/Nimble"]
-	path = Carthage.checkout/Nimble
-	url = https://github.com/Quick/Nimble.git
-[submodule "Carthage.checkout/Quick"]
-	path = Carthage.checkout/Quick
-	url = https://github.com/Quick/Quick.git
-[submodule "Carthage.checkout/xcconfigs"]
-	path = Carthage.checkout/xcconfigs
-	url = https://github.com/jspahrsummers/xcconfigs.git
+[submodule "External/Quick"]
+	path = External/Quick
+	url = https://github.com/github/Quick.git
