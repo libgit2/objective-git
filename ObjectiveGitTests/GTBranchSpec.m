@@ -189,6 +189,10 @@ describe(@"-trackingBranchWithError:success:", ^{
 	});
 });
 
+describe(@"-updateTrackingBranch:error:", ^{
+
+});
+
 // TODO: Test branch renaming, branch upstream
 //- (void)testCanRenameBranch {
 //
