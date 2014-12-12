@@ -5,9 +5,9 @@
       location = "group:ObjectiveGitFramework.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Carthage.checkout/Quick/Quick.xcodeproj">
+      location = "group:Carthage.checkout/Nimble/Nimble.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Carthage.checkout/Nimble/Nimble.xcodeproj">
+      location = "group:Carthage.checkout/Quick/Quick.xcodeproj">
    </FileRef>
 </Workspace>
