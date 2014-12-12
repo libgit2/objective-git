@@ -206,7 +206,7 @@
 }
 
 - (BOOL)updateTrackingBranch:(GTBranch *)trackingBranch error:(NSError **)error {
-	int result = git_branch_set_upstream(self.reference.git_reference, trackingBranch.name.UTF8String);
+	int result = git_branch_set_upstream(self.reference.git_reference, trackingBranch.shortName.UTF8String);
 	if (result != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:result description:@"Failed to update tracking branch for %@", self];
 		return NO;
