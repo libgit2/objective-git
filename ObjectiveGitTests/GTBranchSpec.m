@@ -189,6 +189,47 @@ describe(@"-trackingBranchWithError:success:", ^{
 	});
 });
 
+describe(@"-updateTrackingBranch:error:", ^{
+	__block GTBranch *masterBranch;
+	beforeEach(^{
+		masterBranch = [repository lookUpBranchWithName:@"master" type:GTBranchTypeLocal success:NULL error:NULL];
+		expect(masterBranch).notTo(beNil());
+	});
+
+	it(@"should set a tracking branch", ^{
+		GTBranch *branch = [repository lookUpBranchWithName:@"feature" type:GTBranchTypeLocal success:NULL error:NULL];
+		expect(branch).notTo(beNil());
+
+		BOOL success = NO;
+		GTBranch *trackingBranch = [branch trackingBranchWithError:NULL success:&success];
+		expect(trackingBranch).to(beNil());
+		expect(@(success)).to(beTruthy());
+
+		NSError *error;
+		success = [branch updateTrackingBranch:masterBranch error:&error];
+		expect(@(success)).to(beTruthy());
+		expect(error).to(beNil());
+
+		trackingBranch = [branch trackingBranchWithError:NULL success:&success];
+		expect(trackingBranch).notTo(beNil());
+		expect(@(success)).to(beTruthy());
+	});
+
+	it(@"should unset a tracking branch", ^{
+		BOOL success = NO;
+		GTBranch *trackingBranch = [masterBranch trackingBranchWithError:NULL success:&success];
+		expect(trackingBranch).notTo(beNil());
+		expect(@(success)).to(beTruthy());
+
+		success = [masterBranch updateTrackingBranch:nil error:NULL];
+		expect(@(success)).to(beTruthy());
+
+		trackingBranch = [masterBranch trackingBranchWithError:NULL success:&success];
+		expect(trackingBranch).to(beNil());
+		expect(@(success)).to(beTruthy());
+	});
+});
+
 // TODO: Test branch renaming, branch upstream
 //- (void)testCanRenameBranch {
 //

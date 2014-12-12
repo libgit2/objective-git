@@ -205,6 +205,16 @@
 	return [[self class] branchWithReference:[[GTReference alloc] initWithGitReference:trackingRef repository:self.repository] repository:self.repository];
 }
 
+- (BOOL)updateTrackingBranch:(GTBranch *)trackingBranch error:(NSError **)error {
+	int result = git_branch_set_upstream(self.reference.git_reference, trackingBranch.shortName.UTF8String);
+	if (result != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:result description:@"Failed to update tracking branch for %@", self];
+		return NO;
+	}
+
+	return YES;
+}
+
 - (GTBranch *)reloadedBranchWithError:(NSError **)error {
 	GTReference *reloadedRef = [self.reference reloadedReferenceWithError:error];
 	if (reloadedRef == nil) return nil;
