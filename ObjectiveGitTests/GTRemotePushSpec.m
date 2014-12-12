@@ -53,7 +53,7 @@ describe(@"pushing", ^{
 		notBareRepo = self.bareFixtureRepository;
 		expect(notBareRepo).notTo(beNil());
 		// This repo is not really "bare" according to libgit2
-		expect(@(notBareRepo.isBare)).to(beFalse());
+		expect(@(notBareRepo.isBare)).to(beFalsy());
 	});
 
 	describe(@"to remote", ^{	// via local transport
@@ -141,7 +141,7 @@ describe(@"pushing", ^{
 				}];
 				expect(error).to(beNil());
 				expect(@(result)).to(beTruthy());
-				expect(@(transferProgressed)).to(beFalse()); // Local transport doesn't currently call progress callbacks
+				expect(@(transferProgressed)).to(beFalsy()); // Local transport doesn't currently call progress callbacks
 
 				// Same number of commits after push, refresh branch first
 				remoteMasterBranch = localBranchWithName(@"master", remoteRepo);
@@ -178,7 +178,7 @@ describe(@"pushing", ^{
 			}];
 			expect(error).to(beNil());
 			expect(@(result)).to(beTruthy());
-			expect(@(transferProgressed)).to(beFalse()); // Local transport doesn't currently call progress callbacks
+			expect(@(transferProgressed)).to(beFalsy()); // Local transport doesn't currently call progress callbacks
 
 			// Number of commits on tracking branch after push
 			localTrackingBranch = [masterBranch trackingBranchWithError:&error success:&success];
