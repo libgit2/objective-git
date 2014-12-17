@@ -16,9 +16,16 @@ static NSString * const testTreeSHA = @"c4dc1555e4d4fa0e0c9c3fc46734c7c35b3ce90b
 
 QuickSpecBegin(GTTreeBuilderSpec)
 
+__block GTRepository *repo;
+
+beforeEach(^{
+	repo = self.bareFixtureRepository;
+	expect(repo).notTo(beNil());
+});
+
 it(@"should be possible to make a new tree builder without a tree", ^{
 	NSError *error = nil;
-	GTTreeBuilder *builder = [[GTTreeBuilder alloc] initWithTree:nil error:&error];
+	GTTreeBuilder *builder = [[GTTreeBuilder alloc] initWithTree:nil repository:repo error:&error];
 	expect(error).to(beNil());
 	expect(builder).notTo(beNil());
 });
@@ -26,13 +33,10 @@ it(@"should be possible to make a new tree builder without a tree", ^{
 it(@"should be possible to make a new tree builder from an existing tree", ^{
 	NSError *error = nil;
 
-	GTRepository *repo = self.bareFixtureRepository;
-	expect(repo).notTo(beNil());
-
 	GTTree *tree = (GTTree *)[repo lookUpObjectBySHA:testTreeSHA error:NULL];
 	expect(tree).notTo(beNil());
 
-	GTTreeBuilder *builder = [[GTTreeBuilder alloc] initWithTree:tree error:&error];
+	GTTreeBuilder *builder = [[GTTreeBuilder alloc] initWithTree:tree repository:repo error:&error];
 	expect(error).to(beNil());
 	expect(builder).notTo(beNil());
 });
@@ -43,7 +47,7 @@ describe(@"GTTreeBuilder building", ^{
 	__block GTOID *OID;
 
 	beforeEach(^{
-		builder = [[GTTreeBuilder alloc] initWithTree:nil error:&error];
+		builder = [[GTTreeBuilder alloc] initWithTree:nil repository:repo error:&error];
 		expect(builder).notTo(beNil());
 		expect(error).to(beNil());
 
@@ -74,9 +78,6 @@ describe(@"GTTreeBuilder building", ^{
 	});
 
 	it(@"should be possible to filter a builder", ^{
-		GTRepository *repo = self.bareFixtureRepository;
-		expect(repo).notTo(beNil());
-
 		GTBlob *blob = [GTBlob blobWithString:@"Hi, how are you?" inRepository:repo error:&error];
 		expect(blob).notTo(beNil());
 		expect(error).to(beNil());
@@ -103,9 +104,6 @@ describe(@"GTTreeBuilder building", ^{
 	});
 
 	it(@"should write new blobs when the tree is written", ^{
-		GTRepository *repo = self.bareFixtureRepository;
-		expect(repo).notTo(beNil());
-
 		GTTreeEntry *entry = [builder addEntryWithData:[@"Hello, World!" dataUsingEncoding:NSUTF8StringEncoding] fileName:@"test.txt" fileMode:GTFileModeBlob error:NULL];
 		expect(entry).notTo(beNil());
 
@@ -114,23 +112,20 @@ describe(@"GTTreeBuilder building", ^{
 
 		expect(@([database containsObjectWithOID:entry.OID])).to(beFalsy());
 
-		GTTree *tree = [builder writeTreeToRepository:repo error:NULL];
+		GTTree *tree = [builder writeTree:NULL];
 		expect(tree).notTo(beNil());
 
 		expect(@([database containsObjectWithOID:entry.OID])).to(beTruthy());
 	});
 
 	it(@"should be possible to write a builder to a repository", ^{
-		GTRepository *repo = self.bareFixtureRepository;
-		expect(repo).notTo(beNil());
-
 		GTBlob *blob = [GTBlob blobWithString:@"Hi, how are you?" inRepository:repo error:&error];
 		expect(blob).notTo(beNil());
 		expect(error).to(beNil());
 
 		[builder addEntryWithOID:blob.OID fileName:@"hi.txt" fileMode:GTFileModeBlob error:&error];
 
-		GTTree *writtenTree = [builder writeTreeToRepository:repo error:&error];
+		GTTree *writtenTree = [builder writeTree:&error];
 		expect(writtenTree).notTo(beNil());
 		expect(error).to(beNil());
 

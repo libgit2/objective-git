@@ -27,13 +27,13 @@ beforeEach(^{
 });
 
 it(@"can create commits", ^{
-	GTTreeBuilder *builder = [[GTTreeBuilder alloc] initWithTree:nil error:NULL];
+	GTTreeBuilder *builder = [[GTTreeBuilder alloc] initWithTree:nil repository:repository error:NULL];
 	expect(builder).notTo(beNil());
 
 	GTTreeEntry *entry = [builder addEntryWithData:[@"Another file contents" dataUsingEncoding:NSUTF8StringEncoding] fileName:@"Test file 2.txt" fileMode:GTFileModeBlob error:NULL];
 	expect(entry).notTo(beNil());
 
-	GTTree *subtree = [builder writeTreeToRepository:repository error:NULL];
+	GTTree *subtree = [builder writeTree:NULL];
 	expect(subtree).notTo(beNil());
 
 	[builder clear];
@@ -44,7 +44,7 @@ it(@"can create commits", ^{
 	entry = [builder addEntryWithOID:subtree.OID fileName:@"subdir" fileMode:GTFileModeTree error:NULL];
 	expect(entry).notTo(beNil());
 
-	GTTree *tree = [builder writeTreeToRepository:repository error:NULL];
+	GTTree *tree = [builder writeTree:NULL];
 	expect(tree).notTo(beNil());
 
 	GTCommit *initialCommit = [repository createCommitWithTree:tree message:@"Initial commit" parents:nil updatingReferenceNamed:@"refs/heads/master" error:NULL];

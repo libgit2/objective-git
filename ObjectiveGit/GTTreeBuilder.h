@@ -54,11 +54,12 @@ typedef NS_ENUM(NSInteger, GTFileMode) {
 
 /// Initializes the receiver, optionally from an existing tree.
 ///
-/// treeOrNil - Source tree (or nil)
-/// error     - The error if one occurred.
+/// treeOrNil  - Source tree (or nil)
+/// repository - The repository in which to build the tree. Must not be nil.
+/// error      - The error if one occurred.
 ///
 /// Returns the initialized object, or nil if an error occurred.
-- (id)initWithTree:(GTTree *)treeOrNil error:(NSError **)error;
+- (id)initWithTree:(GTTree *)treeOrNil repository:(GTRepository *)repository error:(NSError **)error;
 
 /// The underlying `git_treebuilder` object.
 - (git_treebuilder *)git_treebuilder __attribute__((objc_returns_inner_pointer));
@@ -118,10 +119,9 @@ typedef NS_ENUM(NSInteger, GTFileMode) {
 
 /// Write the contents of the tree builder as a tree object.
 ///
-/// repository - Repository in which to write the tree.
-/// error      - The error if one occurred.
+/// error - The error if one occurred.
 ///
 /// Returns the written tree, or nil if an error occurred.
-- (GTTree *)writeTreeToRepository:(GTRepository *)repository error:(NSError **)error;
+- (GTTree *)writeTree:(NSError **)error;
 
 @end

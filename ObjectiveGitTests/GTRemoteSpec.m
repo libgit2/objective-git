@@ -135,10 +135,10 @@ describe(@"network operations", ^{
 
 	// Helper to quickly create commits
 	GTCommit *(^createCommitInRepository)(NSString *, NSData *, NSString *, GTRepository *) = ^(NSString *message, NSData *fileData, NSString *fileName, GTRepository *repo) {
-		GTTreeBuilder *treeBuilder = [[GTTreeBuilder alloc] initWithTree:nil error:nil];
+		GTTreeBuilder *treeBuilder = [[GTTreeBuilder alloc] initWithTree:nil repository:repo error:nil];
 		[treeBuilder addEntryWithData:fileData fileName:fileName fileMode:GTFileModeBlob error:nil];
 
-		GTTree *testTree = [treeBuilder writeTreeToRepository:repo error:nil];
+		GTTree *testTree = [treeBuilder writeTree:nil];
 
 		// We need the parent commit to make the new one
 		GTReference *headReference = [repo headReferenceWithError:nil];
