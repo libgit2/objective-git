@@ -278,12 +278,6 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 		return NO;
 	}
 
-	int unpackSuccessful = git_push_unpack_ok(push);
-	if (unpackSuccessful == 0) {
-		if (error != NULL) *error = [NSError errorWithDomain:GTGitErrorDomain code:GIT_ERROR userInfo:@{ NSLocalizedDescriptionKey: @"Unpacking failed" }];
-		return NO;
-	}
-
 	gitError = git_push_update_tips(push, self.userSignatureForNow.git_signature, NULL);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Update tips failed"];

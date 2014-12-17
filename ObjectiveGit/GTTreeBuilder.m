@@ -41,6 +41,7 @@
 @interface GTTreeBuilder ()
 
 @property (nonatomic, assign, readonly) git_treebuilder *git_treebuilder;
+@property (nonatomic, strong, readonly) GTRepository *repository;
 
 // Data to be written with the tree, keyed by the file name. This should only be
 // accessed while synchronized on self.
@@ -61,16 +62,19 @@
 
 #pragma mark Lifecycle
 
-- (id)initWithTree:(GTTree *)treeOrNil error:(NSError **)error {
+- (id)initWithTree:(GTTree *)treeOrNil repository:(GTRepository *)repository error:(NSError **)error {
+	NSParameterAssert(repository != nil);
+
 	self = [super init];
 	if (self == nil) return nil;
 
-	int status = git_treebuilder_create(&_git_treebuilder, treeOrNil.git_tree);
+	int status = git_treebuilder_create(&_git_treebuilder, repository.git_repository, treeOrNil.git_tree);
 	if (status != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to create tree builder with tree %@.", treeOrNil.SHA];
 		return nil;
 	}
 
+	_repository = repository;
 	_fileNameToPendingData	= [NSMutableDictionary dictionary];
 
 	return self;
@@ -86,7 +90,7 @@
 #pragma mark Modification
 
 - (void)clear {
-	git_treebuilder_clear(self.git_treebuilder);	
+	git_treebuilder_clear(self.git_treebuilder);
 }
 
 static int filter_callback(const git_tree_entry *entry, void *payload) {
@@ -105,7 +109,7 @@ static int filter_callback(const git_tree_entry *entry, void *payload) {
 
 	const git_tree_entry *entry = git_treebuilder_get(self.git_treebuilder, fileName.UTF8String);
 	if (entry == NULL) return nil;
-	
+
 	return [GTTreeEntry entryWithEntry:entry parentTree:nil];
 }
 
@@ -129,12 +133,12 @@ static int filter_callback(const git_tree_entry *entry, void *payload) {
 
 	const git_tree_entry *entry = NULL;
 	int status = git_treebuilder_insert(&entry, self.git_treebuilder, fileName.UTF8String, oid.git_oid, (git_filemode_t)fileMode);
-	
+
 	if (status != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to add entry %@ to tree builder.", oid.SHA];
 		return nil;
 	}
-	
+
 	return [GTTreeEntry entryWithEntry:entry parentTree:nil];
 }
 
@@ -147,11 +151,11 @@ static int filter_callback(const git_tree_entry *entry, void *payload) {
 	@synchronized (self) {
 		[self.fileNameToPendingData removeObjectForKey:fileName];
 	}
-	
+
 	return status == GIT_OK;
 }
 
-- (BOOL)writePendingDataToRepository:(GTRepository *)repository error:(NSError **)error {
+- (BOOL)writePendingData:(NSError **)error {
 	NSDictionary *copied;
 	@synchronized (self) {
 		copied = [self.fileNameToPendingData copy];
@@ -159,7 +163,7 @@ static int filter_callback(const git_tree_entry *entry, void *payload) {
 	}
 
 	if (copied.count != 0) {
-		GTObjectDatabase *odb = [repository objectDatabaseWithError:error];
+		GTObjectDatabase *odb = [self.repository objectDatabaseWithError:error];
 		if (odb == nil) return NO;
 
 		for (NSString *fileName in copied) {
@@ -172,25 +176,25 @@ static int filter_callback(const git_tree_entry *entry, void *payload) {
 	return YES;
 }
 
-- (GTTree *)writeTreeToRepository:(GTRepository *)repository error:(NSError **)error {
-	BOOL success = [self writePendingDataToRepository:repository error:error];
+- (GTTree *)writeTree:(NSError **)error {
+	BOOL success = [self writePendingData:error];
 	if (!success) return nil;
 
 	git_oid treeOid;
-	int status = git_treebuilder_write(&treeOid, repository.git_repository, self.git_treebuilder);
+	int status = git_treebuilder_write(&treeOid, self.git_treebuilder);
 	if (status != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to write tree in repository."];
 		return nil;
 	}
-	
+
 	git_object *object = NULL;
-	status = git_object_lookup(&object, repository.git_repository, &treeOid, GIT_OBJ_TREE);
+	status = git_object_lookup(&object, self.repository.git_repository, &treeOid, GIT_OBJ_TREE);
 	if (status != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to lookup tree in repository."];
 		return nil;
 	}
-	
-	return [GTObject objectWithObj:object inRepository:repository];	
+
+	return [GTObject objectWithObj:object inRepository:self.repository];
 }
 
 @end
