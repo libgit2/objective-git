@@ -59,6 +59,7 @@ NSString * const GTRepositoryCloneOptionsCheckout = @"GTRepositoryCloneOptionsCh
 NSString * const GTRepositoryCloneOptionsTransportFlags = @"GTRepositoryCloneOptionsTransportFlags";
 NSString * const GTRepositoryCloneOptionsCredentialProvider = @"GTRepositoryCloneOptionsCredentialProvider";
 NSString * const GTRepositoryCloneOptionsCloneLocal = @"GTRepositoryCloneOptionsCloneLocal";
+NSString * const GTRepositoryCloneOptionsServerCertificateURL = @"GTRepositoryCloneOptionsServerCertificateURL";
 NSString * const GTRepositoryInitOptionsFlags = @"GTRepositoryInitOptionsFlags";
 NSString * const GTRepositoryInitOptionsMode = @"GTRepositoryInitOptionsMode";
 NSString * const GTRepositoryInitOptionsWorkingDirectoryPath = @"GTRepositoryInitOptionsWorkingDirectoryPath";
@@ -264,6 +265,17 @@ struct GTRemoteCreatePayload {
 	BOOL localClone = [options[GTRepositoryCloneOptionsCloneLocal] boolValue];
 	if (localClone) {
 		cloneOptions.local = GIT_CLONE_NO_LOCAL;
+	}
+	
+	NSURL *serverCertificateURL = options[GTRepositoryCloneOptionsServerCertificateURL];
+	if (serverCertificateURL) {
+		const char *file = serverCertificateURL.fileSystemRepresentation;
+		const char *path = NULL;
+		int gitError = git_libgit2_opts(GIT_OPT_SET_SSL_CERT_LOCATIONS, file, path);
+		if (gitError < GIT_OK) {
+			if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to configure the server certificate at %@", serverCertificateURL];
+			return nil;
+		}
 	}
 
 	// If our originURL is local, convert to a path before handing down.

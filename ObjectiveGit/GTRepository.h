@@ -106,6 +106,9 @@ extern NSString * const GTRepositoryCloneOptionsCredentialProvider;
 /// A BOOL indicating whether local clones should actually clone, or just link.
 extern NSString * const GTRepositoryCloneOptionsCloneLocal;
 
+/// A NSURL pointing to a local file that contains PEM-encoded certificate chain.
+extern NSString *const GTRepositoryCloneOptionsServerCertificateURL;
+
 /// Initialization flags associated with `GTRepositoryInitOptionsFlags` for
 /// +initializeEmptyRepositoryAtFileURL:options:error:.
 ///
@@ -199,7 +202,8 @@ extern NSString * const GTRepositoryInitOptionsOriginURLString;
 ///                         `GTRepositoryCloneOptionsBare`,
 ///                         `GTRepositoryCloneOptionsCheckout`,
 ///                         `GTRepositoryCloneOptionsCredentialProvider`,
-///                         `GTRepositoryCloneOptionsCloneLocal`
+///                         `GTRepositoryCloneOptionsCloneLocal`,
+///                         `GTRepositoryCloneOptionsServerCertificateURL`
 /// error                 - A pointer to fill in case of trouble.
 /// transferProgressBlock - This block is called with network transfer updates.
 /// checkoutProgressBlock - This block is called with checkout updates
