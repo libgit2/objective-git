@@ -269,9 +269,7 @@ struct GTRemoteCreatePayload {
 	
 	NSURL *serverCertificateURL = options[GTRepositoryCloneOptionsServerCertificateURL];
 	if (serverCertificateURL) {
-		const char *file = serverCertificateURL.fileSystemRepresentation;
-		const char *path = NULL;
-		int gitError = git_libgit2_opts(GIT_OPT_SET_SSL_CERT_LOCATIONS, file, path);
+		int gitError = git_libgit2_opts(GIT_OPT_SET_SSL_CERT_LOCATIONS, serverCertificateURL.fileSystemRepresentation, NULL);
 		if (gitError < GIT_OK) {
 			if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to configure the server certificate at %@", serverCertificateURL];
 			return nil;
