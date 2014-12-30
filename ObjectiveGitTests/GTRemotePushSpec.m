@@ -164,7 +164,7 @@ describe(@"pushing", ^{
 			BOOL success = NO;
 			GTBranch *localTrackingBranch = [masterBranch trackingBranchWithError:&error success:&success];
 			expect(error).to(beNil());
-			expect(@(success)).to(beTrue());
+			expect(@(success)).to(beTruthy());
 			expect(@([localTrackingBranch numberOfCommitsWithError:NULL])).to(equal(@3));
 
 			// Number of commits on remote before push
@@ -183,7 +183,7 @@ describe(@"pushing", ^{
 			// Number of commits on tracking branch after push
 			localTrackingBranch = [masterBranch trackingBranchWithError:&error success:&success];
 			expect(error).to(beNil());
-			expect(@(success)).to(beTrue());
+			expect(@(success)).to(beTruthy());
 			expect(@([localTrackingBranch numberOfCommitsWithError:NULL])).to(equal(@4));
 
 			// Refresh remote master branch to ensure the commit count is accurate
