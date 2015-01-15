@@ -16,7 +16,7 @@ QuickSpecBegin(GTRepositoryCommitting)
 
 __block GTRepository *repository;
 
-beforeEach(^{
+qck_beforeEach(^{
 	CFUUIDRef UUIDRef = CFUUIDCreate(NULL);
 	NSString *UUID = CFBridgingRelease(CFUUIDCreateString(NULL, UUIDRef));
 	CFRelease(UUIDRef);
@@ -26,7 +26,7 @@ beforeEach(^{
 	expect(repository).notTo(beNil());
 });
 
-it(@"can create commits", ^{
+qck_it(@"can create commits", ^{
 	GTTreeBuilder *builder = [[GTTreeBuilder alloc] initWithTree:nil repository:repository error:NULL];
 	expect(builder).notTo(beNil());
 
@@ -55,7 +55,7 @@ it(@"can create commits", ^{
 	expect(ref.resolvedTarget).to(equal(initialCommit));
 });
 
-afterEach(^{
+qck_afterEach(^{
 	[self tearDown];
 });
 

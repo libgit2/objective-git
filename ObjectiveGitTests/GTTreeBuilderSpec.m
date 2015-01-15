@@ -18,19 +18,19 @@ QuickSpecBegin(GTTreeBuilderSpec)
 
 __block GTRepository *repo;
 
-beforeEach(^{
+qck_beforeEach(^{
 	repo = self.bareFixtureRepository;
 	expect(repo).notTo(beNil());
 });
 
-it(@"should be possible to make a new tree builder without a tree", ^{
+qck_it(@"should be possible to make a new tree builder without a tree", ^{
 	NSError *error = nil;
 	GTTreeBuilder *builder = [[GTTreeBuilder alloc] initWithTree:nil repository:repo error:&error];
 	expect(error).to(beNil());
 	expect(builder).notTo(beNil());
 });
 
-it(@"should be possible to make a new tree builder from an existing tree", ^{
+qck_it(@"should be possible to make a new tree builder from an existing tree", ^{
 	NSError *error = nil;
 
 	GTTree *tree = (GTTree *)[repo lookUpObjectBySHA:testTreeSHA error:NULL];
@@ -41,12 +41,12 @@ it(@"should be possible to make a new tree builder from an existing tree", ^{
 	expect(builder).notTo(beNil());
 });
 
-describe(@"GTTreeBuilder building", ^{
+qck_describe(@"GTTreeBuilder building", ^{
 	__block GTTreeBuilder *builder;
 	__block NSError *error = nil;
 	__block GTOID *OID;
 
-	beforeEach(^{
+	qck_beforeEach(^{
 		builder = [[GTTreeBuilder alloc] initWithTree:nil repository:repo error:&error];
 		expect(builder).notTo(beNil());
 		expect(error).to(beNil());
@@ -54,7 +54,7 @@ describe(@"GTTreeBuilder building", ^{
 		OID = [GTOID oidWithSHA:testTreeSHA];
 	});
 
-	it(@"should be possible to add an entry to a builder", ^{
+	qck_it(@"should be possible to add an entry to a builder", ^{
 		GTTreeEntry *entry = [builder addEntryWithOID:OID fileName:@"tree" fileMode:GTFileModeTree error:&error];
 		expect(entry).notTo(beNil());
 		expect(error).to(beNil());
@@ -62,7 +62,7 @@ describe(@"GTTreeBuilder building", ^{
 		expect(@(builder.entryCount)).to(equal(@1));
 	});
 
-	it(@"should be possible to remove an entry from a builder", ^{
+	qck_it(@"should be possible to remove an entry from a builder", ^{
 		NSString *fileName = @"tree";
 		GTTreeEntry *entry = [builder addEntryWithOID:OID fileName:fileName fileMode:GTFileModeTree error:&error];
 		expect(entry).notTo(beNil());
@@ -77,7 +77,7 @@ describe(@"GTTreeBuilder building", ^{
 		expect(@(builder.entryCount)).to(equal(@0));
 	});
 
-	it(@"should be possible to filter a builder", ^{
+	qck_it(@"should be possible to filter a builder", ^{
 		GTBlob *blob = [GTBlob blobWithString:@"Hi, how are you?" inRepository:repo error:&error];
 		expect(blob).notTo(beNil());
 		expect(error).to(beNil());
@@ -93,7 +93,7 @@ describe(@"GTTreeBuilder building", ^{
 		expect(@(builder.entryCount)).to(equal(@0));
 	});
 
-	it(@"should be possible to find an entry by file name in a builder", ^{
+	qck_it(@"should be possible to find an entry by file name in a builder", ^{
 		NSString *fileName = @"tree";
 		GTTreeEntry *entry = [builder addEntryWithOID:OID fileName:fileName fileMode:GTFileModeTree error:&error];
 		expect(entry).notTo(beNil());
@@ -103,7 +103,7 @@ describe(@"GTTreeBuilder building", ^{
 		expect(foundEntry.SHA).to(equal(entry.SHA));
 	});
 
-	it(@"should write new blobs when the tree is written", ^{
+	qck_it(@"should write new blobs when the tree is written", ^{
 		GTTreeEntry *entry = [builder addEntryWithData:[@"Hello, World!" dataUsingEncoding:NSUTF8StringEncoding] fileName:@"test.txt" fileMode:GTFileModeBlob error:NULL];
 		expect(entry).notTo(beNil());
 
@@ -118,7 +118,7 @@ describe(@"GTTreeBuilder building", ^{
 		expect(@([database containsObjectWithOID:entry.OID])).to(beTruthy());
 	});
 
-	it(@"should be possible to write a builder to a repository", ^{
+	qck_it(@"should be possible to write a builder to a repository", ^{
 		GTBlob *blob = [GTBlob blobWithString:@"Hi, how are you?" inRepository:repo error:&error];
 		expect(blob).notTo(beNil());
 		expect(error).to(beNil());
@@ -135,7 +135,7 @@ describe(@"GTTreeBuilder building", ^{
 	});
 });
 
-afterEach(^{
+qck_afterEach(^{
 	[self tearDown];
 });
 

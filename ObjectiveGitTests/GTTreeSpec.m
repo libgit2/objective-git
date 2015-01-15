@@ -18,7 +18,7 @@ QuickSpecBegin(GTTreeSpec)
 
 __block GTTree *tree;
 
-beforeEach(^{
+qck_beforeEach(^{
 	GTRepository *repo = self.bareFixtureRepository;
 	expect(repo).notTo(beNil());
 
@@ -26,19 +26,19 @@ beforeEach(^{
 	expect(tree).notTo(beNil());
 });
 
-it(@"should be able to read tree properties", ^{
+qck_it(@"should be able to read tree properties", ^{
 	expect(tree.SHA).to(equal(testTreeSHA));
 	expect(@(tree.entryCount)).to(equal(@3));
 });
 
-it(@"should be able to read tree entry properties", ^{
+qck_it(@"should be able to read tree entry properties", ^{
 	GTTreeEntry *entry = [tree entryAtIndex:0];
 	expect(entry).notTo(beNil());
 	expect(entry.name).to(equal(@"README"));
 	expect(entry.SHA).to(equal(@"1385f264afb75a56a5bec74243be9b367ba4ca08"));
 });
 
-it(@"should give quick access to its entries", ^{
+qck_it(@"should give quick access to its entries", ^{
 	NSArray *treeEntries = tree.entries;
 	expect(treeEntries).notTo(beNil());
 	expect(@(treeEntries.count)).to(equal(@3));
@@ -53,8 +53,8 @@ it(@"should give quick access to its entries", ^{
 	expect(treeEntries).to(contain(subdir));
 });
 
-describe(@"tree enumeration", ^{
-	it(@"should stop when instructed", ^{
+qck_describe(@"tree enumeration", ^{
+	qck_it(@"should stop when instructed", ^{
 		NSMutableArray *mutableArray = [NSMutableArray array];
 		BOOL success = [tree enumerateEntriesWithOptions:GTTreeEnumerationOptionPre error:nil block:^(GTTreeEntry *entry, NSString *root, BOOL *stop) {
 			if ([entry.name isEqualToString:@"README"]) {
@@ -68,7 +68,7 @@ describe(@"tree enumeration", ^{
 		expect(@(mutableArray.count)).to(equal(@1));
 	});
 
-	it(@"should be able to enumerate descendants", ^{
+	qck_it(@"should be able to enumerate descendants", ^{
 		NSMutableArray *entriesInASubtree = [NSMutableArray array];
 		BOOL success = [tree enumerateEntriesWithOptions:GTTreeEnumerationOptionPre error:nil block:^(GTTreeEntry *entry, NSString *root, BOOL *stop) {
 			if (![root isEqualToString:@""]) {
@@ -81,7 +81,7 @@ describe(@"tree enumeration", ^{
 		expect(@(entriesInASubtree.count)).to(equal(@5));
 	});
 
-	it(@"should be able to enumerate in post-order", ^{
+	qck_it(@"should be able to enumerate in post-order", ^{
 		NSMutableArray *entries = [NSMutableArray array];
 		BOOL success = [tree enumerateEntriesWithOptions:GTTreeEnumerationOptionPost error:nil block:^(GTTreeEntry *entry, NSString *root, BOOL *stop) {
 			[entries addObject:entry];
@@ -94,12 +94,12 @@ describe(@"tree enumeration", ^{
 	});
 });
 
-it(@"should return nil for non-existent entries", ^{
+qck_it(@"should return nil for non-existent entries", ^{
 	expect([tree entryAtIndex:99]).to(beNil());
 	expect([tree entryWithName:@"_does not exist"]).to(beNil());
 });
 
-afterEach(^{
+qck_afterEach(^{
 	[self tearDown];
 });
 

@@ -16,12 +16,12 @@ QuickSpecBegin(GTSubmoduleSpec)
 
 __block GTRepository *repo;
 
-beforeEach(^{
+qck_beforeEach(^{
 	repo = self.submoduleFixtureRepository;
 	expect(repo).notTo(beNil());
 });
 
-it(@"should enumerate top-level submodules", ^{
+qck_it(@"should enumerate top-level submodules", ^{
 	NSMutableSet *names = [NSMutableSet set];
 	[repo enumerateSubmodulesRecursively:NO usingBlock:^(GTSubmodule *submodule, NSError *error, BOOL *stop) {
 		expect(submodule).to(beAnInstanceOf(GTSubmodule.class));
@@ -34,7 +34,7 @@ it(@"should enumerate top-level submodules", ^{
 	expect(names).to(equal(expectedNames));
 });
 
-it(@"should enumerate submodules recursively", ^{
+qck_it(@"should enumerate submodules recursively", ^{
 	NSMutableSet *names = [NSMutableSet set];
 	[repo enumerateSubmodulesRecursively:YES usingBlock:^(GTSubmodule *submodule, NSError *error, BOOL *stop) {
 		expect(submodule).to(beAnInstanceOf(GTSubmodule.class));
@@ -47,7 +47,7 @@ it(@"should enumerate submodules recursively", ^{
 	expect(names).to(equal(expectedNames));
 });
 
-it(@"should terminate enumeration early", ^{
+qck_it(@"should terminate enumeration early", ^{
 	__block NSUInteger count = 0;
 	[repo enumerateSubmodulesRecursively:NO usingBlock:^(GTSubmodule *submodule, NSError *error, BOOL *stop) {
 		if (count == 2) {
@@ -60,7 +60,7 @@ it(@"should terminate enumeration early", ^{
 	expect(@(count)).to(equal(@2));
 });
 
-it(@"should write to the parent .git/config", ^{
+qck_it(@"should write to the parent .git/config", ^{
 	NSString *testURLString = @"fake_url";
 
 	GTSubmodule *submodule = [repo submoduleWithName:@"Test_App" error:NULL];
@@ -79,7 +79,7 @@ it(@"should write to the parent .git/config", ^{
 	expect(@(git_submodule_url(submodule.git_submodule))).to(equal(testURLString));
 });
 
-it(@"should reload all submodules", ^{
+qck_it(@"should reload all submodules", ^{
 	GTSubmodule *submodule = [repo submoduleWithName:@"new_submodule" error:NULL];
 	expect(submodule).to(beNil());
 
@@ -99,7 +99,7 @@ it(@"should reload all submodules", ^{
 	expect(submodule.path).to(equal(@"new_submodule_path"));
 });
 
-it(@"should add its HEAD to its parent's index", ^{
+qck_it(@"should add its HEAD to its parent's index", ^{
 	GTSubmodule *submodule = [repo submoduleWithName:@"Test_App" error:NULL];
 	expect(submodule).notTo(beNil());
 
@@ -114,10 +114,10 @@ it(@"should add its HEAD to its parent's index", ^{
 	expect(@(success)).to(beTruthy());
 });
 
-describe(@"clean, checked out submodule", ^{
+qck_describe(@"clean, checked out submodule", ^{
 	__block GTSubmodule *submodule;
 
-	beforeEach(^{
+	qck_beforeEach(^{
 		NSError *error = nil;
 		submodule = [repo submoduleWithName:@"Test_App" error:&error];
 		expect(submodule).notTo(beNil());
@@ -130,21 +130,21 @@ describe(@"clean, checked out submodule", ^{
 		expect([NSValue valueWithPointer:submodule.git_submodule]).notTo(equal([NSValue valueWithPointer:NULL]));
 	});
 
-	it(@"should compare equal to the same submodule", ^{
+	qck_it(@"should compare equal to the same submodule", ^{
 		expect(submodule).to(equal([repo submoduleWithName:@"Test_App" error:NULL]));
 	});
 
-	it(@"should compare unequal to a different submodule", ^{
+	qck_it(@"should compare unequal to a different submodule", ^{
 		expect(submodule).notTo(equal([repo submoduleWithName:@"Test_App2" error:NULL]));
 	});
 
-	it(@"should have identical OIDs", ^{
+	qck_it(@"should have identical OIDs", ^{
 		expect(submodule.HEADOID.SHA).to(equal(@"f7ecd8f4404d3a388efbff6711f1bdf28ffd16a0"));
 		expect(submodule.indexOID.SHA).to(equal(@"f7ecd8f4404d3a388efbff6711f1bdf28ffd16a0"));
 		expect(submodule.workingDirectoryOID.SHA).to(equal(@"f7ecd8f4404d3a388efbff6711f1bdf28ffd16a0"));
 	});
 
-	it(@"should have a clean status", ^{
+	qck_it(@"should have a clean status", ^{
 		GTSubmoduleStatus expectedStatus = GTSubmoduleStatusExistsInHEAD | GTSubmoduleStatusExistsInIndex | GTSubmoduleStatusExistsInConfig | GTSubmoduleStatusExistsInWorkingDirectory;
 
 		__block NSError *error = nil;
@@ -152,7 +152,7 @@ describe(@"clean, checked out submodule", ^{
 		expect(error).to(beNil());
 	});
 
-	it(@"should open a repository" ,^{
+	qck_it(@"should open a repository" ,^{
 		NSError *error = nil;
 		GTRepository *submoduleRepo = [submodule submoduleRepository:&error];
 		expect(submoduleRepo).notTo(beNil());
@@ -165,7 +165,7 @@ describe(@"clean, checked out submodule", ^{
 		expect(@([submoduleRepo isWorkingDirectoryClean])).to(beTruthy());
 	});
 
-	it(@"should reload", ^{
+	qck_it(@"should reload", ^{
 		GTRepository *submoduleRepo = [submodule submoduleRepository:NULL];
 		expect(submoduleRepo).notTo(beNil());
 
@@ -183,10 +183,10 @@ describe(@"clean, checked out submodule", ^{
 	});
 });
 
-describe(@"dirty, checked out submodule", ^{
+qck_describe(@"dirty, checked out submodule", ^{
 	__block GTSubmodule *submodule;
 
-	beforeEach(^{
+	qck_beforeEach(^{
 		NSError *error = nil;
 		submodule = [repo submoduleWithName:@"Test_App2" error:&error];
 		expect(submodule).notTo(beNil());
@@ -199,21 +199,21 @@ describe(@"dirty, checked out submodule", ^{
 		expect([NSValue valueWithPointer:submodule.git_submodule]).notTo(equal([NSValue valueWithPointer:NULL]));
 	});
 
-	it(@"should compare equal to the same submodule", ^{
+	qck_it(@"should compare equal to the same submodule", ^{
 		expect(submodule).to(equal([repo submoduleWithName:@"Test_App2" error:NULL]));
 	});
 
-	it(@"should compare unequal to a different submodule", ^{
+	qck_it(@"should compare unequal to a different submodule", ^{
 		expect(submodule).notTo(equal([repo submoduleWithName:@"Test_App" error:NULL]));
 	});
 
-	it(@"should have varying OIDs", ^{
+	qck_it(@"should have varying OIDs", ^{
 		expect(submodule.HEADOID.SHA).to(equal(@"a4bca6b67a5483169963572ee3da563da33712f7"));
 		expect(submodule.indexOID.SHA).to(equal(@"93f5b550149f9f4c702c9de9a8b0a8a357f0c41c"));
 		expect(submodule.workingDirectoryOID.SHA).to(equal(@"1d69f3c0aeaf0d62e25591987b93b8ffc53abd77"));
 	});
 
-	it(@"should have a dirty status", ^{
+	qck_it(@"should have a dirty status", ^{
 		GTSubmoduleStatus expectedStatus =
 			GTSubmoduleStatusExistsInHEAD | GTSubmoduleStatusExistsInIndex | GTSubmoduleStatusExistsInConfig | GTSubmoduleStatusExistsInWorkingDirectory |
 			GTSubmoduleStatusModifiedInIndex | GTSubmoduleStatusModifiedInWorkingDirectory |
@@ -224,7 +224,7 @@ describe(@"dirty, checked out submodule", ^{
 		expect(error).to(beNil());
 	});
 
-	it(@"should honor the ignore rule", ^{
+	qck_it(@"should honor the ignore rule", ^{
 		submodule.ignoreRule = GTSubmoduleIgnoreDirty;
 
 		GTSubmoduleStatus expectedStatus =
@@ -234,7 +234,7 @@ describe(@"dirty, checked out submodule", ^{
 		expect(@([submodule status:NULL])).to(equal(@(expectedStatus)));
 	});
 
-	it(@"should open a repository" ,^{
+	qck_it(@"should open a repository" ,^{
 		NSError *error = nil;
 		GTRepository *submoduleRepo = [submodule submoduleRepository:&error];
 		expect(submoduleRepo).notTo(beNil());
@@ -247,7 +247,7 @@ describe(@"dirty, checked out submodule", ^{
 		expect(@([submoduleRepo isWorkingDirectoryClean])).to(beFalsy());
 	});
 
-	it(@"should synchronize the remote URL", ^{
+	qck_it(@"should synchronize the remote URL", ^{
 		GTConfiguration *config = [repo configurationWithError:NULL];
 		expect(config).notTo(beNil());
 
@@ -263,7 +263,7 @@ describe(@"dirty, checked out submodule", ^{
 	});
 });
 
-afterEach(^{
+qck_afterEach(^{
 	[self tearDown];
 });
 

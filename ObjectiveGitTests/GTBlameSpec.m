@@ -16,16 +16,16 @@ QuickSpecBegin(GTBlameSpec)
 
 __block GTBlame *blame = nil;
 
-beforeEach(^{
+qck_beforeEach(^{
 	blame = [self.testAppFixtureRepository blameWithFile:@"README1.txt" options:nil error:nil];
 	expect(blame).notTo(beNil());
 });
 
-it(@"can count the hunks", ^{
+qck_it(@"can count the hunks", ^{
 	expect(@(blame.hunkCount)).to(equal(@4));
 });
 
-it(@"can read hunk properties", ^{
+qck_it(@"can read hunk properties", ^{
 	GTBlameHunk *hunk = [blame hunkAtIndex:1];
 
 	expect(hunk).notTo(beNil());
@@ -36,11 +36,11 @@ it(@"can read hunk properties", ^{
 	expect(@(hunk.isBoundary)).to(beFalsy());
 });
 
-it(@"The number of hunks in the `hunks` array should match `hunkCount`", ^{
+qck_it(@"The number of hunks in the `hunks` array should match `hunkCount`", ^{
 	expect(@(blame.hunks.count)).to(equal(@(blame.hunkCount)));
 });
 
-it(@"should be able to enumerate all the hunks in a blame, stopping when instructed", ^{
+qck_it(@"should be able to enumerate all the hunks in a blame, stopping when instructed", ^{
 	NSMutableArray *mutableArray = [NSMutableArray array];
 	[blame enumerateHunksUsingBlock:^(GTBlameHunk *hunk, NSUInteger index, BOOL *stop) {
 		[mutableArray addObject:hunk];
@@ -50,22 +50,22 @@ it(@"should be able to enumerate all the hunks in a blame, stopping when instruc
 	expect(@(mutableArray.count)).to(equal(@(1)));
 });
 
-it(@"should be able to get the same hunk from an index or a line", ^{
+qck_it(@"should be able to get the same hunk from an index or a line", ^{
 	GTBlameHunk *hunk = [blame hunkAtIndex:0];
 	GTBlameHunk *lineHunk = [blame hunkAtLineNumber:1];
 
 	expect(hunk).to(equal(lineHunk));
 });
 
-describe(@"Creating a blame with options", ^{
-	it(@"should follow the instructions provided by the GTBlameOptionsOldestCommitOID key", ^{
+qck_describe(@"Creating a blame with options", ^{
+	qck_it(@"should follow the instructions provided by the GTBlameOptionsOldestCommitOID key", ^{
 		GTBlame *optionsBlame = [self.testAppFixtureRepository blameWithFile:@"README1.txt" options:@{ GTBlameOptionsOldestCommitOID: [GTOID oidWithSHA:@"1d69f3c0aeaf0d62e25591987b93b8ffc53abd77"] } error:nil];
 
 		expect(optionsBlame).notTo(beNil());
 		expect(optionsBlame).notTo(equal(blame));
 	});
 
-	it(@"should follow the instructions provided by the GTBlameOptionsNewestCommitOID key", ^{
+	qck_it(@"should follow the instructions provided by the GTBlameOptionsNewestCommitOID key", ^{
 		GTOID *newOID = [GTOID oidWithSHA:@"6317779b4731d9c837dcc6972b964bdf4211eeef"];
 		GTBlame *optionsBlame = [self.testAppFixtureRepository blameWithFile:@"README1.txt" options:@{ GTBlameOptionsNewestCommitOID: newOID } error:nil];
 
@@ -74,7 +74,7 @@ describe(@"Creating a blame with options", ^{
 		expect(@(hunk.lines.length)).to(equal(@25));
 	});
 
-	it(@"should follow the instructions provided by GTBlameOptionsFirstLine and GTBlameOptionsLastLine keys", ^{
+	qck_it(@"should follow the instructions provided by GTBlameOptionsFirstLine and GTBlameOptionsLastLine keys", ^{
 		GTBlame *optionsBlame = [self.testAppFixtureRepository blameWithFile:@"README1.txt" options:@{ GTBlameOptionsFirstLine: @22, GTBlameOptionsLastLine: @24 } error:nil];
 		GTBlameHunk *hunk = [optionsBlame hunkAtIndex:0];
 
@@ -84,7 +84,7 @@ describe(@"Creating a blame with options", ^{
 	});
 });
 
-afterEach(^{
+qck_afterEach(^{
 	[self tearDown];
 });
 

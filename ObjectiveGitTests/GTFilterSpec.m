@@ -27,7 +27,7 @@ typedef NSData * (^GTFilterApplyBlock)(void **payload, NSData *from, GTFilterSou
 
 __block void (^setUpFilterWithApplyBlock)(GTFilterApplyBlock block);
 
-beforeEach(^{
+qck_beforeEach(^{
 	repository = self.testAppFixtureRepository;
 	expect(repository).notTo(beNil());
 
@@ -61,18 +61,18 @@ beforeEach(^{
 	};
 });
 
-afterEach(^{
+qck_afterEach(^{
 	BOOL success = [filter unregister:NULL];
 	expect(@(success)).to(beTruthy());
 });
 
-it(@"should be able to look up a registered filter by name", ^{
+qck_it(@"should be able to look up a registered filter by name", ^{
 	setUpFilterWithApplyBlock(nil);
 	GTFilter *filter = [GTFilter filterForName:filterName];
 	expect(filter).notTo(beNil());
 });
 
-it(@"should call all the blocks", ^{
+qck_it(@"should call all the blocks", ^{
 	__block BOOL initializeCalled = NO;
 	__block BOOL checkCalled = NO;
 	__block BOOL applyCalled = NO;
@@ -103,7 +103,7 @@ it(@"should call all the blocks", ^{
 	expect(@(cleanupCalled)).to(beTruthy());
 });
 
-it(@"shouldn't call the apply block if the check block returns NO", ^{
+qck_it(@"shouldn't call the apply block if the check block returns NO", ^{
 	__block BOOL applyCalled = NO;
 	setUpFilterWithApplyBlock(^ NSData * (void **payload, NSData *from, GTFilterSource *source, BOOL *applied) {
 		applyCalled = YES;
@@ -119,8 +119,8 @@ it(@"shouldn't call the apply block if the check block returns NO", ^{
 	expect(@(applyCalled)).to(beFalsy());
 });
 
-describe(@"application", ^{
-	it(@"should write the data returned by the apply block when cleaned", ^{
+qck_describe(@"application", ^{
+	qck_it(@"should write the data returned by the apply block when cleaned", ^{
 		NSData *replacementData = [@"oh hi mark" dataUsingEncoding:NSUTF8StringEncoding];
 		setUpFilterWithApplyBlock(^(void **payload, NSData *from, GTFilterSource *source, BOOL *applied) {
 			return replacementData;
@@ -135,7 +135,7 @@ describe(@"application", ^{
 		expect(ODBObject.data).to(equal(replacementData));
 	});
 
-	it(@"should write the data returned by the apply block when smudged", ^{
+	qck_it(@"should write the data returned by the apply block when smudged", ^{
 		addTestFileToIndex();
 		GTIndex *index = [repository indexWithError:NULL];
 		GTTree *tree = [index writeTree:NULL];
@@ -166,7 +166,7 @@ describe(@"application", ^{
 	});
 });
 
-it(@"should include the right filter source", ^{
+qck_it(@"should include the right filter source", ^{
 	setUpFilterWithApplyBlock(nil);
 
 	__block GTFilterSource *filterSource;
@@ -183,7 +183,7 @@ it(@"should include the right filter source", ^{
 	expect(filterSource.repositoryURL).to(equal(repository.fileURL));
 });
 
-afterEach(^{
+qck_afterEach(^{
 	[self tearDown];
 });
 

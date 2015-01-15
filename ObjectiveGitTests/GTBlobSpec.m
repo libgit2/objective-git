@@ -18,38 +18,38 @@ __block GTRepository *repository;
 __block NSString *blobSHA;
 __block GTBlob *blob;
 
-describe(@"blob properties can be accessed", ^{
-	beforeEach(^{
+qck_describe(@"blob properties can be accessed", ^{
+	qck_beforeEach(^{
 		repository = self.bareFixtureRepository;
 		blobSHA = @"fa49b077972391ad58037050f2a75f74e3671e92";
 		blob = [repository lookUpObjectBySHA:blobSHA objectType:GTObjectTypeBlob error:NULL];
 		expect(blob).notTo(beNil());
 	});
 
-	it(@"has a size", ^{
+	qck_it(@"has a size", ^{
 		expect(@(blob.size)).to(equal(@9));
 	});
 
-	it(@"has content", ^{
+	qck_it(@"has content", ^{
 		expect(blob.content).to(equal(@"new file\n"));
 	});
 
-	it(@"has type", ^{
+	qck_it(@"has type", ^{
 		expect(blob.type).to(equal(@"blob"));
 	});
 
-	it(@"has a SHA", ^{
+	qck_it(@"has a SHA", ^{
 		expect(blob.SHA).to(equal(blobSHA));
 	});
 });
 
-describe(@"blobs can be created", ^{
-	beforeEach(^{
+qck_describe(@"blobs can be created", ^{
+	qck_beforeEach(^{
 		repository = self.testAppFixtureRepository;
 	});
 
-	describe(@"+blobWithString:inRepository:error", ^{
-		it(@"works with valid parameters", ^{
+	qck_describe(@"+blobWithString:inRepository:error", ^{
+		qck_it(@"works with valid parameters", ^{
 			NSError *error = nil;
 			blob = [GTBlob blobWithString:@"a new blob content" inRepository:repository error:&error];
 			expect(error).to(beNil());
@@ -58,8 +58,8 @@ describe(@"blobs can be created", ^{
 		});
 	});
 
-	describe(@"+blobWithData:inRepository:error", ^{
-		it(@"works with valid parameters", ^{
+	qck_describe(@"+blobWithData:inRepository:error", ^{
+		qck_it(@"works with valid parameters", ^{
 			char bytes[] = "100644 example_helper.rb\00\xD3\xD5\xED\x9D A4_\x00 40000 examples";
 			NSData *content = [NSData dataWithBytes:bytes length:sizeof(bytes)];
 
@@ -71,8 +71,8 @@ describe(@"blobs can be created", ^{
 		});
 	});
 
-	describe(@"+blobWithFile:inRepository:error", ^{
-		it(@"works with valid parameters", ^{
+	qck_describe(@"+blobWithFile:inRepository:error", ^{
+		qck_it(@"works with valid parameters", ^{
 			NSString *fileContent = @"Test contents\n";
 			NSString *fileName = @"myfile.txt";
 			NSURL *fileURL = [repository.fileURL URLByAppendingPathComponent:fileName];
@@ -91,7 +91,7 @@ describe(@"blobs can be created", ^{
 	});
 });
 
-afterEach(^{
+qck_afterEach(^{
 	[self tearDown];
 });
 

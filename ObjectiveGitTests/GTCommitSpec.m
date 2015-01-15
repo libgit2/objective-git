@@ -16,11 +16,11 @@ QuickSpecBegin(GTCommitSpec)
 
 __block GTRepository *repository;
 
-beforeEach(^{
+qck_beforeEach(^{
 	repository = self.bareFixtureRepository;
 });
 
-it(@"can read commit data", ^{
+qck_it(@"can read commit data", ^{
 	NSError *error = nil;
 	NSString *commitSHA = @"8496071c1b46c854b31185ea97743be6a8774479";
 	GTCommit *commit = [repository lookUpObjectBySHA:commitSHA error:&error];
@@ -53,7 +53,7 @@ it(@"can read commit data", ^{
 	expect(@(commit.parents.count)).to(equal(@0));
 });
 
-it(@"can have multiple parents", ^{
+qck_it(@"can have multiple parents", ^{
 	NSError *error = nil;
 	NSString *commitSHA = @"a4a7dce85cf63874e984719f4fdd239f5145052f";
 	GTCommit *commit = [repository lookUpObjectBySHA:commitSHA error:&error];
@@ -63,7 +63,7 @@ it(@"can have multiple parents", ^{
 	expect(@(commit.parents.count)).to(equal(@2));
 });
 
-it(@"can identify merges", ^{
+qck_it(@"can identify merges", ^{
 	NSError *error;
 	NSString *commitSHA = @"a4a7dce85cf63874e984719f4fdd239f5145052f";
 	GTCommit *commit = [repository lookUpObjectBySHA:commitSHA error:&error];
@@ -72,7 +72,7 @@ it(@"can identify merges", ^{
 	expect(@(commit.merge)).to(beTruthy());
 });
 
-afterEach(^{
+qck_afterEach(^{
 	[self tearDown];
 });
 

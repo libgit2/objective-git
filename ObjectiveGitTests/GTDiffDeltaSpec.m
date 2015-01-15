@@ -17,12 +17,12 @@ QuickSpecBegin(GTDiffDeltaSpec)
 __block GTRepository *repository;
 __block GTDiffDelta *delta;
 
-beforeEach(^{
+qck_beforeEach(^{
 	repository = [self testAppFixtureRepository];
 });
 
-describe(@"blob-to-blob diffing", ^{
-	beforeEach(^{
+qck_describe(@"blob-to-blob diffing", ^{
+	qck_beforeEach(^{
 		GTBlob *blob1 = [repository lookUpObjectBySHA:@"847cd4b33f4e33bc413468bab016303b50d26d95" error:NULL];
 		expect(blob1).notTo(beNil());
 
@@ -33,7 +33,7 @@ describe(@"blob-to-blob diffing", ^{
 		expect(delta).notTo(beNil());
 	});
 
-	it(@"should generate a patch", ^{
+	qck_it(@"should generate a patch", ^{
 		GTDiffPatch *patch = [delta generatePatch:NULL];
 		expect(patch).notTo(beNil());
 		expect(@(patch.hunkCount)).to(equal(@1));
@@ -42,8 +42,8 @@ describe(@"blob-to-blob diffing", ^{
 	});
 });
 
-describe(@"blob-to-data diffing", ^{
-	beforeEach(^{
+qck_describe(@"blob-to-data diffing", ^{
+	qck_beforeEach(^{
 		GTBlob *blob = [repository lookUpObjectBySHA:@"847cd4b33f4e33bc413468bab016303b50d26d95" error:NULL];
 		expect(blob).notTo(beNil());
 
@@ -53,7 +53,7 @@ describe(@"blob-to-data diffing", ^{
 		expect(delta).notTo(beNil());
 	});
 
-	it(@"should generate a patch", ^{
+	qck_it(@"should generate a patch", ^{
 		GTDiffPatch *patch = [delta generatePatch:NULL];
 		expect(patch).notTo(beNil());
 		expect(@(patch.hunkCount)).to(equal(@1));
@@ -62,15 +62,15 @@ describe(@"blob-to-data diffing", ^{
 	});
 });
 
-describe(@"data-to-data diffing", ^{
-	beforeEach(^{
+qck_describe(@"data-to-data diffing", ^{
+	qck_beforeEach(^{
 		NSData *data1 = [@"hello world!\nwhat's up" dataUsingEncoding:NSUTF8StringEncoding];
 		NSData *data2 = [@"hello, world" dataUsingEncoding:NSUTF8StringEncoding];
 		delta = [GTDiffDelta diffDeltaFromData:data1 forPath:@"README" toData:data2 forPath:@"README" options:nil error:NULL];
 		expect(delta).notTo(beNil());
 	});
 
-	it(@"should generate a patch", ^{
+	qck_it(@"should generate a patch", ^{
 		GTDiffPatch *patch = [delta generatePatch:NULL];
 		expect(patch).notTo(beNil());
 		expect(@(patch.hunkCount)).to(equal(@1));

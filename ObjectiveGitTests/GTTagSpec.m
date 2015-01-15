@@ -16,7 +16,7 @@ QuickSpecBegin(GTTagSpec)
 
 __block GTTag *tag;
 
-beforeEach(^{
+qck_beforeEach(^{
 	NSError *error = nil;
 	GTRepository *repo = self.bareFixtureRepository;
 	NSString *tagSHA = @"0c37a5391bbff43c37f0d0371823a5509eed5b1d";
@@ -26,7 +26,7 @@ beforeEach(^{
 	expect(tagSHA).to(equal(tag.SHA));
 });
 
-it(@"can read tag data", ^{
+qck_it(@"can read tag data", ^{
 	expect(tag.type).to(equal(@"tag"));
 	expect(tag.name).to(equal(@"v1.0"));
 	expect(tag.message).to(equal(@"test tag message\n"));
@@ -39,7 +39,7 @@ it(@"can read tag data", ^{
 	expect(signature.email).to(equal(@"schacon@gmail.com"));
 });
 
-afterEach(^{
+qck_afterEach(^{
 	[self tearDown];
 });
 

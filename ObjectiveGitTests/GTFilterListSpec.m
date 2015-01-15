@@ -22,7 +22,7 @@ __block GTFilter *textFilter;
 NSString *readFilterContent = @"\nthis was touched by the read-filter!";
 NSString *textFilterContent = @"\nohai text-filter!";
 
-beforeEach(^{
+qck_beforeEach(^{
 	repository = self.testAppFixtureRepository;
 
 	NSString *attributes = @"READ* rf=true\n*.txt tf=true\n";
@@ -50,42 +50,42 @@ beforeEach(^{
 	expect(@([textFilter registerWithPriority:0 error:NULL])).to(beTruthy());
 });
 
-afterEach(^{
+qck_afterEach(^{
 	expect(@([readFilter unregister:NULL])).to(beTruthy());
 	expect(@([textFilter unregister:NULL])).to(beTruthy());
 });
 
-describe(@"loading a filter list", ^{
+qck_describe(@"loading a filter list", ^{
 	__block BOOL success;
 	__block NSError *error;
 
-	beforeEach(^{
+	qck_beforeEach(^{
 		success = NO;
 		error = nil;
 	});
 
-	it(@"should return nil on a path without any filters", ^{
+	qck_it(@"should return nil on a path without any filters", ^{
 		GTFilterList *list = [repository filterListWithPath:@"TestAppDelegate.h" blob:nil mode:GTFilterSourceModeSmudge options:GTFilterListOptionsDefault success:&success error:&error];
 		expect(list).to(beNil());
 		expect(@(success)).to(beTruthy());
 		expect(error).to(beNil());
 	});
 
-	it(@"should return non-nil on a path with a single filter", ^{
+	qck_it(@"should return non-nil on a path with a single filter", ^{
 		GTFilterList *list = [repository filterListWithPath:@"README.md" blob:nil mode:GTFilterSourceModeSmudge options:GTFilterListOptionsDefault success:&success error:&error];
 		expect(list).notTo(beNil());
 		expect(@(success)).to(beTruthy());
 		expect(error).to(beNil());
 	});
 
-	it(@"should return non-nil on a path with multiple filters", ^{
+	qck_it(@"should return non-nil on a path with multiple filters", ^{
 		GTFilterList *list = [repository filterListWithPath:@"README1.txt" blob:nil mode:GTFilterSourceModeSmudge options:GTFilterListOptionsDefault success:&success error:&error];
 		expect(list).notTo(beNil());
 		expect(@(success)).to(beTruthy());
 		expect(error).to(beNil());
 	});
 
-	it(@"should return non-nil on a nonexistent path with a blob", ^{
+	qck_it(@"should return non-nil on a nonexistent path with a blob", ^{
 		NSData *data = [@"haters gonna haaaate" dataUsingEncoding:NSUTF8StringEncoding];
 		GTBlob *blob = [[GTBlob alloc] initWithData:data inRepository:repository error:NULL];
 		expect(blob).notTo(beNil());
@@ -97,7 +97,7 @@ describe(@"loading a filter list", ^{
 	});
 });
 
-it(@"should apply a single filter", ^{
+qck_it(@"should apply a single filter", ^{
 	GTFilterList *list = [repository filterListWithPath:@"README.md" blob:nil mode:GTFilterSourceModeSmudge options:GTFilterListOptionsDefault success:NULL error:NULL];
 	expect(list).notTo(beNil());
 
@@ -114,21 +114,21 @@ it(@"should apply a single filter", ^{
 	expect(resultString).notTo(contain(textFilterContent));
 });
 
-describe(@"applying a list of multiple filters", ^{
+qck_describe(@"applying a list of multiple filters", ^{
 	__block GTFilterList *list;
 
-	beforeEach(^{
+	qck_beforeEach(^{
 		// This file should have `readFilter` applied first, then `textFilter`.
 		list = [repository filterListWithPath:@"README1.txt" blob:nil mode:GTFilterSourceModeSmudge options:GTFilterListOptionsDefault success:NULL error:NULL];
 		expect(list).notTo(beNil());
 	});
 
-	afterEach(^{
+	qck_afterEach(^{
 		// Make sure the list is torn down before the repository.
 		list = nil;
 	});
 
-	it(@"should apply to data", ^{
+	qck_it(@"should apply to data", ^{
 		NSString *inputString = @"foobar";
 
 		NSError *error = nil;
@@ -142,7 +142,7 @@ describe(@"applying a list of multiple filters", ^{
 		expect(@([resultString rangeOfString:textFilterContent].location)).notTo(equal(@(NSNotFound)));
 	});
 
-	it(@"should apply to a file", ^{
+	qck_it(@"should apply to a file", ^{
 		NSString *inputFilename = @"README";
 		GTRepository *inputRepo = self.conflictedFixtureRepository;
 
@@ -161,7 +161,7 @@ describe(@"applying a list of multiple filters", ^{
 		expect(@([resultString rangeOfString:textFilterContent].location)).notTo(equal(@(NSNotFound)));
 	});
 
-	it(@"should apply to a blob", ^{
+	qck_it(@"should apply to a blob", ^{
 		// This is `REAME_` from `HEAD`.
 		GTBlob *blob = [repository lookUpObjectBySHA:@"8b4a21733703ca50b96186691615e8d2f6314e79" objectType:GTObjectTypeBlob error:NULL];
 		expect(blob).notTo(beNil());
@@ -182,7 +182,7 @@ describe(@"applying a list of multiple filters", ^{
 	});
 });
 
-afterEach(^{
+qck_afterEach(^{
 	[self tearDown];
 });
 

@@ -1582,6 +1582,10 @@
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"QUICK_DISABLE_SHORT_SYNTAX=1",
+				);
 				INFOPLIST_FILE = "ObjectiveGitTests/ObjectiveGitTests-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1595,6 +1599,10 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"QUICK_DISABLE_SHORT_SYNTAX=1",
 				);
 				INFOPLIST_FILE = "ObjectiveGitTests/ObjectiveGitTests-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
@@ -1660,6 +1668,10 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"QUICK_DISABLE_SHORT_SYNTAX=1",
 				);
 				INFOPLIST_FILE = "ObjectiveGitTests/ObjectiveGitTests-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
@@ -1877,6 +1889,10 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"QUICK_DISABLE_SHORT_SYNTAX=1",
 				);
 				INFOPLIST_FILE = "ObjectiveGitTests/ObjectiveGitTests-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;

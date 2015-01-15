@@ -18,7 +18,7 @@ __block GTRemote *remote = nil;
 __block GTRepository *repository = nil;
 NSString *fetchRefspec = @"+refs/heads/*:refs/remotes/origin/*";
 
-beforeEach(^{
+qck_beforeEach(^{
 	repository = self.testAppFixtureRepository;
 	expect(repository).notTo(beNil());
 
@@ -33,8 +33,8 @@ beforeEach(^{
 	expect(remote.name).to(equal(@"origin"));
 });
 
-describe(@"properties", ^{
-	it(@"should have values", ^{
+qck_describe(@"properties", ^{
+	qck_it(@"should have values", ^{
 		expect([NSValue valueWithPointer:remote.git_remote]).notTo(equal([NSValue valueWithPointer:NULL]));
 		expect(remote.name).to(equal(@"origin"));
 		expect(remote.URLString).to(equal(@"git@github.com:github/Test_App.git"));
@@ -43,8 +43,8 @@ describe(@"properties", ^{
 	});
 });
 
-describe(@"updating", ^{
-	it(@"URL string", ^{
+qck_describe(@"updating", ^{
+	qck_it(@"URL string", ^{
 		expect(remote.URLString).to(equal(@"git@github.com:github/Test_App.git"));
 
 		NSString *newURLString = @"https://github.com/github/Test_App.git";
@@ -56,7 +56,7 @@ describe(@"updating", ^{
 		expect(remote.URLString).to(equal(newURLString));
 	});
 
-	it(@"fetch refspecs", ^{
+	qck_it(@"fetch refspecs", ^{
 		expect(remote.fetchRefspecs).to(equal(@[ fetchRefspec ]));
 
 		NSString *newFetchRefspec = @"+refs/heads/master:refs/remotes/origin/master";
@@ -69,14 +69,14 @@ describe(@"updating", ^{
 	});
 });
 
-describe(@"network operations", ^{
+qck_describe(@"network operations", ^{
 	__block NSURL *repositoryURL;
 	__block NSURL *fetchingRepoURL;
 	__block GTRepository *fetchingRepo;
 	__block NSArray *remoteNames;
 	__block NSString *remoteName;
 
-	beforeEach(^{
+	qck_beforeEach(^{
 		repository = self.bareFixtureRepository;
 		expect(@(repository.isBare)).to(beFalsy()); // yeah right
 		repositoryURL = repository.gitDirectoryURL;
@@ -95,12 +95,12 @@ describe(@"network operations", ^{
 		remoteName = remoteNames[0];
 	});
 
-	afterEach(^{
+	qck_afterEach(^{
 		[NSFileManager.defaultManager removeItemAtURL:fetchingRepoURL error:NULL];
 	});
 
-	describe(@"-remoteWithName:inRepository:error", ^{
-		it(@"should return existing remotes", ^{
+	qck_describe(@"-remoteWithName:inRepository:error", ^{
+		qck_it(@"should return existing remotes", ^{
 			NSError *error = nil;
 
 			GTRemote *originRemote = [GTRemote remoteWithName:remoteName inRepository:fetchingRepo error:&error];
@@ -110,7 +110,7 @@ describe(@"network operations", ^{
 			expect(originRemote.URLString).to(equal(repositoryURL.path));
 		});
 
-		it(@"should fail for non-existent remotes", ^{
+		qck_it(@"should fail for non-existent remotes", ^{
 			NSError *error = nil;
 
 			GTRemote *originRemote = [GTRemote remoteWithName:@"blork" inRepository:fetchingRepo error:&error];
@@ -119,8 +119,8 @@ describe(@"network operations", ^{
 		});
 	});
 
-	describe(@"-createRemoteWithName:url:inRepository:error", ^{
-		it(@"should allow creating new remotes", ^{
+	qck_describe(@"-createRemoteWithName:url:inRepository:error", ^{
+		qck_it(@"should allow creating new remotes", ^{
 			NSError *error = nil;
 			GTRemote *remote = [GTRemote createRemoteWithName:@"newremote" URLString:@"git://user@example.com/testrepo.git" inRepository:fetchingRepo error:&error];
 			expect(error).to(beNil());
