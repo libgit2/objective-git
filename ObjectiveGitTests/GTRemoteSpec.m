@@ -132,26 +132,6 @@ qck_describe(@"network operations", ^{
 			expect(newRemote.URLString).to(equal(@"git://user@example.com/testrepo.git"));
 		});
 	});
-
-	// Helper to quickly create commits
-	GTCommit *(^createCommitInRepository)(NSString *, NSData *, NSString *, GTRepository *) = ^(NSString *message, NSData *fileData, NSString *fileName, GTRepository *repo) {
-		GTTreeBuilder *treeBuilder = [[GTTreeBuilder alloc] initWithTree:nil repository:repo error:nil];
-		[treeBuilder addEntryWithData:fileData fileName:fileName fileMode:GTFileModeBlob error:nil];
-
-		GTTree *testTree = [treeBuilder writeTree:nil];
-
-		// We need the parent commit to make the new one
-		GTReference *headReference = [repo headReferenceWithError:nil];
-
-		GTEnumerator *commitEnum = [[GTEnumerator alloc] initWithRepository:repo error:nil];
-		[commitEnum pushSHA:[headReference targetSHA] error:nil];
-		GTCommit *parent = [commitEnum nextObject];
-
-		GTCommit *testCommit = [repo createCommitWithTree:testTree message:message parents:@[parent] updatingReferenceNamed:headReference.name error:nil];
-		expect(testCommit).notTo(beNil());
-
-		return testCommit;
-	};
 });
 
 QuickSpecEnd
