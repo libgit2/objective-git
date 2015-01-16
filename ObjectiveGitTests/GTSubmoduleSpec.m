@@ -61,7 +61,7 @@ qck_it(@"should terminate enumeration early", ^{
 });
 
 qck_it(@"should write to the parent .git/config", ^{
-	NSString *testURLString = @"fake_url";
+	NSString *testURLString = @"git://fake_url";
 
 	GTSubmodule *submodule = [repo submoduleWithName:@"Test_App" error:NULL];
 	expect(submodule).notTo(beNil());
