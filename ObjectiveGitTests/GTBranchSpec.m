@@ -18,7 +18,7 @@ __block GTRepository *repository;
 __block GTBranch *masterBranch;
 __block GTBranch *trackingBranch;
 
-qck_beforeEach(^{
+beforeEach(^{
 	repository = self.testAppFixtureRepository;
 	expect(repository).notTo(beNil());
 
@@ -34,38 +34,38 @@ qck_beforeEach(^{
 	expect(error).to(beNil());
 });
 
-qck_describe(@"shortName", ^{
-	qck_it(@"should use just the branch name for a local branch", ^{
+describe(@"shortName", ^{
+	it(@"should use just the branch name for a local branch", ^{
 		expect(masterBranch.shortName).to(equal(@"master"));
 	});
 
-	qck_it(@"should not include the remote name for a tracking branch", ^{
+	it(@"should not include the remote name for a tracking branch", ^{
 		expect(trackingBranch.shortName).to(equal(@"master"));
 	});
 });
 
-qck_describe(@"remoteName", ^{
-	qck_it(@"should return nil for a local branch", ^{
+describe(@"remoteName", ^{
+	it(@"should return nil for a local branch", ^{
 		expect(masterBranch.remoteName).to(beNil());
 	});
 
-	qck_it(@"should return the remote name for a tracking branch", ^{
+	it(@"should return the remote name for a tracking branch", ^{
 		expect(trackingBranch.remoteName).to(equal(@"origin"));
 	});
 });
 
-qck_describe(@"branchType", ^{
-	qck_it(@"should be GTBranchTypeLocal for a local branch", ^{
+describe(@"branchType", ^{
+	it(@"should be GTBranchTypeLocal for a local branch", ^{
 		expect(@(masterBranch.branchType)).to(equal(@(GTBranchTypeLocal)));
 	});
 
-	qck_it(@"should be GTBranchTypeRemote for a tracking branch", ^{
+	it(@"should be GTBranchTypeRemote for a tracking branch", ^{
 		expect(@(trackingBranch.branchType)).to(equal(@(GTBranchTypeRemote)));
 	});
 });
 
-qck_describe(@"-calculateAhead:behind:relativeTo:error:", ^{
-	qck_it(@"should calculate ahead/behind relative to the tracking branch", ^{
+describe(@"-calculateAhead:behind:relativeTo:error:", ^{
+	it(@"should calculate ahead/behind relative to the tracking branch", ^{
 		size_t ahead = 0;
 		size_t behind = 0;
 		[masterBranch calculateAhead:&ahead behind:&behind relativeTo:trackingBranch error:NULL];
@@ -73,7 +73,7 @@ qck_describe(@"-calculateAhead:behind:relativeTo:error:", ^{
 		expect(@(behind)).to(equal(@0));
 	});
 
-	qck_it(@"should calculate ahead/behind relative to the local branch", ^{
+	it(@"should calculate ahead/behind relative to the local branch", ^{
 		size_t ahead = 0;
 		size_t behind = 0;
 		[trackingBranch calculateAhead:&ahead behind:&behind relativeTo:masterBranch error:NULL];
@@ -82,8 +82,8 @@ qck_describe(@"-calculateAhead:behind:relativeTo:error:", ^{
 	});
 });
 
-qck_describe(@"-uniqueCommitsRelativeToBranch:error:", ^{
-	qck_it(@"should return unique commits relative to the tracking branch", ^{
+describe(@"-uniqueCommitsRelativeToBranch:error:", ^{
+	it(@"should return unique commits relative to the tracking branch", ^{
 		NSError *error = nil;
 		NSArray *commits = [masterBranch uniqueCommitsRelativeToBranch:trackingBranch error:&error];
 		expect(commits).notTo(beNil());
@@ -109,7 +109,7 @@ qck_describe(@"-uniqueCommitsRelativeToBranch:error:", ^{
 		expect(SHAs).to(equal(expectedSHAs));
 	});
 
-	qck_it(@"should return no unique commits relative to the local branch", ^{
+	it(@"should return no unique commits relative to the local branch", ^{
 		NSError *error = nil;
 		NSArray *commits = [trackingBranch uniqueCommitsRelativeToBranch:masterBranch error:&error];
 		expect(commits).to(equal(@[]));
@@ -117,8 +117,8 @@ qck_describe(@"-uniqueCommitsRelativeToBranch:error:", ^{
 	});
 });
 
-qck_describe(@"-reloadedBranchWithError:", ^{
-	qck_it(@"should reload the branch from disk", ^{
+describe(@"-reloadedBranchWithError:", ^{
+	it(@"should reload the branch from disk", ^{
 		static NSString * const originalSHA = @"a4bca6b67a5483169963572ee3da563da33712f7";
 		static NSString * const updatedSHA = @"6b0c1c8b8816416089c534e474f4c692a76ac14f";
 		expect([masterBranch targetCommitAndReturnError:NULL].SHA).to(equal(originalSHA));
@@ -131,8 +131,8 @@ qck_describe(@"-reloadedBranchWithError:", ^{
 	});
 });
 
-qck_describe(@"-numberOfCommitsWithError:", ^{
-	qck_it(@"should return the count of commits in the branch", ^{
+describe(@"-numberOfCommitsWithError:", ^{
+	it(@"should return the count of commits in the branch", ^{
 		NSError *error = nil;
 		NSUInteger commitCount = [masterBranch numberOfCommitsWithError:&error];
 		expect(@(commitCount)).to(equal(@164));
@@ -140,8 +140,8 @@ qck_describe(@"-numberOfCommitsWithError:", ^{
 	});
 });
 
-qck_describe(@"-trackingBranchWithError:success:", ^{
-	qck_it(@"should return the tracking branch for a local branch that tracks a remote branch", ^{
+describe(@"-trackingBranchWithError:success:", ^{
+	it(@"should return the tracking branch for a local branch that tracks a remote branch", ^{
 		NSError *error = nil;
 		GTBranch *masterBranch = [repository lookUpBranchWithName:@"master" type:GTBranchTypeLocal success:NULL error:&error];
 		expect(masterBranch).notTo(beNil());
@@ -154,7 +154,7 @@ qck_describe(@"-trackingBranchWithError:success:", ^{
 		expect(error).to(beNil());
 	});
 
-	qck_it(@"should return nil for a local branch that doesn't track a remote branch", ^{
+	it(@"should return nil for a local branch that doesn't track a remote branch", ^{
 		GTOID *OID = [[GTOID alloc] initWithSHA:@"6b0c1c8b8816416089c534e474f4c692a76ac14f"];
 
 		NSError *error = nil;
@@ -172,7 +172,7 @@ qck_describe(@"-trackingBranchWithError:success:", ^{
 		expect(error).to(beNil());
 	});
 
-	qck_it(@"should return itself for a remote branch", ^{
+	it(@"should return itself for a remote branch", ^{
 		NSError *error = nil;
 		GTReference *remoteRef = [GTReference referenceByLookingUpReferencedNamed:@"refs/remotes/origin/master" inRepository:repository error:&error];
 		expect(remoteRef).notTo(beNil());
@@ -189,14 +189,14 @@ qck_describe(@"-trackingBranchWithError:success:", ^{
 	});
 });
 
-qck_describe(@"-updateTrackingBranch:error:", ^{
+describe(@"-updateTrackingBranch:error:", ^{
 	__block GTBranch *masterBranch;
-	qck_beforeEach(^{
+	beforeEach(^{
 		masterBranch = [repository lookUpBranchWithName:@"master" type:GTBranchTypeLocal success:NULL error:NULL];
 		expect(masterBranch).notTo(beNil());
 	});
 
-	qck_it(@"should set a tracking branch", ^{
+	it(@"should set a tracking branch", ^{
 		GTBranch *branch = [repository lookUpBranchWithName:@"feature" type:GTBranchTypeLocal success:NULL error:NULL];
 		expect(branch).notTo(beNil());
 
@@ -215,7 +215,7 @@ qck_describe(@"-updateTrackingBranch:error:", ^{
 		expect(@(success)).to(beTruthy());
 	});
 
-	qck_it(@"should unset a tracking branch", ^{
+	it(@"should unset a tracking branch", ^{
 		BOOL success = NO;
 		GTBranch *trackingBranch = [masterBranch trackingBranchWithError:NULL success:&success];
 		expect(trackingBranch).notTo(beNil());
@@ -253,7 +253,7 @@ qck_describe(@"-updateTrackingBranch:error:", ^{
 //	STAssertEqualObjects(firstBranch.name, originalBranchName, nil);
 //}
 
-qck_afterEach(^{
+afterEach(^{
 	[self tearDown];
 });
 

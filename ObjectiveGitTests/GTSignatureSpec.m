@@ -19,33 +19,33 @@ NSString *email = @"test@example.com";
 
 __block NSDate *time;
 
-qck_beforeEach(^{
+beforeEach(^{
 	time = [NSDate date];
 });
 
-qck_describe(@"instance", ^{
+describe(@"instance", ^{
 	__block GTSignature *testSignature;
 
-	qck_beforeEach(^{
+	beforeEach(^{
 		testSignature = [[GTSignature alloc] initWithName:name email:email time:time];
 		expect(testSignature).notTo(beNil());
 	});
 
-	qck_it(@"should expose the git_signature", ^{
+	it(@"should expose the git_signature", ^{
 		expect([NSValue valueWithPointer:testSignature.git_signature]).notTo(equal([NSValue valueWithPointer:NULL]));
 		expect(testSignature).to(equal([[GTSignature alloc] initWithGitSignature:testSignature.git_signature]));
 	});
 
-	qck_it(@"should compare equal to a signature created with the same information", ^{
+	it(@"should compare equal to a signature created with the same information", ^{
 		expect(testSignature).to(equal([[GTSignature alloc] initWithName:name email:email time:time]));
 	});
 
-	qck_it(@"should compare unequal to a different signature", ^{
+	it(@"should compare unequal to a different signature", ^{
 		expect(testSignature).notTo(equal([[GTSignature alloc] initWithName:name email:email time:[NSDate dateWithTimeIntervalSinceNow:10]]));
 	});
 });
 
-qck_it(@"should keep the git_signature alive even if the object goes out of scope", ^{
+it(@"should keep the git_signature alive even if the object goes out of scope", ^{
 	const git_signature *git_signature = NULL;
 
 	{
@@ -58,7 +58,7 @@ qck_it(@"should keep the git_signature alive even if the object goes out of scop
 	expect(testSignature.email).to(equal(email));
 });
 
-qck_afterEach(^{
+afterEach(^{
 	[self tearDown];
 });
 

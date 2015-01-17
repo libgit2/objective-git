@@ -16,10 +16,10 @@ QuickSpecBegin(GTRepositoryReset)
 
 __block GTRepository *repository;
 
-qck_describe(@"-resetPathspecs:toCommit:error:", ^{
+describe(@"-resetPathspecs:toCommit:error:", ^{
 	__block NSUInteger (^countStagedFiles)(void);
 
-	qck_beforeEach(^{
+	beforeEach(^{
 		repository = [self testAppFixtureRepository];
 
 		countStagedFiles = ^{
@@ -32,7 +32,7 @@ qck_describe(@"-resetPathspecs:toCommit:error:", ^{
 		};
 	});
 
-	qck_it(@"should reset the path's index entry", ^{
+	it(@"should reset the path's index entry", ^{
 		static NSString * const fileName = @"README.md";
 		NSURL *fileURL = [repository.fileURL URLByAppendingPathComponent:fileName];
 		BOOL success = [@"blahahaha" writeToURL:fileURL atomically:YES encoding:NSUTF8StringEncoding error:NULL];
@@ -56,12 +56,12 @@ qck_describe(@"-resetPathspecs:toCommit:error:", ^{
 	});
 });
 
-qck_describe(@"-resetToCommit:resetType:error:", ^{
-	qck_beforeEach(^{
+describe(@"-resetToCommit:resetType:error:", ^{
+	beforeEach(^{
 		repository = [self bareFixtureRepository];
 	});
 
-	qck_it(@"should move HEAD when used", ^{
+	it(@"should move HEAD when used", ^{
 		NSError *error = nil;
 		GTReference *originalHead = [repository headReferenceWithError:NULL];
 		NSString *resetTargetSHA = @"8496071c1b46c854b31185ea97743be6a8774479";
@@ -88,7 +88,7 @@ qck_describe(@"-resetToCommit:resetType:error:", ^{
 	});
 });
 
-qck_afterEach(^{
+afterEach(^{
 	[self tearDown];
 });
 

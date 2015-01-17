@@ -16,12 +16,12 @@ QuickSpecBegin(GTRepositoryStashing)
 
 __block GTRepository *repository;
 
-qck_beforeEach(^{
+beforeEach(^{
 	repository = self.testAppFixtureRepository;
 	expect(repository).notTo(beNil());
 });
 
-qck_it(@"should fail to create a stash if there's nothing to stash", ^{
+it(@"should fail to create a stash if there's nothing to stash", ^{
 	NSError *error = nil;
 	GTCommit *stash = [repository stashChangesWithMessage:nil flags:GTRepositoryStashFlagDefault error:&error];
 	expect(stash).to(beNil());
@@ -31,7 +31,7 @@ qck_it(@"should fail to create a stash if there's nothing to stash", ^{
 	expect(@(error.code)).to(equal(@(GIT_ENOTFOUND)));
 });
 
-qck_it(@"should create a stash with modified file content", ^{
+it(@"should create a stash with modified file content", ^{
 	NSURL *fileURL = [repository.fileURL URLByAppendingPathComponent:@"README.md"];
 	NSString *newContent = @"foobar";
 
@@ -49,7 +49,7 @@ qck_it(@"should create a stash with modified file content", ^{
 	expect([NSString stringWithContentsOfURL:fileURL encoding:NSUTF8StringEncoding error:NULL]).to(equal(oldContent));
 });
 
-qck_it(@"should create a stash with uncommitted changes", ^{
+it(@"should create a stash with uncommitted changes", ^{
 	NSURL *fileURL = [repository.fileURL URLByAppendingPathComponent:@"README.md"];
 	NSString *newContent = @"foobar";
 
@@ -67,7 +67,7 @@ qck_it(@"should create a stash with uncommitted changes", ^{
 	expect([NSString stringWithContentsOfURL:fileURL encoding:NSUTF8StringEncoding error:NULL]).to(equal(oldContent));
 });
 
-qck_it(@"should fail to create a stash with an untracked file using default options", ^{
+it(@"should fail to create a stash with an untracked file using default options", ^{
 	expect(@([@"foobar" writeToURL:[repository.fileURL URLByAppendingPathComponent:@"new-test-file"] atomically:YES encoding:NSUTF8StringEncoding error:NULL])).to(beTruthy());
 
 	NSError *error = nil;
@@ -79,7 +79,7 @@ qck_it(@"should fail to create a stash with an untracked file using default opti
 	expect(@(error.code)).to(equal(@(GIT_ENOTFOUND)));
 });
 
-qck_it(@"should stash an untracked file when enabled", ^{
+it(@"should stash an untracked file when enabled", ^{
 	expect(@([@"foobar" writeToURL:[repository.fileURL URLByAppendingPathComponent:@"new-test-file"] atomically:YES encoding:NSUTF8StringEncoding error:NULL])).to(beTruthy());
 
 	NSError *error = nil;
@@ -88,7 +88,7 @@ qck_it(@"should stash an untracked file when enabled", ^{
 	expect(error).to(beNil());
 });
 
-qck_it(@"should enumerate stashes", ^{
+it(@"should enumerate stashes", ^{
 	const int stashCount = 3;
 	NSMutableArray *stashCommits = [NSMutableArray arrayWithCapacity:stashCount];
 
@@ -120,7 +120,7 @@ qck_it(@"should enumerate stashes", ^{
 	expect(@(lastIndex)).to(equal(@2));
 });
 
-qck_afterEach(^{
+afterEach(^{
 	[self tearDown];
 });
 

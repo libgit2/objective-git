@@ -16,11 +16,11 @@ QuickSpecBegin(GTRepositoryAttributes)
 
 __block GTRepository *repository;
 
-qck_beforeEach(^{
+beforeEach(^{
 	repository = [self blankFixtureRepository];
 });
 
-qck_it(@"should be able to look up attributes", ^{
+it(@"should be able to look up attributes", ^{
 	static NSString * const testAttributes = @"*.txt filter=reverse";
 	NSURL *attributesURL = [repository.fileURL URLByAppendingPathComponent:@".gitattributes"];
 	BOOL success = [testAttributes writeToURL:attributesURL atomically:YES encoding:NSUTF8StringEncoding error:NULL];

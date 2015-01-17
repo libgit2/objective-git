@@ -16,7 +16,7 @@ QuickSpecBegin(GTReflogSpec)
 
 __block GTReflog *reflog;
 __block GTRepository *repository;
-qck_beforeEach(^{
+beforeEach(^{
 	repository = self.testAppFixtureRepository;
 	expect(repository).notTo(beNil());
 
@@ -27,8 +27,8 @@ qck_beforeEach(^{
 	expect(reflog).notTo(beNil());
 });
 
-qck_describe(@"reading", ^{
-	qck_it(@"should be able to read reflog entries", ^{
+describe(@"reading", ^{
+	it(@"should be able to read reflog entries", ^{
 		GTReflogEntry *entry = [reflog entryAtIndex:0];
 		expect(entry).notTo(beNil());
 		expect(entry.message).to(equal(@"commit: Add 2 text and 1 binary file for diff tests."));
@@ -39,8 +39,8 @@ qck_describe(@"reading", ^{
 	});
 });
 
-qck_describe(@"writing", ^{
-	qck_it(@"should be able to write a new reflog entry", ^{
+describe(@"writing", ^{
+	it(@"should be able to write a new reflog entry", ^{
 		static NSString * const message = @"Refloggin' ain't easy.";
 		GTSignature *user = repository.userSignatureForNow;
 		BOOL success = [reflog writeEntryWithCommitter:user message:message error:NULL];
@@ -56,7 +56,7 @@ qck_describe(@"writing", ^{
 	});
 });
 
-qck_afterEach(^{
+afterEach(^{
 	[self tearDown];
 });
 

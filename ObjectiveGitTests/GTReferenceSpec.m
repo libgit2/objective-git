@@ -16,21 +16,21 @@ QuickSpecBegin(GTReferenceSpec)
 
 __block GTRepository *repository;
 
-qck_beforeEach(^{
+beforeEach(^{
 	repository = self.testAppFixtureRepository;
 	expect(repository).notTo(beNil());
 });
 
-qck_it(@"should compare equal to the same reference", ^{
+it(@"should compare equal to the same reference", ^{
 	expect([[GTReference alloc] initByLookingUpReferenceNamed:@"refs/heads/master" inRepository:repository error:NULL]).to(equal([[GTReference alloc] initByLookingUpReferenceNamed:@"refs/heads/master" inRepository:repository error:NULL]));
 });
 
-qck_it(@"should compare unequal to a different reference", ^{
+it(@"should compare unequal to a different reference", ^{
 	expect([[GTReference alloc] initByLookingUpReferenceNamed:@"refs/heads/master" inRepository:repository error:NULL]).notTo(equal([[GTReference alloc] initByLookingUpReferenceNamed:@"refs/remotes/origin/master" inRepository:repository error:NULL]));
 });
 
-qck_describe(@"remote property", ^{
-	qck_it(@"should be YES for a remote-tracking branch", ^{
+describe(@"remote property", ^{
+	it(@"should be YES for a remote-tracking branch", ^{
 		NSError *error = nil;
 		GTReference *ref = [[GTReference alloc] initByLookingUpReferenceNamed:@"refs/remotes/origin/master" inRepository:repository error:&error];
 		expect(ref).notTo(beNil());
@@ -40,7 +40,7 @@ qck_describe(@"remote property", ^{
 		expect(@(ref.remote)).to(beTruthy());
 	});
 
-	qck_it(@"should be NO for a local branch", ^{
+	it(@"should be NO for a local branch", ^{
 		NSError *error = nil;
 		GTReference *ref = [[GTReference alloc] initByLookingUpReferenceNamed:@"refs/heads/master" inRepository:repository error:&error];
 		expect(ref).notTo(beNil());
@@ -51,13 +51,13 @@ qck_describe(@"remote property", ^{
 	});
 });
 
-qck_describe(@"transformations", ^{
+describe(@"transformations", ^{
 	NSString *testRefName = @"refs/heads/unit_test";
 	GTOID *testRefOID = [[GTOID alloc] initWithSHA:@"36060c58702ed4c2a40832c51758d5344201d89a"];
 
 	__block GTReference *reference;
 
-	qck_beforeEach(^{
+	beforeEach(^{
 		GTRepository *repository = self.bareFixtureRepository;
 		expect(repository).notTo(beNil());
 
@@ -68,7 +68,7 @@ qck_describe(@"transformations", ^{
 		expect(reference.targetSHA).to(equal(testRefOID.SHA));
 	});
 
-	qck_it(@"should be able to be renamed", ^{
+	it(@"should be able to be renamed", ^{
 		NSString *newRefName = @"refs/heads/new_name";
 
 		GTReference *renamedRef = [reference referenceByRenaming:newRefName error:NULL];
@@ -77,7 +77,7 @@ qck_describe(@"transformations", ^{
 		expect(renamedRef.targetSHA).to(equal(testRefOID.SHA));
 	});
 
-	qck_it(@"should be able to change the target", ^{
+	it(@"should be able to change the target", ^{
 		NSString *newRefTarget = @"5b5b025afb0b4c913b4c338a42934a3863bf3644";
 
 		GTReference *updatedRef = [reference referenceByUpdatingTarget:newRefTarget committer:nil message:nil error:NULL];
@@ -87,22 +87,22 @@ qck_describe(@"transformations", ^{
 	});
 });
 
-qck_describe(@"valid names",^{
-	qck_it(@"should accept uppercase top-level names", ^{
+describe(@"valid names",^{
+	it(@"should accept uppercase top-level names", ^{
 		expect(@([GTReference isValidReferenceName:@"HEAD"])).to(beTruthy());
 		expect(@([GTReference isValidReferenceName:@"ORIG_HEAD"])).to(beTruthy());
 	});
 
-	qck_it(@"should not accept lowercase top-level names",^{
+	it(@"should not accept lowercase top-level names",^{
 		expect(@([GTReference isValidReferenceName:@"head"])).notTo(beTruthy());
 	});
 
-	qck_it(@"should accept names with the refs/ prefix",^{
+	it(@"should accept names with the refs/ prefix",^{
 		expect(@([GTReference isValidReferenceName:@"refs/stuff"])).to(beTruthy());
 		expect(@([GTReference isValidReferenceName:@"refs/multiple/components"])).to(beTruthy());
 	});
 
-	qck_it(@"should not accept names with invalid parts",^{
+	it(@"should not accept names with invalid parts",^{
 		expect(@([GTReference isValidReferenceName:@"refs/stuff~"])).notTo(beTruthy());
 		expect(@([GTReference isValidReferenceName:@"refs/stuff^"])).notTo(beTruthy());
 		expect(@([GTReference isValidReferenceName:@"refs/stuff:"])).notTo(beTruthy());
@@ -124,12 +124,12 @@ void (^expectValidReference)(GTReference *ref, NSString *SHA, GTReferenceType ty
 	expect(ref.name).to(equal(name));
 };
 
-qck_beforeEach(^{
+beforeEach(^{
 	bareRepository = self.bareFixtureRepository;
 });
 
-qck_describe(@"+referenceByLookingUpReferenceNamed:inRepository:error:", ^{
-	qck_it(@"should return a valid reference to a branch", ^{
+describe(@"+referenceByLookingUpReferenceNamed:inRepository:error:", ^{
+	it(@"should return a valid reference to a branch", ^{
 		NSError *error = nil;
 		GTReference *ref = [GTReference referenceByLookingUpReferencedNamed:@"refs/heads/master" inRepository:bareRepository error:&error];
 		expect(ref).notTo(beNil());
@@ -138,7 +138,7 @@ qck_describe(@"+referenceByLookingUpReferenceNamed:inRepository:error:", ^{
 		expectValidReference(ref, @"36060c58702ed4c2a40832c51758d5344201d89a", GTReferenceTypeOid, @"refs/heads/master");
 	});
 
-	qck_it(@"should return a valid reference to a tag", ^{
+	it(@"should return a valid reference to a tag", ^{
 		NSError *error = nil;
 		GTReference *ref = [GTReference referenceByLookingUpReferencedNamed:@"refs/tags/v0.9" inRepository:bareRepository error:&error];
 		expect(ref).notTo(beNil());
@@ -148,8 +148,8 @@ qck_describe(@"+referenceByLookingUpReferenceNamed:inRepository:error:", ^{
 	});
 });
 
-qck_describe(@"creating", ^{
-	qck_it(@"can create a reference from a symbolic reference", ^{
+describe(@"creating", ^{
+	it(@"can create a reference from a symbolic reference", ^{
 		GTReference *target = [[GTReference alloc] initByLookingUpReferenceNamed:@"refs/heads/master" inRepository:bareRepository error:NULL];
 		expect(target).notTo(beNil());
 
@@ -162,7 +162,7 @@ qck_describe(@"creating", ^{
 		expect(ref.resolvedReference.name).to(equal(@"refs/heads/master"));
 	});
 
-	qck_it(@"can create a reference from an SHA/OID", ^{
+	it(@"can create a reference from an SHA/OID", ^{
 		GTOID *target = [[GTOID alloc] initWithSHA:@"36060c58702ed4c2a40832c51758d5344201d89a"];
 
 		NSError *error = nil;
@@ -174,8 +174,8 @@ qck_describe(@"creating", ^{
 	});
 });
 
-qck_describe(@"-deleteWithError:", ^{
-	qck_it(@"can delete references", ^{
+describe(@"-deleteWithError:", ^{
+	it(@"can delete references", ^{
 		GTOID *target = [[GTOID alloc] initWithSHA:@"36060c58702ed4c2a40832c51758d5344201d89a"];
 
 		NSError *error = nil;
@@ -190,7 +190,7 @@ qck_describe(@"-deleteWithError:", ^{
 	});
 });
 
-qck_afterEach(^{
+afterEach(^{
 	[self tearDown];
 });
 

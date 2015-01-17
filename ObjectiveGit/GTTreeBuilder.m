@@ -68,7 +68,7 @@
 	self = [super init];
 	if (self == nil) return nil;
 
-	int status = git_treebuilder_new(&_git_treebuilder, repository.git_repository, treeOrNil.git_tree);
+	int status = git_treebuilder_create(&_git_treebuilder, repository.git_repository, treeOrNil.git_tree);
 	if (status != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to create tree builder with tree %@.", treeOrNil.SHA];
 		return nil;

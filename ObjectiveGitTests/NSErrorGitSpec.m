@@ -14,7 +14,7 @@
 
 QuickSpecBegin(NSErrorGit)
 
-qck_it(@"should create an error with a nil description", ^{
+it(@"should create an error with a nil description", ^{
 	NSError *error = [NSError git_errorFor:GIT_OK description:nil];
 	expect(error).notTo(beNil());
 
@@ -26,7 +26,7 @@ qck_it(@"should create an error with a nil description", ^{
 	expect(error.userInfo[NSLocalizedFailureReasonErrorKey]).to(beNil());
 });
 
-qck_it(@"should create an error with a formatted description", ^{
+it(@"should create an error with a formatted description", ^{
 	NSError *error = [NSError git_errorFor:GIT_OK description:@"foo %@ bar %@", @1, @"buzz"];
 	expect(error).notTo(beNil());
 
@@ -36,7 +36,7 @@ qck_it(@"should create an error with a formatted description", ^{
 	expect(error.userInfo[NSLocalizedFailureReasonErrorKey]).to(beNil());
 });
 
-qck_it(@"should create an error with a nil description and failure reason", ^{
+it(@"should create an error with a nil description and failure reason", ^{
 	NSError *error = [NSError git_errorFor:GIT_OK description:nil failureReason:nil];
 	expect(error).notTo(beNil());
 
@@ -46,7 +46,7 @@ qck_it(@"should create an error with a nil description and failure reason", ^{
 	expect(error.userInfo[NSLocalizedFailureReasonErrorKey]).to(beNil());
 });
 
-qck_it(@"should create an error with a formatted failure reason", ^{
+it(@"should create an error with a formatted failure reason", ^{
 	NSError *error = [NSError git_errorFor:GIT_OK description:@"foobar" failureReason:@"foo %@ bar %@", @1, @"buzz"];
 	expect(error).notTo(beNil());
 
@@ -56,7 +56,7 @@ qck_it(@"should create an error with a formatted failure reason", ^{
 	expect(error.userInfo[NSLocalizedFailureReasonErrorKey]).to(equal(@"foo 1 bar buzz"));
 });
 
-qck_afterEach(^{
+afterEach(^{
 	[self tearDown];
 });
 

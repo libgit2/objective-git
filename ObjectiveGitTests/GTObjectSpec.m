@@ -36,11 +36,11 @@ QuickSpecBegin(GTObjectSpec)
 
 __block GTRepository *repo;
 
-qck_beforeEach(^{
+beforeEach(^{
 	repo = self.bareFixtureRepository;
 });
 
-qck_it(@"should fail to look up an empty string", ^{
+it(@"should fail to look up an empty string", ^{
 	NSError *error = nil;
 	GTObject *obj = [repo lookUpObjectBySHA:@"" error:&error];
 
@@ -49,7 +49,7 @@ qck_it(@"should fail to look up an empty string", ^{
 	NSLog(@"Error = %@", [error localizedDescription]);
 });
 
-qck_it(@"should fail to look up a bad object", ^{
+it(@"should fail to look up a bad object", ^{
 	NSError *error = nil;
 	GTObject *obj = [repo lookUpObjectBySHA:@"a496071c1b46c854b31185ea97743be6a8774479" error:&error];
 
@@ -58,7 +58,7 @@ qck_it(@"should fail to look up a bad object", ^{
 	NSLog(@"Error = %@", [error localizedDescription]);
 });
 
-qck_it(@"should look up a valid object", ^{
+it(@"should look up a valid object", ^{
 	NSError *error = nil;
 	GTObject *obj = [repo lookUpObjectBySHA:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error];
 
@@ -68,7 +68,7 @@ qck_it(@"should look up a valid object", ^{
 	XCTAssertEqualObjects(obj.SHA, @"8496071c1b46c854b31185ea97743be6a8774479");
 });
 
-qck_it(@"should look up equivalent objects", ^{
+it(@"should look up equivalent objects", ^{
 	NSError *error = nil;
 	GTObject *obj1 = [repo lookUpObjectBySHA:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error];
 	GTObject *obj2 = [repo lookUpObjectBySHA:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error];
@@ -78,7 +78,7 @@ qck_it(@"should look up equivalent objects", ^{
 	XCTAssertTrue([obj1 isEqual:obj2]);
 });
 
-qck_it(@"should read the raw data from an object", ^{
+it(@"should read the raw data from an object", ^{
 	NSError *error = nil;
 	GTObject *obj = [repo lookUpObjectBySHA:@"8496071c1b46c854b31185ea97743be6a8774479" error:&error];
 

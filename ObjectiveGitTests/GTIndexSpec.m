@@ -17,7 +17,7 @@ QuickSpecBegin(GTIndexSpec)
 __block GTRepository *repository;
 __block GTIndex *index;
 
-qck_beforeEach(^{
+beforeEach(^{
 	repository = self.testAppFixtureRepository;
 
 	index = [repository indexWithError:NULL];
@@ -27,30 +27,30 @@ qck_beforeEach(^{
 	expect(@(success)).to(beTruthy());
 });
 
-qck_it(@"should count the entries", ^{
+it(@"should count the entries", ^{
 	expect(@(index.entryCount)).to(equal(@24));
 });
 
-qck_it(@"should clear all entries", ^{
+it(@"should clear all entries", ^{
 	[index clear:NULL];
 	expect(@(index.entryCount)).to(equal(@0));
 });
 
-qck_it(@"should read entry properties", ^{
+it(@"should read entry properties", ^{
 	GTIndexEntry *entry = [index entryAtIndex:0];
 	expect(entry).notTo(beNil());
 	expect(entry.path).to(equal(@".gitignore"));
 	expect(@(entry.staged)).to(beFalsy());
 });
 
-qck_it(@"should write to the repository and return a tree", ^{
+it(@"should write to the repository and return a tree", ^{
 	GTTree *tree = [index writeTree:NULL];
 	expect(tree).notTo(beNil());
 	expect(@(tree.entryCount)).to(equal(@23));
 	expect(tree.repository).to(equal(repository));
 });
 
-qck_it(@"should write to a specific repository and return a tree", ^{
+it(@"should write to a specific repository and return a tree", ^{
 	GTRepository *repository = self.bareFixtureRepository;
 	NSArray *branches = [repository branches:NULL];
 	GTCommit *masterCommit = [branches[0] targetCommitAndReturnError:NULL];
@@ -68,13 +68,13 @@ qck_it(@"should write to a specific repository and return a tree", ^{
 	expect(mergedTree.repository).to(equal(repository));
 });
 
-qck_it(@"should create an index in memory", ^{
+it(@"should create an index in memory", ^{
 	GTIndex *memoryIndex = [GTIndex inMemoryIndexWithRepository:repository error:NULL];
 	expect(memoryIndex).notTo(beNil());
 	expect(memoryIndex.fileURL).to(beNil());
 });
 
-qck_it(@"should add the contents of a tree", ^{
+it(@"should add the contents of a tree", ^{
 	GTCommit *headCommit = [repository lookUpObjectByRevParse:@"HEAD" error:NULL];
 	expect(headCommit).notTo(beNil());
 
@@ -100,12 +100,12 @@ qck_it(@"should add the contents of a tree", ^{
 	}];
 });
 
-qck_describe(@"conflict enumeration", ^{
-	qck_it(@"should correctly find no conflicts", ^{
+describe(@"conflict enumeration", ^{
+	it(@"should correctly find no conflicts", ^{
 		expect(@(index.hasConflicts)).to(beFalsy());
 	});
 
-	qck_it(@"should immediately return YES when enumerating no conflicts", ^{
+	it(@"should immediately return YES when enumerating no conflicts", ^{
 		__block BOOL blockRan = NO;
 		BOOL enumerationResult = [index enumerateConflictedFilesWithError:NULL usingBlock:^(GTIndexEntry *ancestor, GTIndexEntry *ours, GTIndexEntry *theirs, BOOL *stop) {
 			blockRan = YES;
@@ -114,13 +114,13 @@ qck_describe(@"conflict enumeration", ^{
 		expect(@(blockRan)).to(beFalsy());
 	});
 
-	qck_it(@"should correctly report conflicts", ^{
+	it(@"should correctly report conflicts", ^{
 		index = [self.conflictedFixtureRepository indexWithError:NULL];
 		expect(index).notTo(beNil());
 		expect(@(index.hasConflicts)).to(beTruthy());
 	});
 
-	qck_it(@"should enumerate conflicts successfully", ^{
+	it(@"should enumerate conflicts successfully", ^{
 		index = [self.conflictedFixtureRepository indexWithError:NULL];
 		expect(index).notTo(beNil());
 
@@ -138,9 +138,9 @@ qck_describe(@"conflict enumeration", ^{
 	});
 });
 
-qck_describe(@"updating pathspecs", ^{
+describe(@"updating pathspecs", ^{
 	NSString *fileName = @"REAME_";
-	qck_beforeEach(^{
+	beforeEach(^{
 		index = [self.testAppFixtureRepository indexWithError:NULL];
 		NSString *filePath = [self.testAppFixtureRepository.fileURL.path stringByAppendingPathComponent:fileName];
 		[@"The wild west..." writeToFile:filePath atomically:NO encoding:NSUTF8StringEncoding error:NULL];
@@ -149,7 +149,7 @@ qck_describe(@"updating pathspecs", ^{
 		expect(@([index.repository statusForFile:fileName success:NULL error:NULL])).to(equal(@(GTFileStatusModifiedInWorktree)));
 	});
 
-	qck_it(@"should update the Index", ^{
+	it(@"should update the Index", ^{
 		BOOL success = [index updatePathspecs:@[ fileName ] error:NULL passingTest:^(NSString *matchedPathspec, NSString *path, BOOL *stop) {
 			expect(matchedPathspec).to(equal(fileName));
 			expect(path).to(equal(fileName));
@@ -160,7 +160,7 @@ qck_describe(@"updating pathspecs", ^{
 		expect(@([index.repository statusForFile:fileName success:NULL error:NULL])).to(equal(@(GTFileStatusModifiedInIndex)));
 	});
 
-	qck_it(@"should skip a specific file", ^{
+	it(@"should skip a specific file", ^{
 		BOOL success = [index updatePathspecs:NULL error:NULL passingTest:^(NSString *matchedPathspec, NSString *path, BOOL *stop) {
 			if ([path.lastPathComponent isEqualToString:fileName]) {
 				return NO;
@@ -173,7 +173,7 @@ qck_describe(@"updating pathspecs", ^{
 		expect(@([index.repository statusForFile:fileName success:NULL error:NULL])).to(equal(@(GTFileStatusModifiedInWorktree)));
 	});
 
-	qck_it(@"should stop be able to stop early", ^{
+	it(@"should stop be able to stop early", ^{
 		NSString *otherFileName = @"TestAppDelegate.h";
 		[@"WELP" writeToFile:[self.testAppFixtureRepository.fileURL.path stringByAppendingPathComponent:otherFileName] atomically:NO encoding:NSUTF8StringEncoding error:NULL];
 		BOOL success = [index updatePathspecs:NULL error:NULL passingTest:^(NSString *matchedPathspec, NSString *path, BOOL *stop) {
@@ -190,7 +190,7 @@ qck_describe(@"updating pathspecs", ^{
 	});
 });
 
-qck_describe(@"adding files", ^{
+describe(@"adding files", ^{
 	__block GTRepository *repo;
 	__block GTConfiguration *configuration;
 	__block GTIndex *index;
@@ -210,7 +210,7 @@ qck_describe(@"adding files", ^{
 		}];
 	};
 
-	qck_beforeEach(^{
+	beforeEach(^{
 		expect(filename).to(equal([filename precomposedStringWithCanonicalMapping]));
 		repo = self.testUnicodeFixtureRepository;
 		configuration = [repo configurationWithError:NULL];
@@ -227,7 +227,7 @@ qck_describe(@"adding files", ^{
 		renamedFileURL = [NSURL fileURLWithPath:newPath isDirectory:NO];
 	});
 
-	qck_it(@"it preserves decomposed Unicode in index paths with precomposeunicode disabled", ^{
+	it(@"it preserves decomposed Unicode in index paths with precomposeunicode disabled", ^{
 		NSString *decomposedFilename = [filename decomposedStringWithCanonicalMapping];
 		GTIndexEntry *entry = [index entryWithName:decomposedFilename error:NULL];
 		expect(@(fileStatusEqualsExpected(entry.path, GTStatusDeltaStatusUnmodified, GTStatusDeltaStatusUnmodified))).to(beTruthy());
@@ -245,7 +245,7 @@ qck_describe(@"adding files", ^{
 		expect(@(fileStatusEqualsExpected(entry.path, GTStatusDeltaStatusRenamed, GTStatusDeltaStatusUnmodified))).to(beTruthy());
 	});
 
-	qck_it(@"it preserves precomposed Unicode in index paths with precomposeunicode enabled", ^{
+	it(@"it preserves precomposed Unicode in index paths with precomposeunicode enabled", ^{
 		GTIndexEntry *fileEntry = [index entryWithName:[filename decomposedStringWithCanonicalMapping] error:NULL];
 		expect(fileEntry).notTo(beNil());
 		expect(@(fileStatusEqualsExpected(fileEntry.path, GTStatusDeltaStatusUnmodified, GTStatusDeltaStatusUnmodified))).to(beTruthy());
@@ -276,7 +276,7 @@ qck_describe(@"adding files", ^{
 	});
 });
 
-qck_afterEach(^{
+afterEach(^{
 	[self tearDown];
 });
 

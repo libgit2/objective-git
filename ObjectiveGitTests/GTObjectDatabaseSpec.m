@@ -16,7 +16,7 @@ QuickSpecBegin(GTObjectDatabaseSpec)
 
 __block GTObjectDatabase *database;
 
-qck_beforeEach(^{
+beforeEach(^{
 	GTRepository *repo = self.bareFixtureRepository;
 	expect(repo).notTo(beNil());
 
@@ -24,7 +24,7 @@ qck_beforeEach(^{
 	expect(database).notTo(beNil());
 });
 
-qck_it(@"should know what objects exist", ^{
+it(@"should know what objects exist", ^{
 	NSArray *existentSHAs = @[
 		@"8496071c1b46c854b31185ea97743be6a8774479",
 		@"1385f264afb75a56a5bec74243be9b367ba4ca08",
@@ -44,7 +44,7 @@ qck_it(@"should know what objects exist", ^{
 	}
 });
 
-qck_it(@"should be able to read an object", ^{
+it(@"should be able to read an object", ^{
 	GTOdbObject *object = [database objectWithSHA:@"8496071c1b46c854b31185ea97743be6a8774479" error:NULL];
 	expect(object).notTo(beNil());
 	expect(@(object.type)).to(equal(@(GTObjectTypeCommit)));
@@ -60,12 +60,12 @@ qck_it(@"should be able to read an object", ^{
 	expect(header).to(equal(@"tree 181037049a54a1eb5fab404658a3a250b44335d7"));
 });
 
-qck_it(@"shouldn't be able to read a non-existent object", ^{
+it(@"shouldn't be able to read a non-existent object", ^{
 	GTOdbObject *object = [database objectWithSHA:@"a496071c1b46c854b31185ea97743be6a8774471" error:NULL];
 	expect(object).to(beNil());
 });
 
-qck_it(@"should be able to write", ^{
+it(@"should be able to write", ^{
 	static NSString * const testContent = @"my test data\n";
 	static const GTObjectType testContentType = GTObjectTypeBlob;
 	static NSString * const testContentSHA = @"76b1b55ab653581d6f2c7230d34098e837197674";
@@ -74,7 +74,7 @@ qck_it(@"should be able to write", ^{
 	expect(@([database containsObjectWithSHA:testContentSHA error:NULL])).to(beTruthy());
 });
 
-qck_afterEach(^{
+afterEach(^{
 	[self tearDown];
 });
 

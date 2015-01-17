@@ -14,22 +14,22 @@
 
 QuickSpecBegin(GTConfigurationSpec)
 
-qck_describe(@"+defaultConfiguration", ^{
+describe(@"+defaultConfiguration", ^{
 	static NSString * const testKey = @"universe.answer";
 	static NSString * const testValue = @"42, probably";
 
 	__block GTConfiguration *config;
 
-	qck_beforeEach(^{
+	beforeEach(^{
 		config = [GTConfiguration defaultConfiguration];
 		expect(config).notTo(beNil());
 	});
 
-	qck_it(@"should return nil for -remotes", ^{
+	it(@"should return nil for -remotes", ^{
 		expect(config.remotes).to(beNil());
 	});
 
-	qck_it(@"should support reading and writing", ^{
+	it(@"should support reading and writing", ^{
 		id value = [config stringForKey:testKey];
 		expect(value).to(beNil());
 
@@ -38,7 +38,7 @@ qck_describe(@"+defaultConfiguration", ^{
 		expect(value).to(equal(testValue));
 	});
 
-	qck_it(@"should support deletion", ^{
+	it(@"should support deletion", ^{
 		[config setString:testValue forKey:testKey];
 		id value = [config stringForKey:testKey];
 		expect(value).notTo(beNil());
@@ -51,7 +51,7 @@ qck_describe(@"+defaultConfiguration", ^{
 	});
 });
 
-qck_afterEach(^{
+afterEach(^{
 	[self tearDown];
 });
 

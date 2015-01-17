@@ -17,7 +17,7 @@ QuickSpecBegin(GTEnumeratorSpec)
 __block GTRepository *repo;
 __block GTEnumerator *enumerator;
 
-qck_beforeEach(^{
+beforeEach(^{
 	repo = self.bareFixtureRepository;
 	expect(repo).notTo(beNil());
 
@@ -25,7 +25,7 @@ qck_beforeEach(^{
 	expect(enumerator).notTo(beNil());
 });
 
-qck_it(@"should walk from repository HEAD", ^{
+it(@"should walk from repository HEAD", ^{
 	NSError *error = nil;
 
 	GTReference *HEADRef = [repo headReferenceWithError:NULL];
@@ -37,11 +37,11 @@ qck_it(@"should walk from repository HEAD", ^{
 	expect(error).to(beNil());
 });
 
-qck_describe(@"with a rev list", ^{
+describe(@"with a rev list", ^{
 	__block NSMutableArray *expectedSHAs;
 	__block void (^verifyEnumerator)(void);
 
-	qck_beforeEach(^{
+	beforeEach(^{
 		expectedSHAs = [@[
 			@"9fd738e8f7967c078dceed8190330fc8648ee56a",
 			@"4a202b346bb0fb0db7eff3cffeb3c70babbd2045",
@@ -69,17 +69,17 @@ qck_describe(@"with a rev list", ^{
 		};
 	});
 
-	qck_it(@"should walk the whole list", ^{
+	it(@"should walk the whole list", ^{
 		verifyEnumerator();
 	});
 
-	qck_it(@"should walk part of a rev list", ^{
+	it(@"should walk part of a rev list", ^{
 		[expectedSHAs removeObjectsInRange:NSMakeRange(0, expectedSHAs.count - 1)];
 
 		verifyEnumerator();
 	});
 
-	qck_it(@"should hide a SHA", ^{
+	it(@"should hide a SHA", ^{
 		__block NSError *error = nil;
 		expect(@([enumerator hideSHA:expectedSHAs[2] error:&error])).to(beTruthy());
 		expect(error).to(beNil());
@@ -88,7 +88,7 @@ qck_describe(@"with a rev list", ^{
 		verifyEnumerator();
 	});
 
-	qck_it(@"should reset with options", ^{
+	it(@"should reset with options", ^{
 		expect(@(enumerator.options)).to(equal(@(GTEnumeratorOptionsNone)));
 		verifyEnumerator();
 
@@ -99,13 +99,13 @@ qck_describe(@"with a rev list", ^{
 	});
 });
 
-qck_describe(@"globbing", ^{
+describe(@"globbing", ^{
 	NSString *branchGlob = @"refs/heads/m*t*r";
 
 	__block NSMutableArray *expectedSHAs;
 	__block void (^verifyEnumerator)(void);
 
-	qck_beforeEach(^{
+	beforeEach(^{
 		expectedSHAs = [@[
 			@"36060c58702ed4c2a40832c51758d5344201d89a",
 			@"5b5b025afb0b4c913b4c338a42934a3863bf3644",
@@ -128,7 +128,7 @@ qck_describe(@"globbing", ^{
 		};
 	});
 
-	qck_it(@"should push a glob", ^{
+	it(@"should push a glob", ^{
 		__block NSError *error = nil;
 		expect(@([enumerator pushGlob:branchGlob error:&error])).to(beTruthy());
 		expect(error).to(beNil());
@@ -136,7 +136,7 @@ qck_describe(@"globbing", ^{
 		verifyEnumerator();
 	});
 
-	qck_it(@"should hide a glob", ^{
+	it(@"should hide a glob", ^{
 		__block NSError *error = nil;
 		expect(@([enumerator pushSHA:expectedSHAs[0] error:&error])).to(beTruthy());
 		expect(error).to(beNil());
@@ -149,7 +149,7 @@ qck_describe(@"globbing", ^{
 	});
 });
 
-qck_afterEach(^{
+afterEach(^{
 	[self tearDown];
 });
 

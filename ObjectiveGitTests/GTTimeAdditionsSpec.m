@@ -14,8 +14,8 @@
 
 QuickSpecBegin(GTTimeAdditions)
 
-qck_describe(@"Conversion between git_time and NSDate", ^{
-	qck_it(@"should be able to create a correct NSDate and NSTimeZone when given a git_time", ^{
+describe(@"Conversion between git_time and NSDate", ^{
+	it(@"should be able to create a correct NSDate and NSTimeZone when given a git_time", ^{
 		git_time_t seconds = 1265374800;
 		int offset = -120; //2 hours behind GMT
 		git_time time = (git_time){ .time = seconds, .offset = offset };
@@ -38,14 +38,14 @@ qck_describe(@"Conversion between git_time and NSDate", ^{
 		expect(@(timeZone.secondsFromGMT)).to(equal(@(expectedSecondsFromGMT)));
 	});
 
-	qck_it(@"should return a correct offset for an NSTimeZone", ^{
+	it(@"should return a correct offset for an NSTimeZone", ^{
 		NSTimeZone *timeZone = [NSTimeZone timeZoneForSecondsFromGMT:180 * 60];
 		expect(timeZone).notTo(beNil());
 		expect(@(timeZone.gt_gitTimeOffset)).to(equal(@180));
 	});
 });
 
-qck_afterEach(^{
+afterEach(^{
 	[self tearDown];
 });
 

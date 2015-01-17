@@ -14,14 +14,14 @@
 
 QuickSpecBegin(GTRepositoryStatus)
 
-qck_describe(@"Checking status", ^{
+describe(@"Checking status", ^{
 	__block GTRepository *repository = nil;
 	__block NSURL *targetFileURL = nil;
 	__block NSError *err;
 
 	NSData *testData = [@"test" dataUsingEncoding:NSUTF8StringEncoding];
 
-	qck_beforeEach(^{
+	beforeEach(^{
 		repository = self.testAppFixtureRepository;
 		targetFileURL = [repository.fileURL URLByAppendingPathComponent:@"main.m"];
 		expect(repository).notTo(beNil());
@@ -57,46 +57,46 @@ qck_describe(@"Checking status", ^{
 		updateIndexForSubpathAndExpectStatus(subpath, status);
 	};
 
-	qck_it(@"should recognize untracked files", ^{
+	it(@"should recognize untracked files", ^{
 		expectSubpathToHaveWorkDirStatus(@"UntrackedImage.png", GTStatusDeltaStatusUntracked);
 	});
 
-	qck_it(@"should recognize added files", ^{
+	it(@"should recognize added files", ^{
 		updateIndexForSubpathAndExpectStatus(@"UntrackedImage.png", GTStatusDeltaStatusAdded);
 	});
 
-	qck_it(@"should recognize modified files", ^{
+	it(@"should recognize modified files", ^{
 		expect(@([NSFileManager.defaultManager removeItemAtURL:targetFileURL error:&err])).to(beTruthy());
 		expect(err).to(beNil());
 		expect(@([testData writeToURL:targetFileURL atomically:YES])).to(beTruthy());
 		expectSubpathToHaveMatchingStatus(targetFileURL.lastPathComponent, GTStatusDeltaStatusModified);
 	});
 
-	qck_it(@"should recognize copied files", ^{
+	it(@"should recognize copied files", ^{
 		NSURL *copyLocation = [repository.fileURL URLByAppendingPathComponent:@"main2.m"];
 		expect(@([NSFileManager.defaultManager copyItemAtURL:targetFileURL toURL:copyLocation error:&err])).to(beTruthy());
 		expect(err).to(beNil());
 		updateIndexForSubpathAndExpectStatus(copyLocation.lastPathComponent, GTStatusDeltaStatusCopied);
 	});
 
-	qck_it(@"should recognize deleted files", ^{
+	it(@"should recognize deleted files", ^{
 		expect(@([NSFileManager.defaultManager removeItemAtURL:targetFileURL error:&err])).to(beTruthy());
 		expect(err).to(beNil());
 		expectSubpathToHaveMatchingStatus(targetFileURL.lastPathComponent, GTStatusDeltaStatusDeleted);
 	});
 
-	qck_it(@"should recognize renamed files", ^{
+	it(@"should recognize renamed files", ^{
 		NSURL *moveLocation = [repository.fileURL URLByAppendingPathComponent:@"main-moved.m"];
 		expect(@([NSFileManager.defaultManager moveItemAtURL:targetFileURL toURL:moveLocation error:&err])).to(beTruthy());
 		expect(err).to(beNil());
 		expectSubpathToHaveWorkDirStatus(moveLocation.lastPathComponent, GTStatusDeltaStatusRenamed);
 	});
 
-	qck_it(@"should recognise ignored files", ^{ //at least in the default options
+	it(@"should recognise ignored files", ^{ //at least in the default options
 		expectSubpathToHaveWorkDirStatus(@".DS_Store", GTStatusDeltaStatusIgnored);
 	});
 
-	qck_it(@"should skip ignored files if asked", ^{
+	it(@"should skip ignored files if asked", ^{
 		__block NSError *err = nil;
 		NSDictionary *options = @{ GTRepositoryStatusOptionsFlagsKey: @(0) };
 		BOOL enumerationSuccessful = [repository enumerateFileStatusWithOptions:options error:&err usingBlock:^(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop) {
@@ -107,7 +107,7 @@ qck_describe(@"Checking status", ^{
 	});
 });
 
-qck_afterEach(^{
+afterEach(^{
 	[self tearDown];
 });
 
