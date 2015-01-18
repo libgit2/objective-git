@@ -39,6 +39,7 @@
 
 @interface GTTreeEntry ()
 @property (nonatomic, assign, readonly) const git_tree_entry *git_tree_entry;
+@property (nonatomic, assign, readonly) git_tree_entry* entry_to_free;
 @end
 
 @implementation GTTreeEntry
@@ -64,6 +65,12 @@
 	return git_tree_entry_cmp(self.git_tree_entry, treeEntry.git_tree_entry) == 0 ? YES : NO;
 }
 
+- (void)dealloc {
+	if (_entry_to_free != nil) {
+		git_tree_entry_free(_entry_to_free);
+	}
+}
+
 #pragma mark API
 
 - (instancetype)initWithEntry:(const git_tree_entry *)theEntry parentTree:(GTTree *)parent {
@@ -71,12 +78,27 @@
 	if((self = [super init])) {
 		_git_tree_entry = theEntry;
 		_tree = parent;
+		_entry_to_free = nil;
+	}
+	return self;
+}
+
+- (instancetype)initWithEntryToFree:(git_tree_entry *)theEntry parentTree:(GTTree *)parent {
+	NSParameterAssert(theEntry != NULL);
+	if((self = [super init])) {
+		_git_tree_entry = theEntry;
+		_tree = parent;
+		_entry_to_free = theEntry;
 	}
 	return self;
 }
 
 + (instancetype)entryWithEntry:(const git_tree_entry *)theEntry parentTree:(GTTree *)parent {
 	return [[self alloc] initWithEntry:theEntry parentTree:parent];
+}
+
++ (instancetype)entryWithEntryToFree:(git_tree_entry *)theEntry parentTree:(GTTree *)parent {
+	return [[self alloc] initWithEntryToFree:theEntry parentTree:parent];
 }
 
 - (NSString *)name {

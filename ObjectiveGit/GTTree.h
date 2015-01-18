@@ -64,6 +64,8 @@ typedef NS_ENUM(NSInteger, GTTreeEnumerationOptions) {
 /// returns a GTTreeEntry or nil if there is nothing with the specified name
 - (GTTreeEntry *)entryWithName:(NSString *)name;
 
+- (GTTreeEntry*) treeEntryByPath:(NSString*) path error:(NSError**)error;
+
 /// Enumerates the contents of the tree
 ///
 /// options -  One of `GTTreeEnumerationOptionPre` (for pre-order walks) or

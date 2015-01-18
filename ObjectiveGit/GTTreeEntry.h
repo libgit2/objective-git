@@ -35,7 +35,9 @@
 
 /// Initializer and convience methods.
 - (instancetype)initWithEntry:(const git_tree_entry *)theEntry parentTree:(GTTree *)parent;
+- (instancetype)initWithEntryToFree:(git_tree_entry *)theEntry parentTree:(GTTree *)parent;
 + (instancetype)entryWithEntry:(const git_tree_entry *)theEntry parentTree:(GTTree *)parent;
++ (instancetype)entryWithEntryToFree:(git_tree_entry *)theEntry parentTree:(GTTree *)parent;
 
 /// The underlying `git_tree_entry`.
 - (const git_tree_entry *)git_tree_entry __attribute__((objc_returns_inner_pointer));

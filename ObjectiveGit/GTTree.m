@@ -68,6 +68,17 @@ typedef struct GTTreeEnumerationStruct {
 	return [self createEntryWithEntry:git_tree_entry_byname(self.git_tree, name.UTF8String)];
 }
 
+- (GTTreeEntry*) treeEntryByPath:(NSString*)path error:(NSError**)error {
+	git_tree_entry *entry = NULL;
+	int gitError = git_tree_entry_bypath(&entry, self.git_tree, path.UTF8String);
+	if (error != GIT_OK) {
+		*error = [NSError git_errorFor:gitError description:@"Failed to get tree ntry %@", path];
+		return nil;
+	}
+	
+	return [GTTreeEntry entryWithEntryToFree:entry parentTree:self];
+}
+
 - (git_tree *)git_tree {
 	return (git_tree *)self.git_object;
 }
