@@ -50,21 +50,21 @@ typedef NS_ENUM(NSInteger, GTTreeEnumerationOptions) {
 /// The underlying `git_object` as a `git_tree` object.
 - (git_tree *)git_tree __attribute__((objc_returns_inner_pointer));
 
-/// Get a entry at the specified index
+/// Get an entry at the specified index
 ///
 /// index - index to retreive entry from
 ///
 /// returns a GTTreeEntry or nil if there is nothing at the index
 - (GTTreeEntry *)entryAtIndex:(NSUInteger)index;
 
-/// Get a entry by name
+/// Get an entry by name
 ///
 /// name - the name of the entry
 ///
 /// returns a GTTreeEntry or nil if there is nothing with the specified name
 - (GTTreeEntry *)entryWithName:(NSString *)name;
 
-/// Get a entry by path
+/// Get an entry by path
 ///
 /// path - the path of the entry relative to the repository root
 ///
