@@ -34,13 +34,12 @@
 @interface GTTreeEntry : NSObject
 
 /// Initializer and convience methods.
-- (instancetype)initWithEntry:(const git_tree_entry *)theEntry parentTree:(GTTree *)parent;
-- (instancetype)initWithEntryToFree:(git_tree_entry *)theEntry parentTree:(GTTree *)parent;
-+ (instancetype)entryWithEntry:(const git_tree_entry *)theEntry parentTree:(GTTree *)parent;
-+ (instancetype)entryWithEntryToFree:(git_tree_entry *)theEntry parentTree:(GTTree *)parent;
+- (instancetype)initWithEntry:(git_tree_entry *)theEntry parentTree:(GTTree *)parent;
++ (instancetype)entryWithEntry:(git_tree_entry *)theEntry parentTree:(GTTree *)parent;
++ (instancetype)entryWithCopyOfEntry:(const git_tree_entry *)theEntry parentTree:(GTTree *)parent error:(NSError**)error;
 
 /// The underlying `git_tree_entry`.
-- (const git_tree_entry *)git_tree_entry __attribute__((objc_returns_inner_pointer));
+- (git_tree_entry *)git_tree_entry __attribute__((objc_returns_inner_pointer));
 
 /// The entry's parent tree. This may be nil if nil is passed in to -initWithEntry:
 @property (nonatomic, strong, readonly) GTTree *tree;

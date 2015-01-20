@@ -56,19 +56,19 @@ typedef struct GTTreeEnumerationStruct {
 	return (NSUInteger)git_tree_entrycount(self.git_tree);
 }
 
-- (GTTreeEntry *)createEntryWithEntry:(const git_tree_entry *)entry {
-	return (entry != NULL ? [GTTreeEntry entryWithEntry:entry parentTree:self] : nil);
+- (GTTreeEntry *)createEntryWithCopyOfEntry:(const git_tree_entry *)entry {
+	return (entry != NULL ? [GTTreeEntry entryWithCopyOfEntry:entry parentTree:self error:nil] : nil);
 }
 
 - (GTTreeEntry *)entryAtIndex:(NSUInteger)index {
-	return [self createEntryWithEntry:git_tree_entry_byindex(self.git_tree, index)];
+	return [self createEntryWithCopyOfEntry:git_tree_entry_byindex(self.git_tree, index)];
 }
 
 - (GTTreeEntry *)entryWithName:(NSString *)name {
-	return [self createEntryWithEntry:git_tree_entry_byname(self.git_tree, name.UTF8String)];
+	return [self createEntryWithCopyOfEntry:git_tree_entry_byname(self.git_tree, name.UTF8String)];
 }
 
-- (GTTreeEntry*) treeEntryByPath:(NSString*)path error:(NSError**)error {
+- (GTTreeEntry*)entryWithPath:(NSString*)path error:(NSError**)error {
 	git_tree_entry *entry = NULL;
 	int gitError = git_tree_entry_bypath(&entry, self.git_tree, path.UTF8String);
 	if (error != GIT_OK) {
@@ -76,7 +76,7 @@ typedef struct GTTreeEnumerationStruct {
 		return nil;
 	}
 	
-	return [GTTreeEntry entryWithEntryToFree:entry parentTree:self];
+	return [GTTreeEntry entryWithEntry:entry parentTree:self];
 }
 
 - (git_tree *)git_tree {
@@ -90,7 +90,7 @@ static int treewalk_cb(const char *root, const git_tree_entry *git_entry, void *
 	NSString *rootString = @(root);
 	GTTreeEntry *parentEntry = enumerationStruct->directoryStructure[rootString];
 	GTTree *parentTree = parentEntry != nil ? parentEntry.tree : enumerationStruct->myself;
-	GTTreeEntry *entry = [GTTreeEntry entryWithEntry:git_entry parentTree:parentTree];
+	GTTreeEntry *entry = [GTTreeEntry entryWithCopyOfEntry:git_entry parentTree:parentTree error:nil];
 	
 	if (entry.type == GTObjectTypeTree) {
 		NSString *path = [rootString stringByAppendingPathComponent:entry.name];

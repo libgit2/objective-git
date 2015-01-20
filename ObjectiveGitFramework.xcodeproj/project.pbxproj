@@ -412,7 +412,6 @@
 		30DCBA7017B4791A009B0EBD /* NSArray+StringArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+StringArray.m"; sourceTree = "<group>"; };
 		30FDC07D16835A8100654BF0 /* GTDiffLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTDiffLine.h; sourceTree = "<group>"; };
 		30FDC07E16835A8100654BF0 /* GTDiffLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTDiffLine.m; sourceTree = "<group>"; };
-		3D6123BB1A643296008F831A /* libgit2.0.21.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libgit2.0.21.2.dylib; path = ../../../../../usr/local/Cellar/libgit2/0.21.2/lib/libgit2.0.21.2.dylib; sourceTree = "<group>"; };
 		4D103ADC1819CFAA0029DB24 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		4D12323F178E009E0048F785 /* GTRepositoryCommittingSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTRepositoryCommittingSpec.m; sourceTree = "<group>"; };
 		4D1C40D7182C006D00BE2960 /* GTBlobSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTBlobSpec.m; sourceTree = "<group>"; };
@@ -621,7 +620,6 @@
 		0867D691FE84028FC02AAC07 /* ObjectiveGitFramework */ = {
 			isa = PBXGroup;
 			children = (
-				3D6123BB1A643296008F831A /* libgit2.0.21.2.dylib */,
 				BDD8AB01130F01AB00CB5D40 /* README.md */,
 				887B948D1A3A38130070D41D /* ObjectiveGit.modulemap */,
 				BDE4C05E130EFE2C00851650 /* ObjectiveGit */,
@@ -1451,10 +1449,6 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					/usr/local/Cellar/libgit2/0.21.2/lib,
-				);
 				MODULEMAP_FILE = ObjectiveGit.modulemap;
 				OTHER_LDFLAGS = (
 					"-lgit2",
@@ -1478,10 +1472,6 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					/usr/local/Cellar/libgit2/0.21.2/lib,
-				);
 				MODULEMAP_FILE = ObjectiveGit.modulemap;
 				OTHER_LDFLAGS = (
 					"-lgit2",
@@ -1666,10 +1656,6 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					/usr/local/Cellar/libgit2/0.21.2/lib,
-				);
 				MODULEMAP_FILE = ObjectiveGit.modulemap;
 				OTHER_LDFLAGS = (
 					"-lgit2",
@@ -1887,10 +1873,6 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					/usr/local/Cellar/libgit2/0.21.2/lib,
-				);
 				MODULEMAP_FILE = ObjectiveGit.modulemap;
 				OTHER_LDFLAGS = (
 					"-lgit2",

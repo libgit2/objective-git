@@ -110,7 +110,7 @@ static int filter_callback(const git_tree_entry *entry, void *payload) {
 	const git_tree_entry *entry = git_treebuilder_get(self.git_treebuilder, fileName.UTF8String);
 	if (entry == NULL) return nil;
 
-	return [GTTreeEntry entryWithEntry:entry parentTree:nil];
+	return [GTTreeEntry entryWithCopyOfEntry:entry parentTree:nil error:nil];
 }
 
 - (GTTreeEntry *)addEntryWithData:(NSData *)data fileName:(NSString *)fileName fileMode:(GTFileMode)fileMode error:(NSError **)error {
@@ -139,7 +139,7 @@ static int filter_callback(const git_tree_entry *entry, void *payload) {
 		return nil;
 	}
 
-	return [GTTreeEntry entryWithEntry:entry parentTree:nil];
+	return [GTTreeEntry entryWithCopyOfEntry:entry parentTree:nil error:nil];
 }
 
 - (BOOL)removeEntryWithFileName:(NSString *)fileName error:(NSError **)error {
