@@ -69,7 +69,7 @@ typedef NS_ENUM(NSInteger, GTTreeEnumerationOptions) {
 /// path - the path of the entry relative to the repository root
 ///
 /// returns a GTTreeEntry or nil if there is nothing with the specified path
-- (GTTreeEntry*)entryWithPath:(NSString*)path error:(NSError**)error;
+- (GTTreeEntry *)entryWithPath:(NSString *)path error:(NSError **)error;
 
 /// Enumerates the contents of the tree
 ///

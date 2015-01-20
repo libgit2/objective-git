@@ -59,7 +59,7 @@
 	return git_patch_size(self.git_patch, includeContext, includeHunkHeaders, includeFileHeaders);
 }
 
-- (NSData*)patchData {
+- (NSData *)patchData {
 	git_buf buf = GIT_BUF_INIT_CONST(0, NULL);
 	git_patch_to_buf(&buf, self.git_patch);
 

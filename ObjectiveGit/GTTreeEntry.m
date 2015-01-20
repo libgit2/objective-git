@@ -83,7 +83,7 @@
 	return [[self alloc] initWithEntry:theEntry parentTree:parent];
 }
 
-+ (instancetype)entryWithCopyOfEntry:(const git_tree_entry *)theEntry parentTree:(GTTree *)parent error:(NSError**)error{
++ (instancetype)entryWithCopyOfEntry:(const git_tree_entry *)theEntry parentTree:(GTTree *)parent error:(NSError **)error{
 	NSParameterAssert(theEntry != NULL);
 	git_tree_entry* copyOfEntry = nil;
 	int gitError = git_tree_entry_dup(&copyOfEntry, theEntry);

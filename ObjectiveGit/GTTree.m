@@ -68,7 +68,7 @@ typedef struct GTTreeEnumerationStruct {
 	return [self createEntryWithCopyOfEntry:git_tree_entry_byname(self.git_tree, name.UTF8String)];
 }
 
-- (GTTreeEntry*)entryWithPath:(NSString*)path error:(NSError**)error {
+- (GTTreeEntry *)entryWithPath:(NSString *)path error:(NSError **)error {
 	git_tree_entry *entry = NULL;
 	int gitError = git_tree_entry_bypath(&entry, self.git_tree, path.UTF8String);
 	if (error != GIT_OK) {
