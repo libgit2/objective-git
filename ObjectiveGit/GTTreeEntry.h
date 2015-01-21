@@ -34,9 +34,8 @@
 @interface GTTreeEntry : NSObject
 
 /// Initializer and convience methods.
-- (instancetype)initWithEntry:(git_tree_entry *)theEntry parentTree:(GTTree *)parent;
-+ (instancetype)entryWithEntry:(git_tree_entry *)theEntry parentTree:(GTTree *)parent;
-+ (instancetype)entryWithCopyOfEntry:(const git_tree_entry *)theEntry parentTree:(GTTree *)parent error:(NSError **)error;
+- (instancetype)initWithEntry:(const git_tree_entry *)theEntry parentTree:(GTTree *)parent error:(NSError **)error;
++ (instancetype)entryWithEntry:(const git_tree_entry *)theEntry parentTree:(GTTree *)parent error:(NSError **)error;
 
 /// The underlying `git_tree_entry`.
 - (git_tree_entry *)git_tree_entry __attribute__((objc_returns_inner_pointer));
