@@ -184,7 +184,7 @@ typedef struct {
 }
 
 
-typedef void(^GTTransferProgressBlock)(const git_transfer_progress *progress);
+typedef int(^GTTransferProgressBlock)(const git_transfer_progress *progress);
 
 static void checkoutProgressCallback(const char *path, size_t completedSteps, size_t totalSteps, void *payload) {
 	if (payload == NULL) return;
@@ -197,8 +197,7 @@ static int transferProgressCallback(const git_transfer_progress *progress, void 
 	if (payload == NULL) return 0;
 	struct GTClonePayload *pld = payload;
 	if (pld->transferProgressBlock == NULL) return 0;
-	pld->transferProgressBlock(progress);
-	return 0;
+	return pld->transferProgressBlock(progress);
 }
 
 struct GTClonePayload {
@@ -222,7 +221,7 @@ struct GTRemoteCreatePayload {
 	git_remote_callbacks remoteCallbacks;
 };
 
-+ (id)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL options:(NSDictionary *)options error:(NSError **)error transferProgressBlock:(void (^)(const git_transfer_progress *))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))checkoutProgressBlock {
++ (id)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL options:(NSDictionary *)options error:(NSError **)error transferProgressBlock:(int (^)(const git_transfer_progress *))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))checkoutProgressBlock {
 
 	git_clone_options cloneOptions = GIT_CLONE_OPTIONS_INIT;
 
