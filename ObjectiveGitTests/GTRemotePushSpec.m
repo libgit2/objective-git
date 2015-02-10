@@ -100,32 +100,6 @@ describe(@"pushing", ^{
 			error = NULL;
 		});
 
-		context(@"when -pushBranch: is given invalid parameters", ^{
-			it(@"needs a non-nil branch", ^{
-				XCTAssertThrowsSpecificNamed([localRepo pushBranch:nil toRemote:remote withOptions:nil error:&error progress:NULL], NSException, NSInternalInconsistencyException, @"should throw NSInternalInconsistencyException");
-			});
-
-			it(@"needs a non-nil remote", ^{
-				GTBranch *masterBranch = localBranchWithName(@"master", localRepo);
-				XCTAssertThrowsSpecificNamed([localRepo pushBranch:masterBranch toRemote:nil withOptions:nil error:&error progress:NULL], NSException, NSInternalInconsistencyException, @"should throw NSInternalInconsistencyException");
-			});
-		});
-
-		context(@"when -pushBranches: is given invalid parameters", ^{
-			it(@"needs a non-nil branch array", ^{
-				XCTAssertThrowsSpecificNamed([localRepo pushBranches:nil toRemote:remote withOptions:nil error:&error progress:NULL], NSException, NSInternalInconsistencyException, @"should throw NSInternalInconsistencyException");
-			});
-
-			it(@"needs a non-empty branch array", ^{
-				XCTAssertThrowsSpecificNamed([localRepo pushBranches:@[] toRemote:remote withOptions:nil error:&error progress:NULL], NSException, NSInternalInconsistencyException, @"should throw NSInternalInconsistencyException");
-			});
-
-			it(@"needs a non-nil remote", ^{
-				GTBranch *masterBranch = localBranchWithName(@"master", localRepo);
-				XCTAssertThrowsSpecificNamed([localRepo pushBranches:@[masterBranch] toRemote:nil withOptions:nil error:&error progress:NULL], NSException, NSInternalInconsistencyException, @"should throw NSInternalInconsistencyException");
-			});
-		});
-
 		context(@"when the local and remote branches are in sync", ^{
 			it(@"should push no commits", ^{
 				GTBranch *masterBranch = localBranchWithName(@"master", localRepo);
