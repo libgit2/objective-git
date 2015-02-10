@@ -49,9 +49,9 @@ extern NSString *const GTRepositoryRemoteOptionsCredentialProvider;
 
 /// Push a single branch to a remote.
 ///
-/// branch        - The branch to push.
-/// remote        - The remote to push to.
-/// options       - Options applied to the push operation.
+/// branch        - The branch to push. Must not be nil.
+/// remote        - The remote to push to. Must not be nil.
+/// options       - Options applied to the push operation. Can be NULL.
 ///                 Recognized options are:
 ///                 `GTRepositoryRemoteOptionsCredentialProvider`
 /// error         - The error if one occurred. Can be NULL.
@@ -63,9 +63,9 @@ extern NSString *const GTRepositoryRemoteOptionsCredentialProvider;
 
 /// Push an array of branches to a remote.
 ///
-/// branches      - An array of branches to push.
-/// remote        - The remote to push to.
-/// options       - Options applied to the push operation.
+/// branches      - An array of branches to push. Must not be nil.
+/// remote        - The remote to push to. Must not be nil.
+/// options       - Options applied to the push operation. Can be NULL.
 ///                 Recognized options are:
 ///                 `GTRepositoryRemoteOptionsCredentialProvider`
 /// error         - The error if one occurred. Can be NULL.
