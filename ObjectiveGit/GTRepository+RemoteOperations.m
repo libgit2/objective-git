@@ -184,7 +184,7 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 		BOOL success = NO;
 		GTBranch *trackingBranch = [branch trackingBranchWithError:error success:&success];
 
-		if (success && trackingBranch) {
+		if (success && trackingBranch != nil) {
 			// Use remote branch short name from trackingBranch, which could be different
 			// (e.g. refs/heads/master:refs/heads/my_master)
 			remoteBranchReference = [NSString stringWithFormat:@"refs/heads/%@", trackingBranch.shortName];
