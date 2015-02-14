@@ -50,6 +50,24 @@ static int stashEnumerationCallback(size_t index, const char *message, const git
 	git_stash_foreach(self.git_repository, &stashEnumerationCallback, (__bridge void *)block);
 }
 
+- (BOOL)applyStashAtIndex:(NSUInteger)index flags:(GTRepositoryApplyFlag)flags error:(NSError **)error {
+	int gitError = git_stash_apply(self.git_repository, index, flags);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to apply stash" failureReason:@"The stash at index %ld couldn't be applied.", index];
+		return NO;
+	}
+	return YES;
+}
+
+- (BOOL)popStashAtIndex:(NSUInteger)index flags:(GTRepositoryApplyFlag)flags error:(NSError **)error {
+	int gitError = git_stash_pop(self.git_repository, index, flags);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to pop stash" failureReason:@"The stash at index %ld couldn't be applied.", index];
+		return NO;
+	}
+	return YES;
+}
+
 - (BOOL)dropStashAtIndex:(NSUInteger)index error:(NSError **)error {
 	int gitError = git_stash_drop(self.git_repository, index);
 	if (gitError != GIT_OK) {
