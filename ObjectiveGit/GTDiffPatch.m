@@ -63,7 +63,7 @@
 	git_buf buf = GIT_BUF_INIT_CONST(0, NULL);
 	git_patch_to_buf(&buf, self.git_patch);
 
-	NSData* buffer = [[NSData alloc] initWithBytes:buf.ptr length:buf.size];
+	NSData *buffer = [[NSData alloc] initWithBytes:buf.ptr length:buf.size];
 	git_buf_free(&buf);
 	
 	return buffer;

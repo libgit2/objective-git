@@ -76,7 +76,7 @@
 	self = [super init];
 	if (self == nil) return nil;
 	
-	git_tree_entry* copyOfEntry = nil;
+	git_tree_entry *copyOfEntry = nil;
 	int gitError = git_tree_entry_dup(&copyOfEntry, theEntry);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to duplicate tree entry."];
