@@ -311,6 +311,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		3D6123BD1A6432F6008F831A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D0A330ED16027F1E00A616FA;
+			remoteInfo = libgit2;
+		};
 		6A28265A17C69D6300C6A948 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
@@ -345,13 +352,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = D0A330F216027F3600A616FA;
 			remoteInfo = "libgit2-iOS";
-		};
-		D0A330F716027F4900A616FA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = D0A330ED16027F1E00A616FA;
-			remoteInfo = libgit2;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -1094,7 +1094,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				D0A330F816027F4900A616FA /* PBXTargetDependency */,
+				3D6123BE1A6432F6008F831A /* PBXTargetDependency */,
 			);
 			name = "ObjectiveGit-Mac";
 			productInstallPath = "$(HOME)/Library/Frameworks";
@@ -1396,6 +1396,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		3D6123BE1A6432F6008F831A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D0A330ED16027F1E00A616FA /* libgit2 */;
+			targetProxy = 3D6123BD1A6432F6008F831A /* PBXContainerItemProxy */;
+		};
 		6A28265B17C69D6300C6A948 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 6A28265217C69CB400C6A948 /* OpenSSL-iOS */;
@@ -1420,11 +1425,6 @@
 			isa = PBXTargetDependency;
 			target = D0A330F216027F3600A616FA /* libgit2-iOS */;
 			targetProxy = D019779619F8335100F523DA /* PBXContainerItemProxy */;
-		};
-		D0A330F816027F4900A616FA /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = D0A330ED16027F1E00A616FA /* libgit2 */;
-			targetProxy = D0A330F716027F4900A616FA /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

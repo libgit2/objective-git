@@ -56,16 +56,29 @@ typedef struct GTTreeEnumerationStruct {
 	return (NSUInteger)git_tree_entrycount(self.git_tree);
 }
 
-- (GTTreeEntry *)createEntryWithEntry:(const git_tree_entry *)entry {
-	return (entry != NULL ? [GTTreeEntry entryWithEntry:entry parentTree:self] : nil);
+- (GTTreeEntry *)createEntryWithEntry:(const git_tree_entry *)entry error:(NSError **)error {
+	return (entry != NULL ? [GTTreeEntry entryWithEntry:entry parentTree:self error:nil] : nil);
 }
 
 - (GTTreeEntry *)entryAtIndex:(NSUInteger)index {
-	return [self createEntryWithEntry:git_tree_entry_byindex(self.git_tree, index)];
+	return [self createEntryWithEntry:git_tree_entry_byindex(self.git_tree, index) error:nil];
 }
 
 - (GTTreeEntry *)entryWithName:(NSString *)name {
-	return [self createEntryWithEntry:git_tree_entry_byname(self.git_tree, name.UTF8String)];
+	return [self createEntryWithEntry:git_tree_entry_byname(self.git_tree, name.UTF8String) error:nil];
+}
+
+- (GTTreeEntry *)entryWithPath:(NSString *)path error:(NSError **)error {
+	git_tree_entry *internalEntry = NULL;
+	int gitError = git_tree_entry_bypath(&internalEntry, self.git_tree, path.UTF8String);
+	if (error != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to get tree entry %@", path];
+		return nil;
+	}
+	
+	GTTreeEntry *entry = [self createEntryWithEntry:internalEntry error:error];
+	git_tree_entry_free(internalEntry);
+	return entry;
 }
 
 - (git_tree *)git_tree {
@@ -79,7 +92,7 @@ static int treewalk_cb(const char *root, const git_tree_entry *git_entry, void *
 	NSString *rootString = @(root);
 	GTTreeEntry *parentEntry = enumerationStruct->directoryStructure[rootString];
 	GTTree *parentTree = parentEntry != nil ? parentEntry.tree : enumerationStruct->myself;
-	GTTreeEntry *entry = [GTTreeEntry entryWithEntry:git_entry parentTree:parentTree];
+	GTTreeEntry *entry = [GTTreeEntry entryWithEntry:git_entry parentTree:parentTree error:nil];
 	
 	if (entry.type == GTObjectTypeTree) {
 		NSString *path = [rootString stringByAppendingPathComponent:entry.name];

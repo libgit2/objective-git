@@ -38,7 +38,7 @@
 #import "git2/errors.h"
 
 @interface GTTreeEntry ()
-@property (nonatomic, assign, readonly) const git_tree_entry *git_tree_entry;
+@property (nonatomic, assign, readonly) git_tree_entry *git_tree_entry;
 @end
 
 @implementation GTTreeEntry
@@ -64,19 +64,33 @@
 	return git_tree_entry_cmp(self.git_tree_entry, treeEntry.git_tree_entry) == 0 ? YES : NO;
 }
 
+- (void)dealloc {
+	git_tree_entry_free(_git_tree_entry);
+}
+
 #pragma mark API
 
-- (instancetype)initWithEntry:(const git_tree_entry *)theEntry parentTree:(GTTree *)parent {
+- (instancetype)initWithEntry:(const git_tree_entry *)theEntry parentTree:(GTTree *)parent error:(NSError **)error {
 	NSParameterAssert(theEntry != NULL);
-	if((self = [super init])) {
-		_git_tree_entry = theEntry;
-		_tree = parent;
+	
+	self = [super init];
+	if (self == nil) return nil;
+	
+	git_tree_entry *copyOfEntry = nil;
+	int gitError = git_tree_entry_dup(&copyOfEntry, theEntry);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to duplicate tree entry."];
+		return nil;
 	}
+	
+	_git_tree_entry = copyOfEntry;
+	_tree = parent;
+
 	return self;
 }
 
-+ (instancetype)entryWithEntry:(const git_tree_entry *)theEntry parentTree:(GTTree *)parent {
-	return [[self alloc] initWithEntry:theEntry parentTree:parent];
++ (instancetype)entryWithEntry:(const git_tree_entry *)theEntry parentTree:(GTTree *)parent error:(NSError **)error {
+	return [[self alloc] initWithEntry:theEntry parentTree:parent error:error];
 }
 
 - (NSString *)name {

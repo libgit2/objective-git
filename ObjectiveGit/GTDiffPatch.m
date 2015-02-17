@@ -59,6 +59,16 @@
 	return git_patch_size(self.git_patch, includeContext, includeHunkHeaders, includeFileHeaders);
 }
 
+- (NSData *)patchData {
+	git_buf buf = GIT_BUF_INIT_CONST(0, NULL);
+	git_patch_to_buf(&buf, self.git_patch);
+
+	NSData *buffer = [[NSData alloc] initWithBytes:buf.ptr length:buf.size];
+	git_buf_free(&buf);
+	
+	return buffer;
+}
+
 #pragma mark Hunks
 
 - (BOOL)enumerateHunksUsingBlock:(void (^)(GTDiffHunk *hunk, BOOL *stop))block {

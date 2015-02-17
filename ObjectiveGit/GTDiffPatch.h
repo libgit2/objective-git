@@ -50,6 +50,9 @@
 /// Returns the raw size of the delta, in bytes.
 - (NSUInteger)sizeWithContext:(BOOL)includeContext hunkHeaders:(BOOL)includeHunkHeaders fileHeaders:(BOOL)includeFileHeaders;
 
+/// Returns the raw patch data.
+- (NSData *)patchData;
+
 /// Enumerate the hunks contained in the patch.
 ///
 /// This enumeration is synchronous, and will block the calling thread while
