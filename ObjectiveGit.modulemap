@@ -47,7 +47,6 @@ framework module ObjectiveGit {
 	header "git2/status.h"
 	header "git2/submodule.h"
 	header "git2/tag.h"
-	header "git2/threads.h"
 	header "git2/transport.h"
 	header "git2/tree.h"
 	header "git2/types.h"
