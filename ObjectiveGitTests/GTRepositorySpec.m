@@ -542,6 +542,56 @@ describe(@"-branches:", ^{
 	});
 });
 
+describe(@"-userSignatureForNow", ^{
+	static NSString * const userName = @"johnsmith";
+	static NSString * const email = @"johnsmith@gmail.com";
+
+	__block GTConfiguration *configuration;
+
+	beforeEach(^{
+		configuration = [repository configurationWithError:NULL];
+		expect(configuration).notTo(beNil());
+	});
+
+	it(@"should use the values from the config", ^{
+		[configuration setString:userName forKey:@"user.name"];
+		[configuration setString:email forKey:@"user.email"];
+
+		GTSignature *signature = [repository userSignatureForNow];
+		expect(signature.name).to(equal(userName));
+		expect(signature.email).to(equal(email));
+	});
+
+	describe(@"invalid values", ^{
+		it(@"should use a default value if the name is empty", ^{
+			[configuration setString:@"" forKey:@"user.name"];
+			[configuration setString:email forKey:@"user.email"];
+
+			GTSignature *signature = [repository userSignatureForNow];
+			expect(@(signature.name.length)).to(beGreaterThan(@0));
+			expect(@(signature.email.length)).to(beGreaterThan(@0));
+		});
+
+		it(@"should use a default value if the email is empty", ^{
+			[configuration setString:userName forKey:@"user.name"];
+			[configuration setString:@"" forKey:@"user.email"];
+
+			GTSignature *signature = [repository userSignatureForNow];
+			expect(@(signature.name.length)).to(beGreaterThan(@0));
+			expect(@(signature.email.length)).to(beGreaterThan(@0));
+		});
+
+		it(@"should use a default value if the email contains angled brackets", ^{
+			[configuration setString:userName forKey:@"user.name"];
+			[configuration setString:@"<johnsmith@gmail.com>" forKey:@"user.email"];
+
+			GTSignature *signature = [repository userSignatureForNow];
+			expect(@(signature.name.length)).to(beGreaterThan(@0));
+			expect(@(signature.email.length)).to(beGreaterThan(@0));
+		});
+	});
+});
+
 afterEach(^{
 	[self tearDown];
 });
