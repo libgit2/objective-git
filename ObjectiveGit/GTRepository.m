@@ -718,24 +718,33 @@ static int submoduleEnumerationCallback(git_submodule *git_submodule, const char
 
 #pragma mark User
 
++ (NSString *)defaultUserName {
+	NSString *name = NSFullUserName();
+	if (name.length == 0) name = NSUserName();
+	if (name.length == 0) name = @"nobody";
+	return name;
+}
+
++ (NSString *)defaultEmail {
+	NSString *username = NSUserName();
+	if (username.length == 0) username = @"nobody";
+	NSString *domain = NSProcessInfo.processInfo.hostName ?: @"nowhere.local";
+	return [NSString stringWithFormat:@"%@@%@", username, domain];
+}
+
 - (GTSignature *)userSignatureForNow {
 	GTConfiguration *configuration = [self configurationWithError:NULL];
 	NSString *name = [configuration stringForKey:@"user.name"];
-	if (name.length == 0) {
-		name = NSFullUserName();
-		if (name.length == 0) name = NSUserName();
-		if (name.length == 0) name = @"nobody";
-	}
+	if (name.length == 0) name = self.class.defaultUserName;
 
 	NSString *email = [configuration stringForKey:@"user.email"];
-	if (email == nil) {
-		NSString *username = NSUserName();
-		if (username.length == 0) username = @"nobody";
-		NSString *domain = NSProcessInfo.processInfo.hostName ?: @"nowhere.local";
-		email = [NSString stringWithFormat:@"%@@%@", username, domain];
-	}
+	if (email == nil) email = self.class.defaultEmail;
 
-	return [[GTSignature alloc] initWithName:name email:email time:[NSDate date]];
+	NSDate *now = [NSDate date];
+	GTSignature *signature = [[GTSignature alloc] initWithName:name email:email time:now];
+	if (signature != nil) return signature;
+
+	return [[GTSignature alloc] initWithName:self.class.defaultUserName email:self.class.defaultEmail time:now];
 }
 
 #pragma mark Tagging
