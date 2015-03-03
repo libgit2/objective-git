@@ -738,7 +738,7 @@ static int submoduleEnumerationCallback(git_submodule *git_submodule, const char
 	if (name.length == 0) name = self.class.defaultUserName;
 
 	NSString *email = [configuration stringForKey:@"user.email"];
-	if (email == nil) email = self.class.defaultEmail;
+	if (email.length == 0) email = self.class.defaultEmail;
 
 	NSDate *now = [NSDate date];
 	GTSignature *signature = [[GTSignature alloc] initWithName:name email:email time:now];
