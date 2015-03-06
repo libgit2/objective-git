@@ -15,6 +15,7 @@
 
 #import "git2/config.h"
 #import "git2/errors.h"
+#import "git2/buffer.h"
 
 @interface GTConfiguration ()
 @property (nonatomic, readonly, assign) git_config *git_config;
@@ -58,11 +59,13 @@
 }
 
 - (NSString *)stringForKey:(NSString *)key {
-	const char *string = NULL;
-	git_config_get_string(&string, self.git_config, key.UTF8String);
-	if (string == NULL) return nil;
+	git_buf buffer = {};
+	if (git_config_get_string_buf(&buffer, self.git_config, key.UTF8String) != 0) return nil;
 
-	return [NSString stringWithUTF8String:string];
+	NSString *string = [[NSString alloc] initWithBytes:buffer.ptr length:buffer.size encoding:NSUTF8StringEncoding];
+	git_buf_free(&buffer);
+
+	return string;
 }
 
 - (void)setBool:(BOOL)b forKey:(NSString *)key {
