@@ -57,7 +57,6 @@
 typedef NS_OPTIONS(NSInteger, GTCheckoutStrategyType) {
 	GTCheckoutStrategyNone = GIT_CHECKOUT_NONE,
 	GTCheckoutStrategySafe = GIT_CHECKOUT_SAFE,
-	GTCheckoutStrategySafeCreate = GIT_CHECKOUT_SAFE_CREATE,
 	GTCheckoutStrategyForce = GIT_CHECKOUT_FORCE,
 	GTCheckoutStrategyAllowConflicts = GIT_CHECKOUT_ALLOW_CONFLICTS,
 	GTCheckoutStrategyRemoveUntracked = GIT_CHECKOUT_REMOVE_UNTRACKED,
