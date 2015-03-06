@@ -236,7 +236,7 @@ struct GTRemoteCreatePayload {
 
 	if (withCheckout) {
 		git_checkout_options checkoutOptions = GIT_CHECKOUT_OPTIONS_INIT;
-		checkoutOptions.checkout_strategy = GIT_CHECKOUT_SAFE_CREATE;
+		checkoutOptions.checkout_strategy = GIT_CHECKOUT_SAFE;
 		checkoutOptions.progress_cb = checkoutProgressCallback;
 		checkoutOptions.progress_payload = (__bridge void *)checkoutProgressBlock;
 		cloneOptions.checkout_opts = checkoutOptions;
@@ -493,12 +493,12 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 	return [currentBranch numberOfCommitsWithError:error];
 }
 
-- (GTReference *)createReferenceNamed:(NSString *)name fromOID:(GTOID *)targetOID committer:(GTSignature *)signature message:(NSString *)message error:(NSError **)error {
+- (GTReference *)createReferenceNamed:(NSString *)name fromOID:(GTOID *)targetOID message:(NSString *)message error:(NSError **)error {
 	NSParameterAssert(name != nil);
 	NSParameterAssert(targetOID != nil);
 
 	git_reference *ref;
-	int gitError = git_reference_create(&ref, self.git_repository, name.UTF8String, targetOID.git_oid, 0, signature.git_signature, message.UTF8String);
+	int gitError = git_reference_create(&ref, self.git_repository, name.UTF8String, targetOID.git_oid, 0, message.UTF8String);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to create direct reference to %@", targetOID];
 		return nil;
@@ -507,13 +507,13 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 	return [[GTReference alloc] initWithGitReference:ref repository:self];
 }
 
-- (GTReference *)createReferenceNamed:(NSString *)name fromReference:(GTReference *)targetRef committer:(GTSignature *)signature message:(NSString *)message error:(NSError **)error {
+- (GTReference *)createReferenceNamed:(NSString *)name fromReference:(GTReference *)targetRef message:(NSString *)message error:(NSError **)error {
 	NSParameterAssert(name != nil);
 	NSParameterAssert(targetRef != nil);
 	NSParameterAssert(targetRef.name != nil);
 
 	git_reference *ref;
-	int gitError = git_reference_symbolic_create(&ref, self.git_repository, name.UTF8String, targetRef.name.UTF8String, 0, signature.git_signature, message.UTF8String);
+	int gitError = git_reference_symbolic_create(&ref, self.git_repository, name.UTF8String, targetRef.name.UTF8String, 0, message.UTF8String);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to create symbolic reference to %@", targetRef];
 		return nil;
@@ -522,11 +522,11 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 	return [[GTReference alloc] initWithGitReference:ref repository:self];
 }
 
-- (GTBranch *)createBranchNamed:(NSString *)name fromOID:(GTOID *)targetOID committer:(GTSignature *)signature message:(NSString *)message error:(NSError **)error {
+- (GTBranch *)createBranchNamed:(NSString *)name fromOID:(GTOID *)targetOID message:(NSString *)message error:(NSError **)error {
 	NSParameterAssert(name != nil);
 	NSParameterAssert(targetOID != nil);
 
-	GTReference *newRef = [self createReferenceNamed:[GTBranch.localNamePrefix stringByAppendingString:name] fromOID:targetOID committer:signature message:message error:error];
+	GTReference *newRef = [self createReferenceNamed:[GTBranch.localNamePrefix stringByAppendingString:name] fromOID:targetOID message:message error:error];
 	if (newRef == nil) return nil;
 
 	return [GTBranch branchWithReference:newRef repository:self];
@@ -800,7 +800,7 @@ static int checkoutNotifyCallback(git_checkout_notify_t why, const char *path, c
 - (BOOL)moveHEADToReference:(GTReference *)reference error:(NSError **)error {
 	NSParameterAssert(reference != nil);
 
-	int gitError = git_repository_set_head(self.git_repository, reference.name.UTF8String, [self userSignatureForNow].git_signature, NULL);
+	int gitError = git_repository_set_head(self.git_repository, reference.name.UTF8String);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to move HEAD to reference %@", reference.name];
 	}
@@ -811,7 +811,7 @@ static int checkoutNotifyCallback(git_checkout_notify_t why, const char *path, c
 - (BOOL)moveHEADToCommit:(GTCommit *)commit error:(NSError **)error {
 	NSParameterAssert(commit != nil);
 
-	int gitError = git_repository_set_head_detached(self.git_repository, commit.OID.git_oid, [self userSignatureForNow].git_signature, NULL);
+	int gitError = git_repository_set_head_detached(self.git_repository, commit.OID.git_oid);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to move HEAD to commit %@", commit.SHA];
 	}

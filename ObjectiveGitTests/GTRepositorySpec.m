@@ -276,7 +276,7 @@ describe(@"-createBranchNamed:fromOID:committer:message:error:", ^{
 		NSString *branchName = @"new-test-branch";
 
 		NSError *error = nil;
-		GTBranch *newBranch = [repository createBranchNamed:branchName fromOID:[[GTOID alloc] initWithSHA:currentBranch.SHA] committer:nil message:nil error:&error];
+		GTBranch *newBranch = [repository createBranchNamed:branchName fromOID:[[GTOID alloc] initWithSHA:currentBranch.SHA] message:nil error:&error];
 		expect(newBranch).notTo(beNil());
 		expect(error).to(beNil());
 
