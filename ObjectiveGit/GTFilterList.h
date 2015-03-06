@@ -14,8 +14,8 @@
 
 /// The options for loading a filter list. See libgit2 for more information.
 typedef NS_OPTIONS(NSInteger, GTFilterListOptions) {
-	GTFilterListOptionsDefault = GIT_FILTER_OPT_DEFAULT,
-	GTFilterListOptionsAllowUnsafe = GIT_FILTER_OPT_ALLOW_UNSAFE,
+	GTFilterListOptionsDefault = GIT_FILTER_DEFAULT,
+	GTFilterListOptionsAllowUnsafe = GIT_FILTER_ALLOW_UNSAFE,
 };
 
 /// An opaque list of filters that apply to a given path.
