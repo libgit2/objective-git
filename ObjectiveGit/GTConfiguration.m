@@ -10,8 +10,9 @@
 #import "GTConfiguration+Private.h"
 #import "GTRepository.h"
 #import "GTRemote.h"
-#import "NSError+Git.h"
 #import "GTSignature.h"
+#import "NSData+Git.h"
+#import "NSError+Git.h"
 
 #import "git2/config.h"
 #import "git2/errors.h"
@@ -62,10 +63,7 @@
 	git_buf buffer = {};
 	if (git_config_get_string_buf(&buffer, self.git_config, key.UTF8String) != 0) return nil;
 
-	NSString *string = [[NSString alloc] initWithBytes:buffer.ptr length:buffer.size encoding:NSUTF8StringEncoding];
-	git_buf_free(&buffer);
-
-	return string;
+	return [[NSString alloc] initWithData:[NSData git_dataWithBuffer:&buffer] encoding:NSUTF8StringEncoding];
 }
 
 - (void)setBool:(BOOL)b forKey:(NSString *)key {
