@@ -186,7 +186,7 @@ describe(@"pushing", ^{
 			GTBranch *branch1 = localBranchWithName(@"master", localRepo);
 
 			// Create refs/heads/new_master on local
-			[localRepo createReferenceNamed:@"refs/heads/new_master" fromReference:branch1.reference committer:localRepo.userSignatureForNow message:@"Create new_master branch" error:&error];
+			[localRepo createReferenceNamed:@"refs/heads/new_master" fromReference:branch1.reference message:@"Create new_master branch" error:&error];
 			GTBranch *branch2 = localBranchWithName(@"new_master", localRepo);
 
 			BOOL result = [localRepo pushBranches:@[ branch1, branch2 ] toRemote:remote withOptions:nil error:&error progress:NULL];

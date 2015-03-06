@@ -62,7 +62,7 @@ describe(@"transformations", ^{
 		expect(repository).notTo(beNil());
 
 		NSError *error;
-		reference = [repository createReferenceNamed:testRefName fromOID:testRefOID committer:nil message:nil error:&error];
+		reference = [repository createReferenceNamed:testRefName fromOID:testRefOID message:nil error:&error];
 		expect(reference).notTo(beNil());
 		expect(reference.name).to(equal(testRefName));
 		expect(reference.targetSHA).to(equal(testRefOID.SHA));
@@ -80,7 +80,7 @@ describe(@"transformations", ^{
 	it(@"should be able to change the target", ^{
 		NSString *newRefTarget = @"5b5b025afb0b4c913b4c338a42934a3863bf3644";
 
-		GTReference *updatedRef = [reference referenceByUpdatingTarget:newRefTarget committer:nil message:nil error:NULL];
+		GTReference *updatedRef = [reference referenceByUpdatingTarget:newRefTarget message:nil error:NULL];
 		expect(updatedRef).notTo(beNil());
 		expect(updatedRef.name).to(equal(testRefName));
 		expect(updatedRef.targetSHA).to(equal(newRefTarget));
@@ -154,7 +154,7 @@ describe(@"creating", ^{
 		expect(target).notTo(beNil());
 
 		NSError *error = nil;
-		GTReference *ref = [bareRepository createReferenceNamed:@"refs/heads/unit_test" fromReference:target committer:nil message:nil error:&error];
+		GTReference *ref = [bareRepository createReferenceNamed:@"refs/heads/unit_test" fromReference:target message:nil error:&error];
 		expect(error).to(beNil());
 		expect(ref).notTo(beNil());
 
@@ -166,7 +166,7 @@ describe(@"creating", ^{
 		GTOID *target = [[GTOID alloc] initWithSHA:@"36060c58702ed4c2a40832c51758d5344201d89a"];
 
 		NSError *error = nil;
-		GTReference *ref = [bareRepository createReferenceNamed:@"refs/heads/unit_test" fromOID:target committer:nil message:nil error:&error];
+		GTReference *ref = [bareRepository createReferenceNamed:@"refs/heads/unit_test" fromOID:target message:nil error:&error];
 		expect(error).to(beNil());
 		expect(ref).notTo(beNil());
 
@@ -179,7 +179,7 @@ describe(@"-deleteWithError:", ^{
 		GTOID *target = [[GTOID alloc] initWithSHA:@"36060c58702ed4c2a40832c51758d5344201d89a"];
 
 		NSError *error = nil;
-		GTReference *ref = [bareRepository createReferenceNamed:@"refs/heads/unit_test" fromOID:target committer:nil message:nil error:&error];
+		GTReference *ref = [bareRepository createReferenceNamed:@"refs/heads/unit_test" fromOID:target message:nil error:&error];
 
 		expect(error).to(beNil());
 		expect(ref).notTo(beNil());
