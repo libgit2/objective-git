@@ -95,7 +95,7 @@ int GTRemotePushTransferProgressCallback(unsigned int current, unsigned int tota
 		git_strarray_free(&refspecs);
 	};
 
-	gitError = git_remote_fetch(remote.git_remote, &refspecs, self.userSignatureForNow.git_signature, NULL);
+	gitError = git_remote_fetch(remote.git_remote, &refspecs, NULL);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to fetch from remote"];
 		return NO;
@@ -246,7 +246,7 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 		return NO;
 	}
 
-	gitError = git_remote_update_tips(remote.git_remote, self.userSignatureForNow.git_signature, NULL);
+	gitError = git_remote_update_tips(remote.git_remote, NULL);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Update tips failed"];
 		return NO;

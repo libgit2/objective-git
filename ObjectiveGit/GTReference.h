@@ -28,7 +28,6 @@
 
 @class GTOID;
 @class GTReflog;
-@class GTSignature;
 
 typedef NS_ENUM(NSInteger, GTReferenceErrorCode) {
 	GTReferenceErrorCodeInvalidReference = -4,
@@ -89,14 +88,12 @@ typedef NS_OPTIONS(NSInteger, GTReferenceType) {
 /// Note that this does *not* change the receiver's target.
 ///
 /// newTarget - The target for the new reference. This must not be nil.
-/// signature - A signature for the committer updating this ref, used for
-///             creating a reflog entry. This may be nil.
 /// message   - A message to use when creating the reflog entry for this action.
 ///             This may be nil.
 /// error     - The error if one occurred.
 ///
 /// Returns the updated reference, or nil if an error occurred.
-- (GTReference *)referenceByUpdatingTarget:(NSString *)newTarget committer:(GTSignature *)signature message:(NSString *)message error:(NSError **)error;
+- (GTReference *)referenceByUpdatingTarget:(NSString *)newTarget message:(NSString *)message error:(NSError **)error;
 
 /// The name of the reference.
 @property (nonatomic, readonly, copy) NSString *name;
