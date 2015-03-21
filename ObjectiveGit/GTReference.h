@@ -79,8 +79,8 @@ typedef NS_OPTIONS(NSInteger, GTReferenceType) {
 /// The last direct reference in a chain
 @property (nonatomic, readonly, copy) GTReference *resolvedReference;
 
-/// The SHA of the target object
-@property (nonatomic, readonly, copy) NSString *targetSHA;
+/// The OID of the target object.
+@property (nonatomic, readonly, copy) GTOID *targetOID;
 
 /// Updates the on-disk reference to point to the target and returns the updated
 /// reference.

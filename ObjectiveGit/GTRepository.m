@@ -885,4 +885,36 @@ static int checkoutNotifyCallback(git_checkout_notify_t why, const char *path, c
 	}
 }
 
+- (GTEnumerator *)enumerateUniqueCommitsUpToOID:(GTOID *)headOID relativeToOID:(GTOID *)baseOID error:(NSError **)error {
+	NSParameterAssert(headOID != nil);
+	NSParameterAssert(baseOID != nil);
+	
+	GTCommit *mergeBase = [self mergeBaseBetweenFirstOID:headOID secondOID:baseOID error:error];
+	if (mergeBase == nil) return nil;
+	
+	GTEnumerator *enumerator = [[GTEnumerator alloc] initWithRepository:self error:error];
+	if (enumerator == nil) return nil;
+	
+	[enumerator resetWithOptions:GTEnumeratorOptionsTimeSort];
+	
+	if (![enumerator pushSHA:headOID.SHA error:error]) return nil;
+	if (![enumerator hideSHA:mergeBase.OID.SHA error:error]) return nil;
+
+	return enumerator;
+}
+
+- (BOOL)calculateAhead:(size_t *)ahead behind:(size_t *)behind ofOID:(GTOID *)headOID relativeToOID:(GTOID *)baseOID error:(NSError **)error {
+	NSParameterAssert(headOID != nil);
+	NSParameterAssert(baseOID != nil);
+
+	int errorCode = git_graph_ahead_behind(ahead, behind, self.git_repository, headOID.git_oid, baseOID.git_oid);
+	if (errorCode != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:errorCode description:@"Failed to calculate ahead/behind count of %@ relative to %@", headOID, baseOID];
+
+		return NO;
+	}
+
+	return YES;
+}
+
 @end

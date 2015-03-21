@@ -102,7 +102,7 @@ describe(@"+cloneFromURL:toWorkingDirectory:options:error:transferProgressBlock:
 			GTReference *head = [repository headReferenceWithError:&error];
 			expect(head).notTo(beNil());
 			expect(error).to(beNil());
-			expect(head.targetSHA).to(equal(@"36060c58702ed4c2a40832c51758d5344201d89a"));
+			expect(head.targetOID.SHA).to(equal(@"36060c58702ed4c2a40832c51758d5344201d89a"));
 			expect(@(head.referenceType)).to(equal(@(GTReferenceTypeOid)));
 		});
 
@@ -120,7 +120,7 @@ describe(@"+cloneFromURL:toWorkingDirectory:options:error:transferProgressBlock:
 			GTReference *head = [repository headReferenceWithError:&error];
 			expect(head).notTo(beNil());
 			expect(error).to(beNil());
-			expect(head.targetSHA).to(equal(@"36060c58702ed4c2a40832c51758d5344201d89a"));
+			expect(head.targetOID.SHA).to(equal(@"36060c58702ed4c2a40832c51758d5344201d89a"));
 			expect(@(head.referenceType)).to(equal(@(GTReferenceTypeOid)));
 		});
 
@@ -183,7 +183,7 @@ describe(@"-headReferenceWithError:", ^{
 		GTReference *head = [self.bareFixtureRepository headReferenceWithError:&error];
 		expect(head).notTo(beNil());
 		expect(error).to(beNil());
-		expect(head.targetSHA).to(equal(@"36060c58702ed4c2a40832c51758d5344201d89a"));
+		expect(head.targetOID.SHA).to(equal(@"36060c58702ed4c2a40832c51758d5344201d89a"));
 		expect(@(head.referenceType)).to(equal(@(GTReferenceTypeOid)));
 	});
 
@@ -276,13 +276,13 @@ describe(@"-createBranchNamed:fromOID:committer:message:error:", ^{
 		NSString *branchName = @"new-test-branch";
 
 		NSError *error = nil;
-		GTBranch *newBranch = [repository createBranchNamed:branchName fromOID:[[GTOID alloc] initWithSHA:currentBranch.SHA] message:nil error:&error];
+		GTBranch *newBranch = [repository createBranchNamed:branchName fromOID:currentBranch.OID message:nil error:&error];
 		expect(newBranch).notTo(beNil());
 		expect(error).to(beNil());
 
 		expect(newBranch.shortName).to(equal(branchName));
 		expect(@(newBranch.branchType)).to(equal(@(GTBranchTypeLocal)));
-		expect(newBranch.SHA).to(equal(currentBranch.SHA));
+		expect(newBranch.OID).to(equal(currentBranch.OID));
 	});
 });
 
@@ -409,7 +409,7 @@ describe(@"-resetToCommit:withResetType:error:", ^{
 
 		GTCommit *commit = [repository lookUpObjectBySHA:resetTargetSHA error:NULL];
 		expect(commit).notTo(beNil());
-		GTCommit *originalHeadCommit = [repository lookUpObjectBySHA:originalHead.targetSHA error:NULL];
+		GTCommit *originalHeadCommit = [repository lookUpObjectByOID:originalHead.targetOID error:NULL];
 		expect(originalHeadCommit).notTo(beNil());
 
 		BOOL success = [repository resetToCommit:commit resetType:GTRepositoryResetTypeSoft error:&error];
@@ -418,14 +418,14 @@ describe(@"-resetToCommit:withResetType:error:", ^{
 
 		GTReference *head = [repository headReferenceWithError:&error];
 		expect(head).notTo(beNil());
-		expect(head.targetSHA).to(equal(resetTargetSHA));
+		expect(head.targetOID.SHA).to(equal(resetTargetSHA));
 
 		success = [repository resetToCommit:originalHeadCommit resetType:GTRepositoryResetTypeSoft error:&error];
 		expect(@(success)).to(beTruthy());
 		expect(error).to(beNil());
 
 		head = [repository headReferenceWithError:&error];
-		expect(head.targetSHA).to(equal(originalHead.targetSHA));
+		expect(head.targetOID).to(equal(originalHead.targetOID));
 	});
 });
 

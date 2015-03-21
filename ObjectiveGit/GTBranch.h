@@ -43,7 +43,7 @@ typedef NS_ENUM(NSInteger, GTBranchType) {
 
 @property (nonatomic, readonly) NSString *name;
 @property (nonatomic, readonly) NSString *shortName;
-@property (nonatomic, readonly) NSString *SHA;
+@property (nonatomic, copy, readonly) GTOID *OID;
 @property (nonatomic, readonly) NSString *remoteName;
 @property (nonatomic, readonly) GTBranchType branchType;
 @property (nonatomic, readonly, strong) GTRepository *repository;

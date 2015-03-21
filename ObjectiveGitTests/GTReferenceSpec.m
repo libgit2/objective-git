@@ -65,7 +65,7 @@ describe(@"transformations", ^{
 		reference = [repository createReferenceNamed:testRefName fromOID:testRefOID message:nil error:&error];
 		expect(reference).notTo(beNil());
 		expect(reference.name).to(equal(testRefName));
-		expect(reference.targetSHA).to(equal(testRefOID.SHA));
+		expect(reference.targetOID).to(equal(testRefOID));
 	});
 
 	it(@"should be able to be renamed", ^{
@@ -74,7 +74,7 @@ describe(@"transformations", ^{
 		GTReference *renamedRef = [reference referenceByRenaming:newRefName error:NULL];
 		expect(renamedRef).notTo(beNil());
 		expect(renamedRef.name).to(equal(newRefName));
-		expect(renamedRef.targetSHA).to(equal(testRefOID.SHA));
+		expect(renamedRef.targetOID).to(equal(testRefOID));
 	});
 
 	it(@"should be able to change the target", ^{
@@ -83,7 +83,7 @@ describe(@"transformations", ^{
 		GTReference *updatedRef = [reference referenceByUpdatingTarget:newRefTarget message:nil error:NULL];
 		expect(updatedRef).notTo(beNil());
 		expect(updatedRef.name).to(equal(testRefName));
-		expect(updatedRef.targetSHA).to(equal(newRefTarget));
+		expect(updatedRef.targetOID.SHA).to(equal(newRefTarget));
 	});
 });
 
@@ -119,7 +119,7 @@ __block GTRepository *bareRepository;
 
 void (^expectValidReference)(GTReference *ref, NSString *SHA, GTReferenceType type, NSString *name) = ^(GTReference *ref, NSString *SHA, GTReferenceType type, NSString *name) {
 	expect(ref).notTo(beNil());
-	expect(ref.targetSHA).to(equal(SHA));
+	expect(ref.targetOID.SHA).to(equal(SHA));
 	expect(@(ref.referenceType)).to(equal(@(type)));
 	expect(ref.name).to(equal(name));
 };
