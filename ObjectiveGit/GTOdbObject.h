@@ -6,9 +6,9 @@
 //  Copyright 2011 GitHub, Inc. All rights reserved.
 //
 
-
 #import "GTObject.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface GTOdbObject : NSObject
 
@@ -21,17 +21,19 @@
 /// repository - The repository in which the object resides. Cannot be nil.
 ///
 /// Returns the initialized object.
-- (id)initWithOdbObj:(git_odb_object *)object repository:(GTRepository *)repository;
+- (nullable id)initWithOdbObj:(git_odb_object *)object repository:(GTRepository *)repository;
 
 /// The underlying `git_odb_object`.
 - (git_odb_object *)git_odb_object __attribute__((objc_returns_inner_pointer));
 
-- (NSString *)shaHash;
+- (nullable NSString *)shaHash;
 - (GTObjectType)type;
 - (size_t)length;
-- (NSData *)data;
+- (nullable NSData *)data;
 
 /// The object ID of this object.
-@property (nonatomic, readonly) GTOID *OID;
+@property (nonatomic, readonly, nullable) GTOID *OID;
 	
 @end
+
+NS_ASSUME_NONNULL_END
