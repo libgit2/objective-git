@@ -51,6 +51,6 @@ typedef NS_OPTIONS(NSInteger, GTDiffFileFlag) {
 /// file - The git_diff_file wrapped by the receiver.
 ///
 /// Returns an initialized GTDiffFile.
-- (instancetype)initWithGitDiffFile:(git_diff_file)file;
+- (instancetype)initWithGitDiffFile:(git_diff_file)file NS_DESIGNATED_INITIALIZER;
 
 @end

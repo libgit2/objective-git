@@ -44,6 +44,6 @@ typedef NS_ENUM(char, GTDiffLineOrigin) {
 @property (nonatomic, readonly) NSInteger lineCount;
 
 /// Designated initialiser.
-- (instancetype)initWithGitLine:(const git_diff_line *)line;
+- (instancetype)initWithGitLine:(const git_diff_line *)line NS_DESIGNATED_INITIALIZER;
 
 @end
