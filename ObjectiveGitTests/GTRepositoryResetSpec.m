@@ -77,7 +77,7 @@ describe(@"-resetToCommit:resetType:error:", ^{
 
 		GTReference *head = [repository headReferenceWithError:&error];
 		expect(head).notTo(beNil());
-		expect(head.targetOID).to(equal(resetTargetSHA));
+		expect(head.targetOID.SHA).to(equal(resetTargetSHA));
 
 		success = [repository resetToCommit:originalHeadCommit resetType:GTRepositoryResetTypeSoft error:&error];
 		expect(@(success)).to(beTruthy());

@@ -102,7 +102,7 @@ describe(@"+cloneFromURL:toWorkingDirectory:options:error:transferProgressBlock:
 			GTReference *head = [repository headReferenceWithError:&error];
 			expect(head).notTo(beNil());
 			expect(error).to(beNil());
-			expect(head.targetOID).to(equal(@"36060c58702ed4c2a40832c51758d5344201d89a"));
+			expect(head.targetOID.SHA).to(equal(@"36060c58702ed4c2a40832c51758d5344201d89a"));
 			expect(@(head.referenceType)).to(equal(@(GTReferenceTypeOid)));
 		});
 
@@ -120,7 +120,7 @@ describe(@"+cloneFromURL:toWorkingDirectory:options:error:transferProgressBlock:
 			GTReference *head = [repository headReferenceWithError:&error];
 			expect(head).notTo(beNil());
 			expect(error).to(beNil());
-			expect(head.targetOID).to(equal(@"36060c58702ed4c2a40832c51758d5344201d89a"));
+			expect(head.targetOID.SHA).to(equal(@"36060c58702ed4c2a40832c51758d5344201d89a"));
 			expect(@(head.referenceType)).to(equal(@(GTReferenceTypeOid)));
 		});
 
@@ -183,7 +183,7 @@ describe(@"-headReferenceWithError:", ^{
 		GTReference *head = [self.bareFixtureRepository headReferenceWithError:&error];
 		expect(head).notTo(beNil());
 		expect(error).to(beNil());
-		expect(head.targetOID).to(equal(@"36060c58702ed4c2a40832c51758d5344201d89a"));
+		expect(head.targetOID.SHA).to(equal(@"36060c58702ed4c2a40832c51758d5344201d89a"));
 		expect(@(head.referenceType)).to(equal(@(GTReferenceTypeOid)));
 	});
 
@@ -418,7 +418,7 @@ describe(@"-resetToCommit:withResetType:error:", ^{
 
 		GTReference *head = [repository headReferenceWithError:&error];
 		expect(head).notTo(beNil());
-		expect(head.targetOID).to(equal(resetTargetSHA));
+		expect(head.targetOID.SHA).to(equal(resetTargetSHA));
 
 		success = [repository resetToCommit:originalHeadCommit resetType:GTRepositoryResetTypeSoft error:&error];
 		expect(@(success)).to(beTruthy());
