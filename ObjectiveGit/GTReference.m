@@ -169,8 +169,8 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 	return [self.class referenceByResolvingSymbolicReference:self error:NULL];
 }
 
-- (NSString *)targetSHA {
-	return [self.resolvedTarget SHA];
+- (GTOID *)targetOID {
+	return [self.resolvedTarget OID];
 }
 
 - (GTReference *)referenceByUpdatingTarget:(NSString *)newTarget message:(NSString *)message error:(NSError **)error {

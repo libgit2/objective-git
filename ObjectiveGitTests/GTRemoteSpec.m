@@ -144,7 +144,7 @@ describe(@"network operations", ^{
 		GTReference *headReference = [repo headReferenceWithError:nil];
 
 		GTEnumerator *commitEnum = [[GTEnumerator alloc] initWithRepository:repo error:nil];
-		[commitEnum pushSHA:[headReference targetSHA] error:nil];
+		[commitEnum pushSHA:headReference.targetOID.SHA error:nil];
 		GTCommit *parent = [commitEnum nextObject];
 
 		GTCommit *testCommit = [repo createCommitWithTree:testTree message:message parents:@[parent] updatingReferenceNamed:headReference.name error:nil];
