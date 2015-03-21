@@ -66,7 +66,7 @@ typedef NS_OPTIONS(unsigned int, GTEnumeratorOptions) {
 /// error - If not NULL, set to any error that occurs.
 ///
 /// Returns an initialized enumerator, or nil if an error occurs.
-- (id)initWithRepository:(GTRepository *)repo error:(NSError **)error;
+- (id)initWithRepository:(GTRepository *)repo error:(NSError **)error NS_DESIGNATED_INITIALIZER;
 
 /// Marks a commit to start traversal from.
 ///

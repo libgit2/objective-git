@@ -17,6 +17,6 @@
 /// reflog - The reflog in which the entry resides. Cannot be nil.
 ///
 /// Returns the initialized object.
-- (id)initWithGitReflogEntry:(const git_reflog_entry *)entry reflog:(GTReflog *)reflog;
+- (id)initWithGitReflogEntry:(const git_reflog_entry *)entry reflog:(GTReflog *)reflog NS_DESIGNATED_INITIALIZER;
 
 @end

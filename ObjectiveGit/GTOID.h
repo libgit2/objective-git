@@ -25,7 +25,7 @@
 /// git_oid - The underlying git_oid. Cannot be NULL.
 ///
 /// Returns the initialized receiver.
-- (id)initWithGitOid:(const git_oid *)git_oid;
+- (id)initWithGitOid:(const git_oid *)git_oid NS_DESIGNATED_INITIALIZER;
 
 /// Initializes the receiver by converting the given SHA to an OID.
 ///
@@ -57,7 +57,7 @@
 /// error  - Will be filled with an error object in if the SHA cannot be parsed
 ///
 /// Returns the initialized receiver.
-- (id)initWithSHACString:(const char *)string error:(NSError **)error;
+- (id)initWithSHACString:(const char *)string error:(NSError **)error NS_DESIGNATED_INITIALIZER;
 
 /// Creates a new instance with the given git_oid using initWithGitOid:
 + (instancetype)oidWithGitOid:(const git_oid *)git_oid;

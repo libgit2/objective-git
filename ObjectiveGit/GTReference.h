@@ -65,7 +65,7 @@ typedef NS_OPTIONS(NSInteger, GTReferenceType) {
 + (id)referenceByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error;
 - (id)initByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error;
 
-- (id)initWithGitReference:(git_reference *)ref repository:(GTRepository *)repository;
+- (id)initWithGitReference:(git_reference *)ref repository:(GTRepository *)repository NS_DESIGNATED_INITIALIZER;
 
 /// The underlying `git_reference` object.
 - (git_reference *)git_reference __attribute__((objc_returns_inner_pointer));

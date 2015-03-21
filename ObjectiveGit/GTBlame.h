@@ -16,7 +16,7 @@
 @interface GTBlame : NSObject
 
 /// Designated initializer.
-- (instancetype)initWithGitBlame:(git_blame *)blame;
+- (instancetype)initWithGitBlame:(git_blame *)blame NS_DESIGNATED_INITIALIZER;
 
 /// Get all the hunks in the blame. A convenience wrapper around `enumerateHunksUsingBlock:`
 @property (nonatomic, strong, readonly) NSArray *hunks;

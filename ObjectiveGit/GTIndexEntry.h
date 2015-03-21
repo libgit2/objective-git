@@ -54,7 +54,7 @@ typedef NS_ENUM(NSInteger, GTIndexEntryStatus) {
 /// entry - The libgit2 index entry. Cannot be NULL.
 ///
 /// Returns the initialized object.
-- (id)initWithGitIndexEntry:(const git_index_entry *)entry;
+- (id)initWithGitIndexEntry:(const git_index_entry *)entry NS_DESIGNATED_INITIALIZER;
 
 /// The underlying `git_index_entry` object.
 - (const git_index_entry *)git_index_entry __attribute__((objc_returns_inner_pointer));

@@ -38,7 +38,7 @@
 /// error - The error if one occurred.
 ///
 /// Returns the initialized object.
-- (id)initWithRepository:(GTRepository *)repo error:(NSError **)error;
+- (id)initWithRepository:(GTRepository *)repo error:(NSError **)error NS_DESIGNATED_INITIALIZER;
 
 /// The underlying `git_odb` object.
 - (git_odb *)git_odb __attribute__((objc_returns_inner_pointer));

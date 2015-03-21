@@ -97,7 +97,7 @@ typedef NS_OPTIONS(NSInteger, GTSubmoduleStatus) {
 ///              nil.
 ///
 /// Returns an initialized GTSubmodule, or nil if an error occurs.
-- (id)initWithGitSubmodule:(git_submodule *)submodule parentRepository:(GTRepository *)repository;
+- (id)initWithGitSubmodule:(git_submodule *)submodule parentRepository:(GTRepository *)repository NS_DESIGNATED_INITIALIZER;
 
 /// The underlying `git_submodule` object.
 - (git_submodule *)git_submodule __attribute__((objc_returns_inner_pointer));

@@ -88,7 +88,7 @@ typedef enum {
 ///
 /// remote - The underlying `git_remote` object. Cannot be nil.
 /// repo   - The repository the remote belongs to. Cannot be nil.
-- (instancetype)initWithGitRemote:(git_remote *)remote inRepository:(GTRepository *)repo;
+- (instancetype)initWithGitRemote:(git_remote *)remote inRepository:(GTRepository *)repo NS_DESIGNATED_INITIALIZER;
 
 /// The underlying `git_remote` object.
 - (git_remote *)git_remote __attribute__((objc_returns_inner_pointer));

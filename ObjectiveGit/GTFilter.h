@@ -45,7 +45,7 @@ extern const NSInteger GTFilterErrorNameAlreadyRegistered;
 /// applyBlock - The block to use to apply the filter. Cannot be nil.
 ///
 /// Returns the initialized object.
-- (id)initWithName:(NSString *)name attributes:(NSString *)attributes applyBlock:(NSData * (^)(void **payload, NSData *from, GTFilterSource *source, BOOL *applied))applyBlock;
+- (id)initWithName:(NSString *)name attributes:(NSString *)attributes applyBlock:(NSData * (^)(void **payload, NSData *from, GTFilterSource *source, BOOL *applied))applyBlock NS_DESIGNATED_INITIALIZER;
 
 /// Look up a filter based on its name.
 ///

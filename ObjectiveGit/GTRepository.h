@@ -187,7 +187,7 @@ extern NSString * const GTRepositoryInitOptionsOriginURLString;
 ///              after this method is invoked. This must not be nil.
 ///
 /// Returns an initialized GTRepository.
-- (id)initWithGitRepository:(git_repository *)repository;
+- (id)initWithGitRepository:(git_repository *)repository NS_DESIGNATED_INITIALIZER;
 
 /// The underlying `git_repository` object.
 - (git_repository *)git_repository __attribute__((objc_returns_inner_pointer));

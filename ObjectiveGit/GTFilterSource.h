@@ -43,6 +43,6 @@ typedef NS_ENUM(NSInteger, GTFilterSourceMode) {
 /// source - The filter source. Cannot be NULL.
 ///
 /// Returns the initialized object.
-- (id)initWithGitFilterSource:(const git_filter_source *)source;
+- (id)initWithGitFilterSource:(const git_filter_source *)source NS_DESIGNATED_INITIALIZER;
 
 @end
