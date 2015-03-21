@@ -30,14 +30,16 @@
 
 #import "GTObject.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /// A git signature.
 @interface GTSignature : NSObject
 
 /// The name of the person.
-@property (nonatomic, readonly, copy) NSString *name;
+@property (nonatomic, readonly, copy, nullable) NSString *name;
 
 /// The email of the person.
-@property (nonatomic, readonly, copy) NSString *email;
+@property (nonatomic, readonly, copy, nullable) NSString *email;
 
 /// The time when the action happened.
 @property (nonatomic, readonly, strong) NSDate *time;
@@ -50,7 +52,7 @@
 /// git_signature - The signature to wrap. This must not be NULL.
 ///
 /// Returns an initialized GTSignature, or nil if an error occurs.
-- (id)initWithGitSignature:(const git_signature *)git_signature;
+- (nullable id)initWithGitSignature:(const git_signature *)git_signature;
 
 /// Initializes the receiver with the given information.
 ///
@@ -60,9 +62,11 @@
 ///         zone. This may be nil.
 ///
 /// Returns an initialized GTSignature, or nil if an error occurs.
-- (id)initWithName:(NSString *)name email:(NSString *)email time:(NSDate *)time;
+- (nullable id)initWithName:(NSString *)name email:(NSString *)email time:(nullable NSDate *)time;
 
 /// The underlying `git_signature` object.
 - (const git_signature *)git_signature __attribute__((objc_returns_inner_pointer));
 
 @end
+
+NS_ASSUME_NONNULL_END
