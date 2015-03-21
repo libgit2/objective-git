@@ -18,6 +18,6 @@
 /// repository - The repository in which the config resides. May be nil.
 ///
 /// Returns the initialized object.
-- (id)initWithGitConfig:(git_config *)config repository:(GTRepository *)repository;
+- (id)initWithGitConfig:(git_config *)config repository:(GTRepository *)repository NS_DESIGNATED_INITIALIZER;
 
 @end

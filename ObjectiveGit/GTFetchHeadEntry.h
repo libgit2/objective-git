@@ -33,6 +33,6 @@
 /// remoteURLString - URL String where this was originally fetched from. Cannot be nil.
 /// targetOID       - Target OID. Cannot be nil.
 /// merge           - Indicates if this is pending a merge.
-- (instancetype)initWithReference:(GTReference *)reference remoteURLString:(NSString *)remoteURLString targetOID:(GTOID *)targetOID isMerge:(BOOL)merge;
+- (instancetype)initWithReference:(GTReference *)reference remoteURLString:(NSString *)remoteURLString targetOID:(GTOID *)targetOID isMerge:(BOOL)merge NS_DESIGNATED_INITIALIZER;
 
 @end

@@ -76,7 +76,7 @@
 /// repository - The repository in which the index resides. Cannot be nil.
 ///
 /// Returns the initialized index.
-- (instancetype)initWithGitIndex:(git_index *)index repository:(GTRepository *)repository;
+- (instancetype)initWithGitIndex:(git_index *)index repository:(GTRepository *)repository NS_DESIGNATED_INITIALIZER;
 
 /// The underlying `git_index` object.
 - (git_index *)git_index __attribute__((objc_returns_inner_pointer));

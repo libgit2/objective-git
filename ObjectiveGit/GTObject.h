@@ -56,7 +56,7 @@ typedef NS_ENUM(int, GTObjectType) {
 @property (nonatomic, readonly) GTOID *OID;
 
 /// Convenience initializers
-- (id)initWithObj:(git_object *)theObject inRepository:(GTRepository *)theRepo;
+- (id)initWithObj:(git_object *)theObject inRepository:(GTRepository *)theRepo NS_DESIGNATED_INITIALIZER;
 + (id)objectWithObj:(git_object *)theObject inRepository:(GTRepository *)theRepo;
 
 /// The underlying `git_object`.

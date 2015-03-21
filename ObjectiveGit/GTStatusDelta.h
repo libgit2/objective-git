@@ -46,6 +46,6 @@ typedef NS_ENUM(NSInteger, GTStatusDeltaStatus) {
 @property (nonatomic, readonly) double similarity;
 
 /// Designated initializer.
-- (instancetype)initWithGitDiffDelta:(const git_diff_delta *)delta;
+- (instancetype)initWithGitDiffDelta:(const git_diff_delta *)delta NS_DESIGNATED_INITIALIZER;
 
 @end

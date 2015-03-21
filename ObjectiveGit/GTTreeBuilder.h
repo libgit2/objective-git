@@ -59,7 +59,7 @@ typedef NS_ENUM(NSInteger, GTFileMode) {
 /// error      - The error if one occurred.
 ///
 /// Returns the initialized object, or nil if an error occurred.
-- (id)initWithTree:(GTTree *)treeOrNil repository:(GTRepository *)repository error:(NSError **)error;
+- (id)initWithTree:(GTTree *)treeOrNil repository:(GTRepository *)repository error:(NSError **)error NS_DESIGNATED_INITIALIZER;
 
 /// The underlying `git_treebuilder` object.
 - (git_treebuilder *)git_treebuilder __attribute__((objc_returns_inner_pointer));

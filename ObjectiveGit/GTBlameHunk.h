@@ -15,7 +15,7 @@
 /// A `GTBlameHunk` is an object that provides authorship info for a set of lines in a `GTBlame`.
 @interface GTBlameHunk : NSObject
 
-- (instancetype)initWithGitBlameHunk:(git_blame_hunk)hunk;
+- (instancetype)initWithGitBlameHunk:(git_blame_hunk)hunk NS_DESIGNATED_INITIALIZER;
 
 /// A NSRange where `location` is the (1 based) starting line number,
 /// and `length` is the number of lines in the hunk.

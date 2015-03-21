@@ -32,7 +32,7 @@
 ///                  the given diff delta. Must not be nil.
 ///
 /// This is the designated initializer for this class.
-- (instancetype)initWithGitDiffDeltaBlock:(git_diff_delta (^)(void))deltaAccessor patchGeneratorBlock:(int (^)(git_patch **patch))patchGenerator;
+- (instancetype)initWithGitDiffDeltaBlock:(git_diff_delta (^)(void))deltaAccessor patchGeneratorBlock:(int (^)(git_patch **patch))patchGenerator NS_DESIGNATED_INITIALIZER;
 
 @end
 
