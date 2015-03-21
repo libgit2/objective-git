@@ -498,4 +498,16 @@ extern NSString * const GTRepositoryInitOptionsOriginURLString;
 /// distinguished using the value of `success`.
 - (GTFilterList *)filterListWithPath:(NSString *)path blob:(GTBlob *)blob mode:(GTFilterSourceMode)mode options:(GTFilterListOptions)options success:(BOOL *)success error:(NSError **)error;
 
+/// Creates an enumerator for finding all commits in the history of `headOID`
+/// that do not exist in the history of `baseOID`.
+///
+/// Returns the created enumerator upon success, or `nil` if an error occurred.
+- (GTEnumerator *)enumerateUniqueCommitsUpToOID:(GTOID *)headOID relativeToOID:(GTOID *)baseOID error:(NSError **)error;
+
+/// Calculates how far ahead/behind the commit represented by `headOID` is,
+/// relative to the commit represented by `baseOID`.
+///
+/// Returns whether `ahead` and `behind` were successfully calculated.
+- (BOOL)calculateAhead:(size_t *)ahead behind:(size_t *)behind ofOID:(GTOID *)headOID relativeToOID:(GTOID *)baseOID error:(NSError **)error;
+
 @end

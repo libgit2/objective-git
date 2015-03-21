@@ -146,22 +146,7 @@
 }
 
 - (NSArray *)uniqueCommitsRelativeToBranch:(GTBranch *)otherBranch error:(NSError **)error {
-	NSParameterAssert(otherBranch != nil);
-	
-	GTCommit *mergeBase = [self.repository mergeBaseBetweenFirstOID:self.reference.OID secondOID:otherBranch.reference.OID error:error];
-	if (mergeBase == nil) return nil;
-	
-	GTEnumerator *enumerator = [[GTEnumerator alloc] initWithRepository:self.repository error:error];
-	if (enumerator == nil) return nil;
-	
-	[enumerator resetWithOptions:GTEnumeratorOptionsTimeSort];
-	
-	BOOL success = [enumerator pushSHA:self.OID.SHA error:error];
-	if (!success) return nil;
-
-	success = [enumerator hideSHA:mergeBase.OID.SHA error:error];
-	if (!success) return nil;
-
+	GTEnumerator *enumerator = [self.repository enumerateUniqueCommitsUpToOID:self.OID relativeToOID:otherBranch.OID error:error];
 	return [enumerator allObjectsWithError:error];
 }
 
@@ -225,19 +210,7 @@
 }
 
 - (BOOL)calculateAhead:(size_t *)ahead behind:(size_t *)behind relativeTo:(GTBranch *)branch error:(NSError **)error {
-	if (branch == nil) {
-		*ahead = 0;
-		*behind = 0;
-		return YES;
-	}
-
-	int errorCode = git_graph_ahead_behind(ahead, behind, self.repository.git_repository, self.reference.git_oid, branch.reference.git_oid);
-	if (errorCode != GIT_OK && error != NULL) {
-		*error = [NSError git_errorFor:errorCode description:@"Failed to calculate ahead/behind count of %@ relative to %@", self, branch];
-		return NO;
-	}
-
-	return YES;
+	return [self.repository calculateAhead:ahead behind:behind ofOID:self.OID relativeToOID:branch.OID error:error];
 }
 
 @end
