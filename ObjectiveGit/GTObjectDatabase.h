@@ -27,6 +27,8 @@
 
 @class GTOID;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface GTObjectDatabase : NSObject
 
 @property (nonatomic, readonly, strong) GTRepository *repository;
@@ -38,13 +40,13 @@
 /// error - The error if one occurred.
 ///
 /// Returns the initialized object.
-- (id)initWithRepository:(GTRepository *)repo error:(NSError **)error;
+- (nullable id)initWithRepository:(GTRepository *)repo error:(NSError **)error;
 
 /// The underlying `git_odb` object.
 - (git_odb *)git_odb __attribute__((objc_returns_inner_pointer));
 
-- (GTOdbObject *)objectWithOID:(GTOID *)OID error:(NSError **)error;
-- (GTOdbObject *)objectWithSHA:(NSString *)SHA error:(NSError **)error;
+- (nullable GTOdbObject *)objectWithOID:(GTOID *)OID error:(NSError **)error;
+- (nullable GTOdbObject *)objectWithSHA:(NSString *)SHA error:(NSError **)error;
 
 /// Writes the data into the object database.
 ///
@@ -54,7 +56,7 @@
 ///
 /// Returns the OID for the object which was written, or nil if an error
 /// occurred.
-- (GTOID *)writeData:(NSData *)data type:(GTObjectType)type error:(NSError **)error;
+- (nullable GTOID *)writeData:(NSData *)data type:(GTObjectType)type error:(NSError **)error;
 
 - (BOOL)containsObjectWithSHA:(NSString *)SHA error:(NSError **)error;
 
@@ -66,3 +68,5 @@
 - (BOOL)containsObjectWithOID:(GTOID *)oid;
 
 @end
+
+NS_ASSUME_NONNULL_END
