@@ -38,6 +38,8 @@ typedef NS_ENUM(NSInteger, GTIndexEntryStatus) {
 	GTIndexEntryStatusUpToDate,
 };
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface GTIndexEntry : NSObject
 
 /// The repository-relative path for the entry.
@@ -54,9 +56,11 @@ typedef NS_ENUM(NSInteger, GTIndexEntryStatus) {
 /// entry - The libgit2 index entry. Cannot be NULL.
 ///
 /// Returns the initialized object.
-- (id)initWithGitIndexEntry:(const git_index_entry *)entry NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithGitIndexEntry:(const git_index_entry *)entry NS_DESIGNATED_INITIALIZER;
 
 /// The underlying `git_index_entry` object.
 - (const git_index_entry *)git_index_entry __attribute__((objc_returns_inner_pointer));
 
 @end
+
+NS_ASSUME_NONNULL_END

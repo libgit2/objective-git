@@ -45,7 +45,7 @@
 
 #pragma mark Lifecycle
 
-- (id)initWithGitIndexEntry:(const git_index_entry *)entry {
+- (instancetype)initWithGitIndexEntry:(const git_index_entry *)entry {
 	NSParameterAssert(entry != NULL);
 
 	self = [super init];
