@@ -23,6 +23,8 @@ typedef enum {
 	GTRemoteDownloadTagsAll = GIT_REMOTE_DOWNLOAD_TAGS_ALL,
 } GTRemoteAutoTagOption;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /// A class representing a remote for a git repository.
 ///
 /// Analogous to `git_remote` in libgit2.
@@ -32,13 +34,13 @@ typedef enum {
 @property (nonatomic, readonly, strong) GTRepository *repository;
 
 /// The name of the remote.
-@property (nonatomic, readonly, copy) NSString *name;
+@property (nonatomic, readonly, copy, nullable) NSString *name;
 
 /// The URL string for the remote.
-@property (nonatomic, readonly, copy) NSString *URLString;
+@property (nonatomic, readonly, copy, nullable) NSString *URLString;
 
 /// The push URL for the remote, if provided.
-@property (nonatomic, copy) NSString *pushURLString;
+@property (nonatomic, copy, nullable) NSString *pushURLString;
 
 /// Whether the remote is connected or not.
 @property (nonatomic, readonly, getter=isConnected) BOOL connected;
@@ -54,13 +56,13 @@ typedef enum {
 ///
 /// This array will contain NSStrings of the form
 /// `+refs/heads/*:refs/remotes/REMOTE/*`.
-@property (nonatomic, readonly, copy) NSArray *fetchRefspecs;
+@property (nonatomic, readonly, copy, nullable) NSArray *fetchRefspecs;
 
 /// The push refspecs for this remote.
 ///
 /// This array will contain NSStrings of the form
 /// `+refs/heads/*:refs/remotes/REMOTE/*`.
-@property (nonatomic, readonly, copy) NSArray *pushRefspecs;
+@property (nonatomic, readonly, copy, nullable) NSArray *pushRefspecs;
 
 /// Tests if a name is valid
 + (BOOL)isValidRemoteName:(NSString *)name;
@@ -73,7 +75,7 @@ typedef enum {
 /// error     - Will be set if an error occurs.
 ///
 /// Returns a new remote, or nil if an error occurred
-+ (instancetype)createRemoteWithName:(NSString *)name URLString:(NSString *)URLString inRepository:(GTRepository *)repo error:(NSError **)error;
++ (nullable instancetype)createRemoteWithName:(NSString *)name URLString:(NSString *)URLString inRepository:(GTRepository *)repo error:(NSError **)error;
 
 /// Load a remote from a repository.
 ///
@@ -82,13 +84,15 @@ typedef enum {
 /// error - Will be set if an error occurs.
 ///
 /// Returns the loaded remote, or nil if an error occurred.
-+ (instancetype)remoteWithName:(NSString *)name inRepository:(GTRepository *)repo error:(NSError **)error;
++ (nullable instancetype)remoteWithName:(NSString *)name inRepository:(GTRepository *)repo error:(NSError **)error;
 
 /// Initialize a remote from a `git_remote`. Designated initializer.
 ///
 /// remote - The underlying `git_remote` object. Cannot be nil.
 /// repo   - The repository the remote belongs to. Cannot be nil.
-- (instancetype)initWithGitRemote:(git_remote *)remote inRepository:(GTRepository *)repo NS_DESIGNATED_INITIALIZER;
+///
+/// Returns the initialized receiver, or nil if an error occurred.
+- (nullable instancetype)initWithGitRemote:(git_remote *)remote inRepository:(GTRepository *)repo NS_DESIGNATED_INITIALIZER;
 
 /// The underlying `git_remote` object.
 - (git_remote *)git_remote __attribute__((objc_returns_inner_pointer));
@@ -125,3 +129,5 @@ typedef enum {
 - (BOOL)addFetchRefspec:(NSString *)fetchRefspec error:(NSError **)error;
 
 @end
+
+NS_ASSUME_NONNULL_END
