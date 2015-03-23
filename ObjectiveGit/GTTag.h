@@ -32,10 +32,12 @@
 @class GTSignature;
 @class GTRepository;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface GTTag : GTObject {}
 
 /// The author of the tag.
-@property (nonatomic, readonly, strong) GTSignature *tagger;
+@property (nonatomic, readonly, strong, nullable) GTSignature *tagger;
 
 /// The description given when the tag was created.
 @property (nonatomic, readonly, strong) NSString *message;
@@ -44,20 +46,22 @@
 @property (nonatomic, readonly, strong) NSString *name;
 
 /// The 'tagged' object.
-@property (nonatomic, readonly, strong) GTObject *target;
+@property (nonatomic, readonly, strong, nullable) GTObject *target;
 
 /// The type of the 'tagged' object.
 @property (nonatomic, readonly) GTObjectType targetType;
 
 /// Recursively peel a tag until a non tag GTObject is found
 ///
-/// errro - Will be filled with a NSError object on failure.
+/// error - Will be filled with a NSError object on failure.
 ///         May be NULL.
 ///
 /// Returns the found object or nil on error.
-- (id)objectByPeelingTagError:(NSError **)error;
+- (nullable id)objectByPeelingTagError:(NSError **)error;
 
 /// The underlying `git_object` as a `git_tag` object.
 - (git_tag *)git_tag __attribute__((objc_returns_inner_pointer));
 
 @end
+
+NS_ASSUME_NONNULL_END
