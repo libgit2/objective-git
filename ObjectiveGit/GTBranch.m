@@ -65,11 +65,11 @@
 	return @"refs/remotes/";
 }
 
-+ (id)branchWithReference:(GTReference *)ref repository:(GTRepository *)repo {
++ (nullable instancetype)branchWithReference:(GTReference *)ref repository:(GTRepository *)repo {
 	return [[self alloc] initWithReference:ref repository:repo];
 }
 
-- (id)initWithReference:(GTReference *)ref repository:(GTRepository *)repo {
+- (nullable instancetype)initWithReference:(GTReference *)ref repository:(GTRepository *)repo {
 	NSParameterAssert(ref != nil);
 	NSParameterAssert(repo != nil);
 
