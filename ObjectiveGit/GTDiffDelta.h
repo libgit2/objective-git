@@ -40,6 +40,8 @@ typedef NS_ENUM(NSInteger, GTDiffDeltaType) {
 	GTDiffFileDeltaTypeChange = GIT_DELTA_TYPECHANGE,
 };
 
+NS_ASSUME_NONNULL_BEGIN
+
 /// A class representing a single change within a diff.
 ///
 /// The change may not be simply a change of text within a given file, it could
@@ -81,7 +83,7 @@ typedef NS_ENUM(NSInteger, GTDiffDeltaType) {
 /// error       - If not NULL, set to any error that occurs.
 ///
 /// Returns a diff delta, or nil if an error occurs.
-+ (instancetype)diffDeltaFromBlob:(GTBlob *)oldBlob forPath:(NSString *)oldBlobPath toBlob:(GTBlob *)newBlob forPath:(NSString *)newBlobPath options:(NSDictionary *)options error:(NSError **)error;
++ (nullable instancetype)diffDeltaFromBlob:(nullable GTBlob *)oldBlob forPath:(nullable NSString *)oldBlobPath toBlob:(nullable GTBlob *)newBlob forPath:(nullable NSString *)newBlobPath options:(nullable NSDictionary *)options error:(NSError **)error;
 
 /// Diffs the given blob and data buffer.
 ///
@@ -96,7 +98,7 @@ typedef NS_ENUM(NSInteger, GTDiffDeltaType) {
 /// error    - If not NULL, set to any error that occurs.
 ///
 /// Returns a diff delta, or nil if an error occurs.
-+ (instancetype)diffDeltaFromBlob:(GTBlob *)blob forPath:(NSString *)blobPath toData:(NSData *)data forPath:(NSString *)dataPath options:(NSDictionary *)options error:(NSError **)error;
++ (nullable instancetype)diffDeltaFromBlob:(nullable GTBlob *)blob forPath:(nullable NSString *)blobPath toData:(nullable NSData *)data forPath:(nullable NSString *)dataPath options:(nullable NSDictionary *)options error:(NSError **)error;
 
 /// Diffs the given data buffers.
 ///
@@ -111,10 +113,15 @@ typedef NS_ENUM(NSInteger, GTDiffDeltaType) {
 /// error       - If not NULL, set to any error that occurs.
 ///
 /// Returns a diff delta, or nil if an error occurs.
-+ (instancetype)diffDeltaFromData:(NSData *)oldData forPath:(NSString *)oldDataPath toData:(NSData *)newData forPath:(NSString *)newDataPath options:(NSDictionary *)options error:(NSError **)error;
++ (nullable instancetype)diffDeltaFromData:(nullable NSData *)oldData forPath:(nullable NSString *)oldDataPath toData:(nullable NSData *)newData forPath:(nullable NSString *)newDataPath options:(nullable NSDictionary *)options error:(NSError **)error;
 
 /// Initializes the receiver to wrap the delta at the given index.
-- (instancetype)initWithDiff:(GTDiff *)diff deltaIndex:(NSUInteger)deltaIndex;
+///
+/// diff       - The diff which contains the delta to wrap. Must not be nil.
+/// deltaIndex - The index of the delta within the diff.
+///
+/// Returns a diff delta, or nil if an error occurs.
+- (nullable instancetype)initWithDiff:(GTDiff *)diff deltaIndex:(NSUInteger)deltaIndex;
 
 /// Creates a patch from a text delta.
 ///
@@ -123,6 +130,8 @@ typedef NS_ENUM(NSInteger, GTDiffDeltaType) {
 /// error - If not NULL, set to any error that occurs.
 ///
 /// Returns a new patch, or nil if an error occurs.
-- (GTDiffPatch *)generatePatch:(NSError **)error;
+- (nullable GTDiffPatch *)generatePatch:(NSError **)error;
 
 @end
+
+NS_ASSUME_NONNULL_END
