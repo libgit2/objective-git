@@ -122,7 +122,7 @@ describe(@"-reloadedBranchWithError:", ^{
 		static NSString * const originalSHA = @"a4bca6b67a5483169963572ee3da563da33712f7";
 		static NSString * const updatedSHA = @"6b0c1c8b8816416089c534e474f4c692a76ac14f";
 		expect([masterBranch targetCommitAndReturnError:NULL].SHA).to(equal(originalSHA));
-		[masterBranch.reference referenceByUpdatingTarget:updatedSHA committer:nil message:nil error:NULL];
+		[masterBranch.reference referenceByUpdatingTarget:updatedSHA message:nil error:NULL];
 
 		GTBranch *reloadedBranch = [masterBranch reloadedBranchWithError:NULL];
 		expect(reloadedBranch).notTo(beNil());
@@ -158,7 +158,7 @@ describe(@"-trackingBranchWithError:success:", ^{
 		GTOID *OID = [[GTOID alloc] initWithSHA:@"6b0c1c8b8816416089c534e474f4c692a76ac14f"];
 
 		NSError *error = nil;
-		GTReference *otherRef = [repository createReferenceNamed:@"refs/heads/yet-another-branch" fromOID:OID committer:nil message:nil error:&error];
+		GTReference *otherRef = [repository createReferenceNamed:@"refs/heads/yet-another-branch" fromOID:OID message:nil error:&error];
 		expect(otherRef).notTo(beNil());
 		expect(error).to(beNil());
 

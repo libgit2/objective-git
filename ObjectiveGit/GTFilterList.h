@@ -14,8 +14,8 @@
 
 /// The options for loading a filter list. See libgit2 for more information.
 typedef NS_OPTIONS(NSInteger, GTFilterListOptions) {
-	GTFilterListOptionsDefault = GIT_FILTER_OPT_DEFAULT,
-	GTFilterListOptionsAllowUnsafe = GIT_FILTER_OPT_ALLOW_UNSAFE,
+	GTFilterListOptionsDefault = GIT_FILTER_DEFAULT,
+	GTFilterListOptionsAllowUnsafe = GIT_FILTER_ALLOW_UNSAFE,
 };
 
 /// An opaque list of filters that apply to a given path.
@@ -26,7 +26,7 @@ typedef NS_OPTIONS(NSInteger, GTFilterListOptions) {
 /// filterList - The filter list to wrap and take ownership of. This filter list
 ///              will be automatically disposed when the receiver deallocates.
 ///              Must not be NULL.
-- (instancetype)initWithGitFilterList:(git_filter_list *)filterList;
+- (instancetype)initWithGitFilterList:(git_filter_list *)filterList NS_DESIGNATED_INITIALIZER;
 
 /// Returns the underlying `git_filter_list`.
 - (git_filter_list *)git_filter_list __attribute__((objc_returns_inner_pointer));

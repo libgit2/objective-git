@@ -58,7 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, nullable) GTOID *OID;
 
 /// Convenience initializers
-- (nullable id)initWithObj:(git_object *)theObject inRepository:(GTRepository *)theRepo;
+- (nullable id)initWithObj:(git_object *)theObject inRepository:(GTRepository *)theRepo NS_DESIGNATED_INITIALIZER;
 + (nullable id)objectWithObj:(git_object *)theObject inRepository:(GTRepository *)theRepo;
 
 /// The underlying `git_object`.

@@ -263,7 +263,7 @@ typedef NS_OPTIONS(NSInteger, GTDiffFindOptionsFlags) {
 /// repository - The repository in which the diff lives. Cannot be nil.
 ///
 /// Returns the initialized object.
-- (instancetype)initWithGitDiff:(git_diff *)diff repository:(GTRepository *)repository;
+- (instancetype)initWithGitDiff:(git_diff *)diff repository:(GTRepository *)repository NS_DESIGNATED_INITIALIZER;
 
 /// The libgit2 diff object.
 - (git_diff *)git_diff __attribute__((objc_returns_inner_pointer));

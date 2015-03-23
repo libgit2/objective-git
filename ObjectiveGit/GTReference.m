@@ -128,7 +128,7 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 	NSParameterAssert(newName != nil);
 
 	git_reference *newRef = NULL;
-	int gitError = git_reference_rename(&newRef, self.git_reference, newName.UTF8String, 0, [self.repository userSignatureForNow].git_signature, NULL);
+	int gitError = git_reference_rename(&newRef, self.git_reference, newName.UTF8String, 0, NULL);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to rename reference %@ to %@.", self.name, newName];
 		return nil;
@@ -169,11 +169,11 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 	return [self.class referenceByResolvingSymbolicReference:self error:NULL];
 }
 
-- (NSString *)targetSHA {
-	return [self.resolvedTarget SHA];
+- (GTOID *)targetOID {
+	return [self.resolvedTarget OID];
 }
 
-- (GTReference *)referenceByUpdatingTarget:(NSString *)newTarget committer:(GTSignature *)signature message:(NSString *)message error:(NSError **)error {
+- (GTReference *)referenceByUpdatingTarget:(NSString *)newTarget message:(NSString *)message error:(NSError **)error {
 	NSParameterAssert(newTarget != nil);
 
 	int gitError;
@@ -182,9 +182,9 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 		GTOID *oid = [[GTOID alloc] initWithSHA:newTarget error:error];
 		if (oid == nil) return nil;
 
-		gitError = git_reference_set_target(&newRef, self.git_reference, oid.git_oid, signature.git_signature, message.UTF8String);
+		gitError = git_reference_set_target(&newRef, self.git_reference, oid.git_oid, message.UTF8String);
 	} else {
-		gitError = git_reference_symbolic_set_target(&newRef, self.git_reference, newTarget.UTF8String, signature.git_signature, message.UTF8String);
+		gitError = git_reference_symbolic_set_target(&newRef, self.git_reference, newTarget.UTF8String, message.UTF8String);
 	}
 
 	if (gitError != GIT_OK) {

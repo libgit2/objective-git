@@ -43,7 +43,7 @@ typedef NS_ENUM(NSInteger, GTBranchType) {
 
 @property (nonatomic, readonly) NSString *name;
 @property (nonatomic, readonly) NSString *shortName;
-@property (nonatomic, readonly) NSString *SHA;
+@property (nonatomic, copy, readonly) GTOID *OID;
 @property (nonatomic, readonly) NSString *remoteName;
 @property (nonatomic, readonly) GTBranchType branchType;
 @property (nonatomic, readonly, strong) GTRepository *repository;
@@ -52,7 +52,7 @@ typedef NS_ENUM(NSInteger, GTBranchType) {
 + (NSString *)localNamePrefix;
 + (NSString *)remoteNamePrefix;
 
-- (id)initWithReference:(GTReference *)ref repository:(GTRepository *)repo;
+- (id)initWithReference:(GTReference *)ref repository:(GTRepository *)repo NS_DESIGNATED_INITIALIZER;
 + (id)branchWithReference:(GTReference *)ref repository:(GTRepository *)repo;
 
 /// Get the target commit for this branch

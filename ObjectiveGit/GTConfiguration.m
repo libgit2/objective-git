@@ -10,11 +10,13 @@
 #import "GTConfiguration+Private.h"
 #import "GTRepository.h"
 #import "GTRemote.h"
-#import "NSError+Git.h"
 #import "GTSignature.h"
+#import "NSData+Git.h"
+#import "NSError+Git.h"
 
 #import "git2/config.h"
 #import "git2/errors.h"
+#import "git2/buffer.h"
 
 @interface GTConfiguration ()
 @property (nonatomic, readonly, assign) git_config *git_config;
@@ -58,11 +60,10 @@
 }
 
 - (NSString *)stringForKey:(NSString *)key {
-	const char *string = NULL;
-	git_config_get_string(&string, self.git_config, key.UTF8String);
-	if (string == NULL) return nil;
+	git_buf buffer = {};
+	if (git_config_get_string_buf(&buffer, self.git_config, key.UTF8String) != 0) return nil;
 
-	return [NSString stringWithUTF8String:string];
+	return [[NSString alloc] initWithData:[NSData git_dataWithBuffer:&buffer] encoding:NSUTF8StringEncoding];
 }
 
 - (void)setBool:(BOOL)b forKey:(NSString *)key {

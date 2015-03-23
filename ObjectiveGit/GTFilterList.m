@@ -65,7 +65,11 @@
 	NSParameterAssert(repository != nil);
 
 	git_buf output = GIT_BUF_INIT_CONST(0, NULL);
-	int gitError = git_filter_list_apply_to_file(&output, self.git_filter_list, repository.git_repository, relativePath.UTF8String);
+	// fixme: This is a workaround for an issue where `git_filter_list_apply_to_file`
+	// will not resolve relative paths against the worktree. It should be reverted when
+	// libgit2 has been updated to resolve that.
+	NSString *absolutePath = relativePath.absolutePath ? relativePath : [repository.fileURL URLByAppendingPathComponent:relativePath].path;
+	int gitError = git_filter_list_apply_to_file(&output, self.git_filter_list, repository.git_repository, absolutePath.UTF8String);
 
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to apply filter list to %@", relativePath];

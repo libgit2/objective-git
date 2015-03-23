@@ -57,7 +57,6 @@
 typedef NS_OPTIONS(NSInteger, GTCheckoutStrategyType) {
 	GTCheckoutStrategyNone = GIT_CHECKOUT_NONE,
 	GTCheckoutStrategySafe = GIT_CHECKOUT_SAFE,
-	GTCheckoutStrategySafeCreate = GIT_CHECKOUT_SAFE_CREATE,
 	GTCheckoutStrategyForce = GIT_CHECKOUT_FORCE,
 	GTCheckoutStrategyAllowConflicts = GIT_CHECKOUT_ALLOW_CONFLICTS,
 	GTCheckoutStrategyRemoveUntracked = GIT_CHECKOUT_REMOVE_UNTRACKED,
@@ -188,7 +187,7 @@ extern NSString * const GTRepositoryInitOptionsOriginURLString;
 ///              after this method is invoked. This must not be nil.
 ///
 /// Returns an initialized GTRepository.
-- (id)initWithGitRepository:(git_repository *)repository;
+- (id)initWithGitRepository:(git_repository *)repository NS_DESIGNATED_INITIALIZER;
 
 /// The underlying `git_repository` object.
 - (git_repository *)git_repository __attribute__((objc_returns_inner_pointer));
@@ -279,41 +278,35 @@ extern NSString * const GTRepositoryInitOptionsOriginURLString;
 ///
 /// name      - The full name for the new reference. This must not be nil.
 /// targetOID - The OID that the new ref should point to. This must not be nil.
-/// signature - A signature for the committer creating this ref, used for
-///             creating a reflog entry. This may be nil.
 /// message   - A message to use when creating the reflog entry for this action.
 ///             This may be nil.
 /// error     - If not NULL, set to any error that occurs.
 ///
 /// Returns the created ref, or nil if an error occurred.
-- (GTReference *)createReferenceNamed:(NSString *)name fromOID:(GTOID *)targetOID committer:(GTSignature *)signature message:(NSString *)message error:(NSError **)error;
+- (GTReference *)createReferenceNamed:(NSString *)name fromOID:(GTOID *)targetOID message:(NSString *)message error:(NSError **)error;
 
 /// Creates a symbolic reference to another ref.
 ///
 /// name      - The full name for the new reference. This must not be nil.
 /// targetRef - The ref that the new ref should point to. This must not be nil.
-/// signature - A signature for the committer creating this ref, used for
-///             creating a reflog entry. This may be nil.
 /// message   - A message to use when creating the reflog entry for this action.
 ///             This may be nil.
 /// error     - If not NULL, set to any error that occurs.
 ///
 /// Returns the created ref, or nil if an error occurred.
-- (GTReference *)createReferenceNamed:(NSString *)name fromReference:(GTReference *)targetRef committer:(GTSignature *)signature message:(NSString *)message error:(NSError **)error;
+- (GTReference *)createReferenceNamed:(NSString *)name fromReference:(GTReference *)targetRef message:(NSString *)message error:(NSError **)error;
 
 /// Create a new local branch pointing to the given OID.
 ///
 /// name      - The name for the new branch (e.g., `master`). This must not be
 ///             nil.
 /// targetOID - The OID to create the new branch off. This must not be nil.
-/// signature - A signature for the committer creating this branch, used for
-///             creating a reflog entry. This may be nil.
 /// message   - A message to use when creating the reflog entry for this action.
 ///             This may be nil.
 /// error     - If not NULL, set to any error that occurs.
 ///
 /// Returns the new branch, or nil if an error occurred.
-- (GTBranch *)createBranchNamed:(NSString *)name fromOID:(GTOID *)targetOID committer:(GTSignature *)signature message:(NSString *)message error:(NSError **)error;
+- (GTBranch *)createBranchNamed:(NSString *)name fromOID:(GTOID *)targetOID message:(NSString *)message error:(NSError **)error;
 
 /// Get the current branch.
 ///
@@ -504,5 +497,17 @@ extern NSString * const GTRepositoryInitOptionsOriginURLString;
 /// filters to apply to the given path. The latter two cases can be
 /// distinguished using the value of `success`.
 - (GTFilterList *)filterListWithPath:(NSString *)path blob:(GTBlob *)blob mode:(GTFilterSourceMode)mode options:(GTFilterListOptions)options success:(BOOL *)success error:(NSError **)error;
+
+/// Creates an enumerator for finding all commits in the history of `headOID`
+/// that do not exist in the history of `baseOID`.
+///
+/// Returns the created enumerator upon success, or `nil` if an error occurred.
+- (GTEnumerator *)enumerateUniqueCommitsUpToOID:(GTOID *)headOID relativeToOID:(GTOID *)baseOID error:(NSError **)error;
+
+/// Calculates how far ahead/behind the commit represented by `headOID` is,
+/// relative to the commit represented by `baseOID`.
+///
+/// Returns whether `ahead` and `behind` were successfully calculated.
+- (BOOL)calculateAhead:(size_t *)ahead behind:(size_t *)behind ofOID:(GTOID *)headOID relativeToOID:(GTOID *)baseOID error:(NSError **)error;
 
 @end

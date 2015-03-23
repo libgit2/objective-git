@@ -36,7 +36,7 @@
 ///         automatically be freed when the receiver is deallocated. Must not be
 ///         NULL.
 /// delta - The diff delta corresponding to this patch. Must not be nil.
-- (instancetype)initWithGitPatch:(git_patch *)patch delta:(GTDiffDelta *)delta;
+- (instancetype)initWithGitPatch:(git_patch *)patch delta:(GTDiffDelta *)delta NS_DESIGNATED_INITIALIZER;
 
 /// Returns the underlying patch object.
 - (git_patch *)git_patch __attribute__((objc_returns_inner_pointer));

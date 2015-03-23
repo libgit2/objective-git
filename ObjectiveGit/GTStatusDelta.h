@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) double similarity;
 
 /// Designated initializer.
-- (nullable instancetype)initWithGitDiffDelta:(const git_diff_delta *)delta;
+- (nullable instancetype)initWithGitDiffDelta:(const git_diff_delta *)delta NS_DESIGNATED_INITIALIZER;
 
 @end
 

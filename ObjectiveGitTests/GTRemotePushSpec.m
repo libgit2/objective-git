@@ -23,7 +23,7 @@ GTCommit *(^createCommitInRepository)(NSString *, NSData *, NSString *, GTReposi
 	GTReference *headReference = [repo headReferenceWithError:nil];
 
 	GTEnumerator *commitEnum = [[GTEnumerator alloc] initWithRepository:repo error:nil];
-	[commitEnum pushSHA:[headReference targetSHA] error:nil];
+	[commitEnum pushSHA:[headReference targetOID].SHA error:nil];
 	GTCommit *parent = [commitEnum nextObject];
 
 	GTCommit *testCommit = [repo createCommitWithTree:testTree message:message parents:@[ parent ] updatingReferenceNamed:headReference.name error:nil];
@@ -186,7 +186,7 @@ describe(@"pushing", ^{
 			GTBranch *branch1 = localBranchWithName(@"master", localRepo);
 
 			// Create refs/heads/new_master on local
-			[localRepo createReferenceNamed:@"refs/heads/new_master" fromReference:branch1.reference committer:localRepo.userSignatureForNow message:@"Create new_master branch" error:&error];
+			[localRepo createReferenceNamed:@"refs/heads/new_master" fromReference:branch1.reference message:@"Create new_master branch" error:&error];
 			GTBranch *branch2 = localBranchWithName(@"new_master", localRepo);
 
 			BOOL result = [localRepo pushBranches:@[ branch1, branch2 ] toRemote:remote withOptions:nil error:&error progress:NULL];

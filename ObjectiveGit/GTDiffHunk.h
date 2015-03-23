@@ -24,7 +24,7 @@
 ///
 /// The contents of a hunk are lazily loaded, therefore we initialise the object
 /// simply with the patch it originates from and which hunk index it represents.
-- (instancetype)initWithPatch:(GTDiffPatch *)patch hunkIndex:(NSUInteger)hunkIndex;
+- (instancetype)initWithPatch:(GTDiffPatch *)patch hunkIndex:(NSUInteger)hunkIndex NS_DESIGNATED_INITIALIZER;
 
 /// Perfoms the given block on each line in the hunk.
 ///
