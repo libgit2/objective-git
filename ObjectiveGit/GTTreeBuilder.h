@@ -45,6 +45,8 @@ typedef NS_ENUM(NSInteger, GTFileMode) {
 @class GTRepository;
 @class GTOID;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /// A tree builder is used to create or modify trees in memory and write them as
 /// tree objects to a repository.
 @interface GTTreeBuilder : NSObject
@@ -59,7 +61,7 @@ typedef NS_ENUM(NSInteger, GTFileMode) {
 /// error      - The error if one occurred.
 ///
 /// Returns the initialized object, or nil if an error occurred.
-- (id)initWithTree:(GTTree *)treeOrNil repository:(GTRepository *)repository error:(NSError **)error NS_DESIGNATED_INITIALIZER;
+- (nullable id)initWithTree:(nullable GTTree *)treeOrNil repository:(GTRepository *)repository error:(NSError **)error NS_DESIGNATED_INITIALIZER;
 
 /// The underlying `git_treebuilder` object.
 - (git_treebuilder *)git_treebuilder __attribute__((objc_returns_inner_pointer));
@@ -70,7 +72,7 @@ typedef NS_ENUM(NSInteger, GTFileMode) {
 /// Filter the entries in the tree.
 ///
 /// filterBlock - A block which returns YES for entries which should be filtered
-///               from the index.
+///               from the index. Must not be nil.
 - (void)filter:(BOOL (^)(const git_tree_entry *entry))filterBlock;
 
 /// Get an entry from the builder from its file name.
@@ -78,7 +80,7 @@ typedef NS_ENUM(NSInteger, GTFileMode) {
 /// fileName - File name for the object in the index. Cannot be nil.
 ///
 /// Returns the matching entry or nil if it doesn't exist.
-- (GTTreeEntry *)entryWithFileName:(NSString *)fileName;
+- (nullable GTTreeEntry *)entryWithFileName:(NSString *)fileName;
 
 /// Adds or updates the entry for the file name with the given data. When the
 /// tree is written, a blob will be inserted into the object database containing
@@ -90,7 +92,7 @@ typedef NS_ENUM(NSInteger, GTFileMode) {
 /// error    - The error if one occurred.
 ///
 /// Returns the added entry, or nil if an error occurred
-- (GTTreeEntry *)addEntryWithData:(NSData *)data fileName:(NSString *)fileName fileMode:(GTFileMode)fileMode error:(NSError **)error;
+- (nullable GTTreeEntry *)addEntryWithData:(NSData *)data fileName:(NSString *)fileName fileMode:(GTFileMode)fileMode error:(NSError **)error;
 
 /// Add or update an entry to the builder.
 ///
@@ -107,11 +109,11 @@ typedef NS_ENUM(NSInteger, GTFileMode) {
 /// the type of the pointed at object.
 ///
 /// Returns the added entry, or nil if an error occurred.
-- (GTTreeEntry *)addEntryWithOID:(GTOID *)oid fileName:(NSString *)fileName fileMode:(GTFileMode)fileMode error:(NSError **)error;
+- (nullable GTTreeEntry *)addEntryWithOID:(GTOID *)oid fileName:(NSString *)fileName fileMode:(GTFileMode)fileMode error:(NSError **)error;
 
 /// Remove an entry from the builder by its file name.
 ///
-/// fileName - File name for the object in the tree.
+/// fileName - File name for the object in the tree. Must not be nil.
 /// error    - The error if one occurred.
 ///
 /// Returns YES if the entry was removed, or NO if an error occurred.
@@ -122,6 +124,8 @@ typedef NS_ENUM(NSInteger, GTFileMode) {
 /// error - The error if one occurred.
 ///
 /// Returns the written tree, or nil if an error occurred.
-- (GTTree *)writeTree:(NSError **)error;
+- (nullable GTTree *)writeTree:(NSError **)error;
 
 @end
+
+NS_ASSUME_NONNULL_END
