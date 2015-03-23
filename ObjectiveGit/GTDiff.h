@@ -172,6 +172,8 @@ typedef NS_OPTIONS(NSInteger, GTDiffFindOptionsFlags) {
 	GTDiffFindOptionsFlagsBreakRewritesForRenamesOnly = GIT_DIFF_BREAK_REWRITES_FOR_RENAMES_ONLY,
 };
 
+NS_ASSUME_NONNULL_BEGIN
+
 /// A class representing a single "diff".
 ///
 /// Analagous to `git_diff_list` in libgit2, this object represents a list of
@@ -196,7 +198,7 @@ typedef NS_OPTIONS(NSInteger, GTDiffFindOptionsFlags) {
 ///              available.
 ///
 /// Returns a newly created `GTDiff` object or nil on error.
-+ (instancetype)diffOldTree:(GTTree *)oldTree withNewTree:(GTTree *)newTree inRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error;
++ (nullable instancetype)diffOldTree:(nullable GTTree *)oldTree withNewTree:(nullable GTTree *)newTree inRepository:(GTRepository *)repository options:(nullable NSDictionary *)options error:(NSError **)error;
 
 /// Create a diff between a repository's current index.
 ///
@@ -216,46 +218,46 @@ typedef NS_OPTIONS(NSInteger, GTDiffFindOptionsFlags) {
 ///              available.
 ///
 /// Returns a newly created `GTDiff` object or nil on error.
-+ (instancetype)diffIndexFromTree:(GTTree *)tree inRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error;
++ (nullable instancetype)diffIndexFromTree:(nullable GTTree *)tree inRepository:(nullable GTRepository *)repository options:(nullable NSDictionary *)options error:(NSError **)error;
 
 /// Create a diff between the index and working directory in a given repository.
 ///
 /// This matches the `git diff` command.
 ///
-/// repository - The repository to be used for the diff.
+/// repository - The repository to be used for the diff. May not be nil.
 /// options    - A dictionary containing any of the above options key constants,
 ///              or nil to use the defaults.
 /// error      - Populated with an `NSError` object on error, if information is
 ///              available.
 ///
 /// Returns a newly created `GTDiff` object or nil on error.
-+ (instancetype)diffIndexToWorkingDirectoryInRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error;
++ (nullable instancetype)diffIndexToWorkingDirectoryInRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error;
 
 /// Create a diff between a repository's working directory and a tree.
 ///
 /// tree       - The tree to be diffed. The tree will be the left side of the diff.
 ///              May be nil to represent an empty tree.
-/// repository - The repository to be used for the diff.
+/// repository - The repository to be used for the diff. May not be nil.
 /// options    - A dictionary containing any of the above options key constants, or
 ///              nil to use the defaults.
 /// error      - Populated with an `NSError` object on error, if information is
 ///              available.
 ///
 /// Returns a newly created `GTDiff` object or nil on error.
-+ (instancetype)diffWorkingDirectoryFromTree:(GTTree *)tree inRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error;
++ (nullable instancetype)diffWorkingDirectoryFromTree:(nullable GTTree *)tree inRepository:(GTRepository *)repository options:(nullable NSDictionary *)options error:(NSError **)error;
 
 /// Create a diff between the working directory and HEAD.
 ///
 /// If the repository does not have a HEAD commit yet, this will create a diff of
 /// the working directory as if everything would be part of the initial commit.
 ///
-/// repository - The repository to be used for the diff.
+/// repository - The repository to be used for the diff. May not be nil.
 /// options    - A dictionary containing any of the above options key constants,
 ///              or nil to use the defaults.
 /// error      - Populated if an error occurs.
 ///
 /// Returns a newly created GTDiff, or nil if an error occurred.
-+ (instancetype)diffWorkingDirectoryToHEADInRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error;
++ (nullable instancetype)diffWorkingDirectoryToHEADInRepository:(GTRepository *)repository options:(nullable NSDictionary *)options error:(NSError **)error;
 
 /// Designated initialiser.
 ///
@@ -263,7 +265,7 @@ typedef NS_OPTIONS(NSInteger, GTDiffFindOptionsFlags) {
 /// repository - The repository in which the diff lives. Cannot be nil.
 ///
 /// Returns the initialized object.
-- (instancetype)initWithGitDiff:(git_diff *)diff repository:(GTRepository *)repository NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithGitDiff:(git_diff *)diff repository:(GTRepository *)repository NS_DESIGNATED_INITIALIZER;
 
 /// The libgit2 diff object.
 - (git_diff *)git_diff __attribute__((objc_returns_inner_pointer));
@@ -281,14 +283,14 @@ typedef NS_OPTIONS(NSInteger, GTDiffFindOptionsFlags) {
 /// Also note that this method blocks during the enumeration.
 ///
 /// block - A block to be executed for each delta. Setting `stop` to `YES`
-///         immediately stops the enumeration.
+///         immediately stops the enumeration. May not be nil.
 - (void)enumerateDeltasUsingBlock:(void (^)(GTDiffDelta *delta, BOOL *stop))block;
 
 /// Modify the diff list to combine similar changes using the given options.
 ///
 /// options - A dictionary containing any of the above find options key constants
 ///           or nil to use the defaults.
-- (void)findSimilarWithOptions:(NSDictionary *)options;
+- (void)findSimilarWithOptions:(nullable NSDictionary *)options;
 
 /// Merge a diff with another diff.
 ///
@@ -299,3 +301,5 @@ typedef NS_OPTIONS(NSInteger, GTDiffFindOptionsFlags) {
 - (BOOL)mergeDiffWithDiff:(GTDiff *)diff error:(NSError **)error;
 
 @end
+
+NS_ASSUME_NONNULL_END
