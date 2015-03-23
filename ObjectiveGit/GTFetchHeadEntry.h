@@ -27,7 +27,7 @@
 /// Flag indicating if we need to merge this entry or not.
 @property (nonatomic, getter = isMerge, readonly) BOOL merge;
 
-/// Initializes a GTFetchHeadEntry.
+/// Initializes a GTFetchHeadEntry. Designated initializer.
 ///
 /// reference       - Reference on the repository. Cannot be nil.
 /// remoteURLString - URL String where this was originally fetched from. Cannot be nil.

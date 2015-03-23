@@ -12,7 +12,7 @@
 
 @interface GTConfiguration ()
 
-/// Initializes the receiver.
+/// Designated initializer.
 ///
 /// config     - The libgit2 config. Cannot be NULL.
 /// repository - The repository in which the config resides. May be nil.

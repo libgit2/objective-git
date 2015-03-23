@@ -88,7 +88,7 @@ typedef NS_OPTIONS(NSInteger, GTSubmoduleStatus) {
 /// `.git/config` or `.gitmodules` file.
 @property (nonatomic, copy, readonly) NSString *URLString;
 
-/// Initializes the receiver to wrap the given submodule object.
+/// Initializes the receiver to wrap the given submodule object. Designated initializer.
 ///
 /// submodule  - The submodule to wrap. The receiver will not own this object, so
 ///              it must not be freed while the GTSubmodule is alive. This must

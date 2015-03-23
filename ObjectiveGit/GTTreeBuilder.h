@@ -52,7 +52,7 @@ typedef NS_ENUM(NSInteger, GTFileMode) {
 /// Get the number of entries listed in a treebuilder.
 @property (nonatomic, readonly) NSUInteger entryCount;
 
-/// Initializes the receiver, optionally from an existing tree.
+/// Initializes the receiver, optionally from an existing tree. Designated initializer.
 ///
 /// treeOrNil  - Source tree (or nil)
 /// repository - The repository in which to build the tree. Must not be nil.

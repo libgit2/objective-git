@@ -49,7 +49,7 @@ typedef NS_ENUM(NSInteger, GTIndexEntryStatus) {
 /// What is the entry's status?
 @property (nonatomic, readonly) GTIndexEntryStatus status;
 
-/// Initializes the receiver with the given libgit2 index entry.
+/// Initializes the receiver with the given libgit2 index entry. Designated initializer.
 ///
 /// entry - The libgit2 index entry. Cannot be NULL.
 ///

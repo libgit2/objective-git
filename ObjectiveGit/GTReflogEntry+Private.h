@@ -11,7 +11,7 @@
 
 @interface GTReflogEntry ()
 
-/// Initializes the receiver with the underlying reflog entry.
+/// Initializes the receiver with the underlying reflog entry. Designated initializer.
 ///
 /// entry  - The reflog entry. Cannot be NULL.
 /// reflog - The reflog in which the entry resides. Cannot be nil.

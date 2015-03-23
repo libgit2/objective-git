@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// The repository in which the object resides.
 @property (nonatomic, readonly, strong) GTRepository *repository;
 
-/// Initializes the object with the underlying libgit2 object and repository.
+/// Initializes the object with the underlying libgit2 object and repository. Designated initializer.
 ///
 /// object     - The underlying libgit2 object. Cannot be NULL.
 /// repository - The repository in which the object resides. Cannot be nil.

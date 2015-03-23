@@ -21,7 +21,7 @@ typedef NS_OPTIONS(NSInteger, GTFilterListOptions) {
 /// An opaque list of filters that apply to a given path.
 @interface GTFilterList : NSObject
 
-/// Initializes the receiver to wrap the given `git_filter_list`.
+/// Initializes the receiver to wrap the given `git_filter_list`. Designated initializer.
 ///
 /// filterList - The filter list to wrap and take ownership of. This filter list
 ///              will be automatically disposed when the receiver deallocates.

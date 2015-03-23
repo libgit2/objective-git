@@ -30,7 +30,7 @@
 /// The number of hunks in this patch.
 @property (nonatomic, readonly) NSUInteger hunkCount;
 
-/// Initializes the receiver to wrap the given patch.
+/// Initializes the receiver to wrap the given patch. Designated initializer.
 ///
 /// patch - The patch object to wrap and take ownership of. This will
 ///         automatically be freed when the receiver is deallocated. Must not be

@@ -84,7 +84,7 @@ typedef enum {
 /// Returns the loaded remote, or nil if an error occurred.
 + (instancetype)remoteWithName:(NSString *)name inRepository:(GTRepository *)repo error:(NSError **)error;
 
-/// Initialize a remote from a `git_remote`.
+/// Initialize a remote from a `git_remote`. Designated initializer.
 ///
 /// remote - The underlying `git_remote` object. Cannot be nil.
 /// repo   - The repository the remote belongs to. Cannot be nil.

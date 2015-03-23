@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// inserted into the ODB yet.
 @property (nonatomic, readonly, assign, getter = isZero) BOOL zero;
 
-/// Initializes the receiver with the given git_oid.
+/// Initializes the receiver with the given git_oid. Designated initializer.
 ///
 /// git_oid - The underlying git_oid. Cannot be NULL.
 ///

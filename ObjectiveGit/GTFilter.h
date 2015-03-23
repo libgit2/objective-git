@@ -38,7 +38,7 @@ extern const NSInteger GTFilterErrorNameAlreadyRegistered;
 /// chance to clean up the `payload`.
 @property (nonatomic, copy) void (^cleanupBlock)(void *payload);
 
-/// Initializes the object with the given name and attributes.
+/// Initializes the object with the given name and attributes. Designated initializer.
 ///
 /// name       - The name for the filter. Cannot be nil.
 /// attributes - The attributes to which this filter applies. May be nil.

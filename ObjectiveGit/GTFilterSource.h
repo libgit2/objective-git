@@ -38,7 +38,7 @@ typedef NS_ENUM(NSInteger, GTFilterSourceMode) {
 /// The filter mode.
 @property (nonatomic, readonly, assign) GTFilterSourceMode mode;
 
-/// Intializes the receiver with the given filter source.
+/// Intializes the receiver with the given filter source. Designated initializer.
 ///
 /// source - The filter source. Cannot be NULL.
 ///

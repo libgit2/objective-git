@@ -52,6 +52,7 @@ typedef NS_ENUM(NSInteger, GTBranchType) {
 + (NSString *)localNamePrefix;
 + (NSString *)remoteNamePrefix;
 
+/// Designated initializer.
 - (id)initWithReference:(GTReference *)ref repository:(GTRepository *)repo NS_DESIGNATED_INITIALIZER;
 + (id)branchWithReference:(GTReference *)ref repository:(GTRepository *)repo;
 
