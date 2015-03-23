@@ -34,14 +34,16 @@
 @class GTRepository;
 @class GTTree;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface GTIndex : NSObject
 
 /// The repository in which the index resides. This may be nil if the index was
 /// created with -initWithFileURL:error:.
-@property (nonatomic, readonly, strong) GTRepository *repository;
+@property (nonatomic, readonly, strong, nullable) GTRepository *repository;
 
-/// The file URL for the index if it exists on disk.
-@property (nonatomic, readonly, copy) NSURL *fileURL;
+/// The file URL for the index if it exists on disk; nil otherwise.
+@property (nonatomic, readonly, copy, nullable) NSURL *fileURL;
 
 /// The number of entries in the index.
 @property (nonatomic, readonly) NSUInteger entryCount;
@@ -58,7 +60,7 @@
 /// error      - If not NULL, set to any error that occurs.
 ///
 /// Returns the newly created index, or nil if an error occurred.
-+ (instancetype)inMemoryIndexWithRepository:(GTRepository *)repository error:(NSError **)error;
++ (nullable instancetype)inMemoryIndexWithRepository:(GTRepository *)repository error:(NSError **)error;
 
 /// Loads the index at the given file URL.
 ///
@@ -101,7 +103,7 @@
 /// index - The index of the entry to get. Must be within 0 and self.entryCount.
 ///
 /// Returns a new GTIndexEntry, or nil if an error occurred.
-- (GTIndexEntry *)entryAtIndex:(NSUInteger)index;
+- (nullable GTIndexEntry *)entryAtIndex:(NSUInteger)index;
 
 /// Get the entry with the given name.
 - (GTIndexEntry *)entryWithName:(NSString *)name;
@@ -112,13 +114,13 @@
 /// error - The error if one occurred.
 ///
 /// Returns a new GTIndexEntry, or nil if an error occurred.
-- (GTIndexEntry *)entryWithName:(NSString *)name error:(NSError **)error;
+- (nullable GTIndexEntry *)entryWithName:(NSString *)name error:(NSError **)error;
 
 /// Add an entry to the index.
 ///
 /// Note that this *cannot* add submodules. See -[GTSubmodule addToIndex:].
 ///
-/// entry - The entry to add.
+/// entry - The entry to add. Must not be nil.
 /// error - The error if one occurred.
 ///
 /// Returns YES if successful, NO otherwise.
@@ -167,7 +169,7 @@
 /// error - The error if one occurred.
 ///
 /// Returns a new GTTree, or nil if an error occurred.
-- (GTTree *)writeTree:(NSError **)error;
+- (nullable GTTree *)writeTree:(NSError **)error;
 
 /// Write the index to the given repository as a tree.
 /// Will fail if the receiver's index has conflicts.
@@ -176,7 +178,7 @@
 /// error      - The error if one occurred.
 ///
 /// Returns a new GTTree or nil if an error occurred.
-- (GTTree *)writeTreeToRepository:(GTRepository *)repository error:(NSError **)error;
+- (nullable GTTree *)writeTreeToRepository:(GTRepository *)repository error:(NSError **)error;
 
 /// Enumerate through any conflicts in the index, running the provided block each
 /// time.
@@ -209,3 +211,5 @@
 - (BOOL)updatePathspecs:(NSArray *)pathspecs error:(NSError **)error passingTest:(BOOL (^)(NSString *matchedPathspec, NSString *path, BOOL *stop))block;
 
 @end
+
+NS_ASSUME_NONNULL_END
