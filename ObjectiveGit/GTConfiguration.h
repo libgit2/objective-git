@@ -12,24 +12,26 @@
 @class GTRepository;
 @class GTSignature;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface GTConfiguration : NSObject
 
-@property (nonatomic, readonly, strong) GTRepository *repository;
+@property (nonatomic, readonly, strong, nullable) GTRepository *repository;
 @property (nonatomic, readonly, copy) NSArray *configurationKeys;
 
 /// The GTRemotes in the config. If the configuration isn't associated with any
 /// repository, this will always be nil.
-@property (nonatomic, readonly, copy) NSArray *remotes;
+@property (nonatomic, readonly, copy, nullable) NSArray *remotes;
 
 /// Creates and returns a configuration which includes the global, XDG, and
 /// system configurations.
-+ (instancetype)defaultConfiguration;
++ (nullable instancetype)defaultConfiguration;
 
 /// The underlying `git_config` object.
 - (git_config *)git_config __attribute__((objc_returns_inner_pointer));
 
 - (void)setString:(NSString *)s forKey:(NSString *)key;
-- (NSString *)stringForKey:(NSString *)key;
+- (nullable NSString *)stringForKey:(NSString *)key;
 
 - (void)setBool:(BOOL)b forKey:(NSString *)key;
 - (BOOL)boolForKey:(NSString *)key;
@@ -43,3 +45,5 @@
 - (BOOL)deleteValueForKey:(NSString *)key error:(NSError **)error;
 
 @end
+
+NS_ASSUME_NONNULL_END
