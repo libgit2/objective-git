@@ -33,7 +33,7 @@
 	if (_git_reflog != NULL) git_reflog_free(_git_reflog);
 }
 
-- (id)initWithReference:(GTReference *)reference {
+- (instancetype)initWithReference:(GTReference *)reference {
 	NSParameterAssert(reference != nil);
 	NSParameterAssert(reference.name != nil);
 

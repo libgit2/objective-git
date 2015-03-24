@@ -17,6 +17,6 @@
 /// reference - The reference whose reflog is being represented. Cannot be nil.
 ///
 /// Returns the initialized object.
-- (id)initWithReference:(GTReference *)reference NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithReference:(GTReference *)reference NS_DESIGNATED_INITIALIZER;
 
 @end
