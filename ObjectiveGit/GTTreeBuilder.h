@@ -61,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error      - The error if one occurred.
 ///
 /// Returns the initialized object, or nil if an error occurred.
-- (nullable id)initWithTree:(nullable GTTree *)treeOrNil repository:(GTRepository *)repository error:(NSError **)error NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithTree:(nullable GTTree *)treeOrNil repository:(GTRepository *)repository error:(NSError **)error NS_DESIGNATED_INITIALIZER;
 
 /// The underlying `git_treebuilder` object.
 - (git_treebuilder *)git_treebuilder __attribute__((objc_returns_inner_pointer));

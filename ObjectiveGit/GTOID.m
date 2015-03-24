@@ -39,7 +39,7 @@
 
 #pragma mark Lifecycle
 
-- (id)initWithGitOid:(const git_oid *)oid {
+- (instancetype)initWithGitOid:(const git_oid *)oid {
 	NSParameterAssert(oid != NULL);
 
 	self = [super init];
@@ -50,16 +50,16 @@
 	return self;
 }
 
-- (id)initWithSHA:(NSString *)SHA error:(NSError **)error {
+- (instancetype)initWithSHA:(NSString *)SHA error:(NSError **)error {
 	NSParameterAssert(SHA != nil);
 	return [self initWithSHACString:SHA.UTF8String error:error];
 }
 
-- (id)initWithSHA:(NSString *)SHA {
+- (instancetype)initWithSHA:(NSString *)SHA {
 	return [self initWithSHA:SHA error:NULL];
 }
 
-- (id)initWithSHACString:(const char *)string error:(NSError **)error {
+- (instancetype)initWithSHACString:(const char *)string error:(NSError **)error {
 	NSParameterAssert(string != NULL);
 	
 	self = [super init];
@@ -76,7 +76,7 @@
 	return self;
 }
 
-- (id)initWithSHACString:(const char *)string {
+- (instancetype)initWithSHACString:(const char *)string {
 	return [self initWithSHACString:string error:NULL];
 }
 

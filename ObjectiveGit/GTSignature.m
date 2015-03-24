@@ -48,7 +48,7 @@
 	}
 }
 
-- (id)initWithGitSignature:(const git_signature *)git_signature {
+- (instancetype)initWithGitSignature:(const git_signature *)git_signature {
 	NSParameterAssert(git_signature != NULL);
 
 	self = [super init];
@@ -60,7 +60,7 @@
 	return self;
 }
 
-- (id)initWithName:(NSString *)name email:(NSString *)email time:(NSDate *)time {
+- (instancetype)initWithName:(NSString *)name email:(NSString *)email time:(NSDate *)time {
 	NSParameterAssert(name != nil);
 	NSParameterAssert(email != nil);
 

@@ -62,7 +62,7 @@
 
 #pragma mark Lifecycle
 
-- (id)initWithTree:(GTTree *)treeOrNil repository:(GTRepository *)repository error:(NSError **)error {
+- (instancetype)initWithTree:(GTTree *)treeOrNil repository:(GTRepository *)repository error:(NSError **)error {
 	NSParameterAssert(repository != nil);
 
 	self = [super init];

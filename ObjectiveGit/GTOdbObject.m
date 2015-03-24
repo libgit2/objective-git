@@ -31,7 +31,7 @@
 
 #pragma mark API
 
-- (id)initWithOdbObj:(git_odb_object *)object repository:(GTRepository *)repository {
+- (instancetype)initWithOdbObj:(git_odb_object *)object repository:(GTRepository *)repository {
 	NSParameterAssert(object != NULL);
 	NSParameterAssert(repository != nil);
 

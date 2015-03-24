@@ -27,14 +27,14 @@ NS_ASSUME_NONNULL_BEGIN
 /// git_oid - The underlying git_oid. Cannot be NULL.
 ///
 /// Returns the initialized receiver.
-- (nullable id)initWithGitOid:(const git_oid *)git_oid NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithGitOid:(const git_oid *)git_oid NS_DESIGNATED_INITIALIZER;
 
 /// Initializes the receiver by converting the given SHA to an OID.
 ///
 /// SHA - The to convert to an OID. Cannot be nil.
 ///
 /// Returns the initialized receiver.
-- (nullable id)initWithSHA:(NSString *)SHA;
+- (nullable instancetype)initWithSHA:(NSString *)SHA;
 
 /// Initializes the receiver by converting the given SHA to an OID
 /// optionally returning a NSError instance on failure.
@@ -43,14 +43,14 @@ NS_ASSUME_NONNULL_BEGIN
 /// error - Will be filled with an error object in if the SHA cannot be parsed
 ///
 /// Returns the initialized receiver or nil if an error occured.
-- (nullable id)initWithSHA:(NSString *)SHA error:(NSError **)error;
+- (nullable instancetype)initWithSHA:(NSString *)SHA error:(NSError **)error;
 
 /// Initializes the receiver by converting the given SHA C string to an OID.
 ///
 /// string - The C string to convert. Cannot be NULL.
 ///
 /// Returns the initialized receiver.
-- (nullable id)initWithSHACString:(const char *)string;
+- (nullable instancetype)initWithSHACString:(const char *)string;
 
 /// Initializes the receiver by converting the given SHA C string to an OID
 /// optionally returning a NSError instance on failure.
@@ -59,7 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error  - Will be filled with an error object in if the SHA cannot be parsed
 ///
 /// Returns the initialized receiver.
-- (nullable id)initWithSHACString:(const char *)string error:(NSError **)error NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithSHACString:(const char *)string error:(NSError **)error NS_DESIGNATED_INITIALIZER;
 
 /// Creates a new instance with the given git_oid using initWithGitOid:
 + (nullable instancetype)oidWithGitOid:(const git_oid *)git_oid;

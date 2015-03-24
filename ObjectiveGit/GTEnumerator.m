@@ -48,7 +48,7 @@
 
 #pragma mark Lifecycle
 
-- (id)initWithRepository:(GTRepository *)repo error:(NSError **)error {
+- (instancetype)initWithRepository:(GTRepository *)repo error:(NSError **)error {
 	NSParameterAssert(repo != nil);
 
 	self = [super init];

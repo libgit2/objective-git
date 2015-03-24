@@ -61,11 +61,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, strong) GTReflog *reflog;
 
 /// Convenience initializers
-+ (id)referenceByLookingUpReferencedNamed:(NSString *)refName inRepository:(GTRepository *)theRepo error:(NSError **)error;
-- (id)initByLookingUpReferenceNamed:(NSString *)refName inRepository:(GTRepository *)theRepo error:(NSError **)error;
++ (instancetype)referenceByLookingUpReferencedNamed:(NSString *)refName inRepository:(GTRepository *)theRepo error:(NSError **)error;
+- (instancetype)initByLookingUpReferenceNamed:(NSString *)refName inRepository:(GTRepository *)theRepo error:(NSError **)error;
 
-+ (id)referenceByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error;
-- (id)initByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error;
++ (instancetype)referenceByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error;
+- (instancetype)initByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error;
 
 /// Designated initializer.
 ///
@@ -73,7 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// repository - The repository containing the reference. Must not be nil.
 ///
 /// Returns the initialized receiver.
-- (nullable id)initWithGitReference:(git_reference *)ref repository:(GTRepository *)repository NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithGitReference:(git_reference *)ref repository:(GTRepository *)repository NS_DESIGNATED_INITIALIZER;
 
 /// The underlying `git_reference` object.
 - (git_reference *)git_reference __attribute__((objc_returns_inner_pointer));

@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// repository - The repository in which the object resides. Cannot be nil.
 ///
 /// Returns the initialized object.
-- (nullable id)initWithOdbObj:(git_odb_object *)object repository:(GTRepository *)repository NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithOdbObj:(git_odb_object *)object repository:(GTRepository *)repository NS_DESIGNATED_INITIALIZER;
 
 /// The underlying `git_odb_object`.
 - (git_odb_object *)git_odb_object __attribute__((objc_returns_inner_pointer));
