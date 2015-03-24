@@ -17,6 +17,8 @@ extern NSString * const GTFilterErrorDomain;
 /// A filter with that name has already been registered.
 extern const NSInteger GTFilterErrorNameAlreadyRegistered;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /// Git filter abstraction.
 ///
 /// **Note**: GTFilter is *not* thread safe. Registration and unregistration
@@ -45,15 +47,17 @@ extern const NSInteger GTFilterErrorNameAlreadyRegistered;
 /// applyBlock - The block to use to apply the filter. Cannot be nil.
 ///
 /// Returns the initialized object.
-- (id)initWithName:(NSString *)name attributes:(NSString *)attributes applyBlock:(NSData * (^)(void **payload, NSData *from, GTFilterSource *source, BOOL *applied))applyBlock NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithName:(NSString *)name attributes:(nullable NSString *)attributes applyBlock:(NSData * (^)(void **payload, NSData *from, GTFilterSource *source, BOOL *applied))applyBlock NS_DESIGNATED_INITIALIZER;
 
 /// Look up a filter based on its name.
 ///
 /// Note that this will only find filters registered through
 /// -registerWithName:priority:error:.
 ///
+/// name - The name of the filter to retrieve. Must not be nil.
+///
 /// Returns the filter, or nil if none was found.
-+ (GTFilter *)filterForName:(NSString *)name;
++ (nullable GTFilter *)filterForName:(NSString *)name;
 
 /// Registers the filter with the given priority.
 ///
@@ -73,3 +77,5 @@ extern const NSInteger GTFilterErrorNameAlreadyRegistered;
 - (BOOL)unregister:(NSError **)error;
 
 @end
+
+NS_ASSUME_NONNULL_END
