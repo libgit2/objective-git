@@ -9,6 +9,8 @@
 #import "GTReflogEntry.h"
 #import "git2/types.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface GTReflogEntry ()
 
 /// Initializes the receiver with the underlying reflog entry. Designated initializer.
@@ -17,6 +19,8 @@
 /// reflog - The reflog in which the entry resides. Cannot be nil.
 ///
 /// Returns the initialized object.
-- (id)initWithGitReflogEntry:(const git_reflog_entry *)entry reflog:(GTReflog *)reflog NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithGitReflogEntry:(const git_reflog_entry *)entry reflog:(GTReflog *)reflog NS_DESIGNATED_INITIALIZER;
 
 @end
+
+NS_ASSUME_NONNULL_END
