@@ -12,6 +12,8 @@
 @class GTDiffHunk;
 @class GTDiffDelta;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /// Represents one or more text changes to a single file within a diff.
 @interface GTDiffPatch : NSObject
 
@@ -36,7 +38,7 @@
 ///         automatically be freed when the receiver is deallocated. Must not be
 ///         NULL.
 /// delta - The diff delta corresponding to this patch. Must not be nil.
-- (instancetype)initWithGitPatch:(git_patch *)patch delta:(GTDiffDelta *)delta NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithGitPatch:(git_patch *)patch delta:(GTDiffDelta *)delta NS_DESIGNATED_INITIALIZER;
 
 /// Returns the underlying patch object.
 - (git_patch *)git_patch __attribute__((objc_returns_inner_pointer));
@@ -59,10 +61,12 @@
 /// generating hunk content.
 ///
 /// block - A block to be executed for each hunk. Setting `stop` to `YES`
-///         will stop the enumeration after the block returns.
+///         will stop the enumeration after the block returns. May not be nil.
 ///
 /// Returns whether enumeration was successful, or terminated early. If `NO`, an
 /// error occurred during enumeration.
 - (BOOL)enumerateHunksUsingBlock:(void (^)(GTDiffHunk *hunk, BOOL *stop))block;
 
 @end
+
+NS_ASSUME_NONNULL_END
