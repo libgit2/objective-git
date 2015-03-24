@@ -22,6 +22,8 @@ typedef NS_ENUM(NSInteger, GTFilterSourceMode) {
 	GTFilterSourceModeClean = GIT_FILTER_CLEAN,
 };
 
+NS_ASSUME_NONNULL_BEGIN
+
 /// A source item for a filter.
 @interface GTFilterSource : NSObject
 
@@ -33,7 +35,7 @@ typedef NS_ENUM(NSInteger, GTFilterSourceMode) {
 
 /// The OID of the source. Will be nil if the source doesn't exist in the object
 /// database.
-@property (nonatomic, readonly, strong) GTOID *OID;
+@property (nonatomic, readonly, strong, nullable) GTOID *OID;
 
 /// The filter mode.
 @property (nonatomic, readonly, assign) GTFilterSourceMode mode;
@@ -43,6 +45,8 @@ typedef NS_ENUM(NSInteger, GTFilterSourceMode) {
 /// source - The filter source. Cannot be NULL.
 ///
 /// Returns the initialized object.
-- (id)initWithGitFilterSource:(const git_filter_source *)source NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithGitFilterSource:(const git_filter_source *)source NS_DESIGNATED_INITIALIZER;
 
 @end
+
+NS_ASSUME_NONNULL_END
