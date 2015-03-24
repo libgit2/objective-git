@@ -12,6 +12,8 @@
 @class GTOID;
 @class GTReference;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /// A class representing an entry on the FETCH_HEAD file, as returned by the callback of git_repository_fetchhead_foreach.
 @interface GTFetchHeadEntry : NSObject
 
@@ -33,6 +35,10 @@
 /// remoteURLString - URL String where this was originally fetched from. Cannot be nil.
 /// targetOID       - Target OID. Cannot be nil.
 /// merge           - Indicates if this is pending a merge.
-- (instancetype)initWithReference:(GTReference *)reference remoteURLString:(NSString *)remoteURLString targetOID:(GTOID *)targetOID isMerge:(BOOL)merge NS_DESIGNATED_INITIALIZER;
+///
+/// Returns an initialized fetch head entry, or nil if an error occurred.
+- (nullable instancetype)initWithReference:(GTReference *)reference remoteURLString:(NSString *)remoteURLString targetOID:(GTOID *)targetOID isMerge:(BOOL)merge NS_DESIGNATED_INITIALIZER;
 
 @end
+
+NS_ASSUME_NONNULL_END
