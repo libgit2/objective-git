@@ -152,11 +152,11 @@ typedef struct {
 	return [[self alloc] initWithGitRepository:repository];
 }
 
-+ (id)repositoryWithURL:(NSURL *)localFileURL error:(NSError **)error {
++ (instancetype)repositoryWithURL:(NSURL *)localFileURL error:(NSError **)error {
 	return [[self alloc] initWithURL:localFileURL error:error];
 }
 
-- (id)initWithGitRepository:(git_repository *)repository {
+- (instancetype)initWithGitRepository:(git_repository *)repository {
 	NSParameterAssert(repository != nil);
 
 	self = [super init];
@@ -167,7 +167,7 @@ typedef struct {
 	return self;
 }
 
-- (id)initWithURL:(NSURL *)localFileURL error:(NSError **)error {
+- (instancetype)initWithURL:(NSURL *)localFileURL error:(NSError **)error {
 	if (![localFileURL isFileURL] || localFileURL.path == nil) {
 		if (error != NULL) *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileReadUnsupportedSchemeError userInfo:@{ NSLocalizedDescriptionKey: NSLocalizedString(@"Invalid file path URL to open.", @"") }];
 		return nil;
@@ -224,7 +224,7 @@ struct GTRemoteCreatePayload {
 	git_remote_callbacks remoteCallbacks;
 };
 
-+ (id)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL options:(NSDictionary *)options error:(NSError **)error transferProgressBlock:(void (^)(const git_transfer_progress *, BOOL *stop))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))checkoutProgressBlock {
++ (instancetype)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL options:(NSDictionary *)options error:(NSError **)error transferProgressBlock:(void (^)(const git_transfer_progress *, BOOL *stop))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))checkoutProgressBlock {
 
 	git_clone_options cloneOptions = GIT_CLONE_OPTIONS_INIT;
 
