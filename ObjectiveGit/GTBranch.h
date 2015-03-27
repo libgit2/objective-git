@@ -84,7 +84,13 @@ NS_ASSUME_NONNULL_BEGIN
 /// returns number of commits in the branch or NSNotFound if an error occurred
 - (NSUInteger)numberOfCommitsWithError:(NSError **)error;
 
-- (NSArray *)uniqueCommitsRelativeToBranch:(GTBranch *)otherBranch error:(NSError **)error;
+/// Get unique commits
+///
+/// otherBranch -
+/// error       - If not NULL, set to any error that occurs.
+///
+/// Returns a (possibly empty) array of GTCommits, or nil if an error occurs.
+- (nullable NSArray *)uniqueCommitsRelativeToBranch:(GTBranch *)otherBranch error:(NSError **)error;
 
 /// Deletes the local branch and nils out the reference.
 - (BOOL)deleteWithError:(NSError **)error;

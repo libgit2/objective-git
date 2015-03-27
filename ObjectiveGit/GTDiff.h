@@ -231,7 +231,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///              available.
 ///
 /// Returns a newly created `GTDiff` object or nil on error.
-+ (nullable instancetype)diffIndexToWorkingDirectoryInRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error;
++ (nullable instancetype)diffIndexToWorkingDirectoryInRepository:(GTRepository *)repository options:(nullable NSDictionary *)options error:(NSError **)error;
 
 /// Create a diff between a repository's working directory and a tree.
 ///

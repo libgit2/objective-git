@@ -199,16 +199,18 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// pathspecs - An `NSString` array of path patterns. (E.g: *.c)
 ///             If nil is passed in, all index entries will be updated.
-/// block     - A block run each time a pathspec is matched; before the index is updated.
-///             The `matchedPathspec` parameter is a string indicating what the pathspec (from `pathspecs`) matched.
-///             If you pass in NULL in to the `pathspecs` parameter this parameter will be empty.
-///             The `path` parameter is a repository relative path to the file about to be updated.
+/// block     - A block run each time a pathspec is matched; before the index is
+///             updated. The `matchedPathspec` parameter is a string indicating
+///             what the pathspec (from `pathspecs`) matched. If you pass in NULL
+///             in to the `pathspecs` parameter this parameter will be empty.
+///             The `path` parameter is a repository relative path to the file
+///             about to be updated.
 ///             The `stop` parameter can be set to `YES` to abort the operation.
 ///             Return `YES` to update the given path, or `NO` to skip it. May be nil.
 /// error     - When something goes wrong, this parameter is set. Optional.
 ///
 /// Returns `YES` in the event that everything has gone smoothly. Otherwise, `NO`.
-- (BOOL)updatePathspecs:(NSArray *)pathspecs error:(NSError **)error passingTest:(BOOL (^)(NSString *matchedPathspec, NSString *path, BOOL *stop))block;
+- (BOOL)updatePathspecs:(nullable NSArray *)pathspecs error:(NSError **)error passingTest:(nullable BOOL (^)(NSString *matchedPathspec, NSString *path, BOOL *stop))block;
 
 @end
 
