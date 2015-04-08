@@ -71,7 +71,7 @@ typedef struct GTTreeEnumerationStruct {
 - (GTTreeEntry *)entryWithPath:(NSString *)path error:(NSError **)error {
 	git_tree_entry *internalEntry = NULL;
 	int gitError = git_tree_entry_bypath(&internalEntry, self.git_tree, path.UTF8String);
-	if (error != GIT_OK) {
+	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to get tree entry %@", path];
 		return nil;
 	}
