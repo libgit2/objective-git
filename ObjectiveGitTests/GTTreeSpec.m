@@ -99,6 +99,30 @@ it(@"should return nil for non-existent entries", ^{
 	expect([tree entryWithName:@"_does not exist"]).to(beNil());
 });
 
+describe(@"fetching entries from paths", ^{
+	it(@"should be able to fetch existing paths",^{
+		NSError *error = nil;
+		GTTreeEntry *entry;
+		
+		entry = [tree entryWithPath:@"README" error:&error];
+		expect(error).to(beNil());
+		expect(entry).notTo(beNil());
+		
+		entry = [tree entryWithPath:@"subdir/README" error:&error];
+		expect(error).to(beNil());
+		expect(entry).notTo(beNil());
+	});
+	
+	it(@"should return nil and fill error for non-existent paths",^{
+		NSError *error = nil;
+		GTTreeEntry *entry;
+		
+		entry = [tree entryWithPath:@"does/not/exist" error:&error];
+		expect(error).notTo(beNil());
+		expect(entry).to(beNil());
+	});
+});
+
 afterEach(^{
 	[self tearDown];
 });
