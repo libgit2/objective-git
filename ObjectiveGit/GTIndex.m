@@ -77,6 +77,7 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 
 + (instancetype)inMemoryIndexWithRepository:(GTRepository *)repository error:(NSError **)error {
 	git_index *index = NULL;
+	
 	int status = git_index_new(&index);
 	if (status != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to initialize in-memory index"];
@@ -193,17 +194,6 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 	return YES;
 }
 
-- (BOOL)addContentsOfTree:(GTTree *)tree error:(NSError **)error {
-	NSParameterAssert(tree != nil);
-
-	int status = git_index_read_tree(self.git_index, tree.git_tree);
-	if (status != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to read tree %@ into index.", tree];
-		return NO;
-	}
-
-	return YES;
-}
 - (BOOL)addData:(NSData *)data withName:(NSString *)name error:(NSError **)error {
 	NSParameterAssert(data != nil);
 	NSParameterAssert(name != nil);
@@ -220,6 +210,18 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 		return NO;
 	}
 	
+	return YES;
+}
+
+- (BOOL)addContentsOfTree:(GTTree *)tree error:(NSError **)error {
+	NSParameterAssert(tree != nil);
+
+	int status = git_index_read_tree(self.git_index, tree.git_tree);
+	if (status != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to read tree %@ into index.", tree];
+		return NO;
+	}
+
 	return YES;
 }
 

@@ -115,6 +115,7 @@
 - (GTIndexEntry *)entryWithName:(NSString *)name error:(NSError **)error;
 
 ///TODO: Document
+/// Get the 
 - (NSData *)dataWithName:(NSString *)name error:(NSError **)error;
 
 /// Add an entry to the index.
@@ -138,6 +139,14 @@
 /// Returns YES if successful, NO otherwise.
 - (BOOL)addFile:(NSString *)file error:(NSError **)error;
 
+/// Add an entry (with the provided data and name) to the index.
+/// Will fail if the receiver's repository is nil.
+///
+/// data  - The content of the entry to add
+/// name  - The name of the entry to add
+/// error - The error if one occurred.
+- (BOOL)addData:(NSData *)data withName:(NSString *)name error:(NSError **)error;
+
 /// Reads the contents of the given tree into the index.
 ///
 /// tree  - The tree to add to the index. This must not be nil.
@@ -145,9 +154,6 @@
 ///
 /// Returns whether reading the tree was successful.
 - (BOOL)addContentsOfTree:(GTTree *)tree error:(NSError **)error;
-
-///TODO: Document
-- (BOOL)addData:(NSData *)data withName:(NSString *)name error:(NSError **)error;
 
 /// Remove an entry (by relative path) from the index.
 /// Will fail if the receiver's repository is nil.
