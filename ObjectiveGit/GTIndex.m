@@ -36,6 +36,7 @@
 #import "GTRepository+Private.h"
 #import "GTRepository.h"
 #import "GTTree.h"
+#import "GTBlob.h"
 #import "NSArray+StringArray.h"
 #import "NSError+Git.h"
 
@@ -158,6 +159,18 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 	return [self entryAtIndex:pos];
 }
 
+- (NSData *)dataWithName:(NSString *)name error:(NSError **)error {
+	GTIndexEntry *entry = [self entryWithName:name error:error];
+	if (*error) return nil;
+	
+	const git_oid *oid = &entry.git_index_entry->id;
+	GTBlob *blob = [self.repository lookUpObjectByGitOid:oid
+											  objectType:GTObjectTypeBlob
+												   error:error];
+	
+	return [blob data];
+}
+
 - (BOOL)addEntry:(GTIndexEntry *)entry error:(NSError **)error {
 	int status = git_index_add(self.git_index, entry.git_index_entry);
 	if (status != GIT_OK) {
@@ -189,6 +202,24 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 		return NO;
 	}
 
+	return YES;
+}
+- (BOOL)addData:(NSData *)data withName:(NSString *)name error:(NSError **)error {
+	NSParameterAssert(data != nil);
+	NSParameterAssert(name != nil);
+	
+	git_index_entry entry;
+	memset(&entry, 0x0, sizeof(git_index_entry));
+	entry.path = [name cStringUsingEncoding:NSUTF8StringEncoding];
+	entry.mode = GIT_FILEMODE_BLOB;
+	
+	int status = git_index_add_frombuffer(self.git_index, &entry, [data bytes], [data length]);
+	
+	if (status != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to add data with name %@ into index.", name];
+		return NO;
+	}
+	
 	return YES;
 }
 

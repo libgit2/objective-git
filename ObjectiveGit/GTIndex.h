@@ -114,6 +114,9 @@
 /// Returns a new GTIndexEntry, or nil if an error occurred.
 - (GTIndexEntry *)entryWithName:(NSString *)name error:(NSError **)error;
 
+///TODO: Document
+- (NSData *)dataWithName:(NSString *)name error:(NSError **)error;
+
 /// Add an entry to the index.
 ///
 /// Note that this *cannot* add submodules. See -[GTSubmodule addToIndex:].
@@ -142,6 +145,9 @@
 ///
 /// Returns whether reading the tree was successful.
 - (BOOL)addContentsOfTree:(GTTree *)tree error:(NSError **)error;
+
+///TODO: Document
+- (BOOL)addData:(NSData *)data withName:(NSString *)name error:(NSError **)error;
 
 /// Remove an entry (by relative path) from the index.
 /// Will fail if the receiver's repository is nil.

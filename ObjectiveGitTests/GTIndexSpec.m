@@ -276,6 +276,32 @@ describe(@"adding files", ^{
 	});
 });
 
+describe(@"adding data", ^{
+	__block GTRepository *repo;
+	__block GTIndex *index;
+	__block NSError *error;
+	
+	beforeEach(^{
+		error = nil;
+		repo = self.testUnicodeFixtureRepository;
+		// Not sure why but it doesn't work with an in memory index
+		// index = [GTIndex inMemoryIndexWithRepository:repo error:&error];
+		index = [repo indexWithError:&error];
+		expect(error).to(beNil());
+	});
+	
+	it(@"should store data at given path", ^{
+		NSData *data = [NSData dataWithBytes:"foo" length:4];
+		[index addData:data withName:@"bar/foo" error:&error];
+		expect(error).to(beNil());
+		
+		NSData *returnData = [index dataWithName:@"bar/foo" error:&error];
+		expect(error).to(beNil());
+//		expect([[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]).to(equal(@"foo"));
+		expect(returnData).to(equal(data));
+	});
+});
+
 afterEach(^{
 	[self tearDown];
 });
