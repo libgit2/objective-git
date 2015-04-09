@@ -114,10 +114,6 @@
 /// Returns a new GTIndexEntry, or nil if an error occurred.
 - (GTIndexEntry *)entryWithName:(NSString *)name error:(NSError **)error;
 
-///TODO: Document
-/// Get the 
-- (NSData *)dataWithName:(NSString *)name error:(NSError **)error;
-
 /// Add an entry to the index.
 ///
 /// Note that this *cannot* add submodules. See -[GTSubmodule addToIndex:].

@@ -160,18 +160,6 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 	return [self entryAtIndex:pos];
 }
 
-- (NSData *)dataWithName:(NSString *)name error:(NSError **)error {
-	GTIndexEntry *entry = [self entryWithName:name error:error];
-	if (*error) return nil;
-	
-	const git_oid *oid = &entry.git_index_entry->id;
-	GTBlob *blob = [self.repository lookUpObjectByGitOid:oid
-											  objectType:GTObjectTypeBlob
-												   error:error];
-	
-	return [blob data];
-}
-
 - (BOOL)addEntry:(GTIndexEntry *)entry error:(NSError **)error {
 	int status = git_index_add(self.git_index, entry.git_index_entry);
 	if (status != GIT_OK) {
