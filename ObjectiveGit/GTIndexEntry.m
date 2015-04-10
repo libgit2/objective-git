@@ -30,6 +30,11 @@
 #import "GTIndexEntry.h"
 #import "NSError+Git.h"
 #import "NSString+Git.h"
+#import "GTOID.h"
+#import "GTRepository.h"
+#import "GTIndex.h"
+
+#import "git2.h"
 
 @interface GTIndexEntry ()
 @property (nonatomic, assign, readonly) const git_index_entry *git_index_entry;
@@ -45,15 +50,20 @@
 
 #pragma mark Lifecycle
 
-- (id)initWithGitIndexEntry:(const git_index_entry *)entry {
+- (instancetype)initWithGitIndexEntry:(const git_index_entry *)entry index:(GTIndex *)index error:(NSError **)error {
 	NSParameterAssert(entry != NULL);
 
 	self = [super init];
 	if (self == nil) return nil;
 
 	_git_index_entry = entry;
+	_index = index;
 	
 	return self;
+}
+
+- (instancetype)initWithGitIndexEntry:(const git_index_entry *)entry {
+	return [self initWithGitIndexEntry:entry index:nil error:NULL];
 }
 
 #pragma mark Properties
@@ -86,4 +96,44 @@
 	return GTIndexEntryStatusUpToDate;
 }
 
+- (GTOID *)OID {
+	return [GTOID oidWithGitOid:&self.git_index_entry->id];
+}
+
+#pragma mark API
+
+- (GTRepository *)repository {
+	return self.index.repository;
+}
+
+- (GTObject *)GTObject:(NSError **)error {
+	return [GTObject objectWithIndexEntry:self error:error];
+}
+
 @end
+
+@implementation GTObject (GTIndexEntry)
+
++ (instancetype)objectWithIndexEntry:(GTIndexEntry *)indexEntry error:(NSError **)error {
+	return [[self alloc] initWithIndexEntry:indexEntry error:error];
+}
+
+- (instancetype)initWithIndexEntry:(GTIndexEntry *)indexEntry error:(NSError **)error {
+
+	git_object *obj;
+	int gitError = git_object_lookup(&obj, indexEntry.repository.git_repository, indexEntry.OID.git_oid, (git_otype)GTObjectTypeAny);
+
+	if (gitError < GIT_OK) {
+		if (error != NULL) {
+    		*error = [NSError git_errorFor:gitError description:@"Failed to get object for index entry."];
+		}
+
+		return nil;
+	}
+
+
+    return [self initWithObj:obj inRepository:indexEntry.repository];
+}
+
+@end
+

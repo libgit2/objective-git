@@ -295,10 +295,9 @@ describe(@"adding data", ^{
 		[index addData:data withName:@"bar/foo" error:&error];
 		expect(error).to(beNil());
 		
-		NSData *returnData = [index dataWithName:@"bar/foo" error:&error];
+		GTIndexEntry *entry = [index entryWithName:@"bar/foo" error:&error];
+		expect(entry).notTo(beNil());
 		expect(error).to(beNil());
-//		expect([[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]).to(equal(@"foo"));
-		expect(returnData).to(equal(data));
 	});
 });
 
