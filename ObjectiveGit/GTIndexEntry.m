@@ -45,7 +45,7 @@
 #pragma mark NSObject
 
 - (NSString *)description {
-  return [NSString stringWithFormat:@"<%@: %p> path: %@", self.class, self, self.path];
+	return [NSString stringWithFormat:@"<%@: %p> path: %@", self.class, self, self.path];
 }
 
 #pragma mark Lifecycle
@@ -58,7 +58,7 @@
 
 	_git_index_entry = entry;
 	_index = index;
-	
+
 	return self;
 }
 
@@ -92,7 +92,7 @@
 	} else if ((self.flags & GIT_IDXENTRY_REMOVE) != 0) {
 		return GTIndexEntryStatusRemoved;
 	}
-	
+
 	return GTIndexEntryStatusUpToDate;
 }
 
@@ -119,21 +119,18 @@
 }
 
 - (instancetype)initWithIndexEntry:(GTIndexEntry *)indexEntry error:(NSError **)error {
-
 	git_object *obj;
 	int gitError = git_object_lookup(&obj, indexEntry.repository.git_repository, indexEntry.OID.git_oid, (git_otype)GTObjectTypeAny);
 
 	if (gitError < GIT_OK) {
 		if (error != NULL) {
-    		*error = [NSError git_errorFor:gitError description:@"Failed to get object for index entry."];
+			*error = [NSError git_errorFor:gitError description:@"Failed to get object for index entry."];
 		}
 
 		return nil;
 	}
 
-
-    return [self initWithObj:obj inRepository:indexEntry.repository];
+	return [self initWithObj:obj inRepository:indexEntry.repository];
 }
 
 @end
-

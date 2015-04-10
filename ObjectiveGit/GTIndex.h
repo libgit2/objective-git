@@ -138,8 +138,8 @@
 /// Add an entry (with the provided data and name) to the index.
 /// Will fail if the receiver's repository is nil.
 ///
-/// data  - The content of the entry to add
-/// name  - The name of the entry to add
+/// data  - The content of the entry to add. Cannot be nil.
+/// name  - The name of the entry to add. Cannot be nil.
 /// error - The error if one occurred.
 - (BOOL)addData:(NSData *)data withName:(NSString *)name error:(NSError **)error;
 
