@@ -94,6 +94,10 @@
 		4D79C0EE17DF9F4D00997DE4 /* GTCredential.h in Headers */ = {isa = PBXBuildFile; fileRef = 4D79C0EC17DF9F4D00997DE4 /* GTCredential.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4D79C0EF17DF9F4D00997DE4 /* GTCredential.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D79C0ED17DF9F4D00997DE4 /* GTCredential.m */; };
 		4DBA4A3217DA73CE006CD5F5 /* GTRemoteSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DBA4A3117DA73CE006CD5F5 /* GTRemoteSpec.m */; };
+		4DC55AE51AD859AD0032563C /* GTCheckoutOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC55AE31AD859AD0032563C /* GTCheckoutOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4DC55AE61AD859AD0032563C /* GTCheckoutOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC55AE31AD859AD0032563C /* GTCheckoutOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4DC55AE71AD859AD0032563C /* GTCheckoutOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC55AE41AD859AD0032563C /* GTCheckoutOptions.m */; };
+		4DC55AE81AD859AD0032563C /* GTCheckoutOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC55AE41AD859AD0032563C /* GTCheckoutOptions.m */; };
 		4DFFB15B183AA8D600D1565E /* GTRepository+RemoteOperations.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DFFB159183AA8D600D1565E /* GTRepository+RemoteOperations.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4DFFB15C183AA8D600D1565E /* GTRepository+RemoteOperations.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DFFB15A183AA8D600D1565E /* GTRepository+RemoteOperations.m */; };
 		55C8055013861FE7004DCB0F /* GTObjectDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C8054D13861F34004DCB0F /* GTObjectDatabase.m */; };
@@ -487,6 +491,8 @@
 		4D79C0ED17DF9F4D00997DE4 /* GTCredential.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTCredential.m; sourceTree = "<group>"; };
 		4D79C0F617DFAA7100997DE4 /* GTCredential+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTCredential+Private.h"; sourceTree = "<group>"; };
 		4DBA4A3117DA73CE006CD5F5 /* GTRemoteSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTRemoteSpec.m; sourceTree = "<group>"; };
+		4DC55AE31AD859AD0032563C /* GTCheckoutOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTCheckoutOptions.h; sourceTree = "<group>"; };
+		4DC55AE41AD859AD0032563C /* GTCheckoutOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTCheckoutOptions.m; sourceTree = "<group>"; };
 		4DE864341794A37E00371A65 /* GTRepository+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTRepository+Private.h"; sourceTree = "<group>"; };
 		4DFFB159183AA8D600D1565E /* GTRepository+RemoteOperations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTRepository+RemoteOperations.h"; sourceTree = "<group>"; };
 		4DFFB15A183AA8D600D1565E /* GTRepository+RemoteOperations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GTRepository+RemoteOperations.m"; sourceTree = "<group>"; };
@@ -959,6 +965,8 @@
 				88E352FF1982E9160051001F /* GTRepository+Attributes.m */,
 				6EEB519F199D62B9001D72C0 /* GTFetchHeadEntry.h */,
 				6EEB51A0199D62B9001D72C0 /* GTFetchHeadEntry.m */,
+				4DC55AE31AD859AD0032563C /* GTCheckoutOptions.h */,
+				4DC55AE41AD859AD0032563C /* GTCheckoutOptions.m */,
 			);
 			path = ObjectiveGit;
 			sourceTree = "<group>";
@@ -1077,6 +1085,7 @@
 				BDFAF9C3131C1845000508BC /* GTIndex.h in Headers */,
 				BDFAF9C9131C1868000508BC /* GTIndexEntry.h in Headers */,
 				6EEB51A1199D62B9001D72C0 /* GTFetchHeadEntry.h in Headers */,
+				4DC55AE51AD859AD0032563C /* GTCheckoutOptions.h in Headers */,
 				BD441E08131ED0C300187010 /* GTReference.h in Headers */,
 				88F6D9D91320451F00CC0BA8 /* ObjectiveGit.h in Headers */,
 				88B2131C1B20E785005CF2C5 /* GTRepository+References.h in Headers */,
@@ -1160,6 +1169,7 @@
 				D01B6F5919F82FA600D411BC /* GTOID.h in Headers */,
 				D01B6F6D19F82FB300D411BC /* GTDiffFile.h in Headers */,
 				D01B6F2F19F82F8700D411BC /* GTObject.h in Headers */,
+				4DC55AE61AD859AD0032563C /* GTCheckoutOptions.h in Headers */,
 				D01B6F4B19F82F8700D411BC /* GTConfiguration.h in Headers */,
 				D01B6F6719F82FA600D411BC /* GTFetchHeadEntry.h in Headers */,
 				D01B6F5F19F82FA600D411BC /* GTFilter.h in Headers */,
@@ -1461,6 +1471,7 @@
 				23F39FAE1C86DB1C00849F3C /* GTRepository+Merging.m in Sources */,
 				30DCBA6517B45A78009B0EBD /* GTRepository+Status.m in Sources */,
 				BD6C235413146E6A00992935 /* GTObject.m in Sources */,
+				4DC55AE71AD859AD0032563C /* GTCheckoutOptions.m in Sources */,
 				BD6C254613148DD300992935 /* GTSignature.m in Sources */,
 				BD6B0412131496B8001909D0 /* GTTree.m in Sources */,
 				BD6B0418131496CC001909D0 /* GTTreeEntry.m in Sources */,
@@ -1522,6 +1533,7 @@
 				23F39FB01C86E01800849F3C /* GTRepository+Merging.m in Sources */,
 				D019778A19F8307600F523DA /* ObjectiveGit.m in Sources */,
 				D01B6F3219F82F8700D411BC /* GTCommit.m in Sources */,
+				4DC55AE81AD859AD0032563C /* GTCheckoutOptions.m in Sources */,
 				D01B6F3819F82F8700D411BC /* GTTree.m in Sources */,
 				D01B6F6C19F82FB300D411BC /* GTDiff.m in Sources */,
 				884C8A3A19FF4B890017E98D /* EXTScope.m in Sources */,

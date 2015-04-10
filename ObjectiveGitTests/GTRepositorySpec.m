@@ -416,7 +416,7 @@ describe(@"-checkout:strategy:error:progressBlock:", ^{
 		GTReference *ref = [repository lookUpReferenceWithName:@"refs/heads/other-branch" error:&error];
 		expect(ref).notTo(beNil());
 		expect(error.localizedDescription).to(beNil());
-		BOOL result = [repository checkoutReference:ref strategy:GTCheckoutStrategyAllowConflicts error:&error progressBlock:nil];
+		BOOL result = [repository checkoutReference:ref options:[GTCheckoutOptions checkoutOptionsWithStrategy:GTCheckoutStrategyAllowConflicts] error:&error];
 		expect(@(result)).to(beTruthy());
 		expect(error.localizedDescription).to(beNil());
 	});
@@ -426,7 +426,7 @@ describe(@"-checkout:strategy:error:progressBlock:", ^{
 		GTCommit *commit = [repository lookUpObjectBySHA:@"1d69f3c0aeaf0d62e25591987b93b8ffc53abd77" objectType:GTObjectTypeCommit error:&error];
 		expect(commit).notTo(beNil());
 		expect(error.localizedDescription).to(beNil());
-		BOOL result = [repository checkoutCommit:commit strategy:GTCheckoutStrategyAllowConflicts error:&error progressBlock:nil];
+		BOOL result = [repository checkoutCommit:commit options:[GTCheckoutOptions checkoutOptionsWithStrategy:GTCheckoutStrategyAllowConflicts] error:&error];
 		expect(@(result)).to(beTruthy());
 		expect(error.localizedDescription).to(beNil());
 	});
@@ -451,7 +451,8 @@ describe(@"-checkout:strategy:notifyFlags:error:notifyBlock:progressBlock:", ^{
 			return 0;
 		};
 
-		BOOL result = [repository checkoutReference:ref strategy:GTCheckoutStrategySafe notifyFlags:GTCheckoutNotifyConflict error:&error progressBlock:nil notifyBlock:notifyBlock];
+		GTCheckoutOptions *options = [GTCheckoutOptions checkoutOptionsWithStrategy:GTCheckoutStrategySafe notifyFlags:GTCheckoutNotifyConflict notifyBlock:notifyBlock];
+		BOOL result = [repository checkoutReference:ref options:options error:&error];
 		expect(@(notifyCount)).to(equal(@(1)));
 		expect(@(readmeFileConflicted)).to(beTruthy());
 		expect(@(result)).to(beFalsy());
@@ -476,7 +477,9 @@ describe(@"-checkout:strategy:notifyFlags:error:notifyBlock:progressBlock:", ^{
 			return 0;
 		};
 
-		BOOL result = [repository checkoutCommit:commit strategy:GTCheckoutStrategySafe notifyFlags:GTCheckoutNotifyConflict error:&error progressBlock:nil notifyBlock:notifyBlock];
+
+		GTCheckoutOptions *options = [GTCheckoutOptions checkoutOptionsWithStrategy:GTCheckoutStrategySafe notifyFlags:GTCheckoutNotifyConflict notifyBlock:notifyBlock];
+		BOOL result = [repository checkoutCommit:commit options:options error:&error];
 		expect(@(notifyCount)).to(equal(@(1)));
 		expect(@(readme1FileConflicted)).to(beTruthy());
 		expect(@(result)).to(beFalsy());
