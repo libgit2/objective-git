@@ -229,8 +229,8 @@ describe(@"-updateTrackingBranch:error:", ^{
 		expect(@(success)).to(beTruthy());
 	});
 		
-  it(@"should set a remote tracking branch without branches amount change", ^{
-	  GTRepository *repository = self.testAppForkFixtureRepository;
+	it(@"should set a remote tracking branch without branches amount change", ^{
+		GTRepository *repository = self.testAppForkFixtureRepository;
 		expect(repository).notTo(beNil());
 			
 		NSError *error = nil;

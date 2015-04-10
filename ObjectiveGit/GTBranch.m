@@ -193,9 +193,9 @@
 }
 
 - (BOOL)updateTrackingBranch:(GTBranch *)trackingBranch error:(NSError **)error {
-  int result = GIT_ENOTFOUND;
-  if (trackingBranch.branchType == GTBranchTypeRemote) {
-    result = git_branch_set_upstream(self.reference.git_reference, [trackingBranch.name stringByReplacingOccurrencesOfString:[GTBranch remoteNamePrefix] withString:@""].UTF8String);
+	int result = GIT_ENOTFOUND;
+	if (trackingBranch.branchType == GTBranchTypeRemote) {
+		result = git_branch_set_upstream(self.reference.git_reference, [trackingBranch.name stringByReplacingOccurrencesOfString:[GTBranch remoteNamePrefix] withString:@""].UTF8String);
 	} else {
 		result = git_branch_set_upstream(self.reference.git_reference, trackingBranch.shortName.UTF8String);
 	}

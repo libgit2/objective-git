@@ -83,9 +83,8 @@ extern NSString *const GTRepositoryRemoteOptionsCredentialProvider;
 ///                 Recognized options are:
 ///                 `GTRepositoryRemoteOptionsCredentialProvider`
 /// error         - The error if one occurred. Can be NULL.
-/// progressBlock - An optional callback for monitoring progress.
 ///
 /// Returns YES if the push was successful, NO otherwise (and `error`, if provided,
 /// will point to an error describing what happened).
-- (BOOL)deleteBranch:(GTBranch *)branch fromRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error progress:(void (^)(unsigned int current, unsigned int total, size_t bytes, BOOL *stop))progressBlock;
+- (BOOL)deleteBranch:(GTBranch *)branch fromRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error;
 @end

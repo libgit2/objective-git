@@ -197,13 +197,13 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 }
 
 #pragma mark - Deletion (Public)
-- (BOOL)deleteBranch:(GTBranch *)branch fromRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error progress:(GTRemotePushTransferProgressBlock)progressBlock {
-		NSParameterAssert(branch != nil);
-		NSParameterAssert(remote != nil);
+- (BOOL)deleteBranch:(GTBranch *)branch fromRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error {
+	NSParameterAssert(branch != nil);
+	NSParameterAssert(remote != nil);
 		
-		NSArray *refspecs = @[[NSString stringWithFormat:@":refs/heads/%@", branch.shortName]];
+	NSArray *refspecs = @[ [NSString stringWithFormat:@":refs/heads/%@", branch.shortName] ];
 		
-		return [self pushRefspecs:refspecs toRemote:remote withOptions:options error:error progress:progressBlock];
+	return [self pushRefspecs:refspecs toRemote:remote withOptions:options error:error progress:nil];
 }
 
 #pragma mark - Push (Private)
