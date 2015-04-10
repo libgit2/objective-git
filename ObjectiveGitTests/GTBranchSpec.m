@@ -228,6 +228,37 @@ describe(@"-updateTrackingBranch:error:", ^{
 		expect(trackingBranch).to(beNil());
 		expect(@(success)).to(beTruthy());
 	});
+		
+	it(@"should set a remote tracking branch without branches amount change", ^{
+		GTRepository *repository = self.testAppForkFixtureRepository;
+		expect(repository).notTo(beNil());
+			
+		NSError *error = nil;
+		BOOL success = NO;
+		GTBranch *remoteBranch = [repository lookUpBranchWithName:@"github/BranchC" type:GTBranchTypeRemote success:&success error:&error];
+		expect(remoteBranch).notTo(beNil());
+		expect(error).to(beNil());
+			
+		NSArray *beforeBranches = [repository branches:&error];
+		expect(error).to(beNil());
+
+		GTBranch *localBranch = [repository createBranchNamed:remoteBranch.shortName fromOID:remoteBranch.OID message:nil error:&error];
+		expect(localBranch).notTo(beNil());
+		expect(error).to(beNil());
+			
+		NSArray *inBranches = [repository branches:&error];
+		expect(error).to(beNil());
+
+		[localBranch updateTrackingBranch:remoteBranch error:&error];
+		expect(error).to(beNil());
+			
+		NSArray *afterBranches = [repository branches:&error];
+		expect(error).to(beNil());
+		
+		expect(@(beforeBranches.count + 1)).to(equal(@(inBranches.count)));
+		expect(@(beforeBranches.count)).to(equal(@(afterBranches.count)));
+		
+	});
 });
 
 // TODO: Test branch renaming, branch upstream
