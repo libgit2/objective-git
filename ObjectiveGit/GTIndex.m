@@ -143,7 +143,7 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 	const git_index_entry *entry = git_index_get_byindex(self.git_index, (unsigned int)index);
 	if (entry == NULL) return nil;
 
-	return [[GTIndexEntry alloc] initWithGitIndexEntry:entry];
+	return [[GTIndexEntry alloc] initWithGitIndexEntry:entry index:self error:NULL];
 }
 
 - (GTIndexEntry *)entryWithName:(NSString *)name {
