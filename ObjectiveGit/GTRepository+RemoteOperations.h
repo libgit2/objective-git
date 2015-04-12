@@ -91,7 +91,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// Returns YES if the push was successful, NO otherwise (and `error`, if provided,
 /// will point to an error describing what happened).
-- (BOOL)deleteBranch:(GTBranch *)branch fromRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error;
+- (BOOL)deleteBranch:(GTBranch *)branch fromRemote:(GTRemote *)remote withOptions:(nullable NSDictionary *)options error:(NSError **)error;
 @end
 
 NS_ASSUME_NONNULL_END
