@@ -111,10 +111,14 @@
 }
 
 - (NSDate *)time {
+	if (self.git_signature == NULL) return nil;
+
 	return [NSDate gt_dateFromGitTime:self.git_signature->when];
 }
 
 - (NSTimeZone *)timeZone {
+	if (self.git_signature == NULL) return nil;
+
 	return [NSTimeZone gt_timeZoneFromGitTime:self.git_signature->when];
 }
 
