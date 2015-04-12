@@ -80,6 +80,18 @@ NS_ASSUME_NONNULL_BEGIN
 /// will point to an error describing what happened).
 - (BOOL)pushBranches:(NSArray *)branches toRemote:(GTRemote *)remote withOptions:(nullable NSDictionary *)options error:(NSError **)error progress:(nullable void (^)(unsigned int current, unsigned int total, size_t bytes, BOOL *stop))progressBlock;
 
+/// Delete a remote branch
+///
+/// branch        - The branch to push. Must not be nil.
+/// remote        - The remote to push to. Must not be nil.
+/// options       - Options applied to the push operation. Can be NULL.
+///                 Recognized options are:
+///                 `GTRepositoryRemoteOptionsCredentialProvider`
+/// error         - The error if one occurred. Can be NULL.
+///
+/// Returns YES if the push was successful, NO otherwise (and `error`, if provided,
+/// will point to an error describing what happened).
+- (BOOL)deleteBranch:(GTBranch *)branch fromRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error;
 @end
 
 NS_ASSUME_NONNULL_END
