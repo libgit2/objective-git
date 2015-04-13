@@ -75,7 +75,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error(out) - will be filled if an error occurs
 ///
 /// returns a GTCommit object or nil if an error occurred
-- (nullable GTCommit *)targetCommitAndReturnError:(NSError **)error;
+- (nullable GTCommit *)targetCommitWithError:(NSError **)error;
 
 /// Count all commits in this branch
 ///
@@ -129,6 +129,9 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// Returns whether the calculation was successful.
 - (BOOL)calculateAhead:(size_t *)ahead behind:(size_t *)behind relativeTo:(GTBranch *)branch error:(NSError **)error;
+
+#pragma mark Deprecations
+- (nullable GTCommit *)targetCommitAndReturnError:(NSError **)error __deprecated_msg("use targetCommitWithError: instead.");
 
 @end
 

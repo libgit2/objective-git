@@ -53,8 +53,8 @@ it(@"should write to the repository and return a tree", ^{
 it(@"should write to a specific repository and return a tree", ^{
 	GTRepository *repository = self.bareFixtureRepository;
 	NSArray *branches = [repository branches:NULL];
-	GTCommit *masterCommit = [branches[0] targetCommitAndReturnError:NULL];
-	GTCommit *packedCommit = [branches[1] targetCommitAndReturnError:NULL];
+	GTCommit *masterCommit = [branches[0] targetCommitWithError:NULL];
+	GTCommit *packedCommit = [branches[1] targetCommitWithError:NULL];
 
 	expect(masterCommit).notTo(beNil());
 	expect(packedCommit).notTo(beNil());
