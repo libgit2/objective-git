@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error - will be filled if an error occurs
 ///
 /// Returns the initialized object.
-- (instancetype)initWithGitIndexEntry:(const git_index_entry *)entry index:(GTIndex *)index error:(NSError **)error NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithGitIndexEntry:(const git_index_entry *)entry index:(nullable GTIndex *)index error:(NSError **)error NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithGitIndexEntry:(const git_index_entry *)entry;
 
 /// The underlying `git_index_entry` object.
@@ -79,12 +79,6 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// Returns this entry as a GTObject or nil if an error occurred.
 - (GTObject *)GTObject:(NSError **)error;
-
-/// Initializes the receiver with the given libgit2 index entry. Designated initializer.
-///
-/// Returns the initialized object.
-- (nullable instancetype)initWithGitIndexEntry:(const git_index_entry *)entry NS_DESIGNATED_INITIALIZER;
-
 
 @end
 
