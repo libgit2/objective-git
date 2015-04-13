@@ -69,15 +69,15 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 	return git_reference_is_remote(self.git_reference) != 0;
 }
 
-+ (id)referenceByLookingUpReferencedNamed:(NSString *)refName inRepository:(GTRepository *)theRepo error:(NSError **)error {
++ (instancetype)referenceByLookingUpReferencedNamed:(NSString *)refName inRepository:(GTRepository *)theRepo error:(NSError **)error {
 	return [[self alloc] initByLookingUpReferenceNamed:refName inRepository:theRepo error:error];
 }
 
-+ (id)referenceByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error {
++ (instancetype)referenceByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error {
 	return [[self alloc] initByResolvingSymbolicReference:symbolicRef error:error];
 }
 
-- (id)initByLookingUpReferenceNamed:(NSString *)refName inRepository:(GTRepository *)repo error:(NSError **)error {
+- (instancetype)initByLookingUpReferenceNamed:(NSString *)refName inRepository:(GTRepository *)repo error:(NSError **)error {
 	NSParameterAssert(refName != nil);
 	NSParameterAssert(repo != nil);
 
@@ -91,7 +91,7 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 	return [self initWithGitReference:ref repository:repo];
 }
 
-- (id)initByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error {
+- (instancetype)initByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error {
 	NSParameterAssert(symbolicRef != nil);
 
 	git_reference *ref = NULL;
@@ -104,7 +104,7 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 	return [self initWithGitReference:ref repository:symbolicRef.repository];
 }
 
-- (id)initWithGitReference:(git_reference *)ref repository:(GTRepository *)repo {
+- (instancetype)initWithGitReference:(git_reference *)ref repository:(GTRepository *)repo {
 	NSParameterAssert(ref != NULL);
 	NSParameterAssert(repo != nil);
 

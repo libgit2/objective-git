@@ -49,6 +49,8 @@ typedef NS_OPTIONS(unsigned int, GTEnumeratorOptions) {
 @class GTRepository;
 @class GTCommit;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /// Enumerates the commits in a repository.
 @interface GTEnumerator : NSEnumerator
 
@@ -60,13 +62,13 @@ typedef NS_OPTIONS(unsigned int, GTEnumeratorOptions) {
 /// To set new options, use -resetWithOptions:.
 @property (nonatomic, assign, readonly) GTEnumeratorOptions options;
 
-/// Initializes the receiver to enumerate the commits in the given repository.
+/// Initializes the receiver to enumerate the commits in the given repository. Designated initializer.
 ///
 /// repo  - The repository to enumerate the commits of. This must not be nil.
 /// error - If not NULL, set to any error that occurs.
 ///
 /// Returns an initialized enumerator, or nil if an error occurs.
-- (id)initWithRepository:(GTRepository *)repo error:(NSError **)error NS_DESIGNATED_INITIALIZER;
+- (nullable id)initWithRepository:(GTRepository *)repo error:(NSError **)error NS_DESIGNATED_INITIALIZER;
 
 /// Marks a commit to start traversal from.
 ///
@@ -111,7 +113,7 @@ typedef NS_OPTIONS(unsigned int, GTEnumeratorOptions) {
 /// error - If not NULL, set to any error that occurs during traversal.
 ///
 /// Returns a (possibly empty) array of GTCommits, or nil if an error occurs.
-- (NSArray *)allObjectsWithError:(NSError **)error;
+- (nullable NSArray *)allObjectsWithError:(NSError **)error;
 
 /// Gets the next commit.
 ///
@@ -121,7 +123,7 @@ typedef NS_OPTIONS(unsigned int, GTEnumeratorOptions) {
 /// error   - If not NULL, set to any error that occurs during traversal.
 ///
 /// Returns nil if an error occurs or the receiver is exhausted.
-- (GTCommit *)nextObjectWithSuccess:(BOOL *)success error:(NSError **)error;
+- (nullable GTCommit *)nextObjectWithSuccess:(nullable BOOL *)success error:(NSError **)error;
 
 /// Counts the number of commits that were not enumerated, completely exhausting
 /// the receiver.
@@ -132,3 +134,5 @@ typedef NS_OPTIONS(unsigned int, GTEnumeratorOptions) {
 - (NSUInteger)countRemainingObjects:(NSError **)error;
 
 @end
+
+NS_ASSUME_NONNULL_END

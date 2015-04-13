@@ -24,6 +24,10 @@ ObjectiveGit relies upon, using Homebrew. If you want this behavior, please
 make sure you have Homebrew installed.
 
 To develop ObjectiveGit on its own, open the `ObjectiveGitFramework.xcworkspace` file.
+Note that Xcode 6.3 is required to build the framework and run unit tests.
+Projects that must use an older version of Xcode can use 
+[Carthage](https://github.com/Carthage/Carthage) to install pre-built binaries
+or download them from the [releases](https://github.com/libgit2/objective-git/releases).
 
 ## Importing ObjectiveGit on OS X
 

@@ -17,6 +17,8 @@ typedef NS_ENUM(NSInteger, GTRepositoryResetType) {
 	GTRepositoryResetTypeHard = GIT_RESET_HARD,
 };
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface GTRepository (Reset)
 
 /// Reset the repository's HEAD to the given commit.
@@ -38,3 +40,5 @@ typedef NS_ENUM(NSInteger, GTRepositoryResetType) {
 - (BOOL)resetPathspecs:(NSArray *)pathspecs toCommit:(GTCommit *)commit error:(NSError **)error;
 
 @end
+
+NS_ASSUME_NONNULL_END

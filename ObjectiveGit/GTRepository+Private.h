@@ -8,7 +8,13 @@
 
 #import "GTRepository.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface GTRepository ()
-- (id)lookUpObjectByGitOid:(const git_oid *)oid objectType:(GTObjectType)type error:(NSError **)error;
-- (id)lookUpObjectByGitOid:(const git_oid *)oid error:(NSError **)error;
+
+- (nullable id)lookUpObjectByGitOid:(const git_oid *)oid objectType:(GTObjectType)type error:(NSError **)error;
+- (nullable id)lookUpObjectByGitOid:(const git_oid *)oid error:(NSError **)error;
+
 @end
+
+NS_ASSUME_NONNULL_END

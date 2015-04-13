@@ -41,6 +41,8 @@ typedef NS_ENUM(NSInteger, GTIndexEntryStatus) {
 	GTIndexEntryStatusUpToDate,
 };
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface GTIndexEntry : NSObject
 
 /// Initializes the receiver with the given libgit2 index entry.
@@ -78,6 +80,12 @@ typedef NS_ENUM(NSInteger, GTIndexEntryStatus) {
 /// Returns this entry as a GTObject or nil if an error occurred.
 - (GTObject *)GTObject:(NSError **)error;
 
+/// Initializes the receiver with the given libgit2 index entry. Designated initializer.
+///
+/// Returns the initialized object.
+- (nullable instancetype)initWithGitIndexEntry:(const git_index_entry *)entry NS_DESIGNATED_INITIALIZER;
+
+
 @end
 
 @interface GTObject (GTIndexEntry)
@@ -86,3 +94,5 @@ typedef NS_ENUM(NSInteger, GTIndexEntryStatus) {
 - (instancetype)initWithIndexEntry:(GTIndexEntry *)treeEntry error:(NSError **)error;
 
 @end
+
+NS_ASSUME_NONNULL_END

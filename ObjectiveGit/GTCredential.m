@@ -19,6 +19,7 @@ typedef GTCredential *(^GTCredentialProviderBlock)(GTCredentialType allowedTypes
 @end
 
 @implementation GTCredentialProvider
+
 + (instancetype)providerWithBlock:(GTCredentialProviderBlock)credentialBlock {
 	NSParameterAssert(credentialBlock != nil);
 

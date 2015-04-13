@@ -39,13 +39,15 @@ typedef NS_ENUM(NSInteger, GTTreeEnumerationOptions) {
 	GTTreeEnumerationOptionPost = GIT_TREEWALK_POST, // Walk the tree in post-order (subdirectories come last)
 };
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface GTTree : GTObject
 
 /// The number of entries in the tree.
 @property (nonatomic, readonly) NSUInteger entryCount;
 
 /// The contents of the tree, as an array of whose objects are of type `GTTreeEntry`
-@property (nonatomic, strong, readonly) NSArray *entries;
+@property (nonatomic, strong, readonly, nullable) NSArray *entries;
 
 /// The underlying `git_object` as a `git_tree` object.
 - (git_tree *)git_tree __attribute__((objc_returns_inner_pointer));
@@ -55,21 +57,21 @@ typedef NS_ENUM(NSInteger, GTTreeEnumerationOptions) {
 /// index - index to retreive entry from
 ///
 /// returns a GTTreeEntry or nil if there is nothing at the index
-- (GTTreeEntry *)entryAtIndex:(NSUInteger)index;
+- (nullable GTTreeEntry *)entryAtIndex:(NSUInteger)index;
 
 /// Get an entry by name
 ///
 /// name - the name of the entry
 ///
 /// returns a GTTreeEntry or nil if there is nothing with the specified name
-- (GTTreeEntry *)entryWithName:(NSString *)name;
+- (nullable GTTreeEntry *)entryWithName:(NSString *)name;
 
 /// Get an entry by path
 ///
 /// path - the path of the entry relative to the repository root
 ///
 /// returns a GTTreeEntry or nil if there is nothing with the specified path
-- (GTTreeEntry *)entryWithPath:(NSString *)path error:(NSError **)error;
+- (nullable GTTreeEntry *)entryWithPath:(NSString *)path error:(NSError **)error;
 
 /// Enumerates the contents of the tree
 ///
@@ -96,6 +98,8 @@ typedef NS_ENUM(NSInteger, GTTreeEnumerationOptions) {
 ///
 /// Returns an index which represents the result of the merge, or nil if an error
 /// occurred.
-- (GTIndex *)merge:(GTTree *)otherTree ancestor:(GTTree *)ancestorTree error:(NSError **)error;
+- (nullable GTIndex *)merge:(GTTree *)otherTree ancestor:(nullable GTTree *)ancestorTree error:(NSError **)error;
 
 @end
+
+NS_ASSUME_NONNULL_END
