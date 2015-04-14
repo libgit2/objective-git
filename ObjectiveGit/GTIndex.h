@@ -137,6 +137,14 @@ NS_ASSUME_NONNULL_BEGIN
 /// Returns YES if successful, NO otherwise.
 - (BOOL)addFile:(NSString *)file error:(NSError **)error;
 
+/// Add an entry (with the provided data and name) to the index.
+/// Will fail if the receiver's repository is nil.
+///
+/// data  - The content of the entry to add. Cannot be nil.
+/// name  - The name of the entry to add. Cannot be nil.
+/// error - The error if one occurred.
+- (BOOL)addData:(NSData *)data withName:(NSString *)name error:(NSError **)error;
+
 /// Reads the contents of the given tree into the index.
 ///
 /// tree  - The tree to add to the index. This must not be nil.

@@ -36,6 +36,7 @@
 #import "GTRepository+Private.h"
 #import "GTRepository.h"
 #import "GTTree.h"
+#import "GTBlob.h"
 #import "NSArray+StringArray.h"
 #import "NSError+Git.h"
 
@@ -76,6 +77,7 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 
 + (instancetype)inMemoryIndexWithRepository:(GTRepository *)repository error:(NSError **)error {
 	git_index *index = NULL;
+	
 	int status = git_index_new(&index);
 	if (status != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to initialize in-memory index"];
@@ -141,7 +143,7 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 	const git_index_entry *entry = git_index_get_byindex(self.git_index, (unsigned int)index);
 	if (entry == NULL) return nil;
 
-	return [[GTIndexEntry alloc] initWithGitIndexEntry:entry];
+	return [[GTIndexEntry alloc] initWithGitIndexEntry:entry index:self error:NULL];
 }
 
 - (GTIndexEntry *)entryWithName:(NSString *)name {
@@ -177,6 +179,25 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 		return NO;
 	}
 
+	return YES;
+}
+
+- (BOOL)addData:(NSData *)data withName:(NSString *)name error:(NSError **)error {
+	NSParameterAssert(data != nil);
+	NSParameterAssert(name != nil);
+	
+	git_index_entry entry;
+	memset(&entry, 0x0, sizeof(git_index_entry));
+	entry.path = [name cStringUsingEncoding:NSUTF8StringEncoding];
+	entry.mode = GIT_FILEMODE_BLOB;
+	
+	int status = git_index_add_frombuffer(self.git_index, &entry, [data bytes], [data length]);
+	
+	if (status != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to add data with name %@ into index.", name];
+		return NO;
+	}
+	
 	return YES;
 }
 
