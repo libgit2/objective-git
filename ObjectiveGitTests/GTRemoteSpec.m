@@ -184,7 +184,7 @@ describe(@"network operations", ^{
 			expect(error).to(beNil());
 			expect(@(success)).to(beTruthy());
 			expect(@(transferProgressed)).to(beTruthy());
-			expect(@(receivedObjects)).to(equal(@10));
+			expect(@(receivedObjects)).to(beGreaterThan(@0));
 
 			GTCommit *fetchedCommit = [fetchingRepo lookUpObjectByOID:testCommit.OID objectType:GTObjectTypeCommit error:&error];
 			expect(error).to(beNil());
