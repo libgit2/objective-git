@@ -6,7 +6,7 @@
 	url = https://github.com/openssl/openssl.git
 [submodule "libssh2"]
 	path = External/libssh2
-	url = git://git.libssh2.org/libssh2.git
+	url = https://github.com/libssh2/libssh2.git
 [submodule "Carthage.checkout/Nimble"]
 	path = Carthage/Checkouts/Nimble
 	url = https://github.com/Quick/Nimble.git
