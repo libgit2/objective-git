@@ -457,7 +457,9 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 	GTTag *tag = (GTTag *)[info->myself lookUpObjectByGitOid:oid objectType:GTObjectTypeTag error:NULL];
 
 	BOOL stop = NO;
-	info->block(tag, &stop);
+	if (tag != nil) {
+		info->block(tag, &stop);
+	}
 
 	return stop ? GIT_EUSER : 0;
 }
