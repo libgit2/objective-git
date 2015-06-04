@@ -59,9 +59,6 @@ typedef NS_OPTIONS(NSInteger, GTReferenceType) {
 @property (nonatomic, readonly, strong) GTReflog *reflog;
 
 /// Convenience initializers
-+ (id)referenceByLookingUpReferencedNamed:(NSString *)refName inRepository:(GTRepository *)theRepo error:(NSError **)error;
-- (id)initByLookingUpReferenceNamed:(NSString *)refName inRepository:(GTRepository *)theRepo error:(NSError **)error;
-
 + (id)referenceByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error;
 - (id)initByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error;
 
