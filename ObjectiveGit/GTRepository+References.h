@@ -12,6 +12,12 @@
 
 @interface GTRepository (References)
 
+/// Look up a reference by name.
+///
+/// name  - The name of the reference to look up. Cannot be nil.
+/// error - The error if one occurs. May be NULL.
+///
+/// Returns the reference or nil if look up failed.
 - (GTReference *)lookUpReferenceWithName:(NSString *)name error:(NSError **)error;
 
 @end
