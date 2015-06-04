@@ -174,7 +174,7 @@ describe(@"-trackingBranchWithError:success:", ^{
 
 	it(@"should return itself for a remote branch", ^{
 		NSError *error = nil;
-		GTReference *remoteRef = [GTReference referenceByLookingUpReferencedNamed:@"refs/remotes/origin/master" inRepository:repository error:&error];
+		GTReference *remoteRef = [repository lookUpReferenceWithName:@"refs/remotes/origin/master" error:&error];
 		expect(remoteRef).notTo(beNil());
 		expect(error).to(beNil());
 

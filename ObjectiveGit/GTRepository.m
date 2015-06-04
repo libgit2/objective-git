@@ -51,6 +51,7 @@
 #import "NSArray+StringArray.h"
 #import "NSError+Git.h"
 #import "NSString+Git.h"
+#import "GTRepository+References.h"
 
 #import "git2.h"
 
@@ -401,7 +402,7 @@ struct GTRemoteCreatePayload {
 	for (NSString *refName in references) {
 		if (![refName hasPrefix:prefix]) continue;
 
-		GTReference *ref = [[GTReference alloc] initByLookingUpReferenceNamed:refName inRepository:self error:error];
+		GTReference *ref = [self lookUpReferenceWithName:refName error:error];
 		if (ref == nil) continue;
 
 		GTBranch *branch = [[GTBranch alloc] initWithReference:ref repository:self];
