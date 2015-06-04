@@ -22,17 +22,17 @@ beforeEach(^{
 });
 
 it(@"should compare equal to the same reference", ^{
-	expect([[GTReference alloc] initByLookingUpReferenceNamed:@"refs/heads/master" inRepository:repository error:NULL]).to(equal([[GTReference alloc] initByLookingUpReferenceNamed:@"refs/heads/master" inRepository:repository error:NULL]));
+	expect([repository lookUpReferenceWithName:@"refs/heads/master" error:NULL]).to(equal([repository lookUpReferenceWithName:@"refs/heads/master" error:NULL]));
 });
 
 it(@"should compare unequal to a different reference", ^{
-	expect([[GTReference alloc] initByLookingUpReferenceNamed:@"refs/heads/master" inRepository:repository error:NULL]).notTo(equal([[GTReference alloc] initByLookingUpReferenceNamed:@"refs/remotes/origin/master" inRepository:repository error:NULL]));
+	expect([repository lookUpReferenceWithName:@"refs/heads/master" error:NULL]).notTo(equal([repository lookUpReferenceWithName:@"refs/remotes/origin/master" error:NULL]));
 });
 
 describe(@"remote property", ^{
 	it(@"should be YES for a remote-tracking branch", ^{
 		NSError *error = nil;
-		GTReference *ref = [[GTReference alloc] initByLookingUpReferenceNamed:@"refs/remotes/origin/master" inRepository:repository error:&error];
+		GTReference *ref = [repository lookUpReferenceWithName:@"refs/remotes/origin/master" error:&error];
 		expect(ref).notTo(beNil());
 		expect(error).to(beNil());
 
@@ -42,7 +42,7 @@ describe(@"remote property", ^{
 
 	it(@"should be NO for a local branch", ^{
 		NSError *error = nil;
-		GTReference *ref = [[GTReference alloc] initByLookingUpReferenceNamed:@"refs/heads/master" inRepository:repository error:&error];
+		GTReference *ref = [repository lookUpReferenceWithName:@"refs/heads/master" error:&error];
 		expect(ref).notTo(beNil());
 		expect(error).to(beNil());
 
@@ -131,7 +131,7 @@ beforeEach(^{
 describe(@"+referenceByLookingUpReferenceNamed:inRepository:error:", ^{
 	it(@"should return a valid reference to a branch", ^{
 		NSError *error = nil;
-		GTReference *ref = [GTReference referenceByLookingUpReferencedNamed:@"refs/heads/master" inRepository:bareRepository error:&error];
+		GTReference *ref = [bareRepository lookUpReferenceWithName:@"refs/heads/master" error:&error];
 		expect(ref).notTo(beNil());
 		expect(error).to(beNil());
 
@@ -140,7 +140,7 @@ describe(@"+referenceByLookingUpReferenceNamed:inRepository:error:", ^{
 
 	it(@"should return a valid reference to a tag", ^{
 		NSError *error = nil;
-		GTReference *ref = [GTReference referenceByLookingUpReferencedNamed:@"refs/tags/v0.9" inRepository:bareRepository error:&error];
+		GTReference *ref = [bareRepository lookUpReferenceWithName:@"refs/tags/v0.9" error:&error];
 		expect(ref).notTo(beNil());
 		expect(error).to(beNil());
 
@@ -150,7 +150,7 @@ describe(@"+referenceByLookingUpReferenceNamed:inRepository:error:", ^{
 
 describe(@"creating", ^{
 	it(@"can create a reference from a symbolic reference", ^{
-		GTReference *target = [[GTReference alloc] initByLookingUpReferenceNamed:@"refs/heads/master" inRepository:bareRepository error:NULL];
+		GTReference *target = [bareRepository lookUpReferenceWithName:@"refs/heads/master" error:NULL];
 		expect(target).notTo(beNil());
 
 		NSError *error = nil;
