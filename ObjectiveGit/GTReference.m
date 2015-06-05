@@ -70,11 +70,11 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 	return git_reference_is_remote(self.git_reference) != 0;
 }
 
-+ (id)referenceByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error {
++ (instancetype)referenceByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error {
 	return [[self alloc] initByResolvingSymbolicReference:symbolicRef error:error];
 }
 
-- (id)initByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error {
+- (instancetype)initByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error {
 	NSParameterAssert(symbolicRef != nil);
 
 	git_reference *ref = NULL;
