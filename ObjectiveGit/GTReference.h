@@ -61,11 +61,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, strong) GTReflog *reflog;
 
 /// Convenience initializers
-+ (instancetype)referenceByLookingUpReferencedNamed:(NSString *)refName inRepository:(GTRepository *)theRepo error:(NSError **)error;
-- (instancetype)initByLookingUpReferenceNamed:(NSString *)refName inRepository:(GTRepository *)theRepo error:(NSError **)error;
-
-+ (instancetype)referenceByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error;
-- (instancetype)initByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error;
++ (id)referenceByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error;
+- (id)initByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error;
 
 /// Designated initializer.
 ///

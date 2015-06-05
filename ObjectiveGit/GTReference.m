@@ -32,6 +32,7 @@
 #import "GTSignature.h"
 #import "NSError+Git.h"
 #import "NSString+Git.h"
+#import "GTRepository+References.h"
 
 #import "git2/errors.h"
 
@@ -69,29 +70,11 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 	return git_reference_is_remote(self.git_reference) != 0;
 }
 
-+ (instancetype)referenceByLookingUpReferencedNamed:(NSString *)refName inRepository:(GTRepository *)theRepo error:(NSError **)error {
-	return [[self alloc] initByLookingUpReferenceNamed:refName inRepository:theRepo error:error];
-}
-
-+ (instancetype)referenceByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error {
++ (id)referenceByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error {
 	return [[self alloc] initByResolvingSymbolicReference:symbolicRef error:error];
 }
 
-- (instancetype)initByLookingUpReferenceNamed:(NSString *)refName inRepository:(GTRepository *)repo error:(NSError **)error {
-	NSParameterAssert(refName != nil);
-	NSParameterAssert(repo != nil);
-
-	git_reference *ref = NULL;
-	int gitError = git_reference_lookup(&ref, repo.git_repository, refName.UTF8String);
-	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to lookup reference %@.", refName];
-		return nil;
-	}
-
-	return [self initWithGitReference:ref repository:repo];
-}
-
-- (instancetype)initByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error {
+- (id)initByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error {
 	NSParameterAssert(symbolicRef != nil);
 
 	git_reference *ref = NULL;
@@ -151,7 +134,7 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 		NSString *refName = @(git_reference_symbolic_target(self.git_reference));
 		if (refName == NULL) return nil;
 
-		return [self.class referenceByLookingUpReferencedNamed:refName inRepository:self.repository error:NULL];
+		return [self.repository lookUpReferenceWithName:refName error:NULL];
 	}
 	return nil;
 }
@@ -221,7 +204,7 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 }
 
 - (GTReference *)reloadedReferenceWithError:(NSError **)error {
-	return [[self.class alloc] initByLookingUpReferenceNamed:self.name inRepository:self.repository error:error];
+	return [self.repository lookUpReferenceWithName:self.name error:error];
 }
 
 + (NSError *)invalidReferenceError {

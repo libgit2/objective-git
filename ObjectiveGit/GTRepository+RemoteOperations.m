@@ -17,6 +17,7 @@
 #import "GTSignature.h"
 #import "NSArray+StringArray.h"
 #import "NSError+Git.h"
+#import "GTRepository+References.h"
 
 #import "git2/errors.h"
 #import "git2/remote.h"
@@ -120,7 +121,7 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 	GTRepository *repository = entriesPayload->repository;
 	GTRemoteEnumerateFetchHeadEntryBlock enumerationBlock = entriesPayload->enumerationBlock;
 
-	GTReference *reference = [GTReference referenceByLookingUpReferencedNamed:@(ref_name) inRepository:repository error:NULL];
+	GTReference *reference = [repository lookUpReferenceWithName:@(ref_name) error:NULL];
 
 	GTFetchHeadEntry *entry = [[GTFetchHeadEntry alloc] initWithReference:reference remoteURLString:@(remote_url) targetOID:[GTOID oidWithGitOid:oid] isMerge:(BOOL)is_merge];
 
