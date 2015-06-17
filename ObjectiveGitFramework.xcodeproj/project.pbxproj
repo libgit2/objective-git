@@ -311,6 +311,10 @@
 		DD3D9513182A81E1004AF532 /* GTBlame.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3D9511182A81E1004AF532 /* GTBlame.m */; };
 		DD3D951C182AB25C004AF532 /* GTBlameHunk.h in Headers */ = {isa = PBXBuildFile; fileRef = DD3D951A182AB25C004AF532 /* GTBlameHunk.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DD3D951D182AB25C004AF532 /* GTBlameHunk.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3D951B182AB25C004AF532 /* GTBlameHunk.m */; };
+		F8D1BDEE1B31FE7C00CDEC90 /* GTRepository+Pull.h in Headers */ = {isa = PBXBuildFile; fileRef = F8D1BDEC1B31FE7C00CDEC90 /* GTRepository+Pull.h */; };
+		F8D1BDEF1B31FE7C00CDEC90 /* GTRepository+Pull.h in Headers */ = {isa = PBXBuildFile; fileRef = F8D1BDEC1B31FE7C00CDEC90 /* GTRepository+Pull.h */; };
+		F8D1BDF01B31FE7C00CDEC90 /* GTRepository+Pull.m in Sources */ = {isa = PBXBuildFile; fileRef = F8D1BDED1B31FE7C00CDEC90 /* GTRepository+Pull.m */; };
+		F8D1BDF11B31FE7C00CDEC90 /* GTRepository+Pull.m in Sources */ = {isa = PBXBuildFile; fileRef = F8D1BDED1B31FE7C00CDEC90 /* GTRepository+Pull.m */; };
 		F8E4A2911A170CA6006485A8 /* GTRemotePushSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = F8E4A2901A170CA6006485A8 /* GTRemotePushSpec.m */; };
 /* End PBXBuildFile section */
 
@@ -574,6 +578,8 @@
 		DD3D951B182AB25C004AF532 /* GTBlameHunk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTBlameHunk.m; sourceTree = "<group>"; };
 		E46931A7172740D300F2077D /* update_libgit2 */ = {isa = PBXFileReference; lastKnownFileType = text; name = update_libgit2; path = script/update_libgit2; sourceTree = "<group>"; };
 		E46931A8172740D300F2077D /* update_libgit2_ios */ = {isa = PBXFileReference; lastKnownFileType = text; name = update_libgit2_ios; path = script/update_libgit2_ios; sourceTree = "<group>"; };
+		F8D1BDEC1B31FE7C00CDEC90 /* GTRepository+Pull.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTRepository+Pull.h"; sourceTree = "<group>"; };
+		F8D1BDED1B31FE7C00CDEC90 /* GTRepository+Pull.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GTRepository+Pull.m"; sourceTree = "<group>"; };
 		F8E4A2901A170CA6006485A8 /* GTRemotePushSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTRemotePushSpec.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -783,6 +789,8 @@
 				D015F7C917F695E800AD5E1F /* GTRepository+Stashing.m */,
 				88746CC217FA1C950005888A /* GTRepository+Committing.h */,
 				88746CC317FA1C950005888A /* GTRepository+Committing.m */,
+				F8D1BDEC1B31FE7C00CDEC90 /* GTRepository+Pull.h */,
+				F8D1BDED1B31FE7C00CDEC90 /* GTRepository+Pull.m */,
 				4DFFB159183AA8D600D1565E /* GTRepository+RemoteOperations.h */,
 				4DFFB15A183AA8D600D1565E /* GTRepository+RemoteOperations.m */,
 				88B2131A1B20E785005CF2C5 /* GTRepository+References.h */,
@@ -1000,6 +1008,7 @@
 				8821547D17147B3600D76B76 /* GTOID.h in Headers */,
 				20F43DE318A2F668007D3621 /* GTRepository+Blame.h in Headers */,
 				D0CE552018B6C58F008EB8E0 /* GTFilterList.h in Headers */,
+				F8D1BDEE1B31FE7C00CDEC90 /* GTRepository+Pull.h in Headers */,
 				D021DF4F1806899000934E32 /* NSArray+StringArray.h in Headers */,
 				30DCBA6317B45A78009B0EBD /* GTRepository+Status.h in Headers */,
 				8821547617147A5200D76B76 /* GTReflogEntry.h in Headers */,
@@ -1015,6 +1024,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D01B6F3D19F82F8700D411BC /* GTTag.h in Headers */,
+				F8D1BDEF1B31FE7C00CDEC90 /* GTRepository+Pull.h in Headers */,
 				D01B6F4119F82F8700D411BC /* GTIndexEntry.h in Headers */,
 				D01B6F2319F82F8700D411BC /* GTRepository+Reset.h in Headers */,
 				D01B6F2D19F82F8700D411BC /* GTEnumerator.h in Headers */,
@@ -1136,6 +1146,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0700;
 				LastTestingUpgradeCheck = 0510;
 				LastUpgradeCheck = 0620;
 				ORGANIZATIONNAME = "GitHub, Inc";
@@ -1306,6 +1317,7 @@
 				BD6B0418131496CC001909D0 /* GTTreeEntry.m in Sources */,
 				DD3D951D182AB25C004AF532 /* GTBlameHunk.m in Sources */,
 				306123AE17EA5261006591D4 /* EXTScope.m in Sources */,
+				F8D1BDF01B31FE7C00CDEC90 /* GTRepository+Pull.m in Sources */,
 				BDD6279A1318391200DE34D1 /* GTBlob.m in Sources */,
 				BDD62925131C03D600DE34D1 /* GTTag.m in Sources */,
 				BDFAF9C4131C1845000508BC /* GTIndex.m in Sources */,
@@ -1364,6 +1376,7 @@
 				884C8A3A19FF4B890017E98D /* EXTScope.m in Sources */,
 				D01B6F4E19F82F8700D411BC /* GTRemote.m in Sources */,
 				D01B6F3019F82F8700D411BC /* GTObject.m in Sources */,
+				F8D1BDF11B31FE7C00CDEC90 /* GTRepository+Pull.m in Sources */,
 				D01B6F4619F82F8700D411BC /* GTBranch.m in Sources */,
 				D01B6F3A19F82F8700D411BC /* GTTreeEntry.m in Sources */,
 				D01B6F2419F82F8700D411BC /* GTRepository+Reset.m in Sources */,
