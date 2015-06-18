@@ -14,11 +14,11 @@ NS_ASSUME_NONNULL_BEGIN
 /// An enum describing the result of the merge analysis.
 /// See `git_merge_analysis_t`.
 typedef NS_ENUM(NSInteger, GTMergeAnalysis) {
-    GTMergeAnalysisNone = GIT_MERGE_ANALYSIS_NONE,
-    GTMergeAnalysisNormal = GIT_MERGE_ANALYSIS_NORMAL,
-    GTMergeAnalysisUpToDate = GIT_MERGE_ANALYSIS_UP_TO_DATE,
-    GTMergeAnalysisUnborn = GIT_MERGE_ANALYSIS_UNBORN,
-    GTMergeAnalysisFastForward = GIT_MERGE_ANALYSIS_FASTFORWARD,
+	GTMergeAnalysisNone = GIT_MERGE_ANALYSIS_NONE,
+	GTMergeAnalysisNormal = GIT_MERGE_ANALYSIS_NORMAL,
+	GTMergeAnalysisUpToDate = GIT_MERGE_ANALYSIS_UP_TO_DATE,
+	GTMergeAnalysisUnborn = GIT_MERGE_ANALYSIS_UNBORN,
+	GTMergeAnalysisFastForward = GIT_MERGE_ANALYSIS_FASTFORWARD,
 };
 
 typedef void (^GTRemoteFetchTransferProgressBlock)(const git_transfer_progress *progress, BOOL *stop);
