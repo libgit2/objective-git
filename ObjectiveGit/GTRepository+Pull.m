@@ -85,6 +85,9 @@
 		NSString *message = [NSString stringWithFormat:@"Merge branch '%@'", localBranch.shortName];
 		NSArray *parents = @[ localCommit, remoteCommit ];
 		GTCommit *mergeCommit = [repo createCommitWithTree:remoteTree message:message parents:parents updatingReferenceNamed:localBranch.name error:error];
+
+		[self checkoutReference:localBranch.reference strategy:GTCheckoutStrategyForce error:error progressBlock:nil];
+
 		return mergeCommit != nil;
 	}
 
