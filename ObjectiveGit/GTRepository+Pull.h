@@ -43,12 +43,13 @@ typedef void (^GTRemoteFetchTransferProgressBlock)(const git_transfer_progress *
 
 /// Analyse which merge to perform
 ///
-/// toBranch        - The current branch.
+/// analysis        - The resulting analysis.
 /// fromBranch      - The remote to pull from.
 /// error           - The error if one occurred. Can be NULL.
 ///
-/// Returns the result as a GTMergeAnalysis.
-- (GTMergeAnalysis)analyseMerge:(GTBranch *)toBranch fromBranch:(GTBranch *)fromBranch error:(NSError **)error;
+/// Returns YES if the analysis was successful, NO otherwise (and `error`, if provided,
+/// will point to an error describing what happened).
+- (BOOL)analyseMerge:(GTMergeAnalysis *)analysis fromBranch:(GTBranch *)fromBranch error:(NSError **)error;
 
 @end
 

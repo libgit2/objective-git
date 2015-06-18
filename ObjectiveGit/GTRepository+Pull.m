@@ -62,7 +62,8 @@
 		return YES;
 	}
 
-	GTMergeAnalysis analysis = [self analyseMerge:branch fromBranch:remoteBranch error:error];
+	GTMergeAnalysis analysis;
+	[self analyseMerge:&analysis fromBranch:remoteBranch error:error];
 
 	if (*error) {
 		return NO;
@@ -95,22 +96,21 @@
 	return NO;
 }
 
-- (GTMergeAnalysis)analyseMerge:(GTBranch *)toBranch fromBranch:(GTBranch *)fromBranch error:(NSError **)error
+- (BOOL)analyseMerge:(GTMergeAnalysis *)analysis fromBranch:(GTBranch *)fromBranch error:(NSError **)error
 {
-	git_merge_analysis_t analysis;
 	git_merge_preference_t preference;
 	git_annotated_commit *annotatedCommit;
 
 	GTCommit *fromCommit = [fromBranch targetCommitAndReturnError:error];
 	if (*error) {
-		return GTMergeAnalysisNone;
+		return NO;
 	}
 
 	git_annotated_commit_lookup(&annotatedCommit, self.git_repository, git_object_id(fromCommit.git_object));
-	git_merge_analysis(&analysis, &preference, self.git_repository, (const git_annotated_commit **) &annotatedCommit, 1);
+	git_merge_analysis((git_merge_analysis_t *)analysis, &preference, self.git_repository, (const git_annotated_commit **) &annotatedCommit, 1);
 	git_annotated_commit_free(annotatedCommit);
 
-	return (GTMergeAnalysis)analysis;
+	return YES;
 }
 
 @end
