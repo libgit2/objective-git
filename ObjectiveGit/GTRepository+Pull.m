@@ -18,8 +18,7 @@
 
 #pragma mark - Pull
 
-- (BOOL)pullBranch:(GTBranch *)branch fromRemote:(GTRemote *)remote withOptions:(NSDictionary *)options
-			 error:(NSError **)error progress:(GTRemoteFetchTransferProgressBlock)progressBlock
+- (BOOL)pullBranch:(GTBranch *)branch fromRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error progress:(GTRemoteFetchTransferProgressBlock)progressBlock
 {
 	NSParameterAssert(branch);
 	NSParameterAssert(remote);
@@ -75,15 +74,9 @@
 	} else if (analysis & GTMergeAnalysisFastForward ||
 			   analysis & GTMergeAnalysisUnborn) {
 		// Do FastForward
-		[localBranch.reference referenceByUpdatingTarget:remoteCommit.SHA
-											   committer:[self userSignatureForNow]
-												 message:[NSString stringWithFormat:@"Merge branch '%@'", localBranch.shortName]
-												   error:error];
+		[localBranch.reference referenceByUpdatingTarget:remoteCommit.SHA committer:[self userSignatureForNow] message:[NSString stringWithFormat:@"Merge branch '%@'", localBranch.shortName] error:error];
 
-		[self checkoutReference:localBranch.reference
-					   strategy:GTCheckoutStrategyForce
-						  error:error
-				  progressBlock:nil];
+		[self checkoutReference:localBranch.reference strategy:GTCheckoutStrategyForce error:error progressBlock:nil];
 
 		return *error == nil;
 	} else if (analysis & GTMergeAnalysisNormal) {
@@ -91,9 +84,7 @@
 		GTTree *remoteTree = remoteCommit.tree;
 		NSString *message = [NSString stringWithFormat:@"Merge branch '%@'", localBranch.shortName];
 		NSArray *parents = @[ localCommit, remoteCommit ];
-		GTCommit *mergeCommit = [repo createCommitWithTree:remoteTree message:message
-												   parents:parents updatingReferenceNamed:localBranch.name
-													 error:error];
+		GTCommit *mergeCommit = [repo createCommitWithTree:remoteTree message:message parents:parents updatingReferenceNamed:localBranch.name error:error];
 		return mergeCommit != nil;
 	}
 
