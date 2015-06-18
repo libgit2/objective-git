@@ -10,9 +10,9 @@
 
 #import "GTCommit.h"
 #import "GTRemote.h"
+#import "GTSignature.h"
 #import "GTRepository+Committing.h"
 #import "GTRepository+RemoteOperations.h"
-#import "git2/merge.h"
 
 @implementation GTRepository (Pull)
 
@@ -71,10 +71,16 @@
 	if (analysis & GTMergeAnalysisUpToDate) {
 		// Nothing to do
 		return YES;
-	} else if (analysis & GTMergeAnalysisFastForward) {
+	} else if (analysis & GTMergeAnalysisFastForward ||
+			   analysis & GTMergeAnalysisUnborn) {
 		// Do FastForward
-		NSLog(@"Fast-Forward merge is not yet supported");
-		return NO;
+		[localBranch.reference referenceByUpdatingTarget:remoteCommit.SHA
+											   committer:[self userSignatureForNow]
+												 message:[NSString stringWithFormat:@"Merge branch '%@'", localBranch.shortName]
+												   error:error];
+
+		return *error == nil;
+
 	} else if (analysis & GTMergeAnalysisNormal) {
 		// Do normal merge
 		GTTree *remoteTree = remoteCommit.tree;
@@ -83,15 +89,7 @@
 		GTCommit *mergeCommit = [repo createCommitWithTree:remoteTree message:message
 												   parents:parents updatingReferenceNamed:localBranch.name
 													 error:error];
-		if (!mergeCommit) {
-			return NO;
-		}
-
-		return YES;
-	} else if (analysis & GTMergeAnalysisUnborn) {
-		// Do unborn merge
-		NSLog(@"Unborn merge is not yet supported");
-		return NO;
+		return mergeCommit != nil;
 	}
 
 	return NO;
