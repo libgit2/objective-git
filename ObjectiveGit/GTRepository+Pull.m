@@ -12,13 +12,14 @@
 #import "GTRemote.h"
 #import "GTRepository+Committing.h"
 #import "GTRepository+RemoteOperations.h"
+#import "git2/merge.h"
 
 @implementation GTRepository (Pull)
 
 #pragma mark - Pull
 
 - (BOOL)pullBranch:(GTBranch *)branch fromRemote:(GTRemote *)remote withOptions:(NSDictionary *)options
-                 error:(NSError **)error progress:(GTRemoteFetchTransferProgressBlock)progressBlock
+             error:(NSError **)error progress:(GTRemoteFetchTransferProgressBlock)progressBlock
 {
     NSParameterAssert(branch);
     NSParameterAssert(remote);
@@ -61,18 +62,57 @@
         return YES;
     }
 
-    // Merge
-    GTTree *remoteTree = remoteCommit.tree;
-    NSString *message = [NSString stringWithFormat:@"Merge branch '%@'", localBranch.shortName];
-    NSArray *parents = @[ localCommit, remoteCommit ];
-    GTCommit *mergeCommit = [repo createCommitWithTree:remoteTree message:message
-                                               parents:parents updatingReferenceNamed:localBranch.name
-                                                 error:error];
-    if (!mergeCommit) {
+    GTMergeAnalysis analysis = [self analyseMerge:branch fromBranch:remoteBranch error:error];
+
+    if (*error) {
         return NO;
     }
 
-    return YES;
+    if (analysis & GTMergeAnalysisUpToDate) {
+        // Nothing to do
+        return YES;
+    } else if (analysis & GTMergeAnalysisFastForward) {
+        // Do FastForward
+        NSLog(@"Fast-Forward merge is not yet supported");
+        return NO;
+    } else if (analysis & GTMergeAnalysisNormal) {
+        // Do normal merge
+        GTTree *remoteTree = remoteCommit.tree;
+        NSString *message = [NSString stringWithFormat:@"Merge branch '%@'", localBranch.shortName];
+        NSArray *parents = @[ localCommit, remoteCommit ];
+        GTCommit *mergeCommit = [repo createCommitWithTree:remoteTree message:message
+                                                   parents:parents updatingReferenceNamed:localBranch.name
+                                                     error:error];
+        if (!mergeCommit) {
+            return NO;
+        }
+
+        return YES;
+    } else if (analysis & GTMergeAnalysisUnborn) {
+        // Do unborn merge
+        NSLog(@"Unborn merge is not yet supported");
+        return NO;
+    }
+
+    return NO;
+}
+
+- (GTMergeAnalysis)analyseMerge:(GTBranch *)toBranch fromBranch:(GTBranch *)fromBranch error:(NSError **)error
+{
+    git_merge_analysis_t analysis;
+    git_merge_preference_t preference;
+    git_annotated_commit *annotatedCommit;
+
+    GTCommit *fromCommit = [fromBranch targetCommitAndReturnError:error];
+    if (*error) {
+        return GTMergeAnalysisNone;
+    }
+
+    git_annotated_commit_lookup(&annotatedCommit, self.git_repository, git_object_id(fromCommit.git_object));
+    git_merge_analysis(&analysis, &preference, self.git_repository, (const git_annotated_commit **) &annotatedCommit, 1);
+    git_annotated_commit_free(annotatedCommit);
+    
+    return (GTMergeAnalysis)analysis;
 }
 
 @end
