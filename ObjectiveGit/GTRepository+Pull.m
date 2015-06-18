@@ -80,8 +80,12 @@
 												 message:[NSString stringWithFormat:@"Merge branch '%@'", localBranch.shortName]
 												   error:error];
 
-		return *error == nil;
+		[self checkoutReference:localBranch.reference
+					   strategy:GTCheckoutStrategyForce
+						  error:error
+				  progressBlock:nil];
 
+		return *error == nil;
 	} else if (analysis & GTMergeAnalysisNormal) {
 		// Do normal merge
 		GTTree *remoteTree = remoteCommit.tree;
