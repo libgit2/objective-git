@@ -43,17 +43,17 @@
 
 	// Check if merge is necessary
 	GTBranch *localBranch = [repo currentBranchWithError:error];
-	if (*error) {
+	if (!localBranch) {
 		return NO;
 	}
 
 	GTCommit *localCommit = [localBranch targetCommitAndReturnError:error];
-	if (*error) {
+	if (!localCommit) {
 		return NO;
 	}
 
 	GTCommit *remoteCommit = [remoteBranch targetCommitAndReturnError:error];
-	if (*error) {
+	if (!remoteCommit) {
 		return NO;
 	}
 
@@ -62,9 +62,8 @@
 	}
 
 	GTMergeAnalysis analysis;
-	[self analyseMerge:&analysis fromBranch:remoteBranch error:error];
-
-	if (*error) {
+	BOOL success = [self analyseMerge:&analysis fromBranch:remoteBranch error:error];
+	if (!success) {
 		return NO;
 	}
 
@@ -76,9 +75,9 @@
 		// Do FastForward
 		[localBranch.reference referenceByUpdatingTarget:remoteCommit.SHA committer:[self userSignatureForNow] message:[NSString stringWithFormat:@"Merge branch '%@'", localBranch.shortName] error:error];
 
-		[self checkoutReference:localBranch.reference strategy:GTCheckoutStrategyForce error:error progressBlock:nil];
+		BOOL success = [self checkoutReference:localBranch.reference strategy:GTCheckoutStrategyForce error:error progressBlock:nil];
 
-		return *error == nil;
+		return success;
 	} else if (analysis & GTMergeAnalysisNormal) {
 		// Do normal merge
 		GTTree *remoteTree = remoteCommit.tree;
@@ -100,7 +99,7 @@
 	git_annotated_commit *annotatedCommit;
 
 	GTCommit *fromCommit = [fromBranch targetCommitAndReturnError:error];
-	if (*error) {
+	if (!fromCommit) {
 		return NO;
 	}
 
