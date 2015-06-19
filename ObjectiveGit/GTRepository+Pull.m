@@ -10,7 +10,7 @@
 
 #import "GTCommit.h"
 #import "GTRemote.h"
-#import "GTSignature.h"
+#import "GTReference.h"
 #import "GTRepository+Committing.h"
 #import "GTRepository+RemoteOperations.h"
 
@@ -73,11 +73,10 @@
 	} else if (analysis & GTMergeAnalysisFastForward ||
 			   analysis & GTMergeAnalysisUnborn) {
 		// Do FastForward
-		[localBranch.reference referenceByUpdatingTarget:remoteCommit.SHA committer:[self userSignatureForNow] message:[NSString stringWithFormat:@"Merge branch '%@'", localBranch.shortName] error:error];
+		[localBranch.reference referenceByUpdatingTarget:remoteCommit.SHA message:nil error:error];
+		BOOL checkoutSuccess = [self checkoutReference:localBranch.reference strategy:GTCheckoutStrategyForce error:error progressBlock:nil];
 
-		BOOL success = [self checkoutReference:localBranch.reference strategy:GTCheckoutStrategyForce error:error progressBlock:nil];
-
-		return success;
+		return checkoutSuccess;
 	} else if (analysis & GTMergeAnalysisNormal) {
 		// Do normal merge
 		GTTree *remoteTree = remoteCommit.tree;
