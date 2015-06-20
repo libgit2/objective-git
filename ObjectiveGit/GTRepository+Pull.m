@@ -29,7 +29,7 @@
 	if (branch.branchType == GTBranchTypeLocal) {
 		BOOL success;
 		remoteBranch = [branch trackingBranchWithError:error success:&success];
-		if (!success) {
+		if (!remoteBranch) {
 			return NO;
 		}
 	}
