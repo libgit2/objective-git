@@ -105,16 +105,16 @@ NS_ASSUME_NONNULL_BEGIN
 /// Returns a new GTIndexEntry, or nil if an error occurred.
 - (nullable GTIndexEntry *)entryAtIndex:(NSUInteger)index;
 
-/// Get the entry with the given name.
-- (GTIndexEntry *)entryWithName:(NSString *)name;
+/// Get the entry with the given path.
+- (GTIndexEntry *)entryWithPath:(NSString *)path;
 
 /// Get the entry with the given name.
 ///
-/// name  - The name of the entry to get. Cannot be nil.
+/// path  - The path of the entry to get. Cannot be nil.
 /// error - The error if one occurred.
 ///
 /// Returns a new GTIndexEntry, or nil if an error occurred.
-- (nullable GTIndexEntry *)entryWithName:(NSString *)name error:(NSError **)error;
+- (nullable GTIndexEntry *)entryWithPath:(NSString *)path error:(NSError **)error;
 
 /// Add an entry to the index.
 ///
@@ -141,9 +141,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// Will fail if the receiver's repository is nil.
 ///
 /// data  - The content of the entry to add. Cannot be nil.
-/// name  - The name of the entry to add. Cannot be nil.
+/// path  - The path of the entry to add. Cannot be nil.
 /// error - The error if one occurred.
-- (BOOL)addData:(NSData *)data withName:(NSString *)name error:(NSError **)error;
+- (BOOL)addData:(NSData *)data withPath:(NSString *)path error:(NSError **)error;
 
 /// Reads the contents of the given tree into the index.
 ///
@@ -219,6 +219,11 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// Returns `YES` in the event that everything has gone smoothly. Otherwise, `NO`.
 - (BOOL)updatePathspecs:(nullable NSArray *)pathspecs error:(NSError **)error passingTest:(nullable BOOL (^)(NSString *matchedPathspec, NSString *path, BOOL *stop))block;
+
+#pragma mark Deprecations
+- (nullable GTIndexEntry *)entryWithName:(NSString *)name __deprecated_msg("use entryWithPath: instead.");
+- (nullable GTIndexEntry *)entryWithName:(NSString *)name error:(NSError **)error __deprecated_msg("use entryWithPath:error: instead.");
+
 
 @end
 

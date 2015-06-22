@@ -120,7 +120,7 @@
 	return [[NSString alloc] initWithBytes:name length:end - name encoding:NSUTF8StringEncoding];
 }
 
-- (GTCommit *)targetCommitAndReturnError:(NSError **)error {
+- (GTCommit *)targetCommitWithError:(NSError **)error {
 	if (self.OID == nil) {
 		if (error != NULL) *error = GTReference.invalidReferenceError;
 		return nil;
@@ -216,6 +216,11 @@
 
 - (BOOL)calculateAhead:(size_t *)ahead behind:(size_t *)behind relativeTo:(GTBranch *)branch error:(NSError **)error {
 	return [self.repository calculateAhead:ahead behind:behind ofOID:self.OID relativeToOID:branch.OID error:error];
+}
+
+#pragma mark Deprecations
+- (GTCommit *)targetCommitAndReturnError:(NSError **)error {
+	return [self targetCommitWithError:error];
 }
 
 @end
