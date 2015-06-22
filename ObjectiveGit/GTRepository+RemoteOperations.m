@@ -21,7 +21,6 @@
 
 #import "git2/errors.h"
 #import "git2/remote.h"
-#import "git2/push.h"
 
 NSString *const GTRepositoryRemoteOptionsCredentialProvider = @"GTRepositoryRemoteOptionsCredentialProvider";
 
@@ -66,6 +65,7 @@ int GTRemotePushTransferProgressCallback(unsigned int current, unsigned int tota
 #pragma mark Fetch
 
 - (BOOL)fetchRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error progress:(GTRemoteFetchTransferProgressBlock)progressBlock {
+#if 0
 	GTCredentialProvider *credProvider = options[GTRepositoryRemoteOptionsCredentialProvider];
 	GTRemoteConnectionInfo connectionInfo = {
 		.credProvider = {credProvider},
@@ -101,6 +101,7 @@ int GTRemotePushTransferProgressCallback(unsigned int current, unsigned int tota
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to fetch from remote"];
 		return NO;
 	}
+#endif
 
 	return YES;
 }
@@ -210,6 +211,7 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 #pragma mark - Push (Private)
 
 - (BOOL)pushRefspecs:(NSArray *)refspecs toRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error progress:(GTRemotePushTransferProgressBlock)progressBlock {
+#if 0
 	int gitError;
 	GTCredentialProvider *credProvider = options[GTRepositoryRemoteOptionsCredentialProvider];
 
@@ -262,6 +264,7 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Update tips failed"];
 		return NO;
 	}
+#endif
 
 	return YES;
 }

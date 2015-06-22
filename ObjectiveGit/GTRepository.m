@@ -194,6 +194,8 @@ static void checkoutProgressCallback(const char *path, size_t completedSteps, si
 	block(nsPath, completedSteps, totalSteps);
 }
 
+#if 0
+
 static int transferProgressCallback(const git_transfer_progress *progress, void *payload) {
 	if (payload == NULL) return 0;
 	struct GTClonePayload *pld = payload;
@@ -212,21 +214,16 @@ struct GTClonePayload {
 static int remoteCreate(git_remote **remote, git_repository *repo, const char *name, const char *url, void *payload)
 {
 	int error;
-	struct GTRemoteCreatePayload *pld = payload;
-	git_remote_callbacks *callbacks = &pld->remoteCallbacks;
-
 	if ((error = git_remote_create(remote, repo, name, url)) < 0)
 		return error;
 
-	return git_remote_set_callbacks(*remote, callbacks);
+	return GIT_OK;
 }
 
-struct GTRemoteCreatePayload {
-	git_remote_callbacks remoteCallbacks;
-};
+#endif
 
 + (instancetype)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL options:(NSDictionary *)options error:(NSError **)error transferProgressBlock:(void (^)(const git_transfer_progress *, BOOL *stop))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))checkoutProgressBlock {
-
+#if 0
 	git_clone_options cloneOptions = GIT_CLONE_OPTIONS_INIT;
 
 	NSNumber *bare = options[GTRepositoryCloneOptionsBare];
@@ -259,11 +256,7 @@ struct GTRemoteCreatePayload {
 	cloneOptions.remote_callbacks.transfer_progress = transferProgressCallback;
 	cloneOptions.remote_callbacks.payload = &payload;
 
-	struct GTRemoteCreatePayload remoteCreatePayload;
-	remoteCreatePayload.remoteCallbacks = cloneOptions.remote_callbacks;
-
 	cloneOptions.remote_cb = remoteCreate;
-	cloneOptions.remote_cb_payload = &remoteCreatePayload;
 
 	BOOL localClone = [options[GTRepositoryCloneOptionsCloneLocal] boolValue];
 	if (localClone) {
@@ -295,6 +288,9 @@ struct GTRemoteCreatePayload {
 	}
 
 	return [[self alloc] initWithGitRepository:repository];
+#endif
+
+	return nil;
 }
 
 - (id)lookUpObjectByGitOid:(const git_oid *)oid objectType:(GTObjectType)type error:(NSError **)error {
