@@ -8,6 +8,8 @@
 
 #import "GTrepository.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class GTReference;
 
 @interface GTRepository (References)
@@ -18,6 +20,8 @@
 /// error - The error if one occurs. May be NULL.
 ///
 /// Returns the reference or nil if look up failed.
-- (GTReference *)lookUpReferenceWithName:(NSString *)name error:(NSError **)error;
+- (nullable GTReference *)lookUpReferenceWithName:(NSString *)name error:(NSError **)error;
 
 @end
+
+NS_ASSUME_NONNULL_END

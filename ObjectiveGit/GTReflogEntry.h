@@ -15,15 +15,15 @@
 @interface GTReflogEntry : NSObject
 
 /// The OID of the ref before the entry.
-@property (nonatomic, readonly, strong) GTOID *previousOID;
+@property (nonatomic, readonly, strong, nullable) GTOID *previousOID;
 
 /// The OID of the ref when the entry was made.
-@property (nonatomic, readonly, strong) GTOID *updatedOID;
+@property (nonatomic, readonly, strong, nullable) GTOID *updatedOID;
 
 /// The person who committed the entry.
-@property (nonatomic, readonly, strong) GTSignature *committer;
+@property (nonatomic, readonly, strong, nullable) GTSignature *committer;
 
 /// The message associated with the entry.
-@property (nonatomic, readonly, copy) NSString *message;
+@property (nonatomic, readonly, copy, nullable) NSString *message;
 
 @end

@@ -25,6 +25,8 @@ typedef NS_OPTIONS(NSInteger, GTDiffFileFlag) {
 
 @class GTOID;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /// A class representing a file on one side of a diff.
 @interface GTDiffFile : NSObject
 
@@ -41,16 +43,18 @@ typedef NS_OPTIONS(NSInteger, GTDiffFileFlag) {
 @property (nonatomic, readonly) mode_t mode;
 
 /// The OID for the file.
-@property (nonatomic, readonly, copy) GTOID *OID;
+@property (nonatomic, readonly, copy, nullable) GTOID *OID;
 
 /// The git_diff_file represented by the receiver.
 @property (nonatomic, readonly) git_diff_file git_diff_file;
 
-/// Initializes the receiver with the provided libgit2 object.
+/// Initializes the receiver with the provided libgit2 object. Designated initializer.
 ///
 /// file - The git_diff_file wrapped by the receiver.
 ///
 /// Returns an initialized GTDiffFile.
-- (instancetype)initWithGitDiffFile:(git_diff_file)file NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithGitDiffFile:(git_diff_file)file NS_DESIGNATED_INITIALIZER;
 
 @end
+
+NS_ASSUME_NONNULL_END

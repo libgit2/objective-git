@@ -27,7 +27,7 @@
 
 #pragma mark Lifecycle
 
-- (id)initWithGitReflogEntry:(const git_reflog_entry *)entry reflog:(GTReflog *)reflog {
+- (instancetype)initWithGitReflogEntry:(const git_reflog_entry *)entry reflog:(GTReflog *)reflog {
 	NSParameterAssert(entry != NULL);
 	NSParameterAssert(reflog != nil);
 

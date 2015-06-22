@@ -13,27 +13,32 @@
 /// A `GTCredentialProvider`, that will be used to authenticate against the remote.
 extern NSString *const GTRepositoryRemoteOptionsCredentialProvider;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface GTRepository (RemoteOperations)
 
 #pragma mark - Fetch
 
 /// Fetch a remote.
 ///
-/// remote  - The remote to fetch from.
-/// options - Options applied to the fetch operation.
+/// remote  - The remote to fetch from. Must not be nil.
+/// options - Options applied to the fetch operation. May be nil.
 ///           Recognized options are :
 ///           `GTRepositoryRemoteOptionsCredentialProvider`
 /// error   - The error if one occurred. Can be NULL.
+/// progressBlock - Optional callback to receive fetch progress stats during the
+///                 transfer. May be nil.
 ///
 /// Returns YES if the fetch was successful, NO otherwise (and `error`, if provided,
 /// will point to an error describing what happened).
-- (BOOL)fetchRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error progress:(void (^)(const git_transfer_progress *stats, BOOL *stop))progressBlock;
+- (BOOL)fetchRemote:(GTRemote *)remote withOptions:(nullable NSDictionary *)options error:(NSError **)error progress:(nullable void (^)(const git_transfer_progress *stats, BOOL *stop))progressBlock;
 
 /// Enumerate all available fetch head entries.
 ///
 /// error - The error if one ocurred. Can be NULL.
-/// block - A block to execute for each FETCH_HEAD entry. `fetchHeadEntry` will be the current
-///         fetch head entry. Setting `stop` to YES will cause enumeration to stop after the block returns.
+/// block - A block to execute for each FETCH_HEAD entry. `fetchHeadEntry` will
+///         be the current fetch head entry. Setting `stop` to YES will cause
+///         enumeration to stop after the block returns. Must not be nil.
 ///
 /// Returns YES if the operation succedded, NO otherwise.
 - (BOOL)enumerateFetchHeadEntriesWithError:(NSError **)error usingBlock:(void (^)(GTFetchHeadEntry *fetchHeadEntry, BOOL *stop))block;
@@ -42,7 +47,7 @@ extern NSString *const GTRepositoryRemoteOptionsCredentialProvider;
 ///
 /// error - The error if one ocurred. Can be NULL.
 ///
-/// Retruns an array with GTFetchHeadEntry objects
+/// Retruns a (possibly empty) array with GTFetchHeadEntry objects. Will not be nil.
 - (NSArray *)fetchHeadEntriesWithError:(NSError **)error;
 
 #pragma mark - Push
@@ -55,11 +60,11 @@ extern NSString *const GTRepositoryRemoteOptionsCredentialProvider;
 ///                 Recognized options are:
 ///                 `GTRepositoryRemoteOptionsCredentialProvider`
 /// error         - The error if one occurred. Can be NULL.
-/// progressBlock - An optional callback for monitoring progress.
+/// progressBlock - An optional callback for monitoring progress. May be NULL.
 ///
 /// Returns YES if the push was successful, NO otherwise (and `error`, if provided,
 /// will point to an error describing what happened).
-- (BOOL)pushBranch:(GTBranch *)branch toRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error progress:(void (^)(unsigned int current, unsigned int total, size_t bytes, BOOL *stop))progressBlock;
+- (BOOL)pushBranch:(GTBranch *)branch toRemote:(GTRemote *)remote withOptions:(nullable NSDictionary *)options error:(NSError **)error progress:(nullable void (^)(unsigned int current, unsigned int total, size_t bytes, BOOL *stop))progressBlock;
 
 /// Push an array of branches to a remote.
 ///
@@ -69,11 +74,11 @@ extern NSString *const GTRepositoryRemoteOptionsCredentialProvider;
 ///                 Recognized options are:
 ///                 `GTRepositoryRemoteOptionsCredentialProvider`
 /// error         - The error if one occurred. Can be NULL.
-/// progressBlock - An optional callback for monitoring progress.
+/// progressBlock - An optional callback for monitoring progress. May be NULL.
 ///
 /// Returns YES if the push was successful, NO otherwise (and `error`, if provided,
 /// will point to an error describing what happened).
-- (BOOL)pushBranches:(NSArray *)branches toRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error progress:(void (^)(unsigned int current, unsigned int total, size_t bytes, BOOL *stop))progressBlock;
+- (BOOL)pushBranches:(NSArray *)branches toRemote:(GTRemote *)remote withOptions:(nullable NSDictionary *)options error:(NSError **)error progress:(nullable void (^)(unsigned int current, unsigned int total, size_t bytes, BOOL *stop))progressBlock;
 
 /// Delete a remote branch
 ///
@@ -86,5 +91,7 @@ extern NSString *const GTRepositoryRemoteOptionsCredentialProvider;
 ///
 /// Returns YES if the push was successful, NO otherwise (and `error`, if provided,
 /// will point to an error describing what happened).
-- (BOOL)deleteBranch:(GTBranch *)branch fromRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error;
+- (BOOL)deleteBranch:(GTBranch *)branch fromRemote:(GTRemote *)remote withOptions:(nullable NSDictionary *)options error:(NSError **)error;
 @end
+
+NS_ASSUME_NONNULL_END

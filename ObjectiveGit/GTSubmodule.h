@@ -51,6 +51,8 @@ typedef NS_OPTIONS(NSInteger, GTSubmoduleStatus) {
 	GTSubmoduleStatusUntrackedFilesInWorkingDirectory = GIT_SUBMODULE_STATUS_WD_UNTRACKED
 };
 
+NS_ASSUME_NONNULL_BEGIN
+
 /// Represents a submodule within its parent repository.
 @interface GTSubmodule : NSObject
 
@@ -65,30 +67,30 @@ typedef NS_OPTIONS(NSInteger, GTSubmoduleStatus) {
 /// The OID that the submodule is pinned to in the parent repository's index.
 ///
 /// If the submodule is not in the index, this will be nil.
-@property (nonatomic, strong, readonly) GTOID *indexOID;
+@property (nonatomic, strong, readonly, nullable) GTOID *indexOID;
 
 /// The OID that the submodule is pinned to in the parent repository's HEAD
 /// commit.
 ///
 /// If the submodule is not in HEAD, this will be nil.
-@property (nonatomic, strong, readonly) GTOID *HEADOID;
+@property (nonatomic, strong, readonly, nullable) GTOID *HEADOID;
 
 /// The OID that is checked out in the submodule repository.
 ///
 /// If the submodule is not checked out, this will be nil.
-@property (nonatomic, strong, readonly) GTOID *workingDirectoryOID;
+@property (nonatomic, strong, readonly, nullable) GTOID *workingDirectoryOID;
 
 /// The name of this submodule.
-@property (nonatomic, copy, readonly) NSString *name;
+@property (nonatomic, copy, readonly, nullable) NSString *name;
 
 /// The path to this submodule, relative to its parent repository's root.
-@property (nonatomic, copy, readonly) NSString *path;
+@property (nonatomic, copy, readonly, nullable) NSString *path;
 
 /// The remote URL provided for this submodule, read from the parent repository's
 /// `.git/config` or `.gitmodules` file.
-@property (nonatomic, copy, readonly) NSString *URLString;
+@property (nonatomic, copy, readonly, nullable) NSString *URLString;
 
-/// Initializes the receiver to wrap the given submodule object.
+/// Initializes the receiver to wrap the given submodule object. Designated initializer.
 ///
 /// submodule  - The submodule to wrap. The receiver will not own this object, so
 ///              it must not be freed while the GTSubmodule is alive. This must
@@ -97,7 +99,7 @@ typedef NS_OPTIONS(NSInteger, GTSubmoduleStatus) {
 ///              nil.
 ///
 /// Returns an initialized GTSubmodule, or nil if an error occurs.
-- (id)initWithGitSubmodule:(git_submodule *)submodule parentRepository:(GTRepository *)repository NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithGitSubmodule:(git_submodule *)submodule parentRepository:(GTRepository *)repository NS_DESIGNATED_INITIALIZER;
 
 /// The underlying `git_submodule` object.
 - (git_submodule *)git_submodule __attribute__((objc_returns_inner_pointer));
@@ -120,7 +122,7 @@ typedef NS_OPTIONS(NSInteger, GTSubmoduleStatus) {
 /// If the submodule is not currently checked out, this will fail.
 ///
 /// Returns the opened repository, or nil if an error occurs.
-- (GTRepository *)submoduleRepository:(NSError **)error;
+- (nullable GTRepository *)submoduleRepository:(NSError **)error;
 
 /// Determines the status for the submodule.
 ///
@@ -148,3 +150,5 @@ typedef NS_OPTIONS(NSInteger, GTSubmoduleStatus) {
 - (BOOL)addToIndex:(NSError **)error;
 
 @end
+
+NS_ASSUME_NONNULL_END
