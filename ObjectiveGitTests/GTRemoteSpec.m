@@ -16,6 +16,7 @@ QuickSpecBegin(GTRemoteSpec)
 
 __block GTRemote *remote = nil;
 __block GTRepository *repository = nil;
+__block GTConfiguration *configuration = nil;
 NSString *fetchRefspec = @"+refs/heads/*:refs/remotes/origin/*";
 
 beforeEach(^{
@@ -23,7 +24,7 @@ beforeEach(^{
 	expect(repository).notTo(beNil());
 
 	NSError *error = nil;
-	GTConfiguration *configuration = [repository configurationWithError:&error];
+	configuration = [repository configurationWithError:&error];
 	expect(configuration).notTo(beNil());
 	expect(error).to(beNil());
 
@@ -53,6 +54,9 @@ describe(@"updating", ^{
 		expect(@([remote updateURLString:newURLString error:&error])).to(beTruthy());
 		expect(error).to(beNil());
 
+		// Reload remote from disk to pick up the change
+		remote = configuration.remotes[0];
+
 		expect(remote.URLString).to(equal(newURLString));
 	});
 
@@ -64,6 +68,9 @@ describe(@"updating", ^{
 		__block NSError *error = nil;
 		expect(@([remote addFetchRefspec:newFetchRefspec error:&error])).to(beTruthy());
 		expect(error).to(beNil());
+
+		// Reload remote from disk to pick up the change
+		remote = configuration.remotes[0];
 
 		expect(remote.fetchRefspecs).to(equal((@[ fetchRefspec, newFetchRefspec ])));
 	});
