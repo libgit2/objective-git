@@ -133,8 +133,6 @@ describe(@"network operations", ^{
 			expect(error).to(beNil());
 			expect(remote).notTo(beNil());
 
-			// FIXME: libgit2 appears to be changing git:// scheme to https://
-
 			GTRemote *newRemote = [GTRemote remoteWithName:@"newremote" inRepository:fetchingRepo error:&error];
 			expect(error).to(beNil());
 			expect(newRemote).notTo(beNil());
