@@ -194,8 +194,6 @@ static void checkoutProgressCallback(const char *path, size_t completedSteps, si
 	block(nsPath, completedSteps, totalSteps);
 }
 
-#if 0
-
 static int transferProgressCallback(const git_transfer_progress *progress, void *payload) {
 	if (payload == NULL) return 0;
 	struct GTClonePayload *pld = payload;
@@ -220,10 +218,8 @@ static int remoteCreate(git_remote **remote, git_repository *repo, const char *n
 	return GIT_OK;
 }
 
-#endif
-
 + (instancetype)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL options:(NSDictionary *)options error:(NSError **)error transferProgressBlock:(void (^)(const git_transfer_progress *, BOOL *stop))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))checkoutProgressBlock {
-#if 0
+
 	git_clone_options cloneOptions = GIT_CLONE_OPTIONS_INIT;
 
 	NSNumber *bare = options[GTRepositoryCloneOptionsBare];
@@ -245,16 +241,18 @@ static int remoteCreate(git_remote **remote, git_repository *repo, const char *n
 		.credProvider = {provider},
 	};
 
-	cloneOptions.remote_callbacks.version = GIT_REMOTE_CALLBACKS_VERSION;
+	git_fetch_options fetchOptions = GIT_FETCH_OPTIONS_INIT;
+
+	fetchOptions.callbacks.version = GIT_REMOTE_CALLBACKS_VERSION;
 
 	if (provider) {
-		cloneOptions.remote_callbacks.credentials = GTCredentialAcquireCallback;
+		fetchOptions.callbacks.credentials = GTCredentialAcquireCallback;
 	}
 
 	payload.transferProgressBlock = transferProgressBlock;
 
-	cloneOptions.remote_callbacks.transfer_progress = transferProgressCallback;
-	cloneOptions.remote_callbacks.payload = &payload;
+	fetchOptions.callbacks.transfer_progress = transferProgressCallback;
+	fetchOptions.callbacks.payload = &payload;
 
 	cloneOptions.remote_cb = remoteCreate;
 
@@ -288,7 +286,6 @@ static int remoteCreate(git_remote **remote, git_repository *repo, const char *n
 	}
 
 	return [[self alloc] initWithGitRepository:repository];
-#endif
 
 	return nil;
 }
