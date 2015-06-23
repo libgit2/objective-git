@@ -78,17 +78,11 @@ int GTRemotePushTransferProgressCallback(unsigned int current, unsigned int tota
 		.payload = &connectionInfo,
 	};
 
-	git_fetch_options fetch_options;
-	int gitError = git_fetch_init_options(&fetch_options, GIT_FETCH_OPTIONS_VERSION);
-	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to init fetch options"];
-		return NO;
-	}
-
-	fetch_options.callbacks = remote_callbacks;
+	git_fetch_options fetchOptions = GIT_FETCH_OPTIONS_INIT;
+	fetchOptions.callbacks = remote_callbacks;
 
 	__block git_strarray refspecs;
-	gitError = git_remote_get_fetch_refspecs(&refspecs, remote.git_remote);
+	int gitError = git_remote_get_fetch_refspecs(&refspecs, remote.git_remote);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to get fetch refspecs for remote"];
 		return NO;
@@ -100,7 +94,7 @@ int GTRemotePushTransferProgressCallback(unsigned int current, unsigned int tota
 
 	NSString *reflog_message = [NSString stringWithFormat:@"fetching remote %@", remote.name];
 
-	gitError = git_remote_fetch(remote.git_remote, &refspecs, &fetch_options, reflog_message.UTF8String);
+	gitError = git_remote_fetch(remote.git_remote, &refspecs, &fetchOptions, reflog_message.UTF8String);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to fetch from remote"];
 		return NO;

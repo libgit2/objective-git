@@ -242,7 +242,6 @@ static int remoteCreate(git_remote **remote, git_repository *repo, const char *n
 	};
 
 	git_fetch_options fetchOptions = GIT_FETCH_OPTIONS_INIT;
-
 	fetchOptions.callbacks.version = GIT_REMOTE_CALLBACKS_VERSION;
 
 	if (provider) {
@@ -253,7 +252,7 @@ static int remoteCreate(git_remote **remote, git_repository *repo, const char *n
 
 	fetchOptions.callbacks.transfer_progress = transferProgressCallback;
 	fetchOptions.callbacks.payload = &payload;
-
+	cloneOptions.fetch_opts = fetchOptions;
 	cloneOptions.remote_cb = remoteCreate;
 
 	BOOL localClone = [options[GTRepositoryCloneOptionsCloneLocal] boolValue];
