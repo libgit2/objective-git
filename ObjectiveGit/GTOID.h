@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// git_oid - The underlying git_oid. Cannot be NULL.
 ///
 /// Returns the initialized receiver.
-- (nullable instancetype)initWithGitOid:(const git_oid *)git_oid NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithGitOid:(const git_oid *)git_oid NS_DESIGNATED_INITIALIZER;
 
 /// Initializes the receiver by converting the given SHA to an OID.
 ///
@@ -62,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable instancetype)initWithSHACString:(const char *)string error:(NSError **)error NS_DESIGNATED_INITIALIZER;
 
 /// Creates a new instance with the given git_oid using initWithGitOid:
-+ (nullable instancetype)oidWithGitOid:(const git_oid *)git_oid;
++ (instancetype)oidWithGitOid:(const git_oid *)git_oid;
 
 /// Creates a new instance from the given SHA string using initWithSHAString:
 + (nullable instancetype)oidWithSHA:(NSString *)SHA;
