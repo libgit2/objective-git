@@ -555,15 +555,15 @@ NS_ASSUME_NONNULL_BEGIN
 /// Returns whether `ahead` and `behind` were successfully calculated.
 - (BOOL)calculateAhead:(size_t *)ahead behind:(size_t *)behind ofOID:(GTOID *)headOID relativeToOID:(GTOID *)baseOID error:(NSError **)error;
 
-/// Creates an enumerator for walking the local commits beginning at one OID and
-/// ending at another. It will *not* include the commit for `endingOID`.
+/// Creates an enumerator for walking the unique commits, as determined by a
+/// pushing a starting OID and hiding the relative OID.
 ///
-/// startingOID - The starting OID.
-/// endingOID   - The ending OID.
+/// fromOID     - The starting OID.
+/// relativeOID - The OID to hide.
 /// error       - The error if one occurred.
 ///
 /// Returns the enumerator or nil if an error occurred.
-- (nullable GTEnumerator *)enumeratorForCommitsStartingAtOID:(GTOID *)startingOID endingAtOID:(GTOID *)endingOID error:(NSError **)error;
+- (nullable GTEnumerator *)enumeratorForUniqueCommitsFromOID:(GTOID *)fromOID relativeToOID:(GTOID *)relativeOID error:(NSError **)error;
 
 @end
 

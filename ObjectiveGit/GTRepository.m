@@ -894,17 +894,17 @@ static int checkoutNotifyCallback(git_checkout_notify_t why, const char *path, c
 	return YES;
 }
 
-- (nullable GTEnumerator *)enumeratorForCommitsStartingAtOID:(GTOID *)startingOID endingAtOID:(GTOID *)endingOID error:(NSError **)error {
-	NSParameterAssert(startingOID != nil);
-	NSParameterAssert(endingOID != nil);
+- (nullable GTEnumerator *)enumeratorForUniqueCommitsFromOID:(GTOID *)fromOID relativeToOID:(GTOID *)relativeOID error:(NSError **)error {
+	NSParameterAssert(fromOID != nil);
+	NSParameterAssert(relativeOID != nil);
 
 	GTEnumerator *enumerator = [[GTEnumerator alloc] initWithRepository:self error:error];
 	if (enumerator == nil) return nil;
 
-	BOOL success = [enumerator pushSHA:startingOID.SHA error:error];
+	BOOL success = [enumerator pushSHA:fromOID.SHA error:error];
 	if (!success) return nil;
 
-	success = [enumerator hideSHA:endingOID.SHA error:error];
+	success = [enumerator hideSHA:relativeOID.SHA error:error];
 	if (!success) return nil;
 
 	return enumerator;
