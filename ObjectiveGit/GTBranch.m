@@ -146,7 +146,7 @@
 }
 
 - (NSArray *)uniqueCommitsRelativeToBranch:(GTBranch *)otherBranch error:(NSError **)error {
-	GTEnumerator *enumerator = [self.repository enumerateUniqueCommitsUpToOID:self.OID relativeToOID:otherBranch.OID error:error];
+	GTEnumerator *enumerator = [self.repository enumeratorForCommitsStartingAtOID:self.OID endingAtOID:otherBranch.OID error:error];
 	return [enumerator allObjectsWithError:error];
 }
 
