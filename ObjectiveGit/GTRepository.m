@@ -912,4 +912,20 @@ static int checkoutNotifyCallback(git_checkout_notify_t why, const char *path, c
 	return YES;
 }
 
+- (GTEnumerator *)enumerateLocalCommitsInBranch:(GTBranch *)localBranch trackingBranch:(GTBranch *)trackingBranch error:(NSError **)error {
+	NSParameterAssert(localBranch != nil);
+	NSParameterAssert(trackingBranch != nil);
+
+	GTEnumerator *enumerator = [[GTEnumerator alloc] initWithRepository:self error:error];
+	if (enumerator == nil) return nil;
+
+	BOOL success = [enumerator pushSHA:localBranch.OID.SHA error:error];
+	if (!success) return nil;
+
+	success = [enumerator hideSHA:trackingBranch.OID.SHA error:error];
+	if (!success) return nil;
+
+	return enumerator;
+}
+
 @end
