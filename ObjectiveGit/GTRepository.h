@@ -565,19 +565,15 @@ NS_ASSUME_NONNULL_BEGIN
 /// Returns whether `ahead` and `behind` were successfully calculated.
 - (BOOL)calculateAhead:(size_t *)ahead behind:(size_t *)behind ofOID:(GTOID *)headOID relativeToOID:(GTOID *)baseOID error:(NSError **)error;
 
-/// Creates an enumerator for walking the local commits in relative to the
-/// tracking branch.
+/// Creates an enumerator for walking the local commits beginning at one OID and
+/// ending at another. It will *not* include the commit for `endingOID`.
 ///
-/// Note that this will only be accurate iff `trackingBranch` truly is
-/// `localBranch`s tracking branch. If you need more general functionality, see
-/// -[GTBranch uniqueCommitsRelativeToBranch:error:].
-///
-/// localBranch    - The local branch.
-/// trackingBranch - `localBranch`s tracking branch.
-/// error          - The error if one occurred.
+/// startingOID - The starting OID.
+/// endingOID   - The ending OID.
+/// error       - The error if one occurred.
 ///
 /// Returns the enumerator or nil if an error occurred.
-- (nullable GTEnumerator *)enumerateLocalCommitsInBranch:(GTBranch *)localBranch trackingBranch:(GTBranch *)trackingBranch error:(NSError **)error;
+- (nullable GTEnumerator *)enumeratorForCommitsStartingAtOID:(GTOID *)startingOID endingAtOID:(GTOID *)endingOID error:(NSError **)error;
 
 @end
 
