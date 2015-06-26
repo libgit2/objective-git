@@ -880,24 +880,6 @@ static int checkoutNotifyCallback(git_checkout_notify_t why, const char *path, c
 	}
 }
 
-- (GTEnumerator *)enumerateUniqueCommitsUpToOID:(GTOID *)headOID relativeToOID:(GTOID *)baseOID error:(NSError **)error {
-	NSParameterAssert(headOID != nil);
-	NSParameterAssert(baseOID != nil);
-	
-	GTCommit *mergeBase = [self mergeBaseBetweenFirstOID:headOID secondOID:baseOID error:error];
-	if (mergeBase == nil) return nil;
-	
-	GTEnumerator *enumerator = [[GTEnumerator alloc] initWithRepository:self error:error];
-	if (enumerator == nil) return nil;
-	
-	[enumerator resetWithOptions:GTEnumeratorOptionsTimeSort];
-	
-	if (![enumerator pushSHA:headOID.SHA error:error]) return nil;
-	if (![enumerator hideSHA:mergeBase.OID.SHA error:error]) return nil;
-
-	return enumerator;
-}
-
 - (BOOL)calculateAhead:(size_t *)ahead behind:(size_t *)behind ofOID:(GTOID *)headOID relativeToOID:(GTOID *)baseOID error:(NSError **)error {
 	NSParameterAssert(headOID != nil);
 	NSParameterAssert(baseOID != nil);

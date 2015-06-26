@@ -543,16 +543,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// distinguished using the value of `success`.
 - (nullable GTFilterList *)filterListWithPath:(NSString *)path blob:(nullable GTBlob *)blob mode:(GTFilterSourceMode)mode options:(GTFilterListOptions)options success:(nullable BOOL *)success error:(NSError **)error;
 
-/// Creates an enumerator for finding all commits in the history of `headOID`
-/// that do not exist in the history of `baseOID`.
-///
-/// headOID - Must not be nil.
-/// baseOID - Must not be nil.
-/// error   - If not NULL, set to any error that occurs.
-///
-/// Returns the created enumerator upon success, or `nil` if an error occurred.
-- (nullable GTEnumerator *)enumerateUniqueCommitsUpToOID:(GTOID *)headOID relativeToOID:(GTOID *)baseOID error:(NSError **)error;
-
 /// Calculates how far ahead/behind the commit represented by `headOID` is,
 /// relative to the commit represented by `baseOID`.
 ///
