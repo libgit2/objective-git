@@ -47,7 +47,7 @@ function build_libgit2 ()
         -DBUILD_SHARED_LIBS:BOOL=OFF \
         -DOPENSSL_INCLUDE_DIR:PATH=../../External/ios-openssl/include/ \
         -DCMAKE_LIBRARY_PATH:PATH=../../External/libssh2-ios/lib/ \
-        -DLIBSSH2_INCLUDE_DIR:PATH=../../External/libssh2-ios/include/libssh2/ \
+        -DLIBSSH2_INCLUDE_DIRS:PATH=../../External/libssh2-ios/include/libssh2/ \
         -DOPENSSL_SSL_LIBRARY:FILEPATH=../../External/ios-openssl/lib/libssl.a \
         -DCMAKE_LIBRARY_PATH:PATH="${SDKROOT}/usr/lib/" \
         -DOPENSSL_CRYPTO_LIBRARY:FILEPATH=../../External/ios-openssl/lib/libcrypto.a \
