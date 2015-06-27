@@ -7,12 +7,12 @@
 [submodule "libssh2"]
 	path = External/libssh2
 	url = https://github.com/libssh2/libssh2.git
-[submodule "Carthage.checkout/Nimble"]
+[submodule "Carthage/checkout/Nimble"]
 	path = Carthage/Checkouts/Nimble
 	url = https://github.com/Quick/Nimble.git
-[submodule "Carthage.checkout/Quick"]
+[submodule "Carthage/checkout/Quick"]
 	path = Carthage/Checkouts/Quick
 	url = https://github.com/Quick/Quick.git
-[submodule "Carthage.checkout/xcconfigs"]
+[submodule "Carthage/checkout/xcconfigs"]
 	path = Carthage/Checkouts/xcconfigs
 	url = https://github.com/jspahrsummers/xcconfigs.git
