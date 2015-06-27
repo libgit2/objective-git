@@ -28,5 +28,7 @@ ObjectiveGitTests/fixtures/Fixtures/*
 
 External/ios-openssl/include
 External/ios-openssl/lib
-
 External/libssh2-ios
+
+Carthage/Build
+
