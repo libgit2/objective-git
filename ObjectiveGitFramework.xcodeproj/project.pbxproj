@@ -316,6 +316,7 @@
 		F8D1BDF01B31FE7C00CDEC90 /* GTRepository+Pull.m in Sources */ = {isa = PBXBuildFile; fileRef = F8D1BDED1B31FE7C00CDEC90 /* GTRepository+Pull.m */; };
 		F8D1BDF11B31FE7C00CDEC90 /* GTRepository+Pull.m in Sources */ = {isa = PBXBuildFile; fileRef = F8D1BDED1B31FE7C00CDEC90 /* GTRepository+Pull.m */; };
 		F8E4A2911A170CA6006485A8 /* GTRemotePushSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = F8E4A2901A170CA6006485A8 /* GTRemotePushSpec.m */; };
+		F8EFA03A1B4059ED000FF7D0 /* GTUtilityFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = F8EFA0391B4059ED000FF7D0 /* GTUtilityFunctions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -580,6 +581,8 @@
 		F8D1BDEC1B31FE7C00CDEC90 /* GTRepository+Pull.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTRepository+Pull.h"; sourceTree = "<group>"; };
 		F8D1BDED1B31FE7C00CDEC90 /* GTRepository+Pull.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GTRepository+Pull.m"; sourceTree = "<group>"; };
 		F8E4A2901A170CA6006485A8 /* GTRemotePushSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTRemotePushSpec.m; sourceTree = "<group>"; };
+		F8EFA0381B4059ED000FF7D0 /* GTUtilityFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTUtilityFunctions.h; sourceTree = "<group>"; };
+		F8EFA0391B4059ED000FF7D0 /* GTUtilityFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTUtilityFunctions.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -759,11 +762,13 @@
 		88F05A7616011E5400B7AD1D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D09C2E50175602A500065E36 /* fixtures.zip */,
+				F8EFA0381B4059ED000FF7D0 /* GTUtilityFunctions.h */,
+				F8EFA0391B4059ED000FF7D0 /* GTUtilityFunctions.m */,
 				D01B6F0F19F82F3C00D411BC /* Info.plist */,
 				88A994C916FCED1D00402C7B /* QuickSpec+GTFixtures.h */,
 				88A994CA16FCED1D00402C7B /* QuickSpec+GTFixtures.m */,
 				D0A0129619F9A660007F1914 /* SwiftSpec.swift */,
-				D09C2E50175602A500065E36 /* fixtures.zip */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -1271,6 +1276,7 @@
 				2089E43C17D9A58000F451DA /* GTTagSpec.m in Sources */,
 				D015F7D517F6965400AD5E1F /* GTRepositoryStashingSpec.m in Sources */,
 				88A994CB16FCED1D00402C7B /* QuickSpec+GTFixtures.m in Sources */,
+				F8EFA03A1B4059ED000FF7D0 /* GTUtilityFunctions.m in Sources */,
 				30B1E8001703871900D0814D /* GTTimeAdditionsSpec.m in Sources */,
 				8870390B1975E3F2004118D7 /* GTDiffDeltaSpec.m in Sources */,
 				88C0BC5917038CF3009E99AA /* GTConfigurationSpec.m in Sources */,
