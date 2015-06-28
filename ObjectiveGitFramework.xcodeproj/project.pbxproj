@@ -426,7 +426,6 @@
 		4D79C0EC17DF9F4D00997DE4 /* GTCredential.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTCredential.h; sourceTree = "<group>"; };
 		4D79C0ED17DF9F4D00997DE4 /* GTCredential.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTCredential.m; sourceTree = "<group>"; };
 		4D79C0F617DFAA7100997DE4 /* GTCredential+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTCredential+Private.h"; sourceTree = "<group>"; };
-		4D8DADBE181A7D9F001B1202 /* libgit2 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = libgit2; path = External/libgit2; sourceTree = "<group>"; };
 		4DBA4A3117DA73CE006CD5F5 /* GTRemoteSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTRemoteSpec.m; sourceTree = "<group>"; };
 		4DE864341794A37E00371A65 /* GTRepository+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTRepository+Private.h"; sourceTree = "<group>"; };
 		4DFFB159183AA8D600D1565E /* GTRepository+RemoteOperations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTRepository+RemoteOperations.h"; sourceTree = "<group>"; };
@@ -650,7 +649,6 @@
 		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				4D8DADBE181A7D9F001B1202 /* libgit2 */,
 				306123A817EA5261006591D4 /* extobjc */,
 				4D103ADC1819CFAA0029DB24 /* libiconv.dylib */,
 				8803DA861313145700E6E818 /* libz.dylib */,
@@ -1148,7 +1146,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 0700;
 				LastTestingUpgradeCheck = 0510;
-				LastUpgradeCheck = 0620;
+				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = "GitHub, Inc";
 				TargetAttributes = {
 					D01B6ED219F82E2000D411BC = {
@@ -1516,6 +1514,7 @@
 			baseConfigurationReference = D0A463D817E57C45000F5021 /* Debug.xcconfig */;
 			buildSettings = {
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO;
 				HEADER_SEARCH_PATHS = (
 					External/libgit2/include,
@@ -1545,6 +1544,7 @@
 			baseConfigurationReference = D0A463DA17E57C45000F5021 /* Release.xcconfig */;
 			buildSettings = {
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO;
 				HEADER_SEARCH_PATHS = (
 					External/libgit2/include,
@@ -1649,6 +1649,7 @@
 			baseConfigurationReference = D0A463DB17E57C45000F5021 /* Test.xcconfig */;
 			buildSettings = {
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO;
 				HEADER_SEARCH_PATHS = (
 					External/libgit2/include,
@@ -1870,6 +1871,7 @@
 			baseConfigurationReference = D0A463D917E57C45000F5021 /* Profile.xcconfig */;
 			buildSettings = {
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO;
 				HEADER_SEARCH_PATHS = (
 					External/libgit2/include,

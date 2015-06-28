@@ -65,11 +65,11 @@
 	return @"refs/remotes/";
 }
 
-+ (id)branchWithReference:(GTReference *)ref repository:(GTRepository *)repo {
++ (nullable instancetype)branchWithReference:(GTReference *)ref repository:(GTRepository *)repo {
 	return [[self alloc] initWithReference:ref repository:repo];
 }
 
-- (id)initWithReference:(GTReference *)ref repository:(GTRepository *)repo {
+- (nullable instancetype)initWithReference:(GTReference *)ref repository:(GTRepository *)repo {
 	NSParameterAssert(ref != nil);
 	NSParameterAssert(repo != nil);
 
@@ -120,7 +120,7 @@
 	return [[NSString alloc] initWithBytes:name length:end - name encoding:NSUTF8StringEncoding];
 }
 
-- (GTCommit *)targetCommitAndReturnError:(NSError **)error {
+- (GTCommit *)targetCommitWithError:(NSError **)error {
 	if (self.OID == nil) {
 		if (error != NULL) *error = GTReference.invalidReferenceError;
 		return nil;
@@ -146,7 +146,7 @@
 }
 
 - (NSArray *)uniqueCommitsRelativeToBranch:(GTBranch *)otherBranch error:(NSError **)error {
-	GTEnumerator *enumerator = [self.repository enumerateUniqueCommitsUpToOID:self.OID relativeToOID:otherBranch.OID error:error];
+	GTEnumerator *enumerator = [self.repository enumeratorForUniqueCommitsFromOID:self.OID relativeToOID:otherBranch.OID error:error];
 	return [enumerator allObjectsWithError:error];
 }
 
@@ -216,6 +216,11 @@
 
 - (BOOL)calculateAhead:(size_t *)ahead behind:(size_t *)behind relativeTo:(GTBranch *)branch error:(NSError **)error {
 	return [self.repository calculateAhead:ahead behind:behind ofOID:self.OID relativeToOID:branch.OID error:error];
+}
+
+#pragma mark Deprecations
+- (GTCommit *)targetCommitAndReturnError:(NSError **)error {
+	return [self targetCommitWithError:error];
 }
 
 @end

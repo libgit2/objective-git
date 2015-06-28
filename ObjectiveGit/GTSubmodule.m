@@ -79,7 +79,7 @@
 	}
 }
 
-- (id)initWithGitSubmodule:(git_submodule *)submodule parentRepository:(GTRepository *)repository {
+- (instancetype)initWithGitSubmodule:(git_submodule *)submodule parentRepository:(GTRepository *)repository {
 	NSParameterAssert(submodule != NULL);
 	NSParameterAssert(repository != nil);
 

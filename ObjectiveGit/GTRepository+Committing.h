@@ -8,6 +8,8 @@
 
 #import "GTRepository.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface GTRepository (Committing)
 
 /// Creates a new commit.
@@ -23,10 +25,12 @@
 /// error     - The error if one occurred.
 ///
 /// Returns the newly created commit, or nil if an error occurred.
-- (GTCommit *)createCommitWithTree:(GTTree *)tree message:(NSString *)message author:(GTSignature *)author committer:(GTSignature *)committer parents:(NSArray *)parents updatingReferenceNamed:(NSString *)refName error:(NSError **)error;
+- (nullable GTCommit *)createCommitWithTree:(GTTree *)tree message:(NSString *)message author:(GTSignature *)author committer:(GTSignature *)committer parents:(nullable NSArray *)parents updatingReferenceNamed:(nullable NSString *)refName error:(NSError **)error;
 
 /// Creates a new commit using +createCommitWithTree:message:author:committer:parents:updatingReferenceNamed:error:
 /// with -userSignatureForNow as both the author and committer.
-- (GTCommit *)createCommitWithTree:(GTTree *)tree message:(NSString *)message parents:(NSArray *)parents updatingReferenceNamed:(NSString *)refName error:(NSError **)error;
+- (nullable GTCommit *)createCommitWithTree:(GTTree *)tree message:(NSString *)message parents:(nullable NSArray *)parents updatingReferenceNamed:(nullable NSString *)refName error:(NSError **)error;
 
 @end
+
+NS_ASSUME_NONNULL_END

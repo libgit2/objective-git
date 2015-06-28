@@ -121,13 +121,13 @@ describe(@"-reloadedBranchWithError:", ^{
 	it(@"should reload the branch from disk", ^{
 		static NSString * const originalSHA = @"a4bca6b67a5483169963572ee3da563da33712f7";
 		static NSString * const updatedSHA = @"6b0c1c8b8816416089c534e474f4c692a76ac14f";
-		expect([masterBranch targetCommitAndReturnError:NULL].SHA).to(equal(originalSHA));
+		expect([masterBranch targetCommitWithError:NULL].SHA).to(equal(originalSHA));
 		[masterBranch.reference referenceByUpdatingTarget:updatedSHA message:nil error:NULL];
 
 		GTBranch *reloadedBranch = [masterBranch reloadedBranchWithError:NULL];
 		expect(reloadedBranch).notTo(beNil());
-		expect([reloadedBranch targetCommitAndReturnError:NULL].SHA).to(equal(updatedSHA));
-		expect([masterBranch targetCommitAndReturnError:NULL].SHA).to(equal(originalSHA));
+		expect([reloadedBranch targetCommitWithError:NULL].SHA).to(equal(updatedSHA));
+		expect([masterBranch targetCommitWithError:NULL].SHA).to(equal(originalSHA));
 	});
 });
 

@@ -8,6 +8,8 @@
 
 #import "GTRepository.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface GTRepository (Attributes)
 
 /// Look up the value for the attribute of the given name for the given path.
@@ -16,6 +18,8 @@
 /// path - The path to use for the lookup. Cannot be nil.
 ///
 /// Returns the value of the attribute or nil.
-- (NSString *)attributeWithName:(NSString *)name path:(NSString *)path;
+- (nullable NSString *)attributeWithName:(NSString *)name path:(NSString *)path;
 
 @end
+
+NS_ASSUME_NONNULL_END

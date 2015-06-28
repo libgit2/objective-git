@@ -34,17 +34,19 @@
 @class GTTree;
 @class GTOID;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface GTCommit : GTObject {}
 
-@property (nonatomic, readonly, strong) GTSignature *author;
-@property (nonatomic, readonly, strong) GTSignature *committer;
+@property (nonatomic, readonly, strong, nullable) GTSignature *author;
+@property (nonatomic, readonly, strong, nullable) GTSignature *committer;
 @property (nonatomic, readonly, copy) NSArray *parents;
-@property (nonatomic, readonly) NSString *message;
+@property (nonatomic, readonly, nullable) NSString *message;
 @property (nonatomic, readonly) NSString *messageDetails;
 @property (nonatomic, readonly) NSString *messageSummary;
 @property (nonatomic, readonly) NSDate *commitDate;
 @property (nonatomic, readonly) NSTimeZone *commitTimeZone;
-@property (nonatomic, readonly) GTTree *tree;
+@property (nonatomic, readonly, nullable) GTTree *tree;
 
 /// Is this a merge commit?
 @property (nonatomic, readonly, assign, getter = isMerge) BOOL merge;
@@ -53,3 +55,5 @@
 - (git_commit *)git_commit __attribute__((objc_returns_inner_pointer));
 
 @end
+
+NS_ASSUME_NONNULL_END

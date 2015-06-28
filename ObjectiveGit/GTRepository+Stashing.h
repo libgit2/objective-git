@@ -19,6 +19,8 @@ typedef NS_OPTIONS(NSInteger, GTRepositoryStashFlag) {
 	GTRepositoryStashFlagIncludeIgnored = GIT_STASH_INCLUDE_IGNORED
 };
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface GTRepository (Stashing)
 
 /// Stash the repository's changes.
@@ -30,14 +32,14 @@ typedef NS_OPTIONS(NSInteger, GTRepositoryStashFlag) {
 ///
 /// Returns a commit representing the stashed changes if successful, or nil
 /// otherwise.
-- (GTCommit *)stashChangesWithMessage:(NSString *)message flags:(GTRepositoryStashFlag)flags error:(NSError **)error;
+- (nullable GTCommit *)stashChangesWithMessage:(nullable NSString *)message flags:(GTRepositoryStashFlag)flags error:(NSError **)error;
 
 /// Enumerate over all the stashes in the repository, from most recent to oldest.
 ///
 /// block - A block to execute for each stash found. `index` will be the zero-based
 ///         stash index (where 0 is the most recent stash). Setting `stop` to YES
-///         will cause enumeration to stop after the block returns.
-- (void)enumerateStashesUsingBlock:(void (^)(NSUInteger index, NSString *message, GTOID *oid, BOOL *stop))block;
+///         will cause enumeration to stop after the block returns. Must not be nil.
+- (void)enumerateStashesUsingBlock:(void (^)(NSUInteger index, NSString * __nullable message, GTOID * __nullable oid, BOOL *stop))block;
 
 /// Drop a stash from the repository's list of stashes.
 ///
@@ -48,3 +50,5 @@ typedef NS_OPTIONS(NSInteger, GTRepositoryStashFlag) {
 - (BOOL)dropStashAtIndex:(NSUInteger)index error:(NSError **)error;
 
 @end
+
+NS_ASSUME_NONNULL_END

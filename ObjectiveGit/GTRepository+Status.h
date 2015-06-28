@@ -81,6 +81,8 @@ typedef enum {
 /// Defaults to including all files.
 extern NSString *const GTRepositoryStatusOptionsPathSpecArrayKey;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface GTRepository (Status)
 
 /// `YES` if the working directory has no modified, new, or deleted files.
@@ -111,12 +113,26 @@ extern NSString *const GTRepositoryStatusOptionsPathSpecArrayKey;
 ///
 /// Returns `NO` in case of a failure or `YES` if the enumeration completed
 /// successfully.
-- (BOOL)enumerateFileStatusWithOptions:(NSDictionary *)options error:(NSError **)error usingBlock:(void (^)(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop))block;
+- (BOOL)enumerateFileStatusWithOptions:(nullable NSDictionary *)options error:(NSError **)error usingBlock:(nullable void (^)(GTStatusDelta * __nullable headToIndex, GTStatusDelta * __nullable indexToWorkingDirectory, BOOL *stop))block;
 
 /// Query the status of one file
-- (GTFileStatusFlags)statusForFile:(NSString *)filePath success:(BOOL *)success error:(NSError **)error;
+///
+/// filePath - A string path relative to the working copy. The must not be nil.
+/// success  - If not NULL, will be set to indicate success or fail.
+/// error    - If not nil, set to any error that occurs.
+///
+/// Returns the combined GTFileStatusFlags for the file.
+- (GTFileStatusFlags)statusForFile:(NSString *)filePath success:(nullable BOOL *)success error:(NSError **)error;
 
-/// Should the file be considered as ignored ?
-- (BOOL)shouldFileBeIgnored:(NSURL *)fileURL success:(BOOL *)success error:(NSError **)error;
+/// Tests the ignore rules to see if the file should be considered as ignored.
+///
+/// fileURL  - A string path relative to the working copy. Must not be nil.
+/// success  - If not NULL, will be set to indicate success or fail.
+/// error    - If not nil, set to any error that occurs.
+///
+/// Returns YES if the file should be ignored; NO otherwise.
+- (BOOL)shouldFileBeIgnored:(NSURL *)fileURL success:(nullable BOOL *)success error:(NSError **)error;
 
 @end
+
+NS_ASSUME_NONNULL_END

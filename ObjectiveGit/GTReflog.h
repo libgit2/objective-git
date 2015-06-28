@@ -11,6 +11,8 @@
 @class GTSignature;
 @class GTReflogEntry;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /// A reflog for a reference. Reflogs should not be created manually. Use
 /// -[GTReference reflog] to get the reflog for a reference.
 @interface GTReflog : NSObject
@@ -32,7 +34,9 @@
 /// index - The reflog entry to get. 0 is the most recent entry. If it is greater
 ///         than `entryCount`, it will assert.
 ///
-/// Returns the entry at that index.
-- (GTReflogEntry *)entryAtIndex:(NSUInteger)index;
+/// Returns the entry at that index or nil if not found.
+- (nullable GTReflogEntry *)entryAtIndex:(NSUInteger)index;
 
 @end
+
+NS_ASSUME_NONNULL_END

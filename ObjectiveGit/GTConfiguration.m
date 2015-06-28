@@ -33,7 +33,7 @@
 	}
 }
 
-- (id)initWithGitConfig:(git_config *)config repository:(GTRepository *)repository {
+- (instancetype)initWithGitConfig:(git_config *)config repository:(GTRepository *)repository {
 	NSParameterAssert(config != NULL);
 
 	self = [super init];

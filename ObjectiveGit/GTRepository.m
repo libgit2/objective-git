@@ -153,11 +153,11 @@ typedef struct {
 	return [[self alloc] initWithGitRepository:repository];
 }
 
-+ (id)repositoryWithURL:(NSURL *)localFileURL error:(NSError **)error {
++ (instancetype)repositoryWithURL:(NSURL *)localFileURL error:(NSError **)error {
 	return [[self alloc] initWithURL:localFileURL error:error];
 }
 
-- (id)initWithGitRepository:(git_repository *)repository {
+- (instancetype)initWithGitRepository:(git_repository *)repository {
 	NSParameterAssert(repository != nil);
 
 	self = [super init];
@@ -168,7 +168,7 @@ typedef struct {
 	return self;
 }
 
-- (id)initWithURL:(NSURL *)localFileURL error:(NSError **)error {
+- (instancetype)initWithURL:(NSURL *)localFileURL error:(NSError **)error {
 	if (![localFileURL isFileURL] || localFileURL.path == nil) {
 		if (error != NULL) *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileReadUnsupportedSchemeError userInfo:@{ NSLocalizedDescriptionKey: NSLocalizedString(@"Invalid file path URL to open.", @"") }];
 		return nil;
@@ -212,20 +212,13 @@ struct GTClonePayload {
 static int remoteCreate(git_remote **remote, git_repository *repo, const char *name, const char *url, void *payload)
 {
 	int error;
-	struct GTRemoteCreatePayload *pld = payload;
-	git_remote_callbacks *callbacks = &pld->remoteCallbacks;
-
 	if ((error = git_remote_create(remote, repo, name, url)) < 0)
 		return error;
 
-	return git_remote_set_callbacks(*remote, callbacks);
+	return GIT_OK;
 }
 
-struct GTRemoteCreatePayload {
-	git_remote_callbacks remoteCallbacks;
-};
-
-+ (id)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL options:(NSDictionary *)options error:(NSError **)error transferProgressBlock:(void (^)(const git_transfer_progress *, BOOL *stop))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))checkoutProgressBlock {
++ (instancetype)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL options:(NSDictionary *)options error:(NSError **)error transferProgressBlock:(void (^)(const git_transfer_progress *, BOOL *stop))transferProgressBlock checkoutProgressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))checkoutProgressBlock {
 
 	git_clone_options cloneOptions = GIT_CLONE_OPTIONS_INIT;
 
@@ -248,22 +241,19 @@ struct GTRemoteCreatePayload {
 		.credProvider = {provider},
 	};
 
-	cloneOptions.remote_callbacks.version = GIT_REMOTE_CALLBACKS_VERSION;
+	git_fetch_options fetchOptions = GIT_FETCH_OPTIONS_INIT;
+	fetchOptions.callbacks.version = GIT_REMOTE_CALLBACKS_VERSION;
 
 	if (provider) {
-		cloneOptions.remote_callbacks.credentials = GTCredentialAcquireCallback;
+		fetchOptions.callbacks.credentials = GTCredentialAcquireCallback;
 	}
 
 	payload.transferProgressBlock = transferProgressBlock;
 
-	cloneOptions.remote_callbacks.transfer_progress = transferProgressCallback;
-	cloneOptions.remote_callbacks.payload = &payload;
-
-	struct GTRemoteCreatePayload remoteCreatePayload;
-	remoteCreatePayload.remoteCallbacks = cloneOptions.remote_callbacks;
-
+	fetchOptions.callbacks.transfer_progress = transferProgressCallback;
+	fetchOptions.callbacks.payload = &payload;
+	cloneOptions.fetch_opts = fetchOptions;
 	cloneOptions.remote_cb = remoteCreate;
-	cloneOptions.remote_cb_payload = &remoteCreatePayload;
 
 	BOOL localClone = [options[GTRepositoryCloneOptionsCloneLocal] boolValue];
 	if (localClone) {
@@ -295,6 +285,8 @@ struct GTRemoteCreatePayload {
 	}
 
 	return [[self alloc] initWithGitRepository:repository];
+
+	return nil;
 }
 
 - (id)lookUpObjectByGitOid:(const git_oid *)oid objectType:(GTObjectType)type error:(NSError **)error {
@@ -888,24 +880,6 @@ static int checkoutNotifyCallback(git_checkout_notify_t why, const char *path, c
 	}
 }
 
-- (GTEnumerator *)enumerateUniqueCommitsUpToOID:(GTOID *)headOID relativeToOID:(GTOID *)baseOID error:(NSError **)error {
-	NSParameterAssert(headOID != nil);
-	NSParameterAssert(baseOID != nil);
-	
-	GTCommit *mergeBase = [self mergeBaseBetweenFirstOID:headOID secondOID:baseOID error:error];
-	if (mergeBase == nil) return nil;
-	
-	GTEnumerator *enumerator = [[GTEnumerator alloc] initWithRepository:self error:error];
-	if (enumerator == nil) return nil;
-	
-	[enumerator resetWithOptions:GTEnumeratorOptionsTimeSort];
-	
-	if (![enumerator pushSHA:headOID.SHA error:error]) return nil;
-	if (![enumerator hideSHA:mergeBase.OID.SHA error:error]) return nil;
-
-	return enumerator;
-}
-
 - (BOOL)calculateAhead:(size_t *)ahead behind:(size_t *)behind ofOID:(GTOID *)headOID relativeToOID:(GTOID *)baseOID error:(NSError **)error {
 	NSParameterAssert(headOID != nil);
 	NSParameterAssert(baseOID != nil);
@@ -918,6 +892,22 @@ static int checkoutNotifyCallback(git_checkout_notify_t why, const char *path, c
 	}
 
 	return YES;
+}
+
+- (nullable GTEnumerator *)enumeratorForUniqueCommitsFromOID:(GTOID *)fromOID relativeToOID:(GTOID *)relativeOID error:(NSError **)error {
+	NSParameterAssert(fromOID != nil);
+	NSParameterAssert(relativeOID != nil);
+
+	GTEnumerator *enumerator = [[GTEnumerator alloc] initWithRepository:self error:error];
+	if (enumerator == nil) return nil;
+
+	BOOL success = [enumerator pushSHA:fromOID.SHA error:error];
+	if (!success) return nil;
+
+	success = [enumerator hideSHA:relativeOID.SHA error:error];
+	if (!success) return nil;
+
+	return enumerator;
 }
 
 @end

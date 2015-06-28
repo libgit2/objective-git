@@ -146,15 +146,15 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 	return [[GTIndexEntry alloc] initWithGitIndexEntry:entry index:self error:NULL];
 }
 
-- (GTIndexEntry *)entryWithName:(NSString *)name {
-	return [self entryWithName:name error:NULL];
+- (GTIndexEntry *)entryWithPath:(NSString *)path {
+	return [self entryWithPath:path error:NULL];
 }
 
-- (GTIndexEntry *)entryWithName:(NSString *)name error:(NSError **)error {
+- (GTIndexEntry *)entryWithPath:(NSString *)path error:(NSError **)error {
 	size_t pos = 0;
-	int gitError = git_index_find(&pos, self.git_index, name.UTF8String);
+	int gitError = git_index_find(&pos, self.git_index, path.UTF8String);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"%@ not found in index", name];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"%@ not found in index", path];
 		return NULL;
 	}
 	return [self entryAtIndex:pos];
@@ -182,19 +182,19 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 	return YES;
 }
 
-- (BOOL)addData:(NSData *)data withName:(NSString *)name error:(NSError **)error {
+- (BOOL)addData:(NSData *)data withPath:(NSString *)path error:(NSError **)error {
 	NSParameterAssert(data != nil);
-	NSParameterAssert(name != nil);
+	NSParameterAssert(path != nil);
 	
 	git_index_entry entry;
 	memset(&entry, 0x0, sizeof(git_index_entry));
-	entry.path = [name cStringUsingEncoding:NSUTF8StringEncoding];
+	entry.path = [path cStringUsingEncoding:NSUTF8StringEncoding];
 	entry.mode = GIT_FILEMODE_BLOB;
 	
 	int status = git_index_add_frombuffer(self.git_index, &entry, [data bytes], [data length]);
 	
 	if (status != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to add data with name %@ into index.", name];
+		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to add data with name %@ into index.", path];
 		return NO;
 	}
 	
@@ -380,4 +380,13 @@ int GTIndexPathspecMatchFound(const char *path, const char *matched_pathspec, vo
       return (shouldPrecompose ? [string precomposedStringWithCanonicalMapping] : [string decomposedStringWithCanonicalMapping]);
 }
 
+#pragma mark Deprecations
+
+- (GTIndexEntry *)entryWithName:(NSString *)name {
+    return [self entryWithPath:name];
+}
+
+- (GTIndexEntry *)entryWithName:(NSString *)name error:(NSError **)error {
+    return [self entryWithPath:name error:error];
+}
 @end
