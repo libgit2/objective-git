@@ -47,12 +47,12 @@
 		return NO;
 	}
 
-	GTCommit *localCommit = [localBranch targetCommitAndReturnError:error];
+	GTCommit *localCommit = [localBranch targetCommitWithError:error];
 	if (!localCommit) {
 		return NO;
 	}
 
-	GTCommit *remoteCommit = [remoteBranch targetCommitAndReturnError:error];
+	GTCommit *remoteCommit = [remoteBranch targetCommitWithError:error];
 	if (!remoteCommit) {
 		return NO;
 	}
@@ -97,7 +97,7 @@
 	git_merge_preference_t preference;
 	git_annotated_commit *annotatedCommit;
 
-	GTCommit *fromCommit = [fromBranch targetCommitAndReturnError:error];
+	GTCommit *fromCommit = [fromBranch targetCommitWithError:error];
 	if (!fromCommit) {
 		return NO;
 	}
