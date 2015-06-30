@@ -79,7 +79,7 @@ describe(@"pulling", ^{
 				GTBranch *remoteMasterBranch = localBranchWithName(@"master", remoteRepo);
 				expect(@([remoteMasterBranch numberOfCommitsWithError:NULL])).to(equal(@3));
 
-				// Push
+				// Pull
 				__block BOOL transferProgressed = NO;
 				BOOL result = [localRepo pullBranch:masterBranch fromRemote:remote withOptions:nil error:&error progress:^(const git_transfer_progress *progress, BOOL *stop) {
 					transferProgressed = YES;
@@ -92,6 +92,48 @@ describe(@"pulling", ^{
 				remoteMasterBranch = localBranchWithName(@"master", remoteRepo);
 				expect(@([remoteMasterBranch numberOfCommitsWithError:NULL])).to(equal(@3));
 			});
+		});
+
+		/// This test stages a pull by modifying a clone, resetting it back in history
+		/// then using pull to bring the repos back in sync.
+		it(@"can pull one commit", ^{
+			GTBranch *masterBranch = localBranchWithName(@"master", localRepo);
+			expect(@([masterBranch numberOfCommitsWithError:NULL])).to(equal(@3));
+
+			// Reset local master back one commit
+			GTCommit *commit = [localRepo lookUpObjectByRevParse:@"HEAD^" error:&error];
+			BOOL success = [localRepo resetToCommit:commit resetType:GTRepositoryResetTypeHard error:&error];
+			expect(@(success)).to(beTruthy());
+			expect(error).to(beNil());
+
+			// Verify rollback, must refresh branch from disk
+			masterBranch = localBranchWithName(@"master", localRepo);
+			expect(@([masterBranch numberOfCommitsWithError:NULL])).to(equal(@2));
+
+			// HEADs point to different objects
+			expect([[localRepo headReferenceWithError:NULL] OID])
+				.toNot(equal([[remoteRepo headReferenceWithError:NULL] OID]));
+
+			// Remote has 3 commits
+			GTBranch *remoteMasterBranch = localBranchWithName(@"master", remoteRepo);
+			expect(@([remoteMasterBranch numberOfCommitsWithError:NULL])).to(equal(@3));
+
+			// Pull
+			__block BOOL transferProgressed = NO;
+			BOOL result = [localRepo pullBranch:masterBranch fromRemote:remote withOptions:nil error:&error progress:^(const git_transfer_progress *progress, BOOL *stop) {
+				transferProgressed = YES;
+			}];
+			expect(error).to(beNil());
+			expect(@(result)).to(beTruthy());
+			expect(@(transferProgressed)).to(beFalsy()); // Local transport doesn't currently call progress callbacks
+
+			// Verify same number of commits after pull, refresh branch from disk first
+			masterBranch = localBranchWithName(@"master", localRepo);
+			expect(@([masterBranch numberOfCommitsWithError:NULL])).to(equal(@3));
+
+			// Verify HEADs are in sync
+			expect([[localRepo headReferenceWithError:NULL] OID])
+				.to(equal([[remoteRepo headReferenceWithError:NULL] OID]));
 		});
 
 	});
