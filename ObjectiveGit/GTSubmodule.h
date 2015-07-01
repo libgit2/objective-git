@@ -19,7 +19,7 @@
 ///
 /// These flags are mutually exclusive.
 typedef NS_ENUM(NSInteger, GTSubmoduleIgnoreRule) {
-	GTSubmoduleIgnoreReset = GIT_SUBMODULE_IGNORE_RESET,
+	GTSubmoduleIgnoreUnspecified = GIT_SUBMODULE_IGNORE_UNSPECIFIED,
 	GTSubmoduleIgnoreNone = GIT_SUBMODULE_IGNORE_NONE,
 	GTSubmoduleIgnoreUntracked = GIT_SUBMODULE_IGNORE_UNTRACKED,
 	GTSubmoduleIgnoreDirty = GIT_SUBMODULE_IGNORE_DIRTY,
