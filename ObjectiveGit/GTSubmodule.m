@@ -26,7 +26,7 @@
 }
 
 - (void)setIgnoreRule:(GTSubmoduleIgnoreRule)ignoreRule {
-	git_submodule_set_ignore(self.git_submodule, (git_submodule_ignore_t)ignoreRule);
+	git_submodule_set_ignore(self.parentRepository.git_repository, git_submodule_name(self.git_submodule), (git_submodule_ignore_t)ignoreRule);
 }
 
 - (GTOID *)indexOID {
@@ -96,7 +96,7 @@
 
 - (GTSubmoduleStatus)status:(NSError **)error {
 	unsigned status;
-	int gitError = git_submodule_status(&status, self.git_submodule);
+	int gitError = git_submodule_status(&status, self.parentRepository.git_repository, git_submodule_name(self.git_submodule), git_submodule_ignore(self.git_submodule));
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to get submodule %@ status.", self.name];
 		return GTSubmoduleStatusUnknown;

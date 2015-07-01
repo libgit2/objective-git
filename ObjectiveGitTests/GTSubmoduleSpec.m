@@ -21,7 +21,7 @@ beforeEach(^{
 	expect(repo).notTo(beNil());
 });
 
-it(@"should enumerate top-level submodules", ^{
+fit(@"should enumerate top-level submodules", ^{
 	NSMutableSet *names = [NSMutableSet set];
 	[repo enumerateSubmodulesRecursively:NO usingBlock:^(GTSubmodule *submodule, NSError *error, BOOL *stop) {
 		expect(submodule).to(beAnInstanceOf(GTSubmodule.class));
@@ -67,8 +67,7 @@ it(@"should write to the parent .git/config", ^{
 	expect(submodule).notTo(beNil());
 	expect(@(git_submodule_url(submodule.git_submodule))).notTo(equal(testURLString));
 
-	git_submodule_set_url(submodule.git_submodule, testURLString.UTF8String);
-	git_submodule_save(submodule.git_submodule);
+	git_submodule_set_url(repo.git_repository, git_submodule_name(submodule.git_submodule), testURLString.UTF8String);
 
 	__block NSError *error = nil;
 	expect(@([submodule writeToParentConfigurationDestructively:YES error:&error])).to(beTruthy());
@@ -77,26 +76,6 @@ it(@"should write to the parent .git/config", ^{
 	submodule = [repo submoduleWithName:@"Test_App" error:NULL];
 	expect(submodule).notTo(beNil());
 	expect(@(git_submodule_url(submodule.git_submodule))).to(equal(testURLString));
-});
-
-it(@"should reload all submodules", ^{
-	GTSubmodule *submodule = [repo submoduleWithName:@"new_submodule" error:NULL];
-	expect(submodule).to(beNil());
-
-	NSURL *gitmodulesURL = [repo.fileURL URLByAppendingPathComponent:@".gitmodules"];
-	NSMutableString *gitmodules = [NSMutableString stringWithContentsOfURL:gitmodulesURL usedEncoding:NULL error:NULL];
-	expect(gitmodules).notTo(beNil());
-
-	[gitmodules appendString:@"[submodule \"new_submodule\"]\n\turl = some_url\n\tpath = new_submodule_path"];
-	expect(@([gitmodules writeToURL:gitmodulesURL atomically:YES encoding:NSUTF8StringEncoding error:NULL])).to(beTruthy());
-
-	__block NSError *error = nil;
-	expect(@([repo reloadSubmodules:&error])).to(beTruthy());
-	expect(error).to(beNil());
-
-	submodule = [repo submoduleWithName:@"new_submodule" error:NULL];
-	expect(submodule).notTo(beNil());
-	expect(submodule.path).to(equal(@"new_submodule_path"));
 });
 
 it(@"should add its HEAD to its parent's index", ^{
