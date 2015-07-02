@@ -27,6 +27,10 @@
 
 - (void)setIgnoreRule:(GTSubmoduleIgnoreRule)ignoreRule {
 	git_submodule_set_ignore(self.parentRepository.git_repository, git_submodule_name(self.git_submodule), (git_submodule_ignore_t)ignoreRule);
+
+	// The docs for `git_submodule_set_ignore` note "This does not affect any
+	// currently-loaded instances." So we need to reload.
+	git_submodule_reload(self.git_submodule, 0);
 }
 
 - (GTOID *)indexOID {
