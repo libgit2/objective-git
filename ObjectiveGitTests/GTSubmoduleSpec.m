@@ -21,7 +21,7 @@ beforeEach(^{
 	expect(repo).notTo(beNil());
 });
 
-fit(@"should enumerate top-level submodules", ^{
+it(@"should enumerate top-level submodules", ^{
 	NSMutableSet *names = [NSMutableSet set];
 	[repo enumerateSubmodulesRecursively:NO usingBlock:^(GTSubmodule *submodule, NSError *error, BOOL *stop) {
 		expect(submodule).to(beAnInstanceOf(GTSubmodule.class));
