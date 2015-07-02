@@ -69,6 +69,7 @@ describe(@"pulling", ^{
 			[NSFileManager.defaultManager removeItemAtURL:localRepoURL error:&error];
 			expect(error).to(beNil());
 			error = NULL;
+			[self tearDown];
 		});
 
 		context(@"when the local and remote branches are in sync", ^{
@@ -94,6 +95,50 @@ describe(@"pulling", ^{
 			});
 		});
 
+		/// Unborn
+		/// Can't get a GTBranch reference wrapping HEAD when its symref is unborn
+		pending(@"can pull into an empty repo", ^{
+			// Create an empty local repo
+			localRepoURL = [remoteRepoURL.URLByDeletingLastPathComponent URLByAppendingPathComponent:@"empty_pull_repo"];
+			NSLog(@"localRepoURL: %@", localRepoURL);
+			NSDictionary *options = @{ GTRepositoryInitOptionsOriginURLString: [remoteRepoURL absoluteString] };
+			localRepo = [GTRepository initializeEmptyRepositoryAtFileURL:localRepoURL options:options error:&error];
+			expect(localRepo).toNot(beNil());
+			expect(error).to(beNil());
+
+			// Verify unborn
+			expect(@(localRepo.isHEADUnborn)).to(beTruthy());
+
+			// Configure tracking
+			GTConfiguration *configuration = [localRepo configurationWithError:&error];
+			expect(configuration).toNot(beNil());
+			expect(error).to(beNil());
+			[configuration setString:@"origin" forKey:@"branch.master.remote"];
+			[configuration setString:@"refs/heads/master" forKey:@"branch.master.merge"];
+
+			GTReference *head = [localRepo headReferenceWithError:&error];
+			expect(head).toNot(beNil());
+			expect(error).to(beNil());
+
+//			GTBranch *masterBranch = localBranchWithName(@"master", localRepo);
+			GTBranch *masterBranch = [localRepo currentBranchWithError:&error];
+			expect(masterBranch).toNot(beNil());
+
+			// Pull
+			__block BOOL transferProgressed = NO;
+			BOOL result = [localRepo pullBranch:masterBranch fromRemote:remote withOptions:nil error:&error progress:^(const git_transfer_progress *progress, BOOL *stop) {
+				transferProgressed = YES;
+			}];
+			expect(@(result)).to(beTruthy());
+			expect(error).to(beNil());
+			expect(@(transferProgressed)).to(beFalsy()); // Local transport doesn't currently call progress callbacks
+
+//			GTReference *head = [localRepo headReferenceWithError:&error];
+//			expect(head).toNot(beNil());
+
+		});
+
+		/// # Fast-forward
 		/// This test stages a pull by modifying a clone, resetting it back in history
 		/// then using pull to bring the repos back in sync.
 		it(@"can pull one commit", ^{
