@@ -102,15 +102,19 @@
 
 #pragma mark Inspection
 
-- (GTSubmoduleStatus)status:(NSError **)error {
+- (GTSubmoduleStatus)statusWithIgnoreRule:(GTSubmoduleIgnoreRule)ignoreRule error:(NSError **)error {
 	unsigned status;
-	int gitError = git_submodule_status(&status, self.parentRepository.git_repository, git_submodule_name(self.git_submodule), git_submodule_ignore(self.git_submodule));
+	int gitError = git_submodule_status(&status, self.parentRepository.git_repository, git_submodule_name(self.git_submodule), (git_submodule_ignore_t)ignoreRule);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to get submodule %@ status.", self.name];
 		return GTSubmoduleStatusUnknown;
 	}
 
 	return status;
+}
+
+- (GTSubmoduleStatus)status:(NSError **)error {
+	return [self statusWithIgnoreRule:self.ignoreRule error:error];
 }
 
 #pragma mark Manipulation

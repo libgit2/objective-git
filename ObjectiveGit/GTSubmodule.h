@@ -132,10 +132,16 @@ NS_ASSUME_NONNULL_BEGIN
 /// Returns the opened repository, or nil if an error occurs.
 - (nullable GTRepository *)submoduleRepository:(NSError **)error;
 
-/// Determines the status for the submodule.
-///
-/// Returns the status, or `GTSubmoduleStatusUnknown` if an error occurs.
+/// Calls `-statusWithIgnoreRule:error:` with the submodule's ignore rule.
 - (GTSubmoduleStatus)status:(NSError **)error;
+
+/// Determine the status for the submodule using the given ignore rule.
+///
+/// ignoreRule - The ignore rule to use in calculating status.
+/// error      - The error if one occurred.
+///
+/// Returns the status or `GTSubmoduleStatusUnknown` if an error occurred.
+- (GTSubmoduleStatus)statusWithIgnoreRule:(GTSubmoduleIgnoreRule)ignoreRule error:(NSError **)error;
 
 /// Initializes the submodule by copying its information into the parent
 /// repository's `.git/config` file. This is equivalent to `git submodule init`
