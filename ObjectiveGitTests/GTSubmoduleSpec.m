@@ -98,8 +98,9 @@ it(@"should update the ignore rule", ^{
 	expect(submodule).notTo(beNil());
 	expect(@(submodule.ignoreRule)).to(equal(@(GTSubmoduleIgnoreNone)));
 
-	submodule = [submodule submoduleByUpdatingIgnoreRule:GTSubmoduleIgnoreAll error:NULL];
-	expect(@(submodule.ignoreRule)).to(equal(@(GTSubmoduleIgnoreAll)));
+	GTSubmodule *updatedSubmodule = [submodule submoduleByUpdatingIgnoreRule:GTSubmoduleIgnoreAll error:NULL];
+	expect(@(updatedSubmodule.ignoreRule)).to(equal(@(GTSubmoduleIgnoreAll)));
+	expect(@(submodule.ignoreRule)).to(equal(@(GTSubmoduleIgnoreNone)));
 });
 
 describe(@"clean, checked out submodule", ^{
