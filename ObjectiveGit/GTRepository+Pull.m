@@ -58,6 +58,7 @@
 	}
 
 	if ([localCommit.SHA isEqualToString:remoteCommit.SHA]) {
+		// Local and remote tracking branch are already in sync
 		return YES;
 	}
 
@@ -73,7 +74,8 @@
 	} else if (analysis & GTMergeAnalysisFastForward ||
 			   analysis & GTMergeAnalysisUnborn) {
 		// Fast-forward branch
-		GTReference *reference = [localBranch.reference referenceByUpdatingTarget:remoteCommit.SHA message:nil error:error];
+		NSString *message = [NSString stringWithFormat:@"merge %@/%@: Fast-forward", remote.name, remoteBranch.name];
+		GTReference *reference = [localBranch.reference referenceByUpdatingTarget:remoteCommit.SHA message:message error:error];
 		BOOL checkoutSuccess = [self checkoutReference:reference strategy:GTCheckoutStrategyForce error:error progressBlock:nil];
 
 		return checkoutSuccess;
