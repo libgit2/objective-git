@@ -117,7 +117,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error      - The error if one occurred.
 ///
 /// Returns the updated submodule or nil if an error occurred.
-- (GTSubmodule *)submoduleByUpdatingIgnoreRule:(GTSubmoduleIgnoreRule)ignoreRule error:(NSError **)error;
+- (nullable GTSubmodule *)submoduleByUpdatingIgnoreRule:(GTSubmoduleIgnoreRule)ignoreRule error:(NSError **)error;
 
 /// Synchronizes the submodule repository's configuration files with the settings
 /// from the parent repository.
