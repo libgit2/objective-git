@@ -72,9 +72,9 @@
 		return YES;
 	} else if (analysis & GTMergeAnalysisFastForward ||
 			   analysis & GTMergeAnalysisUnborn) {
-		// Do FastForward
-		[localBranch.reference referenceByUpdatingTarget:remoteCommit.SHA message:nil error:error];
-		BOOL checkoutSuccess = [self checkoutReference:localBranch.reference strategy:GTCheckoutStrategyForce error:error progressBlock:nil];
+		// Fast-forward branch
+		GTReference *reference = [localBranch.reference referenceByUpdatingTarget:remoteCommit.SHA message:nil error:error];
+		BOOL checkoutSuccess = [self checkoutReference:reference strategy:GTCheckoutStrategyForce error:error progressBlock:nil];
 
 		return checkoutSuccess;
 	} else if (analysis & GTMergeAnalysisNormal) {
