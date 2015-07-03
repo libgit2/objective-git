@@ -60,9 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) GTRepository *parentRepository;
 
 /// The current ignore rule for this submodule.
-///
-/// Setting this property will only update the rule in memory, not on disk.
-@property (nonatomic, assign) GTSubmoduleIgnoreRule ignoreRule;
+@property (nonatomic, readonly, assign) GTSubmoduleIgnoreRule ignoreRule;
 
 /// The OID that the submodule is pinned to in the parent repository's index.
 ///
@@ -110,6 +108,16 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// Returns whether reloading succeeded.
 - (BOOL)reload:(NSError **)error;
+
+/// Write a new ignore rule to disk and get the resulting submodule. The
+/// receiver will not have the new ignore rule. To update the receiver, call
+/// `-reload:`.
+///
+/// ignoreRule - The ignore rule.
+/// error      - The error if one occurred.
+///
+/// Returns the updated submodule or nil if an error occurred.
+- (GTSubmodule *)submoduleByUpdatingIgnoreRule:(GTSubmoduleIgnoreRule)ignoreRule error:(NSError **)error;
 
 /// Synchronizes the submodule repository's configuration files with the settings
 /// from the parent repository.

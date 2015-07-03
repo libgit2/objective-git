@@ -25,12 +25,16 @@
 	return (GTSubmoduleIgnoreRule)git_submodule_ignore(self.git_submodule);
 }
 
-- (void)setIgnoreRule:(GTSubmoduleIgnoreRule)ignoreRule {
-	git_submodule_set_ignore(self.parentRepository.git_repository, git_submodule_name(self.git_submodule), (git_submodule_ignore_t)ignoreRule);
+- (GTSubmodule *)submoduleByUpdatingIgnoreRule:(GTSubmoduleIgnoreRule)ignoreRule error:(NSError **)error {
+	int result = git_submodule_set_ignore(self.parentRepository.git_repository, git_submodule_name(self.git_submodule), (git_submodule_ignore_t)ignoreRule);
+	if (result != GIT_OK) {
+		if (error != NULL) {
+			*error = [NSError git_errorFor:result description:@"Couldn't set submodule ignore rule."];
+		}
+		return nil;
+	}
 
-	// The docs for `git_submodule_set_ignore` note "This does not affect any
-	// currently-loaded instances." So we need to reload.
-	git_submodule_reload(self.git_submodule, 0);
+	return [self.parentRepository submoduleWithName:self.name error:error];
 }
 
 - (GTOID *)indexOID {
