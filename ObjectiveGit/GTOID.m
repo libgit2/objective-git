@@ -39,6 +39,13 @@
 
 #pragma mark Lifecycle
 
+// XCode 7+ require overriding super designated initializers
+- (instancetype)init
+{
+	git_oid *gitOid = NULL;
+	return [self initWithGitOid:gitOid];
+}
+
 - (instancetype)initWithGitOid:(const git_oid *)oid {
 	NSParameterAssert(oid != NULL);
 

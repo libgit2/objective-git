@@ -12,6 +12,13 @@
 
 @implementation GTStatusDelta
 
+// XCode 7+ require overriding super designated initializers
+- (instancetype)init
+{
+	git_diff_delta *gitDiffDelta = NULL;
+	return [self initWithGitDiffDelta:gitDiffDelta];
+}
+
 - (instancetype)initWithGitDiffDelta:(const git_diff_delta *)delta {
 	self = [super init];
 	if (self == nil || delta == NULL) return nil;

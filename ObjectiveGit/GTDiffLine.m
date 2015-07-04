@@ -10,6 +10,13 @@
 
 @implementation GTDiffLine
 
+// XCode 7+ require overriding super designated initializers
+- (instancetype)init
+{
+	git_diff_line *gitDiffLine = NULL;
+	return [self initWithGitLine:gitDiffLine];
+}
+
 - (instancetype)initWithGitLine:(const git_diff_line *)line {
 	self = [super init];
 	if (self == nil) return nil;

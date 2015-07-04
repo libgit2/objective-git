@@ -7,8 +7,8 @@
 //
 
 #import "GTDiffPatch.h"
-
 #import "GTDiffHunk.h"
+#import "GTDiffDelta.h"
 
 @interface GTDiffPatch ()
 
@@ -19,6 +19,13 @@
 @implementation GTDiffPatch
 
 #pragma mark Lifecycle
+
+// XCode 7+ require overriding super designated initializers
+- (instancetype)init
+{
+	git_patch *gitPatch = NULL;
+	return [self initWithGitPatch:gitPatch delta:[GTDiffDelta new]];
+}
 
 - (instancetype)initWithGitPatch:(git_patch *)patch delta:(GTDiffDelta *)delta {
 	NSParameterAssert(patch != NULL);

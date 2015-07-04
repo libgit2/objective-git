@@ -69,6 +69,12 @@
 	return [[self alloc] initWithReference:ref repository:repo];
 }
 
+// XCode 7+ require overriding super designated initializers
+- (instancetype)init
+{
+	return [self initWithReference:[GTReference new] repository:[GTRepository new]];
+}
+
 - (nullable instancetype)initWithReference:(GTReference *)ref repository:(GTRepository *)repo {
 	NSParameterAssert(ref != nil);
 	NSParameterAssert(repo != nil);

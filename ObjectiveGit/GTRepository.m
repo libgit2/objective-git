@@ -157,6 +157,13 @@ typedef struct {
 	return [[self alloc] initWithURL:localFileURL error:error];
 }
 
+// XCode 7+ require overriding super designated initializers
+- (instancetype)init
+{
+	git_repository *gitRepository = NULL;
+	return [self initWithGitRepository:gitRepository];
+}
+
 - (instancetype)initWithGitRepository:(git_repository *)repository {
 	NSParameterAssert(repository != nil);
 

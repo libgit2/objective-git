@@ -21,6 +21,13 @@
 
 @implementation GTBlame
 
+// XCode 7+ require overriding super designated initializers
+- (instancetype)init
+{
+	git_blame *gitBlame = NULL;
+	return [self initWithGitBlame:gitBlame];
+}
+
 - (instancetype)initWithGitBlame:(git_blame *)blame {
 	NSParameterAssert(blame != NULL);
 	

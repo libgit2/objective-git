@@ -70,6 +70,13 @@
 
 #pragma mark API 
 
+// XCode 7+ require overriding super designated initializers
+- (instancetype)init
+{
+	git_object *gitObject = NULL;
+	return [self initWithObj:gitObject inRepository:[GTRepository new]];
+}
+
 - (id)initWithObj:(git_object *)object inRepository:(GTRepository *)repo {
 	NSParameterAssert(object != NULL);
 	NSParameterAssert(repo != nil);

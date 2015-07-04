@@ -62,6 +62,13 @@
 	return self;
 }
 
+// XCode 7+ require overriding super designated initializers
+- (instancetype)init
+{
+	git_index_entry *gitIndexEntry = NULL;
+	return [self initWithGitIndexEntry:gitIndexEntry];
+}
+
 - (instancetype)initWithGitIndexEntry:(const git_index_entry *)entry {
 	return [self initWithGitIndexEntry:entry index:nil error:NULL];
 }

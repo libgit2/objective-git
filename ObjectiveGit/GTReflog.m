@@ -33,6 +33,12 @@
 	if (_git_reflog != NULL) git_reflog_free(_git_reflog);
 }
 
+// XCode 7+ require overriding super designated initializers
+- (instancetype)init
+{
+	return [self initWithReference:nil];
+}
+
 - (instancetype)initWithReference:(GTReference *)reference {
 	NSParameterAssert(reference != nil);
 	NSParameterAssert(reference.name != nil);

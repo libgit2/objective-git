@@ -7,6 +7,7 @@
 //
 
 #import "GTOdbObject.h"
+#import "GTRepository.h"
 #import "NSString+Git.h"
 #import "GTOID.h"
 #import "git2/odb.h"
@@ -30,6 +31,13 @@
 
 
 #pragma mark API
+
+// XCode 7+ require overriding super designated initializers
+- (instancetype)init
+{
+	git_odb_object *odbObject = NULL;
+	return [self initWithOdbObj:odbObject repository:[GTRepository new]];
+}
 
 - (instancetype)initWithOdbObj:(git_odb_object *)object repository:(GTRepository *)repository {
 	NSParameterAssert(object != NULL);

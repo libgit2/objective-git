@@ -11,6 +11,13 @@
 
 @implementation GTDiffFile
 
+// XCode 7+ require overriding super designated initializers
+- (instancetype)init
+{
+	git_diff_file *gitDiffFile = NULL;
+	return [self initWithGitDiffFile:*gitDiffFile];
+}
+
 - (instancetype)initWithGitDiffFile:(git_diff_file)file {
 	NSParameterAssert(file.path != NULL);
 

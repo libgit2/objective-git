@@ -156,6 +156,13 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 	return HEADIndexDiff;
 }
 
+// XCode 7+ require overriding super designated initializers
+- (instancetype)init
+{
+	git_diff *gitDiff = NULL;
+	return [self initWithGitDiff:gitDiff repository:[GTRepository new]];
+}
+
 - (instancetype)initWithGitDiff:(git_diff *)diff repository:(GTRepository *)repository {
 	NSParameterAssert(diff != NULL);
 	NSParameterAssert(repository != nil);

@@ -60,6 +60,13 @@ NSString * const GTRemoteRenameProblematicRefSpecs = @"GTRemoteRenameProblematic
 	return [[self alloc] initWithGitRemote:remote inRepository:repo];
 }
 
+// XCode 7+ require overriding super designated initializers
+- (instancetype)init
+{
+	git_remote *gitRemote = NULL;
+	return [self initWithGitRemote:gitRemote inRepository:[GTRepository new]];
+}
+
 - (instancetype)initWithGitRemote:(git_remote *)remote inRepository:(GTRepository *)repo {
 	NSParameterAssert(remote != NULL);
 	NSParameterAssert(repo != nil);

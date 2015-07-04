@@ -16,6 +16,13 @@
 
 #pragma mark Lifecycle
 
+// XCode 7+ require overriding super designated initializers
+- (instancetype)init
+{
+	git_filter_source *gitFilterSource = NULL;
+	return [self initWithGitFilterSource:gitFilterSource];
+}
+
 - (instancetype)initWithGitFilterSource:(const git_filter_source *)source {
 	NSParameterAssert(source != NULL);
 

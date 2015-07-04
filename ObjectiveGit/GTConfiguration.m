@@ -33,6 +33,13 @@
 	}
 }
 
+// XCode 7+ require overriding super designated initializers
+- (instancetype)init
+{
+	git_config *gitConfig = NULL;
+	return [self initWithGitConfig:gitConfig repository:nil];
+}
+
 - (instancetype)initWithGitConfig:(git_config *)config repository:(GTRepository *)repository {
 	NSParameterAssert(config != NULL);
 

@@ -87,6 +87,13 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 	return [self initWithGitReference:ref repository:symbolicRef.repository];
 }
 
+// XCode 7+ require overriding super designated initializers
+- (instancetype)init
+{
+	git_reference *gitReference = NULL;
+	return [self initWithGitReference:gitReference repository:[GTRepository new]];
+}
+
 - (instancetype)initWithGitReference:(git_reference *)ref repository:(GTRepository *)repo {
 	NSParameterAssert(ref != NULL);
 	NSParameterAssert(repo != nil);
