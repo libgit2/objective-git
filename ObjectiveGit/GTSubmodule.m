@@ -83,6 +83,13 @@
 	}
 }
 
+// XCode 7+ require overriding super designated initializers
+- (instancetype)init
+{
+	git_submodule *gitSubmodule = NULL;
+	return [self initWithGitSubmodule:gitSubmodule parentRepository:[GTRepository new]];
+}
+
 - (instancetype)initWithGitSubmodule:(git_submodule *)submodule parentRepository:(GTRepository *)repository {
 	NSParameterAssert(submodule != NULL);
 	NSParameterAssert(repository != nil);

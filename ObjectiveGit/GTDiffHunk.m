@@ -25,6 +25,12 @@
 
 @implementation GTDiffHunk
 
+// XCode 7+ require overriding super designated initializers
+- (instancetype)init
+{
+	return [self initWithPatch:[GTDiffPatch new] hunkIndex:0];
+}
+
 - (instancetype)initWithPatch:(GTDiffPatch *)patch hunkIndex:(NSUInteger)hunkIndex {
 	NSParameterAssert(patch != nil);
 

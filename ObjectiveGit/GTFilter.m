@@ -42,6 +42,14 @@ static NSMutableDictionary *GTFiltersGitFilterToRegisteredFilters = nil;
 	GTFiltersGitFilterToRegisteredFilters = [[NSMutableDictionary alloc] init];
 }
 
+// XCode 7+ require overriding super designated initializers
+- (instancetype)init
+{
+	return [self initWithName:@"" attributes:nil applyBlock:^NSData * __nonnull(void **payload, NSData * __nonnull from, GTFilterSource * __nonnull source, BOOL * __nonnull applied) {
+		return nil;
+	}];
+}
+
 - (instancetype)initWithName:(NSString *)name attributes:(NSString *)attributes applyBlock:(NSData * (^)(void **payload, NSData *from, GTFilterSource *source, BOOL *applied))applyBlock {
 	NSParameterAssert(name != nil);
 	NSParameterAssert(applyBlock != NULL);

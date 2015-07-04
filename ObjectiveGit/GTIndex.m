@@ -101,6 +101,13 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 	return [[self alloc] initWithGitIndex:index repository:repository];
 }
 
+// XCode 7+ require overriding super designated initializers
+- (instancetype)init
+{
+	git_index *index = NULL;
+	return [self initWithGitIndex:index repository:[GTRepository new]];
+}
+
 - (id)initWithGitIndex:(git_index *)index repository:(GTRepository *)repository {
 	NSParameterAssert(index != NULL);
 	NSParameterAssert(repository != nil);

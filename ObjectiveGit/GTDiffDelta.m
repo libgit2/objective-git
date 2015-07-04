@@ -132,6 +132,12 @@ static int GTDiffDeltaCallback(const git_diff_delta *delta, float progress, void
 	}];
 }
 
+// XCode 7+ require overriding super designated initializers
+- (instancetype)init
+{
+	return [self initWithDiff:[GTDiff new] deltaIndex:0];
+}
+
 - (instancetype)initWithDiff:(GTDiff *)diff deltaIndex:(NSUInteger)deltaIndex {
 	NSCParameterAssert(diff != nil);
 

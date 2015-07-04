@@ -8,8 +8,15 @@
 
 #import "GTFetchHeadEntry.h"
 #import "GTOID.h"
+#import "GTReference.h"
 
 @implementation GTFetchHeadEntry
+
+// XCode 7+ require overriding super designated initializers
+- (instancetype)init
+{
+	return [self initWithReference:[GTReference new] remoteURLString:@"" targetOID:[GTOID new] isMerge:NO];
+}
 
 - (instancetype)initWithReference:(GTReference *)reference remoteURLString:(NSString *)remoteURLString targetOID:(GTOID *)targetOID isMerge:(BOOL)merge {
 	NSParameterAssert(reference != nil);

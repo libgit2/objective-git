@@ -12,6 +12,13 @@
 
 @implementation GTBlameHunk
 
+// XCode 7+ require overriding super designated initializers
+- (instancetype)init
+{
+	const git_blame_hunk *hunk = NULL;
+	return [self initWithGitBlameHunk:*hunk];
+}
+
 - (instancetype)initWithGitBlameHunk:(git_blame_hunk)hunk {
 	self = [super init];
 	if (self == nil) return nil;

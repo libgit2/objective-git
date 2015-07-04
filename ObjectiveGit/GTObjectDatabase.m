@@ -56,6 +56,12 @@
 
 #pragma mark API
 
+// XCode 7+ require overriding super designated initializers
+- (instancetype)init
+{
+	return [self initWithRepository:[GTRepository new] error:nil];
+}
+
 - (instancetype)initWithRepository:(GTRepository *)repo error:(NSError **)error {
 	NSParameterAssert(repo != nil);
 

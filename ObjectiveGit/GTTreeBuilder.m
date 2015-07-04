@@ -62,6 +62,12 @@
 
 #pragma mark Lifecycle
 
+// XCode 7+ require overriding super designated initializers
+- (instancetype)init
+{
+	return [self initWithTree:nil repository:[GTRepository new] error:nil];
+}
+
 - (instancetype)initWithTree:(GTTree *)treeOrNil repository:(GTRepository *)repository error:(NSError **)error {
 	NSParameterAssert(repository != nil);
 
