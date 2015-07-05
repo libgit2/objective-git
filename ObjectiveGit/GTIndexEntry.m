@@ -50,6 +50,11 @@
 
 #pragma mark Lifecycle
 
+- (instancetype)init {
+	NSAssert(NO, @"Call to an unavailable initializer.");
+	return nil;
+}
+
 - (instancetype)initWithGitIndexEntry:(const git_index_entry *)entry index:(GTIndex *)index error:(NSError **)error {
 	NSParameterAssert(entry != NULL);
 

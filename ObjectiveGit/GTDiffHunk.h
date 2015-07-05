@@ -22,6 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// The number of lines represented in the hunk.
 @property (nonatomic, readonly) NSUInteger lineCount;
 
+- (instancetype)init NS_UNAVAILABLE;
+
 /// Designated initialiser.
 ///
 /// The contents of a hunk are lazily loaded, therefore we initialise the object

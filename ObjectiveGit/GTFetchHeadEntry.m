@@ -11,6 +11,11 @@
 
 @implementation GTFetchHeadEntry
 
+- (instancetype)init {
+	NSAssert(NO, @"Call to an unavailable initializer.");
+	return nil;
+}
+
 - (instancetype)initWithReference:(GTReference *)reference remoteURLString:(NSString *)remoteURLString targetOID:(GTOID *)targetOID isMerge:(BOOL)merge {
 	NSParameterAssert(reference != nil);
 	NSParameterAssert(remoteURLString != nil);

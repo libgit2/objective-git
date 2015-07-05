@@ -48,6 +48,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// The git_diff_file represented by the receiver.
 @property (nonatomic, readonly) git_diff_file git_diff_file;
 
+- (instancetype)init NS_UNAVAILABLE;
+
 /// Initializes the receiver with the provided libgit2 object. Designated initializer.
 ///
 /// file - The git_diff_file wrapped by the receiver.

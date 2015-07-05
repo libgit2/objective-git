@@ -11,6 +11,11 @@
 
 @implementation GTDiffFile
 
+- (instancetype)init {
+	NSAssert(NO, @"Call to an unavailable initializer.");
+	return nil;
+}
+
 - (instancetype)initWithGitDiffFile:(git_diff_file)file {
 	NSParameterAssert(file.path != NULL);
 

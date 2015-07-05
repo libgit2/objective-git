@@ -156,6 +156,11 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 	return HEADIndexDiff;
 }
 
+- (instancetype)init {
+	NSAssert(NO, @"Call to an unavailable initializer.");
+	return nil;
+}
+
 - (instancetype)initWithGitDiff:(git_diff *)diff repository:(GTRepository *)repository {
 	NSParameterAssert(diff != NULL);
 	NSParameterAssert(repository != nil);

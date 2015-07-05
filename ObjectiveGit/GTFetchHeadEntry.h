@@ -29,6 +29,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// Flag indicating if we need to merge this entry or not.
 @property (nonatomic, getter = isMerge, readonly) BOOL merge;
 
+- (instancetype)init NS_UNAVAILABLE;
+
 /// Initializes a GTFetchHeadEntry. Designated initializer.
 ///
 /// reference       - Reference on the repository. Cannot be nil.

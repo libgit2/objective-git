@@ -31,6 +31,11 @@
 
 #pragma mark API
 
+- (instancetype)init {
+	NSAssert(NO, @"Call to an unavailable initializer.");
+	return nil;
+}
+
 - (instancetype)initWithOdbObj:(git_odb_object *)object repository:(GTRepository *)repository {
 	NSParameterAssert(object != NULL);
 	NSParameterAssert(repository != nil);

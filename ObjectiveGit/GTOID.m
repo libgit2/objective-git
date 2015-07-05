@@ -39,6 +39,11 @@
 
 #pragma mark Lifecycle
 
+- (instancetype)init {
+	NSAssert(NO, @"Call to an unavailable initializer.");
+	return nil;
+}
+
 - (instancetype)initWithGitOid:(const git_oid *)oid {
 	NSParameterAssert(oid != NULL);
 

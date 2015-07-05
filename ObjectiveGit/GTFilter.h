@@ -40,6 +40,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// chance to clean up the `payload`.
 @property (nonatomic, copy) void (^cleanupBlock)(void *payload);
 
+- (instancetype)init NS_UNAVAILABLE;
+
 /// Initializes the object with the given name and attributes. Designated initializer.
 ///
 /// name       - The name for the filter. Cannot be nil.

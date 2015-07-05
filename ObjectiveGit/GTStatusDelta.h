@@ -47,6 +47,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// `GTStatusDeltaStatusCopied`.
 @property (nonatomic, readonly) double similarity;
 
+- (instancetype)init NS_UNAVAILABLE;
+
 /// Designated initializer.
 - (nullable instancetype)initWithGitDiffDelta:(const git_diff_delta *)delta NS_DESIGNATED_INITIALIZER;
 

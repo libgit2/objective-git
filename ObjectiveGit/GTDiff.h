@@ -259,6 +259,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// Returns a newly created GTDiff, or nil if an error occurred.
 + (nullable instancetype)diffWorkingDirectoryToHEADInRepository:(GTRepository *)repository options:(nullable NSDictionary *)options error:(NSError **)error;
 
+- (instancetype)init NS_UNAVAILABLE;
+
 /// Designated initialiser.
 ///
 /// diff       - The diff to represent. Cannot be NULL.

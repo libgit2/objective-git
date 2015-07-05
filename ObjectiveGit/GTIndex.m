@@ -87,6 +87,11 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 	return [[self alloc] initWithGitIndex:index repository:repository];
 }
 
+- (instancetype)init {
+	NSAssert(NO, @"Call to an unavailable initializer.");
+	return nil;
+}
+
 + (instancetype)indexWithFileURL:(NSURL *)fileURL repository:(GTRepository *)repository error:(NSError **)error {
 	NSParameterAssert(fileURL != nil);
 	NSParameterAssert(fileURL.isFileURL);

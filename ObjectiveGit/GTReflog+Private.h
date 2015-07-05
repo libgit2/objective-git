@@ -12,6 +12,8 @@
 
 @interface GTReflog ()
 
+- (instancetype)init NS_UNAVAILABLE;
+
 /// Initializes the receiver with a reference. Designated initializer.
 ///
 /// reference - The reference whose reflog is being represented. Cannot be nil.
