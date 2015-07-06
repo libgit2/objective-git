@@ -195,6 +195,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// Returns the initialized repository, or nil if an error occurred.
 - (nullable instancetype)initWithURL:(NSURL *)localFileURL error:(NSError **)error;
 
+- (instancetype)init NS_UNAVAILABLE;
+
 /// Initializes the receiver to wrap the given repository object. Designated initializer.
 ///
 /// repository - The repository to wrap. The receiver will take over memory

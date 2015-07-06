@@ -32,6 +32,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// The number of hunks in this patch.
 @property (nonatomic, readonly) NSUInteger hunkCount;
 
+- (instancetype)init NS_UNAVAILABLE;
+
 /// Initializes the receiver to wrap the given patch. Designated initializer.
 ///
 /// patch - The patch object to wrap and take ownership of. This will

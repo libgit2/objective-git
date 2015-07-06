@@ -157,6 +157,11 @@ typedef struct {
 	return [[self alloc] initWithURL:localFileURL error:error];
 }
 
+- (instancetype)init {
+	NSAssert(NO, @"Call to an unavailable initializer.");
+	return nil;
+}
+
 - (instancetype)initWithGitRepository:(git_repository *)repository {
 	NSParameterAssert(repository != nil);
 

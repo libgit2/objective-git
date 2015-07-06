@@ -23,6 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// An opaque list of filters that apply to a given path.
 @interface GTFilterList : NSObject
 
+- (instancetype)init NS_UNAVAILABLE;
+
 /// Initializes the receiver to wrap the given `git_filter_list`. Designated initializer.
 ///
 /// filterList - The filter list to wrap and take ownership of. This filter list

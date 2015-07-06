@@ -12,6 +12,11 @@
 
 @implementation GTStatusDelta
 
+- (instancetype)init {
+	NSAssert(NO, @"Call to an unavailable initializer.");
+	return nil;
+}
+
 - (instancetype)initWithGitDiffDelta:(const git_diff_delta *)delta {
 	self = [super init];
 	if (self == nil || delta == NULL) return nil;

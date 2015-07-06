@@ -33,6 +33,11 @@
 	}
 }
 
+- (instancetype)init {
+	NSAssert(NO, @"Call to an unavailable initializer.");
+	return nil;
+}
+
 - (instancetype)initWithGitConfig:(git_config *)config repository:(GTRepository *)repository {
 	NSParameterAssert(config != NULL);
 

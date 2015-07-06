@@ -23,6 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// repository, this will always be nil.
 @property (nonatomic, readonly, copy, nullable) NSArray *remotes;
 
+- (instancetype)init NS_UNAVAILABLE;
+
 /// Creates and returns a configuration which includes the global, XDG, and
 /// system configurations.
 + (nullable instancetype)defaultConfiguration;

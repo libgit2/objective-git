@@ -60,6 +60,11 @@ NSString * const GTRemoteRenameProblematicRefSpecs = @"GTRemoteRenameProblematic
 	return [[self alloc] initWithGitRemote:remote inRepository:repo];
 }
 
+- (instancetype)init {
+	NSAssert(NO, @"Call to an unavailable initializer.");
+	return nil;
+}
+
 - (instancetype)initWithGitRemote:(git_remote *)remote inRepository:(GTRepository *)repo {
 	NSParameterAssert(remote != NULL);
 	NSParameterAssert(repo != nil);

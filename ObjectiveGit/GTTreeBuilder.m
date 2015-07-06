@@ -62,6 +62,11 @@
 
 #pragma mark Lifecycle
 
+- (instancetype)init {
+	NSAssert(NO, @"Call to an unavailable initializer.");
+	return nil;
+}
+
 - (instancetype)initWithTree:(GTTree *)treeOrNil repository:(GTRepository *)repository error:(NSError **)error {
 	NSParameterAssert(repository != nil);
 

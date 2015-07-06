@@ -132,6 +132,11 @@ static int GTDiffDeltaCallback(const git_diff_delta *delta, float progress, void
 	}];
 }
 
+- (instancetype)init {
+	NSAssert(NO, @"Call to an unavailable initializer.");
+	return nil;
+}
+
 - (instancetype)initWithDiff:(GTDiff *)diff deltaIndex:(NSUInteger)deltaIndex {
 	NSCParameterAssert(diff != nil);
 
