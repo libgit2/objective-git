@@ -11,13 +11,13 @@
 @class GTRepository;
 @class GTFilterSource;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /// The error domain for errors originating from GTFilter.
 extern NSString * const GTFilterErrorDomain;
 
 /// A filter with that name has already been registered.
 extern const NSInteger GTFilterErrorNameAlreadyRegistered;
-
-NS_ASSUME_NONNULL_BEGIN
 
 /// Git filter abstraction.
 ///
