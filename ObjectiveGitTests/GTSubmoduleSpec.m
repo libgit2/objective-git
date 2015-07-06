@@ -21,8 +21,14 @@ beforeEach(^{
 	expect(repo).notTo(beNil());
 });
 
-it(@"should enumerate top-level submodules", ^{
-	NSMutableSet *names = [NSMutableSet set];
+fit(@"should enumerate top-level submodules", ^{
+	NSMutableArray *names = [NSMutableArray array];
+
+	NSString *gitModulesPath = [repo.fileURL.path stringByAppendingPathComponent:@".gitmodules"];
+	NSString *newGitModules = @"[submodule \"TestApp\"]\n\tpath = Test_App\n\turl = ../Test_App\n[submodule \"Test_App2\"]\n\tpath = Test_App2\n\turl = ../Test_App\n[submodule \"Archimedes\"]\n\tpath = Archimedes\n\turl = https://github.com/github/Archimedes\n";
+	BOOL success = [newGitModules writeToFile:gitModulesPath atomically:YES encoding:NSUTF8StringEncoding error:NULL];
+	expect(@(success)).to(beTruthy());
+
 	[repo enumerateSubmodulesRecursively:NO usingBlock:^(GTSubmodule *submodule, NSError *error, BOOL *stop) {
 		expect(submodule).to(beAnInstanceOf(GTSubmodule.class));
 		expect(submodule.name).notTo(beNil());
@@ -30,7 +36,7 @@ it(@"should enumerate top-level submodules", ^{
 		[names addObject:submodule.name];
 	}];
 
-	NSSet *expectedNames = [NSSet setWithArray:@[ @"Archimedes", @"Test_App", @"Test_App2" ]];
+	NSArray *expectedNames = @[ @"Archimedes", @"Test_App", @"Test_App2" ];
 	expect(names).to(equal(expectedNames));
 });
 
