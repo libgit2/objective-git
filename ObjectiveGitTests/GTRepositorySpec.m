@@ -84,6 +84,29 @@ describe(@"+cloneFromURL:toWorkingDirectory:options:error:transferProgressBlock:
 		workdirURL = [self.tempDirectoryFileURL URLByAppendingPathComponent:@"temp-repo"];
 	});
 
+	describe(@"with remote ssh repositories", ^{
+		beforeEach(^{
+			originURL = [NSURL URLWithString:@"ssh://github.com/libgit2/rugged.git"];
+			workdirURL = [self.tempDirectoryFileURL URLByAppendingPathComponent:@"rugged"];
+		});
+
+		it(@"should not throw an error", ^{
+			NSError *error = nil;
+			__block BOOL credentialProviderCalled = NO;
+			GTCredentialProvider *provider = [GTCredentialProvider providerWithBlock:^GTCredential * __nonnull(GTCredentialType type, NSString *URL, NSString *username) {
+				credentialProviderCalled = YES;
+				return nil;
+			}];
+
+			repository = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:@{ GTRepositoryCloneOptionsCredentialProvider: provider } error:&error transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
+			expect(repository).notTo(beNil());
+			expect(error).to(beNil());
+			expect(@(transferProgressCalled)).to(beTruthy());
+			expect(@(checkoutProgressCalled)).to(beTruthy());
+			expect(@(credentialProviderCalled)).to(beTruthy());
+		});
+	});
+
 	describe(@"with local repositories", ^{
 		beforeEach(^{
 			originURL = self.bareFixtureRepository.gitDirectoryURL;
