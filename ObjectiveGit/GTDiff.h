@@ -14,6 +14,8 @@
 @class GTRepository;
 @class GTTree;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /// An `NSNumber` wrapped `GTDiffOptionsFlags` representing any flags you wish to
 /// pass into the initialisation.
 extern NSString *const GTDiffOptionsFlagsKey;
@@ -171,8 +173,6 @@ typedef NS_OPTIONS(NSInteger, GTDiffFindOptionsFlags) {
 
 	GTDiffFindOptionsFlagsBreakRewritesForRenamesOnly = GIT_DIFF_BREAK_REWRITES_FOR_RENAMES_ONLY,
 };
-
-NS_ASSUME_NONNULL_BEGIN
 
 /// A class representing a single "diff".
 ///
