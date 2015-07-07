@@ -22,8 +22,9 @@ fi
 mkdir build
 cd build
 
+export CMAKE_PREFIX_PATH="/usr/local/include/"
+
 cmake -DBUILD_SHARED_LIBS:BOOL=OFF \
-	-DLIBSSH2_INCLUDE_DIR:PATH=/usr/local/include/ \
 	-DBUILD_CLAR:BOOL=OFF \
 	-DTHREADSAFE:BOOL=ON \
 	-DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} -D GIT_SSH" \
