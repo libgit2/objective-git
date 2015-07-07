@@ -90,7 +90,7 @@ describe(@"+cloneFromURL:toWorkingDirectory:options:error:transferProgressBlock:
 			workdirURL = [self.tempDirectoryFileURL URLByAppendingPathComponent:@"rugged"];
 		});
 
-		it(@"should not throw an error", ^{
+		it(@"should accept ssh urls", ^{
 			NSError *error = nil;
 			__block BOOL credentialProviderCalled = NO;
 			GTCredentialProvider *provider = [GTCredentialProvider providerWithBlock:^GTCredential * __nonnull(GTCredentialType type, NSString *URL, NSString *username) {
@@ -99,10 +99,9 @@ describe(@"+cloneFromURL:toWorkingDirectory:options:error:transferProgressBlock:
 			}];
 
 			repository = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:@{ GTRepositoryCloneOptionsCredentialProvider: provider } error:&error transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
-			expect(repository).notTo(beNil());
-			expect(error).to(beNil());
-			expect(@(transferProgressCalled)).to(beTruthy());
-			expect(@(checkoutProgressCalled)).to(beTruthy());
+			NSError *underlyingError = error.userInfo[NSUnderlyingErrorKey];
+			expect(underlyingError.localizedDescription).notTo(equal(@"Unsupported URL protocol"));
+			expect(error).notTo(beNil());
 			expect(@(credentialProviderCalled)).to(beTruthy());
 		});
 	});
