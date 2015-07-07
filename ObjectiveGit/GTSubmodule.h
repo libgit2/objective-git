@@ -19,7 +19,7 @@
 ///
 /// These flags are mutually exclusive.
 typedef NS_ENUM(NSInteger, GTSubmoduleIgnoreRule) {
-	GTSubmoduleIgnoreReset = GIT_SUBMODULE_IGNORE_RESET,
+	GTSubmoduleIgnoreUnspecified = GIT_SUBMODULE_IGNORE_UNSPECIFIED,
 	GTSubmoduleIgnoreNone = GIT_SUBMODULE_IGNORE_NONE,
 	GTSubmoduleIgnoreUntracked = GIT_SUBMODULE_IGNORE_UNTRACKED,
 	GTSubmoduleIgnoreDirty = GIT_SUBMODULE_IGNORE_DIRTY,
@@ -89,6 +89,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// The remote URL provided for this submodule, read from the parent repository's
 /// `.git/config` or `.gitmodules` file.
 @property (nonatomic, copy, readonly, nullable) NSString *URLString;
+
+- (instancetype)init NS_UNAVAILABLE;
 
 /// Initializes the receiver to wrap the given submodule object. Designated initializer.
 ///

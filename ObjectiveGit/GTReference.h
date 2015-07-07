@@ -64,6 +64,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (nullable instancetype)referenceByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error;
 - (nullable instancetype)initByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error;
 
+- (instancetype)init NS_UNAVAILABLE;
+
 /// Designated initializer.
 ///
 /// ref        - The reference to wrap. Must not be nil.

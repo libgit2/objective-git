@@ -69,6 +69,11 @@
 	return [[self alloc] initWithReference:ref repository:repo];
 }
 
+- (instancetype)init {
+	NSAssert(NO, @"Call to an unavailable initializer.");
+	return nil;
+}
+
 - (nullable instancetype)initWithReference:(GTReference *)ref repository:(GTRepository *)repo {
 	NSParameterAssert(ref != nil);
 	NSParameterAssert(repo != nil);
@@ -146,7 +151,7 @@
 }
 
 - (NSArray *)uniqueCommitsRelativeToBranch:(GTBranch *)otherBranch error:(NSError **)error {
-	GTEnumerator *enumerator = [self.repository enumerateUniqueCommitsUpToOID:self.OID relativeToOID:otherBranch.OID error:error];
+	GTEnumerator *enumerator = [self.repository enumeratorForUniqueCommitsFromOID:self.OID relativeToOID:otherBranch.OID error:error];
 	return [enumerator allObjectsWithError:error];
 }
 

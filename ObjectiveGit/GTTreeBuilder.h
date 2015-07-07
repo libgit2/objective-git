@@ -54,6 +54,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// Get the number of entries listed in a treebuilder.
 @property (nonatomic, readonly) NSUInteger entryCount;
 
+- (instancetype)init NS_UNAVAILABLE;
+
 /// Initializes the receiver, optionally from an existing tree. Designated initializer.
 ///
 /// treeOrNil  - Source tree (or nil)

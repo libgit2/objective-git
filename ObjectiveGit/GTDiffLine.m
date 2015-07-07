@@ -10,6 +10,11 @@
 
 @implementation GTDiffLine
 
+- (instancetype)init {
+	NSAssert(NO, @"Call to an unavailable initializer.");
+	return nil;
+}
+
 - (instancetype)initWithGitLine:(const git_diff_line *)line {
 	self = [super init];
 	if (self == nil) return nil;

@@ -26,7 +26,11 @@
 }
 
 - (void)setIgnoreRule:(GTSubmoduleIgnoreRule)ignoreRule {
-	git_submodule_set_ignore(self.git_submodule, (git_submodule_ignore_t)ignoreRule);
+	git_submodule_set_ignore(self.parentRepository.git_repository, git_submodule_name(self.git_submodule), (git_submodule_ignore_t)ignoreRule);
+
+	// The docs for `git_submodule_set_ignore` note "This does not affect any
+	// currently-loaded instances." So we need to reload.
+	git_submodule_reload(self.git_submodule, 0);
 }
 
 - (GTOID *)indexOID {
@@ -79,6 +83,11 @@
 	}
 }
 
+- (instancetype)init {
+	NSAssert(NO, @"Call to an unavailable initializer.");
+	return nil;
+}
+
 - (instancetype)initWithGitSubmodule:(git_submodule *)submodule parentRepository:(GTRepository *)repository {
 	NSParameterAssert(submodule != NULL);
 	NSParameterAssert(repository != nil);
@@ -96,7 +105,7 @@
 
 - (GTSubmoduleStatus)status:(NSError **)error {
 	unsigned status;
-	int gitError = git_submodule_status(&status, self.git_submodule);
+	int gitError = git_submodule_status(&status, self.parentRepository.git_repository, git_submodule_name(self.git_submodule), git_submodule_ignore(self.git_submodule));
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to get submodule %@ status.", self.name];
 		return GTSubmoduleStatusUnknown;

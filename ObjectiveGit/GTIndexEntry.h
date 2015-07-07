@@ -45,6 +45,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface GTIndexEntry : NSObject
 
+- (instancetype)init NS_UNAVAILABLE;
+
 /// Initializes the receiver with the given libgit2 index entry.
 ///
 /// entry - The libgit2 index entry. Cannot be NULL.

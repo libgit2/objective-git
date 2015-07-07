@@ -25,6 +25,11 @@
 
 #pragma mark Lifecycle
 
+- (instancetype)init {
+	NSAssert(NO, @"Call to an unavailable initializer.");
+	return nil;
+}
+
 - (instancetype)initWithGitFilterList:(git_filter_list *)filterList {
 	NSParameterAssert(filterList != NULL);
 

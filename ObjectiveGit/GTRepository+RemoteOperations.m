@@ -249,7 +249,7 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 
 	int update_fetchhead = 1;
 	// Ignored for push
-	git_remote_autotag_option_t download_tags = GIT_REMOTE_DOWNLOAD_TAGS_FALLBACK;
+	git_remote_autotag_option_t download_tags = GIT_REMOTE_DOWNLOAD_TAGS_UNSPECIFIED;
 	NSString *reflog_message = [NSString stringWithFormat:@"pushing remote %@", remote.name];
 
 	gitError = git_remote_update_tips(remote.git_remote, &remote_callbacks, update_fetchhead, download_tags, reflog_message.UTF8String);

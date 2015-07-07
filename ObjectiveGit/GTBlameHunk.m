@@ -12,6 +12,11 @@
 
 @implementation GTBlameHunk
 
+- (instancetype)init {
+	NSAssert(NO, @"Call to an unavailable initializer.");
+	return nil;
+}
+
 - (instancetype)initWithGitBlameHunk:(git_blame_hunk)hunk {
 	self = [super init];
 	if (self == nil) return nil;

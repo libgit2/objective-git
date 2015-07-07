@@ -52,6 +52,8 @@
 @class GTTree;
 @class GTRemote;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /// Checkout strategies used by the various -checkout... methods
 /// See git_checkout_strategy_t
 typedef NS_OPTIONS(NSInteger, GTCheckoutStrategyType) {
@@ -148,8 +150,6 @@ extern NSString * const GTRepositoryInitOptionsInitialHEAD;
 /// initialization.
 extern NSString * const GTRepositoryInitOptionsOriginURLString;
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface GTRepository : NSObject
 
 /// The file URL for the repository's working directory.
@@ -194,6 +194,8 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// Returns the initialized repository, or nil if an error occurred.
 - (nullable instancetype)initWithURL:(NSURL *)localFileURL error:(NSError **)error;
+
+- (instancetype)init NS_UNAVAILABLE;
 
 /// Initializes the receiver to wrap the given repository object. Designated initializer.
 ///
@@ -383,16 +385,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// Returns the signature.
 - (GTSignature *)userSignatureForNow;
 
-/// Reloads all cached information about the receiver's submodules.
-///
-/// Existing GTSubmodule objects from this repository will be mutated as part of
-/// this operation.
-///
-/// error - If not NULL, set to any errors that occur.
-///
-/// Returns whether the reload succeeded.
-- (BOOL)reloadSubmodules:(NSError **)error;
-
 /// Enumerates over all the tracked submodules in the repository.
 ///
 /// recursive - Whether to recurse into nested submodules, depth-first.
@@ -543,16 +535,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// distinguished using the value of `success`.
 - (nullable GTFilterList *)filterListWithPath:(NSString *)path blob:(nullable GTBlob *)blob mode:(GTFilterSourceMode)mode options:(GTFilterListOptions)options success:(nullable BOOL *)success error:(NSError **)error;
 
-/// Creates an enumerator for finding all commits in the history of `headOID`
-/// that do not exist in the history of `baseOID`.
-///
-/// headOID - Must not be nil.
-/// baseOID - Must not be nil.
-/// error   - If not NULL, set to any error that occurs.
-///
-/// Returns the created enumerator upon success, or `nil` if an error occurred.
-- (nullable GTEnumerator *)enumerateUniqueCommitsUpToOID:(GTOID *)headOID relativeToOID:(GTOID *)baseOID error:(NSError **)error;
-
 /// Calculates how far ahead/behind the commit represented by `headOID` is,
 /// relative to the commit represented by `baseOID`.
 ///
@@ -564,6 +546,16 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// Returns whether `ahead` and `behind` were successfully calculated.
 - (BOOL)calculateAhead:(size_t *)ahead behind:(size_t *)behind ofOID:(GTOID *)headOID relativeToOID:(GTOID *)baseOID error:(NSError **)error;
+
+/// Creates an enumerator for walking the unique commits, as determined by a
+/// pushing a starting OID and hiding the relative OID.
+///
+/// fromOID     - The starting OID.
+/// relativeOID - The OID to hide.
+/// error       - The error if one occurred.
+///
+/// Returns the enumerator or nil if an error occurred.
+- (nullable GTEnumerator *)enumeratorForUniqueCommitsFromOID:(GTOID *)fromOID relativeToOID:(GTOID *)relativeOID error:(NSError **)error;
 
 @end
 
