@@ -56,6 +56,7 @@ function build_libgit2 ()
         -DTHREADSAFE:BOOL=ON \
         "${SYS_ROOT}" \
         -DCMAKE_OSX_ARCHITECTURES:STRING="${ARCH}" \
+        -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} -D GIT_SSH" \
         .. >> "${LOG}" 2>&1
     cmake --build . --target install >> "${LOG}" 2>&1
 
