@@ -51,6 +51,7 @@ function build_libgit2 ()
         -DCMAKE_INSTALL_PREFIX:PATH="${INSTALL_PREFIX}/" \
         -DBUILD_CLAR:BOOL=OFF \
         -DTHREADSAFE:BOOL=ON \
+        -DCURL:BOOL=OFF \
         "${SYS_ROOT}" \
         -DCMAKE_OSX_ARCHITECTURES:STRING="${ARCH}" \
         .. >> "${LOG}" 2>&1
