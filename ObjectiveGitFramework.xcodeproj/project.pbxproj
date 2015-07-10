@@ -316,6 +316,12 @@
 		F879D8451B4B8138002D5C07 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0A0128819F98475007F1914 /* Quick.framework */; };
 		F879D8471B4B8138002D5C07 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F879D8461B4B8138002D5C07 /* Nimble.framework */; };
 		F879D8481B4B83B9002D5C07 /* SwiftSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A0129619F9A660007F1914 /* SwiftSpec.swift */; };
+		F8D007701B4F7CA8009A8DAF /* NSErrorGitSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F4E28917C7F24200BBDE30 /* NSErrorGitSpec.m */; };
+		F8D007711B4F7CB0009A8DAF /* NSDataGitSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D01EFD9F195DEF2200838D24 /* NSDataGitSpec.m */; };
+		F8D007721B4F7CB6009A8DAF /* NSArray+StringArraySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 307623AA17C6C8BD00E2CDF1 /* NSArray+StringArraySpec.m */; };
+		F8D007731B4F7CC3009A8DAF /* GTSignatureSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D040AF77177B9A9E001AD9EB /* GTSignatureSpec.m */; };
+		F8D007741B4F7CCC009A8DAF /* GTOIDSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D040AF6F177B9779001AD9EB /* GTOIDSpec.m */; };
+		F8D007761B4F7D10009A8DAF /* GTTimeAdditionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 30B1E7FF1703871900D0814D /* GTTimeAdditionsSpec.m */; };
 		F8E4A2911A170CA6006485A8 /* GTRemotePushSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = F8E4A2901A170CA6006485A8 /* GTRemotePushSpec.m */; };
 /* End PBXBuildFile section */
 
@@ -1459,7 +1465,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8D007761B4F7D10009A8DAF /* GTTimeAdditionsSpec.m in Sources */,
+				F8D007711B4F7CB0009A8DAF /* NSDataGitSpec.m in Sources */,
+				F8D007721B4F7CB6009A8DAF /* NSArray+StringArraySpec.m in Sources */,
+				F8D007731B4F7CC3009A8DAF /* GTSignatureSpec.m in Sources */,
 				F879D8481B4B83B9002D5C07 /* SwiftSpec.swift in Sources */,
+				F8D007701B4F7CA8009A8DAF /* NSErrorGitSpec.m in Sources */,
+				F8D007741B4F7CCC009A8DAF /* GTOIDSpec.m in Sources */,
 				F879D8441B4B80C7002D5C07 /* Libgit2FeaturesSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
