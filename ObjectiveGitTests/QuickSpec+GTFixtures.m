@@ -9,7 +9,7 @@
 #import <ObjectiveGit/ObjectiveGit.h>
 #import "QuickSpec+GTFixtures.h"
 #import <objc/runtime.h>
-#import <SSZipArchive/SSZipArchive.h>
+#import "SSZipArchive.h"
 
 static const NSInteger FixturesErrorUnzipFailed = 666;
 
@@ -102,7 +102,14 @@ static NSString * const FixturesErrorDomain = @"com.objectivegit.Fixtures";
 	//
 	// system() and NSTask() are not available when running tests in the iOS simulator
 
-	[SSZipArchive unzipFileAtPath:zipPath toDestination:[destinationPath stringByAppendingString:member]];
+	BOOL success = [SSZipArchive unzipFileAtPath:zipPath toDestination:[destinationPath stringByAppendingString:member] overwrite:YES password:nil error:error];
+
+    if (!success) {
+        NSLog(@"Unzip failed");
+        return NO;
+    }
+
+    return YES;
 
 #else
 	// OS X: shell out to unzip using NSTask
