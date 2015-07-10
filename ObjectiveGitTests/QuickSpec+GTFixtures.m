@@ -102,7 +102,7 @@ static NSString * const FixturesErrorDomain = @"com.objectivegit.Fixtures";
 	//
 	// system() and NSTask() are not available when running tests in the iOS simulator
 
-	BOOL success = [SSZipArchive unzipFileAtPath:zipPath toDestination:[destinationPath stringByAppendingString:member] overwrite:YES password:nil error:error];
+	BOOL success = [SSZipArchive unzipFileAtPath:zipPath toDestination:destinationPath overwrite:YES password:nil error:error];
 
     if (!success) {
         NSLog(@"Unzip failed");
@@ -129,6 +129,7 @@ static NSString * const FixturesErrorDomain = @"com.objectivegit.Fixtures";
 	return success;
 
 #endif
+
 }
 
 #pragma mark API
