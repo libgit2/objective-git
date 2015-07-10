@@ -11,6 +11,10 @@
 #import <objc/runtime.h>
 #import "SSZipArchive.h"
 
+#if TARGET_OS_IPHONE
+#import "SSZipArchive.h"
+#endif
+
 static const NSInteger FixturesErrorUnzipFailed = 666;
 
 static NSString * const FixturesErrorDomain = @"com.objectivegit.Fixtures";
