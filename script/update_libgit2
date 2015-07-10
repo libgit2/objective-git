@@ -23,7 +23,7 @@ mkdir build
 cd build
 
 cmake -DBUILD_SHARED_LIBS:BOOL=OFF \
-	-DLIBSSH2_INCLUDE_DIR:PATH=/usr/local/include/ \
+	-DLIBSSH2_INCLUDE_DIRS:PATH=/usr/local/include/ \
 	-DBUILD_CLAR:BOOL=OFF \
 	-DTHREADSAFE:BOOL=ON \
 	..
