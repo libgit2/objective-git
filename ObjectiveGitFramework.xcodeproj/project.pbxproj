@@ -48,7 +48,6 @@
 				D0A330F616027F3B00A616FA /* ShellScript */,
 			);
 			dependencies = (
-				6A28265B17C69D6300C6A948 /* PBXTargetDependency */,
 				6A3C609F17D5965700382DFF /* PBXTargetDependency */,
 			);
 			name = "libgit2-iOS";
@@ -327,13 +326,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = D0A330ED16027F1E00A616FA;
 			remoteInfo = libgit2;
-		};
-		6A28265A17C69D6300C6A948 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 6A28265217C69CB400C6A948;
-			remoteInfo = "OpenSSL-iOS";
 		};
 		6A3C609C17D5964E00382DFF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1479,11 +1471,6 @@
 			isa = PBXTargetDependency;
 			target = D0A330ED16027F1E00A616FA /* libgit2 */;
 			targetProxy = 3D6123BD1A6432F6008F831A /* PBXContainerItemProxy */;
-		};
-		6A28265B17C69D6300C6A948 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 6A28265217C69CB400C6A948 /* OpenSSL-iOS */;
-			targetProxy = 6A28265A17C69D6300C6A948 /* PBXContainerItemProxy */;
 		};
 		6A3C609D17D5964E00382DFF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
