@@ -9,30 +9,32 @@ PATH="/usr/local/bin:$PATH"
 
 if [ "External/libgit2.a" -nt "External/libgit2" ]
 then
-    echo "No update needed."
-    exit 0
+		echo "No update needed."
+		exit 0
 fi
 
 cd "External/libgit2"
 
 if [ -d "build" ]; then
-    rm -rf "build"
+		rm -rf "build"
 fi
 
 mkdir build
 cd build
 
+export CMAKE_PREFIX_PATH="/usr/local/include/"
+
 cmake -DBUILD_SHARED_LIBS:BOOL=OFF \
-	-DLIBSSH2_INCLUDE_DIR:PATH=/usr/local/include/ \
 	-DBUILD_CLAR:BOOL=OFF \
 	-DTHREADSAFE:BOOL=ON \
+	-DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} -D GIT_SSH" \
 	..
 cmake --build .
 
 product="libgit2.a"
 install_path="../../${product}"
 if [ "${product}" -nt "${install_path}" ]; then
-    cp -v "${product}" "${install_path}"
+		cp -v "${product}" "${install_path}"
 fi
 
 echo "libgit2 has been updated."
