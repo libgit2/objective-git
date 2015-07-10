@@ -327,6 +327,7 @@
 		F8D007871B4F97F9009A8DAF /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = F8D007831B4F97F9009A8DAF /* mztools.c */; };
 		F8D007881B4F97F9009A8DAF /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = F8D007841B4F97F9009A8DAF /* unzip.c */; };
 		F8D007891B4F97F9009A8DAF /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = F8D007851B4F97F9009A8DAF /* zip.c */; };
+		F8D0078B1B4F9F9E009A8DAF /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F8D0078A1B4F9F9E009A8DAF /* libz.dylib */; };
 		F8E4A2911A170CA6006485A8 /* GTRemotePushSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = F8E4A2901A170CA6006485A8 /* GTRemotePushSpec.m */; };
 /* End PBXBuildFile section */
 
@@ -597,6 +598,7 @@
 		F8D007831B4F97F9009A8DAF /* mztools.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = mztools.c; path = Carthage/Checkouts/ZipArchive/SSZipArchive/minizip/mztools.c; sourceTree = "<group>"; };
 		F8D007841B4F97F9009A8DAF /* unzip.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = unzip.c; path = Carthage/Checkouts/ZipArchive/SSZipArchive/minizip/unzip.c; sourceTree = "<group>"; };
 		F8D007851B4F97F9009A8DAF /* zip.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = zip.c; path = Carthage/Checkouts/ZipArchive/SSZipArchive/minizip/zip.c; sourceTree = "<group>"; };
+		F8D0078A1B4F9F9E009A8DAF /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.4.sdk/usr/lib/libz.dylib; sourceTree = DEVELOPER_DIR; };
 		F8E4A2901A170CA6006485A8 /* GTRemotePushSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTRemotePushSpec.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -637,6 +639,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8D0078B1B4F9F9E009A8DAF /* libz.dylib in Frameworks */,
 				F879D8471B4B8138002D5C07 /* Nimble.framework in Frameworks */,
 				F879D8451B4B8138002D5C07 /* Quick.framework in Frameworks */,
 				F879D83C1B4B7F7D002D5C07 /* ObjectiveGit.framework in Frameworks */,
@@ -660,6 +663,7 @@
 		0867D691FE84028FC02AAC07 /* ObjectiveGitFramework */ = {
 			isa = PBXGroup;
 			children = (
+				F8D0078A1B4F9F9E009A8DAF /* libz.dylib */,
 				F8D007821B4F97F9009A8DAF /* ioapi.c */,
 				F8D007831B4F97F9009A8DAF /* mztools.c */,
 				F8D007841B4F97F9009A8DAF /* unzip.c */,
