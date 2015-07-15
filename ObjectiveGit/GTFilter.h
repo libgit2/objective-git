@@ -11,13 +11,13 @@
 @class GTRepository;
 @class GTFilterSource;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /// The error domain for errors originating from GTFilter.
 extern NSString * const GTFilterErrorDomain;
 
 /// A filter with that name has already been registered.
 extern const NSInteger GTFilterErrorNameAlreadyRegistered;
-
-NS_ASSUME_NONNULL_BEGIN
 
 /// Git filter abstraction.
 ///
@@ -39,6 +39,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// The cleanup block. Called after the `applyBlock` to given the filter a
 /// chance to clean up the `payload`.
 @property (nonatomic, copy) void (^cleanupBlock)(void *payload);
+
+- (instancetype)init NS_UNAVAILABLE;
 
 /// Initializes the object with the given name and attributes. Designated initializer.
 ///

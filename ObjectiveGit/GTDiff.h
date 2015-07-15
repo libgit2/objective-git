@@ -14,6 +14,8 @@
 @class GTRepository;
 @class GTTree;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /// An `NSNumber` wrapped `GTDiffOptionsFlags` representing any flags you wish to
 /// pass into the initialisation.
 extern NSString *const GTDiffOptionsFlagsKey;
@@ -172,8 +174,6 @@ typedef NS_OPTIONS(NSInteger, GTDiffFindOptionsFlags) {
 	GTDiffFindOptionsFlagsBreakRewritesForRenamesOnly = GIT_DIFF_BREAK_REWRITES_FOR_RENAMES_ONLY,
 };
 
-NS_ASSUME_NONNULL_BEGIN
-
 /// A class representing a single "diff".
 ///
 /// Analagous to `git_diff_list` in libgit2, this object represents a list of
@@ -258,6 +258,8 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// Returns a newly created GTDiff, or nil if an error occurred.
 + (nullable instancetype)diffWorkingDirectoryToHEADInRepository:(GTRepository *)repository options:(nullable NSDictionary *)options error:(NSError **)error;
+
+- (instancetype)init NS_UNAVAILABLE;
 
 /// Designated initialiser.
 ///

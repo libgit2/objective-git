@@ -40,6 +40,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// The filter mode.
 @property (nonatomic, readonly, assign) GTFilterSourceMode mode;
 
+- (instancetype)init NS_UNAVAILABLE;
+
 /// Intializes the receiver with the given filter source. Designated initializer.
 ///
 /// source - The filter source. Cannot be NULL.

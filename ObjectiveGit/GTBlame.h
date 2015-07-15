@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// A `GTBlame` provides authorship info, through `GTBlameHunk` for each line of a file. Analogous to `git_blame` in libgit2.
 @interface GTBlame : NSObject
 
+- (instancetype)init NS_UNAVAILABLE;
+
 /// Designated initializer.
 ///
 /// blame - A git_blame to wrap. May not be NULL.

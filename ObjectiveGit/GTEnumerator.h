@@ -62,6 +62,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// To set new options, use -resetWithOptions:.
 @property (nonatomic, assign, readonly) GTEnumeratorOptions options;
 
+- (instancetype)init NS_UNAVAILABLE;
+
 /// Initializes the receiver to enumerate the commits in the given repository. Designated initializer.
 ///
 /// repo  - The repository to enumerate the commits of. This must not be nil.

@@ -71,6 +71,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// Returns the loaded index, or nil if an error occurred.
 + (instancetype)indexWithFileURL:(NSURL *)fileURL repository:(GTRepository *)repository error:(NSError **)error;
 
+- (instancetype)init NS_UNAVAILABLE;
+
 /// Initializes the receiver with the given libgit2 index. Designated initializer.
 ///
 /// index      - The libgit2 index from which the index should be created. Cannot

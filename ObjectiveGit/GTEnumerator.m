@@ -48,6 +48,11 @@
 
 #pragma mark Lifecycle
 
+- (instancetype)init {
+	NSAssert(NO, @"Call to an unavailable initializer.");
+	return nil;
+}
+
 - (instancetype)initWithRepository:(GTRepository *)repo error:(NSError **)error {
 	NSParameterAssert(repo != nil);
 

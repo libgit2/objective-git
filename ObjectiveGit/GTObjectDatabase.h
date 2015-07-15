@@ -33,6 +33,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, readonly, strong) GTRepository *repository;
 
+- (instancetype)init NS_UNAVAILABLE;
+
 /// Initializes the object database with the given repository. Designated initializer.
 ///
 /// repo  - The repository from which the object database should be created.

@@ -10,10 +10,10 @@
 
 @class GTFetchHeadEntry;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /// A `GTCredentialProvider`, that will be used to authenticate against the remote.
 extern NSString *const GTRepositoryRemoteOptionsCredentialProvider;
-
-NS_ASSUME_NONNULL_BEGIN
 
 @interface GTRepository (RemoteOperations)
 

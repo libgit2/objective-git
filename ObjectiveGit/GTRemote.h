@@ -14,6 +14,8 @@
 @class GTReference;
 @class GTCredentialProvider;
 
+NS_ASSUME_NONNULL_BEGIN
+
 extern NSString * const GTRemoteRenameProblematicRefSpecs;
 
 // Auto Tag settings. See `git_remote_autotag_option_t`.
@@ -22,8 +24,6 @@ typedef enum {
 	GTRemoteDownloadTagsNone = GIT_REMOTE_DOWNLOAD_TAGS_NONE,
 	GTRemoteDownloadTagsAll = GIT_REMOTE_DOWNLOAD_TAGS_ALL,
 } GTRemoteAutoTagOption;
-
-NS_ASSUME_NONNULL_BEGIN
 
 /// A class representing a remote for a git repository.
 ///
@@ -85,6 +85,8 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// Returns the loaded remote, or nil if an error occurred.
 + (nullable instancetype)remoteWithName:(NSString *)name inRepository:(GTRepository *)repo error:(NSError **)error;
+
+- (instancetype)init NS_UNAVAILABLE;
 
 /// Initialize a remote from a `git_remote`. Designated initializer.
 ///

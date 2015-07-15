@@ -311,6 +311,7 @@
 		DD3D9513182A81E1004AF532 /* GTBlame.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3D9511182A81E1004AF532 /* GTBlame.m */; };
 		DD3D951C182AB25C004AF532 /* GTBlameHunk.h in Headers */ = {isa = PBXBuildFile; fileRef = DD3D951A182AB25C004AF532 /* GTBlameHunk.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DD3D951D182AB25C004AF532 /* GTBlameHunk.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3D951B182AB25C004AF532 /* GTBlameHunk.m */; };
+		F879D8311B4B788F002D5C07 /* Libgit2FeaturesSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = F879D82F1B4B77F4002D5C07 /* Libgit2FeaturesSpec.m */; };
 		F8D1BDEE1B31FE7C00CDEC90 /* GTRepository+Pull.h in Headers */ = {isa = PBXBuildFile; fileRef = F8D1BDEC1B31FE7C00CDEC90 /* GTRepository+Pull.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8D1BDEF1B31FE7C00CDEC90 /* GTRepository+Pull.h in Headers */ = {isa = PBXBuildFile; fileRef = F8D1BDEC1B31FE7C00CDEC90 /* GTRepository+Pull.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8D1BDF01B31FE7C00CDEC90 /* GTRepository+Pull.m in Sources */ = {isa = PBXBuildFile; fileRef = F8D1BDED1B31FE7C00CDEC90 /* GTRepository+Pull.m */; };
@@ -579,6 +580,7 @@
 		DD3D951B182AB25C004AF532 /* GTBlameHunk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTBlameHunk.m; sourceTree = "<group>"; };
 		E46931A7172740D300F2077D /* update_libgit2 */ = {isa = PBXFileReference; lastKnownFileType = text; name = update_libgit2; path = script/update_libgit2; sourceTree = "<group>"; };
 		E46931A8172740D300F2077D /* update_libgit2_ios */ = {isa = PBXFileReference; lastKnownFileType = text; name = update_libgit2_ios; path = script/update_libgit2_ios; sourceTree = "<group>"; };
+		F879D82F1B4B77F4002D5C07 /* Libgit2FeaturesSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Libgit2FeaturesSpec.m; sourceTree = "<group>"; };
 		F8D1BDEC1B31FE7C00CDEC90 /* GTRepository+Pull.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTRepository+Pull.h"; sourceTree = "<group>"; };
 		F8D1BDED1B31FE7C00CDEC90 /* GTRepository+Pull.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GTRepository+Pull.m"; sourceTree = "<group>"; };
 		F8E4A2901A170CA6006485A8 /* GTRemotePushSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTRemotePushSpec.m; sourceTree = "<group>"; };
@@ -754,6 +756,7 @@
 				30B1E7FF1703871900D0814D /* GTTimeAdditionsSpec.m */,
 				5BE612921745EEBC00266D8C /* GTTreeBuilderSpec.m */,
 				88328127173D8A64006D7DCF /* GTTreeSpec.m */,
+				F879D82F1B4B77F4002D5C07 /* Libgit2FeaturesSpec.m */,
 				307623AA17C6C8BD00E2CDF1 /* NSArray+StringArraySpec.m */,
 				D01EFD9F195DEF2200838D24 /* NSDataGitSpec.m */,
 				D0F4E28917C7F24200BBDE30 /* NSErrorGitSpec.m */,
@@ -1293,6 +1296,7 @@
 				307623AB17C6C8BD00E2CDF1 /* NSArray+StringArraySpec.m in Sources */,
 				8832811F173D8816006D7DCF /* GTIndexSpec.m in Sources */,
 				D0F4E28A17C7F24200BBDE30 /* NSErrorGitSpec.m in Sources */,
+				F879D8311B4B788F002D5C07 /* Libgit2FeaturesSpec.m in Sources */,
 				88328128173D8A64006D7DCF /* GTTreeSpec.m in Sources */,
 				88E353061982EA6B0051001F /* GTRepositoryAttributesSpec.m in Sources */,
 				88234B2618F2FE260039972E /* GTRepositoryResetSpec.m in Sources */,
@@ -1490,6 +1494,7 @@
 					/usr/local/lib/libssh2.a,
 					"-lcrypto",
 					"-lssl",
+					"-lcurl",
 				);
 				PRODUCT_NAME = ObjectiveGit;
 				WRAPPER_EXTENSION = framework;
@@ -1513,6 +1518,7 @@
 					/usr/local/lib/libssh2.a,
 					"-lcrypto",
 					"-lssl",
+					"-lcurl",
 				);
 				PRODUCT_NAME = ObjectiveGit;
 				WRAPPER_EXTENSION = framework;
@@ -1700,6 +1706,7 @@
 					/usr/local/lib/libssh2.a,
 					"-lcrypto",
 					"-lssl",
+					"-lcurl",
 				);
 				PRODUCT_NAME = ObjectiveGit;
 				WRAPPER_EXTENSION = framework;
@@ -1922,6 +1929,7 @@
 					/usr/local/lib/libssh2.a,
 					"-lcrypto",
 					"-lssl",
+					"-lcurl",
 				);
 				PRODUCT_NAME = ObjectiveGit;
 				WRAPPER_EXTENSION = framework;

@@ -115,6 +115,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// Returns a diff delta, or nil if an error occurs.
 + (nullable instancetype)diffDeltaFromData:(nullable NSData *)oldData forPath:(nullable NSString *)oldDataPath toData:(nullable NSData *)newData forPath:(nullable NSString *)newDataPath options:(nullable NSDictionary *)options error:(NSError **)error;
 
+- (instancetype)init NS_UNAVAILABLE;
+
 /// Initializes the receiver to wrap the delta at the given index.
 ///
 /// diff       - The diff which contains the delta to wrap. Must not be nil.
