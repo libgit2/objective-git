@@ -91,6 +91,9 @@ typedef struct {
 @implementation GTRepository
 
 - (NSString *)description {
+	if (self.isBare) {
+		return [NSString stringWithFormat:@"<%@: %p> (bare) gitDirectoryURL: %@", self.class, self, self.gitDirectoryURL];
+	}
 	return [NSString stringWithFormat:@"<%@: %p> fileURL: %@", self.class, self, self.fileURL];
 }
 
