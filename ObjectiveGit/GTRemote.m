@@ -95,6 +95,10 @@ NSString * const GTRemoteRenameProblematicRefSpecs = @"GTRemoteRenameProblematic
 	return self.name.hash ^ self.URLString.hash;
 }
 
+- (NSString *)description {
+	return [NSString stringWithFormat:@"<%@: %p> name: %@, URLString: %@", NSStringFromClass([self class]), self, self.name, self.URLString];
+}
+
 #pragma mark API
 
 + (BOOL)isValidRemoteName:(NSString *)name {
