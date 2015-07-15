@@ -17,7 +17,7 @@
 
 QuickSpecBegin(GTRepositoryPullSpec)
 
-describe(@"pulling", ^{
+describe(@"pull", ^{
 	__block	GTRepository *notBareRepo;
 
 	beforeEach(^{
@@ -97,7 +97,7 @@ describe(@"pulling", ^{
 
 		/// Unborn
 		/// Can't get a GTBranch reference wrapping HEAD when its symref is unborn
-		pending(@"can pull into an empty repo", ^{
+		pending(@"into an empty repo", ^{
 			// Create an empty local repo
 			localRepoURL = [remoteRepoURL.URLByDeletingLastPathComponent URLByAppendingPathComponent:@"empty_pull_repo"];
 			NSLog(@"localRepoURL: %@", localRepoURL);
@@ -138,10 +138,11 @@ describe(@"pulling", ^{
 
 		});
 
-		/// # Fast-forward
-		/// This test stages a pull by modifying a clone, resetting it back in history
+		/// Fast-Forward Merge
+		///
+		/// Stages a pull by modifying a clone, resetting it back in history
 		/// then using pull to bring the repos back in sync.
-		it(@"can pull one commit", ^{
+		it(@"fast-forwards one commit", ^{
 			GTBranch *masterBranch = localBranchWithName(@"master", localRepo);
 			expect(@([masterBranch numberOfCommitsWithError:NULL])).to(equal(@3));
 
@@ -179,6 +180,35 @@ describe(@"pulling", ^{
 			// Verify HEADs are in sync
 			expect([[localRepo headReferenceWithError:NULL] OID])
 				.to(equal([[remoteRepo headReferenceWithError:NULL] OID]));
+		});
+
+		/// Normal Merge
+		it(@"merges the upstream changes", ^{
+			// Create a new commit in the local repo
+			GTCommit *localCommit = createCommitInRepository(@"Local commit", [@"Test" dataUsingEncoding:NSUTF8StringEncoding], @"test.txt", localRepo);
+
+			localCommit = [localRepo lookUpObjectByOID:localCommit.OID objectType:GTObjectTypeCommit error:&error];
+			expect(localCommit).notTo(beNil());
+			expect(error).to(beNil());
+
+			// Create a new commit in the remote repo
+			GTCommit *upstreamCommit = createCommitInRepository(@"Upstream commit", [@"# So Fancy" dataUsingEncoding:NSUTF8StringEncoding], @"fancy.md", remoteRepo);
+
+			// Pull
+            __block BOOL transferProgressed = NO;
+            GTBranch *masterBranch = localBranchWithName(@"master", localRepo);
+			BOOL result = [localRepo pullBranch:masterBranch fromRemote:remote withOptions:nil error:&error progress:^(const git_transfer_progress *progress, BOOL *stop) {
+				transferProgressed = YES;
+			}];
+			expect(@(result)).to(beTruthy());
+			expect(error).to(beNil());
+            // TODO: This one works?
+			expect(@(transferProgressed)).to(beTruthy());
+
+			// Validate upstream commit is now in local repo
+			upstreamCommit = [remoteRepo lookUpObjectByOID:upstreamCommit.OID objectType:GTObjectTypeCommit error:&error];
+			expect(upstreamCommit).notTo(beNil());
+			expect(error).to(beNil());
 		});
 
 	});
