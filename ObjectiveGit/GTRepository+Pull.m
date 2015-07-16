@@ -97,7 +97,7 @@
 
 - (BOOL)analyseMerge:(GTMergeAnalysis *)analysis fromBranch:(GTBranch *)fromBranch error:(NSError **)error
 {
-	git_merge_preference_t preference;
+	git_merge_preference_t preference = GIT_MERGE_PREFERENCE_NONE;
 	git_annotated_commit *annotatedCommit;
 
 	GTCommit *fromCommit = [fromBranch targetCommitWithError:error];
