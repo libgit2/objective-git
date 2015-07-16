@@ -9,6 +9,7 @@
 #import "GTRepository+Pull.h"
 
 #import "GTCommit.h"
+#import "GTOID.h"
 #import "GTRemote.h"
 #import "GTReference.h"
 #import "GTRepository+Committing.h"
@@ -62,7 +63,7 @@
 		return YES;
 	}
 
-	GTMergeAnalysis analysis;
+	GTMergeAnalysis analysis = GTMergeAnalysisNone;
 	BOOL success = [self analyseMerge:&analysis fromBranch:remoteBranch error:error];
 	if (!success) {
 		return NO;
@@ -104,7 +105,7 @@
 		return NO;
 	}
 
-	git_annotated_commit_lookup(&annotatedCommit, self.git_repository, git_object_id(fromCommit.git_object));
+	git_annotated_commit_lookup(&annotatedCommit, self.git_repository, fromCommit.OID.git_oid);
 	git_merge_analysis((git_merge_analysis_t *)analysis, &preference, self.git_repository, (const git_annotated_commit **) &annotatedCommit, 1);
 	git_annotated_commit_free(annotatedCommit);
 
