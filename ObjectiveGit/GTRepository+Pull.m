@@ -26,6 +26,11 @@
 
 	GTRepository *repo = remote.repository;
 
+	if (![self fetchRemote:remote withOptions:options error:error progress:progressBlock]) {
+		return NO;
+	}
+
+	// Get remote branch after fetch so that it is up-to-date and doesn't need to be refreshed from disk
 	GTBranch *remoteBranch;
 	if (branch.branchType == GTBranchTypeLocal) {
 		BOOL success;
@@ -36,10 +41,6 @@
 	}
 	else {
 		remoteBranch = branch;
-	}
-
-	if (![self fetchRemote:remote withOptions:options error:error progress:progressBlock]) {
-		return NO;
 	}
 
 	// Check if merge is necessary
