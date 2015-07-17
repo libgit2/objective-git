@@ -14,6 +14,8 @@
 #import "GTReference.h"
 #import "GTRepository+Committing.h"
 #import "GTRepository+RemoteOperations.h"
+#import "NSError+Git.h"
+#import "git2/errors.h"
 
 @implementation GTRepository (Pull)
 
@@ -87,10 +89,14 @@
 		NSString *message = [NSString stringWithFormat:@"Merge branch '%@'", localBranch.shortName];
 		NSArray *parents = @[ localCommit, remoteCommit ];
 		GTCommit *mergeCommit = [repo createCommitWithTree:remoteTree message:message parents:parents updatingReferenceNamed:localBranch.name error:error];
+		if (!mergeCommit) {
+			return NO;
+		}
 
-		[self checkoutReference:localBranch.reference strategy:GTCheckoutStrategyForce error:error progressBlock:nil];
+		// TODO: Detect merge conflict
 
-		return mergeCommit != nil;
+		BOOL success = [self checkoutReference:localBranch.reference strategy:GTCheckoutStrategyForce error:error progressBlock:nil];
+		return success;
 	}
 
 	return NO;
@@ -98,16 +104,29 @@
 
 - (BOOL)analyseMerge:(GTMergeAnalysis *)analysis fromBranch:(GTBranch *)fromBranch error:(NSError **)error
 {
-	git_merge_preference_t preference = GIT_MERGE_PREFERENCE_NONE;
-	git_annotated_commit *annotatedCommit;
+	NSParameterAssert(analysis != NULL);
+	NSParameterAssert(fromBranch != nil);
 
 	GTCommit *fromCommit = [fromBranch targetCommitWithError:error];
 	if (!fromCommit) {
 		return NO;
 	}
 
+	git_annotated_commit *annotatedCommit;
+
+	// TODO: Check for lookup error
 	git_annotated_commit_lookup(&annotatedCommit, self.git_repository, fromCommit.OID.git_oid);
-	git_merge_analysis((git_merge_analysis_t *)analysis, &preference, self.git_repository, (const git_annotated_commit **) &annotatedCommit, 1);
+
+	git_merge_preference_t preference = GIT_MERGE_PREFERENCE_NONE;
+
+	// Merge analysis
+	int gitError = git_merge_analysis((git_merge_analysis_t *)analysis, &preference, self.git_repository, (const git_annotated_commit **) &annotatedCommit, 1);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to analyze merge"];
+		return NO;
+	}
+
+	// Cleanup
 	git_annotated_commit_free(annotatedCommit);
 
 	return YES;
