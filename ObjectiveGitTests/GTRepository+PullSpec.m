@@ -185,8 +185,17 @@ describe(@"pull", ^{
 
 		/// Normal Merge
 		it(@"merges the upstream changes", ^{
+			// 3 commits
+			GTBranch *masterBranch = localBranchWithName(@"master", localRepo);
+			expect(@([masterBranch numberOfCommitsWithError:NULL])).to(equal(@3));
+
 			// Create a new commit in the local repo
 			GTCommit *localCommit = createCommitInRepository(@"Local commit", [@"Test" dataUsingEncoding:NSUTF8StringEncoding], @"test.txt", localRepo);
+			expect(localCommit).notTo(beNil());
+
+			// 4 commits
+			masterBranch = localBranchWithName(@"master", localRepo);
+			expect(@([masterBranch numberOfCommitsWithError:NULL])).to(equal(@4));
 
 			localCommit = [localRepo lookUpObjectByOID:localCommit.OID objectType:GTObjectTypeCommit error:&error];
 			expect(localCommit).notTo(beNil());
@@ -194,22 +203,43 @@ describe(@"pull", ^{
 
 			// Create a new commit in the remote repo
 			GTCommit *upstreamCommit = createCommitInRepository(@"Upstream commit", [@"# So Fancy" dataUsingEncoding:NSUTF8StringEncoding], @"fancy.md", remoteRepo);
+			expect(upstreamCommit).notTo(beNil());
+
+			masterBranch = localBranchWithName(@"master", localRepo);
+
+			// Validate there is one unique local commit before merge
+			BOOL success = NO;
+			GTBranch *remoteTrackingBranch = [masterBranch trackingBranchWithError:&error success:&success];
+			expect(@(success)).to(beTrue());
+			expect(error).to(beNil());
+			expect(remoteTrackingBranch).toNot(beNil());
+
+			NSArray *uniqueLocalCommits = [localRepo localCommitsRelativeToRemoteBranch:remoteTrackingBranch error:&error];
+			expect(uniqueLocalCommits).toNot(beNil());
+			expect(error).to(beNil());
+			expect(@(uniqueLocalCommits.count)).to(equal(@1));
 
 			// Pull
             __block BOOL transferProgressed = NO;
-            GTBranch *masterBranch = localBranchWithName(@"master", localRepo);
+			// FIXME: This is analyzing merge as "up-to-date"
 			BOOL result = [localRepo pullBranch:masterBranch fromRemote:remote withOptions:nil error:&error progress:^(const git_transfer_progress *progress, BOOL *stop) {
 				transferProgressed = YES;
 			}];
 			expect(@(result)).to(beTruthy());
 			expect(error).to(beNil());
-            // TODO: This one works?
-			expect(@(transferProgressed)).to(beTruthy());
+			expect(@(transferProgressed)).to(beTruthy()); // TODO: This one works?
 
-			// Validate upstream commit is now in local repo
-			upstreamCommit = [remoteRepo lookUpObjectByOID:upstreamCommit.OID objectType:GTObjectTypeCommit error:&error];
-			expect(upstreamCommit).notTo(beNil());
+			// Validate
+
+			// 5 commits
+			masterBranch = localBranchWithName(@"master", localRepo);
+			expect(@([masterBranch numberOfCommitsWithError:NULL])).to(equal(@6));
+
+			// We should have have an additional merge commit after the pull
+			uniqueLocalCommits = [localRepo localCommitsRelativeToRemoteBranch:remoteTrackingBranch error:&error];
+			expect(uniqueLocalCommits).toNot(beNil());
 			expect(error).to(beNil());
+			expect(@(uniqueLocalCommits.count)).to(equal(@3));
 		});
 
 	});
