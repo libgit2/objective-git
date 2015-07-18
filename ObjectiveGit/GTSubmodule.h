@@ -60,9 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) GTRepository *parentRepository;
 
 /// The current ignore rule for this submodule.
-///
-/// Setting this property will only update the rule in memory, not on disk.
-@property (nonatomic, assign) GTSubmoduleIgnoreRule ignoreRule;
+@property (nonatomic, readonly, assign) GTSubmoduleIgnoreRule ignoreRule;
 
 /// The OID that the submodule is pinned to in the parent repository's index.
 ///
@@ -113,6 +111,16 @@ NS_ASSUME_NONNULL_BEGIN
 /// Returns whether reloading succeeded.
 - (BOOL)reload:(NSError **)error;
 
+/// Write a new ignore rule to disk and get the resulting submodule. The
+/// receiver will not have the new ignore rule. To update the receiver, call
+/// `-reload:`.
+///
+/// ignoreRule - The ignore rule.
+/// error      - The error if one occurred.
+///
+/// Returns the updated submodule or nil if an error occurred.
+- (nullable GTSubmodule *)submoduleByUpdatingIgnoreRule:(GTSubmoduleIgnoreRule)ignoreRule error:(NSError **)error;
+
 /// Synchronizes the submodule repository's configuration files with the settings
 /// from the parent repository.
 ///
@@ -126,10 +134,16 @@ NS_ASSUME_NONNULL_BEGIN
 /// Returns the opened repository, or nil if an error occurs.
 - (nullable GTRepository *)submoduleRepository:(NSError **)error;
 
-/// Determines the status for the submodule.
-///
-/// Returns the status, or `GTSubmoduleStatusUnknown` if an error occurs.
+/// Calls `-statusWithIgnoreRule:error:` with the submodule's ignore rule.
 - (GTSubmoduleStatus)status:(NSError **)error;
+
+/// Determine the status for the submodule using the given ignore rule.
+///
+/// ignoreRule - The ignore rule to use in calculating status.
+/// error      - The error if one occurred.
+///
+/// Returns the status or `GTSubmoduleStatusUnknown` if an error occurred.
+- (GTSubmoduleStatus)statusWithIgnoreRule:(GTSubmoduleIgnoreRule)ignoreRule error:(NSError **)error;
 
 /// Initializes the submodule by copying its information into the parent
 /// repository's `.git/config` file. This is equivalent to `git submodule init`
