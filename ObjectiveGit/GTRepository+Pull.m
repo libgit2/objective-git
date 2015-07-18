@@ -28,7 +28,7 @@
 	NSParameterAssert(branch);
 	NSParameterAssert(remote);
 
-	GTRepository *repo = remote.repository;
+	GTRepository *repo = branch.repository;
 
 	if (![self fetchRemote:remote withOptions:options error:error progress:progressBlock]) {
 		return NO;
@@ -111,12 +111,17 @@
 			return NO;
 		}
 
+		GTTree *newTree = [index writeTreeToRepository:repo error:error];
+		if (!newTree) {
+			return NO;
+		}
+
 		// Create merge commit
 		NSString *message = [NSString stringWithFormat:@"Merge branch '%@'", localBranch.shortName];
 		NSArray *parents = @[ localCommit, remoteCommit ];
 
 		// FIXME: This is stepping on the local tree
-		GTCommit *mergeCommit = [repo createCommitWithTree:remoteTree message:message parents:parents updatingReferenceNamed:localBranch.name error:error];
+		GTCommit *mergeCommit = [repo createCommitWithTree:newTree  message:message parents:parents updatingReferenceNamed:localBranch.name error:error];
 		if (!mergeCommit) {
 			return NO;
 		}
