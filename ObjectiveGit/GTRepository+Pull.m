@@ -9,11 +9,13 @@
 #import "GTRepository+Pull.h"
 
 #import "GTCommit.h"
+#import "GTIndex.h"
 #import "GTOID.h"
 #import "GTRemote.h"
 #import "GTReference.h"
 #import "GTRepository+Committing.h"
 #import "GTRepository+RemoteOperations.h"
+#import "GTTree.h"
 #import "NSError+Git.h"
 #import "git2/errors.h"
 
@@ -91,15 +93,34 @@
 		return checkoutSuccess;
 	} else if (analysis & GTMergeAnalysisNormal) {
 		// Do normal merge
+		GTTree *localTree = localCommit.tree;
 		GTTree *remoteTree = remoteCommit.tree;
+
+		// TODO: Find common ancestor
+		GTTree *ancestorTree = nil;
+
+		// Merge
+		GTIndex *index = [localTree merge:remoteTree ancestor:ancestorTree error:error];
+		if (!index) {
+			return NO;
+		}
+
+		// Check for conflict
+		int gitError = git_index_has_conflicts(index.git_index);
+		if (gitError != GIT_OK) {
+			if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Merge conflict, pull aborted"];
+			return NO;
+		}
+
+		// Create merge commit
 		NSString *message = [NSString stringWithFormat:@"Merge branch '%@'", localBranch.shortName];
 		NSArray *parents = @[ localCommit, remoteCommit ];
+
+		// FIXME: This is stepping on the local tree
 		GTCommit *mergeCommit = [repo createCommitWithTree:remoteTree message:message parents:parents updatingReferenceNamed:localBranch.name error:error];
 		if (!mergeCommit) {
 			return NO;
 		}
-
-		// TODO: Detect merge conflict
 
 		BOOL success = [self checkoutReference:localBranch.reference strategy:GTCheckoutStrategyForce error:error progressBlock:nil];
 		return success;
