@@ -65,10 +65,8 @@ describe(@"pull", ^{
 		});
 
 		afterEach(^{
-			[NSFileManager.defaultManager removeItemAtURL:remoteRepoURL error:&error];
-			expect(error).to(beNil());
-			[NSFileManager.defaultManager removeItemAtURL:localRepoURL error:&error];
-			expect(error).to(beNil());
+			[NSFileManager.defaultManager removeItemAtURL:remoteRepoURL error:NULL];
+			[NSFileManager.defaultManager removeItemAtURL:localRepoURL error:NULL];
 			error = NULL;
 			[self tearDown];
 		});
@@ -221,13 +219,12 @@ describe(@"pull", ^{
 
 			// Pull
             __block BOOL transferProgressed = NO;
-			// FIXME: This is analyzing merge as "up-to-date"
 			BOOL result = [localRepo pullBranch:masterBranch fromRemote:remote withOptions:nil error:&error progress:^(const git_transfer_progress *progress, BOOL *stop) {
 				transferProgressed = YES;
 			}];
 			expect(@(result)).to(beTruthy());
 			expect(error).to(beNil());
-			expect(@(transferProgressed)).to(beTruthy()); // TODO: This one works?
+			expect(@(transferProgressed)).to(beTruthy());
 
 			// Validate
 
@@ -240,6 +237,26 @@ describe(@"pull", ^{
 			expect(uniqueLocalCommits).toNot(beNil());
 			expect(error).to(beNil());
 			expect(@(uniqueLocalCommits.count)).to(equal(@3));
+		});
+
+		/// Conflict During Merge
+		it(@"erupts in a ball of 🔥 with a merge conflict ", ^{
+			// Stage a conflict by adding the same file with different contents to both repos
+			GTCommit *localCommit = createCommitInRepository(@"Local commit", [@"TestLocal" dataUsingEncoding:NSUTF8StringEncoding], @"test.txt", localRepo);
+			expect(localCommit).notTo(beNil());
+			GTCommit *remoteCommit = createCommitInRepository(@"Upstream commit", [@"TestUpstream" dataUsingEncoding:NSUTF8StringEncoding], @"test.txt", remoteRepo);
+            expect(remoteCommit).notTo(beNil());
+
+            GTBranch *masterBranch = localBranchWithName(@"master", localRepo);
+
+			// Pull
+			__block BOOL transferProgressed = NO;
+			BOOL result = [localRepo pullBranch:masterBranch fromRemote:remote withOptions:nil error:&error progress:^(const git_transfer_progress *progress, BOOL *stop) {
+				transferProgressed = YES;
+			}];
+			expect(@(result)).to(beFalsy());
+			expect(error).toNot(beNil());
+			expect(@(transferProgressed)).to(beTruthy());
 		});
 
 	});
