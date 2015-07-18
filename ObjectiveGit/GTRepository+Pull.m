@@ -106,9 +106,8 @@
 		}
 
 		// Check for conflict
-		int gitError = git_index_has_conflicts(index.git_index);
-		if (gitError != GIT_OK) {
-			if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Merge conflict, pull aborted"];
+		if (index.hasConflicts) {
+			if (error != NULL) *error = [NSError git_errorFor:GIT_ECONFLICT description:@"Merge conflict, pull aborted"];
 			return NO;
 		}
 
