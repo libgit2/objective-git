@@ -218,7 +218,7 @@ describe(@"pull", ^{
 			expect(@(uniqueLocalCommits.count)).to(equal(@1));
 
 			// Pull
-            __block BOOL transferProgressed = NO;
+			__block BOOL transferProgressed = NO;
 			BOOL result = [localRepo pullBranch:masterBranch fromRemote:remote withOptions:nil error:&error progress:^(const git_transfer_progress *progress, BOOL *stop) {
 				transferProgressed = YES;
 			}];
@@ -245,9 +245,9 @@ describe(@"pull", ^{
 			GTCommit *localCommit = createCommitInRepository(@"Local commit", [@"TestLocal" dataUsingEncoding:NSUTF8StringEncoding], @"test.txt", localRepo);
 			expect(localCommit).notTo(beNil());
 			GTCommit *remoteCommit = createCommitInRepository(@"Upstream commit", [@"TestUpstream" dataUsingEncoding:NSUTF8StringEncoding], @"test.txt", remoteRepo);
-            expect(remoteCommit).notTo(beNil());
+			expect(remoteCommit).notTo(beNil());
 
-            GTBranch *masterBranch = localBranchWithName(@"master", localRepo);
+			GTBranch *masterBranch = localBranchWithName(@"master", localRepo);
 
 			// Pull
 			__block BOOL transferProgressed = NO;
