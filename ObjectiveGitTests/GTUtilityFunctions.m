@@ -15,7 +15,11 @@
 #pragma mark - Commit
 
 CreateCommitBlock createCommitInRepository = ^ GTCommit * (NSString *message, NSData *fileData, NSString *fileName, GTRepository *repo) {
-	GTTreeBuilder *treeBuilder = [[GTTreeBuilder alloc] initWithTree:nil repository:repo error:nil];
+	GTReference *head = [repo headReferenceWithError:NULL];
+	GTBranch *branch = [GTBranch branchWithReference:head repository:repo];
+	GTCommit *headCommit = [branch targetCommitWithError:NULL];
+
+	GTTreeBuilder *treeBuilder = [[GTTreeBuilder alloc] initWithTree:headCommit.tree repository:repo error:nil];
 	[treeBuilder addEntryWithData:fileData fileName:fileName fileMode:GTFileModeBlob error:nil];
 
 	GTTree *testTree = [treeBuilder writeTree:nil];
