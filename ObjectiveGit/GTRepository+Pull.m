@@ -32,17 +32,23 @@
 		return NO;
 	}
 
-	// Get remote branch after fetch so that it is up-to-date and doesn't need to be refreshed from disk
-	GTBranch *remoteBranch;
+	// Get tracking branch after fetch so that it is up-to-date and doesn't need to be refreshed from disk
+	GTBranch *trackingBranch;
 	if (branch.branchType == GTBranchTypeLocal) {
-		BOOL success;
-		remoteBranch = [branch trackingBranchWithError:error success:&success];
-		if (!remoteBranch) {
+		BOOL success = NO;
+		trackingBranch = [branch trackingBranchWithError:error success:&success];
+		if (!success) {
+			if (error != NULL) *error = [NSError git_errorFor:GIT_ERROR description:@"Tracking branch not found for %@", branch.name];
+			return NO;
+		}
+		else if (!trackingBranch) {
+			// Error should already be provided by libgit2
 			return NO;
 		}
 	}
 	else {
-		remoteBranch = branch;
+		// When given a remote branch, use it as the tracking branch
+		trackingBranch = branch;
 	}
 
 	// Check if merge is necessary
@@ -56,7 +62,7 @@
 		return NO;
 	}
 
-	GTCommit *remoteCommit = [remoteBranch targetCommitWithError:error];
+	GTCommit *remoteCommit = [trackingBranch targetCommitWithError:error];
 	if (!remoteCommit) {
 		return NO;
 	}
@@ -67,7 +73,7 @@
 	}
 
 	GTMergeAnalysis analysis = GTMergeAnalysisNone;
-	BOOL success = [self analyseMerge:&analysis fromBranch:remoteBranch error:error];
+	BOOL success = [self analyseMerge:&analysis fromBranch:trackingBranch error:error];
 	if (!success) {
 		return NO;
 	}
@@ -78,7 +84,7 @@
 	} else if (analysis & GTMergeAnalysisFastForward ||
 			   analysis & GTMergeAnalysisUnborn) {
 		// Fast-forward branch
-		NSString *message = [NSString stringWithFormat:@"merge %@/%@: Fast-forward", remote.name, remoteBranch.name];
+		NSString *message = [NSString stringWithFormat:@"merge %@/%@: Fast-forward", remote.name, trackingBranch.name];
 		GTReference *reference = [localBranch.reference referenceByUpdatingTarget:remoteCommit.SHA message:message error:error];
 		BOOL checkoutSuccess = [self checkoutReference:reference strategy:GTCheckoutStrategyForce error:error progressBlock:nil];
 
@@ -114,13 +120,17 @@
 
 	git_annotated_commit *annotatedCommit;
 
-	// TODO: Check for lookup error
-	git_annotated_commit_lookup(&annotatedCommit, self.git_repository, fromCommit.OID.git_oid);
+	int gitError = git_annotated_commit_lookup(&annotatedCommit, self.git_repository, fromCommit.OID.git_oid);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to lookup annotated comit for %@", fromCommit];
+		return NO;
+	}
 
+	// Allow fast-forward or normal merge
 	git_merge_preference_t preference = GIT_MERGE_PREFERENCE_NONE;
 
 	// Merge analysis
-	int gitError = git_merge_analysis((git_merge_analysis_t *)analysis, &preference, self.git_repository, (const git_annotated_commit **) &annotatedCommit, 1);
+	gitError = git_merge_analysis((git_merge_analysis_t *)analysis, &preference, self.git_repository, (const git_annotated_commit **) &annotatedCommit, 1);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to analyze merge"];
 		return NO;
