@@ -42,7 +42,7 @@ function build_libgit2 ()
     LOG="${INSTALL_PREFIX}/build-libgit2.log"
     echo "$LOG"
 
-    cmake -DCMAKE_C_COMPILER=clang \
+    cmake \
         -DCMAKE_C_COMPILER_WORKS:BOOL=ON \
         -DBUILD_SHARED_LIBS:BOOL=OFF \
         -DCMAKE_LIBRARY_PATH:PATH=../../External/libssh2-ios/lib/ \
