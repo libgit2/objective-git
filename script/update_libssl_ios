@@ -1,8 +1,13 @@
-#!/bin/bash
+#!/bin/bash -e
 
 # source the common build functions
 SCRIPT_DIR=$(dirname "$0")
 source "${SCRIPT_DIR}/ios_build_functions.sh"
+
+# Set up OUTPUT file handle (stdout when 'verbose' is 1st arg)
+if [[ $1 == "verbose" ]]; then
+    OUTPUT=/dev/stdout
+fi
 
 function setup ()
 {
@@ -29,7 +34,12 @@ function build_ssl ()
     cp -r "${ROOT_PATH}/External/openssl" "/tmp/"
     pushd "/tmp/openssl" > /dev/null
 
-    LOG="/tmp/openssl-${ARCH}.log"
+    # Direct cmake output to LOG file when OUTPUT is not set
+    if [[ -z $OUTPUT ]]; then
+        LOG="/tmp/openssl-${ARCH}.log"
+        OUTPUT="${LOG}"
+        echo "${LOG}"
+    fi
 
     if [ "${ARCH}" == "arm64" ] || [ "${ARCH}" == "x86_64" ]
     then
@@ -40,14 +50,13 @@ function build_ssl ()
         CONFIG="no-gost no-asm"
         perl -i -pe 's|static volatile sig_atomic_t intr_signal|static volatile int intr_signal|' crypto/ui/ui_openssl.c
     fi
-    echo "$LOG"
 
-    ./Configure ${HOST} ${CONFIG} --openssldir="/tmp/openssl-${ARCH}" >> "${LOG}" 2>&1
-    perl -i -pe "s|^CC= gcc|CC= ${CLANG} -miphoneos-version-min=${IPHONEOS_DEPLOYMENT_TARGET} -arch ${ARCH} |g" Makefile >> "${LOG}" 2>&1
-    perl -i -pe "s|^CFLAG= (.*)|CFLAG= -isysroot ${SDKROOT} \$1|g" Makefile >> "${LOG}" 2>&1
-    make >> "${LOG}" 2>&1
+    ./Configure ${HOST} ${CONFIG} --openssldir="/tmp/openssl-${ARCH}" >> "${OUTPUT}" 2>&1
+    perl -i -pe "s|^CC= gcc|CC= ${CLANG} -miphoneos-version-min=${IPHONEOS_DEPLOYMENT_TARGET} -arch ${ARCH} |g" Makefile >> "${OUTPUT}" 2>&1
+    perl -i -pe "s|^CFLAG= (.*)|CFLAG= -isysroot ${SDKROOT} \$1|g" Makefile >> "${OUTPUT}" 2>&1
+    make >> "${OUTPUT}" 2>&1
 
-    make install_sw >> "${LOG}" 2>&1
+    make install_sw >> "${OUTPUT}" 2>&1
     popd > /dev/null
     rm -rf "/tmp/openssl"
 
