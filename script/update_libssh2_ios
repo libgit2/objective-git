@@ -1,10 +1,13 @@
-#!/bin/bash
-
-set -e
+#!/bin/bash -e
 
 # source the common build functions
 SCRIPT_DIR=$(dirname "$0")
 source "${SCRIPT_DIR}/ios_build_functions.sh"
+
+# Set up OUTPUT file handle (stdout when 'verbose' is 1st arg)
+if [[ $1 == "verbose" ]]; then
+    OUTPUT=/dev/stdout
+fi
 
 function setup ()
 {
@@ -28,14 +31,18 @@ function build_ssh2 ()
     export CPPFLAGS="-arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${SDKROOT} -miphoneos-version-min=${IPHONEOS_DEPLOYMENT_TARGET}"
 
     mkdir -p "${ROOT_PATH}/External/libssh2-ios/bin/${SDKNAME}-${ARCH}.sdk"
-    LOG="${ROOT_PATH}/External/libssh2-ios/bin/${SDKNAME}-${ARCH}.sdk/build-libssh2.log"
 
-    echo "${LOG}"
+    # Direct cmake output to LOG file when OUTPUT is not set
+    if [[ -z $OUTPUT ]]; then
+        LOG="${ROOT_PATH}/External/libssh2-ios/bin/${SDKNAME}-${ARCH}.sdk/build-libssh2.log"
+        OUTPUT="${LOG}"
+        echo "${LOG}"
+    fi
 
-    ./buildconf >> "${LOG}" 2>&1
-    ./configure --host=${HOST} --prefix="${ROOT_PATH}/External/libssh2-ios/bin/${SDKNAME}-${ARCH}.sdk" --with-openssl --with-libssl-prefix="${ROOT_PATH}/External/ios-openssl" --disable-shared --enable-static >> "${LOG}" 2>&1
-    make >> "${LOG}" 2>&1
-    make install >> "${LOG}" 2>&1
+    ./buildconf >> "${OUTPUT}" 2>&1
+    ./configure --host=${HOST} --prefix="${ROOT_PATH}/External/libssh2-ios/bin/${SDKNAME}-${ARCH}.sdk" --with-openssl --with-libssl-prefix="${ROOT_PATH}/External/ios-openssl" --disable-shared --enable-static >> "${OUTPUT}" 2>&1
+    make >> "${OUTPUT}" 2>&1
+    make install >> "${OUTPUT}" 2>&1
     popd > /dev/null
 
     BUILT_LIBS+=("${ROOT_PATH}/External/libssh2-ios/bin/${SDKNAME}-${ARCH}.sdk/lib/libssh2.a")
