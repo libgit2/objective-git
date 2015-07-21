@@ -25,6 +25,11 @@
 
 @implementation GTDiffHunk
 
+- (instancetype)init {
+	NSAssert(NO, @"Call to an unavailable initializer.");
+	return nil;
+}
+
 - (instancetype)initWithPatch:(GTDiffPatch *)patch hunkIndex:(NSUInteger)hunkIndex {
 	NSParameterAssert(patch != nil);
 

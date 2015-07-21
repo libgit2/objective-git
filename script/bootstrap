@@ -57,7 +57,7 @@ check_deps ()
 
     # Ensure that we have libgit2's dependencies installed.
     installed=`brew list`
-    libs="libssh2 libtool autoconf automake"
+    libs="libssh2 libtool autoconf automake pkg-config"
 
     for lib in $libs
     do

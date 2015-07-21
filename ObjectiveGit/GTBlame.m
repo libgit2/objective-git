@@ -21,6 +21,11 @@
 
 @implementation GTBlame
 
+- (instancetype)init {
+	NSAssert(NO, @"Call to an unavailable initializer.");
+	return nil;
+}
+
 - (instancetype)initWithGitBlame:(git_blame *)blame {
 	NSParameterAssert(blame != NULL);
 	

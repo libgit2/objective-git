@@ -45,6 +45,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// The number of newlines appearing in `-content`.
 @property (nonatomic, readonly) NSInteger lineCount;
 
+- (instancetype)init NS_UNAVAILABLE;
+
 /// Designated initialiser.
 ///
 /// line - The diff line to wrap. May not be NULL.

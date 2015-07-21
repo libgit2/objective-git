@@ -54,6 +54,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)localNamePrefix;
 + (NSString *)remoteNamePrefix;
 
+- (instancetype)init NS_UNAVAILABLE;
+
 /// Designated initializer.
 ///
 /// ref  - The branch reference to wrap. Must not be nil.

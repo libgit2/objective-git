@@ -74,6 +74,11 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 	return [[self alloc] initByResolvingSymbolicReference:symbolicRef error:error];
 }
 
+- (instancetype)init {
+	NSAssert(NO, @"Call to an unavailable initializer.");
+	return nil;
+}
+
 - (instancetype)initByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error {
 	NSParameterAssert(symbolicRef != nil);
 

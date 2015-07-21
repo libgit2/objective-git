@@ -57,6 +57,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, strong) GTRepository *repository;
 @property (nonatomic, readonly, nullable) GTOID *OID;
 
+- (instancetype)init NS_UNAVAILABLE;
+
 /// Designated initializer.
 - (nullable id)initWithObj:(git_object *)theObject inRepository:(GTRepository *)theRepo NS_DESIGNATED_INITIALIZER;
 

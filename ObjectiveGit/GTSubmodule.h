@@ -88,6 +88,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// `.git/config` or `.gitmodules` file.
 @property (nonatomic, copy, readonly, nullable) NSString *URLString;
 
+- (instancetype)init NS_UNAVAILABLE;
+
 /// Initializes the receiver to wrap the given submodule object. Designated initializer.
 ///
 /// submodule  - The submodule to wrap. The receiver will not own this object, so

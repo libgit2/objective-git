@@ -12,6 +12,8 @@
 
 @class GTStatusDelta;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /// An enum representing the status of a file
 /// See git_status_t
 typedef NS_OPTIONS(NSInteger, GTFileStatusFlags) {
@@ -80,8 +82,6 @@ typedef enum {
 ///
 /// Defaults to including all files.
 extern NSString *const GTRepositoryStatusOptionsPathSpecArrayKey;
-
-NS_ASSUME_NONNULL_BEGIN
 
 @interface GTRepository (Status)
 

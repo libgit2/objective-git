@@ -52,6 +52,8 @@
 @class GTTree;
 @class GTRemote;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /// Checkout strategies used by the various -checkout... methods
 /// See git_checkout_strategy_t
 typedef NS_OPTIONS(NSInteger, GTCheckoutStrategyType) {
@@ -148,8 +150,6 @@ extern NSString * const GTRepositoryInitOptionsInitialHEAD;
 /// initialization.
 extern NSString * const GTRepositoryInitOptionsOriginURLString;
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface GTRepository : NSObject
 
 /// The file URL for the repository's working directory.
@@ -194,6 +194,8 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// Returns the initialized repository, or nil if an error occurred.
 - (nullable instancetype)initWithURL:(NSURL *)localFileURL error:(NSError **)error;
+
+- (instancetype)init NS_UNAVAILABLE;
 
 /// Initializes the receiver to wrap the given repository object. Designated initializer.
 ///

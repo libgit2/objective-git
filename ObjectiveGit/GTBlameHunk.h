@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// A `GTBlameHunk` is an object that provides authorship info for a set of lines in a `GTBlame`.
 @interface GTBlameHunk : NSObject
 
+- (instancetype)init NS_UNAVAILABLE;
+
 /// Designated initializer.
 ///
 /// hunk - A git_blame_hunk to wrap. May not be NULL.
