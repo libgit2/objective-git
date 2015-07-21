@@ -1,6 +1,7 @@
 # ObjectiveGit
 
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) ![TravisCI](https://travis-ci.org/libgit2/objective-git.svg?branch=master)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+[![Build Status](https://travis-ci.org/libgit2/objective-git.svg?branch=master)](https://travis-ci.org/libgit2/objective-git)
 
 ObjectiveGit provides Cocoa bindings to the
 [libgit2](https://github.com/libgit2/libgit2) library.
