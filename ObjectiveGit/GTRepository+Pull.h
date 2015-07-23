@@ -43,9 +43,9 @@ typedef void (^GTRemoteFetchTransferProgressBlock)(const git_transfer_progress *
 
 /// Analyze which merge to perform
 ///
-/// analysis        - The resulting analysis.
-/// fromBranch      - The remote to pull from.
-/// error           - The error if one occurred. Can be NULL.
+/// analysis   - The resulting analysis.
+/// fromBranch - The remote to pull from.
+/// error      - The error if one occurred. Can be NULL.
 ///
 /// Returns YES if the analysis was successful, NO otherwise (and `error`, if provided,
 /// will point to an error describing what happened).
