@@ -1,10 +1,13 @@
-#!/bin/bash
-
-set -e
+#!/bin/bash -e
 
 # source the common build functions
 SCRIPT_DIR=$(dirname "$0")
 source "${SCRIPT_DIR}/ios_build_functions.sh"
+
+# Set up OUTPUT file handle (stdout when 'verbose' is 1st arg)
+if [[ $1 == "verbose" ]]; then
+    OUTPUT=/dev/stdout
+fi
 
 function setup ()
 {
@@ -39,8 +42,12 @@ function build_libgit2 ()
 
     mkdir -p "${INSTALL_PREFIX}"
 
-    LOG="${INSTALL_PREFIX}/build-libgit2.log"
-    echo "$LOG"
+    # Direct cmake output to LOG file when OUTPUT is not set
+    if [[ -z $OUTPUT ]]; then
+        LOG="${INSTALL_PREFIX}/build-libgit2.log"
+        OUTPUT="${LOG}"
+        echo "${LOG}"
+    fi
 
     cmake \
         -DCMAKE_C_COMPILER_WORKS:BOOL=ON \
@@ -54,8 +61,8 @@ function build_libgit2 ()
         -DCURL:BOOL=OFF \
         "${SYS_ROOT}" \
         -DCMAKE_OSX_ARCHITECTURES:STRING="${ARCH}" \
-        .. >> "${LOG}" 2>&1
-    cmake --build . --target install >> "${LOG}" 2>&1
+        .. >> "${OUTPUT}" 2>&1
+    cmake --build . --target install >> "${OUTPUT}" 2>&1
 
     # push the built library into the list
     BUILT_LIB_PATHS+=("${INSTALL_PREFIX}/lib/libgit2.a")

@@ -1205,7 +1205,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = script/update_libssl_ios;
+			shellScript = "script/update_libssl_ios verbose";
 		};
 		6A3C609117D5963700382DFF /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1218,7 +1218,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = script/update_libssh2_ios;
+			shellScript = "script/update_libssh2_ios verbose";
 		};
 		D0A330F116027F2300A616FA /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1244,7 +1244,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = script/update_libgit2_ios;
+			shellScript = "script/update_libgit2_ios verbose";
 		};
 /* End PBXShellScriptBuildPhase section */
 
