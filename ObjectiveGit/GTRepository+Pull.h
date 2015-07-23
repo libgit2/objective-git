@@ -41,10 +41,10 @@ typedef void (^GTRemoteFetchTransferProgressBlock)(const git_transfer_progress *
 /// will point to an error describing what happened).
 - (BOOL)pullBranch:(GTBranch *)branch fromRemote:(GTRemote *)remote withOptions:(nullable NSDictionary *)options error:(NSError **)error progress:(nullable GTRemoteFetchTransferProgressBlock)progressBlock;
 
-/// Analyze which merge to perform
+/// Analyze which merge to perform.
 ///
 /// analysis   - The resulting analysis.
-/// fromBranch - The remote to pull from.
+/// fromBranch - The branch to merge from.
 /// error      - The error if one occurred. Can be NULL.
 ///
 /// Returns YES if the analysis was successful, NO otherwise (and `error`, if provided,
