@@ -23,8 +23,7 @@
 
 #pragma mark - Pull
 
-- (BOOL)pullBranch:(GTBranch *)branch fromRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error progress:(GTRemoteFetchTransferProgressBlock)progressBlock
-{
+- (BOOL)pullBranch:(GTBranch *)branch fromRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error progress:(GTRemoteFetchTransferProgressBlock)progressBlock {
 	NSParameterAssert(branch);
 	NSParameterAssert(remote);
 
@@ -133,8 +132,7 @@
 	return NO;
 }
 
-- (BOOL)analyzeMerge:(GTMergeAnalysis *)analysis fromBranch:(GTBranch *)fromBranch error:(NSError **)error
-{
+- (BOOL)analyzeMerge:(GTMergeAnalysis *)analysis fromBranch:(GTBranch *)fromBranch error:(NSError **)error {
 	NSParameterAssert(analysis != NULL);
 	NSParameterAssert(fromBranch != nil);
 
