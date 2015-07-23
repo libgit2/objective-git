@@ -75,7 +75,7 @@
 	}
 
 	GTMergeAnalysis analysis = GTMergeAnalysisNone;
-	BOOL success = [self analyseMerge:&analysis fromBranch:trackingBranch error:error];
+	BOOL success = [self analyzeMerge:&analysis fromBranch:trackingBranch error:error];
 	if (!success) {
 		return NO;
 	}
@@ -133,7 +133,7 @@
 	return NO;
 }
 
-- (BOOL)analyseMerge:(GTMergeAnalysis *)analysis fromBranch:(GTBranch *)fromBranch error:(NSError **)error
+- (BOOL)analyzeMerge:(GTMergeAnalysis *)analysis fromBranch:(GTBranch *)fromBranch error:(NSError **)error
 {
 	NSParameterAssert(analysis != NULL);
 	NSParameterAssert(fromBranch != nil);
