@@ -24,8 +24,8 @@
 #pragma mark - Pull
 
 - (BOOL)pullBranch:(GTBranch *)branch fromRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error progress:(GTRemoteFetchTransferProgressBlock)progressBlock {
-	NSParameterAssert(branch);
-	NSParameterAssert(remote);
+	NSParameterAssert(branch != nil);
+	NSParameterAssert(remote != nil);
 
 	GTRepository *repo = branch.repository;
 
