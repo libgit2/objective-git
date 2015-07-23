@@ -93,6 +93,16 @@ it(@"should add its HEAD to its parent's index", ^{
 	expect(@(success)).to(beTruthy());
 });
 
+it(@"should update the ignore rule", ^{
+	GTSubmodule *submodule = [repo submoduleWithName:@"Test_App" error:NULL];
+	expect(submodule).notTo(beNil());
+	expect(@(submodule.ignoreRule)).to(equal(@(GTSubmoduleIgnoreNone)));
+
+	GTSubmodule *updatedSubmodule = [submodule submoduleByUpdatingIgnoreRule:GTSubmoduleIgnoreAll error:NULL];
+	expect(@(updatedSubmodule.ignoreRule)).to(equal(@(GTSubmoduleIgnoreAll)));
+	expect(@(submodule.ignoreRule)).to(equal(@(GTSubmoduleIgnoreNone)));
+});
+
 describe(@"clean, checked out submodule", ^{
 	__block GTSubmodule *submodule;
 
@@ -204,13 +214,11 @@ describe(@"dirty, checked out submodule", ^{
 	});
 
 	it(@"should honor the ignore rule", ^{
-		submodule.ignoreRule = GTSubmoduleIgnoreDirty;
-
 		GTSubmoduleStatus expectedStatus =
 			GTSubmoduleStatusExistsInHEAD | GTSubmoduleStatusExistsInIndex | GTSubmoduleStatusExistsInConfig | GTSubmoduleStatusExistsInWorkingDirectory |
 			GTSubmoduleStatusModifiedInIndex | GTSubmoduleStatusModifiedInWorkingDirectory;
 
-		expect(@([submodule status:NULL])).to(equal(@(expectedStatus)));
+		expect(@([submodule statusWithIgnoreRule:GTSubmoduleIgnoreDirty error:NULL])).to(equal(@(expectedStatus)));
 	});
 
 	it(@"should open a repository" ,^{
