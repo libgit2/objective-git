@@ -9,7 +9,8 @@ export SCRIPT_DIR=$(dirname "$0")
 config ()
 {
     # A whitespace-separated list of executables that must be present and locatable.
-    : ${REQUIRED_TOOLS="xctool cmake"}
+    # These will each be installed through Homebrew if not found.
+    : ${REQUIRED_TOOLS="xctool cmake libssh2 libtool autoconf automake pkg-config"}
 
     export REQUIRED_TOOLS
 }
@@ -45,24 +46,13 @@ main ()
 
 check_deps ()
 {
-    for tool in $REQUIRED_TOOLS
-    do
-        which -s "$tool"
-        if [ "$?" -ne "0" ]
-        then
-            echo "*** Error: $tool not found. Please install it and bootstrap again."
-            exit 1
-        fi
-    done
-
     # Ensure that we have libgit2's dependencies installed.
     installed=`brew list`
-    libs="libssh2 libtool autoconf automake pkg-config"
 
-    for lib in $libs
+    for tool in $REQUIRED_TOOLS
     do
         # Skip packages that are already installed.
-        echo "$installed" | grep -q "$lib" && code=$? || code=$?
+        echo "$installed" | grep -q "$tool" && code=$? || code=$?
 
         if [ "$code" -eq "0" ]
         then
@@ -72,8 +62,8 @@ check_deps ()
             exit $code
         fi
 
-        echo "*** Installing $lib with Homebrew..."
-        brew install "$lib"
+        echo "*** Installing $tool with Homebrew..."
+        brew install "$tool"
     done
 
     brew_prefix=`brew --prefix`
