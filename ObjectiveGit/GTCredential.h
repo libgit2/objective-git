@@ -74,6 +74,18 @@ NS_ASSUME_NONNULL_BEGIN
 /// Return a new GTCredential instance, or nil if an error occurred
 + (nullable instancetype)credentialWithUserName:(NSString *)userName publicKeyURL:(nullable NSURL *)publicKeyURL privateKeyURL:(NSURL *)privateKeyURL passphrase:(nullable NSString *)passphrase error:(NSError **)error;
 
+/// Create a credential object from a SSH keyfile data string
+///
+/// userName         - The username to authenticate as. Must not be nil.
+/// publicKeyString  - The string containing the public key for that user.
+///                  Can be omitted to reconstruct the public key from the private key.
+/// privateKeyString - The URL to the private key for that user. Must not be nil.
+/// passphrase       - The passPhrase for the private key. Optional if the private key has no password.
+/// error            - If not NULL, set to any errors that occur.
+///
+/// Return a new GTCredential instance, or nil if an error occurred
++ (nullable instancetype)credentialWithUserName:(NSString *)userName publicKeyString:(nullable NSString *)publicKeyString privateKeyString:(NSString *)privateKeyString passphrase:(nullable NSString *)passphrase error:(NSError **)error;
+
 /// The underlying `git_cred` object.
 - (git_cred *)git_cred __attribute__((objc_returns_inner_pointer));
 
