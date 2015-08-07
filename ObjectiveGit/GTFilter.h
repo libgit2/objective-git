@@ -34,7 +34,7 @@ extern const NSInteger GTFilterErrorNameAlreadyRegistered;
 
 /// The check block. Determines whether the `applyBlock` should be run for given
 /// source.
-@property (nonatomic, copy) BOOL (^checkBlock)(void * _Null_unspecified * _Null_unspecified payload, GTFilterSource *source,  const char * _Null_unspecified * _Null_unspecified attr_values);
+@property (nonatomic, copy) BOOL (^checkBlock)(void * __null_unspecified * __null_unspecified payload, GTFilterSource *source,  const char * __null_unspecified * __null_unspecified attr_values);
 
 /// The cleanup block. Called after the `applyBlock` to given the filter a
 /// chance to clean up the `payload`.
@@ -49,7 +49,7 @@ extern const NSInteger GTFilterErrorNameAlreadyRegistered;
 /// applyBlock - The block to use to apply the filter. Cannot be nil.
 ///
 /// Returns the initialized object.
-- (nullable instancetype)initWithName:(NSString *)name attributes:(nullable NSString *)attributes applyBlock:(NSData * (^)(void *_Null_unspecified * _Null_unspecified payload, NSData *from, GTFilterSource *source, BOOL *applied))applyBlock NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithName:(NSString *)name attributes:(nullable NSString *)attributes applyBlock:(NSData * (^)(void *__null_unspecified * __null_unspecified payload, NSData *from, GTFilterSource *source, BOOL *applied))applyBlock NS_DESIGNATED_INITIALIZER;
 
 /// Look up a filter based on its name.
 ///
