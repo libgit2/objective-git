@@ -6,57 +6,103 @@
 ObjectiveGit provides Cocoa bindings to the
 [libgit2](https://github.com/libgit2/libgit2) library.
 
-Not all libgit2 features are available yet. If you run across something missing,
-please consider [contributing a pull request](#contributing)!
+Not all libgit2 features are available yet. If you run across something missing, please consider [contributing a pull request](#contributing)!
 
 ## Getting Started
+
+ObjectiveGit requires Xcode 6.3 or greater to build the framework and run unit tests. Projects that must use an older version of Xcode can use 
+[Carthage](#carthage) to install pre-built binaries
+or download them [manually](#manually).
 
 To start building the framework, you must install the required dependencies, 
 [xctool](https://github.com/facebook/xctool) and 
 [cmake](https://github.com/Kitware/CMake). We recommend using 
-[Homebrew](http://brew.sh) to install these two tools. 
+[Homebrew](http://brew.sh) to install these tools. 
 
-Once you have the dependencies you should clone this repository and then run
-`script/bootstrap`. This will automatically pull down and install any other
+Once you have the dependencies you should clone this repository and then run [`script/bootstrap`](script/bootstrap). This will automatically pull down and install any other
 dependencies.
 
-Note that the `bootstrap` script automatically installs some libraries that
-ObjectiveGit relies upon, using Homebrew. If you want this behavior, please 
-make sure you have Homebrew installed.
+Note that the `bootstrap` script automatically installs some libraries that ObjectiveGit relies upon, using Homebrew. If you want this behavior, please make sure you have Homebrew installed.
 
 To develop ObjectiveGit on its own, open the `ObjectiveGitFramework.xcworkspace` file.
-Note that Xcode 6.3 is required to build the framework and run unit tests.
-Projects that must use an older version of Xcode can use 
-[Carthage](https://github.com/Carthage/Carthage) to install pre-built binaries
-or download them from the [releases](https://github.com/libgit2/objective-git/releases).
 
-## Importing ObjectiveGit on OS X
+There are three ways of including ObjectiveGit in a project:
 
-It is simple enough to add the ObjectiveGit framework to a desktop application
-project. An example of this is the
-[CommitViewer](https://github.com/Abizern/CommitViewer) example on GitHub. In summary:
+1. [Carthage](#carthage) (recommended)
+1. [Manual](#manual)
+1. [Subproject](#subproject)
 
-1. Drag the `ObjectiveGitFramework.xcodeproj` file into the project navigator.
+
+## Carthage
+
+
+1. Add ObjectiveGit to your [`Cartfile`](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#cartfile).
+
+  ```
+  github "libgit2/objective-git"
+  ```
+
+1. Run `carthage update`.
+1. **Mac targets**
+  * On your application targets' "General" settings tab, in the "Embedded Binaries" section, drag and drop the `ObjectiveGit.framework` from the [`Carthage/Build/Mac`](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#carthagebuild) folder on disk.
+
+  ![Embedded Binaries](http://imgur.com/W9EVyIX.png)
+
+1. **iOS targets**
+  * On your application targets' "General" settings tab, in the "Linked Frameworks and Libraries" section, drag and drop the `ObjectiveGit.framework` from the [`Carthage/Build/iOS`](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#carthagebuild) folder on disk.
+  ![Linked Frameworks](http://i.imgur.com/y4caRw0.png)
+  
+  * On your application targets' "Build Phases" settings tab, click the “+” icon and choose “New Run Script Phase”. Create a Run Script with the following contents:
+
+  ```
+  /usr/local/bin/carthage copy-frameworks
+  ```
+
+  and add the paths to the frameworks you want to use under “Input Files”, e.g.:
+
+  ```
+  $(SRCROOT)/Carthage/Build/iOS/ObjectiveGit.framework
+  ```
+
+  ![Carthage Copy Frameworks](http://i.imgur.com/zXai6rb.png)
+
+1. Commit the [`Cartfile.resolved`](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#cartfileresolved)
+
+The different instructions for iOS works around an [App Store submission bug](http://www.openradar.me/radar?id=6409498411401216) triggered by universal binaries.
+
+
+### Copying debug symbols for debugging and crash reporting
+
+1. On your application target's "Build Phases" settings tab, click the "+" icon and choose "New Copy Files Phase".
+2. Click the “Destination” drop-down menu and select "Products Directory".
+3. For each framework you’re using, drag and drop its corresponding dSYM file.
+
+
+## Manual
+
+1. Download the latest `ObjectiveGit.framework.zip` from [releases](https://github.com/libgit2/objective-git/releases).
+1. Unzip the file.
+1. Follow the Carthage instructions above starting at Step #3.
+
+
+## Subproject
+
+### OS X
+
+Example: [CommitViewer](https://github.com/Abizern/CommitViewer)
+
+1. Drag the `ObjectiveGitFramework.xcodeproj` file into the Project Navigator.
 1. Add the ObjectiveGit framework as a target dependency of your application.
 1. Link your application with `ObjectiveGit.framework`.
-1. Add a new "Copy Files" build phase, set the destination to "Frameworks" and
-   add `ObjectiveGit.framework` to that. This will package the framework with
-   your application as an embedded private framework.
-1. Set the “Header Search Paths” (`HEADER_SEARCH_PATHS`) build setting to the
-   correct path for the libgit2 headers in your project. For example, if you
-   added the submodule to your project as `External/ObjectiveGit`, you would
-   set this build setting to `External/ObjectiveGit/External/libgit2/include`.
-   If you see build errors saying that `git2/filter.h` cannot be found, then
-   double-check that you set this setting correctly.
-1. Don't forget to `#import <ObjectiveGit/ObjectiveGit.h>` as you would with any
-   other framework.
+1. Add a new "Copy Files" build phase, set the destination to "Frameworks" and add `ObjectiveGit.framework` to that. This will package the framework with your application as an embedded private framework.
+1. Set the “Header Search Paths” (`HEADER_SEARCH_PATHS`) build setting to the correct path for the libgit2 headers in your project. For example, if you added the submodule to your project as `External/ObjectiveGit`, you would set this build setting to `External/ObjectiveGit/External/libgit2/include`. If you see build errors saying that `git2/filter.h` cannot be found, then double-check that you set this setting correctly.
+1. Don't forget to `#import <ObjectiveGit/ObjectiveGit.h>` as you would with any other framework.
 
-## Importing ObjectiveGit on iOS
+### iOS
 
-Getting started is slightly more difficult on iOS because third-party frameworks
-are not officially supported. ObjectiveGit offers a static library instead. An example
-of this is the [ObjectiveGit iOS Example](https://github.com/Raekye/ObjectiveGit-iOS-Example)
-on GitHub. In summary:
+Example: [ObjectiveGit iOS Example](https://github.com/Raekye/ObjectiveGit-iOS-Example)
+
+Getting started is slightly more difficult on iOS because third-party frameworks are not officially supported. ObjectiveGit offers a static library instead. In summary:
 
 1. Drag `ObjectiveGitFramework.xcodeproj` into the Project Navigator.
 1. Add `ObjectiveGit-iOS` as a target dependency of your application.
@@ -68,36 +114,10 @@ on GitHub. In summary:
        Search Paths"
     1. Add `-all_load` to the "Other Linker Flags"
 
-## Carthage
-
-1. Add ObjectiveGit to your [`Cartfile`](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#cartfile)
-
-  ```
-  github "libgit2/objective-git"
-  ```
-
-2. Run `carthage update`.
-3. From your [`Carthage/Build/[platform]`](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#carthagebuild) directory, add ObjectiveGit.frameork to your "Link Binary With Libraries" build phase: 
-  * OS X: On your application targets’ “General” settings tab, in the “Embedded Binaries” section, drag and drop each framework you want to use from the Carthage/Build folder on disk.
-
-  (image)
-
-4. iOS: On your application targets’ “Build Phases” settings tab, click the “+” icon and choose “New Run Script Phase”. Create a Run Script with the following contents:
-
-  ```
-  /usr/local/bin/carthage copy-frameworks
-  ```
-  
-  and add the paths to the frameworks you want to use under “Input Files”, e.g.:
-  
-  ```
-  $(SRCROOT)/Carthage/Build/iOS/ObjectiveGit.framework
-  ```
 
 ## Contributing
 
-Fork the repository on GitHub, make it awesomer (preferably in a branch named
-for the topic), send a pull request.
+Fork the repository on GitHub, make it awesomer (preferably in a branch named for the topic), send a pull request.
 
 All contributions should match GitHub's [Objective-C coding
 conventions](https://github.com/github/objective-c-conventions).
