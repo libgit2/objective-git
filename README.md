@@ -68,6 +68,32 @@ on GitHub. In summary:
        Search Paths"
     1. Add `-all_load` to the "Other Linker Flags"
 
+## Carthage
+
+1. Add ObjectiveGit to your [`Cartfile`](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#cartfile)
+
+  ```
+  github "libgit2/objective-git"
+  ```
+
+2. Run `carthage update`.
+3. From your [`Carthage/Build/[platform]`](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#carthagebuild) directory, add ObjectiveGit.frameork to your "Link Binary With Libraries" build phase: 
+  * OS X: On your application targets’ “General” settings tab, in the “Embedded Binaries” section, drag and drop each framework you want to use from the Carthage/Build folder on disk.
+
+  (image)
+
+4. iOS: On your application targets’ “Build Phases” settings tab, click the “+” icon and choose “New Run Script Phase”. Create a Run Script with the following contents:
+
+  ```
+  /usr/local/bin/carthage copy-frameworks
+  ```
+  
+  and add the paths to the frameworks you want to use under “Input Files”, e.g.:
+  
+  ```
+  $(SRCROOT)/Carthage/Build/iOS/ObjectiveGit.framework
+  ```
+
 ## Contributing
 
 Fork the repository on GitHub, make it awesomer (preferably in a branch named
