@@ -4,15 +4,51 @@
 [![Build Status](https://travis-ci.org/libgit2/objective-git.svg?branch=master)](https://travis-ci.org/libgit2/objective-git)
 
 ObjectiveGit provides Cocoa bindings to the
-[libgit2](https://github.com/libgit2/libgit2) library.
+[libgit2](https://github.com/libgit2/libgit2) library, packaged as a dynamic framework for OS X and iOS 8 or better.
 
-Not all libgit2 features are available yet. If you run across something missing, please consider [contributing a pull request](#contributing)!
+## Features
+
+A brief summary of the available functionality:
+
+* Read: [Log](ObjectiveGitTests/GTEnumeratorSpec.m#L31-L34),
+[Diff](ObjectiveGitTests/GTDiffSpec.m#L84),
+[Blame](ObjectiveGitTests/GTBlameSpec.m),
+[Reflog](ObjectiveGitTests/GTReflogSpec.m)
+[Status]()
+* Write: 
+[Init](ObjectiveGit/GTRepository.h#L180),
+[Checkout](ObjectiveGit/GTRepository.h#L494-L513),
+[Commit](ObjectiveGit/GTRepository+Committing.h),
+[Branch](ObjectiveGit/GTBranch.h),
+[Tag](ObjectiveGit/GTTag.h),
+[Reset](ObjectiveGit/GTRepository+Reset.h)
+* Internals: 
+[Configuration](ObjectiveGit/GTConfiguration.h),
+[Tree](ObjectiveGit/GTTree.h),
+[Blob](ObjectiveGit/GTBlob.h),
+[Object database](ObjectiveGit/GTObjectDatabase.h)
+* Network: 
+[Clone](ObjectiveGit/GTRepository.h#L231), 
+[Fetch](ObjectiveGit/GTRepository+RemoteOperations.h#L34),
+[Push](ObjectiveGit/GTRepository+RemoteOperations.h#L67),
+Pull (in progress #464)
+* Transports: HTTPs, SSH, local filesystem
+
+Not all libgit2 features are available, but if you run across something missing, please consider [contributing a pull request](#contributing)!
+
+Many classes in the ObjectiveGit API wrap a C struct from libgit2 and expose the underlying data and operations using Cocoa ideoms. The underlying libgit2 types are prefixed with `git_` and are often accessible via a property so that your application can take advantage of the libgit2 API directly.
+
+The ObjectiveGit API makes extensive use of the Cocoa NSError pattern. The public API is also decorated with nullability attributes so that you will get compile-time feedback of whether nil is allowed or not. This also makes the framework much nicer to use in Swift.
 
 ## Getting Started
+
+### Xcode
 
 ObjectiveGit requires Xcode 6.3 or greater to build the framework and run unit tests. Projects that must use an older version of Xcode can use 
 [Carthage](#carthage) to install pre-built binaries
 or download them [manually](#manually).
+
+### Other Tools
 
 To start building the framework, you must install the required dependencies, 
 [xctool](https://github.com/facebook/xctool) and 
@@ -22,13 +58,15 @@ To start building the framework, you must install the required dependencies,
 Once you have the dependencies you should clone this repository and then run [`script/bootstrap`](script/bootstrap). This will automatically pull down and install any other
 dependencies.
 
-Note that the `bootstrap` script automatically installs some libraries that ObjectiveGit relies upon, using Homebrew. If you want this behavior, please make sure you have Homebrew installed.
+Note that the `bootstrap` script automatically installs some libraries that ObjectiveGit relies upon, using Homebrew. If you not want to use Homebrew, you will need to ensure these dependent libraries and their headers are installed where the build scripts [expect them to be](https://github.com/libgit2/objective-git/blob/master/script/bootstrap#L80-L99).
 
 To develop ObjectiveGit on its own, open the `ObjectiveGitFramework.xcworkspace` file.
 
+# Installation
+
 There are three ways of including ObjectiveGit in a project:
 
-1. [Carthage](#carthage) (recommended)
+1. [Carthage](#carthage) <-- recommended
 1. [Manual](#manual)
 1. [Subproject](#subproject)
 
