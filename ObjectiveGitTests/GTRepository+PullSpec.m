@@ -240,7 +240,7 @@ describe(@"pull", ^{
 		});
 
 		/// Conflict During Merge
-		it(@"erupts in a ball of 🔥 with a merge conflict ", ^{
+		it(@"fails to merge whene there is a conflict", ^{
 			// Stage a conflict by adding the same file with different contents to both repos
 			GTCommit *localCommit = createCommitInRepository(@"Local commit", [@"TestLocal" dataUsingEncoding:NSUTF8StringEncoding], @"test.txt", localRepo);
 			expect(localCommit).notTo(beNil());
