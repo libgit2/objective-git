@@ -11,7 +11,7 @@
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 6A28265417C69CB400C6A948 /* Build configuration list for PBXAggregateTarget "OpenSSL-iOS" */;
 			buildPhases = (
-				6A28265317C69CB400C6A948 /* ShellScript */,
+				6A28265317C69CB400C6A948 /* OpenSSL-iOS */,
 			);
 			dependencies = (
 			);
@@ -22,7 +22,7 @@
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 6A3C609217D5963700382DFF /* Build configuration list for PBXAggregateTarget "libssh2-iOS" */;
 			buildPhases = (
-				6A3C609117D5963700382DFF /* ShellScript */,
+				6A3C609117D5963700382DFF /* libssh2-iOS */,
 			);
 			dependencies = (
 				6A3C609D17D5964E00382DFF /* PBXTargetDependency */,
@@ -34,7 +34,7 @@
 			isa = PBXAggregateTarget;
 			buildConfigurationList = D0A330EE16027F1E00A616FA /* Build configuration list for PBXAggregateTarget "libgit2" */;
 			buildPhases = (
-				D0A330F116027F2300A616FA /* ShellScript */,
+				D0A330F116027F2300A616FA /* libgit2 */,
 			);
 			dependencies = (
 			);
@@ -45,7 +45,7 @@
 			isa = PBXAggregateTarget;
 			buildConfigurationList = D0A330F316027F3700A616FA /* Build configuration list for PBXAggregateTarget "libgit2-iOS" */;
 			buildPhases = (
-				D0A330F616027F3B00A616FA /* ShellScript */,
+				D0A330F616027F3B00A616FA /* libgit2-iOS */,
 			);
 			dependencies = (
 				6A28265B17C69D6300C6A948 /* PBXTargetDependency */,
@@ -1194,52 +1194,56 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		6A28265317C69CB400C6A948 /* ShellScript */ = {
+		6A28265317C69CB400C6A948 /* OpenSSL-iOS */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "OpenSSL-iOS";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = script/update_libssl_ios;
 		};
-		6A3C609117D5963700382DFF /* ShellScript */ = {
+		6A3C609117D5963700382DFF /* libssh2-iOS */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "libssh2-iOS";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = script/update_libssh2_ios;
 		};
-		D0A330F116027F2300A616FA /* ShellScript */ = {
+		D0A330F116027F2300A616FA /* libgit2 */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = libgit2;
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = script/update_libgit2;
 		};
-		D0A330F616027F3B00A616FA /* ShellScript */ = {
+		D0A330F616027F3B00A616FA /* libgit2-iOS */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "libgit2-iOS";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
