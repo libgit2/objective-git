@@ -20,7 +20,7 @@ function ios_sdk_version ()
 {
     # This relies on the fact that the latest iPhone SDK
     # is the last thing listed before the Xcode version.
-    /usr/bin/xcodebuild -version -sdk 2> /dev/null | grep SDKVersion | tail -n 1 |  awk '{ print $2 }' 
+    /usr/bin/xcodebuild -version -sdk 2> /dev/null | grep -A 1 '^iPhone' | tail -n 1 |  awk '{ print $2 }' 
 }
 
 # Returns the path to the specified iOS SDK name
