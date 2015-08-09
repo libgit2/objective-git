@@ -36,7 +36,7 @@ Pull (in progress #464)
 
 Not all libgit2 features are available, but if you run across something missing, please consider [contributing a pull request](#contributing)!
 
-Many classes in the ObjectiveGit API wrap a C struct from libgit2 and expose the underlying data and operations using Cocoa ideoms. The underlying libgit2 types are prefixed with `git_` and are often accessible via a property so that your application can take advantage of the libgit2 API directly.
+Many classes in the ObjectiveGit API wrap a C struct from libgit2 and expose the underlying data and operations using Cocoa idioms. The underlying libgit2 types are prefixed with `git_` and are often accessible via a property so that your application can take advantage of the libgit2 API directly.
 
 The ObjectiveGit API makes extensive use of the Cocoa NSError pattern. The public API is also decorated with nullability attributes so that you will get compile-time feedback of whether nil is allowed or not. This also makes the framework much nicer to use in Swift.
 
