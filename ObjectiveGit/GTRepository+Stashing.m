@@ -50,19 +50,44 @@ static int stashEnumerationCallback(size_t index, const char *message, const git
 	git_stash_foreach(self.git_repository, &stashEnumerationCallback, (__bridge void *)block);
 }
 
-- (BOOL)applyStashAtIndex:(NSUInteger)index flags:(GTRepositoryApplyFlag)flags error:(NSError **)error {
-	int gitError = git_stash_apply(self.git_repository, index, flags);
+static int stashApplyProgressCallback(git_stash_apply_progress_t progress, void *payload) {
+	void (^block)(GTRepositoryStashApplyProgress, BOOL *) = (__bridge id)payload;
+
+	BOOL stop = NO;
+	block((GTRepositoryStashApplyProgress)progress, &stop);
+
+	return (stop ? GIT_EUSER : 0);
+}
+
+- (BOOL)applyStashAtIndex:(NSUInteger)index flags:(GTRepositoryStashApplyFlag)flags progressBlock:(nullable void (^)(GTRepositoryStashApplyProgress progress, BOOL *stop))progressBlock error:(NSError **)error {
+	git_stash_apply_options stash_options = GIT_STASH_APPLY_OPTIONS_INIT;
+
+	stash_options.flags = (git_stash_apply_flags)flags;
+	if (progressBlock != nil) {
+		stash_options.progress_cb = stashApplyProgressCallback;
+		stash_options.progress_payload = (__bridge void *)progressBlock;
+	}
+
+	int gitError = git_stash_apply(self.git_repository, index, &stash_options);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to apply stash" failureReason:@"The stash at index %ld couldn't be applied.", index];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Stash apply failed" failureReason:@"The stash at index %ld couldn't be applied.", (unsigned long)index];
 		return NO;
 	}
 	return YES;
 }
 
-- (BOOL)popStashAtIndex:(NSUInteger)index flags:(GTRepositoryApplyFlag)flags error:(NSError **)error {
-	int gitError = git_stash_pop(self.git_repository, index, flags);
+- (BOOL)popStashAtIndex:(NSUInteger)index flags:(GTRepositoryStashApplyFlag)flags progressBlock:(nullable void (^)(GTRepositoryStashApplyProgress progress, BOOL *stop))progressBlock error:(NSError **)error {
+	git_stash_apply_options stash_options = GIT_STASH_APPLY_OPTIONS_INIT;
+
+	stash_options.flags = (git_stash_apply_flags)flags;
+	if (progressBlock != nil) {
+		stash_options.progress_cb = stashApplyProgressCallback;
+		stash_options.progress_payload = (__bridge void *)progressBlock;
+	}
+
+	int gitError = git_stash_pop(self.git_repository, index, &stash_options);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to pop stash" failureReason:@"The stash at index %ld couldn't be applied.", index];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Stash pop failed" failureReason:@"The stash at index %ld couldn't be applied.", (unsigned long)index];
 		return NO;
 	}
 	return YES;
@@ -71,7 +96,7 @@ static int stashEnumerationCallback(size_t index, const char *message, const git
 - (BOOL)dropStashAtIndex:(NSUInteger)index error:(NSError **)error {
 	int gitError = git_stash_drop(self.git_repository, index);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to drop stash."];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Stash drop failed" failureReason:@"The stash at index %ld couldn't be dropped", (unsigned long)index];
 		return NO;
 	}
 

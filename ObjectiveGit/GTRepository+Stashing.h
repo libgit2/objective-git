@@ -21,10 +21,23 @@ typedef NS_OPTIONS(NSInteger, GTRepositoryStashFlag) {
 
 /// Flags for -applyStashAtIndex:flags:error: and
 /// -popStashAtIndex:flags:error.
-/// Those can be ORed together. See git_apply_flags for additional information.
-typedef NS_OPTIONS(NSInteger, GTRepositoryApplyFlag) {
-	GTRepositoryApplyFlagDefault = GIT_APPLY_DEFAULT,
-	GTRepositoryApplyFlagReinstateIndex = GIT_APPLY_REINSTATE_INDEX,
+/// Those can be ORed together. See git_stash_apply_flags for additional information.
+typedef NS_OPTIONS(NSInteger, GTRepositoryStashApplyFlag) {
+	GTRepositoryStashApplyFlagDefault = GIT_STASH_APPLY_DEFAULT,
+	GTRepositoryStashApplyFlagReinstateIndex = GIT_STASH_APPLY_REINSTATE_INDEX,
+};
+
+/// Enum representing the current state of a stash apply/pop operation.
+/// See git_stash_apply_progress_t for additional information.
+typedef NS_ENUM(NSInteger, GTRepositoryStashApplyProgress) {
+	GTRepositoryStashApplyProgressNone = GIT_STASH_APPLY_PROGRESS_NONE,
+	GTRepositoryStashApplyProgressLoadingStash = GIT_STASH_APPLY_PROGRESS_LOADING_STASH,
+	GTRepositoryStashApplyProgressAnalyzeIndex = GIT_STASH_APPLY_PROGRESS_ANALYZE_INDEX,
+	GTRepositoryStashApplyProgressAnalyzeModified = GIT_STASH_APPLY_PROGRESS_ANALYZE_MODIFIED,
+	GTRepositoryStashApplyProgressAnalyzeUntracked = GIT_STASH_APPLY_PROGRESS_ANALYZE_UNTRACKED,
+	GTRepositoryStashApplyProgressGheckoutUntracked = GIT_STASH_APPLY_PROGRESS_CHECKOUT_UNTRACKED,
+	GTRepositoryStashApplyProgressCheckoutModified = GIT_STASH_APPLY_PROGRESS_CHECKOUT_MODIFIED,
+	GTRepositoryStashApplyProgressDone = GIT_STASH_APPLY_PROGRESS_DONE,
 };
 
 NS_ASSUME_NONNULL_BEGIN
@@ -56,7 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error - If not NULL, set to any error that occurred.
 ///
 /// Returns YES if the requested stash was successfully applied, NO otherwise.
-- (BOOL)applyStashAtIndex:(NSUInteger)index flags:(GTRepositoryApplyFlag)flags error:(NSError **)error;
+- (BOOL)applyStashAtIndex:(NSUInteger)index flags:(GTRepositoryStashApplyFlag)flags progressBlock:(nullable void (^)(GTRepositoryStashApplyProgress progress, BOOL *stop))progressBlock error:(NSError **)error;
 
 /// Pop stashed changes.
 ///
@@ -65,7 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error - If not NULL, set to any error that occurred.
 ///
 /// Returns YES if the requested stash was successfully applied, NO otherwise.
-- (BOOL)popStashAtIndex:(NSUInteger)index flags:(GTRepositoryApplyFlag)flags error:(NSError **)error;
+- (BOOL)popStashAtIndex:(NSUInteger)index flags:(GTRepositoryStashApplyFlag)flags progressBlock:(nullable void (^)(GTRepositoryStashApplyProgress progress, BOOL *stop))progressBlock error:(NSError **)error;
 
 /// Drop a stash from the repository's list of stashes.
 ///
