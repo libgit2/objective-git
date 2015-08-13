@@ -76,10 +76,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Create a credential object from a SSH keyfile data string
 ///
-/// userName         - The username to authenticate as. Must not be nil.
+/// userName         - The username to authenticate as.
 /// publicKeyString  - The string containing the public key for that user.
-///                  Can be omitted to reconstruct the public key from the private key.
-/// privateKeyString - The URL to the private key for that user. Must not be nil.
+///                     Can be omitted to reconstruct the public key from the private key.
+/// privateKeyString - The URL to the private key for that user.
 /// passphrase       - The passPhrase for the private key. Optional if the private key has no password.
 /// error            - If not NULL, set to any errors that occur.
 ///
