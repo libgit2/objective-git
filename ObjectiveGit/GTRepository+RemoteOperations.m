@@ -238,7 +238,7 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to init push options"];
 		return NO;
 	}
-	
+
 	push_options.callbacks = remote_callbacks;
 
 	const git_strarray git_refspecs = refspecs.git_strarray;
