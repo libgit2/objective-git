@@ -115,7 +115,7 @@ describe(@"pushing", ^{
 				}];
 				expect(error).to(beNil());
 				expect(@(result)).to(beTruthy());
-				expect(@(transferProgressed)).to(beFalsy()); // Local transport doesn't currently call progress callbacks
+				expect(@(transferProgressed)).to(beTruthy());
 
 				// Same number of commits after push, refresh branch first
 				remoteMasterBranch = localBranchWithName(@"master", remoteRepo);
@@ -152,7 +152,7 @@ describe(@"pushing", ^{
 			}];
 			expect(error).to(beNil());
 			expect(@(result)).to(beTruthy());
-			expect(@(transferProgressed)).to(beFalsy()); // Local transport doesn't currently call progress callbacks
+			expect(@(transferProgressed)).to(beTruthy());
 
 			// Number of commits on tracking branch after push
 			localTrackingBranch = [masterBranch trackingBranchWithError:&error success:&success];
