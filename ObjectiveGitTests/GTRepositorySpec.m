@@ -381,15 +381,13 @@ describe(@"-checkout:strategy:error:progressBlock:", ^{
 });
 
 describe(@"-checkout:strategy:notifyFlags:error:notifyBlock:progressBlock:", ^{
-	it(@"should notify dirty file and stop ref checkout", ^{
+	it(@"should fail ref checkout with dirty file and notify", ^{
 		NSError *error = nil;
 		GTReference *ref = [repository lookUpReferenceWithName:@"refs/heads/other-branch" error:&error];
 		expect(ref).notTo(beNil());
 		expect(error.localizedDescription).to(beNil());
-		// Write something to a file in the repo
 		BOOL writeResult = [@"Replacement data in main.m\n" writeToURL:[repository.fileURL URLByAppendingPathComponent:mainFile] atomically:YES encoding:NSUTF8StringEncoding error:&error];
 		expect(@(writeResult)).to(beTruthy());
-		// Now attempt to checkout the other-branch
 		__block NSUInteger notifyCount = 0;
 		__block BOOL mainFileDirty = NO;
 		int (^notifyBlock)(GTCheckoutNotifyFlags, NSString *, GTDiffFile *, GTDiffFile *, GTDiffFile *);
@@ -410,14 +408,13 @@ describe(@"-checkout:strategy:notifyFlags:error:notifyBlock:progressBlock:", ^{
 		expect(@(error.code)).to(equal(@(GIT_EUSER)));
 	});
 
-	it(@"should notify dirty file and stop commit checkout", ^{
+	it(@"should fail commit checkout with dirty file and notify", ^{
 		NSError *error = nil;
 		GTCommit *commit = [repository lookUpObjectBySHA:@"1d69f3c0aeaf0d62e25591987b93b8ffc53abd77" objectType:GTObjectTypeCommit error:&error];
 		expect(commit).notTo(beNil());
 		expect(error.localizedDescription).to(beNil());
 		BOOL writeResult = [@"Replacement data in README\n" writeToURL:[repository.fileURL URLByAppendingPathComponent:readmeFile] atomically:YES encoding:NSUTF8StringEncoding error:&error];
 		expect(@(writeResult)).to(beTruthy());
-		// Now attempt to checkout the other-branch
 		__block NSUInteger notifyCount = 0;
 		__block BOOL readmeFileDirty = NO;
 		int (^notifyBlock)(GTCheckoutNotifyFlags, NSString *, GTDiffFile *, GTDiffFile *, GTDiffFile *);
