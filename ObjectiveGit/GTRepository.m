@@ -838,9 +838,7 @@ static int checkoutNotifyCallback(git_checkout_notify_t why, const char *path, c
 - (BOOL)checkoutReference:(GTReference *)targetReference strategy:(GTCheckoutStrategyType)strategy notifyFlags:(GTCheckoutNotifyFlags)notifyFlags error:(NSError **)error progressBlock:(GTCheckoutProgressBlock)progressBlock notifyBlock:(GTCheckoutNotifyBlock)notifyBlock {
 	GTOID *targetOID = [targetReference targetOID];
 	GTObject *target = [self lookUpObjectByOID:targetOID error:error];
-	if (target == nil) {
-		return NO;
-	}
+	if (target == nil) return NO;
 	BOOL success = [self performCheckout:target withStrategy:strategy notifyFlags:notifyFlags error:error progressBlock:progressBlock notifyBlock:notifyBlock];
 	if (success == NO) return NO;
 	return [self moveHEADToReference:targetReference error:error];
