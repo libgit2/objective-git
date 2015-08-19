@@ -14,6 +14,10 @@
 
 QuickSpecBegin(GTRepositorySpec)
 
+static NSString * const mainFile = @"main.m";
+static NSString * const readmeFile = @"README1.txt";
+
+
 __block GTRepository *repository;
 
 beforeEach(^{
@@ -373,6 +377,62 @@ describe(@"-checkout:strategy:error:progressBlock:", ^{
 		BOOL result = [repository checkoutCommit:commit strategy:GTCheckoutStrategyAllowConflicts error:&error progressBlock:nil];
 		expect(@(result)).to(beTruthy());
 		expect(error.localizedDescription).to(beNil());
+	});
+});
+
+describe(@"-checkout:strategy:notifyFlags:error:notifyBlock:progressBlock:", ^{
+	it(@"should fail ref checkout with dirty file and notify", ^{
+		NSError *error = nil;
+		GTReference *ref = [repository lookUpReferenceWithName:@"refs/heads/other-branch" error:&error];
+		expect(ref).notTo(beNil());
+		expect(error.localizedDescription).to(beNil());
+		BOOL writeResult = [@"Replacement data in main.m\n" writeToURL:[repository.fileURL URLByAppendingPathComponent:mainFile] atomically:YES encoding:NSUTF8StringEncoding error:&error];
+		expect(@(writeResult)).to(beTruthy());
+		__block NSUInteger notifyCount = 0;
+		__block BOOL mainFileDirty = NO;
+		int (^notifyBlock)(GTCheckoutNotifyFlags, NSString *, GTDiffFile *, GTDiffFile *, GTDiffFile *);
+		notifyBlock = ^(GTCheckoutNotifyFlags why, NSString *path, GTDiffFile *baseline, GTDiffFile *target, GTDiffFile *workdir) {
+			notifyCount++;
+			if([path isEqualToString:mainFile] && (why & GTCheckoutNotifyDirty)) {
+				mainFileDirty = YES;
+				return GIT_EUSER;
+			} else {
+				return 0;
+			}
+		};
+
+		BOOL result = [repository checkoutReference:ref strategy:GTCheckoutStrategySafe notifyFlags:GTCheckoutNotifyDirty error:&error progressBlock:nil notifyBlock:notifyBlock];
+		expect(@(notifyCount)).to(equal(@(1)));
+		expect(@(mainFileDirty)).to(beTruthy());
+		expect(@(result)).to(beFalsy());
+		expect(@(error.code)).to(equal(@(GIT_EUSER)));
+	});
+
+	it(@"should fail commit checkout with dirty file and notify", ^{
+		NSError *error = nil;
+		GTCommit *commit = [repository lookUpObjectBySHA:@"1d69f3c0aeaf0d62e25591987b93b8ffc53abd77" objectType:GTObjectTypeCommit error:&error];
+		expect(commit).notTo(beNil());
+		expect(error.localizedDescription).to(beNil());
+		BOOL writeResult = [@"Replacement data in README\n" writeToURL:[repository.fileURL URLByAppendingPathComponent:readmeFile] atomically:YES encoding:NSUTF8StringEncoding error:&error];
+		expect(@(writeResult)).to(beTruthy());
+		__block NSUInteger notifyCount = 0;
+		__block BOOL readmeFileDirty = NO;
+		int (^notifyBlock)(GTCheckoutNotifyFlags, NSString *, GTDiffFile *, GTDiffFile *, GTDiffFile *);
+		notifyBlock = ^(GTCheckoutNotifyFlags why, NSString *path, GTDiffFile *baseline, GTDiffFile *target, GTDiffFile *workdir) {
+			notifyCount++;
+			if([path isEqualToString:readmeFile] && (why & GTCheckoutNotifyDirty)) {
+				readmeFileDirty = YES;
+				return GIT_EUSER;
+			} else {
+				return 0;
+			}
+		};
+
+		BOOL result = [repository checkoutCommit:commit strategy:GTCheckoutStrategySafe notifyFlags:GTCheckoutNotifyDirty error:&error progressBlock:nil notifyBlock:notifyBlock];
+		expect(@(notifyCount)).to(equal(@(1)));
+		expect(@(readmeFileDirty)).to(beTruthy());
+		expect(@(result)).to(beFalsy());
+		expect(@(error.code)).to(equal(@(GIT_EUSER)));
 	});
 });
 
