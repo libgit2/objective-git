@@ -46,6 +46,21 @@ main ()
 
 check_deps ()
 {
+    # Check if Homebrew is installed
+    which -s brew
+    local result=$?
+
+    if [ "$result" -ne "0" ]
+    then
+        echo
+        echo "Homebrew is not installed (http://brew.sh). You will need to manually ensure the following tools are installed:"
+        echo "  $REQUIRED_TOOLS"
+        echo
+        echo "Additionally, the following libssh2 files must be symlinked under /user/local:"
+        echo "  lib/libssh2.a include/libssh2.h include/libssh2_sftp.h include/libssh2_publickey.h"
+        exit $result
+    fi
+
     # Ensure that we have libgit2's dependencies installed.
     installed=`brew list`
 
