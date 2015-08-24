@@ -9,7 +9,6 @@
 #import <ObjectiveGit/ObjectiveGit.h>
 #import "QuickSpec+GTFixtures.h"
 #import <objc/runtime.h>
-#import "SSZipArchive.h"
 
 #if TARGET_OS_IPHONE
 #import "SSZipArchive.h"
