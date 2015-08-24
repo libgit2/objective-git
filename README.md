@@ -108,46 +108,45 @@ _dSYM files are not currently included in the GitHub release zip files. You will
 1. Unzip the file.
 1. Follow the Carthage instructions #3 or #4, depending on platform.
 
+Note that the iOS framework we release is a "fat" framework containing slices for both the iOS Simulator and devices. This makes it easy to get started with your iOS project. However, Apple does not currently allow apps containing frameworks with simulator slices to be submitted to the app store. Carthage (above) already has a solution for this. If you're looking to roll your own, take a look at Realm's [strip frameworks script](https://github.com/realm/realm-cocoa/blob/master/scripts/strip-frameworks.sh).
+
 
 ## Subproject
 
-### OS X
+### Examples
 
-Example: [CommitViewer](https://github.com/Abizern/CommitViewer)
+* OS X: [CommitViewer](https://github.com/Abizern/CommitViewer)
+* iOS: [ObjectiveGit iOS Example](https://github.com/Raekye/ObjectiveGit-iOS-Example)
 
+1. Add ObjectiveGit as a submodule to your project:
+
+  ```
+  git submodule add https://github.com/libgit2/objective-git.git External/ObjectiveGit
+  ```
+
+1. Run `script/bootstrap`.
 1. Drag the `ObjectiveGitFramework.xcodeproj` file into the Project Navigator pane of your project.
-1. Add the ObjectiveGit framework as a target dependency of your application.
+1. Add `ObjectiveGit-Mac` or `ObjectiveGit-iOS` as a target dependency of your application, depending on platform.
 1. Link your application with `ObjectiveGit.framework`.
-1. Add a new "Copy Files" build phase, set the destination to "Frameworks" and add `ObjectiveGit.framework` to that. This will package the framework with your application as an embedded private framework.
 1. Set the “Header Search Paths” (`HEADER_SEARCH_PATHS`) build setting to the correct path for the libgit2 headers in your project. For example, if you added the submodule to your project as `External/ObjectiveGit`, you would set this build setting to `External/ObjectiveGit/External/libgit2/include`. If you see build errors saying that `git2/filter.h` cannot be found, then double-check that you set this setting correctly.
-1. Don't forget to `#import <ObjectiveGit/ObjectiveGit.h>` as you would with any other framework.
+1. Add a new "Copy Files" build phase, set the destination to "Frameworks" and add `ObjectiveGit.framework` to the list. This will package the framework with your application as an embedded private framework.
+  *  It's hard to tell the difference between the platforms, but the Mac framework is in `build/Debug` whereas the iOS framework is in `build/Debug-iphoneos`
+1. Don't forget to `#import <ObjectiveGit/ObjectiveGit.h>` or `@import ObjectiveGit;` as you would with any other framework.
 
-### iOS
-
-Example: [ObjectiveGit iOS Example](https://github.com/Raekye/ObjectiveGit-iOS-Example)
-
-Getting started is slightly more difficult on iOS because third-party frameworks are not officially supported. ObjectiveGit offers a static library instead. In summary:
-
-1. Drag `ObjectiveGitFramework.xcodeproj` into the Project Navigator.
-1. Add `ObjectiveGit-iOS` as a target dependency of your application.
-1. Link your application to `libObjectiveGit-iOS.a`, `libz.dylib`, and `libiconv.dylib`.
-1. In your target's build settings:
-    1. Set "Always Search User Paths" to `YES`
-    1. Add `$(BUILT_PRODUCTS_DIR)/usr/local/include` and
-       `PATH/TO/OBJECTIVE-GIT/External/libgit2/include` to the "User Header
-       Search Paths"
-    1. Add `-all_load` to the "Other Linker Flags"
 
 
 ## Contributing
 
-Fork the repository on GitHub, make it awesomer (preferably in a branch named for the topic), send a pull request.
+1. Fork this repository
+1. Make it awesomer (preferably in a branch named for the topic)
+1. Send a pull request
 
 All contributions should match GitHub's [Objective-C coding
 conventions](https://github.com/github/objective-c-conventions).
 
 You can see all the amazing people that have contributed to this project
 [here](https://github.com/libgit2/objective-git/contributors).
+
 
 ## License
 
