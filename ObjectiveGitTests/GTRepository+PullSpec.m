@@ -94,6 +94,7 @@ describe(@"pull", ^{
 			});
 		});
 
+/* pending tests break build on travis
 		/// Unborn
 		/// Can't get a GTBranch reference wrapping HEAD when its symref is unborn
 		pending(@"into an empty repo", ^{
@@ -136,6 +137,7 @@ describe(@"pull", ^{
 //			expect(head).toNot(beNil());
 
 		});
+*/
 
 		/// Fast-Forward Merge
 		///
