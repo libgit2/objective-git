@@ -10,29 +10,11 @@ ObjectiveGit provides Cocoa bindings to the
 
 A brief summary of the available functionality:
 
-* Read: [Log](ObjectiveGitTests/GTEnumeratorSpec.m#L31-L34),
-[Diff](ObjectiveGitTests/GTDiffSpec.m#L84),
-[Blame](ObjectiveGitTests/GTBlameSpec.m),
-[Reflog](ObjectiveGitTests/GTReflogSpec.m)
-[Status]()
-* Write: 
-[Init](ObjectiveGit/GTRepository.h#L180),
-[Checkout](ObjectiveGit/GTRepository.h#L494-L513),
-[Commit](ObjectiveGit/GTRepository+Committing.h),
-[Branch](ObjectiveGit/GTBranch.h),
-[Tag](ObjectiveGit/GTTag.h),
-[Reset](ObjectiveGit/GTRepository+Reset.h)
-* Internals: 
-[Configuration](ObjectiveGit/GTConfiguration.h),
-[Tree](ObjectiveGit/GTTree.h),
-[Blob](ObjectiveGit/GTBlob.h),
-[Object database](ObjectiveGit/GTObjectDatabase.h)
-* Network: 
-[Clone](ObjectiveGit/GTRepository.h#L231), 
-[Fetch](ObjectiveGit/GTRepository+RemoteOperations.h#L34),
-[Push](ObjectiveGit/GTRepository+RemoteOperations.h#L67),
-Pull (in progress #464)
-* Transports: HTTPs, SSH, local filesystem
+* Read: log, diff, blame, reflog, status
+* Write: init, checkout, commit, branch, tag, reset
+* Internals: configuration, tree, blob, object database
+* Network: clone, fetch, push, pull (in progress #464)
+* Transports: HTTP, HTTPS, SSH, local filesystem
 
 Not all libgit2 features are available, but if you run across something missing, please consider [contributing a pull request](#contributing)!
 
