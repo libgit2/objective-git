@@ -23,12 +23,6 @@ main ()
 {
     config
 
-    if [ -n "$REQUIRED_TOOLS" ]
-    then
-        echo "*** Checking dependencies..."
-        check_deps
-    fi
-
     local submodules=$(git submodule status)
     local result=$?
 
@@ -41,6 +35,12 @@ main ()
     then
         echo "*** Updating submodules..."
         update_submodules
+    fi
+
+    if [ -n "$REQUIRED_TOOLS" ]
+    then
+        echo "*** Checking dependencies..."
+        check_deps
     fi
 }
 
