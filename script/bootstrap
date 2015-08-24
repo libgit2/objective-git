@@ -104,7 +104,9 @@ bootstrap_submodule ()
 
 update_submodules ()
 {
-    git submodule sync --quiet && git submodule update --init && git submodule foreach --quiet bootstrap_submodule
+    git submodule sync --quiet && \
+        git submodule update --init && \
+        git submodule foreach --quiet bootstrap_submodule
 }
 
 export -f bootstrap_submodule
