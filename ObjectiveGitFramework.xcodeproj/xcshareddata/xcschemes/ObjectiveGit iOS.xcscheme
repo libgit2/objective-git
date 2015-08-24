@@ -32,7 +32,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D01B6EDC19F82E2000D411BC"
+               BlueprintIdentifier = "F879D8351B4B7F7C002D5C07"
                BuildableName = "ObjectiveGit-iOSTests.xctest"
                BlueprintName = "ObjectiveGit-iOSTests"
                ReferencedContainer = "container:ObjectiveGitFramework.xcodeproj">
