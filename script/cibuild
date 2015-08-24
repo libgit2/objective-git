@@ -126,7 +126,7 @@ build_scheme ()
         sdkflag='-sdk iphonesimulator -destination "platform=iOS Simulator,name=iPhone 5"'
 
         # Determine whether the unit tests will run with iphonesimulator
-        run_xctool $sdkflag -scheme "$scheme" run-tests | parse_build
+        run_xctool "$sdkflag" -scheme "$scheme" run-tests | parse_build
 
         awkstatus=$?
 
