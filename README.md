@@ -93,16 +93,20 @@ The different instructions for iOS works around an [App Store submission bug](ht
 
 ### Copying debug symbols for debugging and crash reporting
 
+_dSYM files are not currently included in the GitHub release zip files. You will need to pass **--no-use-binaries** to carthage in order to build locally and generate the dSYM files alongside the framework._
+
 1. On your application target's "Build Phases" settings tab, click the "+" icon and choose "New Copy Files Phase".
 2. Click the “Destination” drop-down menu and select "Products Directory".
-3. For each framework you’re using, drag and drop its corresponding dSYM file.
+3. Drag and drop the `ObjectiveGit.framework.dSYM` file from `Carthage/Build/[platform]` into the list.
+
+![Copy dSYM Files](http://i.imgur.com/WKJdHHQ.png)
 
 
 ## Manual
 
 1. Download the latest `ObjectiveGit.framework.zip` from [releases](https://github.com/libgit2/objective-git/releases).
 1. Unzip the file.
-1. Follow the Carthage instructions above starting at Step #3.
+1. Follow the Carthage instructions #3 or #4, depending on platform.
 
 
 ## Subproject
@@ -111,7 +115,7 @@ The different instructions for iOS works around an [App Store submission bug](ht
 
 Example: [CommitViewer](https://github.com/Abizern/CommitViewer)
 
-1. Drag the `ObjectiveGitFramework.xcodeproj` file into the Project Navigator.
+1. Drag the `ObjectiveGitFramework.xcodeproj` file into the Project Navigator pane of your project.
 1. Add the ObjectiveGit framework as a target dependency of your application.
 1. Link your application with `ObjectiveGit.framework`.
 1. Add a new "Copy Files" build phase, set the destination to "Frameworks" and add `ObjectiveGit.framework` to that. This will package the framework with your application as an embedded private framework.
