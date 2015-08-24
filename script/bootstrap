@@ -56,7 +56,7 @@ check_deps ()
         echo "Homebrew is not installed (http://brew.sh). You will need to manually ensure the following tools are installed:"
         echo "  $REQUIRED_TOOLS"
         echo
-        echo "Additionally, the following libssh2 files must be symlinked under /user/local:"
+        echo "Additionally, the following libssh2 files must be symlinked under /usr/local:"
         echo "  lib/libssh2.a include/libssh2.h include/libssh2_sftp.h include/libssh2_publickey.h"
         exit $result
     fi
