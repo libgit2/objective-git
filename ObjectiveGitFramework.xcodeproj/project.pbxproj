@@ -692,12 +692,6 @@
 		0867D691FE84028FC02AAC07 /* ObjectiveGitFramework */ = {
 			isa = PBXGroup;
 			children = (
-				F8D0078A1B4F9F9E009A8DAF /* libz.dylib */,
-				F8D007821B4F97F9009A8DAF /* ioapi.c */,
-				F8D007831B4F97F9009A8DAF /* mztools.c */,
-				F8D007841B4F97F9009A8DAF /* unzip.c */,
-				F8D007851B4F97F9009A8DAF /* zip.c */,
-				F8D007801B4F9758009A8DAF /* SSZipArchive.m */,
 				BDD8AB01130F01AB00CB5D40 /* README.md */,
 				887B948D1A3A38130070D41D /* ObjectiveGit.modulemap */,
 				BDE4C05E130EFE2C00851650 /* ObjectiveGit */,
@@ -719,6 +713,7 @@
 				306123A817EA5261006591D4 /* extobjc */,
 				4D103ADC1819CFAA0029DB24 /* libiconv.dylib */,
 				8803DA861313145700E6E818 /* libz.dylib */,
+				F8D0078A1B4F9F9E009A8DAF /* libz.dylib */,
 				884C8A3619FF4B4D0017E98D /* libz.dylib */,
 				884C8A3819FF4B6D0017E98D /* libiconv.dylib */,
 				6A1F2FD317C6A8F3003DFADE /* libcrypto.a */,
@@ -786,6 +781,7 @@
 		88F05A7516011E5400B7AD1D /* ObjectiveGitTests */ = {
 			isa = PBXGroup;
 			children = (
+				F84E92581B8B6EA30019F947 /* SSZipArchive */,
 				88F05A7616011E5400B7AD1D /* Supporting Files */,
 				4D1C40D7182C006D00BE2960 /* GTBlobSpec.m */,
 				88A994B916FCE7D400402C7B /* GTBranchSpec.m */,
@@ -1020,6 +1016,19 @@
 				E46931A8172740D300F2077D /* update_libgit2_ios */,
 			);
 			path = Scripts;
+			sourceTree = "<group>";
+		};
+		F84E92581B8B6EA30019F947 /* SSZipArchive */ = {
+			isa = PBXGroup;
+			children = (
+				F8D007801B4F9758009A8DAF /* SSZipArchive.m */,
+				F8D007821B4F97F9009A8DAF /* ioapi.c */,
+				F8D007831B4F97F9009A8DAF /* mztools.c */,
+				F8D007841B4F97F9009A8DAF /* unzip.c */,
+				F8D007851B4F97F9009A8DAF /* zip.c */,
+			);
+			name = SSZipArchive;
+			path = ..;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
