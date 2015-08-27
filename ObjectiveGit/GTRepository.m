@@ -809,7 +809,7 @@ static int checkoutNotifyCallback(git_checkout_notify_t why, const char *path, c
 	return gitError == GIT_OK;
 }
 
-- (BOOL)performCheckoutWithStrategy:(GTCheckoutStrategyType)strategy notifyFlags:(GTCheckoutNotifyFlags)notifyFlags error:(NSError **)error progressBlock:(GTCheckoutProgressBlock)progressBlock notifyBlock:(GTCheckoutNotifyBlock)notifyBlock {
+- (BOOL)performCheckout:(GTObject *)target withStrategy:(GTCheckoutStrategyType)strategy notifyFlags:(GTCheckoutNotifyFlags)notifyFlags error:(NSError **)error progressBlock:(GTCheckoutProgressBlock)progressBlock notifyBlock:(GTCheckoutNotifyBlock)notifyBlock {
 
 	git_checkout_options checkoutOptions = GIT_CHECKOUT_OPTIONS_INIT;
 
@@ -821,7 +821,7 @@ static int checkoutNotifyCallback(git_checkout_notify_t why, const char *path, c
 	checkoutOptions.notify_flags = notifyFlags;
 	checkoutOptions.notify_payload = (__bridge void *)notifyBlock;
 
-	int gitError = git_checkout_head(self.git_repository, &checkoutOptions);
+	int gitError = git_checkout_tree(self.git_repository, target.git_object, &checkoutOptions);
 	if (gitError < GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to checkout tree."];
 	}
@@ -830,17 +830,18 @@ static int checkoutNotifyCallback(git_checkout_notify_t why, const char *path, c
 }
 
 - (BOOL)checkoutCommit:(GTCommit *)targetCommit strategy:(GTCheckoutStrategyType)strategy notifyFlags:(GTCheckoutNotifyFlags)notifyFlags error:(NSError **)error progressBlock:(GTCheckoutProgressBlock)progressBlock notifyBlock:(GTCheckoutNotifyBlock)notifyBlock {
-	BOOL success = [self moveHEADToCommit:targetCommit error:error];
+	BOOL success = [self performCheckout:targetCommit withStrategy:strategy notifyFlags:notifyFlags error:error progressBlock:progressBlock notifyBlock:notifyBlock];
 	if (success == NO) return NO;
-
-	return [self performCheckoutWithStrategy:strategy notifyFlags:notifyFlags error:error progressBlock:progressBlock notifyBlock:notifyBlock];
+	return [self moveHEADToCommit:targetCommit error:error];
 }
 
 - (BOOL)checkoutReference:(GTReference *)targetReference strategy:(GTCheckoutStrategyType)strategy notifyFlags:(GTCheckoutNotifyFlags)notifyFlags error:(NSError **)error progressBlock:(GTCheckoutProgressBlock)progressBlock notifyBlock:(GTCheckoutNotifyBlock)notifyBlock {
-	BOOL success = [self moveHEADToReference:targetReference error:error];
+	GTOID *targetOID = [targetReference targetOID];
+	GTObject *target = [self lookUpObjectByOID:targetOID error:error];
+	if (target == nil) return NO;
+	BOOL success = [self performCheckout:target withStrategy:strategy notifyFlags:notifyFlags error:error progressBlock:progressBlock notifyBlock:notifyBlock];
 	if (success == NO) return NO;
-
-	return [self performCheckoutWithStrategy:strategy notifyFlags:notifyFlags error:error progressBlock:progressBlock notifyBlock:notifyBlock];
+	return [self moveHEADToReference:targetReference error:error];
 }
 
 - (BOOL)checkoutCommit:(GTCommit *)target strategy:(GTCheckoutStrategyType)strategy error:(NSError **)error progressBlock:(GTCheckoutProgressBlock)progressBlock {
