@@ -48,7 +48,7 @@ extern NSString *const GTRepositoryRemoteOptionsCredentialProvider;
 /// error - The error if one ocurred. Can be NULL.
 ///
 /// Retruns a (possibly empty) array with GTFetchHeadEntry objects. Will not be nil.
-- (NSArray *)fetchHeadEntriesWithError:(NSError **)error;
+- (NSArray<GTFetchHeadEntry *> *)fetchHeadEntriesWithError:(NSError **)error;
 
 #pragma mark - Push
 
@@ -78,7 +78,7 @@ extern NSString *const GTRepositoryRemoteOptionsCredentialProvider;
 ///
 /// Returns YES if the push was successful, NO otherwise (and `error`, if provided,
 /// will point to an error describing what happened).
-- (BOOL)pushBranches:(NSArray *)branches toRemote:(GTRemote *)remote withOptions:(nullable NSDictionary *)options error:(NSError **)error progress:(nullable void (^)(unsigned int current, unsigned int total, size_t bytes, BOOL *stop))progressBlock;
+- (BOOL)pushBranches:(NSArray<GTBranch *> *)branches toRemote:(GTRemote *)remote withOptions:(nullable NSDictionary *)options error:(NSError **)error progress:(nullable void (^)(unsigned int current, unsigned int total, size_t bytes, BOOL *stop))progressBlock;
 
 /// Delete a remote branch
 ///
