@@ -56,13 +56,13 @@ typedef enum {
 ///
 /// This array will contain NSStrings of the form
 /// `+refs/heads/*:refs/remotes/REMOTE/*`.
-@property (nonatomic, readonly, copy, nullable) NSArray *fetchRefspecs;
+@property (nonatomic, readonly, copy, nullable) NSArray<NSString *> *fetchRefspecs;
 
 /// The push refspecs for this remote.
 ///
 /// This array will contain NSStrings of the form
 /// `+refs/heads/*:refs/remotes/REMOTE/*`.
-@property (nonatomic, readonly, copy, nullable) NSArray *pushRefspecs;
+@property (nonatomic, readonly, copy, nullable) NSArray<NSString *> *pushRefspecs;
 
 /// Tests if a name is valid
 + (BOOL)isValidRemoteName:(NSString *)name;
