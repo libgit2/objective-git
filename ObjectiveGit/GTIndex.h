@@ -49,7 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) NSUInteger entryCount;
 
 /// The GTIndexEntries in the index.
-@property (nonatomic, readonly, copy) NSArray *entries;
+@property (nonatomic, readonly, copy) NSArray<GTIndexEntry *> *entries;
 
 /// Whether the index contains conflicted files.
 @property (nonatomic, readonly) BOOL hasConflicts;
@@ -220,7 +220,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error     - When something goes wrong, this parameter is set. Optional.
 ///
 /// Returns `YES` in the event that everything has gone smoothly. Otherwise, `NO`.
-- (BOOL)updatePathspecs:(nullable NSArray *)pathspecs error:(NSError **)error passingTest:(nullable BOOL (^)(NSString *matchedPathspec, NSString *path, BOOL *stop))block;
+- (BOOL)updatePathspecs:(nullable NSArray<NSString*> *)pathspecs error:(NSError **)error passingTest:(nullable BOOL (^)(NSString *matchedPathspec, NSString *path, BOOL *stop))block;
 
 #pragma mark Deprecations
 - (nullable GTIndexEntry *)entryWithName:(NSString *)name __deprecated_msg("use entryWithPath: instead.");
