@@ -107,12 +107,12 @@ static NSString * const FixturesErrorDomain = @"com.objectivegit.Fixtures";
 
 	BOOL success = [SSZipArchive unzipFileAtPath:zipPath toDestination:destinationPath overwrite:YES password:nil error:error];
 
-    if (!success) {
-        NSLog(@"Unzip failed");
-        return NO;
-    }
+	if (!success) {
+		NSLog(@"Unzip failed");
+		return NO;
+	}
 
-    return YES;
+	return YES;
 
 #else
 	// OS X: shell out to unzip using NSTask
