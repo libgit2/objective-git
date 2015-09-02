@@ -1539,7 +1539,6 @@
 				F8D007941B4FA03B009A8DAF /* GTReferenceSpec.m in Sources */,
 				F8D007981B4FA03B009A8DAF /* GTBlameSpec.m in Sources */,
 				F8D007911B4FA03B009A8DAF /* GTEnumeratorSpec.m in Sources */,
-				F879D8481B4B83B9002D5C07 /* SwiftSpec.swift in Sources */,
 				F8D007701B4F7CA8009A8DAF /* NSErrorGitSpec.m in Sources */,
 				F8D007A41B4FA03B009A8DAF /* GTRepositoryResetSpec.m in Sources */,
 				F8D007951B4FA03B009A8DAF /* GTReflogSpec.m in Sources */,
@@ -1553,17 +1552,18 @@
 				F8D0079B1B4FA03B009A8DAF /* GTSubmoduleSpec.m in Sources */,
 				F879D8441B4B80C7002D5C07 /* Libgit2FeaturesSpec.m in Sources */,
 				F8D0078C1B4FA03B009A8DAF /* GTBlobSpec.m in Sources */,
-				F8D007811B4F9758009A8DAF /* SSZipArchive.m in Sources */,
-				F8D007861B4F97F9009A8DAF /* ioapi.c in Sources */,
-				F8D007871B4F97F9009A8DAF /* mztools.c in Sources */,
 				F8D007991B4FA03B009A8DAF /* GTRepositorySpec.m in Sources */,
-				F8D007881B4F97F9009A8DAF /* unzip.c in Sources */,
 				F8D0079F1B4FA03B009A8DAF /* GTObjectDatabaseSpec.m in Sources */,
 				F8D0079E1B4FA03B009A8DAF /* GTTreeSpec.m in Sources */,
 				F8D007A01B4FA03B009A8DAF /* GTRepository+StatusSpec.m in Sources */,
-				F8D007891B4F97F9009A8DAF /* zip.c in Sources */,
 				F8D007961B4FA03B009A8DAF /* GTRemotePushSpec.m in Sources */,
 				F8D007A51B4FA03B009A8DAF /* GTDiffDeltaSpec.m in Sources */,
+				F879D8481B4B83B9002D5C07 /* SwiftSpec.swift in Sources */,
+				F8D007811B4F9758009A8DAF /* SSZipArchive.m in Sources */,
+				F8D007861B4F97F9009A8DAF /* ioapi.c in Sources */,
+				F8D007871B4F97F9009A8DAF /* mztools.c in Sources */,
+				F8D007881B4F97F9009A8DAF /* unzip.c in Sources */,
+				F8D007891B4F97F9009A8DAF /* zip.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2139,7 +2139,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D0A463DB17E57C45000F5021 /* Test.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -2180,7 +2179,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					External/ssziparchive/SSZipArchive/minizip,
+					"Carthage/Checkouts/ZipArchive/SSZipArchive/**",
 				);
 				INFOPLIST_FILE = "ObjectiveGitTests/ObjectiveGitTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -2192,7 +2191,6 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
-				USER_HEADER_SEARCH_PATHS = External/ssziparchive/SSZipArchive/minizip;
 			};
 			name = Debug;
 		};
@@ -2200,7 +2198,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D0A463DB17E57C45000F5021 /* Test.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -2233,7 +2230,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					External/ssziparchive/SSZipArchive/minizip,
+					"Carthage/Checkouts/ZipArchive/SSZipArchive/**",
 				);
 				INFOPLIST_FILE = "ObjectiveGitTests/ObjectiveGitTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -2245,7 +2242,6 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
-				USER_HEADER_SEARCH_PATHS = External/ssziparchive/SSZipArchive/minizip;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Test;
@@ -2254,7 +2250,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D0A463DB17E57C45000F5021 /* Test.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -2287,7 +2282,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					External/ssziparchive/SSZipArchive/minizip,
+					"Carthage/Checkouts/ZipArchive/SSZipArchive/**",
 				);
 				INFOPLIST_FILE = "ObjectiveGitTests/ObjectiveGitTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -2299,7 +2294,6 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
-				USER_HEADER_SEARCH_PATHS = External/ssziparchive/SSZipArchive/minizip;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -2308,7 +2302,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D0A463DB17E57C45000F5021 /* Test.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -2341,7 +2334,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					External/ssziparchive/SSZipArchive/minizip,
+					"Carthage/Checkouts/ZipArchive/SSZipArchive/**",
 				);
 				INFOPLIST_FILE = "ObjectiveGitTests/ObjectiveGitTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -2353,7 +2346,6 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
-				USER_HEADER_SEARCH_PATHS = External/ssziparchive/SSZipArchive/minizip;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Profile;
