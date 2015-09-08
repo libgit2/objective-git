@@ -322,8 +322,6 @@ struct GTRemoteCreatePayload {
 	}
 
 	return [[self alloc] initWithGitRepository:repository];
-
-	return nil;
 }
 
 - (id)lookUpObjectByGitOid:(const git_oid *)oid objectType:(GTObjectType)type error:(NSError **)error {
