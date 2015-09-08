@@ -219,7 +219,7 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 
 	git_remote_callbacks remote_callbacks = GIT_REMOTE_CALLBACKS_INIT;
 	remote_callbacks.credentials = (credProvider != nil ? GTCredentialAcquireCallback : NULL),
-	remote_callbacks.transfer_progress = GTRemoteFetchTransferProgressCallback,
+	remote_callbacks.push_transfer_progress = GTRemotePushTransferProgressCallback;
 	remote_callbacks.payload = &connectionInfo,
 
 	gitError = git_remote_connect(remote.git_remote, GIT_DIRECTION_PUSH, &remote_callbacks);
@@ -238,6 +238,8 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to init push options"];
 		return NO;
 	}
+
+	push_options.callbacks = remote_callbacks;
 
 	const git_strarray git_refspecs = refspecs.git_strarray;
 

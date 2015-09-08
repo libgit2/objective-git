@@ -19,6 +19,27 @@ typedef NS_OPTIONS(NSInteger, GTRepositoryStashFlag) {
 	GTRepositoryStashFlagIncludeIgnored = GIT_STASH_INCLUDE_IGNORED
 };
 
+/// Flags for -applyStashAtIndex:flags:error: and
+/// -popStashAtIndex:flags:error.
+/// Those can be ORed together. See git_stash_apply_flags for additional information.
+typedef NS_OPTIONS(NSInteger, GTRepositoryStashApplyFlag) {
+	GTRepositoryStashApplyFlagDefault = GIT_STASH_APPLY_DEFAULT,
+	GTRepositoryStashApplyFlagReinstateIndex = GIT_STASH_APPLY_REINSTATE_INDEX,
+};
+
+/// Enum representing the current state of a stash apply/pop operation.
+/// See git_stash_apply_progress_t for additional information.
+typedef NS_ENUM(NSInteger, GTRepositoryStashApplyProgress) {
+	GTRepositoryStashApplyProgressNone = GIT_STASH_APPLY_PROGRESS_NONE,
+	GTRepositoryStashApplyProgressLoadingStash = GIT_STASH_APPLY_PROGRESS_LOADING_STASH,
+	GTRepositoryStashApplyProgressAnalyzeIndex = GIT_STASH_APPLY_PROGRESS_ANALYZE_INDEX,
+	GTRepositoryStashApplyProgressAnalyzeModified = GIT_STASH_APPLY_PROGRESS_ANALYZE_MODIFIED,
+	GTRepositoryStashApplyProgressAnalyzeUntracked = GIT_STASH_APPLY_PROGRESS_ANALYZE_UNTRACKED,
+	GTRepositoryStashApplyProgressGheckoutUntracked = GIT_STASH_APPLY_PROGRESS_CHECKOUT_UNTRACKED,
+	GTRepositoryStashApplyProgressCheckoutModified = GIT_STASH_APPLY_PROGRESS_CHECKOUT_MODIFIED,
+	GTRepositoryStashApplyProgressDone = GIT_STASH_APPLY_PROGRESS_DONE,
+};
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface GTRepository (Stashing)
@@ -40,6 +61,24 @@ NS_ASSUME_NONNULL_BEGIN
 ///         stash index (where 0 is the most recent stash). Setting `stop` to YES
 ///         will cause enumeration to stop after the block returns. Must not be nil.
 - (void)enumerateStashesUsingBlock:(void (^)(NSUInteger index, NSString * __nullable message, GTOID * __nullable oid, BOOL *stop))block;
+
+/// Apply stashed changes.
+///
+/// index - The index of the stash to apply. 0 is the latest one.
+/// flags - The flags to use when applying the stash.
+/// error - If not NULL, set to any error that occurred.
+///
+/// Returns YES if the requested stash was successfully applied, NO otherwise.
+- (BOOL)applyStashAtIndex:(NSUInteger)index flags:(GTRepositoryStashApplyFlag)flags error:(NSError **)error progressBlock:(nullable void (^)(GTRepositoryStashApplyProgress progress, BOOL *stop))progressBlock;
+
+/// Pop stashed changes.
+///
+/// index - The index of the stash to apply. 0 is the most recent stash.
+/// flags - The flags to use when applying the stash.
+/// error - If not NULL, set to any error that occurred.
+///
+/// Returns YES if the requested stash was successfully applied, NO otherwise.
+- (BOOL)popStashAtIndex:(NSUInteger)index flags:(GTRepositoryStashApplyFlag)flags error:(NSError **)error progressBlock:(nullable void (^)(GTRepositoryStashApplyProgress progress, BOOL *stop))progressBlock;
 
 /// Drop a stash from the repository's list of stashes.
 ///

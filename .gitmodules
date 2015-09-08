@@ -16,3 +16,6 @@
 [submodule "Carthage/Checkouts/xcconfigs"]
 	path = Carthage/Checkouts/xcconfigs
 	url = https://github.com/jspahrsummers/xcconfigs.git
+[submodule "Carthage/Checkouts/ZipArchive"]
+	path = Carthage/Checkouts/ZipArchive
+	url = https://github.com/ZipArchive/ZipArchive.git

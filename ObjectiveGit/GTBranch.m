@@ -223,9 +223,4 @@
 	return [self.repository calculateAhead:ahead behind:behind ofOID:self.OID relativeToOID:branch.OID error:error];
 }
 
-#pragma mark Deprecations
-- (GTCommit *)targetCommitAndReturnError:(NSError **)error {
-	return [self targetCommitWithError:error];
-}
-
 @end

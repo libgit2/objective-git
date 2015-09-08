@@ -78,7 +78,7 @@ NSString *const GTRepositoryStatusOptionsPathSpecArrayKey = @"GTRepositoryStatus
 		}
 		
 		// any untracked files?
-		if (indexToWorkDirStatus == GTStatusDeltaStatusAdded) {
+		if (indexToWorkDirStatus == GTStatusDeltaStatusUntracked) {
 			clean = NO;
 			*stop = YES;
 		}
