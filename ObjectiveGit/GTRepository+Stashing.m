@@ -59,13 +59,17 @@ static int stashApplyProgressCallback(git_stash_apply_progress_t progress, void 
 	return (stop ? GIT_EUSER : 0);
 }
 
-- (BOOL)applyStashAtIndex:(NSUInteger)index flags:(GTRepositoryStashApplyFlag)flags error:(NSError **)error progressBlock:(nullable void (^)(GTRepositoryStashApplyProgress progress, BOOL *stop))progressBlock {
+- (BOOL)applyStashAtIndex:(NSUInteger)index flags:(GTRepositoryStashApplyFlag)flags checkoutOptions:(GTCheckoutOptions *)options error:(NSError **)error progressBlock:(nullable void (^)(GTRepositoryStashApplyProgress progress, BOOL *stop))progressBlock {
 	git_stash_apply_options stash_options = GIT_STASH_APPLY_OPTIONS_INIT;
 
 	stash_options.flags = (git_stash_apply_flags)flags;
 	if (progressBlock != nil) {
 		stash_options.progress_cb = stashApplyProgressCallback;
 		stash_options.progress_payload = (__bridge void *)progressBlock;
+	}
+
+	if (options != nil) {
+		stash_options.checkout_options = *options.git_checkoutOptions;
 	}
 
 	int gitError = git_stash_apply(self.git_repository, index, &stash_options);
@@ -76,13 +80,17 @@ static int stashApplyProgressCallback(git_stash_apply_progress_t progress, void 
 	return YES;
 }
 
-- (BOOL)popStashAtIndex:(NSUInteger)index flags:(GTRepositoryStashApplyFlag)flags error:(NSError **)error progressBlock:(nullable void (^)(GTRepositoryStashApplyProgress progress, BOOL *stop))progressBlock {
+- (BOOL)popStashAtIndex:(NSUInteger)index flags:(GTRepositoryStashApplyFlag)flags checkoutOptions:(GTCheckoutOptions *)options error:(NSError **)error progressBlock:(nullable void (^)(GTRepositoryStashApplyProgress progress, BOOL *stop))progressBlock{
 	git_stash_apply_options stash_options = GIT_STASH_APPLY_OPTIONS_INIT;
 
 	stash_options.flags = (git_stash_apply_flags)flags;
 	if (progressBlock != nil) {
 		stash_options.progress_cb = stashApplyProgressCallback;
 		stash_options.progress_payload = (__bridge void *)progressBlock;
+	}
+
+	if (options != nil) {
+		stash_options.checkout_options = *options.git_checkoutOptions;
 	}
 
 	int gitError = git_stash_pop(self.git_repository, index, &stash_options);
