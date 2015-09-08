@@ -59,7 +59,7 @@ static int stashApplyProgressCallback(git_stash_apply_progress_t progress, void 
 	return (stop ? GIT_EUSER : 0);
 }
 
-- (BOOL)applyStashAtIndex:(NSUInteger)index flags:(GTRepositoryStashApplyFlag)flags progressBlock:(nullable void (^)(GTRepositoryStashApplyProgress progress, BOOL *stop))progressBlock error:(NSError **)error {
+- (BOOL)applyStashAtIndex:(NSUInteger)index flags:(GTRepositoryStashApplyFlag)flags error:(NSError **)error progressBlock:(nullable void (^)(GTRepositoryStashApplyProgress progress, BOOL *stop))progressBlock {
 	git_stash_apply_options stash_options = GIT_STASH_APPLY_OPTIONS_INIT;
 
 	stash_options.flags = (git_stash_apply_flags)flags;
@@ -76,7 +76,7 @@ static int stashApplyProgressCallback(git_stash_apply_progress_t progress, void 
 	return YES;
 }
 
-- (BOOL)popStashAtIndex:(NSUInteger)index flags:(GTRepositoryStashApplyFlag)flags progressBlock:(nullable void (^)(GTRepositoryStashApplyProgress progress, BOOL *stop))progressBlock error:(NSError **)error {
+- (BOOL)popStashAtIndex:(NSUInteger)index flags:(GTRepositoryStashApplyFlag)flags error:(NSError **)error progressBlock:(nullable void (^)(GTRepositoryStashApplyProgress progress, BOOL *stop))progressBlock {
 	git_stash_apply_options stash_options = GIT_STASH_APPLY_OPTIONS_INIT;
 
 	stash_options.flags = (git_stash_apply_flags)flags;
