@@ -91,6 +91,9 @@ typedef struct {
 @implementation GTRepository
 
 - (NSString *)description {
+	if (self.isBare) {
+		return [NSString stringWithFormat:@"<%@: %p> (bare) gitDirectoryURL: %@", self.class, self, self.gitDirectoryURL];
+	}
 	return [NSString stringWithFormat:@"<%@: %p> fileURL: %@", self.class, self, self.fileURL];
 }
 
@@ -366,7 +369,11 @@ static int remoteCreate(git_remote **remote, git_repository *repo, const char *n
 	git_reference *headRef;
 	int gitError = git_repository_head(&headRef, self.git_repository);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to get HEAD"];
+		NSString *unborn = @"";
+		if (gitError == GIT_EUNBORNBRANCH) {
+			unborn = @" (unborn)";
+		}
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to get HEAD%@", unborn];
 		return nil;
 	}
 
