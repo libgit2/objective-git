@@ -13,7 +13,7 @@ A brief summary of the available functionality:
 * Read: log, diff, blame, reflog, status
 * Write: init, checkout, commit, branch, tag, reset
 * Internals: configuration, tree, blob, object database
-* Network: clone, fetch, push, pull (in progress #464)
+* Network: clone, fetch, push, pull
 * Transports: HTTP, HTTPS, SSH, local filesystem
 
 Not all libgit2 features are available, but if you run across something missing, please consider [contributing a pull request](#contributing)!
