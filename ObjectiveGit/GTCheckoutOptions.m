@@ -63,7 +63,7 @@ typedef int  (^GTCheckoutNotifyBlock)(GTCheckoutNotifyFlags why, NSString *path,
 static void GTCheckoutProgressCallback(const char *path, size_t completedSteps, size_t totalSteps, void *payload) {
 	if (payload == NULL) return;
 	void (^block)(NSString *, NSUInteger, NSUInteger) = (__bridge id)payload;
-	NSString *nsPath = (path != NULL ? [NSString stringWithUTF8String:path] : nil);
+	NSString *nsPath = (path != NULL ? @(path) : nil);
 	block(nsPath, completedSteps, totalSteps);
 }
 
