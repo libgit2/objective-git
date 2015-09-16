@@ -148,7 +148,7 @@ build_scheme ()
     local action=test
 
     # Determine whether we can run unit tests for this target.
-    run_build_tool -scheme "$scheme" run-tests | parse_build
+    run_build_tool -scheme "$scheme" test | parse_build
 
     local awkstatus=$?
 
@@ -158,7 +158,7 @@ build_scheme ()
         sdkflag='-sdk iphonesimulator -destination "platform=iOS Simulator,name=iPhone 5"'
 
         # Determine whether the unit tests will run with iphonesimulator
-        run_build_tool "$sdkflag" -scheme "$scheme" run-tests | parse_build
+        run_build_tool "$sdkflag" -scheme "$scheme" test | parse_build
 
         awkstatus=$?
 
