@@ -10,7 +10,6 @@
 # - script/xctool.awk
 # - awk
 # - xcodebuild
-# - xctool
 
 export SCRIPT_DIR=$(dirname "$0")
 
@@ -28,7 +27,7 @@ config ()
     # The workspace to build.
     #
     # If not set and no workspace is found, the -workspace flag will not be passed
-    # to `xctool`.
+    # to `xcodebuild`.
     #
     # Only one of `XCWORKSPACE` and `XCODEPROJ` needs to be set. The former will
     # take precedence.
@@ -37,7 +36,7 @@ config ()
     # The project to build.
     #
     # If not set and no project is found, the -project flag will not be passed
-    # to `xctool`.
+    # to `xcodebuild`.
     #
     # Only one of `XCWORKSPACE` and `XCODEPROJ` needs to be set. The former will
     # take precedence.
@@ -48,8 +47,8 @@ config ()
     # If this file does not exist, it is not considered an error.
     : ${BOOTSTRAP="$SCRIPT_DIR/bootstrap"}
 
-    # Extra options to pass to xctool.
-    : ${XCTOOL_OPTIONS="RUN_CLANG_STATIC_ANALYZER=NO"}
+    # Extra options to pass to xcodebuild.
+    : ${BUILD_OPTIONS="RUN_CLANG_STATIC_ANALYZER=NO"}
 
     # A whitespace-separated list of default schemes to build.
     #
@@ -59,7 +58,7 @@ config ()
     export XCWORKSPACE
     export XCODEPROJ
     export BOOTSTRAP
-    export XCTOOL_OPTIONS
+    export BUILD_OPTIONS
     export SCHEMES
 }
 
@@ -108,17 +107,17 @@ find_pattern ()
 }
 
 #
-# Invokes xcodebuild using either XCWORKSPACE or XCODEPROJ passing XCTOOL_OPTIONS
+# Invokes xcodebuild using either XCWORKSPACE or XCODEPROJ passing BUILD_OPTIONS
 # and relaying any arguments as additional command-line parameters.
 #
 run_build_tool ()
 {
     if [ -n "$XCWORKSPACE" ]
     then
-        xcodebuild -workspace "$XCWORKSPACE" $XCTOOL_OPTIONS "$@" 2>&1
+        xcodebuild -workspace "$XCWORKSPACE" $BUILD_OPTIONS "$@" 2>&1
     elif [ -n "$XCODEPROJ" ]
     then
-        xcodebuild -project "$XCODEPROJ" $XCTOOL_OPTIONS "$@" 2>&1
+        xcodebuild -project "$XCODEPROJ" $BUILD_OPTIONS "$@" 2>&1
     else
         echo "*** No workspace or project file found."
         exit 1
