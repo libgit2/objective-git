@@ -111,7 +111,7 @@ find_pattern ()
 # Invokes xctool using either XCWORKSPACE or XCODEPROJ passing XCTOOL_OPTIONS
 # and relaying any arguments as additional command-line parameters.
 #
-run_xctool ()
+run_build_tool ()
 {
     if [ -n "$XCWORKSPACE" ]
     then
@@ -148,7 +148,7 @@ build_scheme ()
     local action=test
 
     # Determine whether we can run unit tests for this target.
-    run_xctool -scheme "$scheme" run-tests | parse_build
+    run_build_tool -scheme "$scheme" run-tests | parse_build
 
     local awkstatus=$?
 
@@ -158,7 +158,7 @@ build_scheme ()
         sdkflag='-sdk iphonesimulator -destination "platform=iOS Simulator,name=iPhone 5"'
 
         # Determine whether the unit tests will run with iphonesimulator
-        run_xctool "$sdkflag" -scheme "$scheme" run-tests | parse_build
+        run_build_tool "$sdkflag" -scheme "$scheme" run-tests | parse_build
 
         awkstatus=$?
 
@@ -175,7 +175,7 @@ build_scheme ()
         action=build
     fi
 
-    run_xctool $sdkflag -scheme "$scheme" $action
+    run_build_tool $sdkflag -scheme "$scheme" $action
 }
 
 main
