@@ -178,8 +178,4 @@ build_scheme ()
     run_xctool $sdkflag -scheme "$scheme" $action
 }
 
-export -f build_scheme
-export -f run_xctool
-export -f parse_build
-
 main
