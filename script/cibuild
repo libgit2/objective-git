@@ -114,10 +114,14 @@ run_build_tool ()
 {
     if [ -n "$XCWORKSPACE" ]
     then
-        xcodebuild -workspace "$XCWORKSPACE" $BUILD_OPTIONS "$@" 2>&1
+        set -o pipefail && \
+            xcodebuild -workspace "$XCWORKSPACE" $BUILD_OPTIONS "$@" 2>&1 | \
+            xcpretty --color
     elif [ -n "$XCODEPROJ" ]
     then
-        xcodebuild -project "$XCODEPROJ" $BUILD_OPTIONS "$@" 2>&1
+        set -o pipefail && \
+            xcodebuild -project "$XCODEPROJ" $BUILD_OPTIONS "$@" 2>&1 | \
+            xcpretty --color
     else
         echo "*** No workspace or project file found."
         exit 1
