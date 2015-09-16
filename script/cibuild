@@ -1,5 +1,17 @@
 #!/bin/bash
 
+# cibuild
+# Installs any necessary dependencies, builds and runs tests
+#
+# Dependent tools & scripts:
+# - script/bootstrap
+# - script/schemes.awk
+# - script/update_libssl_ios
+# - script/xctool.awk
+# - awk
+# - xcodebuild
+# - xctool
+
 export SCRIPT_DIR=$(dirname "$0")
 
 ##
@@ -8,6 +20,9 @@ export SCRIPT_DIR=$(dirname "$0")
 
 SCHEMES="$@"
 
+#
+# Defines variables used throughout this script.
+#
 config ()
 {
     # The workspace to build.
@@ -52,6 +67,9 @@ config ()
 ## Build Process
 ##
 
+#
+# Entry point to the build process.
+#
 main ()
 {
     config
@@ -81,11 +99,18 @@ main ()
     )
 }
 
+#
+# Outputs the first file or directory in pwd that matches the given argument.
+#
 find_pattern ()
 {
     ls -d $1 2>/dev/null | head -n 1
 }
 
+#
+# Invokes xctool using either XCWORKSPACE or XCODEPROJ passing XCTOOL_OPTIONS
+# and relaying any arguments as additional command-line parameters.
+#
 run_xctool ()
 {
     if [ -n "$XCWORKSPACE" ]
@@ -100,11 +125,18 @@ run_xctool ()
     fi
 }
 
+#
+# Simply echoes build output, but monitors for "wrong SDK" and "missing target"
+# messages in the output, which trigger nonzero status codes.
+#
 parse_build ()
 {
     awk -f "$SCRIPT_DIR/xctool.awk" 2>&1 >/dev/null
 }
 
+#
+# Builds the given scheme. If the scheme supports tests, these are run as well.
+#
 build_scheme ()
 {
     local scheme=$1
