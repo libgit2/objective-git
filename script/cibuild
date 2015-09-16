@@ -92,7 +92,7 @@ main ()
 
         while read scheme
         do
-            build_scheme "$scheme" || status=1
+            build_scheme "$scheme" || status=1 && break
         done
 
         exit $status
