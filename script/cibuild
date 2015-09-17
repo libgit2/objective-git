@@ -10,6 +10,7 @@
 # - script/xctool.awk
 # - awk
 # - xcodebuild
+# - xcpretty (gem)
 
 export SCRIPT_DIR=$(dirname "$0")
 
