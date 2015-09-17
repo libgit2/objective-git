@@ -4,3 +4,5 @@ install: script/bootstrap
 script: script/cibuild
 notifications:
   email: false
+env:
+  - TRAVIS=true

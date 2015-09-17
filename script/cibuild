@@ -11,6 +11,7 @@
 # - awk
 # - xcodebuild
 # - xcpretty (gem)
+# - xcpretty-travis-formatter (gem)
 
 export SCRIPT_DIR=$(dirname "$0")
 
@@ -115,16 +116,28 @@ find_pattern ()
 #
 run_build_tool ()
 {
+    local XCPRETTY_FORMAT_OPTIONS=
+
+    if [ -n "$TRAVIS" ]
+    then
+        # Use a special formatter when running on TravisCI
+        XCPRETTY_FORMAT_OPTIONS="--formatter `xcpretty-travis-formatter`"
+    else
+        XCPRETTY_FORMAT_OPTIONS="--color"
+    fi
+
+    echo $XCPRETTY_FORMAT_OPTIONS
+
     if [ -n "$XCWORKSPACE" ]
     then
         set -o pipefail && \
             xcodebuild -workspace "$XCWORKSPACE" $BUILD_OPTIONS "$@" 2>&1 | \
-            xcpretty --color
+            xcpretty "$XCPRETTY_FORMAT_OPTIONS"
     elif [ -n "$XCODEPROJ" ]
     then
         set -o pipefail && \
             xcodebuild -project "$XCODEPROJ" $BUILD_OPTIONS "$@" 2>&1 | \
-            xcpretty --color
+            xcpretty "$XCPRETTY_FORMAT_OPTIONS"
     else
         echo "*** No workspace or project file found."
         exit 1
