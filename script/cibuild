@@ -126,8 +126,8 @@ run_build_tool ()
     if [ -n "$TRAVIS" ]
     then
         # Use a special formatter when running on TravisCI
-        XCPRETTY_FORMAT_OPTIONS="--formatter `xcpretty-travis-formatter`"
         gem install xcpretty-travis-formatter
+        XCPRETTY_FORMAT_OPTIONS="--formatter `xcpretty-travis-formatter`"
     else
         XCPRETTY_FORMAT_OPTIONS="--color"
     fi
