@@ -81,6 +81,11 @@ main ()
         "$BOOTSTRAP" || exit $?
     fi
 
+    if [ $(gem list xcpretty --no-installed) = "true" ]; then
+        echo "> xcpretty not installed"
+        gem install xcpretty
+    fi
+
     echo "*** Prebuilding OpenSSL"
     $SCRIPT_DIR/update_libssl_ios
 
@@ -122,6 +127,7 @@ run_build_tool ()
     then
         # Use a special formatter when running on TravisCI
         XCPRETTY_FORMAT_OPTIONS="--formatter `xcpretty-travis-formatter`"
+        gem install xcpretty-travis-formatter
     else
         XCPRETTY_FORMAT_OPTIONS="--color"
     fi
