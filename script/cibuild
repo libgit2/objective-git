@@ -132,8 +132,6 @@ run_build_tool ()
         XCPRETTY_FORMAT_OPTIONS="--color"
     fi
 
-    echo $XCPRETTY_FORMAT_OPTIONS
-
     if [ -n "$XCWORKSPACE" ]
     then
         set -o pipefail && \
