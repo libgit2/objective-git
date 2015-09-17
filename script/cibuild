@@ -127,7 +127,7 @@ run_build_tool ()
     then
         # Use a special formatter when running on TravisCI
         gem install xcpretty-travis-formatter
-        XCPRETTY_FORMAT_OPTIONS="--formatter `xcpretty-travis-formatter`"
+        XCPRETTY_FORMAT_OPTIONS="-f `xcpretty-travis-formatter`"
     else
         XCPRETTY_FORMAT_OPTIONS="--color"
     fi
