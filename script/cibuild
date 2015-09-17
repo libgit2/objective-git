@@ -91,7 +91,9 @@ main ()
 
         while read scheme
         do
-            build_scheme "$scheme" || status=1 && break
+            # Build each scheme, but stop the entire build if one returns
+            # a nonzero status code
+            build_scheme "$scheme" || status=1 || break
         done
 
         exit $status
