@@ -130,12 +130,12 @@ run_build_tool ()
     then
         set -o pipefail && \
             xcodebuild -workspace "$XCWORKSPACE" $BUILD_OPTIONS "$@" 2>&1 | \
-            xcpretty "$XCPRETTY_FORMAT_OPTIONS"
+            xcpretty $XCPRETTY_FORMAT_OPTIONS
     elif [ -n "$XCODEPROJ" ]
     then
         set -o pipefail && \
             xcodebuild -project "$XCODEPROJ" $BUILD_OPTIONS "$@" 2>&1 | \
-            xcpretty "$XCPRETTY_FORMAT_OPTIONS"
+            xcpretty $XCPRETTY_FORMAT_OPTIONS
     else
         echo "*** No workspace or project file found."
         exit 1
