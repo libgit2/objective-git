@@ -94,7 +94,7 @@ main ()
         do
             # Build each scheme, but stop the entire build if one returns
             # a nonzero status code
-            build_scheme "$scheme" || status=1 || break
+            build_scheme "$scheme" || status=1
         done
 
         exit $status
