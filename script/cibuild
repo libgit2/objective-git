@@ -11,7 +11,6 @@
 # - awk
 # - xcodebuild
 # - xcpretty (gem)
-# - xcpretty-travis-formatter (gem)
 
 export SCRIPT_DIR=$(dirname "$0")
 
@@ -117,19 +116,13 @@ find_pattern ()
 run_build_tool ()
 {
     local FORMATTER=
-
-    if [ -n "$TRAVIS" ]; then
-        # Use a special formatter when running on TravisCI
-        FORMATTER="xcpretty -f `xcpretty-travis-formatter`"
-    elif $(command -v xcpretty >/dev/null 2>&1); then
+    if $(command -v xcpretty >n /dev/null 2>&1); then
         # Use xcpretty with color when testing this script locally, if installed
         FORMATTER="xcpretty --color"
     else
         # Fall back to simply echoing the xcodebuild output
         FORMATTER="cat"
     fi
-
-    echo "FORMATTER: $FORMATTER"
 
     if [ -n "$XCWORKSPACE" ]
     then
