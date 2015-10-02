@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// An enum describing the result of the merge analysis.
 /// See `git_merge_analysis_t`.
-typedef NS_ENUM(NSInteger, GTMergeAnalysis) {
+typedef NS_OPTIONS(NSInteger, GTMergeAnalysis) {
 	GTMergeAnalysisNone = GIT_MERGE_ANALYSIS_NONE,
 	GTMergeAnalysisNormal = GIT_MERGE_ANALYSIS_NORMAL,
 	GTMergeAnalysisUpToDate = GIT_MERGE_ANALYSIS_UP_TO_DATE,
