@@ -1,5 +1,17 @@
 #!/bin/bash
 
+# cibuild
+# Installs any necessary dependencies, builds and runs tests
+#
+# Dependent tools & scripts:
+# - script/bootstrap
+# - script/schemes.awk
+# - script/update_libssl_ios
+# - script/xctool.awk
+# - awk
+# - xcodebuild
+# - xcpretty (gem)
+
 export SCRIPT_DIR=$(dirname "$0")
 
 ##
@@ -8,12 +20,15 @@ export SCRIPT_DIR=$(dirname "$0")
 
 SCHEMES="$@"
 
+#
+# Defines variables used throughout this script.
+#
 config ()
 {
     # The workspace to build.
     #
     # If not set and no workspace is found, the -workspace flag will not be passed
-    # to `xctool`.
+    # to `xcodebuild`.
     #
     # Only one of `XCWORKSPACE` and `XCODEPROJ` needs to be set. The former will
     # take precedence.
@@ -22,7 +37,7 @@ config ()
     # The project to build.
     #
     # If not set and no project is found, the -project flag will not be passed
-    # to `xctool`.
+    # to `xcodebuild`.
     #
     # Only one of `XCWORKSPACE` and `XCODEPROJ` needs to be set. The former will
     # take precedence.
@@ -33,8 +48,8 @@ config ()
     # If this file does not exist, it is not considered an error.
     : ${BOOTSTRAP="$SCRIPT_DIR/bootstrap"}
 
-    # Extra options to pass to xctool.
-    : ${XCTOOL_OPTIONS="RUN_CLANG_STATIC_ANALYZER=NO"}
+    # Extra options to pass to xcodebuild.
+    : ${BUILD_OPTIONS="RUN_CLANG_STATIC_ANALYZER=NO"}
 
     # A whitespace-separated list of default schemes to build.
     #
@@ -44,7 +59,7 @@ config ()
     export XCWORKSPACE
     export XCODEPROJ
     export BOOTSTRAP
-    export XCTOOL_OPTIONS
+    export BUILD_OPTIONS
     export SCHEMES
 }
 
@@ -52,6 +67,9 @@ config ()
 ## Build Process
 ##
 
+#
+# Entry point to the build process.
+#
 main ()
 {
     config
@@ -74,6 +92,8 @@ main ()
 
         while read scheme
         do
+            # Build each scheme, but stop the entire build if one returns
+            # a nonzero status code
             build_scheme "$scheme" || status=1
         done
 
@@ -81,30 +101,57 @@ main ()
     )
 }
 
+#
+# Outputs the first file or directory in pwd that matches the given argument.
+#
 find_pattern ()
 {
     ls -d $1 2>/dev/null | head -n 1
 }
 
-run_xctool ()
+#
+# Invokes xcodebuild using either XCWORKSPACE or XCODEPROJ passing BUILD_OPTIONS
+# and relaying any arguments as additional command-line parameters.
+#
+run_build_tool ()
 {
+    local FORMATTER=
+    if $(command -v xcpretty >n /dev/null 2>&1); then
+        # Use xcpretty with color when testing this script locally, if installed
+        FORMATTER="xcpretty --color"
+    else
+        # Fall back to simply echoing the xcodebuild output
+        FORMATTER="cat"
+    fi
+
     if [ -n "$XCWORKSPACE" ]
     then
-        xctool -workspace "$XCWORKSPACE" $XCTOOL_OPTIONS "$@" 2>&1
+        set -o pipefail && \
+            xcodebuild -workspace "$XCWORKSPACE" $BUILD_OPTIONS "$@" 2>&1 | \
+            $FORMATTER
     elif [ -n "$XCODEPROJ" ]
     then
-        xctool -project "$XCODEPROJ" $XCTOOL_OPTIONS "$@" 2>&1
+        set -o pipefail && \
+            xcodebuild -project "$XCODEPROJ" $BUILD_OPTIONS "$@" 2>&1 | \
+            $FORMATTER
     else
         echo "*** No workspace or project file found."
         exit 1
     fi
 }
 
+#
+# Simply echoes build output, but monitors for "wrong SDK" and "missing target"
+# messages in the output, which trigger nonzero status codes.
+#
 parse_build ()
 {
     awk -f "$SCRIPT_DIR/xctool.awk" 2>&1 >/dev/null
 }
 
+#
+# Builds the given scheme. If the scheme supports tests, these are run as well.
+#
 build_scheme ()
 {
     local scheme=$1
@@ -116,7 +163,7 @@ build_scheme ()
     local action=test
 
     # Determine whether we can run unit tests for this target.
-    run_xctool -scheme "$scheme" run-tests | parse_build
+    run_build_tool -scheme "$scheme" test | parse_build
 
     local awkstatus=$?
 
@@ -126,7 +173,7 @@ build_scheme ()
         sdkflag='-sdk iphonesimulator -destination "platform=iOS Simulator,name=iPhone 5"'
 
         # Determine whether the unit tests will run with iphonesimulator
-        run_xctool "$sdkflag" -scheme "$scheme" run-tests | parse_build
+        run_build_tool "$sdkflag" -scheme "$scheme" test | parse_build
 
         awkstatus=$?
 
@@ -143,11 +190,7 @@ build_scheme ()
         action=build
     fi
 
-    run_xctool $sdkflag -scheme "$scheme" $action
+    run_build_tool $sdkflag -scheme "$scheme" $action
 }
-
-export -f build_scheme
-export -f run_xctool
-export -f parse_build
 
 main
