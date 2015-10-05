@@ -120,6 +120,21 @@ framework module ObjectiveGit {
 	exclude header "git2/sys/git2/transport.h"
 	exclude header "git2/sys/git2/tree.h"
 	exclude header "git2/sys/git2/version.h"
+	exclude header "git2/sys/git2/sys/commit.h"
+	exclude header "git2/sys/git2/sys/config.h"
+	exclude header "git2/sys/git2/sys/diff.h"
+	exclude header "git2/sys/git2/sys/filter.h"
+	exclude header "git2/sys/git2/sys/hashsig.h"
+	exclude header "git2/sys/git2/sys/index.h"
+	exclude header "git2/sys/git2/sys/mempack.h"
+	exclude header "git2/sys/git2/sys/odb_backend.h"
+	exclude header "git2/sys/git2/sys/openssl.h"
+	exclude header "git2/sys/git2/sys/refdb_backend.h"
+	exclude header "git2/sys/git2/sys/reflog.h"
+	exclude header "git2/sys/git2/sys/refs.h"
+	exclude header "git2/sys/git2/sys/repository.h"
+	exclude header "git2/sys/git2/sys/stream.h"
+	exclude header "git2/sys/git2/sys/transport.h"
 
 	export *
 	module * { export * }
