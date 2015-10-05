@@ -68,7 +68,7 @@ framework module ObjectiveGit {
 	header "git2/sys/stream.h"
 	header "git2/trace.h"
 
-	exclude "git2/inttypes.h"
+	exclude header "git2/inttypes.h"
 	exclude "git2/stdint.h"
 	exclude "git2/sys/git2/annotated_commit.h"
 	exclude "git2/sys/git2/attr.h"
