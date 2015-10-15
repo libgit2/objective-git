@@ -88,6 +88,8 @@ There are three ways of including ObjectiveGit in a project:
 
 1. Commit the [`Cartfile.resolved`](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#cartfileresolved)
 
+2. Under “Build Settings”, add the following to “Header Search Paths”: `$(SRCROOT)/Carthage/Build/iOS/ObjectiveGit.framework/Headers/` to avoid [`git2/filter.h file not found` errors](https://github.com/libgit2/objective-git/issues/441).
+
 The different instructions for iOS works around an [App Store submission bug](http://www.openradar.me/radar?id=6409498411401216) triggered by universal binaries.
 
 
