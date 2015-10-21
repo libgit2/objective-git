@@ -111,21 +111,6 @@ typedef struct {
 
 #pragma mark API
 
-+ (BOOL)isAGitDirectory:(NSURL *)directory {
-	NSFileManager *fm = [[NSFileManager alloc] init];
-	BOOL isDir = NO;
-	NSURL *headFileURL = [directory URLByAppendingPathComponent:@"HEAD"];
-
-	if ([fm fileExistsAtPath:headFileURL.path isDirectory:&isDir] && !isDir) {
-		NSURL *objectsDir = [directory URLByAppendingPathComponent:@"objects"];
-		if ([fm fileExistsAtPath:objectsDir.path isDirectory:&isDir] && isDir) {
-			return YES;
-		}
-	}
-
-	return NO;
-}
-
 + (instancetype)initializeEmptyRepositoryAtFileURL:(NSURL *)localFileURL options:(NSDictionary *)optionsDict error:(NSError **)error {
 	if (!localFileURL.isFileURL || localFileURL.path == nil) {
 		if (error != NULL) *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileWriteUnsupportedSchemeError userInfo:@{ NSLocalizedDescriptionKey: NSLocalizedString(@"Invalid file path URL to initialize repository.", @"") }];
