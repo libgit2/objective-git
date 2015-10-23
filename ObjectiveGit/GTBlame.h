@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable instancetype)initWithGitBlame:(git_blame *)blame NS_DESIGNATED_INITIALIZER;
 
 /// Get all the hunks in the blame. A convenience wrapper around `enumerateHunksUsingBlock:`
-@property (nonatomic, strong, readonly) NSArray *hunks;
+@property (nonatomic, strong, readonly) NSArray<GTBlameHunk *> *hunks;
 
 /// The number of hunks in the blame.
 @property (nonatomic, readonly) NSUInteger hunkCount;

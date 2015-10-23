@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "git2/types.h"
 
+@class GTRemote;
 @class GTRepository;
 @class GTSignature;
 
@@ -17,11 +18,11 @@ NS_ASSUME_NONNULL_BEGIN
 @interface GTConfiguration : NSObject
 
 @property (nonatomic, readonly, strong, nullable) GTRepository *repository;
-@property (nonatomic, readonly, copy) NSArray *configurationKeys;
+@property (nonatomic, readonly, copy) NSArray<NSString *> *configurationKeys;
 
 /// The GTRemotes in the config. If the configuration isn't associated with any
 /// repository, this will always be nil.
-@property (nonatomic, readonly, copy, nullable) NSArray *remotes;
+@property (nonatomic, readonly, copy, nullable) NSArray<GTRemote *> *remotes;
 
 - (instancetype)init NS_UNAVAILABLE;
 

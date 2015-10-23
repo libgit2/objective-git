@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error     - The error if one occurred.
 ///
 /// Returns whether the reset was successful.
-- (BOOL)resetPathspecs:(NSArray *)pathspecs toCommit:(GTCommit *)commit error:(NSError **)error;
+- (BOOL)resetPathspecs:(NSArray<NSString *> *)pathspecs toCommit:(GTCommit *)commit error:(NSError **)error;
 
 @end
 
