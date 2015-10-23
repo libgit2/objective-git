@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, readonly, strong, nullable) GTSignature *author;
 @property (nonatomic, readonly, strong, nullable) GTSignature *committer;
-@property (nonatomic, readonly, copy) NSArray *parents;
+@property (nonatomic, readonly, copy) NSArray<GTCommit *> *parents;
 @property (nonatomic, readonly, nullable) NSString *message;
 @property (nonatomic, readonly) NSString *messageDetails;
 @property (nonatomic, readonly) NSString *messageSummary;

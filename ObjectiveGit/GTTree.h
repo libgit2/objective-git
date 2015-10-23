@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) NSUInteger entryCount;
 
 /// The contents of the tree, as an array of whose objects are of type `GTTreeEntry`
-@property (nonatomic, strong, readonly, nullable) NSArray *entries;
+@property (nonatomic, strong, readonly, nullable) NSArray<GTTreeEntry *> *entries;
 
 /// The underlying `git_object` as a `git_tree` object.
 - (git_tree *)git_tree __attribute__((objc_returns_inner_pointer));

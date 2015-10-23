@@ -90,10 +90,16 @@ run_xctool ()
 {
     if [ -n "$XCWORKSPACE" ]
     then
-        xctool -workspace "$XCWORKSPACE" $XCTOOL_OPTIONS "$@" 2>&1
+        xctool -workspace "$XCWORKSPACE" $XCTOOL_OPTIONS "$@" \
+            ONLY_ACTIVE_ARCH=NO \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO 2>&1
     elif [ -n "$XCODEPROJ" ]
     then
-        xctool -project "$XCODEPROJ" $XCTOOL_OPTIONS "$@" 2>&1
+        xctool -project "$XCODEPROJ" $XCTOOL_OPTIONS "$@" \
+            ONLY_ACTIVE_ARCH=NO \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO 2>&1
     else
         echo "*** No workspace or project file found."
         exit 1
