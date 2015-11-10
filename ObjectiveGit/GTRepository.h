@@ -269,6 +269,14 @@ extern NSString * const GTRepositoryInitOptionsOriginURLString;
 /// Returns a GTReference or nil if an error occurs.
 - (nullable GTReference *)headReferenceWithError:(NSError **)error;
 
+/// Move HEAD reference safely, since deleting and recreating HEAD is always wrong
+///
+/// error - If not NULL, set to any error that occurs.
+///
+/// Returns NO if an error occurs.
+- (BOOL)moveHEADToReference:(GTReference *)reference error:(NSError **)error;
+- (BOOL)moveHEADToCommit:(GTCommit *)commit error:(NSError **)error;
+
 /// Get the local branches.
 ///
 /// error - If not NULL, set to any error that occurs.
