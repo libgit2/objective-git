@@ -280,7 +280,7 @@ extern NSString * const GTRepositoryInitOptionsOriginURLString;
 /// Move HEAD reference safely, since deleting and recreating HEAD is always wrong.
 ///
 /// commit - The commit which HEAD should point to.
-/// error - If not NULL, set to any error that occurs.
+/// error  - If not NULL, set to any error that occurs.
 ///
 /// Returns NO if an error occurs.
 - (BOOL)moveHEADToCommit:(GTCommit *)commit error:(NSError **)error;
@@ -302,7 +302,7 @@ extern NSString * const GTRepositoryInitOptionsOriginURLString;
 /// Get branches with names sharing a given prefix.
 ///
 /// prefix - The prefix to use for filtering. Must not be nil.
-/// error - If not NULL, set to any error that occurs.
+/// error  - If not NULL, set to any error that occurs.
 ///
 /// Returns an array of GTBranches or nil if an error occurs.
 - (nullable NSArray<GTBranch *> *)branchesWithPrefix:(NSString *)prefix error:(NSError **)error;
