@@ -358,6 +358,58 @@ describe(@"-OIDByCreatingTagNamed:target:tagger:message:error", ^{
 	});
 });
 
+describe(@"move head", ^{
+	beforeEach(^{
+		repository = self.testAppFixtureRepository;
+	});
+
+	//- (BOOL)moveHEADToReference:(GTReference *)reference error:(NSError **)error;
+	it(@"should move to reference", ^{
+		NSError *error = nil;
+		GTReference *originalHead = [repository headReferenceWithError:NULL];
+
+		GTReference *targetReference = [repository lookUpReferenceWithName:@"refs/heads/other-branch" error:NULL];
+		expect(targetReference).notTo(beNil());
+
+		// -> Test the move
+		BOOL success = [repository moveHEADToReference:targetReference error:&error];
+		expect(@(success)).to(beTruthy());
+		expect(error).to(beNil());
+
+		// Verify
+		GTReference *head = [repository headReferenceWithError:&error];
+		expect(head).notTo(beNil());
+		expect(head).notTo(equal(originalHead));
+		expect(head.targetOID.SHA).to(equal(targetReference.targetOID.SHA));
+	});
+
+	//- (BOOL)moveHEADToCommit:(GTCommit *)commit error:(NSError **)error;
+	it(@"should move to commit", ^{
+		NSError *error = nil;
+		GTReference *originalHead = [repository headReferenceWithError:NULL];
+		NSString *targetCommitSHA = @"f7ecd8f4404d3a388efbff6711f1bdf28ffd16a0";
+
+		GTCommit *commit = [repository lookUpObjectBySHA:targetCommitSHA error:NULL];
+		expect(commit).notTo(beNil());
+
+		GTCommit *originalHeadCommit = [repository lookUpObjectByOID:originalHead.targetOID error:NULL];
+		expect(originalHeadCommit).notTo(beNil());
+
+		// -> Test the move
+		BOOL success = [repository moveHEADToCommit:commit error:&error];
+		expect(@(success)).to(beTruthy());
+		expect(error).to(beNil());
+
+		// Test for detached?
+
+		// Verify
+		GTReference *head = [repository headReferenceWithError:&error];
+		expect(head).notTo(beNil());
+		expect(head.targetOID.SHA).to(equal(targetCommitSHA));
+	});
+});
+
+
 describe(@"-checkout:strategy:error:progressBlock:", ^{
 	it(@"should allow references", ^{
 		NSError *error = nil;
