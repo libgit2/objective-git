@@ -272,7 +272,7 @@ extern NSString * const GTRepositoryInitOptionsOriginURLString;
 /// Move HEAD reference safely, since deleting and recreating HEAD is always wrong.
 ///
 /// reference - The new target reference for HEAD.
-/// error - If not NULL, set to any error that occurs.
+/// error     - If not NULL, set to any error that occurs.
 ///
 /// Returns NO if an error occurs.
 - (BOOL)moveHEADToReference:(GTReference *)reference error:(NSError **)error;
