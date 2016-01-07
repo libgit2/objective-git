@@ -26,7 +26,7 @@ The ObjectiveGit API makes extensive use of the Cocoa NSError pattern. The publi
 
 ### Xcode
 
-ObjectiveGit requires Xcode 6.3 or greater to build the framework and run unit tests. Projects that must use an older version of Xcode can use 
+ObjectiveGit requires Xcode 7 or greater to build the framework and run unit tests. Projects that must use an older version of Xcode can use 
 [Carthage](#carthage) to install pre-built binaries
 or download them [manually](#manually).
 
