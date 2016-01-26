@@ -107,8 +107,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// Returns a new GTIndexEntry, or nil if an error occurred.
 - (nullable GTIndexEntry *)entryAtIndex:(NSUInteger)index;
 
-/// Get the entry with the given path.
-- (GTIndexEntry *)entryWithPath:(NSString *)path;
+/// Get the entry with the given path, or nil if an error occurred.
+- (nullable GTIndexEntry *)entryWithPath:(NSString *)path;
 
 /// Get the entry with the given name.
 ///
