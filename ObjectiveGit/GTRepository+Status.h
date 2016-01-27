@@ -126,7 +126,7 @@ extern NSString *const GTRepositoryStatusOptionsPathSpecArrayKey;
 
 /// Tests the ignore rules to see if the file should be considered as ignored.
 ///
-/// fileURL  - A string path relative to the working copy. Must not be nil.
+/// fileURL  - A local file URL for a file in the repository. Must not be nil.
 /// success  - If not NULL, will be set to indicate success or fail.
 /// error    - If not nil, set to any error that occurs.
 ///
