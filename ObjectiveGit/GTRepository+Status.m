@@ -122,7 +122,7 @@ NSString *const GTRepositoryStatusOptionsPathSpecArrayKey = @"GTRepositoryStatus
 	}
 
 	if (success != NULL) *success = YES;
-	return (ignoreState == 0 ? YES : NO);
+	return (ignoreState == 1 ? YES : NO);
 }
 
 @end
