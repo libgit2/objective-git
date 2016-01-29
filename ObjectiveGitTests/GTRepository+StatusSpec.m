@@ -105,6 +105,24 @@ describe(@"Checking status", ^{
 		expect(@(enumerationSuccessful)).to(beTruthy());
 		expect(err).to(beNil());
 	});
+	
+	it(@"should report file should be ignored", ^{
+		__block NSError *err = nil;
+		NSURL *fileURL = [repository.fileURL URLByAppendingPathComponent:@".DS_Store"];
+		BOOL success = NO;
+		BOOL shouldIgnore = [repository shouldFileBeIgnored:fileURL success:&success error:&err];
+		expect(@(success)).to(beTrue());
+		expect(@(shouldIgnore)).to(beTrue());
+		expect(err).to(beNil());
+	});
+	
+	it(@"should report file should be ignored (convenience wrapper)", ^{
+		__block NSError *err = nil;
+		NSURL *fileURL = [repository.fileURL URLByAppendingPathComponent:@".DS_Store"];
+		GTFileIgnoreState ignore = [repository shouldIgnoreFileURL:fileURL error:&err];
+		expect(@(ignore)).to(equal(@(GTFileIgnoreStateShouldIgnore)));
+		expect(err).to(beNil());
+	});
 });
 
 afterEach(^{
