@@ -126,12 +126,22 @@ extern NSString *const GTRepositoryStatusOptionsPathSpecArrayKey;
 
 /// Tests the ignore rules to see if the file should be considered as ignored.
 ///
-/// fileURL  - A string path relative to the working copy. Must not be nil.
+/// fileURL  - A local file URL for a file in the repository. Must not be nil.
 /// success  - If not NULL, will be set to indicate success or fail.
 /// error    - If not nil, set to any error that occurs.
 ///
 /// Returns YES if the file should be ignored; NO otherwise.
 - (BOOL)shouldFileBeIgnored:(NSURL *)fileURL success:(nullable BOOL *)success error:(NSError **)error;
+
+/// An enum for use with shouldIgnoreFileURL:error: below
+typedef NS_ENUM(NSInteger, GTFileIgnoreState) {
+	GTFileIgnoreStateIgnoreCheckFailed = -1,
+	GTFileIgnoreStateShouldNotIgnore = 0,
+	GTFileIgnoreStateShouldIgnore = 1
+};
+
+/// Convenience wrapper for shouldFileBeIgnored:success:error:
+- (GTFileIgnoreState)shouldIgnoreFileURL:(NSURL *)fileURL error:(NSError **)error;
 
 @end
 

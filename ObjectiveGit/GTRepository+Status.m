@@ -122,7 +122,16 @@ NSString *const GTRepositoryStatusOptionsPathSpecArrayKey = @"GTRepositoryStatus
 	}
 
 	if (success != NULL) *success = YES;
-	return (ignoreState == 0 ? YES : NO);
+	return (ignoreState == 1 ? YES : NO);
+}
+
+- (GTFileIgnoreState)shouldIgnoreFileURL:(NSURL *)fileURL error:(NSError **)error {
+	BOOL success = NO;
+	BOOL ignore = [self shouldFileBeIgnored:fileURL success:&success error:error];
+	if (success) {
+		return (ignore ? GTFileIgnoreStateShouldIgnore : GTFileIgnoreStateShouldNotIgnore);
+	}
+	return GTFileIgnoreStateIgnoreCheckFailed;
 }
 
 @end
