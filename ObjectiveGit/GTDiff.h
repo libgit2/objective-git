@@ -218,6 +218,23 @@ typedef NS_OPTIONS(NSInteger, GTDiffFindOptionsFlags) {
 /// Returns a newly created `GTDiff` object or nil on error.
 + (nullable instancetype)diffOldTree:(nullable GTTree *)oldTree withNewIndex:(nullable GTIndex *)newIndex inRepository:(GTRepository *)repository options:(nullable NSDictionary *)options error:(NSError **)error;
 
+/// Create a diff between two `GTIndex`es.
+///
+/// Both instances must be from the same repository, or an exception will be thrown.
+///
+/// oldIndex   - The "left" side of the diff. May be nil to represent an empty
+///              index.
+/// newIndex   - The "right" side of the diff. May be nil to represent an empty
+///              index.
+/// repository - The repository to be used for the diff. Cannot be nil.
+/// options    - A dictionary containing any of the above options key constants, or
+///              nil to use the defaults.
+/// error      - Populated with an `NSError` object on error, if information is
+///              available.
+///
+/// Returns a newly created `GTDiff` object or nil on error.
++ (nullable instancetype)diffOldIndex:(nullable GTIndex *)oldIndex withNewIndex:(nullable GTIndex *)newIndex inRepository:(GTRepository *)repository options:(nullable NSDictionary *)options error:(NSError **)error;
+
 /// Create a diff between a repository's current index.
 ///
 /// This is equivalent to `git diff --cached <treeish>` or if you pass the HEAD
