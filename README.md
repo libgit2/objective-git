@@ -26,16 +26,16 @@ The ObjectiveGit API makes extensive use of the Cocoa NSError pattern. The publi
 
 ### Xcode
 
-ObjectiveGit requires Xcode 7 or greater to build the framework and run unit tests. Projects that must use an older version of Xcode can use 
+ObjectiveGit requires Xcode 7 or greater to build the framework and run unit tests. Projects that must use an older version of Xcode can use
 [Carthage](#carthage) to install pre-built binaries
 or download them [manually](#manually).
 
 ### Other Tools
 
-To start building the framework, you must install the required dependencies, 
-[xctool](https://github.com/facebook/xctool) and 
-[cmake](https://github.com/Kitware/CMake). We recommend using 
-[Homebrew](http://brew.sh) to install these tools. 
+To start building the framework, you must install the required dependencies,
+[xctool](https://github.com/facebook/xctool) and
+[cmake](https://github.com/Kitware/CMake). We recommend using
+[Homebrew](http://brew.sh) to install these tools.
 
 Once you have the dependencies you should clone this repository and then run [`script/bootstrap`](script/bootstrap). This will automatically pull down and install any other
 dependencies.
@@ -51,6 +51,12 @@ There are three ways of including ObjectiveGit in a project:
 1. [Carthage](#carthage) <-- recommended
 1. [Manual](#manual)
 1. [Subproject](#subproject)
+
+## Bitcode
+
+:warning: iOS apps need to set the `ENABLE_BITCODE` build setting to `NO`.
+
+![Xcode project bitcode setting disabled](https://cloud.githubusercontent.com/assets/41798/10668574/d8dd3080-78d4-11e5-8aa5-e10084b7ce34.png)
 
 
 ## Carthage
@@ -71,7 +77,7 @@ There are three ways of including ObjectiveGit in a project:
 1. **iOS targets**
   * On your application targets' "General" settings tab, in the "Linked Frameworks and Libraries" section, drag and drop the `ObjectiveGit.framework` from the [`Carthage/Build/iOS`](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#carthagebuild) folder on disk.
   ![Linked Frameworks](http://i.imgur.com/y4caRw0.png)
-  
+
   * On your application targets' "Build Phases" settings tab, click the “+” icon and choose “New Run Script Phase”. Create a Run Script with the following contents:
 
   ```
