@@ -35,9 +35,11 @@
 #import "NSString+Git.h"
 #import "NSDate+GTTimeAdditions.h"
 #import "GTOID.h"
+#import "GTIndex.h"
 
 #import "git2/commit.h"
 #import "git2/errors.h"
+#import "git2/merge.h"
 
 @implementation GTCommit
 
@@ -128,6 +130,22 @@
 	}
 
 	return parents;
+}
+
+#pragma mark Merging
+
+- (GTIndex *)merge:(GTCommit *)otherCommit error:(NSError **)error {
+	NSParameterAssert(otherCommit != nil);
+	
+	git_index *index;
+	
+	int result = git_merge_commits(&index, self.repository.git_repository, self.git_commit, otherCommit.git_commit, NULL);
+	if (result != GIT_OK || index == NULL) {
+		if (error != NULL) *error = [NSError git_errorFor:result description:@"Failed to merge commit %@ with commit %@", self.SHA, otherCommit.SHA];
+		return nil;
+	}
+	
+	return [[GTIndex alloc] initWithGitIndex:index repository:self.repository];
 }
 
 @end
