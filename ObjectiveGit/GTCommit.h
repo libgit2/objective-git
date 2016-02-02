@@ -58,7 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// Merges the given commit into the receiver in memory and produces the result as
 /// an index.
 ///
-/// otherTree    - The commit with which the receiver should be merged with. Cannot be
+/// otherCommit  - The commit with which the receiver should be merged with. Cannot be
 ///                nil.
 /// error        - The error if one occurred.
 ///
