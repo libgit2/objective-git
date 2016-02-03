@@ -20,6 +20,8 @@
 #import "GTIndexEntry.h"
 #import "git2/errors.h"
 
+NSString * const GTPullMergeConflictedFiles = @"GTPullMergeConflictedFiles";
+
 @implementation GTRepository (Pull)
 
 #pragma mark - Pull
@@ -112,11 +114,8 @@
 				[files addObject:ours.path];
 			}];
 			if (error != NULL) {
-				if (files.count > 0) {
-					*error = [NSError git_errorFor:GIT_ECONFLICT description:@"Merge conflict in files: %@. Pull aborted.", [files componentsJoinedByString:@", "]];
-				} else {
-					*error = [NSError git_errorFor:GIT_ECONFLICT description:@"Merge conflict, pull aborted"];
-				}
+				NSDictionary *userInfo = @{GTPullMergeConflictedFiles: files};
+				*error = [NSError git_errorFor:GIT_ECONFLICT description:@"Merge conflict, Pull aborted." userInfo:userInfo failureReason:nil];
 			}
 			return NO;
 		}
