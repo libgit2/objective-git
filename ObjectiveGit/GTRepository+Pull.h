@@ -11,6 +11,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+extern NSString * const GTPullMergeConflictedFiles;
+
 /// An enum describing the result of the merge analysis.
 /// See `git_merge_analysis_t`.
 typedef NS_OPTIONS(NSInteger, GTMergeAnalysis) {

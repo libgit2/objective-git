@@ -258,7 +258,7 @@ describe(@"pull", ^{
 			}];
 			expect(@(result)).to(beFalsy());
 			expect(error.domain).to(equal(@"GTGitErrorDomain"));
-			expect(error.userInfo[@"GTPullMergeConflictedFiles"]).to(equal(@[@"test.txt"]));
+			expect(error.userInfo[GTPullMergeConflictedFiles]).to(equal(@[@"test.txt"]));
 			expect(error.localizedDescription).to(equal(@"Merge conflict, Pull aborted."));
 			expect(@(transferProgressed)).to(beTruthy());
 		});
