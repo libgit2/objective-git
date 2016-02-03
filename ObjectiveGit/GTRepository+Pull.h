@@ -11,6 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// UserInfo key for conflicted files when pulling fails with a merge conflict
 extern NSString * const GTPullMergeConflictedFiles;
 
 /// An enum describing the result of the merge analysis.
