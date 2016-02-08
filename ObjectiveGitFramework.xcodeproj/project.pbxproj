@@ -1646,7 +1646,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D0D8186A174421EB00995A2E /* Mac-Framework.xcconfig */;
 			buildSettings = {
-				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
@@ -1671,7 +1670,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D0D8186A174421EB00995A2E /* Mac-Framework.xcconfig */;
 			buildSettings = {
-				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
@@ -1863,7 +1861,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D0D8186A174421EB00995A2E /* Mac-Framework.xcconfig */;
 			buildSettings = {
-				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
@@ -2096,7 +2093,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D0D8186A174421EB00995A2E /* Mac-Framework.xcconfig */;
 			buildSettings = {
-				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
