@@ -33,6 +33,7 @@
 @class GTSignature;
 @class GTTree;
 @class GTOID;
+@class GTIndex;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -53,6 +54,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// The underlying `git_object` as a `git_commit` object.
 - (git_commit *)git_commit __attribute__((objc_returns_inner_pointer));
+
+/// Merges the given commit into the receiver in memory and produces the result as
+/// an index.
+///
+/// otherCommit  - The commit with which the receiver should be merged with. Cannot be
+///                nil.
+/// error        - The error if one occurred.
+///
+/// Returns an index which represents the result of the merge, or nil if an error
+/// occurred.
+- (nullable GTIndex *)merge:(GTCommit *)otherCommit error:(NSError **)error;
 
 @end
 

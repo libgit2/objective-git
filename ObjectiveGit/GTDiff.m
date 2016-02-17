@@ -110,6 +110,22 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 	return [[self alloc] initWithGitDiff:diff repository:repository];
 }
 
++ (nullable instancetype)diffOldIndex:(GTIndex *)oldIndex withNewIndex:(GTIndex *)newIndex inRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error
+{
+	NSParameterAssert(repository != nil);
+	
+	__block git_diff *diff;
+	int status = [self handleParsedOptionsDictionary:options usingBlock:^(git_diff_options *optionsStruct) {
+		return git_diff_index_to_index(&diff, repository.git_repository, oldIndex.git_index, newIndex.git_index, optionsStruct);
+	}];
+	if (status != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to create diff between %@ and %@", oldIndex, newIndex];
+		return nil;
+	}
+	
+	return [[self alloc] initWithGitDiff:diff repository:repository];
+}
+
 + (instancetype)diffIndexFromTree:(GTTree *)tree inRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error {
 	NSParameterAssert(repository != nil);
 	NSParameterAssert(tree == nil || [tree.repository isEqual:repository]);
