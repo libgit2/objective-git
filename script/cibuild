@@ -62,14 +62,19 @@ main ()
         "$BOOTSTRAP" || exit $?
     fi
 
-    echo "*** Prebuilding OpenSSL"
-    $SCRIPT_DIR/update_libssl_ios
+    if [ "$SCHEME" == "ObjectiveGit iOS" ]
+    then
+      echo "*** Prebuilding OpenSSL"
+      $SCRIPT_DIR/update_libssl_ios
+    fi
 
-    echo "*** The following schemes will be built:"
-    echo "$SCHEMES" | xargs -n 1 echo "  "
-    echo
+    if [ -z "${SCHEME+x}" ] && [ "${#SCHEME[@]}" = 0 ]
+    then
+        echo "*** The following schemes will be built:"
+        echo "$SCHEMES" | xargs -n 1 echo "  "
+        echo
 
-    echo "$SCHEMES" | xargs -n 1 | (
+        echo "$SCHEMES" | xargs -n 1 | (
         local status=0
 
         while read scheme
@@ -78,7 +83,13 @@ main ()
         done
 
         exit $status
-    )
+        )
+    else
+        echo "*** The following scheme will be built $SCHEME"
+        local status=0
+        build_scheme "$SCHEME" || status=1
+        exit $status
+    fi
 }
 
 find_pattern ()
