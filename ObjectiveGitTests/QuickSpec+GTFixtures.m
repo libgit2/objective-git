@@ -9,10 +9,7 @@
 #import <ObjectiveGit/ObjectiveGit.h>
 #import "QuickSpec+GTFixtures.h"
 #import <objc/runtime.h>
-
-#if TARGET_OS_IPHONE
 #import "SSZipArchive.h"
-#endif
 
 static const NSInteger FixturesErrorUnzipFailed = 666;
 
@@ -94,7 +91,7 @@ static NSString * const FixturesErrorDomain = @"com.objectivegit.Fixtures";
 	NSString *cleanRepositoryPath = [self.rootTempDirectory stringByAppendingPathComponent:@"clean_repository"];
 	if (![NSFileManager.defaultManager fileExistsAtPath:cleanRepositoryPath isDirectory:nil]) {
 		error = nil;
-		success = [self unzipFile:repositoryName fromArchiveAtPath:zippedRepositoriesPath intoDirectory:cleanRepositoryPath error:&error];
+		success = [self unzipFromArchiveAtPath:zippedRepositoriesPath intoDirectory:cleanRepositoryPath error:&error];
 		XCTAssertTrue(success, @"Couldn't unzip fixture \"%@\" from %@ to %@: %@", repositoryName, zippedRepositoriesPath, cleanRepositoryPath, error);
 	}
 
@@ -108,13 +105,7 @@ static NSString * const FixturesErrorDomain = @"com.objectivegit.Fixtures";
 	return [self.repositoryFixturesPath stringByAppendingPathComponent:repositoryName];
 }
 
-- (BOOL)unzipFile:(NSString *)member fromArchiveAtPath:(NSString *)zipPath intoDirectory:(NSString *)destinationPath error:(NSError **)error {
-
-#if TARGET_OS_IPHONE
-	// iOS: unzip in-process using SSZipArchive
-	//
-	// system() and NSTask() are not available when running tests in the iOS simulator
-
+- (BOOL)unzipFromArchiveAtPath:(NSString *)zipPath intoDirectory:(NSString *)destinationPath error:(NSError **)error {
 	BOOL success = [SSZipArchive unzipFileAtPath:zipPath toDestination:destinationPath overwrite:YES password:nil error:error];
 
 	if (!success) {
@@ -123,26 +114,6 @@ static NSString * const FixturesErrorDomain = @"com.objectivegit.Fixtures";
 	}
 
 	return YES;
-
-#else
-	// OS X: shell out to unzip using NSTask
-
-	NSTask *task = [[NSTask alloc] init];
-	task.launchPath = @"/usr/bin/unzip";
-	task.arguments = @[ @"-qq", @"-d", destinationPath, zipPath, [member stringByAppendingString:@"*"] ];
-
-	[task launch];
-	[task waitUntilExit];
-
-	BOOL success = (task.terminationStatus == 0);
-	if (!success) {
-		if (error != NULL) *error = [NSError errorWithDomain:FixturesErrorDomain code:FixturesErrorUnzipFailed userInfo:@{ NSLocalizedDescriptionKey: NSLocalizedString(@"Unzip failed", @"") }];
-	}
-
-	return success;
-
-#endif
-
 }
 
 #pragma mark API
