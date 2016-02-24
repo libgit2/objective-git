@@ -150,6 +150,20 @@ extern NSString * const GTRepositoryInitOptionsInitialHEAD;
 /// initialization.
 extern NSString * const GTRepositoryInitOptionsOriginURLString;
 
+/// The possible states for the repository to be in, based on the current ongoing operation.
+typedef NS_ENUM(NSInteger, GTRepositoryStateType) {
+	GTRepositoryStateNone = GIT_REPOSITORY_STATE_NONE,
+	GTRepositoryStateMerge = GIT_REPOSITORY_STATE_MERGE,
+	GTRepositoryStateRevert = GIT_REPOSITORY_STATE_REVERT,
+	GTRepositoryStateCherryPick = GIT_REPOSITORY_STATE_CHERRYPICK,
+	GTRepositoryStateBisect = GIT_REPOSITORY_STATE_BISECT,
+	GTRepositoryStateRebase = GIT_REPOSITORY_STATE_REBASE,
+	GTRepositoryStateRebaseInteractive = GIT_REPOSITORY_STATE_REBASE_INTERACTIVE,
+	GTRepositoryStateRebaseMerge = GIT_REPOSITORY_STATE_REBASE_MERGE,
+	GTRepositoryStateApplyMailbox = GIT_REPOSITORY_STATE_APPLY_MAILBOX,
+	GTRepositoryStateApplyMailboxOrRebase = GIT_REPOSITORY_STATE_APPLY_MAILBOX_OR_REBASE,
+};
+
 @interface GTRepository : NSObject
 
 /// The file URL for the repository's working directory.
@@ -572,6 +586,23 @@ extern NSString * const GTRepositoryInitOptionsOriginURLString;
 ///
 /// Returns the enumerator or nil if an error occurred.
 - (nullable GTEnumerator *)enumeratorForUniqueCommitsFromOID:(GTOID *)fromOID relativeToOID:(GTOID *)relativeOID error:(NSError **)error;
+
+/// Determines the status of a git repository--i.e., whether an operation
+/// (merge, cherry-pick, etc) is in progress.
+///
+/// state - A pointer to set the retrieved state. Must not be NULL.
+/// error - The error if one occurred.
+///
+/// Returns YES if operation was successful, NO otherwise
+- (BOOL)calculateState:(GTRepositoryStateType *)state withError:(NSError **)error;
+
+/// Remove all the metadata associated with an ongoing command like merge,
+/// revert, cherry-pick, etc.  For example: MERGE_HEAD, MERGE_MSG, etc.
+///
+/// error - The error if one occurred.
+///
+/// Returns YES if operation was successful, NO otherwise
+- (BOOL)cleanupStateWithError:(NSError **)error;
 
 @end
 
