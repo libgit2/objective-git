@@ -51,6 +51,7 @@ function build_libgit2 ()
         -DBUILD_CLAR:BOOL=OFF \
         -DTHREADSAFE:BOOL=ON \
         -DCURL:BOOL=OFF \
+        -DCMAKE_C_FLAGS:STRING="-fembed-bitcode" \
         "${SYS_ROOT}" \
         -DCMAKE_OSX_ARCHITECTURES:STRING="${ARCH}" \
         .. >> "${LOG}" 2>&1
