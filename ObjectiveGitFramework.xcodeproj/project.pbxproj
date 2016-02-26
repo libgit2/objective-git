@@ -331,11 +331,6 @@
 		F8D007731B4F7CC3009A8DAF /* GTSignatureSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D040AF77177B9A9E001AD9EB /* GTSignatureSpec.m */; };
 		F8D007741B4F7CCC009A8DAF /* GTOIDSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D040AF6F177B9779001AD9EB /* GTOIDSpec.m */; };
 		F8D007761B4F7D10009A8DAF /* GTTimeAdditionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 30B1E7FF1703871900D0814D /* GTTimeAdditionsSpec.m */; };
-		F8D007811B4F9758009A8DAF /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = F8D007801B4F9758009A8DAF /* SSZipArchive.m */; };
-		F8D007861B4F97F9009A8DAF /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = F8D007821B4F97F9009A8DAF /* ioapi.c */; };
-		F8D007871B4F97F9009A8DAF /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = F8D007831B4F97F9009A8DAF /* mztools.c */; };
-		F8D007881B4F97F9009A8DAF /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = F8D007841B4F97F9009A8DAF /* unzip.c */; };
-		F8D007891B4F97F9009A8DAF /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = F8D007851B4F97F9009A8DAF /* zip.c */; };
 		F8D0078B1B4F9F9E009A8DAF /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F8D0078A1B4F9F9E009A8DAF /* libz.dylib */; };
 		F8D0078C1B4FA03B009A8DAF /* GTBlobSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D1C40D7182C006D00BE2960 /* GTBlobSpec.m */; };
 		F8D0078D1B4FA03B009A8DAF /* GTBranchSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A994B916FCE7D400402C7B /* GTBranchSpec.m */; };
@@ -371,6 +366,7 @@
 		F8D1BDF01B31FE7C00CDEC90 /* GTRepository+Pull.m in Sources */ = {isa = PBXBuildFile; fileRef = F8D1BDED1B31FE7C00CDEC90 /* GTRepository+Pull.m */; };
 		F8D1BDF11B31FE7C00CDEC90 /* GTRepository+Pull.m in Sources */ = {isa = PBXBuildFile; fileRef = F8D1BDED1B31FE7C00CDEC90 /* GTRepository+Pull.m */; };
 		F8E4A2911A170CA6006485A8 /* GTRemotePushSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = F8E4A2901A170CA6006485A8 /* GTRemotePushSpec.m */; };
+		F8E68E731C800B1600DBC517 /* ZipArchive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8E68E721C800B1600DBC517 /* ZipArchive.framework */; };
 		F8EFA03A1B4059ED000FF7D0 /* GTUtilityFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = F8EFA0391B4059ED000FF7D0 /* GTUtilityFunctions.m */; };
 /* End PBXBuildFile section */
 
@@ -646,6 +642,7 @@
 		F8D1BDEC1B31FE7C00CDEC90 /* GTRepository+Pull.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTRepository+Pull.h"; sourceTree = "<group>"; };
 		F8D1BDED1B31FE7C00CDEC90 /* GTRepository+Pull.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GTRepository+Pull.m"; sourceTree = "<group>"; };
 		F8E4A2901A170CA6006485A8 /* GTRemotePushSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTRemotePushSpec.m; sourceTree = "<group>"; };
+		F8E68E721C800B1600DBC517 /* ZipArchive.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZipArchive.framework; path = "Carthage/Checkouts/ZipArchive/build/Debug-iphoneos/ZipArchive.framework"; sourceTree = "<group>"; };
 		F8EFA0361B405020000FF7D0 /* GTRepository+PullSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GTRepository+PullSpec.m"; sourceTree = "<group>"; };
 		F8EFA0381B4059ED000FF7D0 /* GTUtilityFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTUtilityFunctions.h; sourceTree = "<group>"; };
 		F8EFA0391B4059ED000FF7D0 /* GTUtilityFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTUtilityFunctions.m; sourceTree = "<group>"; };
@@ -693,6 +690,7 @@
 				F879D8471B4B8138002D5C07 /* Nimble.framework in Frameworks */,
 				F879D8451B4B8138002D5C07 /* Quick.framework in Frameworks */,
 				F879D83C1B4B7F7D002D5C07 /* ObjectiveGit.framework in Frameworks */,
+				F8E68E731C800B1600DBC517 /* ZipArchive.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -713,6 +711,7 @@
 		0867D691FE84028FC02AAC07 /* ObjectiveGitFramework */ = {
 			isa = PBXGroup;
 			children = (
+				F8E68E721C800B1600DBC517 /* ZipArchive.framework */,
 				23BB67BB1C7DF45300A37A66 /* libz.tbd */,
 				BDD8AB01130F01AB00CB5D40 /* README.md */,
 				887B948D1A3A38130070D41D /* ObjectiveGit.modulemap */,
@@ -1603,11 +1602,6 @@
 				F8D007961B4FA03B009A8DAF /* GTRemotePushSpec.m in Sources */,
 				F8D007A51B4FA03B009A8DAF /* GTDiffDeltaSpec.m in Sources */,
 				F879D8481B4B83B9002D5C07 /* SwiftSpec.swift in Sources */,
-				F8D007811B4F9758009A8DAF /* SSZipArchive.m in Sources */,
-				F8D007861B4F97F9009A8DAF /* ioapi.c in Sources */,
-				F8D007871B4F97F9009A8DAF /* mztools.c in Sources */,
-				F8D007881B4F97F9009A8DAF /* unzip.c in Sources */,
-				F8D007891B4F97F9009A8DAF /* zip.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2244,6 +2238,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+					"$(SRCROOT)/Carthage/Build/iOS",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -2263,10 +2258,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"Carthage/Checkouts/ZipArchive/SSZipArchive/**",
-				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "ObjectiveGitTests/ObjectiveGitTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -2305,6 +2297,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+					"$(SRCROOT)/Carthage/Build/iOS",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -2315,10 +2308,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"Carthage/Checkouts/ZipArchive/SSZipArchive/**",
-				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "ObjectiveGitTests/ObjectiveGitTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -2358,6 +2348,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+					"$(SRCROOT)/Carthage/Build/iOS",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -2368,10 +2359,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"Carthage/Checkouts/ZipArchive/SSZipArchive/**",
-				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "ObjectiveGitTests/ObjectiveGitTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -2411,6 +2399,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+					"$(SRCROOT)/Carthage/Build/iOS",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -2421,10 +2410,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"Carthage/Checkouts/ZipArchive/SSZipArchive/**",
-				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "ObjectiveGitTests/ObjectiveGitTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";

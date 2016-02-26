@@ -9,7 +9,7 @@
 #import <ObjectiveGit/ObjectiveGit.h>
 #import "QuickSpec+GTFixtures.h"
 #import <objc/runtime.h>
-#import "SSZipArchive.h"
+#import <ZipArchive/ZipArchive.h>
 
 static const NSInteger FixturesErrorUnzipFailed = 666;
 
