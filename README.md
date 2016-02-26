@@ -52,15 +52,8 @@ There are three ways of including ObjectiveGit in a project:
 1. [Manual](#manual)
 1. [Subproject](#subproject)
 
-## Bitcode
-
-:warning: iOS apps need to set the `ENABLE_BITCODE` build setting to `NO`.
-
-![Xcode project bitcode setting disabled](https://cloud.githubusercontent.com/assets/41798/10668574/d8dd3080-78d4-11e5-8aa5-e10084b7ce34.png)
-
 
 ## Carthage
-
 
 1. Add ObjectiveGit to your [`Cartfile`](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#cartfile).
 
