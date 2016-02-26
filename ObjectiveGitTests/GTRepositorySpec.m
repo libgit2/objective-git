@@ -700,6 +700,44 @@ describe(@"-userSignatureForNow", ^{
 	});
 });
 
+describe(@"-calculateState:withError:", ^{
+	it(@"should find if the repository is mid-merge", ^{
+		GTRepository *repository = [self conflictedFixtureRepository];
+		GTRepositoryStateType state;
+		BOOL result;
+		result = [repository calculateState:&state withError:NULL];
+		expect(@(result)).to(beTruthy());
+		expect(@(state)).to(equal(@(GTRepositoryStateMerge)));
+	});
+	
+	it(@"should return none otherwise", ^{
+		GTRepository *repository = [self testAppFixtureRepository];
+		GTRepositoryStateType state;
+		BOOL result;
+		result = [repository calculateState:&state withError:NULL];
+		expect(@(result)).to(beTruthy());
+		expect(@(state)).to(equal(@(GTRepositoryStateNone)));
+	});
+});
+
+describe(@"-cleanupStateWithError:", ^{
+	it(@"should return a repository to a pre-merge state", ^{
+		GTRepository *repository = [self conflictedFixtureRepository];
+		
+		GTRepositoryStateType state;
+		BOOL result;
+		result = [repository calculateState:&state withError:NULL];
+		expect(@(result)).to(beTruthy());
+		expect(@(state)).to(equal(@(GTRepositoryStateMerge)));
+		
+		expect(@([repository cleanupStateWithError:NULL])).to(beTruthy());
+		
+		result = [repository calculateState:&state withError:NULL];
+		expect(@(result)).to(beTruthy());
+		expect(@(state)).to(equal(@(GTRepositoryStateNone)));
+	});
+});
+
 afterEach(^{
 	[self tearDown];
 });
