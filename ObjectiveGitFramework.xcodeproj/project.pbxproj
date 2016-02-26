@@ -630,11 +630,6 @@
 		F879D8361B4B7F7C002D5C07 /* ObjectiveGit-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ObjectiveGit-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F879D8461B4B8138002D5C07 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = "Carthage/Checkouts/Nimble/build/Debug-iphoneos/Nimble.framework"; sourceTree = "<group>"; };
 		F895F4DE1C801E5F004EA221 /* ZipArchive.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZipArchive.framework; path = "/Volumes/DerivedData/ObjectiveGitFramework-drtqacfhlqybdcdpqayztrrwneun/Build/Products/Debug/ZipArchive.framework"; sourceTree = "<absolute>"; };
-		F8D007801B4F9758009A8DAF /* SSZipArchive.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SSZipArchive.m; path = Carthage/Checkouts/ZipArchive/SSZipArchive/SSZipArchive.m; sourceTree = "<group>"; };
-		F8D007821B4F97F9009A8DAF /* ioapi.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = ioapi.c; path = Carthage/Checkouts/ZipArchive/SSZipArchive/minizip/ioapi.c; sourceTree = "<group>"; };
-		F8D007831B4F97F9009A8DAF /* mztools.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = mztools.c; path = Carthage/Checkouts/ZipArchive/SSZipArchive/minizip/mztools.c; sourceTree = "<group>"; };
-		F8D007841B4F97F9009A8DAF /* unzip.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = unzip.c; path = Carthage/Checkouts/ZipArchive/SSZipArchive/minizip/unzip.c; sourceTree = "<group>"; };
-		F8D007851B4F97F9009A8DAF /* zip.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = zip.c; path = Carthage/Checkouts/ZipArchive/SSZipArchive/minizip/zip.c; sourceTree = "<group>"; };
 		F8D0078A1B4F9F9E009A8DAF /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.4.sdk/usr/lib/libz.dylib; sourceTree = DEVELOPER_DIR; };
 		F8D1BDEC1B31FE7C00CDEC90 /* GTRepository+Pull.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTRepository+Pull.h"; sourceTree = "<group>"; };
 		F8D1BDED1B31FE7C00CDEC90 /* GTRepository+Pull.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GTRepository+Pull.m"; sourceTree = "<group>"; };
@@ -801,7 +796,6 @@
 		88F05A7516011E5400B7AD1D /* ObjectiveGitTests */ = {
 			isa = PBXGroup;
 			children = (
-				F84E92581B8B6EA30019F947 /* SSZipArchive */,
 				200578C418932A82001C06C3 /* GTBlameSpec.m */,
 				4D1C40D7182C006D00BE2960 /* GTBlobSpec.m */,
 				88A994B916FCE7D400402C7B /* GTBranchSpec.m */,
@@ -1041,19 +1035,6 @@
 				E46931A8172740D300F2077D /* update_libgit2_ios */,
 			);
 			path = Scripts;
-			sourceTree = "<group>";
-		};
-		F84E92581B8B6EA30019F947 /* SSZipArchive */ = {
-			isa = PBXGroup;
-			children = (
-				F8D007801B4F9758009A8DAF /* SSZipArchive.m */,
-				F8D007821B4F97F9009A8DAF /* ioapi.c */,
-				F8D007831B4F97F9009A8DAF /* mztools.c */,
-				F8D007841B4F97F9009A8DAF /* unzip.c */,
-				F8D007851B4F97F9009A8DAF /* zip.c */,
-			);
-			name = SSZipArchive;
-			path = ..;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
