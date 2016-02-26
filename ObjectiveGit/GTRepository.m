@@ -898,4 +898,25 @@ static int checkoutNotifyCallback(git_checkout_notify_t why, const char *path, c
 	return enumerator;
 }
 
+- (BOOL)calculateState:(GTRepositoryStateType *)state withError:(NSError **)error {
+	NSParameterAssert(state != NULL);
+	
+	int result = git_repository_state(self.git_repository);
+	if (result < 0) {
+		if (error != NULL) *error = [NSError git_errorFor:result description:@"Failed to calculate repository state"];
+		return NO;
+	}
+	
+	*state = result;
+	return YES;
+}
+
+- (BOOL)cleanupStateWithError:(NSError * _Nullable __autoreleasing *)error {
+	int errorCode = git_repository_state_cleanup(self.git_repository);
+	if (errorCode != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:errorCode description:@"Failed to clean up repository state"];
+	}
+	return YES;
+}
+
 @end
