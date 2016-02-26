@@ -60,6 +60,14 @@
 		2089E43C17D9A58000F451DA /* GTTagSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 2089E43B17D9A58000F451DA /* GTTagSpec.m */; };
 		20F43DE318A2F668007D3621 /* GTRepository+Blame.h in Headers */ = {isa = PBXBuildFile; fileRef = 20F43DE118A2F667007D3621 /* GTRepository+Blame.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		20F43DE618A2F668007D3621 /* GTRepository+Blame.m in Sources */ = {isa = PBXBuildFile; fileRef = 20F43DE218A2F667007D3621 /* GTRepository+Blame.m */; };
+		23BB67B91C7DF3B600A37A66 /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = F8D007801B4F9758009A8DAF /* SSZipArchive.m */; };
+		23BB67BA1C7DF3BC00A37A66 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = F8D007841B4F97F9009A8DAF /* unzip.c */; };
+		23BB67BC1C7DF45300A37A66 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 23BB67BB1C7DF45300A37A66 /* libz.tbd */; };
+		23BB67BD1C7DF49500A37A66 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = F8D007851B4F97F9009A8DAF /* zip.c */; };
+		23BB67BE1C7DF4B100A37A66 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = F8D007831B4F97F9009A8DAF /* mztools.c */; };
+		23BB67BF1C7DF4CD00A37A66 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = F8D007821B4F97F9009A8DAF /* ioapi.c */; };
+		23BB67C11C7DF60300A37A66 /* GTRepository+PullSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = F8EFA0361B405020000FF7D0 /* GTRepository+PullSpec.m */; };
+		23BB67C21C7DF60400A37A66 /* GTRepository+PullSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = F8EFA0361B405020000FF7D0 /* GTRepository+PullSpec.m */; };
 		3011D86B1668E48500CE3409 /* GTDiffFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 3011D8691668E48500CE3409 /* GTDiffFile.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3011D86D1668E48500CE3409 /* GTDiffFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 3011D86A1668E48500CE3409 /* GTDiffFile.m */; };
 		3011D8711668E78500CE3409 /* GTDiffHunk.h in Headers */ = {isa = PBXBuildFile; fileRef = 3011D86F1668E78500CE3409 /* GTDiffHunk.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -363,7 +371,6 @@
 		F8D1BDF01B31FE7C00CDEC90 /* GTRepository+Pull.m in Sources */ = {isa = PBXBuildFile; fileRef = F8D1BDED1B31FE7C00CDEC90 /* GTRepository+Pull.m */; };
 		F8D1BDF11B31FE7C00CDEC90 /* GTRepository+Pull.m in Sources */ = {isa = PBXBuildFile; fileRef = F8D1BDED1B31FE7C00CDEC90 /* GTRepository+Pull.m */; };
 		F8E4A2911A170CA6006485A8 /* GTRemotePushSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = F8E4A2901A170CA6006485A8 /* GTRemotePushSpec.m */; };
-		F8EFA0371B405020000FF7D0 /* GTRepository+PullSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = F8EFA0361B405020000FF7D0 /* GTRepository+PullSpec.m */; };
 		F8EFA03A1B4059ED000FF7D0 /* GTUtilityFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = F8EFA0391B4059ED000FF7D0 /* GTUtilityFunctions.m */; };
 /* End PBXBuildFile section */
 
@@ -444,6 +451,7 @@
 		2089E43B17D9A58000F451DA /* GTTagSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTTagSpec.m; sourceTree = "<group>"; };
 		20F43DE118A2F667007D3621 /* GTRepository+Blame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTRepository+Blame.h"; sourceTree = "<group>"; };
 		20F43DE218A2F667007D3621 /* GTRepository+Blame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GTRepository+Blame.m"; sourceTree = "<group>"; };
+		23BB67BB1C7DF45300A37A66 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		3011D8691668E48500CE3409 /* GTDiffFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTDiffFile.h; sourceTree = "<group>"; };
 		3011D86A1668E48500CE3409 /* GTDiffFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTDiffFile.m; sourceTree = "<group>"; };
 		3011D86F1668E78500CE3409 /* GTDiffHunk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTDiffHunk.h; sourceTree = "<group>"; };
@@ -648,6 +656,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				23BB67BC1C7DF45300A37A66 /* libz.tbd in Frameworks */,
 				D0A0128A19F98475007F1914 /* Quick.framework in Frameworks */,
 				88F05A9E16011F6E00B7AD1D /* ObjectiveGit.framework in Frameworks */,
 				D0A0128C19F9853D007F1914 /* Nimble.framework in Frameworks */,
@@ -704,6 +713,7 @@
 		0867D691FE84028FC02AAC07 /* ObjectiveGitFramework */ = {
 			isa = PBXGroup;
 			children = (
+				23BB67BB1C7DF45300A37A66 /* libz.tbd */,
 				BDD8AB01130F01AB00CB5D40 /* README.md */,
 				887B948D1A3A38130070D41D /* ObjectiveGit.modulemap */,
 				BDE4C05E130EFE2C00851650 /* ObjectiveGit */,
@@ -1387,6 +1397,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				23BB67BF1C7DF4CD00A37A66 /* ioapi.c in Sources */,
+				23BB67BE1C7DF4B100A37A66 /* mztools.c in Sources */,
+				23BB67BD1C7DF49500A37A66 /* zip.c in Sources */,
+				23BB67BA1C7DF3BC00A37A66 /* unzip.c in Sources */,
+				23BB67B91C7DF3B600A37A66 /* SSZipArchive.m in Sources */,
+				23BB67C11C7DF60300A37A66 /* GTRepository+PullSpec.m in Sources */,
 				D0751CD918BE520400134314 /* GTFilterListSpec.m in Sources */,
 				200578C518932A82001C06C3 /* GTBlameSpec.m in Sources */,
 				4D1C40D8182C006D00BE2960 /* GTBlobSpec.m in Sources */,
@@ -1408,7 +1424,6 @@
 				D0AC906C172F941F00347DC4 /* GTRepositorySpec.m in Sources */,
 				D01EFDA0195DEF2200838D24 /* NSDataGitSpec.m in Sources */,
 				30A269AD17B4878C000FE64E /* GTRepository+StatusSpec.m in Sources */,
-				F8EFA0371B405020000FF7D0 /* GTRepository+PullSpec.m in Sources */,
 				307623AB17C6C8BD00E2CDF1 /* NSArray+StringArraySpec.m in Sources */,
 				8832811F173D8816006D7DCF /* GTIndexSpec.m in Sources */,
 				D0F4E28A17C7F24200BBDE30 /* NSErrorGitSpec.m in Sources */,
@@ -1555,6 +1570,7 @@
 				F8D007761B4F7D10009A8DAF /* GTTimeAdditionsSpec.m in Sources */,
 				F8D007921B4FA03B009A8DAF /* GTIndexSpec.m in Sources */,
 				F8D007711B4F7CB0009A8DAF /* NSDataGitSpec.m in Sources */,
+				23BB67C21C7DF60400A37A66 /* GTRepository+PullSpec.m in Sources */,
 				F8D007A11B4FA03B009A8DAF /* GTRepositoryStashingSpec.m in Sources */,
 				F8D007A31B4FA03B009A8DAF /* GTFilterListSpec.m in Sources */,
 				F8D0079D1B4FA03B009A8DAF /* GTTreeBuilderSpec.m in Sources */,
@@ -1808,6 +1824,16 @@
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"NOUNCRYPT=1",
+					"NOCRYPT=1",
+				);
+				HEADER_SEARCH_PATHS = (
+					External/libgit2/include,
+					/usr/local/include,
+					"Carthage/Checkouts/ZipArchive/SSZipArchive/**",
+				);
 				INFOPLIST_FILE = "ObjectiveGitTests/ObjectiveGitTests-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libgit2.$(PRODUCT_NAME:rfc1034identifier)";
@@ -1822,6 +1848,11 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				HEADER_SEARCH_PATHS = (
+					External/libgit2/include,
+					/usr/local/include,
+					"Carthage/Checkouts/ZipArchive/SSZipArchive/**",
 				);
 				INFOPLIST_FILE = "ObjectiveGitTests/ObjectiveGitTests-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
@@ -1891,6 +1922,11 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				HEADER_SEARCH_PATHS = (
+					External/libgit2/include,
+					/usr/local/include,
+					"Carthage/Checkouts/ZipArchive/SSZipArchive/**",
 				);
 				INFOPLIST_FILE = "ObjectiveGitTests/ObjectiveGitTests-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
@@ -2125,6 +2161,11 @@
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
+				HEADER_SEARCH_PATHS = (
+					External/libgit2/include,
+					/usr/local/include,
+					"Carthage/Checkouts/ZipArchive/SSZipArchive/**",
+				);
 				INFOPLIST_FILE = "ObjectiveGitTests/ObjectiveGitTests-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libgit2.$(PRODUCT_NAME:rfc1034identifier)";
@@ -2227,7 +2268,7 @@
 					"Carthage/Checkouts/ZipArchive/SSZipArchive/**",
 				);
 				INFOPLIST_FILE = "ObjectiveGitTests/ObjectiveGitTests-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					.,
@@ -2279,7 +2320,7 @@
 					"Carthage/Checkouts/ZipArchive/SSZipArchive/**",
 				);
 				INFOPLIST_FILE = "ObjectiveGitTests/ObjectiveGitTests-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					.,
@@ -2332,7 +2373,7 @@
 					"Carthage/Checkouts/ZipArchive/SSZipArchive/**",
 				);
 				INFOPLIST_FILE = "ObjectiveGitTests/ObjectiveGitTests-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					.,
@@ -2385,7 +2426,7 @@
 					"Carthage/Checkouts/ZipArchive/SSZipArchive/**",
 				);
 				INFOPLIST_FILE = "ObjectiveGitTests/ObjectiveGitTests-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					.,

@@ -68,7 +68,6 @@ describe(@"pull", ^{
 			[NSFileManager.defaultManager removeItemAtURL:remoteRepoURL error:NULL];
 			[NSFileManager.defaultManager removeItemAtURL:localRepoURL error:NULL];
 			error = NULL;
-			[self tearDown];
 		});
 
 		context(@"when the local and remote branches are in sync", ^{
