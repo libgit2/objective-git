@@ -112,6 +112,10 @@ NSString * const GTPullMergeConflictedFiles = @"GTPullMergeConflictedFiles";
 			NSMutableArray <NSString *>*files = [NSMutableArray array];
 			[index enumerateConflictedFilesWithError:error usingBlock:^(GTIndexEntry * _Nonnull ancestor, GTIndexEntry * _Nonnull ours, GTIndexEntry * _Nonnull theirs, BOOL * _Nonnull stop) {
 				[files addObject:ours.path];
+
+				GTMergeFileResult *result = [index mergeIndexEntries:ancestor ours:ours theirs:theirs error:error];
+				NSURL *oursFileURL = [self.fileURL URLByAppendingPathComponent:result.path];
+				[result.contents writeToURL:oursFileURL atomically:YES encoding:NSUTF8StringEncoding error:error];
 			}];
 			if (error != NULL) {
 				NSDictionary *userInfo = @{GTPullMergeConflictedFiles: files};
