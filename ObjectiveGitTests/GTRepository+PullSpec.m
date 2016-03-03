@@ -262,7 +262,7 @@ describe(@"pull", ^{
 			expect(fileContents).notTo(equal(@"TestLocal"));
 			expect([localRepo mergeHeadEntriesWithError:nil]).to(equal(@[remoteCommit]));
 			expect([localRepo preparedMessageWithError:nil]).to(beginWith(@"Merge commit"));
-			expect(error.localizedDescription).to(equal(@"Merge conflict, Pull aborted."));
+			expect(error.localizedDescription).to(equal(@"Merge conflict"));
 			expect(@(transferProgressed)).to(beTruthy());
 		});
 
