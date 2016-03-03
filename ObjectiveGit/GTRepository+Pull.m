@@ -163,33 +163,6 @@ NSString * const GTPullMergeConflictedFiles = @"GTPullMergeConflictedFiles";
 
 	return YES;
 }
-
-- (BOOL)analyzeMerge:(GTMergeAnalysis *)analysis fromBranch:(GTBranch *)fromBranch error:(NSError **)error {
-	NSParameterAssert(analysis != NULL);
-	NSParameterAssert(fromBranch != nil);
-
-	GTCommit *fromCommit = [fromBranch targetCommitWithError:error];
-	if (!fromCommit) {
-		return NO;
-	}
-
-	git_annotated_commit *annotatedCommit;
-	[self annotatedCommit:&annotatedCommit fromCommit:fromCommit error:error];
-
-	// Allow fast-forward or normal merge
-	git_merge_preference_t preference = GIT_MERGE_PREFERENCE_NONE;
-
-	// Merge analysis
-	int gitError = git_merge_analysis((git_merge_analysis_t *)analysis, &preference, self.git_repository, (const git_annotated_commit **) &annotatedCommit, 1);
-	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to analyze merge"];
-		return NO;
-	}
-
-	// Cleanup
-	git_annotated_commit_free(annotatedCommit);
-
-	return YES;
 }
 
 @end
