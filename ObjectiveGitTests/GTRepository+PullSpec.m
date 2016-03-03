@@ -255,9 +255,13 @@ describe(@"pull", ^{
 			BOOL result = [localRepo pullBranch:masterBranch fromRemote:remote withOptions:nil error:&error progress:^(const git_transfer_progress *progress, BOOL *stop) {
 				transferProgressed = YES;
 			}];
+			NSString *fileContents = [NSString stringWithContentsOfURL:[localRepo.fileURL URLByAppendingPathComponent:@"test.txt"] encoding:NSUTF8StringEncoding error:nil];
 			expect(@(result)).to(beFalsy());
 			expect(error.domain).to(equal(@"GTGitErrorDomain"));
 			expect(error.userInfo[GTPullMergeConflictedFiles]).to(equal(@[@"test.txt"]));
+			expect(fileContents).notTo(equal(@"TestLocal"));
+			expect([localRepo mergeHeadEntriesWithError:nil]).to(equal(@[remoteCommit]));
+			expect([localRepo preparedMessageWithError:nil]).to(beginWith(@"Merge commit"));
 			expect(error.localizedDescription).to(equal(@"Merge conflict, Pull aborted."));
 			expect(@(transferProgressed)).to(beTruthy());
 		});
