@@ -260,7 +260,7 @@ describe(@"pull", ^{
 			expect(error.domain).to(equal(@"GTGitErrorDomain"));
 			expect(error.userInfo[GTPullMergeConflictedFiles]).to(equal(@[@"test.txt"]));
 			expect(fileContents).notTo(equal(@"TestLocal"));
-			expect([localRepo mergeHeadEntriesWithError:nil]).to(equal(@[remoteCommit]));
+			expect([localRepo mergeHeadEntriesWithError:nil]).to(equal(@[remoteCommit.OID]));
 			expect([localRepo preparedMessageWithError:nil]).to(beginWith(@"Merge commit"));
 			expect(error.localizedDescription).to(equal(@"Merge conflict"));
 			expect(@(transferProgressed)).to(beTruthy());

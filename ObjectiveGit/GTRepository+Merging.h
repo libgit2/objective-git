@@ -34,14 +34,14 @@ typedef NS_OPTIONS(NSInteger, GTMergeAnalysis) {
 ///         enumeration to stop after the block returns. Must not be nil.
 ///
 /// Returns YES if the operation succedded, NO otherwise.
-- (BOOL)enumerateMergeHeadEntriesWithError:(NSError **)error usingBlock:(void (^)(GTCommit *mergeHeadEntry, BOOL *stop))block;
+- (BOOL)enumerateMergeHeadEntriesWithError:(NSError **)error usingBlock:(void (^)(GTOID *mergeHeadEntry, BOOL *stop))block;
 
 /// Convenience method for -enumerateMergeHeadEntriesWithError:usingBlock: that retuns an NSArray with all the fetch head entries.
 ///
 /// error - The error if one ocurred. Can be NULL.
 ///
-/// Retruns a (possibly empty) array with GTCommit objects. Will not be nil.
-- (NSArray <GTCommit *>*)mergeHeadEntriesWithError:(NSError **)error;
+/// Retruns a (possibly empty) array with GTOID objects. Will not be nil.
+- (NSArray <GTOID *>*)mergeHeadEntriesWithError:(NSError **)error;
 
 /// Merge Branch into current branch
 ///

@@ -22,33 +22,30 @@ typedef void (^GTRemoteFetchTransferProgressBlock)(const git_transfer_progress *
 
 @implementation GTRepository (Merging)
 
-typedef void (^GTRepositoryEnumerateMergeHeadEntryBlock)(GTCommit *entry, BOOL *stop);
+typedef void (^GTRepositoryEnumerateMergeHeadEntryBlock)(GTOID *entry, BOOL *stop);
 
 typedef struct {
-	__unsafe_unretained GTRepository *repository;
 	__unsafe_unretained GTRepositoryEnumerateMergeHeadEntryBlock enumerationBlock;
 } GTEnumerateMergeHeadEntriesPayload;
 
 int GTMergeHeadEntriesCallback(const git_oid *oid, void *payload) {
 	GTEnumerateMergeHeadEntriesPayload *entriesPayload = payload;
 
-	GTRepository *repository = entriesPayload->repository;
 	GTRepositoryEnumerateMergeHeadEntryBlock enumerationBlock = entriesPayload->enumerationBlock;
 
-	GTCommit *commit = [repository lookUpObjectByOID:[GTOID oidWithGitOid:oid] objectType:GTObjectTypeCommit error:NULL];
+	GTOID *gtoid = [GTOID oidWithGitOid:oid];
 
 	BOOL stop = NO;
 
-	enumerationBlock(commit, &stop);
+	enumerationBlock(gtoid, &stop);
 
 	return (stop == YES ? GIT_EUSER : 0);
 }
 
-- (BOOL)enumerateMergeHeadEntriesWithError:(NSError **)error usingBlock:(void (^)(GTCommit *mergeHeadEntry, BOOL *stop))block {
+- (BOOL)enumerateMergeHeadEntriesWithError:(NSError **)error usingBlock:(void (^)(GTOID *mergeHeadEntry, BOOL *stop))block {
 	NSParameterAssert(block != nil);
 
 	GTEnumerateMergeHeadEntriesPayload payload = {
-		.repository = self,
 		.enumerationBlock = block,
 	};
 
@@ -65,7 +62,7 @@ int GTMergeHeadEntriesCallback(const git_oid *oid, void *payload) {
 - (NSArray *)mergeHeadEntriesWithError:(NSError **)error {
 	NSMutableArray *entries = [NSMutableArray array];
 
-	[self enumerateMergeHeadEntriesWithError:error usingBlock:^(GTCommit *mergeHeadEntry, BOOL *stop) {
+	[self enumerateMergeHeadEntriesWithError:error usingBlock:^(GTOID *mergeHeadEntry, BOOL *stop) {
 		[entries addObject:mergeHeadEntry];
 
 		*stop = NO;
