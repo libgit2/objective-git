@@ -45,11 +45,10 @@ typedef NS_OPTIONS(NSInteger, GTMergeAnalysis) {
 
 /// Merge Branch into current branch
 ///
-/// analysis   - The resulting analysis.
 /// fromBranch - The branch to merge from.
 /// error      - The error if one occurred. Can be NULL.
 ///
-/// Returns YES if the nerge was successful, NO otherwise (and `error`, if provided,
+/// Returns YES if the merge was successful, NO otherwise (and `error`, if provided,
 /// will point to an error describing what happened).
 - (BOOL)mergeBranchIntoCurrentBranch:(GTBranch *)fromBranch withError:(NSError **)error;
 
