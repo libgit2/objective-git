@@ -9,16 +9,10 @@
 #import "GTRepository+Pull.h"
 
 #import "GTCommit.h"
-#import "GTIndex.h"
-#import "GTOID.h"
-#import "GTRemote.h"
-#import "GTReference.h"
-#import "GTRepository+Committing.h"
 #import "GTRepository+RemoteOperations.h"
-#import "GTTree.h"
 #import "NSError+Git.h"
-#import "GTIndexEntry.h"
 #import "git2/errors.h"
+#import "GTRepository+Merging.h"
 
 NSString * const GTPullMergeConflictedFiles = @"GTPullMergeConflictedFiles";
 
@@ -55,124 +49,7 @@ NSString * const GTPullMergeConflictedFiles = @"GTPullMergeConflictedFiles";
 		trackingBranch = branch;
 	}
 
-	// Check if merge is necessary
-	GTBranch *localBranch = [repo currentBranchWithError:error];
-	if (!localBranch) {
-		return NO;
-	}
-
-	GTCommit *localCommit = [localBranch targetCommitWithError:error];
-	if (!localCommit) {
-		return NO;
-	}
-
-	GTCommit *remoteCommit = [trackingBranch targetCommitWithError:error];
-	if (!remoteCommit) {
-		return NO;
-	}
-
-	if ([localCommit.SHA isEqualToString:remoteCommit.SHA]) {
-		// Local and remote tracking branch are already in sync
-		return YES;
-	}
-
-	GTMergeAnalysis analysis = GTMergeAnalysisNone;
-	BOOL success = [self analyzeMerge:&analysis fromBranch:trackingBranch error:error];
-	if (!success) {
-		return NO;
-	}
-
-	if (analysis & GTMergeAnalysisUpToDate) {
-		// Nothing to do
-		return YES;
-	} else if (analysis & GTMergeAnalysisFastForward ||
-			   analysis & GTMergeAnalysisUnborn) {
-		// Fast-forward branch
-		NSString *message = [NSString stringWithFormat:@"merge %@/%@: Fast-forward", remote.name, trackingBranch.name];
-		GTReference *reference = [localBranch.reference referenceByUpdatingTarget:remoteCommit.SHA message:message error:error];
-		BOOL checkoutSuccess = [self checkoutReference:reference strategy:GTCheckoutStrategyForce error:error progressBlock:nil];
-
-		return checkoutSuccess;
-	} else if (analysis & GTMergeAnalysisNormal) {
-		// Do normal merge
-		GTTree *localTree = localCommit.tree;
-		GTTree *remoteTree = remoteCommit.tree;
-
-		// TODO: Find common ancestor
-		GTTree *ancestorTree = nil;
-
-		// Merge
-		GTIndex *index = [localTree merge:remoteTree ancestor:ancestorTree error:error];
-		if (!index) {
-			return NO;
-		}
-
-		// Check for conflict
-		if (index.hasConflicts) {
-			NSMutableArray <NSString *>*files = [NSMutableArray array];
-			[index enumerateConflictedFilesWithError:error usingBlock:^(GTIndexEntry * _Nonnull ancestor, GTIndexEntry * _Nonnull ours, GTIndexEntry * _Nonnull theirs, BOOL * _Nonnull stop) {
-				[files addObject:ours.path];
-			}];
-			if (error != NULL) {
-				NSDictionary *userInfo = @{GTPullMergeConflictedFiles: files};
-				*error = [NSError git_errorFor:GIT_ECONFLICT description:@"Merge conflict, Pull aborted." userInfo:userInfo failureReason:nil];
-			}
-			return NO;
-		}
-
-		GTTree *newTree = [index writeTreeToRepository:repo error:error];
-		if (!newTree) {
-			return NO;
-		}
-
-		// Create merge commit
-		NSString *message = [NSString stringWithFormat:@"Merge branch '%@'", localBranch.shortName];
-		NSArray *parents = @[ localCommit, remoteCommit ];
-
-		// FIXME: This is stepping on the local tree
-		GTCommit *mergeCommit = [repo createCommitWithTree:newTree  message:message parents:parents updatingReferenceNamed:localBranch.name error:error];
-		if (!mergeCommit) {
-			return NO;
-		}
-
-		BOOL success = [self checkoutReference:localBranch.reference strategy:GTCheckoutStrategyForce error:error progressBlock:nil];
-		return success;
-	}
-
-	return NO;
-}
-
-- (BOOL)analyzeMerge:(GTMergeAnalysis *)analysis fromBranch:(GTBranch *)fromBranch error:(NSError **)error {
-	NSParameterAssert(analysis != NULL);
-	NSParameterAssert(fromBranch != nil);
-
-	GTCommit *fromCommit = [fromBranch targetCommitWithError:error];
-	if (!fromCommit) {
-		return NO;
-	}
-
-	git_annotated_commit *annotatedCommit;
-
-	int gitError = git_annotated_commit_lookup(&annotatedCommit, self.git_repository, fromCommit.OID.git_oid);
-	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to lookup annotated comit for %@", fromCommit];
-		return NO;
-	}
-
-	// Allow fast-forward or normal merge
-	git_merge_preference_t preference = GIT_MERGE_PREFERENCE_NONE;
-
-	// Merge analysis
-	gitError = git_merge_analysis((git_merge_analysis_t *)analysis, &preference, self.git_repository, (const git_annotated_commit **) &annotatedCommit, 1);
-	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to analyze merge"];
-		return NO;
-	}
-
-	// Cleanup
-	git_annotated_commit_free(annotatedCommit);
-
-	return YES;
+	return [repo mergeBranchIntoCurrentBranch:trackingBranch withError:error];
 }
 
 @end
