@@ -2,14 +2,25 @@ osx_image: xcode7
 language: objective-c
 matrix:
   include:
-    - osx_image: xcode7
-      env: SCHEME="ObjectiveGit Mac"
-    - osx_image: xcode7
-      env: SCHEME="ObjectiveGit iOS"
+  - osx_image: xcode7
+    env: SCHEME="ObjectiveGit Mac"
+  - osx_image: xcode7
+    env: SCHEME="ObjectiveGit iOS"
 before_install:
-  - brew update
-  - brew outdated xctool || brew upgrade xctool
+- brew update
+- brew outdated xctool || brew upgrade xctool
 install: script/bootstrap
 script: script/cibuild
 notifications:
   email: false
+before_deploy:
+- brew install carthage
+- carthage build --no-skip-current
+- carthage archive ObjectiveGit
+deploy:
+  provider: releases
+  api_key:
+    secure: YfMPOc8Qr+3KyhzjSF3+ZH4/Z855IPBmZHDKRw8dfLC07SkFDmSowlaceiKYKoz7Z2ZUNLOC8hrAjfxUQG+O+4QX6K22MdPugnF9VLwq2my/jb/Qw7WLq8cWKOm8nL/LwNVYj2pC3wCfCyqJOy/Q6fr9KIsgFH4tbCd3pem8pL0=
+  file: ObjectiveGit.framework.zip
+  on:
+    tags: true
