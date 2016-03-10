@@ -23,6 +23,8 @@ typedef void (^GTRemoteFetchTransferProgressBlock)(const git_transfer_progress *
 /// options       - Options applied to the fetch operation.
 ///                 Recognized options are:
 ///                 `GTRepositoryRemoteOptionsCredentialProvider`
+///                 `GTRepositoryRemoteOptionsFetchPrune`
+///                 `GTRepositoryRemoteOptionsDownloadTags`
 /// error         - The error if one occurred. Can be NULL.
 /// progressBlock - An optional callback for monitoring progress.
 ///
