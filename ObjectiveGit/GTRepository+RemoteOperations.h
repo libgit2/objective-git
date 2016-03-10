@@ -7,6 +7,7 @@
 //
 
 #import "GTRepository.h"
+#import "git2/remote.h"
 
 @class GTFetchHeadEntry;
 
@@ -14,6 +15,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// A `GTCredentialProvider`, that will be used to authenticate against the remote.
 extern NSString *const GTRepositoryRemoteOptionsCredentialProvider;
+
+/// A `GTFetchPruneOption`, that will be used to determine if the fetch should prune or not.
+extern NSString *const GTRepositoryRemoteOptionsFetchPrune;
+
+/// A `GTRemoteAutoTagOption`, that will be used to determine how the fetch should handle tags.
+extern NSString *const GTRepositoryRemoteOptionsDownloadTags;
+
+/// An enum describing the data needed for pruning.
+/// See `git_fetch_prune_t`.
+typedef NS_ENUM(NSInteger, GTFetchPruneOption) {
+	GTFetchPruneOptionUnspecified = GIT_FETCH_PRUNE_UNSPECIFIED,
+	GTFetchPruneOptionYes = GIT_FETCH_PRUNE,
+	GTFetchPruneOptionNo = GIT_FETCH_NO_PRUNE,
+};
 
 @interface GTRepository (RemoteOperations)
 
@@ -25,6 +40,8 @@ extern NSString *const GTRepositoryRemoteOptionsCredentialProvider;
 /// options - Options applied to the fetch operation. May be nil.
 ///           Recognized options are :
 ///           `GTRepositoryRemoteOptionsCredentialProvider`
+///           `GTRepositoryRemoteOptionsFetchPrune`
+///           `GTRepositoryRemoteOptionsDownloadTags`
 /// error   - The error if one occurred. Can be NULL.
 /// progressBlock - Optional callback to receive fetch progress stats during the
 ///                 transfer. May be nil.
