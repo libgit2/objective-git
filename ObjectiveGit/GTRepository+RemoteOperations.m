@@ -226,7 +226,7 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 	remote_callbacks.push_transfer_progress = GTRemotePushTransferProgressCallback;
 	remote_callbacks.payload = &connectionInfo,
 
-	gitError = git_remote_connect(remote.git_remote, GIT_DIRECTION_PUSH, &remote_callbacks);
+	gitError = git_remote_connect(remote.git_remote, GIT_DIRECTION_PUSH, &remote_callbacks, NULL);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to connect remote"];
 		return NO;
