@@ -147,7 +147,7 @@
 
 	int gitError = git_revwalk_hide_glob(self.walk, refGlob.UTF8String);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to push glob %@ onto rev walker.", refGlob];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to hide glob %@ in rev walker.", refGlob];
 		return NO;
 	}
 	
