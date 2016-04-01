@@ -511,8 +511,6 @@
 		F82FC7391B87CC0A000F2896 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F82FC7381B87CC0A000F2896 /* CoreFoundation.framework */; };
 		F834882C1B7BF4D900A5B932 /* git2.h in Headers */ = {isa = PBXBuildFile; fileRef = F8D67E7E1B7BB79E00021BDF /* git2.h */; };
 		F834882D1B7BF4E100A5B932 /* git2.h in Headers */ = {isa = PBXBuildFile; fileRef = F8D67E7E1B7BB79E00021BDF /* git2.h */; };
-		F834885E1B7BFC9800A5B932 /* sys in Resources */ = {isa = PBXBuildFile; fileRef = F834885C1B7BFC9800A5B932 /* sys */; };
-		F834885F1B7BFCA600A5B932 /* sys in Headers */ = {isa = PBXBuildFile; fileRef = F834885C1B7BFC9800A5B932 /* sys */; settings = {ATTRIBUTES = (Public, ); }; };
 		F83488601B7BFD4500A5B932 /* sys in Headers */ = {isa = PBXBuildFile; fileRef = F834885C1B7BFC9800A5B932 /* sys */; settings = {ATTRIBUTES = (Public, ); }; };
 		F834888F1B7D547D00A5B932 /* http_parser.c in Sources */ = {isa = PBXBuildFile; fileRef = F834886B1B7D547D00A5B932 /* http_parser.c */; };
 		F83488901B7D547D00A5B932 /* http_parser.c in Sources */ = {isa = PBXBuildFile; fileRef = F834886B1B7D547D00A5B932 /* http_parser.c */; };
@@ -1515,7 +1513,6 @@
 				F804C2CC1B7BF2D000C40501 /* hash.h in Headers */,
 				F804C25C1B7BF2CD00C40501 /* clone.h in Headers */,
 				F8D67EDA1B7BB7DA00021BDF /* global.h in Headers */,
-				F834885F1B7BFCA600A5B932 /* sys in Headers */,
 				F804C3961B7BF2DC00C40501 /* tag.h in Headers */,
 				F804C3201B7BF2D300C40501 /* pack-objects.h in Headers */,
 				F804C2FC1B7BF2D100C40501 /* notes.h in Headers */,
@@ -1909,7 +1906,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F834885E1B7BFC9800A5B932 /* sys in Resources */,
 				F83488941B7D547D00A5B932 /* LICENSE-MIT in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
