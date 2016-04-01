@@ -516,8 +516,6 @@
 		F83488901B7D547D00A5B932 /* http_parser.c in Sources */ = {isa = PBXBuildFile; fileRef = F834886B1B7D547D00A5B932 /* http_parser.c */; };
 		F83488911B7D547D00A5B932 /* http_parser.h in Headers */ = {isa = PBXBuildFile; fileRef = F834886C1B7D547D00A5B932 /* http_parser.h */; };
 		F83488921B7D547D00A5B932 /* http_parser.h in Headers */ = {isa = PBXBuildFile; fileRef = F834886C1B7D547D00A5B932 /* http_parser.h */; };
-		F83488931B7D547D00A5B932 /* LICENSE-MIT in Resources */ = {isa = PBXBuildFile; fileRef = F834886D1B7D547D00A5B932 /* LICENSE-MIT */; };
-		F83488941B7D547D00A5B932 /* LICENSE-MIT in Resources */ = {isa = PBXBuildFile; fileRef = F834886D1B7D547D00A5B932 /* LICENSE-MIT */; };
 		F83488D21B7D55ED00A5B932 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F83488D11B7D55ED00A5B932 /* libz.tbd */; };
 		F85B3CFA1CAE0BDA00A1A225 /* ssh.h in Headers */ = {isa = PBXBuildFile; fileRef = F85B3CF91CAE0BDA00A1A225 /* ssh.h */; };
 		F85B3CFD1CAE0C1900A1A225 /* idxmap.h in Headers */ = {isa = PBXBuildFile; fileRef = F85B3CFB1CAE0C1900A1A225 /* idxmap.h */; };
@@ -909,7 +907,6 @@
 		F83488641B7BFF7200A5B932 /* git2.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = git2.modulemap; sourceTree = "<group>"; };
 		F834886B1B7D547D00A5B932 /* http_parser.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = http_parser.c; sourceTree = "<group>"; };
 		F834886C1B7D547D00A5B932 /* http_parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = http_parser.h; sourceTree = "<group>"; };
-		F834886D1B7D547D00A5B932 /* LICENSE-MIT */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "LICENSE-MIT"; sourceTree = "<group>"; };
 		F83488D11B7D55ED00A5B932 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		F85B3CF41CADEF2D00A1A225 /* libgit2 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = libgit2; path = ../External/libgit2; sourceTree = "<group>"; };
 		F85B3CF91CAE0BDA00A1A225 /* ssh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ssh.h; sourceTree = "<group>"; };
@@ -1302,7 +1299,6 @@
 			children = (
 				F834886B1B7D547D00A5B932 /* http_parser.c */,
 				F834886C1B7D547D00A5B932 /* http_parser.h */,
-				F834886D1B7D547D00A5B932 /* LICENSE-MIT */,
 			);
 			path = "http-parser";
 			sourceTree = "<group>";
@@ -1892,7 +1888,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F83488931B7D547D00A5B932 /* LICENSE-MIT in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1900,7 +1895,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F83488941B7D547D00A5B932 /* LICENSE-MIT in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
