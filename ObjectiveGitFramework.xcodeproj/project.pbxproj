@@ -263,6 +263,8 @@
 		DD3D9513182A81E1004AF532 /* GTBlame.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3D9511182A81E1004AF532 /* GTBlame.m */; };
 		DD3D951C182AB25C004AF532 /* GTBlameHunk.h in Headers */ = {isa = PBXBuildFile; fileRef = DD3D951A182AB25C004AF532 /* GTBlameHunk.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DD3D951D182AB25C004AF532 /* GTBlameHunk.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3D951B182AB25C004AF532 /* GTBlameHunk.m */; };
+		F85B3D131CAE156A00A1A225 /* git2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F85B3D0A1CAE0D2F00A1A225 /* git2.framework */; };
+		F85B3D141CAE157600A1A225 /* git2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F85B3D081CAE0D2F00A1A225 /* git2.framework */; };
 		F86949AA1BF1B79E00A989D3 /* GTUtilityFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = F8EFA0391B4059ED000FF7D0 /* GTUtilityFunctions.m */; };
 		F879D8311B4B788F002D5C07 /* Libgit2FeaturesSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = F879D82F1B4B77F4002D5C07 /* Libgit2FeaturesSpec.m */; };
 		F879D83C1B4B7F7D002D5C07 /* ObjectiveGit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D01B6ED319F82E2000D411BC /* ObjectiveGit.framework */; };
@@ -585,8 +587,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4D103ADD1819CFAA0029DB24 /* libiconv.dylib in Frameworks */,
+				F85B3D131CAE156A00A1A225 /* git2.framework in Frameworks */,
 				8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */,
+				4D103ADD1819CFAA0029DB24 /* libiconv.dylib in Frameworks */,
 				8803DA871313145700E6E818 /* libz.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -595,6 +598,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F85B3D141CAE157600A1A225 /* git2.framework in Frameworks */,
 				884C8A3919FF4B6D0017E98D /* libiconv.dylib in Frameworks */,
 				884C8A3719FF4B4D0017E98D /* libz.dylib in Frameworks */,
 				D05FC5E319FAD03C008C9348 /* libssl.a in Frameworks */,
@@ -1526,15 +1530,7 @@
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Info.plist;
 				MODULEMAP_FILE = ObjectiveGit.modulemap;
-				OTHER_LDFLAGS = (
-					"-lgit2",
-					"-force_load",
-					External/libgit2.a,
-					/usr/local/lib/libssh2.a,
-					"-lcrypto",
-					"-lssl",
-					"-lcurl",
-				);
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libgit2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ObjectiveGit;
 				WRAPPER_EXTENSION = framework;
@@ -1551,15 +1547,7 @@
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Info.plist;
 				MODULEMAP_FILE = ObjectiveGit.modulemap;
-				OTHER_LDFLAGS = (
-					"-lgit2",
-					"-force_load",
-					External/libgit2.a,
-					/usr/local/lib/libssh2.a,
-					"-lcrypto",
-					"-lssl",
-					"-lcurl",
-				);
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libgit2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ObjectiveGit;
 				WRAPPER_EXTENSION = framework;
@@ -1574,10 +1562,7 @@
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO;
-				HEADER_SEARCH_PATHS = (
-					External/libgit2/include,
-					/usr/local/include,
-				);
+				HEADER_SEARCH_PATHS = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = (
 					.,
@@ -1604,10 +1589,7 @@
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO;
-				HEADER_SEARCH_PATHS = (
-					External/libgit2/include,
-					/usr/local/include,
-				);
+				HEADER_SEARCH_PATHS = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = (
 					.,
@@ -1676,10 +1658,7 @@
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO;
-				HEADER_SEARCH_PATHS = (
-					External/libgit2/include,
-					/usr/local/include,
-				);
+				HEADER_SEARCH_PATHS = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = (
 					.,
@@ -1708,15 +1687,7 @@
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Info.plist;
 				MODULEMAP_FILE = ObjectiveGit.modulemap;
-				OTHER_LDFLAGS = (
-					"-lgit2",
-					"-force_load",
-					External/libgit2.a,
-					/usr/local/lib/libssh2.a,
-					"-lcrypto",
-					"-lssl",
-					"-lcurl",
-				);
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libgit2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ObjectiveGit;
 				WRAPPER_EXTENSION = framework;
@@ -1751,22 +1722,11 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"External/libssh2-ios/include/libssh2",
-					External/libgit2/include,
-				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = (
-					"External/ios-openssl/lib",
-					"External/libssh2-ios/lib",
-					"External/libgit2-ios",
-				);
+				LIBRARY_SEARCH_PATHS = "";
 				MODULEMAP_FILE = ObjectiveGit.modulemap;
-				OTHER_LDFLAGS = (
-					"-lgit2-ios",
-					"-all_load",
-				);
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libgit2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ObjectiveGit;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1783,22 +1743,11 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"External/libssh2-ios/include/libssh2",
-					External/libgit2/include,
-				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = (
-					"External/ios-openssl/lib",
-					"External/libssh2-ios/lib",
-					"External/libgit2-ios",
-				);
+				LIBRARY_SEARCH_PATHS = "";
 				MODULEMAP_FILE = ObjectiveGit.modulemap;
-				OTHER_LDFLAGS = (
-					"-lgit2-ios",
-					"-all_load",
-				);
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libgit2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ObjectiveGit;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1815,22 +1764,11 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"External/libssh2-ios/include/libssh2",
-					External/libgit2/include,
-				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = (
-					"External/ios-openssl/lib",
-					"External/libssh2-ios/lib",
-					"External/libgit2-ios",
-				);
+				LIBRARY_SEARCH_PATHS = "";
 				MODULEMAP_FILE = ObjectiveGit.modulemap;
-				OTHER_LDFLAGS = (
-					"-lgit2-ios",
-					"-all_load",
-				);
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libgit2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ObjectiveGit;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1847,22 +1785,11 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"External/libssh2-ios/include/libssh2",
-					External/libgit2/include,
-				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = (
-					"External/ios-openssl/lib",
-					"External/libssh2-ios/lib",
-					"External/libgit2-ios",
-				);
+				LIBRARY_SEARCH_PATHS = "";
 				MODULEMAP_FILE = ObjectiveGit.modulemap;
-				OTHER_LDFLAGS = (
-					"-lgit2-ios",
-					"-all_load",
-				);
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libgit2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ObjectiveGit;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1877,10 +1804,7 @@
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO;
-				HEADER_SEARCH_PATHS = (
-					External/libgit2/include,
-					/usr/local/include,
-				);
+				HEADER_SEARCH_PATHS = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = (
 					.,
@@ -1909,15 +1833,7 @@
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Info.plist;
 				MODULEMAP_FILE = ObjectiveGit.modulemap;
-				OTHER_LDFLAGS = (
-					"-lgit2",
-					"-force_load",
-					External/libgit2.a,
-					/usr/local/lib/libssh2.a,
-					"-lcrypto",
-					"-lssl",
-					"-lcurl",
-				);
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libgit2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ObjectiveGit;
 				WRAPPER_EXTENSION = framework;
