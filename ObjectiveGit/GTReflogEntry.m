@@ -11,7 +11,7 @@
 #import "GTOID.h"
 #import "GTSignature.h"
 
-#import "git2/reflog.h"
+#import <git2/reflog.h>
 
 @interface GTReflogEntry ()
 

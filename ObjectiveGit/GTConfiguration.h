@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "git2/types.h"
+#import <git2/types.h>
 
 @class GTRemote;
 @class GTRepository;

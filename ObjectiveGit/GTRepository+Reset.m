@@ -12,7 +12,7 @@
 #import "NSError+Git.h"
 #import "GTSignature.h"
 
-#import "git2/errors.h"
+#import <git2/errors.h>
 
 @implementation GTRepository (Reset)
 

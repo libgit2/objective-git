@@ -11,8 +11,8 @@
 #import "NSError+Git.h"
 #import "GTFilterSource.h"
 
-#import "git2/errors.h"
-#import "git2/sys/filter.h"
+#import <git2/errors.h>
+#import <git2/sys/filter.h>
 
 NSString * const GTFilterErrorDomain = @"GTFilterErrorDomain";
 

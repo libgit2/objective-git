@@ -8,7 +8,7 @@
 
 #import "GTRepository.h"
 
-#import "git2/status.h"
+#import <git2/status.h>
 
 @class GTStatusDelta;
 

@@ -28,7 +28,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#include "git2/index.h"
+#include <git2/index.h>
 #import "GTObject.h"
 
 @class GTIndex;

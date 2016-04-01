@@ -14,7 +14,7 @@
 #import "GTDiffPatch.h"
 #import "NSError+Git.h"
 
-#import "git2/errors.h"
+#import <git2/errors.h>
 
 @interface GTDiffDelta ()
 

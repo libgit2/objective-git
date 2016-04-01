@@ -17,7 +17,7 @@
 
 #import "EXTScope.h"
 
-#import "git2/errors.h"
+#import <git2/errors.h>
 
 NSString *const GTDiffOptionsFlagsKey = @"GTDiffOptionsFlagsKey";
 NSString *const GTDiffOptionsContextLinesKey = @"GTDiffOptionsContextLinesKey";

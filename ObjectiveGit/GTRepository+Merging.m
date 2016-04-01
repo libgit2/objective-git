@@ -9,7 +9,7 @@
 #import "GTRepository+Merging.h"
 #import "GTOID.h"
 #import "NSError+Git.h"
-#import "git2/errors.h"
+#import <git2/errors.h>
 #import "GTCommit.h"
 #import "GTReference.h"
 #import "GTRepository+Committing.h"

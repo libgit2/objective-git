@@ -10,7 +10,7 @@
 #import "GTRepository.h"
 #import "GTOID.h"
 
-#import "git2/repository.h"
+#import <git2/repository.h>
 
 @implementation GTFilterSource
 

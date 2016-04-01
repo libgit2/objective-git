@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "git2/blame.h"
+#import <git2/blame.h>
 
 @class GTBlameHunk;
 @class GTRepository;

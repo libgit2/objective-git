@@ -29,7 +29,7 @@
 
 
 #import "GTObject.h"
-#import "git2/tree.h"
+#import <git2/tree.h>
 
 @class GTTreeEntry;
 @class GTIndex;

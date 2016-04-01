@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "GTRepository.h"
 
-#import "git2/blame.h"
+#import <git2/blame.h>
 
 @class GTBlame;
 

@@ -12,7 +12,7 @@
 #import "GTSignature.h"
 #import "NSError+Git.h"
 
-#import "git2/errors.h"
+#import <git2/errors.h>
 
 typedef void (^GTRepositoryStashEnumerationBlock)(NSUInteger index, NSString *message, GTOID *oid, BOOL *stop);
 

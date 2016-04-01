@@ -7,7 +7,7 @@
 //
 
 #import "GTReflogEntry.h"
-#import "git2/types.h"
+#import <git2/types.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

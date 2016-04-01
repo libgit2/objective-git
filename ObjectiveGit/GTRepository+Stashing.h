@@ -8,7 +8,7 @@
 
 #import "GTRepository.h"
 
-#import "git2/stash.h"
+#import <git2/stash.h>
 
 /// Flags for -stashChangesWithMessage:flags:error:.
 /// Those can be ORed together. See git_stash_flags for additional information.

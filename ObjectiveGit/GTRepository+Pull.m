@@ -11,7 +11,7 @@
 #import "GTCommit.h"
 #import "GTRepository+RemoteOperations.h"
 #import "NSError+Git.h"
-#import "git2/errors.h"
+#import <git2/errors.h>
 #import "GTRepository+Merging.h"
 
 NSString * const GTPullMergeConflictedFiles = @"GTPullMergeConflictedFiles";

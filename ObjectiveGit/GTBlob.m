@@ -34,8 +34,8 @@
 #import "NSError+Git.h"
 #import "NSString+Git.h"
 
-#import "git2/blob.h"
-#import "git2/errors.h"
+#import <git2/blob.h>
+#import <git2/errors.h>
 
 @implementation GTBlob
 
