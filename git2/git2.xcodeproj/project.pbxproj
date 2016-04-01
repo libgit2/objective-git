@@ -519,12 +519,10 @@
 		F83488931B7D547D00A5B932 /* LICENSE-MIT in Resources */ = {isa = PBXBuildFile; fileRef = F834886D1B7D547D00A5B932 /* LICENSE-MIT */; };
 		F83488941B7D547D00A5B932 /* LICENSE-MIT in Resources */ = {isa = PBXBuildFile; fileRef = F834886D1B7D547D00A5B932 /* LICENSE-MIT */; };
 		F83488D21B7D55ED00A5B932 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F83488D11B7D55ED00A5B932 /* libz.tbd */; };
-		F85B3CF71CAE0B4400A1A225 /* merge_driver.c in Sources */ = {isa = PBXBuildFile; fileRef = F85B3CF51CAE0B4400A1A225 /* merge_driver.c */; };
-		F85B3CF81CAE0B4400A1A225 /* merge_driver.h in Headers */ = {isa = PBXBuildFile; fileRef = F85B3CF61CAE0B4400A1A225 /* merge_driver.h */; };
 		F85B3CFA1CAE0BDA00A1A225 /* ssh.h in Headers */ = {isa = PBXBuildFile; fileRef = F85B3CF91CAE0BDA00A1A225 /* ssh.h */; };
 		F85B3CFD1CAE0C1900A1A225 /* idxmap.h in Headers */ = {isa = PBXBuildFile; fileRef = F85B3CFB1CAE0C1900A1A225 /* idxmap.h */; };
 		F85B3CFE1CAE0C1900A1A225 /* transaction.h in Headers */ = {isa = PBXBuildFile; fileRef = F85B3CFC1CAE0C1900A1A225 /* transaction.h */; };
-		F85B3CFF1CAE0C4100A1A225 /* merge_driver.c in Sources */ = {isa = PBXBuildFile; fileRef = F85B3CF51CAE0B4400A1A225 /* merge_driver.c */; };
+		F85B3D151CAE163900A1A225 /* sys in Headers */ = {isa = PBXBuildFile; fileRef = F834885C1B7BFC9800A5B932 /* sys */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8B37E0C1B83611C003CF5F7 /* git2.h in Headers */ = {isa = PBXBuildFile; fileRef = F8B37E0B1B83611C003CF5F7 /* git2.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8B37E0E1B836122003CF5F7 /* git2.h in Headers */ = {isa = PBXBuildFile; fileRef = F8B37E0D1B836122003CF5F7 /* git2.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8D67EB81B7BB7DA00021BDF /* annotated_commit.h in Headers */ = {isa = PBXBuildFile; fileRef = F8D67E841B7BB7DA00021BDF /* annotated_commit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -914,8 +912,6 @@
 		F834886D1B7D547D00A5B932 /* LICENSE-MIT */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "LICENSE-MIT"; sourceTree = "<group>"; };
 		F83488D11B7D55ED00A5B932 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		F85B3CF41CADEF2D00A1A225 /* libgit2 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = libgit2; path = ../External/libgit2; sourceTree = "<group>"; };
-		F85B3CF51CAE0B4400A1A225 /* merge_driver.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = merge_driver.c; sourceTree = "<group>"; };
-		F85B3CF61CAE0B4400A1A225 /* merge_driver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = merge_driver.h; sourceTree = "<group>"; };
 		F85B3CF91CAE0BDA00A1A225 /* ssh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ssh.h; sourceTree = "<group>"; };
 		F85B3CFB1CAE0C1900A1A225 /* idxmap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = idxmap.h; sourceTree = "<group>"; };
 		F85B3CFC1CAE0C1900A1A225 /* transaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = transaction.h; sourceTree = "<group>"; };
@@ -1108,8 +1104,6 @@
 				F804C16E1B7BF2CC00C40501 /* iterator.h */,
 				F804C16F1B7BF2CC00C40501 /* khash.h */,
 				F804C1701B7BF2CC00C40501 /* map.h */,
-				F85B3CF51CAE0B4400A1A225 /* merge_driver.c */,
-				F85B3CF61CAE0B4400A1A225 /* merge_driver.h */,
 				F804C1731B7BF2CD00C40501 /* merge_file.c */,
 				F804C1711B7BF2CC00C40501 /* merge.c */,
 				F804C1721B7BF2CD00C40501 /* merge.h */,
@@ -1530,7 +1524,6 @@
 				F804C3781B7BF2D900C40501 /* sortedcache.h in Headers */,
 				F804C2601B7BF2CD00C40501 /* commit.h in Headers */,
 				F804C3561B7BF2D600C40501 /* remote.h in Headers */,
-				F85B3CF81CAE0B4400A1A225 /* merge_driver.h in Headers */,
 				F804C3001B7BF2D100C40501 /* object.h in Headers */,
 				F8D67EE81B7BB7DA00021BDF /* message.h in Headers */,
 				F8D67EEA1B7BB7DA00021BDF /* net.h in Headers */,
@@ -2074,7 +2067,6 @@
 				F804C3B61B7BF2E000C40501 /* git.c in Sources */,
 				F804C2421B7BF2CD00C40501 /* branch.c in Sources */,
 				F804C42E1B7BF2F900C40501 /* xmerge.c in Sources */,
-				F85B3CF71CAE0B4400A1A225 /* merge_driver.c in Sources */,
 				F804C2D01B7BF2D000C40501 /* ident.c in Sources */,
 				F804C2D21B7BF2D000C40501 /* ignore.c in Sources */,
 				F804C2B01B7BF2CF00C40501 /* filter.c in Sources */,
@@ -2212,7 +2204,6 @@
 				F804C3B71B7BF2E000C40501 /* git.c in Sources */,
 				F804C2431B7BF2CD00C40501 /* branch.c in Sources */,
 				F804C42F1B7BF2F900C40501 /* xmerge.c in Sources */,
-				F85B3CFF1CAE0C4100A1A225 /* merge_driver.c in Sources */,
 				F804C2D11B7BF2D000C40501 /* ident.c in Sources */,
 				F804C2D31B7BF2D000C40501 /* ignore.c in Sources */,
 				F804C2B11B7BF2CF00C40501 /* filter.c in Sources */,
