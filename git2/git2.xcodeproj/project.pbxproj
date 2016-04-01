@@ -229,8 +229,6 @@
 		F804C2E91B7BF2D100C40501 /* merge.h in Headers */ = {isa = PBXBuildFile; fileRef = F804C1721B7BF2CD00C40501 /* merge.h */; };
 		F804C2EA1B7BF2D100C40501 /* merge_file.c in Sources */ = {isa = PBXBuildFile; fileRef = F804C1731B7BF2CD00C40501 /* merge_file.c */; };
 		F804C2EB1B7BF2D100C40501 /* merge_file.c in Sources */ = {isa = PBXBuildFile; fileRef = F804C1731B7BF2CD00C40501 /* merge_file.c */; };
-		F804C2EC1B7BF2D100C40501 /* merge_file.h in Headers */ = {isa = PBXBuildFile; fileRef = F804C1741B7BF2CD00C40501 /* merge_file.h */; };
-		F804C2ED1B7BF2D100C40501 /* merge_file.h in Headers */ = {isa = PBXBuildFile; fileRef = F804C1741B7BF2CD00C40501 /* merge_file.h */; };
 		F804C2EE1B7BF2D100C40501 /* message.c in Sources */ = {isa = PBXBuildFile; fileRef = F804C1751B7BF2CD00C40501 /* message.c */; };
 		F804C2EF1B7BF2D100C40501 /* message.c in Sources */ = {isa = PBXBuildFile; fileRef = F804C1751B7BF2CD00C40501 /* message.c */; };
 		F804C2F01B7BF2D100C40501 /* message.h in Headers */ = {isa = PBXBuildFile; fileRef = F804C1761B7BF2CD00C40501 /* message.h */; };
@@ -523,6 +521,12 @@
 		F83488931B7D547D00A5B932 /* LICENSE-MIT in Resources */ = {isa = PBXBuildFile; fileRef = F834886D1B7D547D00A5B932 /* LICENSE-MIT */; };
 		F83488941B7D547D00A5B932 /* LICENSE-MIT in Resources */ = {isa = PBXBuildFile; fileRef = F834886D1B7D547D00A5B932 /* LICENSE-MIT */; };
 		F83488D21B7D55ED00A5B932 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F83488D11B7D55ED00A5B932 /* libz.tbd */; };
+		F85B3CF71CAE0B4400A1A225 /* merge_driver.c in Sources */ = {isa = PBXBuildFile; fileRef = F85B3CF51CAE0B4400A1A225 /* merge_driver.c */; };
+		F85B3CF81CAE0B4400A1A225 /* merge_driver.h in Headers */ = {isa = PBXBuildFile; fileRef = F85B3CF61CAE0B4400A1A225 /* merge_driver.h */; };
+		F85B3CFA1CAE0BDA00A1A225 /* ssh.h in Headers */ = {isa = PBXBuildFile; fileRef = F85B3CF91CAE0BDA00A1A225 /* ssh.h */; };
+		F85B3CFD1CAE0C1900A1A225 /* idxmap.h in Headers */ = {isa = PBXBuildFile; fileRef = F85B3CFB1CAE0C1900A1A225 /* idxmap.h */; };
+		F85B3CFE1CAE0C1900A1A225 /* transaction.h in Headers */ = {isa = PBXBuildFile; fileRef = F85B3CFC1CAE0C1900A1A225 /* transaction.h */; };
+		F85B3CFF1CAE0C4100A1A225 /* merge_driver.c in Sources */ = {isa = PBXBuildFile; fileRef = F85B3CF51CAE0B4400A1A225 /* merge_driver.c */; };
 		F8B37E0C1B83611C003CF5F7 /* git2.h in Headers */ = {isa = PBXBuildFile; fileRef = F8B37E0B1B83611C003CF5F7 /* git2.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8B37E0E1B836122003CF5F7 /* git2.h in Headers */ = {isa = PBXBuildFile; fileRef = F8B37E0D1B836122003CF5F7 /* git2.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8D67EB81B7BB7DA00021BDF /* annotated_commit.h in Headers */ = {isa = PBXBuildFile; fileRef = F8D67E841B7BB7DA00021BDF /* annotated_commit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -762,7 +766,6 @@
 		F804C1711B7BF2CC00C40501 /* merge.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = merge.c; sourceTree = "<group>"; };
 		F804C1721B7BF2CD00C40501 /* merge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = merge.h; sourceTree = "<group>"; };
 		F804C1731B7BF2CD00C40501 /* merge_file.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = merge_file.c; sourceTree = "<group>"; };
-		F804C1741B7BF2CD00C40501 /* merge_file.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = merge_file.h; sourceTree = "<group>"; };
 		F804C1751B7BF2CD00C40501 /* message.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = message.c; sourceTree = "<group>"; };
 		F804C1761B7BF2CD00C40501 /* message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = message.h; sourceTree = "<group>"; };
 		F804C1771B7BF2CD00C40501 /* mwindow.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mwindow.c; sourceTree = "<group>"; };
@@ -913,6 +916,11 @@
 		F834886D1B7D547D00A5B932 /* LICENSE-MIT */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "LICENSE-MIT"; sourceTree = "<group>"; };
 		F83488D11B7D55ED00A5B932 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		F85B3CF41CADEF2D00A1A225 /* libgit2 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = libgit2; path = ../External/libgit2; sourceTree = "<group>"; };
+		F85B3CF51CAE0B4400A1A225 /* merge_driver.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = merge_driver.c; sourceTree = "<group>"; };
+		F85B3CF61CAE0B4400A1A225 /* merge_driver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = merge_driver.h; sourceTree = "<group>"; };
+		F85B3CF91CAE0BDA00A1A225 /* ssh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ssh.h; sourceTree = "<group>"; };
+		F85B3CFB1CAE0C1900A1A225 /* idxmap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = idxmap.h; sourceTree = "<group>"; };
+		F85B3CFC1CAE0C1900A1A225 /* transaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = transaction.h; sourceTree = "<group>"; };
 		F8B37E0B1B83611C003CF5F7 /* git2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = git2.h; sourceTree = "<group>"; };
 		F8B37E0D1B836122003CF5F7 /* git2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = git2.h; sourceTree = "<group>"; };
 		F8D67E341B7BA85D00021BDF /* git2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = git2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1091,6 +1099,7 @@
 				F804C1641B7BF2CC00C40501 /* hash.h */,
 				F804C1651B7BF2CC00C40501 /* hashsig.c */,
 				F804C1661B7BF2CC00C40501 /* ident.c */,
+				F85B3CFB1CAE0C1900A1A225 /* idxmap.h */,
 				F804C1671B7BF2CC00C40501 /* ignore.c */,
 				F804C1681B7BF2CC00C40501 /* ignore.h */,
 				F804C1691B7BF2CC00C40501 /* index.c */,
@@ -1101,8 +1110,9 @@
 				F804C16E1B7BF2CC00C40501 /* iterator.h */,
 				F804C16F1B7BF2CC00C40501 /* khash.h */,
 				F804C1701B7BF2CC00C40501 /* map.h */,
+				F85B3CF51CAE0B4400A1A225 /* merge_driver.c */,
+				F85B3CF61CAE0B4400A1A225 /* merge_driver.h */,
 				F804C1731B7BF2CD00C40501 /* merge_file.c */,
-				F804C1741B7BF2CD00C40501 /* merge_file.h */,
 				F804C1711B7BF2CC00C40501 /* merge.c */,
 				F804C1721B7BF2CD00C40501 /* merge.h */,
 				F804C1751B7BF2CD00C40501 /* message.c */,
@@ -1197,6 +1207,7 @@
 				F804C1CE1B7BF2CD00C40501 /* trace.c */,
 				F804C1CF1B7BF2CD00C40501 /* trace.h */,
 				F804C1D01B7BF2CD00C40501 /* transaction.c */,
+				F85B3CFC1CAE0C1900A1A225 /* transaction.h */,
 				F804C1D11B7BF2CD00C40501 /* transport.c */,
 				F804C1D21B7BF2CD00C40501 /* transports */,
 				F804C1E31B7BF2CD00C40501 /* tree-cache.c */,
@@ -1232,21 +1243,22 @@
 		F804C1D21B7BF2CD00C40501 /* transports */ = {
 			isa = PBXGroup;
 			children = (
-				F804C1D31B7BF2CD00C40501 /* auth.c */,
-				F804C1D41B7BF2CD00C40501 /* auth.h */,
 				F804C1D51B7BF2CD00C40501 /* auth_negotiate.c */,
 				F804C1D61B7BF2CD00C40501 /* auth_negotiate.h */,
+				F804C1D31B7BF2CD00C40501 /* auth.c */,
+				F804C1D41B7BF2CD00C40501 /* auth.h */,
+				F804C1D91B7BF2CD00C40501 /* cred_helpers.c */,
 				F804C1D71B7BF2CD00C40501 /* cred.c */,
 				F804C1D81B7BF2CD00C40501 /* cred.h */,
-				F804C1D91B7BF2CD00C40501 /* cred_helpers.c */,
 				F804C1DA1B7BF2CD00C40501 /* git.c */,
 				F804C1DB1B7BF2CD00C40501 /* http.c */,
 				F804C1DC1B7BF2CD00C40501 /* local.c */,
-				F804C1DD1B7BF2CD00C40501 /* smart.c */,
-				F804C1DE1B7BF2CD00C40501 /* smart.h */,
 				F804C1DF1B7BF2CD00C40501 /* smart_pkt.c */,
 				F804C1E01B7BF2CD00C40501 /* smart_protocol.c */,
+				F804C1DD1B7BF2CD00C40501 /* smart.c */,
+				F804C1DE1B7BF2CD00C40501 /* smart.h */,
 				F804C1E11B7BF2CD00C40501 /* ssh.c */,
+				F85B3CF91CAE0BDA00A1A225 /* ssh.h */,
 				F804C1E21B7BF2CD00C40501 /* winhttp.c */,
 			);
 			path = transports;
@@ -1365,7 +1377,6 @@
 		F8D67E831B7BB7C900021BDF /* git2 */ = {
 			isa = PBXGroup;
 			children = (
-				F834885C1B7BFC9800A5B932 /* sys */,
 				F8D67E841B7BB7DA00021BDF /* annotated_commit.h */,
 				F8D67E851B7BB7DA00021BDF /* attr.h */,
 				F8D67E861B7BB7DA00021BDF /* blame.h */,
@@ -1416,6 +1427,7 @@
 				F8D67EB41B7BB7DA00021BDF /* status.h */,
 				F8D67EB61B7BB7DA00021BDF /* strarray.h */,
 				F8D67EB71B7BB7DA00021BDF /* submodule.h */,
+				F834885C1B7BFC9800A5B932 /* sys */,
 				F8D67F201B7BB7E800021BDF /* tag.h */,
 				F8D67F211B7BB7E800021BDF /* trace.h */,
 				F8D67F221B7BB7E800021BDF /* transaction.h */,
@@ -1479,7 +1491,6 @@
 				F804C3521B7BF2D600C40501 /* refspec.h in Headers */,
 				F804C4341B7BF2FA00C40501 /* xprepare.h in Headers */,
 				F804C3461B7BF2D500C40501 /* refdb_fs.h in Headers */,
-				F804C2EC1B7BF2D100C40501 /* merge_file.h in Headers */,
 				F804C3AE1B7BF2DE00C40501 /* auth_negotiate.h in Headers */,
 				F804C39E1B7BF2DD00C40501 /* tls_stream.h in Headers */,
 				F804C3661B7BF2D700C40501 /* revwalk.h in Headers */,
@@ -1522,12 +1533,14 @@
 				F804C3781B7BF2D900C40501 /* sortedcache.h in Headers */,
 				F804C2601B7BF2CD00C40501 /* commit.h in Headers */,
 				F804C3561B7BF2D600C40501 /* remote.h in Headers */,
+				F85B3CF81CAE0B4400A1A225 /* merge_driver.h in Headers */,
 				F804C3001B7BF2D100C40501 /* object.h in Headers */,
 				F8D67EE81B7BB7DA00021BDF /* message.h in Headers */,
 				F8D67EEA1B7BB7DA00021BDF /* net.h in Headers */,
 				F804C3DC1B7BF2E400C40501 /* util.h in Headers */,
 				F8D67EEC1B7BB7DA00021BDF /* notes.h in Headers */,
 				F804C2C21B7BF2CF00C40501 /* hash_generic.h in Headers */,
+				F85B3CFA1CAE0BDA00A1A225 /* ssh.h in Headers */,
 				F804C36C1B7BF2D700C40501 /* sha1_lookup.h in Headers */,
 				F8D67EEE1B7BB7DA00021BDF /* object.h in Headers */,
 				F804C2A21B7BF2CE00C40501 /* fetch.h in Headers */,
@@ -1549,6 +1562,7 @@
 				F804C38A1B7BF2DA00C40501 /* strnlen.h in Headers */,
 				F8D67EFA1B7BB7DA00021BDF /* patch.h in Headers */,
 				F804C2F41B7BF2D100C40501 /* mwindow.h in Headers */,
+				F85B3CFE1CAE0C1900A1A225 /* transaction.h in Headers */,
 				F8D67EFC1B7BB7DA00021BDF /* pathspec.h in Headers */,
 				F804C35C1B7BF2D700C40501 /* repository.h in Headers */,
 				F804C2D81B7BF2D000C40501 /* index.h in Headers */,
@@ -1602,6 +1616,7 @@
 				F8D67F2B1B7BB7E800021BDF /* transaction.h in Headers */,
 				F804C3381B7BF2D400C40501 /* pqueue.h in Headers */,
 				F804C31C1B7BF2D300C40501 /* openssl_stream.h in Headers */,
+				F85B3CFD1CAE0C1900A1A225 /* idxmap.h in Headers */,
 				F804C3821B7BF2D900C40501 /* stransport_stream.h in Headers */,
 				F8D67F2D1B7BB7E800021BDF /* transport.h in Headers */,
 				F804C3BE1B7BF2E000C40501 /* smart.h in Headers */,
@@ -1658,7 +1673,6 @@
 				F804C3531B7BF2D600C40501 /* refspec.h in Headers */,
 				F804C4351B7BF2FA00C40501 /* xprepare.h in Headers */,
 				F804C3471B7BF2D500C40501 /* refdb_fs.h in Headers */,
-				F804C2ED1B7BF2D100C40501 /* merge_file.h in Headers */,
 				F804C3AF1B7BF2DE00C40501 /* auth_negotiate.h in Headers */,
 				F804C39F1B7BF2DD00C40501 /* tls_stream.h in Headers */,
 				F804C3671B7BF2D700C40501 /* revwalk.h in Headers */,
@@ -2064,6 +2078,7 @@
 				F804C3B61B7BF2E000C40501 /* git.c in Sources */,
 				F804C2421B7BF2CD00C40501 /* branch.c in Sources */,
 				F804C42E1B7BF2F900C40501 /* xmerge.c in Sources */,
+				F85B3CF71CAE0B4400A1A225 /* merge_driver.c in Sources */,
 				F804C2D01B7BF2D000C40501 /* ident.c in Sources */,
 				F804C2D21B7BF2D000C40501 /* ignore.c in Sources */,
 				F804C2B01B7BF2CF00C40501 /* filter.c in Sources */,
@@ -2201,6 +2216,7 @@
 				F804C3B71B7BF2E000C40501 /* git.c in Sources */,
 				F804C2431B7BF2CD00C40501 /* branch.c in Sources */,
 				F804C42F1B7BF2F900C40501 /* xmerge.c in Sources */,
+				F85B3CFF1CAE0C4100A1A225 /* merge_driver.c in Sources */,
 				F804C2D11B7BF2D000C40501 /* ident.c in Sources */,
 				F804C2D31B7BF2D000C40501 /* ignore.c in Sources */,
 				F804C2B11B7BF2CF00C40501 /* filter.c in Sources */,
