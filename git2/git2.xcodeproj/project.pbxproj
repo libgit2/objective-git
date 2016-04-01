@@ -1915,7 +1915,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = script/update_libssh2_ios;
+			shellScript = ../script/update_libssh2_ios;
 		};
 		F81CC01D1B933A5600FA6C0F /* OpenSSL-iOS */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1929,7 +1929,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "script/update_libssl_ios verbose";
+			shellScript = "../script/update_libssl_ios verbose";
 		};
 /* End PBXShellScriptBuildPhase section */
 
