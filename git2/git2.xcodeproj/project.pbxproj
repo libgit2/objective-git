@@ -1452,7 +1452,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F8B37E0C1B83611C003CF5F7 /* git2.h in Headers */,
-				F804C3421B7BF2D500C40501 /* refdb.h in Headers */,
+				F85B3D151CAE163900A1A225 /* sys in Headers */,
 				F804C4361B7BF2FB00C40501 /* xtypes.h in Headers */,
 				F804C3061B7BF2D200C40501 /* odb.h in Headers */,
 				F804C43A1B7BF2FC00C40501 /* xutils.h in Headers */,
@@ -1509,6 +1509,7 @@
 				F8D67EDA1B7BB7DA00021BDF /* global.h in Headers */,
 				F804C3961B7BF2DC00C40501 /* tag.h in Headers */,
 				F804C3201B7BF2D300C40501 /* pack-objects.h in Headers */,
+				F804C3421B7BF2D500C40501 /* refdb.h in Headers */,
 				F804C2FC1B7BF2D100C40501 /* notes.h in Headers */,
 				F8D67EDC1B7BB7DA00021BDF /* graph.h in Headers */,
 				F804C3CA1B7BF2E200C40501 /* tree-cache.h in Headers */,
