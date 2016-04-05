@@ -18,7 +18,7 @@ A brief summary of the available functionality:
 
 Not all libgit2 features are available, but if you run across something missing, please consider [contributing a pull request](#contributing)!
 
-Many classes in the ObjectiveGit API wrap a C struct from libgit2 and expose the underlying data and operations using Cocoa idioms. The underlying libgit2 types are prefixed with `git_` and are often accessible via a property so that your application can take advantage of the libgit2 API directly.
+Many classes in the ObjectiveGit API wrap a C struct from libgit2 and expose the underlying data and operations using Cocoa idioms. The underlying libgit2 types are prefixed with `git_` and are often accessible via a property so that your application can take advantage of the [libgit2 API](https://libgit2.github.com/libgit2/#HEAD) directly.
 
 The ObjectiveGit API makes extensive use of the Cocoa NSError pattern. The public API is also decorated with nullability attributes so that you will get compile-time feedback of whether nil is allowed or not. This also makes the framework much nicer to use in Swift.
 
@@ -32,15 +32,18 @@ or download them [manually](#manually).
 
 ### Other Tools
 
-To start building the framework, you must install the required dependencies,
-[xctool](https://github.com/facebook/xctool) and
-[cmake](https://github.com/Kitware/CMake). We recommend using
-[Homebrew](http://brew.sh) to install these tools.
+Simply run the [`script/bootstrap`](script/bootstrap) script to automatically install
+dependencies needed to start building the framework. This script uses
+[Homebrew](http://brew.sh) to install these tools. If your Mac does not have
+Homebrew, you will need to install the following manually:
 
-Once you have the dependencies you should clone this repository and then run [`script/bootstrap`](script/bootstrap). This will automatically pull down and install any other
-dependencies.
-
-Note that the `bootstrap` script automatically installs some libraries that ObjectiveGit relies upon, using Homebrew. If you not want to use Homebrew, you will need to ensure these dependent libraries and their headers are installed where the build scripts [expect them to be](https://github.com/libgit2/objective-git/blob/master/script/bootstrap#L80-L99).
+- [cmake](https://github.com/Kitware/CMake)
+- libtool
+- autoconf
+- automake
+- pkg-config
+- libssh2
+  - symlinks:  lib/libssh2.a include/libssh2.h include/libssh2_sftp.h include/libssh2_publickey.h
 
 To develop ObjectiveGit on its own, open the `ObjectiveGitFramework.xcworkspace` file.
 
