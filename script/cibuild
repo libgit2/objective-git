@@ -32,6 +32,7 @@ fi
 ## Configuration Variables
 ##
 
+set -o pipefail
 SCRIPT_DIR=$(dirname "$0")
 XCWORKSPACE="ObjectiveGitFramework.xcworkspace"
 XCODE_OPTIONS=$(RUN_CLANG_STATIC_ANALYZER=NO ONLY_ACTIVE_ARCH=NO CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO)
