@@ -2314,6 +2314,7 @@
 				USER_HEADER_SEARCH_PATHS = "";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+				WARNING_CFLAGS = "-Wno-incompatible-pointer-types";
 			};
 			name = Debug;
 		};
@@ -2353,6 +2354,7 @@
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+				WARNING_CFLAGS = "-Wno-incompatible-pointer-types";
 			};
 			name = Release;
 		};
