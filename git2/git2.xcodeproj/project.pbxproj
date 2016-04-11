@@ -645,6 +645,7 @@
 		F8FF92D51CBC049400FC7CAE /* libssh2-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F8FF92D41CBC049400FC7CAE /* libssh2-ios.a */; };
 		F8FF92D91CBC04AE00FC7CAE /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F8FF92D71CBC04AE00FC7CAE /* libssl.a */; };
 		F8FF92DA1CBC04DE00FC7CAE /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F8FF92D61CBC04AE00FC7CAE /* libcrypto.a */; };
+		F8FF92DC1CBC18F000FC7CAE /* libssh2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F8FF92DB1CBC18F000FC7CAE /* libssh2.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -983,6 +984,7 @@
 		F8FF92D41CBC049400FC7CAE /* libssh2-ios.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libssh2-ios.a"; path = "../External/libssh2-ios/lib/libssh2-ios.a"; sourceTree = "<group>"; };
 		F8FF92D61CBC04AE00FC7CAE /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = "../External/ios-openssl/lib/libcrypto.a"; sourceTree = "<group>"; };
 		F8FF92D71CBC04AE00FC7CAE /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = "../External/ios-openssl/lib/libssl.a"; sourceTree = "<group>"; };
+		F8FF92DB1CBC18F000FC7CAE /* libssh2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssh2.a; path = ../../../../../../usr/local/Cellar/libssh2/1.7.0/lib/libssh2.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1004,8 +1006,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				F82FC7391B87CC0A000F2896 /* CoreFoundation.framework in Frameworks */,
-				F82FC7371B87CC05000F2896 /* Security.framework in Frameworks */,
+				F8FF92DC1CBC18F000FC7CAE /* libssh2.a in Frameworks */,
 				F8F708D51B7DB98F00F227F2 /* libz.tbd in Frameworks */,
+				F82FC7371B87CC05000F2896 /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1437,6 +1440,7 @@
 		F8E3B7451B8685A40089F413 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F8FF92DB1CBC18F000FC7CAE /* libssh2.a */,
 				F8FF92D61CBC04AE00FC7CAE /* libcrypto.a */,
 				F8FF92D71CBC04AE00FC7CAE /* libssl.a */,
 				F8FF92D41CBC049400FC7CAE /* libssh2-ios.a */,
@@ -2439,7 +2443,6 @@
 				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MODULEMAP_FILE = git2.modulemap;
-				OTHER_LDFLAGS = "-lssh2";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.phatblat.git2-Mac";
 				PRODUCT_NAME = git2;
 				SDKROOT = macosx;
@@ -2474,7 +2477,6 @@
 				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MODULEMAP_FILE = git2.modulemap;
-				OTHER_LDFLAGS = "-lssh2";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.phatblat.git2-Mac";
 				PRODUCT_NAME = git2;
 				SDKROOT = macosx;
