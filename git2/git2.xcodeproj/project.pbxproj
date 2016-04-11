@@ -908,7 +908,6 @@
 		F834886B1B7D547D00A5B932 /* http_parser.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = http_parser.c; sourceTree = "<group>"; };
 		F834886C1B7D547D00A5B932 /* http_parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = http_parser.h; sourceTree = "<group>"; };
 		F83488D11B7D55ED00A5B932 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
-		F85B3CF41CADEF2D00A1A225 /* libgit2 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = libgit2; path = ../External/libgit2; sourceTree = "<group>"; };
 		F85B3CF91CAE0BDA00A1A225 /* ssh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ssh.h; sourceTree = "<group>"; };
 		F85B3CFB1CAE0C1900A1A225 /* idxmap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = idxmap.h; sourceTree = "<group>"; };
 		F85B3CFC1CAE0C1900A1A225 /* transaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = transaction.h; sourceTree = "<group>"; };
@@ -1312,7 +1311,6 @@
 				F8D67E7B1B7BB78200021BDF /* libgit2 */,
 				F8E3B7451B8685A40089F413 /* Frameworks */,
 				F8D67E351B7BA85D00021BDF /* Products */,
-				F85B3CF41CADEF2D00A1A225 /* libgit2 */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1875,8 +1873,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				F8D67E331B7BA85D00021BDF /* git2-iOS */,
 				F8D67E431B7BAA4900021BDF /* git2-Mac */,
+				F8D67E331B7BA85D00021BDF /* git2-iOS */,
 				F81CC0121B93355800FA6C0F /* libssh2-iOS */,
 				F81CC0191B933A5100FA6C0F /* OpenSSL-iOS */,
 			);
