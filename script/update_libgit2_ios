@@ -1,6 +1,13 @@
-#!/bin/bash
+#!/bin/bash -ex
 
-set -e
+#
+# script/update_libgit2
+# ObjectiveGit
+#
+# Builds libgit2 static library for iOS platform.
+# Script is now obsolete as the git2 project builds libgit2 as a dynamic framework,
+# but is left here for reference.
+#
 
 # source the common build functions
 SCRIPT_DIR=$(dirname "$0")
