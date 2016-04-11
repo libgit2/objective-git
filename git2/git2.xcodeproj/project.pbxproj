@@ -642,6 +642,9 @@
 		F8F708D21B7DB96700F227F2 /* indexer.c in Sources */ = {isa = PBXBuildFile; fileRef = F8F708CE1B7D579000F227F2 /* indexer.c */; };
 		F8F708D31B7DB96F00F227F2 /* xpatience.c in Sources */ = {isa = PBXBuildFile; fileRef = F8F708D01B7DB5CB00F227F2 /* xpatience.c */; };
 		F8F708D51B7DB98F00F227F2 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F8F708D41B7DB98F00F227F2 /* libz.tbd */; };
+		F8FF92D51CBC049400FC7CAE /* libssh2-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F8FF92D41CBC049400FC7CAE /* libssh2-ios.a */; };
+		F8FF92D91CBC04AE00FC7CAE /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F8FF92D71CBC04AE00FC7CAE /* libssl.a */; };
+		F8FF92DA1CBC04DE00FC7CAE /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F8FF92D61CBC04AE00FC7CAE /* libcrypto.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -977,6 +980,9 @@
 		F8F708CE1B7D579000F227F2 /* indexer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = indexer.c; sourceTree = "<group>"; };
 		F8F708D01B7DB5CB00F227F2 /* xpatience.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xpatience.c; sourceTree = "<group>"; };
 		F8F708D41B7DB98F00F227F2 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
+		F8FF92D41CBC049400FC7CAE /* libssh2-ios.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libssh2-ios.a"; path = "../External/libssh2-ios/lib/libssh2-ios.a"; sourceTree = "<group>"; };
+		F8FF92D61CBC04AE00FC7CAE /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = "../External/ios-openssl/lib/libcrypto.a"; sourceTree = "<group>"; };
+		F8FF92D71CBC04AE00FC7CAE /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = "../External/ios-openssl/lib/libssl.a"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -985,8 +991,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				F82FC7351B87CBD6000F2896 /* CoreFoundation.framework in Frameworks */,
-				F82FC7331B87CBBD000F2896 /* Security.framework in Frameworks */,
+				F8FF92DA1CBC04DE00FC7CAE /* libcrypto.a in Frameworks */,
+				F8FF92D51CBC049400FC7CAE /* libssh2-ios.a in Frameworks */,
+				F8FF92D91CBC04AE00FC7CAE /* libssl.a in Frameworks */,
 				F83488D21B7D55ED00A5B932 /* libz.tbd in Frameworks */,
+				F82FC7331B87CBBD000F2896 /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1428,6 +1437,9 @@
 		F8E3B7451B8685A40089F413 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F8FF92D61CBC04AE00FC7CAE /* libcrypto.a */,
+				F8FF92D71CBC04AE00FC7CAE /* libssl.a */,
+				F8FF92D41CBC049400FC7CAE /* libssh2-ios.a */,
 				F82FC7381B87CC0A000F2896 /* CoreFoundation.framework */,
 				F82FC7361B87CC05000F2896 /* Security.framework */,
 				F82FC7341B87CBD6000F2896 /* CoreFoundation.framework */,
@@ -2344,14 +2356,21 @@
 					"$(inherited)",
 					"GIT_SECURE_TRANSPORT=1",
 					"GIT_THREADS=1",
+					"GIT_SSH=1",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../External/libgit2/include",
 					"$(SRCROOT)/../External/libgit2/src",
+					"$(SRCROOT)/../External/libssh2-ios/include/libssh2",
 				);
 				INFOPLIST_FILE = "git2-iOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../External/libssh2-ios/lib",
+					"$(SRCROOT)/../External/ios-openssl/lib",
+				);
 				MODULEMAP_FILE = git2.modulemap;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.phatblat.git2-iOS";
 				PRODUCT_NAME = git2;
@@ -2371,14 +2390,21 @@
 					"$(inherited)",
 					"GIT_SECURE_TRANSPORT=1",
 					"GIT_THREADS=1",
+					"GIT_SSH=1",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../External/libgit2/include",
 					"$(SRCROOT)/../External/libgit2/src",
+					"$(SRCROOT)/../External/libssh2-ios/include/libssh2",
 				);
 				INFOPLIST_FILE = "git2-iOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../External/libssh2-ios/lib",
+					"$(SRCROOT)/../External/ios-openssl/lib",
+				);
 				MODULEMAP_FILE = git2.modulemap;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.phatblat.git2-iOS";
 				PRODUCT_NAME = git2;
@@ -2400,6 +2426,7 @@
 					"$(inherited)",
 					"GIT_SECURE_TRANSPORT=1",
 					"GIT_THREADS=1",
+					"GIT_SSH=1",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../External/libgit2/include",
@@ -2431,6 +2458,7 @@
 					"$(inherited)",
 					"GIT_SECURE_TRANSPORT=1",
 					"GIT_THREADS=1",
+					"GIT_SSH=1",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../External/libgit2/include",
