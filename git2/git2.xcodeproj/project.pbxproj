@@ -646,6 +646,8 @@
 		F8FF92D91CBC04AE00FC7CAE /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F8FF92D71CBC04AE00FC7CAE /* libssl.a */; };
 		F8FF92DA1CBC04DE00FC7CAE /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F8FF92D61CBC04AE00FC7CAE /* libcrypto.a */; };
 		F8FF92DC1CBC18F000FC7CAE /* libssh2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F8FF92DB1CBC18F000FC7CAE /* libssh2.a */; };
+		F8FF92DE1CBC199E00FC7CAE /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F8FF92DD1CBC199E00FC7CAE /* libiconv.tbd */; };
+		F8FF92E01CBC19A700FC7CAE /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F8FF92DF1CBC19A700FC7CAE /* libiconv.tbd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -985,6 +987,8 @@
 		F8FF92D61CBC04AE00FC7CAE /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = "../External/ios-openssl/lib/libcrypto.a"; sourceTree = "<group>"; };
 		F8FF92D71CBC04AE00FC7CAE /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = "../External/ios-openssl/lib/libssl.a"; sourceTree = "<group>"; };
 		F8FF92DB1CBC18F000FC7CAE /* libssh2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssh2.a; path = ../../../../../../usr/local/Cellar/libssh2/1.7.0/lib/libssh2.a; sourceTree = "<group>"; };
+		F8FF92DD1CBC199E00FC7CAE /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/usr/lib/libiconv.tbd; sourceTree = DEVELOPER_DIR; };
+		F8FF92DF1CBC19A700FC7CAE /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -994,6 +998,7 @@
 			files = (
 				F82FC7351B87CBD6000F2896 /* CoreFoundation.framework in Frameworks */,
 				F8FF92DA1CBC04DE00FC7CAE /* libcrypto.a in Frameworks */,
+				F8FF92E01CBC19A700FC7CAE /* libiconv.tbd in Frameworks */,
 				F8FF92D51CBC049400FC7CAE /* libssh2-ios.a in Frameworks */,
 				F8FF92D91CBC04AE00FC7CAE /* libssl.a in Frameworks */,
 				F83488D21B7D55ED00A5B932 /* libz.tbd in Frameworks */,
@@ -1006,6 +1011,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F82FC7391B87CC0A000F2896 /* CoreFoundation.framework in Frameworks */,
+				F8FF92DE1CBC199E00FC7CAE /* libiconv.tbd in Frameworks */,
 				F8FF92DC1CBC18F000FC7CAE /* libssh2.a in Frameworks */,
 				F8F708D51B7DB98F00F227F2 /* libz.tbd in Frameworks */,
 				F82FC7371B87CC05000F2896 /* Security.framework in Frameworks */,
@@ -1440,6 +1446,8 @@
 		F8E3B7451B8685A40089F413 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F8FF92DF1CBC19A700FC7CAE /* libiconv.tbd */,
+				F8FF92DD1CBC199E00FC7CAE /* libiconv.tbd */,
 				F8FF92DB1CBC18F000FC7CAE /* libssh2.a */,
 				F8FF92D61CBC04AE00FC7CAE /* libcrypto.a */,
 				F8FF92D71CBC04AE00FC7CAE /* libssl.a */,
@@ -2361,6 +2369,7 @@
 					"GIT_SECURE_TRANSPORT=1",
 					"GIT_THREADS=1",
 					"GIT_SSH=1",
+					"GIT_USE_ICONV=1",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../External/libgit2/include",
@@ -2395,6 +2404,7 @@
 					"GIT_SECURE_TRANSPORT=1",
 					"GIT_THREADS=1",
 					"GIT_SSH=1",
+					"GIT_USE_ICONV=1",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../External/libgit2/include",
@@ -2431,6 +2441,7 @@
 					"GIT_SECURE_TRANSPORT=1",
 					"GIT_THREADS=1",
 					"GIT_SSH=1",
+					"GIT_USE_ICONV=1",
 				);
 				HEADER_SEARCH_PATHS = (
 					/usr/local/include,
@@ -2465,6 +2476,7 @@
 					"GIT_SECURE_TRANSPORT=1",
 					"GIT_THREADS=1",
 					"GIT_SSH=1",
+					"GIT_USE_ICONV=1",
 				);
 				HEADER_SEARCH_PATHS = (
 					/usr/local/include,

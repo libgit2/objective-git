@@ -255,6 +255,7 @@ describe(@"adding files", ^{
 
 		GTIndexEntry *decomposedFileEntry = [index entryWithPath:[filename decomposedStringWithCanonicalMapping] error:NULL];
 		expect(decomposedFileEntry).notTo(beNil());
+		// This check will fail if GIT_USE_ICONV is not enabled
 		expect(@(fileStatusEqualsExpected(decomposedFileEntry.path, GTStatusDeltaStatusUnmodified, GTStatusDeltaStatusDeleted))).to(beTruthy());
 
 		expect(@([[NSFileManager defaultManager] moveItemAtURL:fileURL toURL:renamedFileURL error:NULL])).to(beTruthy());
