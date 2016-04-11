@@ -1,170 +1,77 @@
-#!/bin/bash
+#!/bin/bash -ex
+#
+# script/cibuild
+# ObjectiveGit
+#
+# Executes the build and runs tests for Mac and iOS. Designed to be invoked by
+# Travis as a matrix build so that the two platform builds can run in parallel.
+#
+# Dependent tools & scripts:
+# - script/bootstrap
+# - script/update_libssl_ios
+# - [xcodebuild](https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man1/xcodebuild.1.html)
+# - xcpretty (gem)
+# - xcpretty-travis-formatter (gem)
+#
+# Environment Variables:
+# - SCHEME: specifies which Xcode scheme to build. Set to one of the following:
+#   - ObjectiveGit Mac
+#   - ObjectiveGit iOS
+# - TRAVIS: indicates when the build is being run by travis, used to invoke
+#           the xcpretty-travis-formatter gem for output.
 
-export SCRIPT_DIR=$(dirname "$0")
+if [ -z "$SCHEME" ]; then
+  echo "The SCHEME environment variable is empty. Please set this to one of:"
+  echo "- ObjectiveGit Mac"
+  echo "- ObjectiveGit iOS"
+  exit 1
+fi
+
 
 ##
 ## Configuration Variables
 ##
 
-SCHEMES="$@"
+set -o pipefail
+SCRIPT_DIR=$(dirname "$0")
+XCWORKSPACE="ObjectiveGitFramework.xcworkspace"
+XCODE_OPTIONS=$(RUN_CLANG_STATIC_ANALYZER=NO ONLY_ACTIVE_ARCH=NO CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO)
 
-config ()
-{
-    # The workspace to build.
-    #
-    # If not set and no workspace is found, the -workspace flag will not be passed
-    # to `xctool`.
-    #
-    # Only one of `XCWORKSPACE` and `XCODEPROJ` needs to be set. The former will
-    # take precedence.
-    : ${XCWORKSPACE=$(find_pattern "*.xcworkspace")}
-
-    # The project to build.
-    #
-    # If not set and no project is found, the -project flag will not be passed
-    # to `xctool`.
-    #
-    # Only one of `XCWORKSPACE` and `XCODEPROJ` needs to be set. The former will
-    # take precedence.
-    : ${XCODEPROJ=$(find_pattern "*.xcodeproj")}
-
-    # A bootstrap script to run before building.
-    #
-    # If this file does not exist, it is not considered an error.
-    : ${BOOTSTRAP="$SCRIPT_DIR/bootstrap"}
-
-    # Extra options to pass to xctool.
-    : ${XCTOOL_OPTIONS="RUN_CLANG_STATIC_ANALYZER=NO"}
-
-    # A whitespace-separated list of default schemes to build.
-    #
-    # Individual names can be quoted to avoid word splitting.
-    : ${SCHEMES:=$(xcodebuild -list -project "$XCODEPROJ" 2>/dev/null | awk -f "$SCRIPT_DIR/schemes.awk")}
-
-    export XCWORKSPACE
-    export XCODEPROJ
-    export BOOTSTRAP
-    export XCTOOL_OPTIONS
-    export SCHEMES
-}
+if [ -n "$TRAVIS" ]; then
+    # Use a special formatter when running on TravisCI
+    XCPRETTY_FORMAT_OPTIONS="-f `xcpretty-travis-formatter`"
+else
+    XCPRETTY_FORMAT_OPTIONS="--color"
+fi
 
 ##
 ## Build Process
 ##
 
-main ()
-{
-    config
+echo "*** Bootstrapping..."
+"$SCRIPT_DIR/bootstrap"
 
-    if [ -f "$BOOTSTRAP" ]
-    then
-        echo "*** Bootstrapping..."
-        "$BOOTSTRAP" || exit $?
-    fi
+if [ "$SCHEME" == "ObjectiveGit Mac" ]; then
+  echo "*** Building and testing $SCHEME..."
+  echo
 
-    if [ "$SCHEME" == "ObjectiveGit iOS" ]
-    then
-      echo "*** Prebuilding OpenSSL"
-      $SCRIPT_DIR/update_libssl_ios
-    fi
+  xcodebuild -workspace "$XCWORKSPACE" \
+    -scheme "$SCHEME" \
+    ${XCODE_OPTIONS[*]} \
+    build test \
+    2>&1 | xcpretty $XCPRETTY_FORMAT_OPTIONS
+elif [ "$SCHEME" == "ObjectiveGit iOS" ]; then
+  echo "*** Prebuilding OpenSSL"
+  "$SCRIPT_DIR/update_libssl_ios"
 
-    if [ -z "${SCHEME+x}" ] && [ "${#SCHEME[@]}" = 0 ]
-    then
-        echo "*** The following schemes will be built:"
-        echo "$SCHEMES" | xargs -n 1 echo "  "
-        echo
+  echo "*** Building and testing $SCHEME..."
+  echo
 
-        echo "$SCHEMES" | xargs -n 1 | (
-        local status=0
-
-        while read scheme
-        do
-            build_scheme "$scheme" || status=1
-        done
-
-        exit $status
-        )
-    else
-        echo "*** The following scheme will be built $SCHEME"
-        local status=0
-        build_scheme "$SCHEME" || status=1
-        exit $status
-    fi
-}
-
-find_pattern ()
-{
-    ls -d $1 2>/dev/null | head -n 1
-}
-
-run_xctool ()
-{
-    if [ -n "$XCWORKSPACE" ]
-    then
-        xctool -workspace "$XCWORKSPACE" $XCTOOL_OPTIONS "$@" \
-            ONLY_ACTIVE_ARCH=NO \
-            CODE_SIGN_IDENTITY="" \
-            CODE_SIGNING_REQUIRED=NO 2>&1
-    elif [ -n "$XCODEPROJ" ]
-    then
-        xctool -project "$XCODEPROJ" $XCTOOL_OPTIONS "$@" \
-            ONLY_ACTIVE_ARCH=NO \
-            CODE_SIGN_IDENTITY="" \
-            CODE_SIGNING_REQUIRED=NO 2>&1
-    else
-        echo "*** No workspace or project file found."
-        exit 1
-    fi
-}
-
-parse_build ()
-{
-    awk -f "$SCRIPT_DIR/xctool.awk" 2>&1 >/dev/null
-}
-
-build_scheme ()
-{
-    local scheme=$1
-
-    echo "*** Building and testing $scheme..."
-    echo
-
-    local sdkflags=()
-    local action=test
-
-    # Determine whether we can run unit tests for this target.
-    run_xctool -scheme "$scheme" run-tests | parse_build
-
-    local awkstatus=$?
-
-    if [ "$awkstatus" -eq "1" ]
-    then
-        # SDK not found, try for iphonesimulator.
-        sdkflags=(-sdk iphonesimulator -destination "platform=iOS Simulator,name=iPhone 5")
-
-        # Determine whether the unit tests will run with iphonesimulator
-        run_xctool "${sdkflags[@]}" -scheme "$scheme" run-tests | parse_build
-
-        awkstatus=$?
-
-        if [ "$awkstatus" -ne "0" ]
-        then
-            # Unit tests will not run on iphonesimulator.
-            sdkflags=()
-        fi
-    fi
-
-    if [ "$awkstatus" -ne "0" ]
-    then
-        # Unit tests aren't supported.
-        action=build
-    fi
-
-    run_xctool "${sdkflags[@]}" -scheme "$scheme" $action
-}
-
-export -f build_scheme
-export -f run_xctool
-export -f parse_build
-
-main
+  xcodebuild -workspace "$XCWORKSPACE" \
+    -scheme "$SCHEME" \
+    -destination "platform=iOS Simulator,name=iPhone 5" \
+    -sdk iphonesimulator \
+    ${XCODE_OPTIONS[*]} \
+    build test \
+    2>&1 | xcpretty $XCPRETTY_FORMAT_OPTIONS
+fi
