@@ -418,8 +418,6 @@
 		6A502B8617D6892D00BAF4A5 /* libssh2-ios.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libssh2-ios.a"; path = "External/libssh2-ios/lib/libssh2-ios.a"; sourceTree = "<group>"; };
 		6EEB519F199D62B9001D72C0 /* GTFetchHeadEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTFetchHeadEntry.h; sourceTree = "<group>"; };
 		6EEB51A0199D62B9001D72C0 /* GTFetchHeadEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTFetchHeadEntry.m; sourceTree = "<group>"; };
-		79262F0E13C697BE00A4B1EA /* git2 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = git2; path = External/libgit2/include/git2; sourceTree = "<group>"; };
-		79262F8A13C69B1600A4B1EA /* git2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = git2.h; path = External/libgit2/include/git2.h; sourceTree = "<group>"; };
 		8803DA861313145700E6E818 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		880EE65F18AE700500B82455 /* GTFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTFilter.h; sourceTree = "<group>"; };
 		880EE66018AE700500B82455 /* GTFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTFilter.m; sourceTree = "<group>"; };
@@ -449,7 +447,6 @@
 		887B948D1A3A38130070D41D /* ObjectiveGit.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = ObjectiveGit.modulemap; sourceTree = "<group>"; };
 		887DAFF615CB1C8000F30D0D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		88948AC81779243600809CDA /* GTObjectDatabaseSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTObjectDatabaseSpec.m; sourceTree = "<group>"; };
-		889923F919FF5DD40092A9A6 /* git2 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = git2; path = External/libgit2/include/git2; sourceTree = "<group>"; };
 		88A994B916FCE7D400402C7B /* GTBranchSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTBranchSpec.m; sourceTree = "<group>"; };
 		88A994C916FCED1D00402C7B /* QuickSpec+GTFixtures.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QuickSpec+GTFixtures.h"; sourceTree = "<group>"; };
 		88A994CA16FCED1D00402C7B /* QuickSpec+GTFixtures.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "QuickSpec+GTFixtures.m"; sourceTree = "<group>"; };
@@ -634,7 +631,6 @@
 				887B948D1A3A38130070D41D /* ObjectiveGit.modulemap */,
 				BDE4C05E130EFE2C00851650 /* ObjectiveGit */,
 				88F05A7516011E5400B7AD1D /* ObjectiveGitTests */,
-				32C88DFF0371C24200C91783 /* Other Sources */,
 				089C1665FE841158C02AAC07 /* Resources */,
 				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
 				D0D81857174421EB00995A2E /* Configuration */,
@@ -664,7 +660,6 @@
 				D0A0128819F98475007F1914 /* Quick.framework */,
 				D0A0128B19F9853D007F1914 /* Nimble.framework */,
 				F879D8461B4B8138002D5C07 /* Nimble.framework */,
-				889923F919FF5DD40092A9A6 /* git2 */,
 				F895F4DE1C801E5F004EA221 /* ZipArchive.framework */,
 				F8E68E721C800B1600DBC517 /* ZipArchive.framework */,
 			);
@@ -709,15 +704,6 @@
 				D03B57A018BFFF07007124F4 /* GTDiffPatch.m */,
 			);
 			name = Diff;
-			sourceTree = "<group>";
-		};
-		32C88DFF0371C24200C91783 /* Other Sources */ = {
-			isa = PBXGroup;
-			children = (
-				79262F0E13C697BE00A4B1EA /* git2 */,
-				79262F8A13C69B1600A4B1EA /* git2.h */,
-			);
-			name = "Other Sources";
 			sourceTree = "<group>";
 		};
 		88F05A7516011E5400B7AD1D /* ObjectiveGitTests */ = {
@@ -1523,7 +1509,6 @@
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Info.plist;
 				MODULEMAP_FILE = ObjectiveGit.modulemap;
-				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libgit2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ObjectiveGit;
 				WRAPPER_EXTENSION = framework;
@@ -1539,7 +1524,6 @@
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Info.plist;
 				MODULEMAP_FILE = ObjectiveGit.modulemap;
-				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libgit2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ObjectiveGit;
 				WRAPPER_EXTENSION = framework;
@@ -1605,10 +1589,6 @@
 					"NOUNCRYPT=1",
 					"NOCRYPT=1",
 				);
-				HEADER_SEARCH_PATHS = (
-					External/libgit2/include,
-					/usr/local/include,
-				);
 				INFOPLIST_FILE = "ObjectiveGitTests/ObjectiveGitTests-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libgit2.$(PRODUCT_NAME:rfc1034identifier)";
@@ -1623,10 +1603,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				HEADER_SEARCH_PATHS = (
-					External/libgit2/include,
-					/usr/local/include,
 				);
 				INFOPLIST_FILE = "ObjectiveGitTests/ObjectiveGitTests-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
@@ -1666,7 +1642,6 @@
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Info.plist;
 				MODULEMAP_FILE = ObjectiveGit.modulemap;
-				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libgit2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ObjectiveGit;
 				WRAPPER_EXTENSION = framework;
@@ -1680,10 +1655,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				HEADER_SEARCH_PATHS = (
-					External/libgit2/include,
-					/usr/local/include,
 				);
 				INFOPLIST_FILE = "ObjectiveGitTests/ObjectiveGitTests-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
@@ -1704,7 +1675,6 @@
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Info.plist;
 				MODULEMAP_FILE = ObjectiveGit.modulemap;
-				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libgit2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ObjectiveGit;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1724,7 +1694,6 @@
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Info.plist;
 				MODULEMAP_FILE = ObjectiveGit.modulemap;
-				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libgit2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ObjectiveGit;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1744,7 +1713,6 @@
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Info.plist;
 				MODULEMAP_FILE = ObjectiveGit.modulemap;
-				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libgit2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ObjectiveGit;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1764,7 +1732,6 @@
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Info.plist;
 				MODULEMAP_FILE = ObjectiveGit.modulemap;
-				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libgit2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ObjectiveGit;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1803,7 +1770,6 @@
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Info.plist;
 				MODULEMAP_FILE = ObjectiveGit.modulemap;
-				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libgit2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ObjectiveGit;
 				WRAPPER_EXTENSION = framework;
@@ -1817,10 +1783,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				HEADER_SEARCH_PATHS = (
-					External/libgit2/include,
-					/usr/local/include,
 				);
 				INFOPLIST_FILE = "ObjectiveGitTests/ObjectiveGitTests-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
