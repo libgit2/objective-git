@@ -2429,14 +2429,17 @@
 					"GIT_SSH=1",
 				);
 				HEADER_SEARCH_PATHS = (
+					/usr/local/include,
 					"$(SRCROOT)/../External/libgit2/include",
 					"$(SRCROOT)/../External/libgit2/src",
 				);
 				INFOPLIST_FILE = "git2-Mac/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MODULEMAP_FILE = git2.modulemap;
+				OTHER_LDFLAGS = "-lssh2";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.phatblat.git2-Mac";
 				PRODUCT_NAME = git2;
 				SDKROOT = macosx;
@@ -2461,14 +2464,17 @@
 					"GIT_SSH=1",
 				);
 				HEADER_SEARCH_PATHS = (
+					/usr/local/include,
 					"$(SRCROOT)/../External/libgit2/include",
 					"$(SRCROOT)/../External/libgit2/src",
 				);
 				INFOPLIST_FILE = "git2-Mac/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MODULEMAP_FILE = git2.modulemap;
+				OTHER_LDFLAGS = "-lssh2";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.phatblat.git2-Mac";
 				PRODUCT_NAME = git2;
 				SDKROOT = macosx;
