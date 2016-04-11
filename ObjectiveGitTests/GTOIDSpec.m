@@ -48,7 +48,7 @@ it(@"should keep the git_oid alive even if the object goes out of scope", ^{
 	const git_oid *git_oid = NULL;
 
 	{
-		GTOID *testOID __attribute__((objc_precise_lifetime)) = [[GTOID alloc] initWithSHA:testSHA];
+		GTOID *testOID = [[GTOID alloc] initWithSHA:testSHA];
 		git_oid = testOID.git_oid;
 	}
 
