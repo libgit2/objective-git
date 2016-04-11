@@ -144,7 +144,7 @@
 		D01B6F1819F82F7B00D411BC /* NSError+Git.m in Sources */ = {isa = PBXBuildFile; fileRef = BDE4C061130EFE2C00851650 /* NSError+Git.m */; };
 		D01B6F1919F82F7B00D411BC /* NSString+Git.h in Headers */ = {isa = PBXBuildFile; fileRef = 55C8057213874CDF004DCB0F /* NSString+Git.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D01B6F1A19F82F7B00D411BC /* NSString+Git.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C8057313874CDF004DCB0F /* NSString+Git.m */; };
-		D01B6F1B19F82F7B00D411BC /* NSDate+GTTimeAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 30B1E7EC1703522100D0814D /* NSDate+GTTimeAdditions.h */; };
+		D01B6F1B19F82F7B00D411BC /* NSDate+GTTimeAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 30B1E7EC1703522100D0814D /* NSDate+GTTimeAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D01B6F1C19F82F7B00D411BC /* NSDate+GTTimeAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 30B1E7ED1703522100D0814D /* NSDate+GTTimeAdditions.m */; };
 		D01B6F1D19F82F7B00D411BC /* NSArray+StringArray.h in Headers */ = {isa = PBXBuildFile; fileRef = 30DCBA6F17B4791A009B0EBD /* NSArray+StringArray.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D01B6F1E19F82F7B00D411BC /* NSArray+StringArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 30DCBA7017B4791A009B0EBD /* NSArray+StringArray.m */; };
@@ -955,8 +955,8 @@
 		F85B3D011CAE0D2E00A1A225 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F85B3D081CAE0D2F00A1A225 /* git2.framework */,
 				F85B3D0A1CAE0D2F00A1A225 /* git2.framework */,
+				F85B3D081CAE0D2F00A1A225 /* git2.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
