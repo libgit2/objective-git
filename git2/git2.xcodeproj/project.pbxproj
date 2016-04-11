@@ -2276,8 +2276,8 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
 					"$(inherited)",
+					"DEBUG=1",
 				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -2343,6 +2343,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"GIT_SECURE_TRANSPORT=1",
+					"GIT_THREADS=1",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../External/libgit2/include",
@@ -2369,6 +2370,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"GIT_SECURE_TRANSPORT=1",
+					"GIT_THREADS=1",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../External/libgit2/include",
@@ -2397,6 +2399,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"GIT_SECURE_TRANSPORT=1",
+					"GIT_THREADS=1",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../External/libgit2/include",
@@ -2427,6 +2430,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"GIT_SECURE_TRANSPORT=1",
+					"GIT_THREADS=1",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../External/libgit2/include",
