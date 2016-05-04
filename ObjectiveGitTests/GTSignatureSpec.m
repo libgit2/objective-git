@@ -49,7 +49,7 @@ it(@"should keep the git_signature alive even if the object goes out of scope", 
 	const git_signature *git_signature = NULL;
 
 	{
-		GTSignature *testSignature __attribute__((objc_precise_lifetime)) = [[GTSignature alloc] initWithName:name email:email time:time];
+		GTSignature *testSignature = [[GTSignature alloc] initWithName:name email:email time:time];
 		git_signature = testSignature.git_signature;
 	}
 

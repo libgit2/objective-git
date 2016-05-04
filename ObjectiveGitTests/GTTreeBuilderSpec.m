@@ -103,19 +103,17 @@ describe(@"GTTreeBuilder building", ^{
 		expect(foundEntry.SHA).to(equal(entry.SHA));
 	});
 
-	it(@"should write new blobs when the tree is written", ^{
+	it(@"should be possible to write a blob with data", ^{
 		GTTreeEntry *entry = [builder addEntryWithData:[@"Hello, World!" dataUsingEncoding:NSUTF8StringEncoding] fileName:@"test.txt" fileMode:GTFileModeBlob error:NULL];
 		expect(entry).notTo(beNil());
 
 		GTObjectDatabase *database = [repo objectDatabaseWithError:NULL];
 		expect(database).notTo(beNil());
 
-		expect(@([database containsObjectWithOID:entry.OID])).to(beFalsy());
+		expect(@([database containsObjectWithOID:entry.OID])).to(beTruthy());
 
 		GTTree *tree = [builder writeTree:NULL];
 		expect(tree).notTo(beNil());
-
-		expect(@([database containsObjectWithOID:entry.OID])).to(beTruthy());
 	});
 
 	it(@"should be possible to write a builder to a repository", ^{

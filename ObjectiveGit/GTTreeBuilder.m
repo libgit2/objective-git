@@ -43,13 +43,6 @@
 @property (nonatomic, assign, readonly) git_treebuilder *git_treebuilder;
 @property (nonatomic, strong, readonly) GTRepository *repository;
 
-// Data to be written with the tree, keyed by the file name. This should only be
-// accessed while synchronized on self.
-//
-// This is needed because we don't want to add the entries to the object
-// database until the tree's been written.
-@property (nonatomic, strong, readonly) NSMutableDictionary *fileNameToPendingData;
-
 @end
 
 @implementation GTTreeBuilder
@@ -80,8 +73,6 @@
 	}
 
 	_repository = repository;
-	_fileNameToPendingData	= [NSMutableDictionary dictionary];
-
 	return self;
 }
 
@@ -122,12 +113,11 @@ static int filter_callback(const git_tree_entry *entry, void *payload) {
 	NSParameterAssert(data != nil);
 	NSParameterAssert(fileName != nil);
 
-	GTOID *OID = [GTOID OIDByHashingData:data type:GTObjectTypeBlob error:error];
-	if (OID == nil) return nil;
+	GTObjectDatabase *odb = [self.repository objectDatabaseWithError:error];
+	if (odb == nil) return nil;
 
-	@synchronized (self) {
-		self.fileNameToPendingData[fileName] = data;
-	}
+	GTOID *OID = [odb writeData:data type:GTObjectTypeBlob error:error];
+	if (OID == nil) return nil;
 
 	return [self addEntryWithOID:OID fileName:fileName fileMode:fileMode error:error];
 }
@@ -153,38 +143,10 @@ static int filter_callback(const git_tree_entry *entry, void *payload) {
 		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to remove entry with name %@ from tree builder.", fileName];
 	}
 
-	@synchronized (self) {
-		[self.fileNameToPendingData removeObjectForKey:fileName];
-	}
-
 	return status == GIT_OK;
 }
 
-- (BOOL)writePendingData:(NSError **)error {
-	NSDictionary *copied;
-	@synchronized (self) {
-		copied = [self.fileNameToPendingData copy];
-		[self.fileNameToPendingData removeAllObjects];
-	}
-
-	if (copied.count != 0) {
-		GTObjectDatabase *odb = [self.repository objectDatabaseWithError:error];
-		if (odb == nil) return NO;
-
-		for (NSString *fileName in copied) {
-			NSData *data = copied[fileName];
-			GTOID *dataOID = [odb writeData:data type:GTObjectTypeBlob error:error];
-			if (dataOID == nil) return NO;
-		}
-	}
-
-	return YES;
-}
-
 - (GTTree *)writeTree:(NSError **)error {
-	BOOL success = [self writePendingData:error];
-	if (!success) return nil;
-
 	git_oid treeOid;
 	int status = git_treebuilder_write(&treeOid, self.git_treebuilder);
 	if (status != GIT_OK) {
