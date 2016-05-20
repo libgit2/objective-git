@@ -42,11 +42,11 @@ it(@"can create notes", ^{
 	
 	NSError* err = nil;
 	
-	GTNote *note = [repository createNote:@"Note text" target:initialCommit ref:nil author:sig committer:sig overwriteIfExists:YES error:&err];
+	GTNote *note = [repository createNote:@"Note text" target:initialCommit referenceName:nil author:sig committer:sig overwriteIfExists:YES error:&err];
 	expect(note).notTo(beNil());
 	expect(err).to(beNil());
 	
-	[repository enumerateNotesWithError:&err ref:nil usingBlock:^(GTNote *note, GTObject *object, BOOL *stop) {
+	[repository enumerateNotesWithReferenceName:nil error:&err usingBlock:^(GTNote *note, GTObject *object, BOOL *stop) {
 		expect(note).notTo(beNil());
 		expect(object).notTo(beNil());
 		
@@ -62,17 +62,17 @@ it(@"can delete notes", ^{
 	
 	NSError* err = nil;
 	
-	GTNote *note = [repository createNote:@"Note text" target:initialCommit ref:nil author:sig committer:sig overwriteIfExists:YES error:&err];
+	GTNote *note = [repository createNote:@"Note text" target:initialCommit referenceName:nil author:sig committer:sig overwriteIfExists:YES error:&err];
 	expect(note).notTo(beNil());
 	expect(err).to(beNil());
 	
-	BOOL res = [repository removeNoteFromObject:initialCommit ref:nil author:sig committer:sig error:&err];
+	BOOL res = [repository removeNoteFromObject:initialCommit referenceName:nil author:sig committer:sig error:&err];
 	expect(@(res)).to(beTrue());
 	expect(err).to(beNil());
 	
 	NSMutableArray* notes = [NSMutableArray arrayWithCapacity:0];
 	
-	[repository enumerateNotesWithError:&err ref:nil usingBlock:^(GTNote *note, GTObject *object, BOOL *stop) {
+	[repository enumerateNotesWithReferenceName:nil error:&err usingBlock:^(GTNote *note, GTObject *object, BOOL *stop) {
 		[notes addObject:note];
 	}];
 	

@@ -607,45 +607,45 @@ typedef NS_ENUM(NSInteger, GTRepositoryStateType) {
 
 /// Creates a new note in this repo (using a default notes reference, e.g. "refs/notes/commits")
 ///
-/// note      - Note text.
-/// theTarget - Object (usually a commit) to which this note attaches to.
-///             This object must belong to this repository.
-/// ref       - Name for the notes reference in the repo, or nil for default ("refs/notes/commits")
-/// author    - Signature of the author for this note, and
-///             of the note creation time
-/// committer - Signature of the committer for this note.
-/// overwrite - If set to YES, the note will be overwritten if it already exists.
-/// error     - Will be filled with a NSError object in case of error.
-///             May be NULL.
+/// note          - Note text.
+/// theTarget     - Object (usually a commit) to which this note refers to.
+///                 This object must belong to this repository.
+/// referenceName - Name for the notes reference in the repo, or nil for default ("refs/notes/commits")
+/// author        - Signature of the author for this note, and
+///                 of the note creation time
+/// committer     - Signature of the committer for this note.
+/// overwrite     - If set to YES, the note will be overwritten if it already exists.
+/// error         - Will be filled with a NSError object in case of error.
+///                 May be NULL.
 ///
 /// Returns the newly created note or nil on error.
-- (nullable GTNote *)createNote:(NSString *)note target:(GTObject *)theTarget ref:(nullable NSString *)ref author:(GTSignature *)author committer:(GTSignature *)committer overwriteIfExists:(BOOL)overwrite error:(NSError **)error;
+- (nullable GTNote *)createNote:(NSString *)note target:(GTObject *)theTarget referenceName:(nullable NSString *)referenceName author:(GTSignature *)author committer:(GTSignature *)committer overwriteIfExists:(BOOL)overwrite error:(NSError **)error;
 
 /// Removes a note attached to object in this repo (using a default notes reference, e.g. "refs/notes/commits")
 ///
-/// parentObject - Object (usually a commit) to which the note to be removed is attached to.
-///                This object must belong to this repository.
-/// ref          - Name for the notes reference in the repo, or nil for default ("refs/notes/commits")
-/// author       - Signature of the author for this note removal, and
-///                of the note removal time
-/// committer    - Signature of the committer for this note removal.
-/// error        - Will be filled with a NSError object in case of error.
-///                May be NULL.
+/// parentObject  - Object (usually a commit) to which the note to be removed is attached to.
+///                 This object must belong to this repository.
+/// referenceName - Name for the notes reference in the repo, or nil for default ("refs/notes/commits")
+/// author        - Signature of the author for this note removal, and
+///                 of the note removal time
+/// committer     - Signature of the committer for this note removal.
+/// error         - Will be filled with a NSError object in case of error.
+///                 May be NULL.
 ///
 /// Returns the YES on success and NO on error.
-- (BOOL)removeNoteFromObject:(GTObject *)parentObject ref:(nullable NSString *)ref author:(GTSignature *)author committer:(GTSignature *)committer error:(NSError **)error;
+- (BOOL)removeNoteFromObject:(GTObject *)parentObject referenceName:(nullable NSString *)referenceName author:(GTSignature *)author committer:(GTSignature *)committer error:(NSError **)error;
 
 /// Enumerates through all stored notes in this repo (using a default notes reference, e.g. "refs/notes/commits")
 ///
-/// error     - Will be filled with a NSError object in case of error.
-///             May be null.
-/// ref       - Name for the notes reference in the repo, or nil for default ("refs/notes/commits")
-/// block     - A block to be called on each encountered note object. The block accepts
-///             a reference to `note`, an `object` that is annotated with the note.
-///             If the block sets `stop` to YES, the iterator is finished.
+/// referenceName - Name for the notes reference in the repo, or nil for default ("refs/notes/commits")
+/// error         - Will be filled with a NSError object in case of error.
+///                 May be NULL.
+/// block         - A block to be called on each encountered note object. The block accepts
+///                 a reference to `note`, an `object` that is annotated with the note.
+///                 If the block sets `stop` to YES, the iterator is finished.
 ///
 /// Returns YES on overall success or NO on error of any kind.
-- (BOOL)enumerateNotesWithError:(NSError **)error ref:(nullable NSString *)ref usingBlock:(void (^)(GTNote *note, GTObject *object, BOOL *stop))block;
+- (BOOL)enumerateNotesWithReferenceName:(nullable NSString *)referenceName error:(NSError **)error usingBlock:(void (^)(GTNote *note, GTObject *object, BOOL *stop))block;
 
 @end
 

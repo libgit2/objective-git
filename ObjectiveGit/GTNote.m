@@ -57,19 +57,36 @@
 	return [GTOID oidWithGitOid:git_note_id(self.git_note)];
 }
 
-- (instancetype)initWithTargetOID:(GTOID*)oid repository:(GTRepository*)repository ref:(NSString*)ref {
-	return [self initWithTargetGitOID:(git_oid *)oid.git_oid repository:repository.git_repository ref:ref.UTF8String];
+- (instancetype)initWithTargetOID:(GTOID *)oid repository:(GTRepository *)repository referenceName:(NSString *)referenceName error:(NSError **)error {
+	int err = GIT_OK;
+	
+	id object = [self initWithTargetGitOID:(git_oid *)oid.git_oid repository:repository.git_repository referenceName:referenceName.UTF8String error:&err];
+	
+	if (err != GIT_OK && error != NULL) {
+		*error = [NSError git_errorFor:err description:@"Failed to create a note."];
+	}
+	
+	return object;
 }
 
-- (instancetype)initWithTargetGitOID:(git_oid*)oid repository:(git_repository *)repository ref:(const char*)ref {
-	if (self = [super init]) {
-		int gitErr = git_note_read(&_note, repository, ref, oid);
+- (instancetype)initWithTargetGitOID:(git_oid *)oid repository:(git_repository *)repository referenceName:(const char *)referenceName error:(int *)error {
+	self = [super init];
+	if (self == nil) return nil;
+	
+	int gitErr = git_note_read(&_note, repository, referenceName, oid);
+	
+	if (gitErr != GIT_OK) {
+		if (error != NULL) *error = gitErr;
 		
-		if (gitErr != GIT_OK)
-			return nil;		// Cannot read the note, means it either doesn't exists for this object, this object is not found, or whatever else.
+		return nil;
 	}
 	
 	return self;
+}
+
+- (instancetype)init {
+	NSAssert(NO, @"Call to an unavailable initializer.");
+	return nil;
 }
 
 @end

@@ -51,11 +51,31 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, strong) GTObject *target;
 
 /// The underlying `git_note` object.
-- (git_note * _Nullable)git_note __attribute__((objc_returns_inner_pointer));
+- (git_note *)git_note __attribute__((objc_returns_inner_pointer));
 
-/// These initializers may fail if there's no note attached to the provided oid.
-- (nullable instancetype)initWithTargetOID:(GTOID*)oid repository:(GTRepository*)repository ref:(nullable NSString*)ref;
-- (nullable instancetype)initWithTargetGitOID:(git_oid*)oid repository:(git_repository *)repository ref:(const char* _Nullable)ref;
+/// Create a note with target OID in the given repository.
+///
+/// oid           - OID of the target to attach to
+/// repository    - Repository containing the target OID refers to
+/// referenceName - Name for the notes reference in the repo, or nil for default ("refs/notes/commits")
+/// error         - Will be filled with a NSError object in case of error.
+///                 May be NULL.
+///
+/// Returns initialized GTNote instance or nil on failure (error will be populated, if passed).
+- (nullable instancetype)initWithTargetOID:(GTOID *)oid repository:(GTRepository *)repository referenceName:(nullable NSString *)referenceName error:(NSError **)error;
+
+/// Create a note with target libgit2 oid in the given repository.
+///
+/// oid           - git_oid of the target to attach to
+/// repository    - Repository containing the target OID refers to
+/// referenceName - Name for the notes reference in the repo, or NULL for default ("refs/notes/commits")
+/// error         - Will be filled with a git error code in case of error.
+///                 May be NULL.
+///
+/// Returns initialized GTNote instance or nil on failure (error will be populated, if passed).
+- (nullable instancetype)initWithTargetGitOID:(git_oid *)oid repository:(git_repository *)repository referenceName:(const char * _Nullable)referenceName error:(int * _Nullable)error;
+
+- (instancetype)init NS_UNAVAILABLE;
 
 @end
 

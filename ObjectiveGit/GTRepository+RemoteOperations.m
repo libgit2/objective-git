@@ -217,6 +217,8 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 		}
 		
 		noteRef = [NSString stringWithUTF8String:default_ref_name.ptr];
+		
+		git_buf_free(&default_ref_name);
 	}
 	
 	return [self pushRefspecs:@[[NSString stringWithFormat:@"%@:%@", noteRef, noteRef]] toRemote:remote withOptions:options error:error progress:progressBlock];
