@@ -89,4 +89,25 @@
 	return nil;
 }
 
++ (NSString*)defaultReferenceNameForRepository:(GTRepository *)repository error:(NSError **)error {
+	NSString* noteRef = nil;
+	
+	git_buf default_ref_name = { 0 };
+	int gitErr = git_note_default_ref(&default_ref_name, repository.git_repository);
+	if (gitErr != GIT_OK) {
+		git_buf_free(&default_ref_name);
+		
+		if (error != NULL) {
+			*error = [NSError git_errorFor:gitErr description:@"Unable to get default git notes reference name"];
+		}
+		
+		return nil;
+	}
+	
+	noteRef = [NSString stringWithUTF8String:default_ref_name.ptr];
+	
+	git_buf_free(&default_ref_name);
+	
+	return noteRef;
+}
 @end

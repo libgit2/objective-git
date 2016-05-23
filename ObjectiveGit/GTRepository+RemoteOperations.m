@@ -18,6 +18,7 @@
 #import "NSArray+StringArray.h"
 #import "NSError+Git.h"
 #import "GTRepository+References.h"
+#import "GTNote.h"
 
 #import "git2/errors.h"
 #import "git2/remote.h"
@@ -174,29 +175,38 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 }
 
 - (BOOL)pushBranches:(NSArray *)branches toRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error progress:(GTRemotePushTransferProgressBlock)progressBlock {
+	return [self pushBranches:branches toRemote:remote withOptions:options withNotesReferenceName:nil error:error progress:progressBlock];
+}
+
+- (BOOL)pushBranches:(NSArray *)branches toRemote:(GTRemote *)remote withOptions:(NSDictionary *)options withNotesReferenceName:(NSString*)referenceName error:(NSError **)error progress:(GTRemotePushTransferProgressBlock)progressBlock {
 	NSParameterAssert(branches != nil);
 	NSParameterAssert(branches.count != 0);
 	NSParameterAssert(remote != nil);
-
+	
 	NSMutableArray *refspecs = nil;
 	// Build refspecs for the passed in branches
 	refspecs = [NSMutableArray arrayWithCapacity:branches.count];
 	for (GTBranch *branch in branches) {
 		// Default remote reference for when branch doesn't exist on remote - create with same short name
 		NSString *remoteBranchReference = [NSString stringWithFormat:@"refs/heads/%@", branch.shortName];
-
+		
 		BOOL success = NO;
 		GTBranch *trackingBranch = [branch trackingBranchWithError:error success:&success];
-
+		
 		if (success && trackingBranch != nil) {
 			// Use remote branch short name from trackingBranch, which could be different
 			// (e.g. refs/heads/master:refs/heads/my_master)
 			remoteBranchReference = [NSString stringWithFormat:@"refs/heads/%@", trackingBranch.shortName];
 		}
-
+		
 		[refspecs addObject:[NSString stringWithFormat:@"refs/heads/%@:%@", branch.shortName, remoteBranchReference]];
 	}
-
+	
+	// Also push the notes reference, if needed.
+	if (referenceName != nil) {
+		[refspecs addObject:[NSString stringWithFormat:@"%@:%@", referenceName, referenceName]];
+	}
+	
 	return [self pushRefspecs:refspecs toRemote:remote withOptions:options error:error progress:progressBlock];
 }
 
@@ -204,21 +214,9 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 	NSParameterAssert(remote != nil);
 	
 	if (noteRef == nil) {
-		git_buf default_ref_name = { 0 };
-		int gitErr = git_note_default_ref(&default_ref_name, self.git_repository);
-		if (gitErr != GIT_OK) {
-			git_buf_free(&default_ref_name);
-			
-			if (error != NULL) {
-				*error = [NSError git_errorFor:gitErr description:@"Unable to get default git notes reference name"];
-			}
-			
-			return NO;
-		}
+		noteRef = [GTNote defaultReferenceNameForRepository:self error:error];
 		
-		noteRef = [NSString stringWithUTF8String:default_ref_name.ptr];
-		
-		git_buf_free(&default_ref_name);
+		if (noteRef == nil) return NO;
 	}
 	
 	return [self pushRefspecs:@[[NSString stringWithFormat:@"%@:%@", noteRef, noteRef]] toRemote:remote withOptions:options error:error progress:progressBlock];

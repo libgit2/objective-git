@@ -97,19 +97,39 @@ typedef NS_ENUM(NSInteger, GTFetchPruneOption) {
 /// will point to an error describing what happened).
 - (BOOL)pushBranches:(NSArray<GTBranch *> *)branches toRemote:(GTRemote *)remote withOptions:(nullable NSDictionary *)options error:(NSError **)error progress:(nullable void (^)(unsigned int current, unsigned int total, size_t bytes, BOOL *stop))progressBlock;
 
-/// Push a given Git notes reference name to a remote.
+/// Push an array of branches to a remote, together with notes (in one push).
+/// Normally, if you use Git notes functionality, to push the notes to remote, you would have to
+/// do two operations: pushBranches followed by pushNotes. This is unrational, so we offer you a handy
+/// shortcut that allows to push the branches together with the notes.
 ///
-/// noteRef       - Name of the notes reference. If NULL, will default to whatever the default is (e.g. "refs/notes/commits")
+/// branches      - An array of branches to push. Must not be nil.
 /// remote        - The remote to push to. Must not be nil.
 /// options       - Options applied to the push operation. Can be NULL.
 ///                 Recognized options are:
 ///                 `GTRepositoryRemoteOptionsCredentialProvider`
+/// referenceName - Reference name for notes, if they should be pushed together with the branches.
+///                 Use +[GTNote defaultReferenceNameWithError:] to push the default note reference.
+///                 Passing NULL here will make notes NOT to be pushed.
 /// error         - The error if one occurred. Can be NULL.
 /// progressBlock - An optional callback for monitoring progress. May be NULL.
 ///
 /// Returns YES if the push was successful, NO otherwise (and `error`, if provided,
 /// will point to an error describing what happened).
-- (BOOL)pushNotes:(nullable NSString *)noteRef toRemote:(GTRemote *)remote withOptions:(nullable NSDictionary *)options error:(NSError **)error progress:(nullable void (^)(unsigned int current, unsigned int total, size_t bytes, BOOL *stop))progressBlock;
+- (BOOL)pushBranches:(NSArray<GTBranch *> *)branches toRemote:(GTRemote *)remote withOptions:(nullable NSDictionary *)options withNotesReferenceName:(nullable NSString*)notesReferenceName error:(NSError **)error progress:(nullable void (^)(unsigned int current, unsigned int total, size_t bytes, BOOL *stop))progressBlock;
+
+/// Push a given Git notes reference name to a remote.
+///
+/// noteReferenceName - Name of the notes reference. If NULL, will default to whatever the default is (e.g. "refs/notes/commits")
+/// remote            - The remote to push to. Must not be nil.
+/// options           - Options applied to the push operation. Can be NULL.
+///                     Recognized options are:
+///                     `GTRepositoryRemoteOptionsCredentialProvider`
+/// error             - The error if one occurred. Can be NULL.
+/// progressBlock     - An optional callback for monitoring progress. May be NULL.
+///
+/// Returns YES if the push was successful, NO otherwise (and `error`, if provided,
+/// will point to an error describing what happened).
+- (BOOL)pushNotes:(nullable NSString *)noteReferenceName toRemote:(GTRemote *)remote withOptions:(nullable NSDictionary *)options error:(NSError **)error progress:(nullable void (^)(unsigned int current, unsigned int total, size_t bytes, BOOL *stop))progressBlock;
 
 /// Delete a remote branch
 ///

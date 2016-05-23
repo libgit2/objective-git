@@ -77,6 +77,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)init NS_UNAVAILABLE;
 
+
+/// Return a default reference name (that is used if you pass nil to any referenceName parameter)
+///
+/// repository    - Repository for which to get the default notes reference name.
+/// error         - Will be filled with a git error code in case of error.
+///                 May be NULL.
+///
+/// Returns default reference name (usually "refs/notes/commits").
++ (NSString*)defaultReferenceNameForRepository:(GTRepository *)repository error:(NSError **)error;
+
 @end
 
 NS_ASSUME_NONNULL_END
