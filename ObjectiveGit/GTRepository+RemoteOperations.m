@@ -204,7 +204,11 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 	
 	// Also push the notes reference, if needed.
 	if (referenceName != nil) {
-		[refspecs addObject:[NSString stringWithFormat:@"%@:%@", referenceName, referenceName]];
+		// but check whether the reference exists for the repo, otherwise, our push will fail
+		GTReference* notesRef = [self lookUpReferenceWithName:referenceName error:nil];
+		
+		if (notesRef != nil)
+			[refspecs addObject:[NSString stringWithFormat:@"%@:%@", referenceName, referenceName]];
 	}
 	
 	return [self pushRefspecs:refspecs toRemote:remote withOptions:options error:error progress:progressBlock];
@@ -218,6 +222,11 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 		
 		if (noteRef == nil) return NO;
 	}
+	
+	GTReference* notesReference = [self lookUpReferenceWithName:noteRef error:error];
+	
+	if (notesReference == nil)
+		return NO;	// error will be pre-filled with the lookUpReferenceWithName call
 	
 	return [self pushRefspecs:@[[NSString stringWithFormat:@"%@:%@", noteRef, noteRef]] toRemote:remote withOptions:options error:error progress:progressBlock];
 }
