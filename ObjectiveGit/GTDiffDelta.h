@@ -17,27 +17,30 @@
 
 /// The type of change that this delta represents.
 ///
-/// GTDiffFileDeltaUnmodified - No Change.
-/// GTDiffFileDeltaAdded      - The file was added to the index.
-/// GTDiffFileDeltaDeleted    - The file was removed from the working directory.
-/// GTDiffFileDeltaModified   - The file was modified.
-/// GTDiffFileDeltaRenamed    - The file has been renamed.
-/// GTDiffFileDeltaCopied     - The file was duplicated.
-/// GTDiffFileDeltaIgnored    - The file was ignored by git.
-/// GTDiffFileDeltaUntracked  - The file has been added to the working directory
+/// GTDeltaTypeUnmodified - No Change.
+/// GTDeltaTypeAdded      - The file was added to the index.
+/// GTDeltaTypeDeleted    - The file was removed from the working directory.
+/// GTDeltaTypeModified   - The file was modified.
+/// GTDeltaTypeRenamed    - The file has been renamed.
+/// GTDeltaTypeCopied     - The file was duplicated.
+/// GTDeltaTypeIgnored    - The file was ignored by git.
+/// GTDeltaTypeUntracked  - The file has been added to the working directory
 ///                             and is therefore currently untracked.
-/// GTDiffFileDeltaTypeChange - The file has changed from a blob to either a
+/// GTDeltaTypeTypeChange - The file has changed from a blob to either a
 ///                             submodule, symlink or directory. Or vice versa.
-typedef NS_ENUM(NSInteger, GTDiffDeltaType) {
-	GTDiffFileDeltaUnmodified = GIT_DELTA_UNMODIFIED,
-	GTDiffFileDeltaAdded = GIT_DELTA_ADDED,
-	GTDiffFileDeltaDeleted = GIT_DELTA_DELETED,
-	GTDiffFileDeltaModified = GIT_DELTA_MODIFIED,
-	GTDiffFileDeltaRenamed = GIT_DELTA_RENAMED,
-	GTDiffFileDeltaCopied = GIT_DELTA_COPIED,
-	GTDiffFileDeltaIgnored = GIT_DELTA_IGNORED,
-	GTDiffFileDeltaUntracked = GIT_DELTA_UNTRACKED,
-	GTDiffFileDeltaTypeChange = GIT_DELTA_TYPECHANGE,
+/// GTDeltaTypeConflicted - The file is conflicted in the working directory.
+typedef NS_ENUM(NSInteger, GTDeltaType) {
+	GTDeltaTypeUnmodified = GIT_DELTA_UNMODIFIED,
+	GTDeltaTypeAdded = GIT_DELTA_ADDED,
+	GTDeltaTypeDeleted = GIT_DELTA_DELETED,
+	GTDeltaTypeModified = GIT_DELTA_MODIFIED,
+	GTDeltaTypeRenamed = GIT_DELTA_RENAMED,
+	GTDeltaTypeCopied = GIT_DELTA_COPIED,
+	GTDeltaTypeIgnored = GIT_DELTA_IGNORED,
+	GTDeltaTypeUntracked = GIT_DELTA_UNTRACKED,
+	GTDeltaTypeTypeChange = GIT_DELTA_TYPECHANGE,
+	GTDeltaTypeUnreadable = GIT_DELTA_UNREADABLE,
+	GTDeltaTypeConflicted = GIT_DELTA_CONFLICTED,
 };
 
 NS_ASSUME_NONNULL_BEGIN
@@ -45,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// A class representing a single change within a diff.
 ///
 /// The change may not be simply a change of text within a given file, it could
-/// be that the file was renamed, or added to the index. See `GTDiffDeltaType`
+/// be that the file was renamed, or added to the index. See `GTDeltaType`
 /// for the types of change represented.
 @interface GTDiffDelta : NSObject
 
@@ -68,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// The type of change that this delta represents.
 ///
 /// Think "status" as in `git status`.
-@property (nonatomic, readonly) GTDiffDeltaType type;
+@property (nonatomic, readonly) GTDeltaType type;
 
 /// Diffs the given blob and data buffer.
 ///

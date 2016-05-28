@@ -23,7 +23,7 @@
 	
 	_oldFile = [[GTDiffFile alloc] initWithGitDiffFile:delta->old_file];
 	_newFile = [[GTDiffFile alloc] initWithGitDiffFile:delta->new_file];
-	_status = (GTStatusDeltaStatus)delta->status;
+	_status = (GTDeltaType)delta->status;
 	_similarity = (double)(delta->similarity / 100.0);
 	
 	return self;

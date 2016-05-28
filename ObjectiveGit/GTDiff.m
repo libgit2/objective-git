@@ -234,7 +234,7 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 	return git_diff_num_deltas(self.git_diff);
 }
 
-- (NSUInteger)numberOfDeltasWithType:(GTDiffDeltaType)deltaType {
+- (NSUInteger)numberOfDeltasWithType:(GTDeltaType)deltaType {
 	return git_diff_num_deltas_of_type(self.git_diff, (git_delta_t)deltaType);
 }
 
