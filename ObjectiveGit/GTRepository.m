@@ -831,6 +831,15 @@ static int submoduleEnumerationCallback(git_submodule *git_submodule, const char
 	return [self moveHEADToReference:targetReference error:error];
 }
 
+- (BOOL)checkoutIndex:(GTIndex *)index options:(GTCheckoutOptions *)options error:(NSError **)error {
+	int gitError = git_checkout_index(self.git_repository, index.git_index, options.git_checkoutOptions);
+	if (gitError < GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to checkout index."];
+		return NO;
+	}
+	return YES;
+}
+
 - (void)flushAttributesCache {
 	git_attr_cache_flush(self.git_repository);
 }

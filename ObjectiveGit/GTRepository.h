@@ -526,6 +526,15 @@ typedef NS_ENUM(NSInteger, GTRepositoryStateType) {
 /// Returns YES if operation was successful, NO otherwise
 - (BOOL)checkoutReference:(GTReference *)targetReference options:(nullable GTCheckoutOptions *)options error:(NSError **)error;
 
+/// Checkout an index
+///
+/// index   - The index to checkout. Must not be nil.
+/// options - The checkout options to use. Can be nil.
+/// error   - The error if one occurred. Can be NULL.
+///
+/// Returns YES if operation was successful, NO otherwise
+- (BOOL)checkoutIndex:(GTIndex *)index options:(nullable GTCheckoutOptions *)options error:(NSError **)error;
+
 /// Flush the gitattributes cache.
 - (void)flushAttributesCache;
 
