@@ -58,6 +58,9 @@ typedef NS_OPTIONS(NSInteger, GTCheckoutNotifyFlags) {
 
 @property (assign) GTCheckoutNotifyFlags notifyFlags;
 @property (copy) int (^notifyBlock)(GTCheckoutNotifyFlags why, NSString *path, GTDiffFile *baseline, GTDiffFile *target, GTDiffFile *workdir);
+
+@property (copy) NSArray *pathSpecs;
+
 @end
 
 NS_ASSUME_NONNULL_END

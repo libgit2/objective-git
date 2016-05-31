@@ -9,6 +9,7 @@
 #import "GTCheckoutOptions.h"
 #import "GTDiffFile.h"
 #import "NSError+Git.h"
+#import "NSArray+StringArray.h"
 #import "git2.h"
 
 // The type of block set in progressBlock for progress reporting
@@ -90,6 +91,8 @@ static int GTCheckoutNotifyCallback(git_checkout_notify_t why, const char *path,
 		_git_checkoutOptions.notify_flags = self.notifyFlags;
 		_git_checkoutOptions.notify_payload = (__bridge void *)self.notifyBlock;
 	}
+
+	_git_checkoutOptions.paths = self.pathSpecs.git_strarray;
 
 	return &_git_checkoutOptions;
 }
