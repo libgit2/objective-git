@@ -40,6 +40,10 @@
 	int result = git_patch_get_hunk(&_git_hunk, &gitLineCount, patch.git_patch, hunkIndex);
 	if (result != GIT_OK) return nil;
 	_lineCount = gitLineCount;
+	_oldStart = self.git_hunk->old_start;
+	_oldLines = self.git_hunk->old_lines;
+	_newStart = self.git_hunk->new_start;
+	_newLines = self.git_hunk->new_lines;
 
 	_patch = patch;
 	_hunkIndex = hunkIndex;
