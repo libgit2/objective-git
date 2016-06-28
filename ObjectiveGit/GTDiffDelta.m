@@ -59,6 +59,9 @@
 - (GTDeltaType)type {
 	return (GTDeltaType)self.git_diff_delta.status;
 }
+
+- (double)similarity {
+	return (double)(self.git_diff_delta.similarity / 100.0);
 }
 
 #pragma mark Lifecycle

@@ -73,6 +73,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// Think "status" as in `git status`.
 @property (nonatomic, readonly) GTDeltaType type;
 
+@property (nonatomic, readonly, assign) double similarity;
+
 /// Diffs the given blob and data buffer.
 ///
 /// oldBlob     - The blob which should comprise the left side of the diff. May be
