@@ -52,18 +52,18 @@ NS_ASSUME_NONNULL_BEGIN
 @interface GTObject : NSObject
 
 @property (nonatomic, readonly) NSString *type;
-@property (nonatomic, readonly, nullable) NSString *SHA;
-@property (nonatomic, readonly, nullable) NSString *shortSHA;
+@property (nonatomic, readonly) NSString * _Nullable SHA;
+@property (nonatomic, readonly) NSString * _Nullable shortSHA;
 @property (nonatomic, readonly, strong) GTRepository *repository;
-@property (nonatomic, readonly, nullable) GTOID *OID;
+@property (nonatomic, readonly) GTOID * _Nullable OID;
 
 - (instancetype)init NS_UNAVAILABLE;
 
 /// Designated initializer.
-- (nullable id)initWithObj:(git_object *)theObject inRepository:(GTRepository *)theRepo NS_DESIGNATED_INITIALIZER;
+- (id _Nullable)initWithObj:(git_object *)theObject inRepository:(GTRepository *)theRepo NS_DESIGNATED_INITIALIZER;
 
 /// Class convenience initializer
-+ (nullable id)objectWithObj:(git_object *)theObject inRepository:(GTRepository *)theRepo;
++ (id _Nullable)objectWithObj:(git_object *)theObject inRepository:(GTRepository *)theRepo;
 
 /// The underlying `git_object`.
 - (git_object *)git_object __attribute__((objc_returns_inner_pointer));
@@ -73,7 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error(out) - will be filled if an error occurs
 ///
 /// returns a GTOdbObject or nil if an error occurred.
-- (nullable GTOdbObject *)odbObjectWithError:(NSError **)error;
+- (GTOdbObject * _Nullable)odbObjectWithError:(NSError **)error;
 
 /// Recursively peel an object until an object of the specified type is met.
 ///
@@ -84,7 +84,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///         May be NULL.
 ///
 /// Returns the found object or nil on error.
-- (nullable id)objectByPeelingToType:(GTObjectType)type error:(NSError **)error;
+- (id _Nullable)objectByPeelingToType:(GTObjectType)type error:(NSError **)error;
 
 @end
 

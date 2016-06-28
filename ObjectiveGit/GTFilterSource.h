@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// The OID of the source. Will be nil if the source doesn't exist in the object
 /// database.
-@property (nonatomic, readonly, strong, nullable) GTOID *OID;
+@property (nonatomic, readonly, strong) GTOID * _Nullable OID;
 
 /// The filter mode.
 @property (nonatomic, readonly, assign) GTFilterSourceMode mode;
@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// source - The filter source. Cannot be NULL.
 ///
 /// Returns the initialized object.
-- (nullable instancetype)initWithGitFilterSource:(const git_filter_source *)source NS_DESIGNATED_INITIALIZER;
+- (instancetype _Nullable)initWithGitFilterSource:(const git_filter_source *)source NS_DESIGNATED_INITIALIZER;
 
 @end
 

@@ -10,6 +10,6 @@
 
 @interface GTReflog ()
 
-- (nullable instancetype)init NS_UNAVAILABLE;
+- (instancetype _Nullable)init NS_UNAVAILABLE;
 
 @end

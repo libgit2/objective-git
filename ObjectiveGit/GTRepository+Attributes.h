@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// path - The path to use for the lookup. Cannot be nil.
 ///
 /// Returns the value of the attribute or nil.
-- (nullable NSString *)attributeWithName:(NSString *)name path:(NSString *)path;
+- (NSString * _Nullable)attributeWithName:(NSString *)name path:(NSString *)path;
 
 @end
 

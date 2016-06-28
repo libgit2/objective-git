@@ -36,23 +36,23 @@ NS_ASSUME_NONNULL_BEGIN
 @interface GTSignature : NSObject
 
 /// The name of the person.
-@property (nonatomic, readonly, copy, nullable) NSString *name;
+@property (nonatomic, readonly, copy) NSString * _Nullable name;
 
 /// The email of the person.
-@property (nonatomic, readonly, copy, nullable) NSString *email;
+@property (nonatomic, readonly, copy) NSString * _Nullable email;
 
 /// The time when the action happened.
-@property (nonatomic, readonly, strong, nullable) NSDate *time;
+@property (nonatomic, readonly, strong) NSDate * _Nullable time;
 
 /// The time zone that `time` should be interpreted relative to.
-@property (nonatomic, readonly, copy, nullable) NSTimeZone *timeZone;
+@property (nonatomic, readonly, copy) NSTimeZone * _Nullable timeZone;
 
 /// Initializes the receiver with the given signature.
 ///
 /// git_signature - The signature to wrap. This must not be NULL.
 ///
 /// Returns an initialized GTSignature, or nil if an error occurs.
-- (nullable instancetype)initWithGitSignature:(const git_signature *)git_signature;
+- (instancetype _Nullable)initWithGitSignature:(const git_signature *)git_signature;
 
 /// Initializes the receiver with the given information.
 ///
@@ -62,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///         zone. This may be nil.
 ///
 /// Returns an initialized GTSignature, or nil if an error occurs.
-- (nullable instancetype)initWithName:(NSString *)name email:(NSString *)email time:(nullable NSDate *)time;
+- (instancetype _Nullable)initWithName:(NSString *)name email:(NSString *)email time:(NSDate * _Nullable)time;
 
 /// The underlying `git_signature` object.
 - (const git_signature *)git_signature __attribute__((objc_returns_inner_pointer));

@@ -88,7 +88,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error       - If not NULL, set to any error that occurs.
 ///
 /// Returns a diff delta, or nil if an error occurs.
-+ (nullable instancetype)diffDeltaFromBlob:(nullable GTBlob *)oldBlob forPath:(nullable NSString *)oldBlobPath toBlob:(nullable GTBlob *)newBlob forPath:(nullable NSString *)newBlobPath options:(nullable NSDictionary *)options error:(NSError **)error;
++ (instancetype _Nullable)diffDeltaFromBlob:(GTBlob * _Nullable)oldBlob forPath:(NSString * _Nullable)oldBlobPath toBlob:(GTBlob * _Nullable)newBlob forPath:(NSString * _Nullable)newBlobPath options:(NSDictionary * _Nullable)options error:(NSError **)error;
 
 /// Diffs the given blob and data buffer.
 ///
@@ -103,7 +103,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error    - If not NULL, set to any error that occurs.
 ///
 /// Returns a diff delta, or nil if an error occurs.
-+ (nullable instancetype)diffDeltaFromBlob:(nullable GTBlob *)blob forPath:(nullable NSString *)blobPath toData:(nullable NSData *)data forPath:(nullable NSString *)dataPath options:(nullable NSDictionary *)options error:(NSError **)error;
++ (instancetype _Nullable)diffDeltaFromBlob:(GTBlob * _Nullable)blob forPath:(NSString * _Nullable)blobPath toData:(NSData * _Nullable)data forPath:(NSString * _Nullable)dataPath options:(NSDictionary * _Nullable)options error:(NSError **)error;
 
 /// Diffs the given data buffers.
 ///
@@ -118,7 +118,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error       - If not NULL, set to any error that occurs.
 ///
 /// Returns a diff delta, or nil if an error occurs.
-+ (nullable instancetype)diffDeltaFromData:(nullable NSData *)oldData forPath:(nullable NSString *)oldDataPath toData:(nullable NSData *)newData forPath:(nullable NSString *)newDataPath options:(nullable NSDictionary *)options error:(NSError **)error;
++ (instancetype _Nullable)diffDeltaFromData:(NSData * _Nullable)oldData forPath:(NSString * _Nullable)oldDataPath toData:(NSData * _Nullable)newData forPath:(NSString * _Nullable)newDataPath options:(NSDictionary * _Nullable)options error:(NSError **)error;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -128,7 +128,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// deltaIndex - The index of the delta within the diff.
 ///
 /// Returns a diff delta, or nil if an error occurs.
-- (nullable instancetype)initWithDiff:(GTDiff *)diff deltaIndex:(NSUInteger)deltaIndex;
+- (instancetype _Nullable)initWithDiff:(GTDiff *)diff deltaIndex:(NSUInteger)deltaIndex;
 
 /// Creates a patch from a text delta.
 ///
@@ -137,7 +137,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error - If not NULL, set to any error that occurs.
 ///
 /// Returns a new patch, or nil if an error occurs.
-- (nullable GTDiffPatch *)generatePatch:(NSError **)error;
+- (GTDiffPatch * _Nullable)generatePatch:(NSError **)error;
 
 @end
 

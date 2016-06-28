@@ -242,7 +242,7 @@ struct GTRemoteCreatePayload {
 	git_remote_callbacks remoteCallbacks;
 };
 
-+ (nullable instancetype)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL options:(nullable NSDictionary *)options error:(NSError **)error transferProgressBlock:(nullable void (^)(const git_transfer_progress *, BOOL *stop))transferProgressBlock {
++ (instancetype _Nullable)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL options:(nullable NSDictionary *)options error:(NSError **)error transferProgressBlock:(void (^ _Nullable)(const git_transfer_progress *, BOOL *stop))transferProgressBlock {
 
 	git_clone_options cloneOptions = GIT_CLONE_OPTIONS_INIT;
 
@@ -889,7 +889,7 @@ static int submoduleEnumerationCallback(git_submodule *git_submodule, const char
 	return YES;
 }
 
-- (nullable GTEnumerator *)enumeratorForUniqueCommitsFromOID:(GTOID *)fromOID relativeToOID:(GTOID *)relativeOID error:(NSError **)error {
+- (GTEnumerator *)enumeratorForUniqueCommitsFromOID:(GTOID *)fromOID relativeToOID:(GTOID *)relativeOID error:(NSError **)error {
 	NSParameterAssert(fromOID != nil);
 	NSParameterAssert(relativeOID != nil);
 
@@ -907,18 +907,18 @@ static int submoduleEnumerationCallback(git_submodule *git_submodule, const char
 
 - (BOOL)calculateState:(GTRepositoryStateType *)state withError:(NSError **)error {
 	NSParameterAssert(state != NULL);
-	
+
 	int result = git_repository_state(self.git_repository);
 	if (result < 0) {
 		if (error != NULL) *error = [NSError git_errorFor:result description:@"Failed to calculate repository state"];
 		return NO;
 	}
-	
+
 	*state = result;
 	return YES;
 }
 
-- (BOOL)cleanupStateWithError:(NSError * _Nullable __autoreleasing *)error {
+- (BOOL)cleanupStateWithError:(NSError **)error {
 	int errorCode = git_repository_state_cleanup(self.git_repository);
 	if (errorCode != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:errorCode description:@"Failed to clean up repository state"];
@@ -930,14 +930,14 @@ static int submoduleEnumerationCallback(git_submodule *git_submodule, const char
 
 - (GTNote *)createNote:(NSString *)note target:(GTObject *)theTarget referenceName:(NSString *)referenceName author:(GTSignature *)author committer:(GTSignature *)committer overwriteIfExists:(BOOL)overwrite error:(NSError **)error {
 	git_oid oid;
-	
+
 	int gitError = git_note_create(&oid, self.git_repository, referenceName.UTF8String, author.git_signature, committer.git_signature, theTarget.OID.git_oid, [note UTF8String], overwrite ? 1 : 0);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to create a note in repository"];
-		
+
 		return nil;
 	}
-	
+
 	return [[GTNote alloc] initWithTargetOID:theTarget.OID repository:self referenceName:referenceName error:error];
 }
 
@@ -947,48 +947,48 @@ static int submoduleEnumerationCallback(git_submodule *git_submodule, const char
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to delete note from %@", parentObject];
 		return NO;
 	}
-	
+
 	return YES;
 }
 
 - (BOOL)enumerateNotesWithReferenceName:(NSString *)referenceName error:(NSError **)error usingBlock:(void (^)(GTNote *note, GTObject *object, NSError *error, BOOL *stop))block {
 	git_note_iterator *iter = NULL;
-	
+
 	int gitError = git_note_iterator_new(&iter, self.git_repository, referenceName.UTF8String);
-	
+
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to enumerate notes"];
 		return NO;
 	}
-	
+
 	@onExit {
 		git_note_iterator_free(iter);
 	};
-	
+
 	git_oid note_id;
 	git_oid object_id;
 	BOOL success = YES;
 	int iterError = GIT_OK;
-	
+
 	while ((iterError = git_note_next(&note_id, &object_id, iter)) == GIT_OK) {
 		NSError *lookupErr = nil;
-		
+
 		GTNote *note = [[GTNote alloc] initWithTargetOID:[GTOID oidWithGitOid:&object_id] repository:self referenceName:referenceName error:&lookupErr];
 		GTObject *obj = nil;
-		
+
 		if (note != nil) obj = [self lookUpObjectByGitOid:&object_id error:&lookupErr];
-		
+
 		BOOL stop = NO;
 		block(note, obj, lookupErr, &stop);
 		if (stop) {
 			break;
 		}
 	}
-	
+
 	if (iterError != GIT_OK && iterError != GIT_ITEROVER) {
 		if (error != NULL) *error = [NSError git_errorFor:iterError description:@"Iterator error"];
 	}
-	
+
 	return success;
 }
 

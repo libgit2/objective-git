@@ -39,15 +39,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface GTCommit : GTObject {}
 
-@property (nonatomic, readonly, strong, nullable) GTSignature *author;
-@property (nonatomic, readonly, strong, nullable) GTSignature *committer;
+@property (nonatomic, readonly, strong) GTSignature * _Nullable author;
+@property (nonatomic, readonly, strong) GTSignature * _Nullable committer;
 @property (nonatomic, readonly, copy) NSArray<GTCommit *> *parents;
-@property (nonatomic, readonly, nullable) NSString *message;
+@property (nonatomic, readonly) NSString * _Nullable message;
 @property (nonatomic, readonly) NSString *messageDetails;
 @property (nonatomic, readonly) NSString *messageSummary;
 @property (nonatomic, readonly) NSDate *commitDate;
 @property (nonatomic, readonly) NSTimeZone *commitTimeZone;
-@property (nonatomic, readonly, nullable) GTTree *tree;
+@property (nonatomic, readonly) GTTree * _Nullable tree;
 
 /// Is this a merge commit?
 @property (nonatomic, readonly, assign, getter = isMerge) BOOL merge;
@@ -64,7 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// Returns an index which represents the result of the merge, or nil if an error
 /// occurred.
-- (nullable GTIndex *)merge:(GTCommit *)otherCommit error:(NSError **)error;
+- (GTIndex * _Nullable)merge:(GTCommit *)otherCommit error:(NSError **)error;
 
 @end
 

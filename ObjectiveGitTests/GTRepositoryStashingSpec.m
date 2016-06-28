@@ -158,7 +158,7 @@ it(@"should fail to apply/drop unknown stashes", ^{
 	BOOL success = NO;
 
 	__block NSUInteger lastStashIndex = 0;
-	[repository enumerateStashesUsingBlock:^(NSUInteger index, NSString * __nullable message, GTOID * __nullable oid, BOOL * __nonnull stop) {
+	[repository enumerateStashesUsingBlock:^(NSUInteger index, NSString * _Nullable message, GTOID * _Nullable oid, BOOL * _Nonnull stop) {
 		lastStashIndex = index;
 	}];
 

@@ -65,28 +65,28 @@ NS_ASSUME_NONNULL_BEGIN
 /// The OID that the submodule is pinned to in the parent repository's index.
 ///
 /// If the submodule is not in the index, this will be nil.
-@property (nonatomic, strong, readonly, nullable) GTOID *indexOID;
+@property (nonatomic, strong, readonly) GTOID * _Nullable indexOID;
 
 /// The OID that the submodule is pinned to in the parent repository's HEAD
 /// commit.
 ///
 /// If the submodule is not in HEAD, this will be nil.
-@property (nonatomic, strong, readonly, nullable) GTOID *HEADOID;
+@property (nonatomic, strong, readonly) GTOID * _Nullable HEADOID;
 
 /// The OID that is checked out in the submodule repository.
 ///
 /// If the submodule is not checked out, this will be nil.
-@property (nonatomic, strong, readonly, nullable) GTOID *workingDirectoryOID;
+@property (nonatomic, strong, readonly) GTOID * _Nullable workingDirectoryOID;
 
 /// The name of this submodule.
-@property (nonatomic, copy, readonly, nullable) NSString *name;
+@property (nonatomic, copy, readonly) NSString * _Nullable name;
 
 /// The path to this submodule, relative to its parent repository's root.
-@property (nonatomic, copy, readonly, nullable) NSString *path;
+@property (nonatomic, copy, readonly) NSString * _Nullable path;
 
 /// The remote URL provided for this submodule, read from the parent repository's
 /// `.git/config` or `.gitmodules` file.
-@property (nonatomic, copy, readonly, nullable) NSString *URLString;
+@property (nonatomic, copy, readonly) NSString * _Nullable URLString;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -99,7 +99,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///              nil.
 ///
 /// Returns an initialized GTSubmodule, or nil if an error occurs.
-- (nullable instancetype)initWithGitSubmodule:(git_submodule *)submodule parentRepository:(GTRepository *)repository NS_DESIGNATED_INITIALIZER;
+- (instancetype _Nullable)initWithGitSubmodule:(git_submodule *)submodule parentRepository:(GTRepository *)repository NS_DESIGNATED_INITIALIZER;
 
 /// The underlying `git_submodule` object.
 - (git_submodule *)git_submodule __attribute__((objc_returns_inner_pointer));
@@ -119,7 +119,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error      - The error if one occurred.
 ///
 /// Returns the updated submodule or nil if an error occurred.
-- (nullable GTSubmodule *)submoduleByUpdatingIgnoreRule:(GTSubmoduleIgnoreRule)ignoreRule error:(NSError **)error;
+- (GTSubmodule * _Nullable)submoduleByUpdatingIgnoreRule:(GTSubmoduleIgnoreRule)ignoreRule error:(NSError **)error;
 
 /// Synchronizes the submodule repository's configuration files with the settings
 /// from the parent repository.
@@ -132,7 +132,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// If the submodule is not currently checked out, this will fail.
 ///
 /// Returns the opened repository, or nil if an error occurs.
-- (nullable GTRepository *)submoduleRepository:(NSError **)error;
+- (GTRepository * _Nullable)submoduleRepository:(NSError **)error;
 
 /// Calls `-statusWithIgnoreRule:error:` with the submodule's ignore rule.
 - (GTSubmoduleStatus)status:(NSError **)error;

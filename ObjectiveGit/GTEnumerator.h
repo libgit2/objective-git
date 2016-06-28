@@ -70,7 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error - If not NULL, set to any error that occurs.
 ///
 /// Returns an initialized enumerator, or nil if an error occurs.
-- (nullable id)initWithRepository:(GTRepository *)repo error:(NSError **)error NS_DESIGNATED_INITIALIZER;
+- (id _Nullable)initWithRepository:(GTRepository *)repo error:(NSError **)error NS_DESIGNATED_INITIALIZER;
 
 /// Marks a commit to start traversal from.
 ///
@@ -115,7 +115,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error - If not NULL, set to any error that occurs during traversal.
 ///
 /// Returns a (possibly empty) array of GTCommits, or nil if an error occurs.
-- (nullable NSArray<GTCommit *> *)allObjectsWithError:(NSError **)error;
+- (NSArray<GTCommit *> * _Nullable)allObjectsWithError:(NSError **)error;
 
 /// Get the next OID.
 ///
@@ -125,7 +125,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error   - If not NULL, set to any error that occurs during traversal.
 ///
 /// Returns nil if an error occurs or the enumeration is done.
-- (nullable GTOID *)nextOIDWithSuccess:(nullable BOOL *)success error:(NSError **)error;
+- (GTOID * _Nullable)nextOIDWithSuccess:(BOOL * _Nullable)success error:(NSError **)error;
 
 /// Gets the next commit.
 ///
@@ -135,7 +135,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error   - If not NULL, set to any error that occurs during traversal.
 ///
 /// Returns nil if an error occurs or the receiver is exhausted.
-- (nullable GTCommit *)nextObjectWithSuccess:(nullable BOOL *)success error:(NSError **)error;
+- (GTCommit * _Nullable)nextObjectWithSuccess:(BOOL * _Nullable)success error:(NSError **)error;
 
 /// Counts the number of commits that were not enumerated, completely exhausting
 /// the receiver.

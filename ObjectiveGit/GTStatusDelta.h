@@ -18,10 +18,10 @@ NS_ASSUME_NONNULL_BEGIN
 @interface GTStatusDelta : NSObject
 
 /// The file as it was prior to the change represented by this status delta.
-@property (nonatomic, readonly, copy, nullable) GTDiffFile *oldFile;
+@property (nonatomic, readonly, copy) GTDiffFile * _Nullable oldFile;
 
 /// The file after the change represented by this status delta
-@property (nonatomic, readonly, copy, nullable) GTDiffFile *newFile __attribute__((ns_returns_not_retained));
+@property (nonatomic, readonly, copy) GTDiffFile * _Nullable newFile __attribute__((ns_returns_not_retained));
 
 /// The status of the file.
 @property (nonatomic, readonly) GTDeltaType status;
@@ -36,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)init NS_UNAVAILABLE;
 
 /// Designated initializer.
-- (nullable instancetype)initWithGitDiffDelta:(const git_diff_delta *)delta NS_DESIGNATED_INITIALIZER;
+- (instancetype _Nullable)initWithGitDiffDelta:(const git_diff_delta *)delta NS_DESIGNATED_INITIALIZER;
 
 @end
 

@@ -51,7 +51,7 @@ typedef NS_ENUM(NSInteger, GTFetchPruneOption) {
 ///
 /// Returns YES if the fetch was successful, NO otherwise (and `error`, if provided,
 /// will point to an error describing what happened).
-- (BOOL)fetchRemote:(GTRemote *)remote withOptions:(nullable NSDictionary *)options error:(NSError **)error progress:(nullable void (^)(const git_transfer_progress *stats, BOOL *stop))progressBlock;
+- (BOOL)fetchRemote:(GTRemote *)remote withOptions:(NSDictionary * _Nullable)options error:(NSError **)error progress:(void (^ _Nullable)(const git_transfer_progress *stats, BOOL *stop))progressBlock;
 
 /// Enumerate all available fetch head entries.
 ///
@@ -85,7 +85,7 @@ typedef NS_ENUM(NSInteger, GTFetchPruneOption) {
 ///
 /// Returns YES if the push was successful, NO otherwise (and `error`, if provided,
 /// will point to an error describing what happened).
-- (BOOL)pushBranch:(GTBranch *)branch toRemote:(GTRemote *)remote withOptions:(nullable NSDictionary *)options error:(NSError **)error progress:(nullable void (^)(unsigned int current, unsigned int total, size_t bytes, BOOL *stop))progressBlock;
+- (BOOL)pushBranch:(GTBranch *)branch toRemote:(GTRemote *)remote withOptions:(NSDictionary * _Nullable)options error:(NSError **)error progress:(void (^ _Nullable)(unsigned int current, unsigned int total, size_t bytes, BOOL *stop))progressBlock;
 
 /// Push an array of branches to a remote.
 ///
@@ -100,7 +100,7 @@ typedef NS_ENUM(NSInteger, GTFetchPruneOption) {
 ///
 /// Returns YES if the push was successful, NO otherwise (and `error`, if provided,
 /// will point to an error describing what happened).
-- (BOOL)pushBranches:(NSArray<GTBranch *> *)branches toRemote:(GTRemote *)remote withOptions:(nullable NSDictionary *)options error:(NSError **)error progress:(nullable void (^)(unsigned int current, unsigned int total, size_t bytes, BOOL *stop))progressBlock;
+- (BOOL)pushBranches:(NSArray<GTBranch *> *)branches toRemote:(GTRemote *)remote withOptions:(NSDictionary * _Nullable)options error:(NSError **)error progress:(void (^ _Nullable)(unsigned int current, unsigned int total, size_t bytes, BOOL *stop))progressBlock;
 
 /// Push a given Git notes reference name to a remote.
 ///
@@ -114,7 +114,7 @@ typedef NS_ENUM(NSInteger, GTFetchPruneOption) {
 ///
 /// Returns YES if the push was successful, NO otherwise (and `error`, if provided,
 /// will point to an error describing what happened).
-- (BOOL)pushNotes:(nullable NSString *)noteReferenceName toRemote:(GTRemote *)remote withOptions:(nullable NSDictionary *)options error:(NSError **)error progress:(nullable void (^)(unsigned int current, unsigned int total, size_t bytes, BOOL *stop))progressBlock;
+- (BOOL)pushNotes:(NSString * _Nullable)noteReferenceName toRemote:(GTRemote *)remote withOptions:(NSDictionary * _Nullable)options error:(NSError **)error progress:(void (^ _Nullable)(unsigned int current, unsigned int total, size_t bytes, BOOL *stop))progressBlock;
 
 /// Delete a remote branch
 ///
@@ -127,7 +127,7 @@ typedef NS_ENUM(NSInteger, GTFetchPruneOption) {
 ///
 /// Returns YES if the push was successful, NO otherwise (and `error`, if provided,
 /// will point to an error describing what happened).
-- (BOOL)deleteBranch:(GTBranch *)branch fromRemote:(GTRemote *)remote withOptions:(nullable NSDictionary *)options error:(NSError **)error;
+- (BOOL)deleteBranch:(GTBranch *)branch fromRemote:(GTRemote *)remote withOptions:(NSDictionary * _Nullable)options error:(NSError **)error;
 @end
 
 NS_ASSUME_NONNULL_END

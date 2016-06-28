@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// type     - the credential types allowed by the operation.
 /// URL      - the URL the operation is authenticating against.
 /// userName - the user name provided by the operation. Can be nil, and might be ignored.
-- (GTCredential * _Nullable)credentialForType:(GTCredentialType)type URL:(nullable NSString *)URL userName:(nullable NSString *)userName;
+- (GTCredential * _Nullable)credentialForType:(GTCredentialType)type URL:(NSString * _Nullable)URL userName:(NSString * _Nullable)userName;
 @end
 
 /// The GTCredential class is used to provide authentication data.
@@ -60,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error    - If not NULL, set to any errors that occur.
 ///
 /// Return a new GTCredential instance, or nil if an error occurred
-+ (nullable instancetype)credentialWithUserName:(NSString *)userName password:(NSString *)password error:(NSError **)error;
++ (instancetype _Nullable)credentialWithUserName:(NSString *)userName password:(NSString *)password error:(NSError **)error;
 
 /// Create a credential object from a SSH keyfile
 ///
@@ -72,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error         - If not NULL, set to any errors that occur.
 ///
 /// Return a new GTCredential instance, or nil if an error occurred
-+ (nullable instancetype)credentialWithUserName:(NSString *)userName publicKeyURL:(nullable NSURL *)publicKeyURL privateKeyURL:(NSURL *)privateKeyURL passphrase:(nullable NSString *)passphrase error:(NSError **)error;
++ (instancetype _Nullable)credentialWithUserName:(NSString *)userName publicKeyURL:(NSURL * _Nullable)publicKeyURL privateKeyURL:(NSURL *)privateKeyURL passphrase:(NSString * _Nullable)passphrase error:(NSError **)error;
 
 /// Create a credential object from a SSH keyfile data string
 ///
@@ -84,7 +84,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error            - If not NULL, set to any errors that occur.
 ///
 /// Return a new GTCredential instance, or nil if an error occurred
-+ (nullable instancetype)credentialWithUserName:(NSString *)userName publicKeyString:(nullable NSString *)publicKeyString privateKeyString:(NSString *)privateKeyString passphrase:(nullable NSString *)passphrase error:(NSError **)error;
++ (instancetype _Nullable)credentialWithUserName:(NSString *)userName publicKeyString:(NSString * _Nullable)publicKeyString privateKeyString:(NSString *)privateKeyString passphrase:(NSString * _Nullable)passphrase error:(NSError **)error;
 
 /// The underlying `git_cred` object.
 - (git_cred *)git_cred __attribute__((objc_returns_inner_pointer));
