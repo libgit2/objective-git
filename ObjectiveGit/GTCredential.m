@@ -12,7 +12,7 @@
 
 #import "git2/errors.h"
 
-typedef GTCredential * _Nullable (^GTCredentialProviderBlock)(GTCredentialType allowedTypes, NSString *URL, NSString *userName);
+typedef GTCredential *(^GTCredentialProviderBlock)(GTCredentialType allowedTypes, NSString *URL, NSString *userName);
 
 @interface GTCredentialProvider ()
 @property (nonatomic, readonly, copy) GTCredentialProviderBlock credBlock;
@@ -30,7 +30,7 @@ typedef GTCredential * _Nullable (^GTCredentialProviderBlock)(GTCredentialType a
 	return provider;
 }
 
-- (GTCredential * _Nullable)credentialForType:(GTCredentialType)type URL:(NSString *)URL userName:(NSString *)userName {
+- (GTCredential *)credentialForType:(GTCredentialType)type URL:(NSString *)URL userName:(NSString *)userName {
 	NSAssert(self.credBlock != nil, @"Provider asked for credentials without block being set.");
 
 	return self.credBlock(type, URL, userName);
