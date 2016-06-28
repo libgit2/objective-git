@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// credentialBlock - a block that will be called when credentials are requested.
 ///                   Must not be nil.
-+ (instancetype)providerWithBlock:(GTCredential *(^)(GTCredentialType type, NSString *URL, NSString *userName))credentialBlock;
++ (instancetype)providerWithBlock:(GTCredential * _Nullable(^)(GTCredentialType type, NSString *URL, NSString *userName))credentialBlock;
 
 /// Default credential provider method.
 ///
@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// type     - the credential types allowed by the operation.
 /// URL      - the URL the operation is authenticating against.
 /// userName - the user name provided by the operation. Can be nil, and might be ignored.
-- (GTCredential *)credentialForType:(GTCredentialType)type URL:(NSString *)URL userName:(nullable NSString *)userName;
+- (GTCredential * _Nullable)credentialForType:(GTCredentialType)type URL:(NSString *)URL userName:(nullable NSString *)userName;
 @end
 
 /// The GTCredential class is used to provide authentication data.
