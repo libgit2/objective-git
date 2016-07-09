@@ -119,6 +119,16 @@ typedef enum {
 /// if updating or saving the remote failed.
 - (BOOL)updateURLString:(NSString *)URLString error:(NSError **)error;
 
+/// Updates the push URL string for this remote.
+///
+/// URLString - The URLString to update to. May not be nil.
+/// error     - If not NULL, this will be set to any error that occurs when
+///             updating the URLString or saving the remote.
+///
+/// Returns YES if the push URLString was successfully updated, NO and an error
+/// if updating or saving the remote failed.
+- (BOOL)updatePushURLString:(NSString *)URLString error:(NSError **)error;
+
 /// Adds a fetch refspec to this remote.
 ///
 /// fetchRefspec - The fetch refspec string to add. May not be nil.
