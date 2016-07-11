@@ -39,6 +39,18 @@ it(@"can read tag data", ^{
 	expect(signature.email).to(equal(@"schacon@gmail.com"));
 });
 
+it(@"can delete tags", ^{
+	NSError *error = nil;
+
+	BOOL success = [tag delete:&error];
+	expect(@(success)).to(beTruthy());
+	expect(error).to(beNil());
+
+	success = [tag delete:&error];
+	expect(@(success)).to(beFalsy());
+	expect(error).notTo(beNil());
+});
+
 afterEach(^{
 	[self tearDown];
 });
