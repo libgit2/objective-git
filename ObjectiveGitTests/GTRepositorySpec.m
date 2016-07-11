@@ -95,7 +95,14 @@ describe(@"+cloneFromURL:toWorkingDirectory:options:error:transferProgressBlock:
 
 		it(@"should handle normal clones", ^{
 			NSError *error = nil;
-			repository = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:@{ GTRepositoryCloneOptionsCloneLocal: @YES } error:&error transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
+			GTCheckoutOptions *checkoutOptions = [GTCheckoutOptions checkoutOptionsWithStrategy:GTCheckoutStrategySafe];
+			checkoutOptions.progressBlock = checkoutProgressBlock;
+
+			NSDictionary *cloneOptions = @{
+										   GTRepositoryCloneOptionsCloneLocal: @YES,
+										   GTRepositoryCloneCheckoutOptions: checkoutOptions,
+										   };
+			repository = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:cloneOptions error:&error transferProgressBlock:transferProgressBlock];
 			expect(repository).notTo(beNil());
 			expect(error).to(beNil());
 			expect(@(transferProgressCalled)).to(beTruthy());
@@ -112,8 +119,15 @@ describe(@"+cloneFromURL:toWorkingDirectory:options:error:transferProgressBlock:
 
 		it(@"should handle bare clones", ^{
 			NSError *error = nil;
-			NSDictionary *options = @{ GTRepositoryCloneOptionsBare: @YES, GTRepositoryCloneOptionsCloneLocal: @YES };
-			repository = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:options error:&error transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
+			GTCheckoutOptions *checkoutOptions = [GTCheckoutOptions checkoutOptionsWithStrategy:GTCheckoutStrategySafe];
+			checkoutOptions.progressBlock = checkoutProgressBlock;
+
+			NSDictionary *options = @{
+									  GTRepositoryCloneOptionsBare: @YES,
+									  GTRepositoryCloneOptionsCloneLocal: @YES,
+									  GTRepositoryCloneCheckoutOptions: checkoutOptions,
+									  };
+			repository = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:options error:&error transferProgressBlock:transferProgressBlock];
 			expect(repository).notTo(beNil());
 			expect(error).to(beNil());
 			expect(@(transferProgressCalled)).to(beTruthy());
@@ -130,7 +144,10 @@ describe(@"+cloneFromURL:toWorkingDirectory:options:error:transferProgressBlock:
 
 		it(@"should have set a valid remote URL", ^{
 			NSError *error = nil;
-			repository = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:nil error:&error transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
+			GTCheckoutOptions *checkoutOptions = [GTCheckoutOptions checkoutOptionsWithStrategy:GTCheckoutStrategySafe];
+			checkoutOptions.progressBlock = checkoutProgressBlock;
+
+			repository = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:@{ GTRepositoryCloneCheckoutOptions: checkoutOptions } error:&error transferProgressBlock:transferProgressBlock];
 			expect(repository).notTo(beNil());
 			expect(error).to(beNil());
 
@@ -167,7 +184,14 @@ describe(@"+cloneFromURL:toWorkingDirectory:options:error:transferProgressBlock:
 					return cred;
 				}];
 
-				repository = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:@{GTRepositoryCloneOptionsCredentialProvider: provider} error:&error transferProgressBlock:transferProgressBlock checkoutProgressBlock:checkoutProgressBlock];
+				GTCheckoutOptions *checkoutOptions = [GTCheckoutOptions checkoutOptionsWithStrategy:GTCheckoutStrategySafe];
+				checkoutOptions.progressBlock = checkoutProgressBlock;
+				NSDictionary *cloneOptions = @{
+											   GTRepositoryCloneOptionsCredentialProvider: provider,
+											   GTRepositoryCloneCheckoutOptions: checkoutOptions,
+											   };
+
+				repository = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:cloneOptions error:&error transferProgressBlock:transferProgressBlock];
 				expect(repository).notTo(beNil());
 				expect(error).to(beNil());
 				expect(@(transferProgressCalled)).to(beTruthy());

@@ -242,25 +242,6 @@ struct GTRemoteCreatePayload {
 	git_remote_callbacks remoteCallbacks;
 };
 
-// Backward-compatibility with GTRepositoryCloneOptionsCheckout boolean
-+ (nullable instancetype)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL options:(nullable NSDictionary *)options error:(NSError **)error transferProgressBlock:(nullable void (^)(const git_transfer_progress *, BOOL *stop))transferProgressBlock checkoutProgressBlock:(nullable void (^)(NSString *__nullable path, NSUInteger completedSteps, NSUInteger totalSteps))checkoutProgressBlock {
-	NSNumber *checkout = options[GTRepositoryCloneOptionsCheckout];
-	BOOL doCheckout = (checkout == nil ? YES : [checkout boolValue]);
-	if (doCheckout) {
-		GTCheckoutOptions *checkoutOptions = nil;
-		if (checkoutProgressBlock) {
-			checkoutOptions = [GTCheckoutOptions checkoutOptionsWithStrategy:GTCheckoutStrategySafe progressBlock:checkoutProgressBlock];
-		} else {
-			checkoutOptions = [GTCheckoutOptions checkoutOptionsWithStrategy:GTCheckoutStrategySafe];
-		}
-
-		NSMutableDictionary *mutableOptions = [options mutableCopy];
-		mutableOptions[GTRepositoryCloneCheckoutOptions] = checkoutOptions;
-		options = mutableOptions;
-	}
-	return [self cloneFromURL:originURL toWorkingDirectory:workdirURL options:options error:error transferProgressBlock:transferProgressBlock];
-}
-
 + (nullable instancetype)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL options:(nullable NSDictionary *)options error:(NSError **)error transferProgressBlock:(nullable void (^)(const git_transfer_progress *, BOOL *stop))transferProgressBlock {
 
 	git_clone_options cloneOptions = GIT_CLONE_OPTIONS_INIT;

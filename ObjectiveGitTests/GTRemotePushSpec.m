@@ -39,7 +39,7 @@ describe(@"pushing", ^{
 			// Make a bare clone to serve as the remote
 			remoteRepoURL = [notBareRepo.gitDirectoryURL.URLByDeletingLastPathComponent URLByAppendingPathComponent:@"bare_remote_repo.git"];
 			NSDictionary *options = @{ GTRepositoryCloneOptionsBare: @1 };
-			remoteRepo = [GTRepository cloneFromURL:notBareRepo.gitDirectoryURL toWorkingDirectory:remoteRepoURL options:options error:&error transferProgressBlock:NULL checkoutProgressBlock:NULL];
+			remoteRepo = [GTRepository cloneFromURL:notBareRepo.gitDirectoryURL toWorkingDirectory:remoteRepoURL options:options error:&error transferProgressBlock:NULL];
 			expect(error).to(beNil());
 			expect(remoteRepo).notTo(beNil());
 			expect(@(remoteRepo.isBare)).to(beTruthy()); // that's better
@@ -48,7 +48,7 @@ describe(@"pushing", ^{
 			expect(localRepoURL).notTo(beNil());
 
 			// Local clone for testing pushes
-			localRepo = [GTRepository cloneFromURL:remoteRepoURL toWorkingDirectory:localRepoURL options:nil error:&error transferProgressBlock:NULL checkoutProgressBlock:NULL];
+			localRepo = [GTRepository cloneFromURL:remoteRepoURL toWorkingDirectory:localRepoURL options:nil error:&error transferProgressBlock:NULL];
 
 			expect(error).to(beNil());
 			expect(localRepo).notTo(beNil());

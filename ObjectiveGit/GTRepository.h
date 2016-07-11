@@ -242,9 +242,6 @@ typedef NS_ENUM(NSInteger, GTRepositoryStateType) {
 /// returns nil (and fills the error parameter) if an error occurred, or a GTRepository object if successful.
 + (nullable instancetype)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL options:(nullable NSDictionary *)options error:(NSError **)error transferProgressBlock:(nullable void (^)(const git_transfer_progress *, BOOL *stop))transferProgressBlock;
 
-/// Backward-compatible method that uses `GTRepositoryCloneOptionsCheckout`
-+ (nullable instancetype)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL options:(nullable NSDictionary *)options error:(NSError **)error transferProgressBlock:(nullable void (^)(const git_transfer_progress *, BOOL *stop))transferProgressBlock checkoutProgressBlock:(nullable void (^) (NSString *__nullable path, NSUInteger completedSteps, NSUInteger totalSteps))checkoutProgressBlock;
-
 /// Lookup objects in the repo by oid or sha1
 - (nullable id)lookUpObjectByOID:(GTOID *)oid objectType:(GTObjectType)type error:(NSError **)error;
 - (nullable id)lookUpObjectByOID:(GTOID *)oid error:(NSError **)error;
