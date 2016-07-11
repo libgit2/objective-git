@@ -62,7 +62,7 @@ describe(@"updating", ^{
 	});
 
 	it(@"push URL string", ^{
-		expect(remote.pushURLString).to(equal(@"git@github.com:github/Test_App.git"));
+		expect(remote.pushURLString).to(beNil());
 		
 		NSString *newURLString = @"https://github.com/github/Test_App.git";
 		
