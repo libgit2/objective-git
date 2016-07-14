@@ -9,7 +9,7 @@
 #import "GTRepository+Attributes.h"
 #import "NSError+Git.h"
 
-#import "git2/attr.h"
+#import <git2/attr.h>
 
 @implementation GTRepository (Attributes)
 

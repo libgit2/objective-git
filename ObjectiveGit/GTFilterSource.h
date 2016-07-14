@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "git2/sys/filter.h"
+#import <git2/sys/filter.h>
 
 @class GTOID;
 @class GTRepository;

@@ -14,7 +14,7 @@
 
 #import "EXTScope.h"
 
-#import "git2/errors.h"
+#import <git2/errors.h>
 
 NSString *const GTRepositoryStatusOptionsShowKey = @"GTRepositoryStatusOptionsShow";
 NSString *const GTRepositoryStatusOptionsFlagsKey = @"GTRepositoryStatusOptionsFlags";

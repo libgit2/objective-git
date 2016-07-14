@@ -28,7 +28,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "git2/types.h"
+#import <git2/types.h>
 
 /// The mode of an index or tree entry.
 typedef NS_ENUM(NSInteger, GTFileMode) {

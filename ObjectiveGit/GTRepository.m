@@ -53,7 +53,7 @@
 #import "NSString+Git.h"
 #import "GTRepository+References.h"
 
-#import "git2.h"
+@import git2;
 
 NSString * const GTRepositoryCloneOptionsBare = @"GTRepositoryCloneOptionsBare";
 NSString * const GTRepositoryCloneOptionsCheckout = @"GTRepositoryCloneOptionsCheckout";

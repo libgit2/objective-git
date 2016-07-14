@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "git2/transport.h"
+#import <git2/transport.h>
 
 /// An enum describing the data needed for authentication.
 /// See `git_credtype_t`.

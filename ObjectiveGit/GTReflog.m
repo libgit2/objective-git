@@ -14,8 +14,8 @@
 #import "NSError+Git.h"
 #import "GTReflogEntry+Private.h"
 
-#import "git2/errors.h"
-#import "git2/reflog.h"
+#import <git2/errors.h>
+#import <git2/reflog.h>
 
 @interface GTReflog ()
 

@@ -34,7 +34,7 @@
 #import "GTRepository.h"
 #import "GTIndex.h"
 
-#import "git2.h"
+@import git2;
 
 @interface GTIndexEntry ()
 @property (nonatomic, assign, readonly) const git_index_entry *git_index_entry;

@@ -9,8 +9,8 @@
 #import "GTOID.h"
 #import "NSError+Git.h"
 
-#import "git2/errors.h"
-#import "git2/odb.h"
+#import <git2/errors.h>
+#import <git2/odb.h>
 
 @interface GTOID () {
 	git_oid _git_oid;

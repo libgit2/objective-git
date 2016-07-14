@@ -14,9 +14,9 @@
 #import "NSData+Git.h"
 #import "NSError+Git.h"
 
-#import "git2/config.h"
-#import "git2/errors.h"
-#import "git2/buffer.h"
+#import <git2/config.h>
+#import <git2/errors.h>
+#import <git2/buffer.h>
 
 @interface GTConfiguration ()
 @property (nonatomic, readonly, assign) git_config *git_config;

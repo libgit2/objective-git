@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 GitHub, Inc. All rights reserved.
 //
 
-#import "git2/global.h"
+#import <git2/global.h>
 
 __attribute__((constructor))
 static void GTSetup(void) {

@@ -34,7 +34,7 @@
 #import "NSString+Git.h"
 #import "GTRepository+References.h"
 
-#import "git2/errors.h"
+#import <git2/errors.h>
 
 @interface GTReference ()
 @property (nonatomic, readonly, assign) git_reference *git_reference;

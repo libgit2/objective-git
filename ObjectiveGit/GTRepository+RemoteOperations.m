@@ -19,8 +19,8 @@
 #import "NSError+Git.h"
 #import "GTRepository+References.h"
 
-#import "git2/errors.h"
-#import "git2/remote.h"
+#import <git2/errors.h>
+#import <git2/remote.h>
 
 NSString *const GTRepositoryRemoteOptionsCredentialProvider = @"GTRepositoryRemoteOptionsCredentialProvider";
 NSString *const GTRepositoryRemoteOptionsFetchPrune = @"GTRepositoryRemoteOptionsFetchPrune";

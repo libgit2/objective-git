@@ -35,7 +35,7 @@
 #import "GTRepository+Private.h"
 #import "GTOID.h"
 
-#import "git2/errors.h"
+#import <git2/errors.h>
 
 @interface GTEnumerator ()
 

@@ -20,7 +20,7 @@ External/libgit2-ios
 *.mode2v3
 
 project.xcworkspace
-*/xcuserdata/
+xcuserdata/
 *.xccheckout
 *.xcscmblueprint
 
@@ -31,4 +31,3 @@ External/ios-openssl/lib
 External/libssh2-ios
 
 Carthage/Build
-

@@ -37,9 +37,9 @@
 #import "GTOID.h"
 #import "GTIndex.h"
 
-#import "git2/commit.h"
-#import "git2/errors.h"
-#import "git2/merge.h"
+#import <git2/commit.h>
+#import <git2/errors.h>
+#import <git2/merge.h>
 
 @implementation GTCommit
 

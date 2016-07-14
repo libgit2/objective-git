@@ -32,10 +32,10 @@
 #import "GTOID.h"
 #import "EXTScope.h"
 
-#import "git2/errors.h"
-#import "git2/odb.h"
-#import "git2/odb_backend.h"
-#import "git2/repository.h"
+#import <git2/errors.h>
+#import <git2/odb.h>
+#import <git2/odb_backend.h>
+#import <git2/repository.h>
 
 @interface GTObjectDatabase ()
 @property (nonatomic, readonly, assign) git_odb *git_odb;

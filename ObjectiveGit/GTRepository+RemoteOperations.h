@@ -7,7 +7,7 @@
 //
 
 #import "GTRepository.h"
-#import "git2/remote.h"
+#import <git2/remote.h>
 
 @class GTFetchHeadEntry;
 

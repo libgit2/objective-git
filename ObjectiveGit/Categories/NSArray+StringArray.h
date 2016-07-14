@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "git2/strarray.h"
+#import <git2/strarray.h>
 
 @interface NSArray (StringArray)
 

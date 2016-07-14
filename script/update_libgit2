@@ -1,6 +1,13 @@
-#!/bin/sh
+#!/bin/sh -ex
 
-set -e
+#
+# script/update_libgit2
+# ObjectiveGit
+#
+# Builds libgit2 static library for OS X platform.
+# Script is now obsolete as the git2 project builds libgit2 as a dynamic framework,
+# but is left here for reference.
+#
 
 # augment path to help it find cmake installed in /usr/local/bin,
 # e.g. via brew. Xcode's Run Script phase doesn't seem to honor

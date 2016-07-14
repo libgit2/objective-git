@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "git2/filter.h"
+#import <git2/filter.h>
 
 @class GTBlob;
 @class GTRepository;
