@@ -112,6 +112,10 @@ describe(@"GTDiff diffing", ^{
 			[patch enumerateHunksUsingBlock:^(GTDiffHunk *hunk, BOOL *stop) {
 				expect(hunk.header).to(equal(@"@@ -4,7 +4,7 @@"));
 				expect(@(hunk.lineCount)).to(equal(@8));
+				expect(@(hunk.oldStart)).to(equal(@4));
+				expect(@(hunk.oldLines)).to(equal(@7));
+				expect(@(hunk.newStart)).to(equal(@4));
+				expect(@(hunk.newLines)).to(equal(@7));
 
 				NSArray *expectedLines = @[ @"//",
 				@"//  Created by Joe Ricioppo on 9/29/10.",

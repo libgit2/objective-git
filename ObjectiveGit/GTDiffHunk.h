@@ -22,6 +22,18 @@ NS_ASSUME_NONNULL_BEGIN
 /// The number of lines represented in the hunk.
 @property (nonatomic, readonly) NSUInteger lineCount;
 
+/// The starting line number in the old file
+@property (nonatomic, readonly) NSUInteger oldStart;
+
+/// The number of lines in the old file
+@property (nonatomic, readonly) NSUInteger oldLines;
+
+/// The starting line number in the new file
+@property (nonatomic, readonly) NSUInteger newStart;
+
+/// The number of lines in the new file
+@property (nonatomic, readonly) NSUInteger newLines;
+
 - (instancetype)init NS_UNAVAILABLE;
 
 /// Designated initialiser.
