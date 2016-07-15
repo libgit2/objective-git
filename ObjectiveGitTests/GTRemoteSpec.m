@@ -61,6 +61,21 @@ describe(@"updating", ^{
 		expect(remote.URLString).to(equal(newURLString));
 	});
 
+	it(@"push URL string", ^{
+		expect(remote.pushURLString).to(beNil());
+		
+		NSString *newURLString = @"https://github.com/github/Test_App.git";
+		
+		__block NSError *error = nil;
+		expect(@([remote updatePushURLString:newURLString error:&error])).to(beTruthy());
+		expect(error).to(beNil());
+		
+		// Reload remote from disk to pick up the change
+		remote = configuration.remotes[0];
+		
+		expect(remote.pushURLString).to(equal(newURLString));
+	});
+
 	it(@"fetch refspecs", ^{
 		expect(remote.fetchRefspecs).to(equal(@[ fetchRefspec ]));
 

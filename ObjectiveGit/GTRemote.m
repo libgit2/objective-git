@@ -204,6 +204,21 @@ NSString * const GTRemoteRenameProblematicRefSpecs = @"GTRemoteRenameProblematic
 	return YES;
 }
 
+- (BOOL)updatePushURLString:(NSString *)URLString error:(NSError **)error {
+	NSParameterAssert(URLString != nil);
+	
+	if ([self.pushURLString isEqualToString:URLString]) return YES;
+	
+	int gitError = git_remote_set_pushurl(self.repository.git_repository, self.name.UTF8String, URLString.UTF8String);
+	if (gitError != GIT_OK) {
+		if (error != NULL) {
+			*error = [NSError git_errorFor:gitError description:@"Failed to update remote push URL string."];
+		}
+		return NO;
+	}
+	return YES;
+}
+
 - (BOOL)addFetchRefspec:(NSString *)fetchRefspec error:(NSError **)error {
 	NSParameterAssert(fetchRefspec != nil);
 
