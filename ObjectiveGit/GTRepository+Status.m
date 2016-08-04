@@ -68,23 +68,23 @@ NSString *const GTRepositoryStatusOptionsPathSpecArrayKey = @"GTRepositoryStatus
 - (BOOL)isWorkingDirectoryClean {
 	__block BOOL clean = YES;
 	[self enumerateFileStatusWithOptions:nil error:NULL usingBlock:^(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop) {
-		GTStatusDeltaStatus headToIndexStatus = headToIndex.status;
-		GTStatusDeltaStatus indexToWorkDirStatus = indexToWorkingDirectory.status;
+		GTDeltaType headToIndexStatus = headToIndex.status;
+		GTDeltaType indexToWorkDirStatus = indexToWorkingDirectory.status;
 		
 		// first, have items been deleted?
-		if (indexToWorkDirStatus == GTStatusDeltaStatusDeleted || headToIndexStatus == GTStatusDeltaStatusDeleted) {
+		if (indexToWorkDirStatus == GTDeltaTypeDeleted || headToIndexStatus == GTDeltaTypeDeleted) {
 			clean = NO;
 			*stop = YES;
 		}
 		
 		// any untracked files?
-		if (indexToWorkDirStatus == GTStatusDeltaStatusUntracked) {
+		if (indexToWorkDirStatus == GTDeltaTypeUntracked) {
 			clean = NO;
 			*stop = YES;
 		}
 		
 		// next, have items been modified?
-		if (indexToWorkDirStatus == GTStatusDeltaStatusModified || headToIndexStatus == GTStatusDeltaStatusModified) {
+		if (indexToWorkDirStatus == GTDeltaTypeModified || headToIndexStatus == GTDeltaTypeModified) {
 			clean = NO;
 			*stop = YES;
 		}

@@ -27,7 +27,7 @@ describe(@"Checking status", ^{
 		expect(repository).notTo(beNil());
 	});
 
-	void (^updateIndexForSubpathAndExpectStatus)(NSString *, GTStatusDeltaStatus) = ^(NSString *subpath, GTStatusDeltaStatus expectedIndexStatus) {
+	void (^updateIndexForSubpathAndExpectStatus)(NSString *, GTDeltaType) = ^(NSString *subpath, GTDeltaType expectedIndexStatus) {
 		__block NSError *err = nil;
 		GTIndex *index = [repository indexWithError:&err];
 		expect(err).to(beNil());
@@ -42,7 +42,7 @@ describe(@"Checking status", ^{
 		expect(err).to(beNil());
 	};
 
-	void (^expectSubpathToHaveWorkDirStatus)(NSString *, GTStatusDeltaStatus) = ^(NSString *subpath, GTStatusDeltaStatus expectedWorkDirStatus) {
+	void (^expectSubpathToHaveWorkDirStatus)(NSString *, GTDeltaType) = ^(NSString *subpath, GTDeltaType expectedWorkDirStatus) {
 		__block NSError *err = nil;
 		NSDictionary *renamedOptions = @{ GTRepositoryStatusOptionsFlagsKey: @(GTRepositoryStatusFlagsIncludeIgnored | GTRepositoryStatusFlagsIncludeUntracked | GTRepositoryStatusFlagsRecurseUntrackedDirectories | GTRepositoryStatusFlagsRenamesIndexToWorkingDirectory) };
 		expect(@([repository enumerateFileStatusWithOptions:renamedOptions error:&err usingBlock:^(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop) {
@@ -52,55 +52,55 @@ describe(@"Checking status", ^{
 		expect(err).to(beNil());
 	};
 
-	void (^expectSubpathToHaveMatchingStatus)(NSString *, GTStatusDeltaStatus) = ^(NSString *subpath, GTStatusDeltaStatus status) {
+	void (^expectSubpathToHaveMatchingStatus)(NSString *, GTDeltaType) = ^(NSString *subpath, GTDeltaType status) {
 		expectSubpathToHaveWorkDirStatus(subpath, status);
 		updateIndexForSubpathAndExpectStatus(subpath, status);
 	};
 
 	it(@"should recognize untracked files", ^{
-		expectSubpathToHaveWorkDirStatus(@"UntrackedImage.png", GTStatusDeltaStatusUntracked);
+		expectSubpathToHaveWorkDirStatus(@"UntrackedImage.png", GTDeltaTypeUntracked);
 	});
 
 	it(@"should recognize added files", ^{
-		updateIndexForSubpathAndExpectStatus(@"UntrackedImage.png", GTStatusDeltaStatusAdded);
+		updateIndexForSubpathAndExpectStatus(@"UntrackedImage.png", GTDeltaTypeAdded);
 	});
 
 	it(@"should recognize modified files", ^{
 		expect(@([NSFileManager.defaultManager removeItemAtURL:targetFileURL error:&err])).to(beTruthy());
 		expect(err).to(beNil());
 		expect(@([testData writeToURL:targetFileURL atomically:YES])).to(beTruthy());
-		expectSubpathToHaveMatchingStatus(targetFileURL.lastPathComponent, GTStatusDeltaStatusModified);
+		expectSubpathToHaveMatchingStatus(targetFileURL.lastPathComponent, GTDeltaTypeModified);
 	});
 
 	it(@"should recognize copied files", ^{
 		NSURL *copyLocation = [repository.fileURL URLByAppendingPathComponent:@"main2.m"];
 		expect(@([NSFileManager.defaultManager copyItemAtURL:targetFileURL toURL:copyLocation error:&err])).to(beTruthy());
 		expect(err).to(beNil());
-		updateIndexForSubpathAndExpectStatus(copyLocation.lastPathComponent, GTStatusDeltaStatusCopied);
+		updateIndexForSubpathAndExpectStatus(copyLocation.lastPathComponent, GTDeltaTypeCopied);
 	});
 
 	it(@"should recognize deleted files", ^{
 		expect(@([NSFileManager.defaultManager removeItemAtURL:targetFileURL error:&err])).to(beTruthy());
 		expect(err).to(beNil());
-		expectSubpathToHaveMatchingStatus(targetFileURL.lastPathComponent, GTStatusDeltaStatusDeleted);
+		expectSubpathToHaveMatchingStatus(targetFileURL.lastPathComponent, GTDeltaTypeDeleted);
 	});
 
 	it(@"should recognize renamed files", ^{
 		NSURL *moveLocation = [repository.fileURL URLByAppendingPathComponent:@"main-moved.m"];
 		expect(@([NSFileManager.defaultManager moveItemAtURL:targetFileURL toURL:moveLocation error:&err])).to(beTruthy());
 		expect(err).to(beNil());
-		expectSubpathToHaveWorkDirStatus(moveLocation.lastPathComponent, GTStatusDeltaStatusRenamed);
+		expectSubpathToHaveWorkDirStatus(moveLocation.lastPathComponent, GTDeltaTypeRenamed);
 	});
 
 	it(@"should recognise ignored files", ^{ //at least in the default options
-		expectSubpathToHaveWorkDirStatus(@".DS_Store", GTStatusDeltaStatusIgnored);
+		expectSubpathToHaveWorkDirStatus(@".DS_Store", GTDeltaTypeIgnored);
 	});
 
 	it(@"should skip ignored files if asked", ^{
 		__block NSError *err = nil;
 		NSDictionary *options = @{ GTRepositoryStatusOptionsFlagsKey: @(0) };
 		BOOL enumerationSuccessful = [repository enumerateFileStatusWithOptions:options error:&err usingBlock:^(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop) {
-			expect(@(indexToWorkingDirectory.status)).notTo(equal(@(GTStatusDeltaStatusIgnored)));
+			expect(@(indexToWorkingDirectory.status)).notTo(equal(@(GTDeltaTypeIgnored)));
 		}];
 		expect(@(enumerationSuccessful)).to(beTruthy());
 		expect(err).to(beNil());

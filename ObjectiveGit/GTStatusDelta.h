@@ -8,23 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import "git2/diff.h"
+#import <ObjectiveGit/GTDiffDelta.h>
 
 @class GTDiffFile;
-
-/// An enum representing the status of the file.
-///
-/// See diff.h for documentation of individual flags.
-typedef NS_ENUM(NSInteger, GTStatusDeltaStatus) {
-	GTStatusDeltaStatusUnmodified = GIT_DELTA_UNMODIFIED,
-	GTStatusDeltaStatusAdded = GIT_DELTA_ADDED,
-	GTStatusDeltaStatusDeleted = GIT_DELTA_DELETED,
-	GTStatusDeltaStatusModified = GIT_DELTA_MODIFIED,
-	GTStatusDeltaStatusRenamed = GIT_DELTA_RENAMED,
-	GTStatusDeltaStatusCopied = GIT_DELTA_COPIED,
-	GTStatusDeltaStatusIgnored = GIT_DELTA_IGNORED,
-	GTStatusDeltaStatusUntracked = GIT_DELTA_UNTRACKED,
-	GTStatusDeltaStatusTypeChange = GIT_DELTA_TYPECHANGE,
-};
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -38,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, copy, nullable) GTDiffFile *newFile __attribute__((ns_returns_not_retained));
 
 /// The status of the file.
-@property (nonatomic, readonly) GTStatusDeltaStatus status;
+@property (nonatomic, readonly) GTDeltaType status;
 
 /// A float between 0 and 1 describing how similar the old and new
 /// files are (where 0 is not at all and 1 is identical).

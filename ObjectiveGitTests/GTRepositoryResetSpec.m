@@ -25,7 +25,7 @@ describe(@"-resetPathspecs:toCommit:error:", ^{
 		countStagedFiles = ^{
 			__block NSUInteger count = 0;
 			[repository enumerateFileStatusWithOptions:nil error:NULL usingBlock:^(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop) {
-				if (headToIndex.status != GTStatusDeltaStatusUnmodified) count++;
+				if (headToIndex.status != GTDeltaTypeUnmodified) count++;
 			}];
 
 			return count;
