@@ -152,6 +152,10 @@
 	}
 }
 
+- (BOOL)isHEAD {
+	return (git_branch_is_head(self.reference.git_reference) ? YES : NO);
+}
+
 - (NSArray *)uniqueCommitsRelativeToBranch:(GTBranch *)otherBranch error:(NSError **)error {
 	GTEnumerator *enumerator = [self.repository enumeratorForUniqueCommitsFromOID:self.OID relativeToOID:otherBranch.OID error:error];
 	return [enumerator allObjectsWithError:error];

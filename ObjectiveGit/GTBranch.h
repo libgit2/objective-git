@@ -50,6 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) GTBranchType branchType;
 @property (nonatomic, readonly, strong) GTRepository *repository;
 @property (nonatomic, readonly, strong) GTReference *reference;
+@property (nonatomic, readonly, getter=isHEAD) BOOL HEAD;
 
 + (NSString *)localNamePrefix;
 + (NSString *)remoteNamePrefix;
