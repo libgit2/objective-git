@@ -56,8 +56,12 @@
 	return [[GTDiffFile alloc] initWithGitDiffFile:self.git_diff_delta.new_file];
 }
 
-- (GTDiffDeltaType)type {
-	return (GTDiffDeltaType)self.git_diff_delta.status;
+- (GTDeltaType)type {
+	return (GTDeltaType)self.git_diff_delta.status;
+}
+
+- (double)similarity {
+	return (double)(self.git_diff_delta.similarity / 100.0);
 }
 
 #pragma mark Lifecycle

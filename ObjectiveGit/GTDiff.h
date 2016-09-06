@@ -308,7 +308,7 @@ typedef NS_OPTIONS(NSInteger, GTDiffFindOptionsFlags) {
 - (git_diff *)git_diff __attribute__((objc_returns_inner_pointer));
 
 /// The number of deltas of the given type that are contained in the diff.
-- (NSUInteger)numberOfDeltasWithType:(GTDiffDeltaType)deltaType;
+- (NSUInteger)numberOfDeltasWithType:(GTDeltaType)deltaType;
 
 /// Enumerate the deltas in a diff.
 ///
