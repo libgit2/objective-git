@@ -41,7 +41,7 @@
 	return _note;
 }
 
-- (NSString*)note {
+- (NSString *)note {
 	return @(git_note_message(self.git_note));
 }
 
@@ -53,7 +53,7 @@
 	return [[GTSignature alloc] initWithGitSignature:git_note_committer(self.git_note)];
 }
 
-- (GTOID*)targetOID {
+- (GTOID *)targetOID {
 	return [GTOID oidWithGitOid:git_note_id(self.git_note)];
 }
 
@@ -89,8 +89,8 @@
 	return nil;
 }
 
-+ (NSString*)defaultReferenceNameForRepository:(GTRepository *)repository error:(NSError **)error {
-	NSString* noteRef = nil;
++ (NSString *)defaultReferenceNameForRepository:(GTRepository *)repository error:(NSError **)error {
+	NSString *noteRef = nil;
 	
 	git_buf default_ref_name = { 0 };
 	int gitErr = git_note_default_ref(&default_ref_name, repository.git_repository);
@@ -104,7 +104,13 @@
 		return nil;
 	}
 	
-	noteRef = [NSString stringWithUTF8String:default_ref_name.ptr];
+	if (default_ref_name.ptr != NULL) {
+		noteRef = @(default_ref_name.ptr);
+	} else {
+		if (error != NULL) {
+			*error = [NSError git_errorFor:GIT_ERROR description:@"Unable to get default git notes reference name"];
+		}
+	}
 	
 	git_buf_free(&default_ref_name);
 	

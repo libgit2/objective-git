@@ -178,37 +178,38 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 	return [self pushBranches:branches toRemote:remote withOptions:options withNotesReferenceName:nil error:error progress:progressBlock];
 }
 
-- (BOOL)pushBranches:(NSArray *)branches toRemote:(GTRemote *)remote withOptions:(NSDictionary *)options withNotesReferenceName:(NSString*)referenceName error:(NSError **)error progress:(GTRemotePushTransferProgressBlock)progressBlock {
+- (BOOL)pushBranches:(NSArray *)branches toRemote:(GTRemote *)remote withOptions:(NSDictionary *)options withNotesReferenceName:(NSString *)referenceName error:(NSError **)error progress:(GTRemotePushTransferProgressBlock)progressBlock {
 	NSParameterAssert(branches != nil);
 	NSParameterAssert(branches.count != 0);
 	NSParameterAssert(remote != nil);
-	
+
 	NSMutableArray *refspecs = nil;
 	// Build refspecs for the passed in branches
 	refspecs = [NSMutableArray arrayWithCapacity:branches.count];
 	for (GTBranch *branch in branches) {
 		// Default remote reference for when branch doesn't exist on remote - create with same short name
 		NSString *remoteBranchReference = [NSString stringWithFormat:@"refs/heads/%@", branch.shortName];
-		
+
 		BOOL success = NO;
 		GTBranch *trackingBranch = [branch trackingBranchWithError:error success:&success];
-		
+
 		if (success && trackingBranch != nil) {
 			// Use remote branch short name from trackingBranch, which could be different
 			// (e.g. refs/heads/master:refs/heads/my_master)
 			remoteBranchReference = [NSString stringWithFormat:@"refs/heads/%@", trackingBranch.shortName];
 		}
-		
+
 		[refspecs addObject:[NSString stringWithFormat:@"refs/heads/%@:%@", branch.shortName, remoteBranchReference]];
 	}
 	
 	// Also push the notes reference, if needed.
 	if (referenceName != nil) {
 		// but check whether the reference exists for the repo, otherwise, our push will fail
-		GTReference* notesRef = [self lookUpReferenceWithName:referenceName error:nil];
-		
-		if (notesRef != nil)
+		GTReference *notesRef = [self lookUpReferenceWithName:referenceName error:nil];
+
+		if (notesRef != nil) {
 			[refspecs addObject:[NSString stringWithFormat:@"%@:%@", referenceName, referenceName]];
+		}
 	}
 	
 	return [self pushRefspecs:refspecs toRemote:remote withOptions:options error:error progress:progressBlock];
@@ -216,18 +217,17 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 
 - (BOOL)pushNotes:(NSString *)noteRef toRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error progress:(GTRemotePushTransferProgressBlock)progressBlock {
 	NSParameterAssert(remote != nil);
-	
+
 	if (noteRef == nil) {
 		noteRef = [GTNote defaultReferenceNameForRepository:self error:error];
 		
 		if (noteRef == nil) return NO;
 	}
-	
-	GTReference* notesReference = [self lookUpReferenceWithName:noteRef error:error];
-	
-	if (notesReference == nil)
-		return NO;	// error will be pre-filled with the lookUpReferenceWithName call
-	
+
+	GTReference *notesReference = [self lookUpReferenceWithName:noteRef error:error];
+
+	if (notesReference == nil) return NO;
+
 	return [self pushRefspecs:@[[NSString stringWithFormat:@"%@:%@", noteRef, noteRef]] toRemote:remote withOptions:options error:error progress:progressBlock];
 }
 

@@ -85,7 +85,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///                 May be NULL.
 ///
 /// Returns default reference name (usually "refs/notes/commits").
-+ (NSString*)defaultReferenceNameForRepository:(GTRepository *)repository error:(NSError **)error;
++ (NSString *)defaultReferenceNameForRepository:(GTRepository *)repository error:(NSError **)error;
 
 @end
 

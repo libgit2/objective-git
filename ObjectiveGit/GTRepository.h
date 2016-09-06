@@ -621,7 +621,7 @@ typedef NS_ENUM(NSInteger, GTRepositoryStateType) {
 /// Returns the newly created note or nil on error.
 - (nullable GTNote *)createNote:(NSString *)note target:(GTObject *)theTarget referenceName:(nullable NSString *)referenceName author:(GTSignature *)author committer:(GTSignature *)committer overwriteIfExists:(BOOL)overwrite error:(NSError **)error;
 
-/// Removes a note attached to object in this repo (using a default notes reference, e.g. "refs/notes/commits")
+/// Removes a note attached to object in this repo
 ///
 /// parentObject  - Object (usually a commit) to which the note to be removed is attached to.
 ///                 This object must belong to this repository.
@@ -635,7 +635,7 @@ typedef NS_ENUM(NSInteger, GTRepositoryStateType) {
 /// Returns the YES on success and NO on error.
 - (BOOL)removeNoteFromObject:(GTObject *)parentObject referenceName:(nullable NSString *)referenceName author:(GTSignature *)author committer:(GTSignature *)committer error:(NSError **)error;
 
-/// Enumerates through all stored notes in this repo (using a default notes reference, e.g. "refs/notes/commits")
+/// Enumerates through all stored notes in this repo
 ///
 /// referenceName - Name for the notes reference in the repo, or nil for default ("refs/notes/commits")
 /// error         - Will be filled with a NSError object in case of error.
