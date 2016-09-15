@@ -167,7 +167,7 @@ typedef NS_ENUM(NSInteger, GTRepositoryStateType) {
 @interface GTRepository : NSObject
 
 /// The file URL for the repository's working directory.
-@property (nonatomic, readonly, strong) NSURL *fileURL;
+@property (nonatomic, readonly, strong, nullable) NSURL *fileURL;
 /// The file URL for the repository's .git directory.
 @property (nonatomic, readonly, strong, nullable) NSURL *gitDirectoryURL;
 
