@@ -28,12 +28,12 @@
 
 - (NSString *)SHA {
 	char *SHA = malloc(GIT_OID_HEXSZ);
-	if (SHA == NULL) return nil;
+	NSAssert(SHA != NULL, @"Failed to malloc SHA string");
 
 	git_oid_fmt(SHA, self.git_oid);
 
 	NSString *str = [[NSString alloc] initWithBytesNoCopy:SHA length:GIT_OID_HEXSZ encoding:NSUTF8StringEncoding freeWhenDone:YES];
-	if (str == nil) free(SHA);
+	NSAssert(str != nil, @"Failed to allocate SHA string");
 	return str;
 }
 
