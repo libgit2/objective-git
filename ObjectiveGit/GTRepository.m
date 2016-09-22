@@ -290,7 +290,10 @@ static int remoteCreate(git_remote **remote, git_repository *repo, const char *n
 		if (error != NULL) {
 			char oid_str[GIT_OID_HEXSZ+1];
 			git_oid_tostr(oid_str, sizeof(oid_str), oid);
-			*error = [NSError git_errorFor:gitError description:@"Failed to lookup object %s in repository.", oid_str];
+			*error = [NSError git_errorFor:gitError
+							   description:@"Failed to lookup object"
+								  userInfo:@{GTGitErrorOID: [GTOID oidWithGitOid:oid]}
+							 failureReason:@"The object %s couldn't be found in the repository.", oid_str];
 		}
 		return nil;
 	}
