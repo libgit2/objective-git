@@ -145,6 +145,10 @@ typedef struct {
 	return [[self alloc] initWithURL:localFileURL error:error];
 }
 
++ (instancetype)initWithURL:(NSURL *)localFileURL flags:(UInt32)flags ceilingDirs:(const char *)ceilingDirs error:(NSError **)error {
+	return [[self alloc] initWithURL:localFileURL flags:flags ceilingDirs:ceilingDirs error:error];
+}
+
 - (instancetype)init {
 	NSAssert(NO, @"Call to an unavailable initializer.");
 	return nil;
@@ -169,6 +173,22 @@ typedef struct {
 
 	git_repository *r;
 	int gitError = git_repository_open(&r, localFileURL.path.fileSystemRepresentation);
+	if (gitError < GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to open repository at URL %@.", localFileURL];
+		return nil;
+	}
+
+	return [self initWithGitRepository:r];
+}
+
+- (instancetype)initWithURL:(NSURL *)localFileURL flags:(UInt32)flags ceilingDirs:(const char *)ceilingDirs error:(NSError **)error {
+	if (!localFileURL.isFileURL || localFileURL.path == nil) {
+		if (error != NULL) *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileWriteUnsupportedSchemeError userInfo:@{ NSLocalizedDescriptionKey: NSLocalizedString(@"Invalid file path URL to initialize repository.", @"") }];
+		return nil;
+	}
+
+	git_repository *r;
+	int gitError = git_repository_open_ext(&r, localFileURL.path.fileSystemRepresentation, flags, ceilingDirs);
 	if (gitError < GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to open repository at URL %@.", localFileURL];
 		return nil;
