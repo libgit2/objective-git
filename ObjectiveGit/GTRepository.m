@@ -145,10 +145,6 @@ typedef struct {
 	return [[self alloc] initWithURL:localFileURL error:error];
 }
 
-+ (instancetype)initWithURL:(NSURL *)localFileURL flags:(UInt32)flags ceilingDirs:(const char *)ceilingDirs error:(NSError **)error {
-	return [[self alloc] initWithURL:localFileURL flags:flags ceilingDirs:ceilingDirs error:error];
-}
-
 - (instancetype)init {
 	NSAssert(NO, @"Call to an unavailable initializer.");
 	return nil;
