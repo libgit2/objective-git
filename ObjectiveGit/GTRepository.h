@@ -114,7 +114,7 @@ extern NSString *const GTRepositoryCloneOptionsServerCertificateURL;
 /// +initWithURL:flags:ceilingDirs:error:.
 ///
 /// See respository.h for documentation of each individual flag.
-typedef NS_OPTIONS(UInt32, GTRepositoryOpenFlags) {
+typedef NS_OPTIONS(NSInteger, GTRepositoryOpenFlags) {
 	GTRepositoryOpenNoSearch = GIT_REPOSITORY_OPEN_NO_SEARCH,
 	GTRepositoryOpenCrossFS = GIT_REPOSITORY_OPEN_CROSS_FS,
 	GTRepositoryOpenBare = GIT_REPOSITORY_OPEN_BARE,
@@ -221,15 +221,14 @@ typedef NS_ENUM(NSInteger, GTRepositoryStateType) {
 
 /// Convenience initializer to find and open a repository with extended controls.
 ///
-/// localFileURL - The file URL for the new repository. Cannot be nil.
-/// flags        - A combination of the `GTRepositoryOpenFlags` flags.
-/// ceilingDirs  - A GIT_PATH_LIST_SEPARATOR delimited list of path prefixes at
-///                which the search for a containing repository should terminate.
-///                Can be NULL.
-/// error        - The error if one occurs.
+/// localFileURL    - The file URL for the new repository. Cannot be nil.
+/// flags           - A combination of the `GTRepositoryOpenFlags` flags.
+/// ceilingDirURLs  - An array of URLs at which the search for a containing
+///                   repository should terminate. Can be NULL.
+/// error           - The error if one occurs.
 ///
 /// Returns the initialized repository, or nil if an error occurred.
-- (nullable instancetype)initWithURL:(NSURL *)localFileURL flags:(UInt32)flags ceilingDirs:(nullable const char *)ceilingDirs error:(NSError **)error;
+- (nullable instancetype)initWithURL:(NSURL *)localFileURL flags:(NSInteger)flags ceilingDirs:(nullable NSArray<NSURL *> *)ceilingDirURLs error:(NSError **)error;
 
 - (instancetype)init NS_UNAVAILABLE;
 
