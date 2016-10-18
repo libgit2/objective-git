@@ -29,8 +29,8 @@
 - (NSString *)SHA {
 	char *SHA = git_oid_tostr_s(self.git_oid);
 	NSString *str = [[NSString alloc] initWithBytes:SHA
-																					 length:GIT_OID_HEXSZ
-																				 encoding:NSUTF8StringEncoding];
+                                             length:GIT_OID_HEXSZ
+                                           encoding:NSUTF8StringEncoding];
 	NSAssert(str != nil, @"Failed to create SHA string");
 	return str;
 }
