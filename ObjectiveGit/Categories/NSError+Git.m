@@ -31,6 +31,7 @@
 #import "git2/errors.h"
 
 NSString * const GTGitErrorDomain = @"GTGitErrorDomain";
+NSString * const GTGitErrorOID = @"GTOID";
 
 @implementation NSError (Git)
 

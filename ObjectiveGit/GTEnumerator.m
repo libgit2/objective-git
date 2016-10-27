@@ -145,16 +145,34 @@
 
 #pragma mark Enumerating
 
-- (GTCommit *)nextObjectWithSuccess:(BOOL *)success error:(NSError **)error {
+- (GTOID *)nextOIDWithSuccess:(BOOL *)success error:(NSError **)error {
 	git_oid oid;
+
 	int gitError = git_revwalk_next(&oid, self.walk);
 	if (gitError == GIT_ITEROVER) {
 		if (success != NULL) *success = YES;
 		return nil;
 	}
+	if (gitError != GIT_OK) {
+		if (success != NULL) *success = NO;
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Enumeration failed"];
+		return nil;
+	}
+
+	if (success != NULL) *success = YES;
+	return [GTOID oidWithGitOid:&oid];
+}
+
+- (GTCommit *)nextObjectWithSuccess:(BOOL *)success error:(NSError **)error {
+	GTOID *oid = [self nextOIDWithSuccess:success error:error];
+	if (oid == nil) {
+		// We don't care whether the iteration completed, or an error occurred,
+		// there's nothing to lookup.
+		return nil;
+	}
 	
 	// Ignore error if we can't lookup object and just return nil.
-	GTCommit *commit = [self.repository lookUpObjectByGitOid:&oid objectType:GTObjectTypeCommit error:error];
+	GTCommit *commit = [self.repository lookUpObjectByOID:oid objectType:GTObjectTypeCommit error:error];
 	if (success != NULL) *success = (commit != nil);
 	return commit;
 }

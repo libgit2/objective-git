@@ -29,7 +29,11 @@
 
 #import <Foundation/Foundation.h>
 
+/// The error domain used by Objective-Git
 extern NSString * const GTGitErrorDomain;
+
+/// Error userinfo keys
+extern NSString * const GTGitErrorOID;
 
 @interface NSError (Git)
 
