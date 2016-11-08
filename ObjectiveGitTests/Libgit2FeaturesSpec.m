@@ -7,6 +7,7 @@
 //
 
 #import <Nimble/Nimble.h>
+#import <Nimble/Nimble-Swift.h>
 #import <ObjectiveGit/ObjectiveGit.h>
 #import <Quick/Quick.h>
 
