@@ -1727,7 +1727,7 @@
 					External/libgit2/include,
 					/usr/local/include,
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LIBRARY_SEARCH_PATHS = (
 					.,
 					External,
@@ -1761,7 +1761,7 @@
 					External/libgit2/include,
 					/usr/local/include,
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LIBRARY_SEARCH_PATHS = (
 					.,
 					External,
@@ -1885,7 +1885,7 @@
 					External/libgit2/include,
 					/usr/local/include,
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LIBRARY_SEARCH_PATHS = (
 					.,
 					External,
@@ -2122,7 +2122,7 @@
 					External/libgit2/include,
 					/usr/local/include,
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LIBRARY_SEARCH_PATHS = (
 					.,
 					External,
