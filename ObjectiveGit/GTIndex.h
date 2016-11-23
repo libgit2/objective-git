@@ -69,7 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error      - If not NULL, set to any error that occurs.
 ///
 /// Returns the loaded index, or nil if an error occurred.
-+ (instancetype)indexWithFileURL:(NSURL *)fileURL repository:(GTRepository *)repository error:(NSError **)error;
++ (nullable instancetype)indexWithFileURL:(NSURL *)fileURL repository:(GTRepository *)repository error:(NSError **)error;
 
 - (instancetype)init NS_UNAVAILABLE;
 

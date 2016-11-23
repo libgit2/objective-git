@@ -109,7 +109,7 @@ int GTCredentialAcquireCallback(git_cred **git_cred, const char *url, const char
 		return GIT_ERROR;
 	}
 
-	NSString *URL = (url != NULL ? @(url) : nil);
+	NSString *URL = (url != NULL ? @(url) : @"");
 	NSString *userName = (username_from_url != NULL ? @(username_from_url) : nil);
 
 	GTCredential *cred = [provider credentialForType:(GTCredentialType)allowed_types URL:URL userName:userName];

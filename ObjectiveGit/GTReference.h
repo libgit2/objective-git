@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, strong) GTRepository *repository;
 @property (nonatomic, readonly) GTReferenceType referenceType;
 @property (nonatomic, readonly) const git_oid *git_oid;
-@property (nonatomic, strong, readonly) GTOID *OID;
+@property (nonatomic, strong, readonly, nullable) GTOID *OID;
 
 /// Whether this is a remote-tracking branch.
 @property (nonatomic, readonly, getter = isRemote) BOOL remote;
@@ -78,10 +78,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (git_reference *)git_reference __attribute__((objc_returns_inner_pointer));
 
 /// The target (either GTObject or GTReference) to which the reference points.
-@property (nonatomic, readonly, copy) id unresolvedTarget;
+@property (nonatomic, readonly, copy, nullable) id unresolvedTarget;
 
 /// The resolved object to which the reference points.
-@property (nonatomic, readonly, copy) id resolvedTarget;
+@property (nonatomic, readonly, copy, nullable) id resolvedTarget;
 
 /// The last direct reference in a chain
 @property (nonatomic, readonly, copy) GTReference *resolvedReference;
