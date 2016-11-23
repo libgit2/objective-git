@@ -177,6 +177,35 @@ typedef struct {
 	return [self initWithGitRepository:r];
 }
 
+- (instancetype)initWithURL:(NSURL *)localFileURL flags:(NSInteger)flags ceilingDirs:(NSArray<NSURL *> *)ceilingDirURLs error:(NSError **)error {
+	if (!localFileURL.isFileURL || localFileURL.path == nil) {
+		if (error != NULL) *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileReadUnsupportedSchemeError userInfo:@{ NSLocalizedDescriptionKey: NSLocalizedString(@"Invalid file path URL to open.", @"") }];
+		return nil;
+	}
+
+	// Concatenate URL paths.
+	NSMutableString *ceilingDirsString;
+	if (ceilingDirURLs.count > 0) {
+		ceilingDirsString = [[NSMutableString alloc] init];
+		[ceilingDirURLs enumerateObjectsUsingBlock:^(NSURL * _Nonnull url, NSUInteger idx, BOOL * _Nonnull stop) {
+			if (idx < ceilingDirURLs.count - 1) {
+				[ceilingDirsString appendString:[NSString stringWithFormat:@"%@%c", url.path, GIT_PATH_LIST_SEPARATOR]];
+			} else {
+				[ceilingDirsString appendString:url.path];
+			}
+		}];
+	}
+
+	git_repository *r;
+	int gitError = git_repository_open_ext(&r, localFileURL.path.fileSystemRepresentation, (unsigned int)flags, ceilingDirsString.fileSystemRepresentation);
+	if (gitError < GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to open repository at URL %@.", localFileURL];
+		return nil;
+	}
+
+	return [self initWithGitRepository:r];
+}
+
 
 typedef void(^GTTransferProgressBlock)(const git_transfer_progress *progress, BOOL *stop);
 
@@ -290,7 +319,7 @@ static int remoteCreate(git_remote **remote, git_repository *repo, const char *n
 		if (error != NULL) {
 			char oid_str[GIT_OID_HEXSZ+1];
 			git_oid_tostr(oid_str, sizeof(oid_str), oid);
-			*error = [NSError git_errorFor:gitError description:@"Failed to lookup object %s in repository.", oid_str];
+			*error = [NSError git_errorFor:gitError description:@"Failed to lookup object" userInfo:@{GTGitErrorOID: [GTOID oidWithGitOid:oid]} failureReason:@"The object %s couldn't be found in the repository.", oid_str];
 		}
 		return nil;
 	}

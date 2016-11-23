@@ -117,6 +117,16 @@ NS_ASSUME_NONNULL_BEGIN
 /// Returns a (possibly empty) array of GTCommits, or nil if an error occurs.
 - (nullable NSArray<GTCommit *> *)allObjectsWithError:(NSError **)error;
 
+/// Get the next OID.
+///
+/// success - If not NULL, this will be set to whether getting the next object
+///           was successful. This will be YES if the receiver is exhausted, so
+///           it can be used to interpret the meaning of a nil return value.
+/// error   - If not NULL, set to any error that occurs during traversal.
+///
+/// Returns nil if an error occurs or the enumeration is done.
+- (nullable GTOID *)nextOIDWithSuccess:(nullable BOOL *)success error:(NSError **)error;
+
 /// Gets the next commit.
 ///
 /// success - If not NULL, this will be set to whether getting the next object
