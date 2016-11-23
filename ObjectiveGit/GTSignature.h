@@ -42,10 +42,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, copy, nullable) NSString *email;
 
 /// The time when the action happened.
-@property (nonatomic, readonly, strong) NSDate *time;
+@property (nonatomic, readonly, strong, nullable) NSDate *time;
 
 /// The time zone that `time` should be interpreted relative to.
-@property (nonatomic, readonly, copy) NSTimeZone *timeZone;
+@property (nonatomic, readonly, copy, nullable) NSTimeZone *timeZone;
 
 /// Initializes the receiver with the given signature.
 ///
