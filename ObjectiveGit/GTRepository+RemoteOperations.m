@@ -21,6 +21,8 @@
 
 #import "git2/errors.h"
 #import "git2/remote.h"
+#import "git2/notes.h"
+#import "git2/buffer.h"
 
 NSString *const GTRepositoryRemoteOptionsCredentialProvider = @"GTRepositoryRemoteOptionsCredentialProvider";
 NSString *const GTRepositoryRemoteOptionsFetchPrune = @"GTRepositoryRemoteOptionsFetchPrune";
@@ -196,6 +198,28 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 	}
 
 	return [self pushRefspecs:refspecs toRemote:remote withOptions:options error:error progress:progressBlock];
+}
+
+- (BOOL)pushNotes:(NSString *)noteRef toRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error progress:(GTRemotePushTransferProgressBlock)progressBlock {
+	NSParameterAssert(remote != nil);
+	
+	if (noteRef == nil) {
+		git_buf default_ref_name = { 0 };
+		int gitErr = git_note_default_ref(&default_ref_name, self.git_repository);
+		if (gitErr != GIT_OK) {
+			git_buf_free(&default_ref_name);
+			
+			if (error != NULL) {
+				*error = [NSError git_errorFor:gitErr description:@"Unable to get default git notes reference name"];
+			}
+			
+			return NO;
+		}
+		
+		noteRef = [NSString stringWithUTF8String:default_ref_name.ptr];
+	}
+	
+	return [self pushRefspecs:@[[NSString stringWithFormat:@"%@:%@", noteRef, noteRef]] toRemote:remote withOptions:options error:error progress:progressBlock];
 }
 
 #pragma mark - Deletion (Public)
