@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// type     - the credential types allowed by the operation.
 /// URL      - the URL the operation is authenticating against.
 /// userName - the user name provided by the operation. Can be nil, and might be ignored.
-- (GTCredential * _Nullable)credentialForType:(GTCredentialType)type URL:(NSString *)URL userName:(nullable NSString *)userName;
+- (GTCredential * _Nullable)credentialForType:(GTCredentialType)type URL:(nullable NSString *)URL userName:(nullable NSString *)userName;
 @end
 
 /// The GTCredential class is used to provide authentication data.
