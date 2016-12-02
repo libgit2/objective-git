@@ -37,10 +37,10 @@ beforeEach(^{
 
 it(@"can create notes", ^{
 	// Annotate the commit
-	GTSignature* sig = [repository userSignatureForNow];
+	GTSignature *sig = [repository userSignatureForNow];
 	expect(sig).notTo(beNil());
 	
-	NSError* err = nil;
+	NSError *err = nil;
 	
 	GTNote *note = [repository createNote:@"Note text" target:initialCommit referenceName:nil author:sig committer:sig overwriteIfExists:YES error:&err];
 	expect(note).notTo(beNil());
@@ -57,10 +57,10 @@ it(@"can create notes", ^{
 
 it(@"can delete notes", ^{
 	// Annotate the commit
-	GTSignature* sig = [repository userSignatureForNow];
+	GTSignature *sig = [repository userSignatureForNow];
 	expect(sig).notTo(beNil());
 	
-	NSError* err = nil;
+	NSError *err = nil;
 	
 	GTNote *note = [repository createNote:@"Note text" target:initialCommit referenceName:nil author:sig committer:sig overwriteIfExists:YES error:&err];
 	expect(note).notTo(beNil());
@@ -70,7 +70,7 @@ it(@"can delete notes", ^{
 	expect(@(res)).to(beTrue());
 	expect(err).to(beNil());
 	
-	NSMutableArray* notes = [NSMutableArray arrayWithCapacity:0];
+	NSMutableArray *notes = [NSMutableArray arrayWithCapacity:0];
 	
 	[repository enumerateNotesWithReferenceName:nil error:&err usingBlock:^(GTNote *note, GTObject *object, BOOL *stop) {
 		[notes addObject:note];

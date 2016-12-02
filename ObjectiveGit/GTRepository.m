@@ -969,20 +969,19 @@ static int checkoutNotifyCallback(git_checkout_notify_t why, const char *path, c
 - (BOOL)removeNoteFromObject:(GTObject *)parentObject referenceName:(NSString *)referenceName author:(GTSignature *)author committer:(GTSignature *)committer error:(NSError **)error {
 	int gitError = git_note_remove(self.git_repository, referenceName.UTF8String, author.git_signature, committer.git_signature, parentObject.OID.git_oid);
 	if (gitError != GIT_OK) {
-		if(error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to delete note from %@", parentObject];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to delete note from %@", parentObject];
 		return NO;
 	}
 	
 	return YES;
 }
 
-- (BOOL)enumerateNotesWithReferenceName:(NSString *)referenceName error:(NSError **)error usingBlock:(void (^)(GTNote *note, GTObject *object, BOOL *stop))block {
+- (BOOL)enumerateNotesWithReferenceName:(NSString *)referenceName error:(NSError **)error usingBlock:(void (^)(GTNote *note, GTObject *object, NSError *error, BOOL *stop))block {
 	git_note_iterator *iter = NULL;
 	
 	int gitError = git_note_iterator_new(&iter, self.git_repository, referenceName.UTF8String);
 	
-	if (gitError != GIT_OK)
-	{
+	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to enumerate notes"];
 		return NO;
 	}
@@ -999,23 +998,21 @@ static int checkoutNotifyCallback(git_checkout_notify_t why, const char *path, c
 	while ((iterError = git_note_next(&note_id, &object_id, iter)) == GIT_OK) {
 		NSError *lookupErr = nil;
 		
-		GTNote *note = [[GTNote alloc] initWithTargetOID:[GTOID oidWithGitOid:&object_id] repository:self referenceName:referenceName error:error];
-		if (note == nil) return NO;
+		GTNote *note = [[GTNote alloc] initWithTargetOID:[GTOID oidWithGitOid:&object_id] repository:self referenceName:referenceName error:&lookupErr];
+		GTObject *obj = nil;
 		
-		GTObject *obj = [self lookUpObjectByGitOid:&object_id error:&lookupErr];
-		if (obj == nil && lookupErr != nil) {
-			if (error != NULL) *error = lookupErr;
-			return NO;
-		}
+		if (note != nil) obj = [self lookUpObjectByGitOid:&object_id error:&lookupErr];
 		
 		BOOL stop = NO;
-		block(note, obj, &stop);
+		block(note, obj, lookupErr, &stop);
 		if (stop) {
 			break;
 		}
 	}
 	
-	if (iterError != GIT_OK && iterError != GIT_ITEROVER && error != NULL) *error = [NSError git_errorFor:iterError description:@"Iterator error"];
+	if (iterError != GIT_OK && iterError != GIT_ITEROVER) {
+		if (error != NULL) *error = [NSError git_errorFor:iterError description:@"Iterator error"];
+	}
 	
 	return success;
 }

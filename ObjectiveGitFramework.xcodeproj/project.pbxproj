@@ -372,8 +372,6 @@
 		F964D5F21CE9D9B200F1D8DD /* GTNote.h in Headers */ = {isa = PBXBuildFile; fileRef = F964D5EF1CE9D9B200F1D8DD /* GTNote.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F964D5F31CE9D9B200F1D8DD /* GTNote.m in Sources */ = {isa = PBXBuildFile; fileRef = F964D5F01CE9D9B200F1D8DD /* GTNote.m */; };
 		F964D5F51CE9D9B200F1D8DD /* GTNote.m in Sources */ = {isa = PBXBuildFile; fileRef = F964D5F01CE9D9B200F1D8DD /* GTNote.m */; };
-		F9D1D4231CEB79D1009E5855 /* GTNoteSpec.m in Resources */ = {isa = PBXBuildFile; fileRef = F9D1D4221CEB79D1009E5855 /* GTNoteSpec.m */; };
-		F9D1D4241CEB79D1009E5855 /* GTNoteSpec.m in Resources */ = {isa = PBXBuildFile; fileRef = F9D1D4221CEB79D1009E5855 /* GTNoteSpec.m */; };
 		F9D1D4251CEB7BA6009E5855 /* GTNoteSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = F9D1D4221CEB79D1009E5855 /* GTNoteSpec.m */; };
 /* End PBXBuildFile section */
 
@@ -1322,7 +1320,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F9D1D4231CEB79D1009E5855 /* GTNoteSpec.m in Resources */,
 				D09C2E51175602A500065E36 /* fixtures.zip in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1339,7 +1336,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F9D1D4241CEB79D1009E5855 /* GTNoteSpec.m in Resources */,
 				F8D007A81B4FA045009A8DAF /* fixtures.zip in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

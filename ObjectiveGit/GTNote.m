@@ -58,25 +58,20 @@
 }
 
 - (instancetype)initWithTargetOID:(GTOID *)oid repository:(GTRepository *)repository referenceName:(NSString *)referenceName error:(NSError **)error {
-	self = [super init];
-	if (self == nil) return nil;
-	
-	int gitErr = git_note_read(&_note, repository.git_repository, referenceName.UTF8String, oid.git_oid);
-	
-	if (gitErr != GIT_OK && error != NULL) *error = [NSError git_errorFor:gitErr description:@"Failed to read a note."];
-	
-	if (gitErr != GIT_OK) return nil;
-	
-	return self;
+	return [self initWithTargetGitOID:(git_oid *)oid.git_oid repository:repository.git_repository referenceName:referenceName.UTF8String error:error];
 }
 
-- (instancetype)initWithTargetGitOID:(git_oid *)oid repository:(git_repository *)repository referenceName:(const char *)referenceName {
+- (instancetype)initWithTargetGitOID:(git_oid *)oid repository:(git_repository *)repository referenceName:(const char *)referenceName error:(NSError **)error {
 	self = [super init];
 	if (self == nil) return nil;
 	
 	int gitErr = git_note_read(&_note, repository, referenceName, oid);
 	
-	if (gitErr != GIT_OK) return nil;
+	if (gitErr != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitErr description:@"Unable to read note"];
+		
+		return nil;
+	}
 	
 	return self;
 }

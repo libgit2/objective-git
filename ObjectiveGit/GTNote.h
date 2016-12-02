@@ -71,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// referenceName - Name for the notes reference in the repo, or NULL for default ("refs/notes/commits")
 ///
 /// Returns initialized GTNote instance or nil on failure.
-- (nullable instancetype)initWithTargetGitOID:(git_oid *)oid repository:(git_repository *)repository referenceName:(const char * _Nullable)referenceName;
+- (nullable instancetype)initWithTargetGitOID:(git_oid *)oid repository:(git_repository *)repository referenceName:(const char * _Nullable)referenceName error:(NSError **)error NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)init NS_UNAVAILABLE;
 

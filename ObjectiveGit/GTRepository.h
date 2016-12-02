@@ -667,7 +667,7 @@ typedef NS_ENUM(NSInteger, GTRepositoryStateType) {
 ///                 If the block sets `stop` to YES, the iterator is finished.
 ///
 /// Returns YES on overall success or NO on error of any kind.
-- (BOOL)enumerateNotesWithReferenceName:(nullable NSString *)referenceName error:(NSError **)error usingBlock:(void (^)(GTNote *note, GTObject *object, BOOL *stop))block;
+- (BOOL)enumerateNotesWithReferenceName:(nullable NSString *)referenceName error:(NSError **)error usingBlock:(void (^)(GTNote * __nullable note, GTObject * __nullable object, NSError * __nullable error, BOOL *stop))block;
 
 @end
 
