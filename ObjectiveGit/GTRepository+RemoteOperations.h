@@ -22,6 +22,9 @@ extern NSString *const GTRepositoryRemoteOptionsFetchPrune;
 /// A `GTRemoteAutoTagOption`, that will be used to determine how the fetch should handle tags.
 extern NSString *const GTRepositoryRemoteOptionsDownloadTags;
 
+/// A `@(BOOL)`, indicating git notes should also be pushed to the default notes reference name (if `@(YES)`), or an `NSArray(NSString)` containing reference names to be pushed through.
+extern NSString *const GTRepositoryRemoteOptionsPushNotes;
+
 /// An enum describing the data needed for pruning.
 /// See `git_fetch_prune_t`.
 typedef NS_ENUM(NSInteger, GTFetchPruneOption) {
@@ -76,6 +79,7 @@ typedef NS_ENUM(NSInteger, GTFetchPruneOption) {
 /// options       - Options applied to the push operation. Can be NULL.
 ///                 Recognized options are:
 ///                 `GTRepositoryRemoteOptionsCredentialProvider`
+///                 `GTRepositoryRemoteOptionsPushNotes` (to push together with notes in one push)
 /// error         - The error if one occurred. Can be NULL.
 /// progressBlock - An optional callback for monitoring progress. May be NULL.
 ///
@@ -89,33 +93,14 @@ typedef NS_ENUM(NSInteger, GTFetchPruneOption) {
 /// remote        - The remote to push to. Must not be nil.
 /// options       - Options applied to the push operation. Can be NULL.
 ///                 Recognized options are:
-///                 `GTRepositoryRemoteOptionsCredentialProvider`
+///                 `GTRepositoryRemoteOptionsCredentialProvider`,
+///                 `GTRepositoryRemoteOptionsPushNotes` (to push together with notes in one push)
 /// error         - The error if one occurred. Can be NULL.
 /// progressBlock - An optional callback for monitoring progress. May be NULL.
 ///
 /// Returns YES if the push was successful, NO otherwise (and `error`, if provided,
 /// will point to an error describing what happened).
 - (BOOL)pushBranches:(NSArray<GTBranch *> *)branches toRemote:(GTRemote *)remote withOptions:(nullable NSDictionary *)options error:(NSError **)error progress:(nullable void (^)(unsigned int current, unsigned int total, size_t bytes, BOOL *stop))progressBlock;
-
-/// Push an array of branches to a remote, together with notes (in one push).
-/// Normally, if you use Git notes functionality, to push the notes to remote, you would have to
-/// do two operations: pushBranches followed by pushNotes. This is unrational, so we offer you a handy
-/// shortcut that allows to push the branches together with the notes.
-///
-/// branches      - An array of branches to push. Must not be nil.
-/// remote        - The remote to push to. Must not be nil.
-/// options       - Options applied to the push operation. Can be NULL.
-///                 Recognized options are:
-///                 `GTRepositoryRemoteOptionsCredentialProvider`
-/// referenceName - Reference name for notes, if they should be pushed together with the branches.
-///                 Use +[GTNote defaultReferenceNameWithError:] to push the default note reference.
-///                 Passing NULL here will make notes NOT to be pushed.
-/// error         - The error if one occurred. Can be NULL.
-/// progressBlock - An optional callback for monitoring progress. May be NULL.
-///
-/// Returns YES if the push was successful, NO otherwise (and `error`, if provided,
-/// will point to an error describing what happened).
-- (BOOL)pushBranches:(NSArray<GTBranch *> *)branches toRemote:(GTRemote *)remote withOptions:(nullable NSDictionary *)options withNotesReferenceName:(nullable NSString *)notesReferenceName error:(NSError **)error progress:(nullable void (^)(unsigned int current, unsigned int total, size_t bytes, BOOL *stop))progressBlock;
 
 /// Push a given Git notes reference name to a remote.
 ///

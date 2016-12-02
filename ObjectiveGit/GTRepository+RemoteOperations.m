@@ -28,6 +28,7 @@
 NSString *const GTRepositoryRemoteOptionsCredentialProvider = @"GTRepositoryRemoteOptionsCredentialProvider";
 NSString *const GTRepositoryRemoteOptionsFetchPrune = @"GTRepositoryRemoteOptionsFetchPrune";
 NSString *const GTRepositoryRemoteOptionsDownloadTags = @"GTRepositoryRemoteOptionsDownloadTags";
+NSString *const GTRepositoryRemoteOptionsPushNotes = @"GTRepositoryRemoteOptionsPushNotes";
 
 typedef void (^GTRemoteFetchTransferProgressBlock)(const git_transfer_progress *stats, BOOL *stop);
 typedef void (^GTRemotePushTransferProgressBlock)(unsigned int current, unsigned int total, size_t bytes, BOOL *stop);
@@ -175,10 +176,6 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 }
 
 - (BOOL)pushBranches:(NSArray *)branches toRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error progress:(GTRemotePushTransferProgressBlock)progressBlock {
-	return [self pushBranches:branches toRemote:remote withOptions:options withNotesReferenceName:nil error:error progress:progressBlock];
-}
-
-- (BOOL)pushBranches:(NSArray *)branches toRemote:(GTRemote *)remote withOptions:(NSDictionary *)options withNotesReferenceName:(NSString *)referenceName error:(NSError **)error progress:(GTRemotePushTransferProgressBlock)progressBlock {
 	NSParameterAssert(branches != nil);
 	NSParameterAssert(branches.count != 0);
 	NSParameterAssert(remote != nil);
@@ -202,13 +199,27 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 		[refspecs addObject:[NSString stringWithFormat:@"refs/heads/%@:%@", branch.shortName, remoteBranchReference]];
 	}
 	
-	// Also push the notes reference, if needed.
-	if (referenceName != nil) {
-		// but check whether the reference exists for the repo, otherwise, our push will fail
-		GTReference *notesRef = [self lookUpReferenceWithName:referenceName error:nil];
-
-		if (notesRef != nil) {
-			[refspecs addObject:[NSString stringWithFormat:@"%@:%@", referenceName, referenceName]];
+	// Also push the notes reference(s), if needed.
+	id pushNotesOption = options[GTRepositoryRemoteOptionsPushNotes];
+	if (pushNotesOption != nil) {
+		if ([pushNotesOption isKindOfClass:[NSNumber class]]) {		// Push notes is a bool, only push the default reference name if it's YES
+			if ([(NSNumber *)pushNotesOption boolValue]) {
+				NSString *notesReferenceName = [GTNote defaultReferenceNameForRepository:self error:nil];
+				
+				// Check whether the reference name exists for the repo, or our push will fail
+				if (notesReferenceName != nil && [self lookUpReferenceWithName:notesReferenceName error:nil] != nil) {
+					[refspecs addObject:[NSString stringWithFormat:@"%@:%@", notesReferenceName, notesReferenceName]];
+				}
+			}
+		} else if ([pushNotesOption isKindOfClass:[NSArray class]]) {
+			for (NSString *notesReferenceName in (NSArray *)pushNotesOption) {
+				if ([notesReferenceName isKindOfClass:[NSString class]]) {		// Just a sanity check, we only accept NSStrings in the array
+					// Check whether the reference name exists for the repo, or our push will fail
+					if (notesReferenceName != nil && [self lookUpReferenceWithName:notesReferenceName error:nil] != nil) {
+						[refspecs addObject:[NSString stringWithFormat:@"%@:%@", notesReferenceName, notesReferenceName]];
+					}
+				}
+			}
 		}
 	}
 	

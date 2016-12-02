@@ -69,11 +69,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// oid           - git_oid of the target to attach to
 /// repository    - Repository containing the target OID refers to
 /// referenceName - Name for the notes reference in the repo, or NULL for default ("refs/notes/commits")
-/// error         - Will be filled with a git error code in case of error.
-///                 May be NULL.
 ///
-/// Returns initialized GTNote instance or nil on failure (error will be populated, if passed).
-- (nullable instancetype)initWithTargetGitOID:(git_oid *)oid repository:(git_repository *)repository referenceName:(const char * _Nullable)referenceName error:(int * _Nullable)error;
+/// Returns initialized GTNote instance or nil on failure.
+- (nullable instancetype)initWithTargetGitOID:(git_oid *)oid repository:(git_repository *)repository referenceName:(const char * _Nullable)referenceName;
 
 - (instancetype)init NS_UNAVAILABLE;
 

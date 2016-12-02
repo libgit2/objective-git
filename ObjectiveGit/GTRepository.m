@@ -54,6 +54,8 @@
 #import "GTRepository+References.h"
 #import "GTNote.h"
 
+#import "EXTScope.h"
+
 #import "git2.h"
 
 NSString * const GTRepositoryCloneOptionsBare = @"GTRepositoryCloneOptionsBare";
@@ -974,17 +976,20 @@ static int checkoutNotifyCallback(git_checkout_notify_t why, const char *path, c
 	return YES;
 }
 
-- (BOOL)enumerateNotesWithReferenceName:(NSString *)referenceName error:(NSError **)error usingBlock:(void (^)(GTNote *note, GTObject *object, BOOL *stop))block
-{
+- (BOOL)enumerateNotesWithReferenceName:(NSString *)referenceName error:(NSError **)error usingBlock:(void (^)(GTNote *note, GTObject *object, BOOL *stop))block {
 	git_note_iterator *iter = NULL;
 	
 	int gitError = git_note_iterator_new(&iter, self.git_repository, referenceName.UTF8String);
 	
 	if (gitError != GIT_OK)
 	{
-		if(error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to enumerate notes"];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to enumerate notes"];
 		return NO;
 	}
+	
+	@onExit {
+		git_note_iterator_free(iter);
+	};
 	
 	git_oid note_id;
 	git_oid object_id;
@@ -992,20 +997,15 @@ static int checkoutNotifyCallback(git_checkout_notify_t why, const char *path, c
 	int iterError = GIT_OK;
 	
 	while ((iterError = git_note_next(&note_id, &object_id, iter)) == GIT_OK) {
-		NSError* lookupErr = nil;
+		NSError *lookupErr = nil;
 		
-		GTNote* note = [[GTNote alloc] initWithTargetGitOID:&object_id repository:self.git_repository referenceName:referenceName.UTF8String error:&gitError];
-		if (note == nil) {
-			if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Cannot find a note"];
-			success = NO;
-			break;
-		}
+		GTNote *note = [[GTNote alloc] initWithTargetOID:[GTOID oidWithGitOid:&object_id] repository:self referenceName:referenceName error:error];
+		if (note == nil) return NO;
 		
-		GTObject* obj = [self lookUpObjectByGitOid:&object_id error:&lookupErr];
+		GTObject *obj = [self lookUpObjectByGitOid:&object_id error:&lookupErr];
 		if (obj == nil && lookupErr != nil) {
 			if (error != NULL) *error = lookupErr;
-			success = NO;
-			break;
+			return NO;
 		}
 		
 		BOOL stop = NO;
@@ -1015,12 +1015,7 @@ static int checkoutNotifyCallback(git_checkout_notify_t why, const char *path, c
 		}
 	}
 	
-	git_note_iterator_free(iter);
-	
-	if (iterError != GIT_OK && iterError != GIT_ITEROVER) {
-		if (error != NULL)
-			*error = [NSError git_errorFor:iterError description:@"Iterator error"];
-	}
+	if (iterError != GIT_OK && iterError != GIT_ITEROVER && error != NULL) *error = [NSError git_errorFor:iterError description:@"Iterator error"];
 	
 	return success;
 }
