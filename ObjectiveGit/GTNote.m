@@ -69,7 +69,6 @@
 	
 	if (gitErr != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitErr description:@"Unable to read note"];
-		
 		return nil;
 	}
 	
@@ -88,7 +87,6 @@
 	int gitErr = git_note_default_ref(&default_ref_name, repository.git_repository);
 	if (gitErr != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitErr description:@"Unable to get default git notes reference name"];
-		
 		return nil;
 	}
 	
