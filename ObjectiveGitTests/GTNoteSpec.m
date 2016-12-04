@@ -46,7 +46,8 @@ it(@"can create notes", ^{
 	expect(note).notTo(beNil());
 	expect(err).to(beNil());
 	
-	[repository enumerateNotesWithReferenceName:nil error:&err usingBlock:^(GTNote *note, GTObject *object, BOOL *stop) {
+	[repository enumerateNotesWithReferenceName:nil error:&err usingBlock:^(GTNote *note, GTObject *object, NSError *error, BOOL *stop) {
+		expect(error).to(beNil());
 		expect(note).notTo(beNil());
 		expect(object).notTo(beNil());
 		
@@ -72,7 +73,7 @@ it(@"can delete notes", ^{
 	
 	NSMutableArray *notes = [NSMutableArray arrayWithCapacity:0];
 	
-	[repository enumerateNotesWithReferenceName:nil error:&err usingBlock:^(GTNote *note, GTObject *object, BOOL *stop) {
+	[repository enumerateNotesWithReferenceName:nil error:&err usingBlock:^(GTNote *note, GTObject *object, NSError *error, BOOL *stop) {
 		[notes addObject:note];
 	}];
 	
