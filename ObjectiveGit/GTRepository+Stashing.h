@@ -62,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///         will cause enumeration to stop after the block returns. Must not be nil.
 - (void)enumerateStashesUsingBlock:(void (^)(NSUInteger index, NSString * __nullable message, GTOID * __nullable oid, BOOL *stop))block;
 
-/// Apply stashed changes.
+/// Apply stashed changes (with a default checkout strategy).
 ///
 /// index - The index of the stash to apply. 0 is the latest one.
 /// flags - The flags to use when applying the stash.
@@ -71,7 +71,17 @@ NS_ASSUME_NONNULL_BEGIN
 /// Returns YES if the requested stash was successfully applied, NO otherwise.
 - (BOOL)applyStashAtIndex:(NSUInteger)index flags:(GTRepositoryStashApplyFlag)flags error:(NSError **)error progressBlock:(nullable void (^)(GTRepositoryStashApplyProgress progress, BOOL *stop))progressBlock;
 
-/// Pop stashed changes.
+/// Apply stashed changes with a set checkout strategy.
+///
+/// index       - The index of the stash to apply. 0 is the latest one.
+/// flags	    - The flags to use when applying the stash.
+/// strategy    - The checkout strategy to use when applying the stash.
+/// error       - If not NULL, set to any error that occurred.
+///
+/// Returns YES if the requested stash was successfully applied, NO otherwise.
+- (BOOL)applyStashAtIndex:(NSUInteger)index flags:(GTRepositoryStashApplyFlag)flags strategy:(GTCheckoutStrategyType)strategy error:(NSError **)error progressBlock:(nullable void (^)(GTRepositoryStashApplyProgress progress, BOOL *stop))progressBlock;
+
+/// Pop stashed changes (with a default checkout strategy).
 ///
 /// index - The index of the stash to apply. 0 is the most recent stash.
 /// flags - The flags to use when applying the stash.
@@ -79,6 +89,16 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// Returns YES if the requested stash was successfully applied, NO otherwise.
 - (BOOL)popStashAtIndex:(NSUInteger)index flags:(GTRepositoryStashApplyFlag)flags error:(NSError **)error progressBlock:(nullable void (^)(GTRepositoryStashApplyProgress progress, BOOL *stop))progressBlock;
+
+/// Pop stashed changes with a set checkout strategy.
+///
+/// index       - The index of the stash to apply. 0 is the most recent stash.
+/// flags       - The flags to use when applying the stash.
+/// strategy    - The checkout strategy to use when applying the stash.
+/// error       - If not NULL, set to any error that occurred.
+///
+/// Returns YES if the requested stash was successfully applied, NO otherwise.
+- (BOOL)popStashAtIndex:(NSUInteger)index flags:(GTRepositoryStashApplyFlag)flags strategy:(GTCheckoutStrategyType)strategy error:(NSError **)error progressBlock:(nullable void (^)(GTRepositoryStashApplyProgress progress, BOOL *stop))progressBlock;
 
 /// Drop a stash from the repository's list of stashes.
 ///

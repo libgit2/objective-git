@@ -60,9 +60,16 @@ static int stashApplyProgressCallback(git_stash_apply_progress_t progress, void 
 }
 
 - (BOOL)applyStashAtIndex:(NSUInteger)index flags:(GTRepositoryStashApplyFlag)flags error:(NSError **)error progressBlock:(nullable void (^)(GTRepositoryStashApplyProgress progress, BOOL *stop))progressBlock {
+	// GTCheckoutStrategyNone may sound odd at first, but this is what was passed in before (de-facto), and libgit2 has a sanity check to set it to GIT_CHECKOUT_SAFE if it's 0.
+	return [self applyStashAtIndex:index flags:flags strategy:GTCheckoutStrategyNone error:error progressBlock:progressBlock];
+}
+
+- (BOOL)applyStashAtIndex:(NSUInteger)index flags:(GTRepositoryStashApplyFlag)flags strategy:(GTCheckoutStrategyType)strategy error:(NSError **)error progressBlock:(nullable void (^)(GTRepositoryStashApplyProgress progress, BOOL *stop))progressBlock {
 	git_stash_apply_options stash_options = GIT_STASH_APPLY_OPTIONS_INIT;
 
 	stash_options.flags = (git_stash_apply_flags)flags;
+	stash_options.checkout_options.checkout_strategy = strategy;
+	
 	if (progressBlock != nil) {
 		stash_options.progress_cb = stashApplyProgressCallback;
 		stash_options.progress_payload = (__bridge void *)progressBlock;
@@ -77,9 +84,15 @@ static int stashApplyProgressCallback(git_stash_apply_progress_t progress, void 
 }
 
 - (BOOL)popStashAtIndex:(NSUInteger)index flags:(GTRepositoryStashApplyFlag)flags error:(NSError **)error progressBlock:(nullable void (^)(GTRepositoryStashApplyProgress progress, BOOL *stop))progressBlock {
+	// GTCheckoutStrategyNone may sound odd at first, but this is what was passed in before (de-facto), and libgit2 has a sanity check to set it to GIT_CHECKOUT_SAFE if it's 0.
+	return [self popStashAtIndex:index flags:flags strategy:GTCheckoutStrategyNone error:error progressBlock:progressBlock];
+}
+
+- (BOOL)popStashAtIndex:(NSUInteger)index flags:(GTRepositoryStashApplyFlag)flags strategy:(GTCheckoutStrategyType)strategy error:(NSError **)error progressBlock:(nullable void (^)(GTRepositoryStashApplyProgress progress, BOOL *stop))progressBlock {
 	git_stash_apply_options stash_options = GIT_STASH_APPLY_OPTIONS_INIT;
 
 	stash_options.flags = (git_stash_apply_flags)flags;
+	stash_options.checkout_options.checkout_strategy = strategy;
 	if (progressBlock != nil) {
 		stash_options.progress_cb = stashApplyProgressCallback;
 		stash_options.progress_payload = (__bridge void *)progressBlock;
