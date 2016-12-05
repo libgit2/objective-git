@@ -52,6 +52,9 @@
 #import "NSError+Git.h"
 #import "NSString+Git.h"
 #import "GTRepository+References.h"
+#import "GTNote.h"
+
+#import "EXTScope.h"
 
 #import "git2.h"
 
@@ -946,6 +949,72 @@ static int checkoutNotifyCallback(git_checkout_notify_t why, const char *path, c
 		if (error != NULL) *error = [NSError git_errorFor:errorCode description:@"Failed to clean up repository state"];
 	}
 	return YES;
+}
+
+#pragma mark Notes
+
+- (GTNote *)createNote:(NSString *)note target:(GTObject *)theTarget referenceName:(NSString *)referenceName author:(GTSignature *)author committer:(GTSignature *)committer overwriteIfExists:(BOOL)overwrite error:(NSError **)error {
+	git_oid oid;
+	
+	int gitError = git_note_create(&oid, self.git_repository, referenceName.UTF8String, author.git_signature, committer.git_signature, theTarget.OID.git_oid, [note UTF8String], overwrite ? 1 : 0);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to create a note in repository"];
+		
+		return nil;
+	}
+	
+	return [[GTNote alloc] initWithTargetOID:theTarget.OID repository:self referenceName:referenceName error:error];
+}
+
+- (BOOL)removeNoteFromObject:(GTObject *)parentObject referenceName:(NSString *)referenceName author:(GTSignature *)author committer:(GTSignature *)committer error:(NSError **)error {
+	int gitError = git_note_remove(self.git_repository, referenceName.UTF8String, author.git_signature, committer.git_signature, parentObject.OID.git_oid);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to delete note from %@", parentObject];
+		return NO;
+	}
+	
+	return YES;
+}
+
+- (BOOL)enumerateNotesWithReferenceName:(NSString *)referenceName error:(NSError **)error usingBlock:(void (^)(GTNote *note, GTObject *object, NSError *error, BOOL *stop))block {
+	git_note_iterator *iter = NULL;
+	
+	int gitError = git_note_iterator_new(&iter, self.git_repository, referenceName.UTF8String);
+	
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to enumerate notes"];
+		return NO;
+	}
+	
+	@onExit {
+		git_note_iterator_free(iter);
+	};
+	
+	git_oid note_id;
+	git_oid object_id;
+	BOOL success = YES;
+	int iterError = GIT_OK;
+	
+	while ((iterError = git_note_next(&note_id, &object_id, iter)) == GIT_OK) {
+		NSError *lookupErr = nil;
+		
+		GTNote *note = [[GTNote alloc] initWithTargetOID:[GTOID oidWithGitOid:&object_id] repository:self referenceName:referenceName error:&lookupErr];
+		GTObject *obj = nil;
+		
+		if (note != nil) obj = [self lookUpObjectByGitOid:&object_id error:&lookupErr];
+		
+		BOOL stop = NO;
+		block(note, obj, lookupErr, &stop);
+		if (stop) {
+			break;
+		}
+	}
+	
+	if (iterError != GIT_OK && iterError != GIT_ITEROVER) {
+		if (error != NULL) *error = [NSError git_errorFor:iterError description:@"Iterator error"];
+	}
+	
+	return success;
 }
 
 @end
