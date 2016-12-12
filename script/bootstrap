@@ -10,7 +10,7 @@ config ()
 {
     # A whitespace-separated list of executables that must be present and locatable.
     # These will each be installed through Homebrew if not found.
-    : ${REQUIRED_TOOLS="xctool cmake libssh2 libtool autoconf automake pkg-config"}
+    : ${REQUIRED_TOOLS="cmake libssh2 libtool autoconf automake pkg-config"}
 
     export REQUIRED_TOOLS
 }
