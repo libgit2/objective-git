@@ -86,8 +86,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface GTObject (GTIndexEntry)
 
-+ (instancetype)objectWithIndexEntry:(GTIndexEntry *)treeEntry error:(NSError **)error;
-- (instancetype)initWithIndexEntry:(GTIndexEntry *)treeEntry error:(NSError **)error;
++ (nullable instancetype)objectWithIndexEntry:(GTIndexEntry *)indexEntry error:(NSError **)error;
+- (nullable instancetype)initWithIndexEntry:(GTIndexEntry *)indexEntry error:(NSError **)error;
 
 @end
 
