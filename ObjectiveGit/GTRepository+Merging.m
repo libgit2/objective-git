@@ -139,7 +139,7 @@ int GTMergeHeadEntriesCallback(const git_oid *oid, void *payload) {
 			// Write conflicts
 			git_merge_options merge_opts = GIT_MERGE_OPTIONS_INIT;
 			git_checkout_options checkout_opts = GIT_CHECKOUT_OPTIONS_INIT;
-			checkout_opts.checkout_strategy = GIT_CHECKOUT_ALLOW_CONFLICTS;
+			checkout_opts.checkout_strategy = (GIT_CHECKOUT_SAFE | GIT_CHECKOUT_ALLOW_CONFLICTS);
 
 			git_annotated_commit *annotatedCommit;
 			[self annotatedCommit:&annotatedCommit fromCommit:remoteCommit error:error];
