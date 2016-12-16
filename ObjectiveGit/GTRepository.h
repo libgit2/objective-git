@@ -548,7 +548,7 @@ typedef NS_ENUM(NSInteger, GTRepositoryStateType) {
 
 /// Checkout a reference
 ///
-/// targetCommit  - The reference to checkout.
+/// targetReference - The reference to checkout.
 /// strategy      - The checkout strategy to use.
 /// notifyFlags   - Flags that indicate which notifications should cause `notifyBlock`
 ///                 to be called.
@@ -558,6 +558,20 @@ typedef NS_ENUM(NSInteger, GTRepositoryStateType) {
 ///
 /// Returns YES if operation was successful, NO otherwise
 - (BOOL)checkoutReference:(GTReference *)targetReference strategy:(GTCheckoutStrategyType)strategy notifyFlags:(GTCheckoutNotifyFlags)notifyFlags error:(NSError **)error progressBlock:(nullable void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))progressBlock notifyBlock:(nullable int (^)(GTCheckoutNotifyFlags why, NSString *path, GTDiffFile *baseline, GTDiffFile *target, GTDiffFile *workdir))notifyBlock;
+
+/// Checkout a tree
+///
+/// targetTree    - The tree to checkout.
+/// strategy      - The checkout strategy to use.
+/// notifyFlags   - Flags that indicate which notifications should cause `notifyBlock`
+///                 to be called.
+/// error         - The error if one occurred. Can be NULL.
+/// notifyBlock   - The block to call back for notification handling. Can be nil.
+/// progressBlock - The block to call back for progress updates. Can be nil.
+///
+/// Returns YES if operation was successful, NO otherwise
+/// Note: this operation will NOT update HEAD to newly checked out tree.
+- (BOOL)checkoutTree:(GTTree *)targetTree strategy:(GTCheckoutStrategyType)strategy notifyFlags:(GTCheckoutNotifyFlags)notifyFlags error:(NSError **)error progressBlock:(nullable void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))progressBlock notifyBlock:(nullable int (^)(GTCheckoutNotifyFlags why, NSString *path, GTDiffFile *baseline, GTDiffFile *target, GTDiffFile *workdir))notifyBlock;
 
 /// Convenience wrapper for checkoutCommit:strategy:notifyFlags:error:notifyBlock:progressBlock without notifications
 - (BOOL)checkoutCommit:(GTCommit *)target strategy:(GTCheckoutStrategyType)strategy error:(NSError **)error progressBlock:(nullable void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))progressBlock;
