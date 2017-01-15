@@ -43,23 +43,51 @@ typedef NS_OPTIONS(NSInteger, GTCheckoutNotifyFlags) {
 };
 
 @interface GTCheckoutOptions : NSObject
+
+/// Create a checkout options object.
+///
+/// Since there are many places where we can checkout data, this object allow us
+/// to centralize all the various behaviors that checkout allow.
+///
+/// @param strategy      The checkout strategy to use.
+/// @param notifyFlags   The checkout events that will be notified via `notifyBlock`.
+/// @param progressBlock A block that will be called for each checkout step.
+/// @param notifyBlock   A block that will be called for each event, @see `notifyFlags`.
+///
+/// @return A newly-initialized GTCheckoutOptions object.
 + (instancetype)checkoutOptionsWithStrategy:(GTCheckoutStrategyType)strategy notifyFlags:(GTCheckoutNotifyFlags)notifyFlags progressBlock:(nullable void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))progressBlock notifyBlock:(nullable int (^)(GTCheckoutNotifyFlags why, NSString *path, GTDiffFile *baseline, GTDiffFile *target, GTDiffFile *workdir))notifyBlock;
 
+/// Create a checkout options object.
+/// @see +checkoutOptionsWithStrategy:notifyFlags:progressBlock:notifyBlock:
 + (instancetype)checkoutOptionsWithStrategy:(GTCheckoutStrategyType)strategy notifyFlags:(GTCheckoutNotifyFlags)notifyFlags notifyBlock:(int (^)(GTCheckoutNotifyFlags why, NSString *path, GTDiffFile *baseline, GTDiffFile *target, GTDiffFile *workdir))notifyBlock;
 
+/// Create a checkout options object.
+/// @see +checkoutOptionsWithStrategy:notifyFlags:progressBlock:notifyBlock:
 + (instancetype)checkoutOptionsWithStrategy:(GTCheckoutStrategyType)strategy progressBlock:(void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))progressBlock;
 
+/// Create a checkout options object.
+/// @see +checkoutOptionsWithStrategy:notifyFlags:progressBlock:notifyBlock:
 + (instancetype)checkoutOptionsWithStrategy:(GTCheckoutStrategyType)strategy;
 
+/// Get the underlying git_checkout_options struct.
+///
+/// @return <#return value description#>
 - (git_checkout_options *)git_checkoutOptions NS_RETURNS_INNER_POINTER;
 
+/// The checkout strategy to use.
 @property (assign) GTCheckoutStrategyType strategy;
+
+/// The checkout progress block that was passed in.
 @property (copy) void (^progressBlock)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps);
 
+/// The notification flags currently enabled.
 @property (assign) GTCheckoutNotifyFlags notifyFlags;
+
+/// The checkout notification block that was passed in.
 @property (copy) int (^notifyBlock)(GTCheckoutNotifyFlags why, NSString *path, GTDiffFile *baseline, GTDiffFile *target, GTDiffFile *workdir);
 
-@property (copy) NSArray *pathSpecs;
+/// An array of strings used to restrict what will be checked out.
+@property (copy) NSArray <NSString *> *pathSpecs;
 
 @end
 
