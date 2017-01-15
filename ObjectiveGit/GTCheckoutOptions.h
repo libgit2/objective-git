@@ -19,14 +19,23 @@ typedef NS_OPTIONS(NSInteger, GTCheckoutStrategyType) {
 	GTCheckoutStrategyNone = GIT_CHECKOUT_NONE,
 	GTCheckoutStrategySafe = GIT_CHECKOUT_SAFE,
 	GTCheckoutStrategyForce = GIT_CHECKOUT_FORCE,
+	GTCheckoutStrategyRecreateMissing = GIT_CHECKOUT_RECREATE_MISSING,
 	GTCheckoutStrategyAllowConflicts = GIT_CHECKOUT_ALLOW_CONFLICTS,
 	GTCheckoutStrategyRemoveUntracked = GIT_CHECKOUT_REMOVE_UNTRACKED,
 	GTCheckoutStrategyRemoveIgnored = GIT_CHECKOUT_REMOVE_IGNORED,
 	GTCheckoutStrategyUpdateOnly = GIT_CHECKOUT_UPDATE_ONLY,
 	GTCheckoutStrategyDontUpdateIndex = GIT_CHECKOUT_DONT_UPDATE_INDEX,
 	GTCheckoutStrategyNoRefresh = GIT_CHECKOUT_NO_REFRESH,
+	GTCheckoutStrategySkipUnmerged = GIT_CHECKOUT_SKIP_UNMERGED,
+	GTCheckoutStrategyUseOurs = GIT_CHECKOUT_USE_OURS,
+	GTCheckoutStrategyUseTheirs = GIT_CHECKOUT_USE_THEIRS,
 	GTCheckoutStrategyDisablePathspecMatch = GIT_CHECKOUT_DISABLE_PATHSPEC_MATCH,
 	GTCheckoutStrategySkipLockedDirectories = GIT_CHECKOUT_SKIP_LOCKED_DIRECTORIES,
+	GTCheckoutStrategyDoNotOverwriteIgnored = GIT_CHECKOUT_DONT_OVERWRITE_IGNORED,
+	GTCheckoutStrategyConflictStyleMerge = GIT_CHECKOUT_CONFLICT_STYLE_MERGE,
+	GTCheckoutStrategyCoflictStyleDiff3 = GIT_CHECKOUT_CONFLICT_STYLE_DIFF3,
+	GTCheckoutStrategyDoNotRemoveExisting = GIT_CHECKOUT_DONT_REMOVE_EXISTING,
+	GTCheckoutStrategyDoNotWriteIndex = GIT_CHECKOUT_DONT_WRITE_INDEX,
 };
 
 /// Checkout notification flags used by the various -checkout... methods
