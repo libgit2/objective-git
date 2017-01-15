@@ -60,7 +60,6 @@
 #import "git2.h"
 
 NSString * const GTRepositoryCloneOptionsBare = @"GTRepositoryCloneOptionsBare";
-NSString * const GTRepositoryCloneOptionsCheckout = @"GTRepositoryCloneOptionsCheckout";
 NSString * const GTRepositoryCloneCheckoutOptions = @"GTRepositoryCloneCheckoutOptions";
 NSString * const GTRepositoryCloneOptionsTransportFlags = @"GTRepositoryCloneOptionsTransportFlags";
 NSString * const GTRepositoryCloneOptionsCredentialProvider = @"GTRepositoryCloneOptionsCredentialProvider";
