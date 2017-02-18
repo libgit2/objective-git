@@ -466,6 +466,16 @@ static int remoteCreate(git_remote **remote, git_repository *repo, const char *n
 	return remoteNames;
 }
 
+- (BOOL)deleteRemoteNamed:(NSString *)remoteName error:(NSError **)error {
+	int gitError = git_remote_delete(self.git_repository, [remoteName cStringUsingEncoding:NSUTF8StringEncoding]);
+	if (gitError < GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to delete remote."];
+		return NO;
+	}
+
+	return YES;
+}
+
 struct GTRepositoryTagEnumerationInfo {
 	__unsafe_unretained GTRepository *myself;
 	__unsafe_unretained GTRepositoryTagEnumerationBlock block;
