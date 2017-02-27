@@ -107,8 +107,7 @@ int GTMergeHeadEntriesCallback(const git_oid *oid, void *payload) {
 		// Fast-forward branch
 		NSString *message = [NSString stringWithFormat:@"merge %@: Fast-forward", branch.name];
 		GTReference *reference = [localBranch.reference referenceByUpdatingTarget:remoteCommit.SHA message:message error:error];
-		BOOL checkoutSuccess = [self checkoutReference:reference strategy:GTCheckoutStrategyForce error:error progressBlock:nil];
-
+		BOOL checkoutSuccess = [self checkoutReference:reference options:[GTCheckoutOptions checkoutOptionsWithStrategy:GTCheckoutStrategyForce] error:error];
 		return checkoutSuccess;
 	} else if (analysis & GTMergeAnalysisNormal) {
 		// Do normal merge
@@ -164,7 +163,7 @@ int GTMergeHeadEntriesCallback(const git_oid *oid, void *payload) {
 			return NO;
 		}
 
-		BOOL success = [self checkoutReference:localBranch.reference strategy:GTCheckoutStrategyForce error:error progressBlock:nil];
+		BOOL success = [self checkoutReference:localBranch.reference options:[GTCheckoutOptions checkoutOptionsWithStrategy:GTCheckoutStrategyForce] error:error];
 		return success;
 	}
 

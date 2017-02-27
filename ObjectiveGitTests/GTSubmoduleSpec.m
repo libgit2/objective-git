@@ -86,7 +86,7 @@ it(@"should add its HEAD to its parent's index", ^{
 	expect(submoduleRepository).notTo(beNil());
 
 	GTCommit *commit = [submoduleRepository lookUpObjectByRevParse:@"HEAD^" error:NULL];
-	BOOL success = [submoduleRepository checkoutCommit:commit strategy:GTCheckoutStrategyForce error:NULL progressBlock:nil];
+	BOOL success = [submoduleRepository checkoutCommit:commit options:[GTCheckoutOptions checkoutOptionsWithStrategy:GTCheckoutStrategyForce] error:NULL];
 	expect(@(success)).to(beTruthy());
 
 	success = [submodule addToIndex:NULL];

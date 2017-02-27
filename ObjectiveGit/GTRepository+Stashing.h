@@ -64,21 +64,25 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Apply stashed changes.
 ///
-/// index - The index of the stash to apply. 0 is the latest one.
-/// flags - The flags to use when applying the stash.
-/// error - If not NULL, set to any error that occurred.
+/// index         - The index of the stash to apply. 0 is the latest one.
+/// flags         - The flags to use when applying the stash.
+/// options       - The options to use when checking out.
+/// error         - If not NULL, set to any error that occurred.
+/// progressBlock - A block that will be executed on each step of the stash application.
 ///
 /// Returns YES if the requested stash was successfully applied, NO otherwise.
-- (BOOL)applyStashAtIndex:(NSUInteger)index flags:(GTRepositoryStashApplyFlag)flags error:(NSError **)error progressBlock:(nullable void (^)(GTRepositoryStashApplyProgress progress, BOOL *stop))progressBlock;
+- (BOOL)applyStashAtIndex:(NSUInteger)index flags:(GTRepositoryStashApplyFlag)flags checkoutOptions:(nullable GTCheckoutOptions *)options error:(NSError **)error progressBlock:(nullable void (^)(GTRepositoryStashApplyProgress progress, BOOL *stop))progressBlock;
 
 /// Pop stashed changes.
 ///
-/// index - The index of the stash to apply. 0 is the most recent stash.
-/// flags - The flags to use when applying the stash.
-/// error - If not NULL, set to any error that occurred.
+/// index         - The index of the stash to apply. 0 is the most recent stash.
+/// flags         - The flags to use when applying the stash.
+/// options       - The options to use when checking out.
+/// error         - If not NULL, set to any error that occurred.
+/// progressBlock - A block that will be executed on each step of the stash application.
 ///
 /// Returns YES if the requested stash was successfully applied, NO otherwise.
-- (BOOL)popStashAtIndex:(NSUInteger)index flags:(GTRepositoryStashApplyFlag)flags error:(NSError **)error progressBlock:(nullable void (^)(GTRepositoryStashApplyProgress progress, BOOL *stop))progressBlock;
+- (BOOL)popStashAtIndex:(NSUInteger)index flags:(GTRepositoryStashApplyFlag)flags checkoutOptions:(nullable GTCheckoutOptions *)options error:(NSError **)error progressBlock:(nullable void (^)(GTRepositoryStashApplyProgress progress, BOOL *stop))progressBlock;
 
 /// Drop a stash from the repository's list of stashes.
 ///

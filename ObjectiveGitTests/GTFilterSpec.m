@@ -159,7 +159,7 @@ describe(@"application", ^{
 		BOOL success = [NSFileManager.defaultManager removeItemAtURL:testFileURL error:NULL];
 		expect(@(success)).to(beTruthy());
 
-		success = [repository checkoutCommit:newCommit strategy:GTCheckoutStrategyForce error:NULL progressBlock:NULL];
+		success = [repository checkoutCommit:newCommit options:[GTCheckoutOptions checkoutOptionsWithStrategy:GTCheckoutStrategyForce] error:NULL];
 		expect(@(success)).to(beTruthy());
 
 		expect([NSData dataWithContentsOfURL:testFileURL]).to(equal(replacementData));
