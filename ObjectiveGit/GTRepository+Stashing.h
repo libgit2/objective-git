@@ -66,7 +66,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// index         - The index of the stash to apply. 0 is the latest one.
 /// flags         - The flags to use when applying the stash.
-/// options       - The options to use when checking out.
+/// options       - The options to use when checking out (if nil, use the defaults provided by libgit2).
 /// error         - If not NULL, set to any error that occurred.
 /// progressBlock - A block that will be executed on each step of the stash application.
 ///
@@ -77,7 +77,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// index         - The index of the stash to apply. 0 is the most recent stash.
 /// flags         - The flags to use when applying the stash.
-/// options       - The options to use when checking out.
+/// options       - The options to use when checking out (if nil, use the defaults provided by libgit2).
 /// error         - If not NULL, set to any error that occurred.
 /// progressBlock - A block that will be executed on each step of the stash application.
 ///

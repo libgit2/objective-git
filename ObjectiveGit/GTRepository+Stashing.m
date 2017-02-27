@@ -63,6 +63,7 @@ static int stashApplyProgressCallback(git_stash_apply_progress_t progress, void 
 	git_stash_apply_options stash_options = GIT_STASH_APPLY_OPTIONS_INIT;
 
 	stash_options.flags = (git_stash_apply_flags)flags;
+	
 	if (progressBlock != nil) {
 		stash_options.progress_cb = stashApplyProgressCallback;
 		stash_options.progress_payload = (__bridge void *)progressBlock;
@@ -84,6 +85,7 @@ static int stashApplyProgressCallback(git_stash_apply_progress_t progress, void 
 	git_stash_apply_options stash_options = GIT_STASH_APPLY_OPTIONS_INIT;
 
 	stash_options.flags = (git_stash_apply_flags)flags;
+
 	if (progressBlock != nil) {
 		stash_options.progress_cb = stashApplyProgressCallback;
 		stash_options.progress_payload = (__bridge void *)progressBlock;
