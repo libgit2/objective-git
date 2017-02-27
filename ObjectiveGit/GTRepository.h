@@ -535,6 +535,16 @@ typedef NS_ENUM(NSInteger, GTRepositoryStateType) {
 /// Returns YES if operation was successful, NO otherwise
 - (BOOL)checkoutIndex:(GTIndex *)index options:(nullable GTCheckoutOptions *)options error:(NSError **)error;
 
+/// Checkout a tree
+///
+/// targetTree    - The tree to checkout.
+/// options       - The checkout options to use. Can be nil.
+/// error         - The error if one occurred. Can be NULL.
+///
+/// Returns YES if operation was successful, NO otherwise
+/// Note: this operation will NOT update HEAD to newly checked out tree.
+- (BOOL)checkoutTree:(GTTree *)targetTree options:(nullable GTCheckoutOptions *)options error:(NSError **)error;
+
 /// Flush the gitattributes cache.
 - (void)flushAttributesCache;
 

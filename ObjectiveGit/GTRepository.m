@@ -830,6 +830,10 @@ static int submoduleEnumerationCallback(git_submodule *git_submodule, const char
 	return [self moveHEADToReference:targetReference error:error];
 }
 
+- (BOOL)checkoutTree:(GTTree *)targetTree options:(nullable GTCheckoutOptions *)options error:(NSError **)error {
+	return [self performCheckout:targetTree options:options error:error];
+}
+
 - (BOOL)checkoutIndex:(GTIndex *)index options:(GTCheckoutOptions *)options error:(NSError **)error {
 	int gitError = git_checkout_index(self.git_repository, index.git_index, options.git_checkoutOptions);
 	if (gitError < GIT_OK) {
