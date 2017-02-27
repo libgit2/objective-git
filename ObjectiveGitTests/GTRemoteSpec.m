@@ -107,7 +107,7 @@ describe(@"network operations", ^{
 		fetchingRepoURL = [fixturesURL URLByAppendingPathComponent:@"fetchrepo"];
 
 		NSError *error = nil;
-		fetchingRepo = [GTRepository cloneFromURL:repositoryURL toWorkingDirectory:fetchingRepoURL options:nil error:&error transferProgressBlock:nil checkoutProgressBlock:nil];
+		fetchingRepo = [GTRepository cloneFromURL:repositoryURL toWorkingDirectory:fetchingRepoURL options:nil error:&error transferProgressBlock:nil];
 		expect(fetchingRepo).notTo(beNil());
 		expect(error).to(beNil());
 
