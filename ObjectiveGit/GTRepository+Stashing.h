@@ -62,22 +62,22 @@ NS_ASSUME_NONNULL_BEGIN
 ///         will cause enumeration to stop after the block returns. Must not be nil.
 - (void)enumerateStashesUsingBlock:(void (^)(NSUInteger index, NSString * __nullable message, GTOID * __nullable oid, BOOL *stop))block;
 
-/// Apply stashed changes (with a default checkout strategy).
+/// Apply stashed changes.
 ///
 /// index         - The index of the stash to apply. 0 is the latest one.
 /// flags         - The flags to use when applying the stash.
-/// options       - The options to use when checking out.
+/// options       - The options to use when checking out (if nil, use the defaults provided by libgit2).
 /// error         - If not NULL, set to any error that occurred.
 /// progressBlock - A block that will be executed on each step of the stash application.
 ///
 /// Returns YES if the requested stash was successfully applied, NO otherwise.
 - (BOOL)applyStashAtIndex:(NSUInteger)index flags:(GTRepositoryStashApplyFlag)flags checkoutOptions:(nullable GTCheckoutOptions *)options error:(NSError **)error progressBlock:(nullable void (^)(GTRepositoryStashApplyProgress progress, BOOL *stop))progressBlock;
 
-/// Pop stashed changes (with a default checkout strategy).
+/// Pop stashed changes.
 ///
 /// index         - The index of the stash to apply. 0 is the most recent stash.
 /// flags         - The flags to use when applying the stash.
-/// options       - The options to use when checking out.
+/// options       - The options to use when checking out (if nil, use the defaults provided by libgit2).
 /// error         - If not NULL, set to any error that occurred.
 /// progressBlock - A block that will be executed on each step of the stash application.
 ///
