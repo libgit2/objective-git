@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 GitHub, Inc. All rights reserved.
 //
 
-#import "GTrepository.h"
+#import "GTRepository.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

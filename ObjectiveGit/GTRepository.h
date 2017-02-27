@@ -34,6 +34,7 @@
 #import "GTObject.h"
 #import "GTReference.h"
 #import "GTFilterList.h"
+#import "GTCheckoutOptions.h"
 #import "git2/checkout.h"
 #import "git2/repository.h"
 #import "git2/transport.h"
@@ -55,35 +56,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/// Checkout strategies used by the various -checkout... methods
-/// See git_checkout_strategy_t
-typedef NS_OPTIONS(NSInteger, GTCheckoutStrategyType) {
-	GTCheckoutStrategyNone = GIT_CHECKOUT_NONE,
-	GTCheckoutStrategySafe = GIT_CHECKOUT_SAFE,
-	GTCheckoutStrategyForce = GIT_CHECKOUT_FORCE,
-	GTCheckoutStrategyAllowConflicts = GIT_CHECKOUT_ALLOW_CONFLICTS,
-	GTCheckoutStrategyRemoveUntracked = GIT_CHECKOUT_REMOVE_UNTRACKED,
-	GTCheckoutStrategyRemoveIgnored = GIT_CHECKOUT_REMOVE_IGNORED,
-	GTCheckoutStrategyUpdateOnly = GIT_CHECKOUT_UPDATE_ONLY,
-	GTCheckoutStrategyDontUpdateIndex = GIT_CHECKOUT_DONT_UPDATE_INDEX,
-	GTCheckoutStrategyNoRefresh = GIT_CHECKOUT_NO_REFRESH,
-	GTCheckoutStrategyDisablePathspecMatch = GIT_CHECKOUT_DISABLE_PATHSPEC_MATCH,
-	GTCheckoutStrategySkipLockedDirectories = GIT_CHECKOUT_SKIP_LOCKED_DIRECTORIES,
-};
-
-/// Checkout notification flags used by the various -checkout... methods
-/// See git_checkout_notify_t
-typedef NS_OPTIONS(NSInteger, GTCheckoutNotifyFlags) {
-	GTCheckoutNotifyNone = GIT_CHECKOUT_NOTIFY_NONE,
-	GTCheckoutNotifyConflict = GIT_CHECKOUT_NOTIFY_CONFLICT,
-	GTCheckoutNotifyDirty = GIT_CHECKOUT_NOTIFY_DIRTY,
-	GTCheckoutNotifyUpdated = GIT_CHECKOUT_NOTIFY_UPDATED,
-	GTCheckoutNotifyUntracked = GIT_CHECKOUT_NOTIFY_UNTRACKED,
-	GTCheckoutNotifyIgnored = GIT_CHECKOUT_NOTIFY_IGNORED,
-
-	GTCheckoutNotifyAll = GIT_CHECKOUT_NOTIFY_ALL,
-};
-
 /// Transport flags sent as options to +cloneFromURL... method
 typedef NS_OPTIONS(NSInteger, GTTransportFlags) {
 	GTTransportFlagsNone = GIT_TRANSPORTFLAGS_NONE
@@ -100,6 +72,9 @@ extern NSString * const GTRepositoryCloneOptionsBare;
 /// An `NSNumber` wrapped `BOOL`, if NO, don't checkout the remote HEAD.
 /// Default value is `YES`.
 extern NSString * const GTRepositoryCloneOptionsCheckout;
+
+/// A `GTCheckoutOptions` object describing how to perform the checkout.
+extern NSString * const GTRepositoryCloneCheckoutOptions;
 
 /// A `GTCredentialProvider`, that will be used to authenticate against the
 /// remote.
@@ -253,7 +228,7 @@ typedef NS_ENUM(NSInteger, GTRepositoryStateType) {
 /// options               - A dictionary consisting of the options:
 ///                         `GTRepositoryCloneOptionsTransportFlags`,
 ///                         `GTRepositoryCloneOptionsBare`,
-///                         `GTRepositoryCloneOptionsCheckout`,
+///                         `GTRepositoryCloneCheckoutOptions`,
 ///                         `GTRepositoryCloneOptionsCredentialProvider`,
 ///                         `GTRepositoryCloneOptionsCloneLocal`,
 ///                         `GTRepositoryCloneOptionsServerCertificateURL`
@@ -265,7 +240,7 @@ typedef NS_ENUM(NSInteger, GTRepositoryStateType) {
 ///                         May be NULL.
 ///
 /// returns nil (and fills the error parameter) if an error occurred, or a GTRepository object if successful.
-+ (nullable instancetype)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL options:(nullable NSDictionary *)options error:(NSError **)error transferProgressBlock:(nullable void (^)(const git_transfer_progress *, BOOL *stop))transferProgressBlock checkoutProgressBlock:(nullable void (^) (NSString *__nullable path, NSUInteger completedSteps, NSUInteger totalSteps))checkoutProgressBlock;
++ (nullable instancetype)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL options:(nullable NSDictionary *)options error:(NSError **)error transferProgressBlock:(nullable void (^)(const git_transfer_progress *, BOOL *stop))transferProgressBlock;
 
 /// Lookup objects in the repo by oid or sha1
 - (nullable id)lookUpObjectByOID:(GTOID *)oid objectType:(GTObjectType)type error:(NSError **)error;
@@ -536,48 +511,39 @@ typedef NS_ENUM(NSInteger, GTRepositoryStateType) {
 /// Checkout a commit
 ///
 /// targetCommit  - The commit to checkout. Must not be nil.
-/// strategy      - The checkout strategy to use.
-/// notifyFlags   - Flags that indicate which notifications should cause `notifyBlock`
-///                 to be called.
+/// options       - The checkout options to use. Can be nil.
 /// error         - The error if one occurred. Can be NULL.
-/// notifyBlock   - The block to call back for notification handling. Can be nil.
-/// progressBlock - The block to call back for progress updates. Can be nil.
 ///
 /// Returns YES if operation was successful, NO otherwise
-- (BOOL)checkoutCommit:(GTCommit *)targetCommit strategy:(GTCheckoutStrategyType)strategy notifyFlags:(GTCheckoutNotifyFlags)notifyFlags error:(NSError **)error progressBlock:(nullable void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))progressBlock notifyBlock:(nullable int (^)(GTCheckoutNotifyFlags why, NSString *path, GTDiffFile *baseline, GTDiffFile *target, GTDiffFile *workdir))notifyBlock;
+- (BOOL)checkoutCommit:(GTCommit *)targetCommit options:(nullable GTCheckoutOptions *)options error:(NSError **)error;
 
 /// Checkout a reference
 ///
-/// targetReference - The reference to checkout.
-/// strategy      - The checkout strategy to use.
-/// notifyFlags   - Flags that indicate which notifications should cause `notifyBlock`
-///                 to be called.
-/// error         - The error if one occurred. Can be NULL.
-/// notifyBlock   - The block to call back for notification handling. Can be nil.
-/// progressBlock - The block to call back for progress updates. Can be nil.
+/// targetReference  - The reference to checkout. Must not be nil.
+/// options          - The checkout options to use. Can be nil.
+/// error            - The error if one occurred. Can be NULL.
 ///
 /// Returns YES if operation was successful, NO otherwise
-- (BOOL)checkoutReference:(GTReference *)targetReference strategy:(GTCheckoutStrategyType)strategy notifyFlags:(GTCheckoutNotifyFlags)notifyFlags error:(NSError **)error progressBlock:(nullable void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))progressBlock notifyBlock:(nullable int (^)(GTCheckoutNotifyFlags why, NSString *path, GTDiffFile *baseline, GTDiffFile *target, GTDiffFile *workdir))notifyBlock;
+- (BOOL)checkoutReference:(GTReference *)targetReference options:(nullable GTCheckoutOptions *)options error:(NSError **)error;
+
+/// Checkout an index
+///
+/// index   - The index to checkout. Must not be nil.
+/// options - The checkout options to use. Can be nil.
+/// error   - The error if one occurred. Can be NULL.
+///
+/// Returns YES if operation was successful, NO otherwise
+- (BOOL)checkoutIndex:(GTIndex *)index options:(nullable GTCheckoutOptions *)options error:(NSError **)error;
 
 /// Checkout a tree
 ///
 /// targetTree    - The tree to checkout.
-/// strategy      - The checkout strategy to use.
-/// notifyFlags   - Flags that indicate which notifications should cause `notifyBlock`
-///                 to be called.
+/// options       - The checkout options to use. Can be nil.
 /// error         - The error if one occurred. Can be NULL.
-/// notifyBlock   - The block to call back for notification handling. Can be nil.
-/// progressBlock - The block to call back for progress updates. Can be nil.
 ///
 /// Returns YES if operation was successful, NO otherwise
 /// Note: this operation will NOT update HEAD to newly checked out tree.
-- (BOOL)checkoutTree:(GTTree *)targetTree strategy:(GTCheckoutStrategyType)strategy notifyFlags:(GTCheckoutNotifyFlags)notifyFlags error:(NSError **)error progressBlock:(nullable void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))progressBlock notifyBlock:(nullable int (^)(GTCheckoutNotifyFlags why, NSString *path, GTDiffFile *baseline, GTDiffFile *target, GTDiffFile *workdir))notifyBlock;
-
-/// Convenience wrapper for checkoutCommit:strategy:notifyFlags:error:notifyBlock:progressBlock without notifications
-- (BOOL)checkoutCommit:(GTCommit *)target strategy:(GTCheckoutStrategyType)strategy error:(NSError **)error progressBlock:(nullable void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))progressBlock;
-
-/// Convenience wrapper for checkoutReference:strategy:notifyFlags:error:notifyBlock:progressBlock without notifications
-- (BOOL)checkoutReference:(GTReference *)target strategy:(GTCheckoutStrategyType)strategy error:(NSError **)error progressBlock:(nullable void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))progressBlock;
+- (BOOL)checkoutTree:(GTTree *)targetTree options:(nullable GTCheckoutOptions *)options error:(NSError **)error;
 
 /// Flush the gitattributes cache.
 - (void)flushAttributesCache;
