@@ -71,10 +71,10 @@ extern NSString * const GTRepositoryCloneOptionsBare;
 
 /// An `NSNumber` wrapped `BOOL`, if NO, don't checkout the remote HEAD.
 /// Default value is `YES`.
-extern NSString * const GTRepositoryCloneOptionsCheckout;
+extern NSString * const GTRepositoryCloneOptionsPerformCheckout;
 
 /// A `GTCheckoutOptions` object describing how to perform the checkout.
-extern NSString * const GTRepositoryCloneCheckoutOptions;
+extern NSString * const GTRepositoryCloneOptionsCheckoutOptions;
 
 /// A `GTCredentialProvider`, that will be used to authenticate against the
 /// remote.

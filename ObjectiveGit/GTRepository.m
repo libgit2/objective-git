@@ -60,7 +60,8 @@
 #import "git2.h"
 
 NSString * const GTRepositoryCloneOptionsBare = @"GTRepositoryCloneOptionsBare";
-NSString * const GTRepositoryCloneCheckoutOptions = @"GTRepositoryCloneCheckoutOptions";
+NSString * const GTRepositoryCloneOptionsPerformCheckout = @"GTRepositoryCloneOptionsPerformCheckout";
+NSString * const GTRepositoryCloneOptionsCheckoutOptions = @"GTRepositoryCloneOptionsCheckoutOptions";
 NSString * const GTRepositoryCloneOptionsTransportFlags = @"GTRepositoryCloneOptionsTransportFlags";
 NSString * const GTRepositoryCloneOptionsCredentialProvider = @"GTRepositoryCloneOptionsCredentialProvider";
 NSString * const GTRepositoryCloneOptionsCloneLocal = @"GTRepositoryCloneOptionsCloneLocal";
@@ -248,7 +249,14 @@ struct GTRemoteCreatePayload {
 	NSNumber *bare = options[GTRepositoryCloneOptionsBare];
 	cloneOptions.bare = (bare == nil ? 0 : bare.boolValue);
 
-	GTCheckoutOptions *checkoutOptions = options[GTRepositoryCloneCheckoutOptions];
+	NSNumber *checkout = options[GTRepositoryCloneOptionsPerformCheckout];
+	BOOL doCheckout = (checkout != nil ? [checkout boolValue] : YES);
+
+	GTCheckoutOptions *checkoutOptions = options[GTRepositoryCloneOptionsCheckoutOptions];
+	if (checkoutOptions == nil && doCheckout) {
+		checkoutOptions = [GTCheckoutOptions checkoutOptionsWithStrategy:GTCheckoutStrategySafe];
+	}
+
 	if (checkoutOptions != nil) {
 		cloneOptions.checkout_opts = *(checkoutOptions.git_checkoutOptions);
 	}
