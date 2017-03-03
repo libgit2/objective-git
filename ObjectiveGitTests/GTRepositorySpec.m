@@ -100,7 +100,7 @@ describe(@"+cloneFromURL:toWorkingDirectory:options:error:transferProgressBlock:
 
 			NSDictionary *cloneOptions = @{
 										   GTRepositoryCloneOptionsCloneLocal: @YES,
-										   GTRepositoryCloneCheckoutOptions: checkoutOptions,
+										   GTRepositoryCloneOptionsCheckoutOptions: checkoutOptions,
 										   };
 			repository = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:cloneOptions error:&error transferProgressBlock:transferProgressBlock];
 			expect(repository).notTo(beNil());
@@ -125,7 +125,7 @@ describe(@"+cloneFromURL:toWorkingDirectory:options:error:transferProgressBlock:
 			NSDictionary *options = @{
 									  GTRepositoryCloneOptionsBare: @YES,
 									  GTRepositoryCloneOptionsCloneLocal: @YES,
-									  GTRepositoryCloneCheckoutOptions: checkoutOptions,
+									  GTRepositoryCloneOptionsCheckoutOptions: checkoutOptions,
 									  };
 			repository = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:options error:&error transferProgressBlock:transferProgressBlock];
 			expect(repository).notTo(beNil());
@@ -147,7 +147,7 @@ describe(@"+cloneFromURL:toWorkingDirectory:options:error:transferProgressBlock:
 			GTCheckoutOptions *checkoutOptions = [GTCheckoutOptions checkoutOptionsWithStrategy:GTCheckoutStrategySafe];
 			checkoutOptions.progressBlock = checkoutProgressBlock;
 
-			repository = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:@{ GTRepositoryCloneCheckoutOptions: checkoutOptions } error:&error transferProgressBlock:transferProgressBlock];
+			repository = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:@{ GTRepositoryCloneOptionsCheckoutOptions: checkoutOptions } error:&error transferProgressBlock:transferProgressBlock];
 			expect(repository).notTo(beNil());
 			expect(error).to(beNil());
 
@@ -188,7 +188,7 @@ describe(@"+cloneFromURL:toWorkingDirectory:options:error:transferProgressBlock:
 				checkoutOptions.progressBlock = checkoutProgressBlock;
 				NSDictionary *cloneOptions = @{
 											   GTRepositoryCloneOptionsCredentialProvider: provider,
-											   GTRepositoryCloneCheckoutOptions: checkoutOptions,
+											   GTRepositoryCloneOptionsCheckoutOptions: checkoutOptions,
 											   };
 
 				repository = [GTRepository cloneFromURL:originURL toWorkingDirectory:workdirURL options:cloneOptions error:&error transferProgressBlock:transferProgressBlock];
