@@ -228,15 +228,14 @@ typedef NS_ENUM(NSInteger, GTRepositoryStateType) {
 /// options               - A dictionary consisting of the options:
 ///                         `GTRepositoryCloneOptionsTransportFlags`,
 ///                         `GTRepositoryCloneOptionsBare`,
-///                         `GTRepositoryCloneCheckoutOptions`,
+///                         `GTRepositoryCloneOptionsPerformCheckout`,
+///                         `GTRepositoryCloneOptionsCheckoutOptions`,
 ///                         `GTRepositoryCloneOptionsCredentialProvider`,
 ///                         `GTRepositoryCloneOptionsCloneLocal`,
 ///                         `GTRepositoryCloneOptionsServerCertificateURL`
 /// error                 - A pointer to fill in case of trouble.
 /// transferProgressBlock - This block is called with network transfer updates.
 ///                         May be NULL.
-/// checkoutProgressBlock - This block is called with checkout updates
-///                         (if `GTRepositoryCloneOptionsCheckout` is YES).
 ///                         May be NULL.
 ///
 /// returns nil (and fills the error parameter) if an error occurred, or a GTRepository object if successful.
