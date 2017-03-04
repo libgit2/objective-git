@@ -71,10 +71,10 @@ extern NSString * const GTRepositoryCloneOptionsBare;
 
 /// An `NSNumber` wrapped `BOOL`, if NO, don't checkout the remote HEAD.
 /// Default value is `YES`.
-extern NSString * const GTRepositoryCloneOptionsCheckout;
+extern NSString * const GTRepositoryCloneOptionsPerformCheckout;
 
 /// A `GTCheckoutOptions` object describing how to perform the checkout.
-extern NSString * const GTRepositoryCloneCheckoutOptions;
+extern NSString * const GTRepositoryCloneOptionsCheckoutOptions;
 
 /// A `GTCredentialProvider`, that will be used to authenticate against the
 /// remote.
@@ -228,15 +228,14 @@ typedef NS_ENUM(NSInteger, GTRepositoryStateType) {
 /// options               - A dictionary consisting of the options:
 ///                         `GTRepositoryCloneOptionsTransportFlags`,
 ///                         `GTRepositoryCloneOptionsBare`,
-///                         `GTRepositoryCloneCheckoutOptions`,
+///                         `GTRepositoryCloneOptionsPerformCheckout`,
+///                         `GTRepositoryCloneOptionsCheckoutOptions`,
 ///                         `GTRepositoryCloneOptionsCredentialProvider`,
 ///                         `GTRepositoryCloneOptionsCloneLocal`,
 ///                         `GTRepositoryCloneOptionsServerCertificateURL`
 /// error                 - A pointer to fill in case of trouble.
 /// transferProgressBlock - This block is called with network transfer updates.
 ///                         May be NULL.
-/// checkoutProgressBlock - This block is called with checkout updates
-///                         (if `GTRepositoryCloneOptionsCheckout` is YES).
 ///                         May be NULL.
 ///
 /// returns nil (and fills the error parameter) if an error occurred, or a GTRepository object if successful.
