@@ -84,7 +84,7 @@ extern NSString * const GTRepositoryCloneOptionsCredentialProvider;
 extern NSString * const GTRepositoryCloneOptionsCloneLocal;
 
 /// A NSURL pointing to a local file that contains PEM-encoded certificate chain.
-extern NSString *const GTRepositoryCloneOptionsServerCertificateURL;
+extern NSString * const GTRepositoryCloneOptionsServerCertificateURL;
 
 /// Repository extended open control flags for
 /// +initWithURL:flags:ceilingDirs:error:.
