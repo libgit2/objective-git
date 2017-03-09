@@ -16,7 +16,7 @@
 typedef void (^GTCheckoutProgressBlock)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps);
 
 // The type of block set in notifyBlock for notification reporting
-typedef int  (^GTCheckoutNotifyBlock)(GTCheckoutNotifyFlags why, NSString *path, GTDiffFile * __nullable baseline, GTDiffFile * __nullable target, GTDiffFile * __nullable workdir);
+typedef int  (^GTCheckoutNotifyBlock)(GTCheckoutNotifyFlags why, NSString *path, GTDiffFile * _Nullable baseline, GTDiffFile * _Nullable target, GTDiffFile * _Nullable workdir);
 
 
 @interface GTCheckoutOptions () {
@@ -26,7 +26,7 @@ typedef int  (^GTCheckoutNotifyBlock)(GTCheckoutNotifyFlags why, NSString *path,
 
 @implementation GTCheckoutOptions
 
-+ (instancetype)checkoutOptionsWithStrategy:(GTCheckoutStrategyType)strategy notifyFlags:(GTCheckoutNotifyFlags)notifyFlags progressBlock:(nullable GTCheckoutProgressBlock)progressBlock notifyBlock:(nullable  GTCheckoutNotifyBlock)notifyBlock {
++ (instancetype)checkoutOptionsWithStrategy:(GTCheckoutStrategyType)strategy notifyFlags:(GTCheckoutNotifyFlags)notifyFlags progressBlock:(GTCheckoutProgressBlock _Nullable)progressBlock notifyBlock:( GTCheckoutNotifyBlock _Nullable)notifyBlock {
 	GTCheckoutOptions *options = [self checkoutOptionsWithStrategy:strategy];
 	options.notifyFlags = notifyFlags;
 	options.notifyBlock = notifyBlock;

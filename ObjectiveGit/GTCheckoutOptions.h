@@ -64,7 +64,7 @@ typedef NS_OPTIONS(NSInteger, GTCheckoutNotifyFlags) {
 /// @param notifyBlock   A block that will be called for each event, @see `notifyFlags`.
 ///
 /// @return A newly-initialized GTCheckoutOptions object.
-+ (instancetype)checkoutOptionsWithStrategy:(GTCheckoutStrategyType)strategy notifyFlags:(GTCheckoutNotifyFlags)notifyFlags progressBlock:(nullable void (^)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))progressBlock notifyBlock:(nullable int (^)(GTCheckoutNotifyFlags why, NSString *path, GTDiffFile *baseline, GTDiffFile *target, GTDiffFile *workdir))notifyBlock;
++ (instancetype)checkoutOptionsWithStrategy:(GTCheckoutStrategyType)strategy notifyFlags:(GTCheckoutNotifyFlags)notifyFlags progressBlock:(void (^ _Nullable)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps))progressBlock notifyBlock:(int (^ _Nullable)(GTCheckoutNotifyFlags why, NSString *path, GTDiffFile *baseline, GTDiffFile *target, GTDiffFile *workdir))notifyBlock;
 
 /// Create a checkout options object.
 /// @see +checkoutOptionsWithStrategy:notifyFlags:progressBlock:notifyBlock:

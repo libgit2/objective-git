@@ -242,7 +242,7 @@ struct GTRemoteCreatePayload {
 	git_remote_callbacks remoteCallbacks;
 };
 
-+ (instancetype _Nullable)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL options:(nullable NSDictionary *)options error:(NSError **)error transferProgressBlock:(void (^ _Nullable)(const git_transfer_progress *, BOOL *stop))transferProgressBlock {
++ (instancetype _Nullable)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL options:(NSDictionary * _Nullable)options error:(NSError **)error transferProgressBlock:(void (^ _Nullable)(const git_transfer_progress *, BOOL *stop))transferProgressBlock {
 
 	git_clone_options cloneOptions = GIT_CLONE_OPTIONS_INIT;
 
@@ -815,7 +815,7 @@ static int submoduleEnumerationCallback(git_submodule *git_submodule, const char
 	return gitError == GIT_OK;
 }
 
-- (BOOL)performCheckout:(GTObject *)target options:(nullable GTCheckoutOptions *)options error:(NSError **)error {
+- (BOOL)performCheckout:(GTObject *)target options:(GTCheckoutOptions * _Nullable)options error:(NSError **)error {
 	int gitError = git_checkout_tree(self.git_repository, target.git_object, options.git_checkoutOptions);
 	if (gitError < GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to checkout tree."];
@@ -838,7 +838,7 @@ static int submoduleEnumerationCallback(git_submodule *git_submodule, const char
 	return [self moveHEADToReference:targetReference error:error];
 }
 
-- (BOOL)checkoutTree:(GTTree *)targetTree options:(nullable GTCheckoutOptions *)options error:(NSError **)error {
+- (BOOL)checkoutTree:(GTTree *)targetTree options:(GTCheckoutOptions * _Nullable)options error:(NSError **)error {
 	return [self performCheckout:targetTree options:options error:error];
 }
 
