@@ -18,6 +18,6 @@
 /// repository - The repository in which the config resides. May be nil.
 ///
 /// Returns the initialized object.
-- (nullable instancetype)initWithGitConfig:(nonnull git_config *)config repository:(nullable GTRepository *)repository NS_DESIGNATED_INITIALIZER;
+- (instancetype _Nullable)initWithGitConfig:(git_config * _Nonnull)config repository:(GTRepository * _Nullable)repository NS_DESIGNATED_INITIALIZER;
 
 @end

@@ -129,7 +129,7 @@ it(@"should apply stashes", ^{
 	expect(error).to(beNil());
 
 	__block BOOL progressCalled = NO;
-	BOOL success = [repository applyStashAtIndex:0 flags:GTRepositoryStashApplyFlagDefault error:&error progressBlock:^void(GTRepositoryStashApplyProgress step, BOOL *stop) {
+	BOOL success = [repository applyStashAtIndex:0 flags:GTRepositoryStashApplyFlagDefault checkoutOptions:nil error:&error progressBlock:^void(GTRepositoryStashApplyProgress step, BOOL *stop) {
 		progressCalled = YES;
 	}];
 	expect(@(success)).to(beTruthy());
@@ -158,11 +158,11 @@ it(@"should fail to apply/drop unknown stashes", ^{
 	BOOL success = NO;
 
 	__block NSUInteger lastStashIndex = 0;
-	[repository enumerateStashesUsingBlock:^(NSUInteger index, NSString * __nullable message, GTOID * __nullable oid, BOOL * __nonnull stop) {
+	[repository enumerateStashesUsingBlock:^(NSUInteger index, NSString * _Nullable message, GTOID * _Nullable oid, BOOL * _Nonnull stop) {
 		lastStashIndex = index;
 	}];
 
-	success = [repository applyStashAtIndex:(lastStashIndex + 1) flags:GTRepositoryStashApplyFlagDefault error:&error progressBlock:nil];
+	success = [repository applyStashAtIndex:(lastStashIndex + 1) flags:GTRepositoryStashApplyFlagDefault checkoutOptions:nil error:&error progressBlock:nil];
 	expect(@(success)).to(beFalsy());
 	expect(error).notTo(beNil());
 	expect(error.domain).to(equal(GTGitErrorDomain));
@@ -186,7 +186,7 @@ it(@"should fail to apply conflicting stashes", ^{
 
 	expect(@([@"barfoo" writeToURL:[repository.fileURL URLByAppendingPathComponent:@"new-test-file"] atomically:YES encoding:NSUTF8StringEncoding error:NULL])).to(beTruthy());
 
-	BOOL success = [repository applyStashAtIndex:0 flags:GTRepositoryStashApplyFlagDefault error:&error progressBlock:nil];
+	BOOL success = [repository applyStashAtIndex:0 flags:GTRepositoryStashApplyFlagDefault checkoutOptions:nil error:&error progressBlock:nil];
 	expect(@(success)).to(beFalsy());
 	expect(error).notTo(beNil());
 

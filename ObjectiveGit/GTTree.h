@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) NSUInteger entryCount;
 
 /// The contents of the tree, as an array of whose objects are of type `GTTreeEntry`
-@property (nonatomic, strong, readonly, nullable) NSArray<GTTreeEntry *> *entries;
+@property (nonatomic, strong, readonly) NSArray<GTTreeEntry *> * _Nullable entries;
 
 /// The underlying `git_object` as a `git_tree` object.
 - (git_tree *)git_tree __attribute__((objc_returns_inner_pointer));
@@ -57,21 +57,21 @@ NS_ASSUME_NONNULL_BEGIN
 /// index - index to retreive entry from
 ///
 /// returns a GTTreeEntry or nil if there is nothing at the index
-- (nullable GTTreeEntry *)entryAtIndex:(NSUInteger)index;
+- (GTTreeEntry * _Nullable)entryAtIndex:(NSUInteger)index;
 
 /// Get an entry by name
 ///
 /// name - the name of the entry
 ///
 /// returns a GTTreeEntry or nil if there is nothing with the specified name
-- (nullable GTTreeEntry *)entryWithName:(NSString *)name;
+- (GTTreeEntry * _Nullable)entryWithName:(NSString *)name;
 
 /// Get an entry by path
 ///
 /// path - the path of the entry relative to the repository root
 ///
 /// returns a GTTreeEntry or nil if there is nothing with the specified path
-- (nullable GTTreeEntry *)entryWithPath:(NSString *)path error:(NSError **)error;
+- (GTTreeEntry * _Nullable)entryWithPath:(NSString *)path error:(NSError **)error;
 
 /// Enumerates the contents of the tree
 ///
@@ -98,7 +98,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// Returns an index which represents the result of the merge, or nil if an error
 /// occurred.
-- (nullable GTIndex *)merge:(GTTree *)otherTree ancestor:(nullable GTTree *)ancestorTree error:(NSError **)error;
+- (GTIndex * _Nullable)merge:(GTTree *)otherTree ancestor:(GTTree * _Nullable)ancestorTree error:(NSError **)error;
 
 @end
 

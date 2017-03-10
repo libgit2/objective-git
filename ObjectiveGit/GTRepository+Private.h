@@ -12,8 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface GTRepository ()
 
-- (nullable id)lookUpObjectByGitOid:(const git_oid *)oid objectType:(GTObjectType)type error:(NSError **)error;
-- (nullable id)lookUpObjectByGitOid:(const git_oid *)oid error:(NSError **)error;
+- (id _Nullable)lookUpObjectByGitOid:(const git_oid *)oid objectType:(GTObjectType)type error:(NSError **)error;
+- (id _Nullable)lookUpObjectByGitOid:(const git_oid *)oid error:(NSError **)error;
 
 @end
 

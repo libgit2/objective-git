@@ -63,7 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error      - The error if one occurred.
 ///
 /// Returns the initialized object, or nil if an error occurred.
-- (nullable instancetype)initWithTree:(nullable GTTree *)treeOrNil repository:(GTRepository *)repository error:(NSError **)error NS_DESIGNATED_INITIALIZER;
+- (instancetype _Nullable)initWithTree:(GTTree * _Nullable)treeOrNil repository:(GTRepository *)repository error:(NSError **)error NS_DESIGNATED_INITIALIZER;
 
 /// The underlying `git_treebuilder` object.
 - (git_treebuilder *)git_treebuilder __attribute__((objc_returns_inner_pointer));
@@ -82,7 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// fileName - File name for the object in the index. Cannot be nil.
 ///
 /// Returns the matching entry or nil if it doesn't exist.
-- (nullable GTTreeEntry *)entryWithFileName:(NSString *)fileName;
+- (GTTreeEntry * _Nullable)entryWithFileName:(NSString *)fileName;
 
 /// Adds or updates the entry for the file name with the given data. When the
 /// tree is written, a blob will be inserted into the object database containing
@@ -94,7 +94,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error    - The error if one occurred.
 ///
 /// Returns the added entry, or nil if an error occurred
-- (nullable GTTreeEntry *)addEntryWithData:(NSData *)data fileName:(NSString *)fileName fileMode:(GTFileMode)fileMode error:(NSError **)error;
+- (GTTreeEntry * _Nullable)addEntryWithData:(NSData *)data fileName:(NSString *)fileName fileMode:(GTFileMode)fileMode error:(NSError **)error;
 
 /// Add or update an entry to the builder.
 ///
@@ -111,7 +111,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// the type of the pointed at object.
 ///
 /// Returns the added entry, or nil if an error occurred.
-- (nullable GTTreeEntry *)addEntryWithOID:(GTOID *)oid fileName:(NSString *)fileName fileMode:(GTFileMode)fileMode error:(NSError **)error;
+- (GTTreeEntry * _Nullable)addEntryWithOID:(GTOID *)oid fileName:(NSString *)fileName fileMode:(GTFileMode)fileMode error:(NSError **)error;
 
 /// Remove an entry from the builder by its file name.
 ///
@@ -126,7 +126,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error - The error if one occurred.
 ///
 /// Returns the written tree, or nil if an error occurred.
-- (nullable GTTree *)writeTree:(NSError **)error;
+- (GTTree * _Nullable)writeTree:(NSError **)error;
 
 @end
 

@@ -110,7 +110,7 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 	return [[self alloc] initWithGitDiff:diff repository:repository];
 }
 
-+ (nullable instancetype)diffOldIndex:(GTIndex *)oldIndex withNewIndex:(GTIndex *)newIndex inRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error
++ (instancetype)diffOldIndex:(GTIndex *)oldIndex withNewIndex:(GTIndex *)newIndex inRepository:(GTRepository *)repository options:(NSDictionary *)options error:(NSError **)error
 {
 	NSParameterAssert(repository != nil);
 	

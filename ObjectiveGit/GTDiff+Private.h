@@ -14,6 +14,6 @@
 /// provides a pointer to that structure to the given `block`.
 ///
 /// Returns the result of invoking `block`.
-+ (int)handleParsedOptionsDictionary:(nullable NSDictionary *)dictionary usingBlock:(nonnull int (^)(git_diff_options * __null_unspecified optionsStruct))block;
++ (int)handleParsedOptionsDictionary:(NSDictionary * _Nullable)dictionary usingBlock:(int (^ _Nonnull)(git_diff_options * _Null_unspecified optionsStruct))block;
 
 @end

@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///              Must not be NULL.
 ///
 /// Returns an initialized filter list, or nil if an error occurred.
-- (nullable instancetype)initWithGitFilterList:(git_filter_list *)filterList NS_DESIGNATED_INITIALIZER;
+- (instancetype _Nullable)initWithGitFilterList:(git_filter_list *)filterList NS_DESIGNATED_INITIALIZER;
 
 /// Returns the underlying `git_filter_list`.
 - (git_filter_list *)git_filter_list __attribute__((objc_returns_inner_pointer));
@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error     - If not NULL, set to any error that occurs.
 ///
 /// Returns the filtered data, or nil if an error occurs.
-- (nullable NSData *)applyToData:(NSData *)inputData error:(NSError **)error;
+- (NSData * _Nullable)applyToData:(NSData *)inputData error:(NSError **)error;
 
 /// Attempts to apply the filter list to a file in the given repository.
 ///
@@ -53,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error        - If not NULL, set to any error that occurs.
 ///
 /// Returns the filtered data, or nil if an error occurs.
-- (nullable NSData *)applyToPath:(NSString *)relativePath inRepository:(GTRepository *)repository error:(NSError **)error;
+- (NSData * _Nullable)applyToPath:(NSString *)relativePath inRepository:(GTRepository *)repository error:(NSError **)error;
 
 /// Attempts to apply the filter list to a blob.
 ///
@@ -61,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error - If not NULL, set to any error that occurs.
 ///
 /// Returns the filtered data, or nil if an error occurs.
-- (nullable NSData *)applyToBlob:(GTBlob *)blob error:(NSError **)error;
+- (NSData * _Nullable)applyToBlob:(GTBlob *)blob error:(NSError **)error;
 
 @end
 

@@ -18,13 +18,17 @@
 #import "NSArray+StringArray.h"
 #import "NSError+Git.h"
 #import "GTRepository+References.h"
+#import "GTNote.h"
 
 #import "git2/errors.h"
 #import "git2/remote.h"
+#import "git2/notes.h"
+#import "git2/buffer.h"
 
 NSString *const GTRepositoryRemoteOptionsCredentialProvider = @"GTRepositoryRemoteOptionsCredentialProvider";
 NSString *const GTRepositoryRemoteOptionsFetchPrune = @"GTRepositoryRemoteOptionsFetchPrune";
 NSString *const GTRepositoryRemoteOptionsDownloadTags = @"GTRepositoryRemoteOptionsDownloadTags";
+NSString *const GTRepositoryRemoteOptionsPushNotes = @"GTRepositoryRemoteOptionsPushNotes";
 
 typedef void (^GTRemoteFetchTransferProgressBlock)(const git_transfer_progress *stats, BOOL *stop);
 typedef void (^GTRemotePushTransferProgressBlock)(unsigned int current, unsigned int total, size_t bytes, BOOL *stop);
@@ -194,8 +198,48 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 
 		[refspecs addObject:[NSString stringWithFormat:@"refs/heads/%@:%@", branch.shortName, remoteBranchReference]];
 	}
-
+	
+	// Also push the notes reference(s), if needed.
+	id pushNotesOption = options[GTRepositoryRemoteOptionsPushNotes];
+	if (pushNotesOption != nil) {
+		if ([pushNotesOption isKindOfClass:[NSNumber class]]) {		// Push notes is a bool, only push the default reference name if it's YES
+			if ([(NSNumber *)pushNotesOption boolValue]) {
+				NSString *notesReferenceName = [GTNote defaultReferenceNameForRepository:self error:nil];
+				
+				// Check whether the reference name exists for the repo, or our push will fail
+				if (notesReferenceName != nil && [self lookUpReferenceWithName:notesReferenceName error:nil] != nil) {
+					[refspecs addObject:[NSString stringWithFormat:@"%@:%@", notesReferenceName, notesReferenceName]];
+				}
+			}
+		} else if ([pushNotesOption isKindOfClass:[NSArray class]]) {
+			for (NSString *notesReferenceName in (NSArray *)pushNotesOption) {
+				if ([notesReferenceName isKindOfClass:[NSString class]]) {		// Just a sanity check, we only accept NSStrings in the array
+					// Check whether the reference name exists for the repo, or our push will fail
+					if (notesReferenceName != nil && [self lookUpReferenceWithName:notesReferenceName error:nil] != nil) {
+						[refspecs addObject:[NSString stringWithFormat:@"%@:%@", notesReferenceName, notesReferenceName]];
+					}
+				}
+			}
+		}
+	}
+	
 	return [self pushRefspecs:refspecs toRemote:remote withOptions:options error:error progress:progressBlock];
+}
+
+- (BOOL)pushNotes:(NSString *)noteRef toRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error progress:(GTRemotePushTransferProgressBlock)progressBlock {
+	NSParameterAssert(remote != nil);
+
+	if (noteRef == nil) {
+		noteRef = [GTNote defaultReferenceNameForRepository:self error:error];
+		
+		if (noteRef == nil) return NO;
+	}
+
+	GTReference *notesReference = [self lookUpReferenceWithName:noteRef error:error];
+
+	if (notesReference == nil) return NO;
+
+	return [self pushRefspecs:@[[NSString stringWithFormat:@"%@:%@", noteRef, noteRef]] toRemote:remote withOptions:options error:error progress:progressBlock];
 }
 
 #pragma mark - Deletion (Public)
@@ -226,7 +270,7 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 	remote_callbacks.push_transfer_progress = GTRemotePushTransferProgressCallback;
 	remote_callbacks.payload = &connectionInfo,
 
-	gitError = git_remote_connect(remote.git_remote, GIT_DIRECTION_PUSH, &remote_callbacks, NULL);
+	gitError = git_remote_connect(remote.git_remote, GIT_DIRECTION_PUSH, &remote_callbacks, NULL, NULL);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to connect remote"];
 		return NO;

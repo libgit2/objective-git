@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// line - The diff line to wrap. May not be NULL.
 ///
 /// Returns a diff line, or nil if an error occurs.
-- (nullable instancetype)initWithGitLine:(const git_diff_line *)line NS_DESIGNATED_INITIALIZER;
+- (instancetype _Nullable)initWithGitLine:(const git_diff_line *)line NS_DESIGNATED_INITIALIZER;
 
 @end
 

@@ -35,7 +35,7 @@ typedef NS_ENUM(NSInteger, GTRepositoryStashApplyProgress) {
 	GTRepositoryStashApplyProgressAnalyzeIndex = GIT_STASH_APPLY_PROGRESS_ANALYZE_INDEX,
 	GTRepositoryStashApplyProgressAnalyzeModified = GIT_STASH_APPLY_PROGRESS_ANALYZE_MODIFIED,
 	GTRepositoryStashApplyProgressAnalyzeUntracked = GIT_STASH_APPLY_PROGRESS_ANALYZE_UNTRACKED,
-	GTRepositoryStashApplyProgressGheckoutUntracked = GIT_STASH_APPLY_PROGRESS_CHECKOUT_UNTRACKED,
+	GTRepositoryStashApplyProgressCheckoutUntracked = GIT_STASH_APPLY_PROGRESS_CHECKOUT_UNTRACKED,
 	GTRepositoryStashApplyProgressCheckoutModified = GIT_STASH_APPLY_PROGRESS_CHECKOUT_MODIFIED,
 	GTRepositoryStashApplyProgressDone = GIT_STASH_APPLY_PROGRESS_DONE,
 };
@@ -53,32 +53,36 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// Returns a commit representing the stashed changes if successful, or nil
 /// otherwise.
-- (nullable GTCommit *)stashChangesWithMessage:(nullable NSString *)message flags:(GTRepositoryStashFlag)flags error:(NSError **)error;
+- (GTCommit * _Nullable)stashChangesWithMessage:(NSString * _Nullable)message flags:(GTRepositoryStashFlag)flags error:(NSError **)error;
 
 /// Enumerate over all the stashes in the repository, from most recent to oldest.
 ///
 /// block - A block to execute for each stash found. `index` will be the zero-based
 ///         stash index (where 0 is the most recent stash). Setting `stop` to YES
 ///         will cause enumeration to stop after the block returns. Must not be nil.
-- (void)enumerateStashesUsingBlock:(void (^)(NSUInteger index, NSString * __nullable message, GTOID * __nullable oid, BOOL *stop))block;
+- (void)enumerateStashesUsingBlock:(void (^)(NSUInteger index, NSString * _Nullable message, GTOID * _Nullable oid, BOOL *stop))block;
 
 /// Apply stashed changes.
 ///
-/// index - The index of the stash to apply. 0 is the latest one.
-/// flags - The flags to use when applying the stash.
-/// error - If not NULL, set to any error that occurred.
+/// index         - The index of the stash to apply. 0 is the latest one.
+/// flags         - The flags to use when applying the stash.
+/// options       - The options to use when checking out (if nil, use the defaults provided by libgit2).
+/// error         - If not NULL, set to any error that occurred.
+/// progressBlock - A block that will be executed on each step of the stash application.
 ///
 /// Returns YES if the requested stash was successfully applied, NO otherwise.
-- (BOOL)applyStashAtIndex:(NSUInteger)index flags:(GTRepositoryStashApplyFlag)flags error:(NSError **)error progressBlock:(nullable void (^)(GTRepositoryStashApplyProgress progress, BOOL *stop))progressBlock;
+- (BOOL)applyStashAtIndex:(NSUInteger)index flags:(GTRepositoryStashApplyFlag)flags checkoutOptions:(GTCheckoutOptions * _Nullable)options error:(NSError **)error progressBlock:(void (^ _Nullable)(GTRepositoryStashApplyProgress progress, BOOL *stop))progressBlock;
 
 /// Pop stashed changes.
 ///
-/// index - The index of the stash to apply. 0 is the most recent stash.
-/// flags - The flags to use when applying the stash.
-/// error - If not NULL, set to any error that occurred.
+/// index         - The index of the stash to apply. 0 is the most recent stash.
+/// flags         - The flags to use when applying the stash.
+/// options       - The options to use when checking out (if nil, use the defaults provided by libgit2).
+/// error         - If not NULL, set to any error that occurred.
+/// progressBlock - A block that will be executed on each step of the stash application.
 ///
 /// Returns YES if the requested stash was successfully applied, NO otherwise.
-- (BOOL)popStashAtIndex:(NSUInteger)index flags:(GTRepositoryStashApplyFlag)flags error:(NSError **)error progressBlock:(nullable void (^)(GTRepositoryStashApplyProgress progress, BOOL *stop))progressBlock;
+- (BOOL)popStashAtIndex:(NSUInteger)index flags:(GTRepositoryStashApplyFlag)flags checkoutOptions:(GTCheckoutOptions * _Nullable)options error:(NSError **)error progressBlock:(void (^ _Nullable)(GTRepositoryStashApplyProgress progress, BOOL *stop))progressBlock;
 
 /// Drop a stash from the repository's list of stashes.
 ///

@@ -144,7 +144,7 @@
 	return YES;
 }
 
-- (nullable GTRepository *)submoduleRepository:(NSError **)error {
+- (GTRepository *)submoduleRepository:(NSError **)error {
 	git_repository *repo;
 	int gitError = git_submodule_open(&repo, self.git_submodule);
 	if (gitError != GIT_OK) {

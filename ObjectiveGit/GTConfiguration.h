@@ -17,24 +17,24 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface GTConfiguration : NSObject
 
-@property (nonatomic, readonly, strong, nullable) GTRepository *repository;
+@property (nonatomic, readonly, strong) GTRepository * _Nullable repository;
 @property (nonatomic, readonly, copy) NSArray<NSString *> *configurationKeys;
 
 /// The GTRemotes in the config. If the configuration isn't associated with any
 /// repository, this will always be nil.
-@property (nonatomic, readonly, copy, nullable) NSArray<GTRemote *> *remotes;
+@property (nonatomic, readonly, copy) NSArray<GTRemote *> * _Nullable remotes;
 
 - (instancetype)init NS_UNAVAILABLE;
 
 /// Creates and returns a configuration which includes the global, XDG, and
 /// system configurations.
-+ (nullable instancetype)defaultConfiguration;
++ (instancetype _Nullable)defaultConfiguration;
 
 /// The underlying `git_config` object.
 - (git_config *)git_config __attribute__((objc_returns_inner_pointer));
 
 - (void)setString:(NSString *)s forKey:(NSString *)key;
-- (nullable NSString *)stringForKey:(NSString *)key;
+- (NSString * _Nullable)stringForKey:(NSString *)key;
 
 - (void)setBool:(BOOL)b forKey:(NSString *)key;
 - (BOOL)boolForKey:(NSString *)key;

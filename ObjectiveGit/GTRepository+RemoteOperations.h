@@ -22,6 +22,9 @@ extern NSString *const GTRepositoryRemoteOptionsFetchPrune;
 /// A `GTRemoteAutoTagOption`, that will be used to determine how the fetch should handle tags.
 extern NSString *const GTRepositoryRemoteOptionsDownloadTags;
 
+/// A `@(BOOL)`, indicating git notes should also be pushed to the default notes reference name (if `@(YES)`), or an `NSArray(NSString)` containing reference names to be pushed through.
+extern NSString *const GTRepositoryRemoteOptionsPushNotes;
+
 /// An enum describing the data needed for pruning.
 /// See `git_fetch_prune_t`.
 typedef NS_ENUM(NSInteger, GTFetchPruneOption) {
@@ -48,7 +51,7 @@ typedef NS_ENUM(NSInteger, GTFetchPruneOption) {
 ///
 /// Returns YES if the fetch was successful, NO otherwise (and `error`, if provided,
 /// will point to an error describing what happened).
-- (BOOL)fetchRemote:(GTRemote *)remote withOptions:(nullable NSDictionary *)options error:(NSError **)error progress:(nullable void (^)(const git_transfer_progress *stats, BOOL *stop))progressBlock;
+- (BOOL)fetchRemote:(GTRemote *)remote withOptions:(NSDictionary * _Nullable)options error:(NSError **)error progress:(void (^ _Nullable)(const git_transfer_progress *stats, BOOL *stop))progressBlock;
 
 /// Enumerate all available fetch head entries.
 ///
@@ -76,12 +79,13 @@ typedef NS_ENUM(NSInteger, GTFetchPruneOption) {
 /// options       - Options applied to the push operation. Can be NULL.
 ///                 Recognized options are:
 ///                 `GTRepositoryRemoteOptionsCredentialProvider`
+///                 `GTRepositoryRemoteOptionsPushNotes` (to push together with notes in one push)
 /// error         - The error if one occurred. Can be NULL.
 /// progressBlock - An optional callback for monitoring progress. May be NULL.
 ///
 /// Returns YES if the push was successful, NO otherwise (and `error`, if provided,
 /// will point to an error describing what happened).
-- (BOOL)pushBranch:(GTBranch *)branch toRemote:(GTRemote *)remote withOptions:(nullable NSDictionary *)options error:(NSError **)error progress:(nullable void (^)(unsigned int current, unsigned int total, size_t bytes, BOOL *stop))progressBlock;
+- (BOOL)pushBranch:(GTBranch *)branch toRemote:(GTRemote *)remote withOptions:(NSDictionary * _Nullable)options error:(NSError **)error progress:(void (^ _Nullable)(unsigned int current, unsigned int total, size_t bytes, BOOL *stop))progressBlock;
 
 /// Push an array of branches to a remote.
 ///
@@ -89,13 +93,28 @@ typedef NS_ENUM(NSInteger, GTFetchPruneOption) {
 /// remote        - The remote to push to. Must not be nil.
 /// options       - Options applied to the push operation. Can be NULL.
 ///                 Recognized options are:
-///                 `GTRepositoryRemoteOptionsCredentialProvider`
+///                 `GTRepositoryRemoteOptionsCredentialProvider`,
+///                 `GTRepositoryRemoteOptionsPushNotes` (to push together with notes in one push)
 /// error         - The error if one occurred. Can be NULL.
 /// progressBlock - An optional callback for monitoring progress. May be NULL.
 ///
 /// Returns YES if the push was successful, NO otherwise (and `error`, if provided,
 /// will point to an error describing what happened).
-- (BOOL)pushBranches:(NSArray<GTBranch *> *)branches toRemote:(GTRemote *)remote withOptions:(nullable NSDictionary *)options error:(NSError **)error progress:(nullable void (^)(unsigned int current, unsigned int total, size_t bytes, BOOL *stop))progressBlock;
+- (BOOL)pushBranches:(NSArray<GTBranch *> *)branches toRemote:(GTRemote *)remote withOptions:(NSDictionary * _Nullable)options error:(NSError **)error progress:(void (^ _Nullable)(unsigned int current, unsigned int total, size_t bytes, BOOL *stop))progressBlock;
+
+/// Push a given Git notes reference name to a remote.
+///
+/// noteReferenceName - Name of the notes reference. If NULL, will default to whatever the default is (e.g. "refs/notes/commits")
+/// remote            - The remote to push to. Must not be nil.
+/// options           - Options applied to the push operation. Can be NULL.
+///                     Recognized options are:
+///                     `GTRepositoryRemoteOptionsCredentialProvider`
+/// error             - The error if one occurred. Can be NULL.
+/// progressBlock     - An optional callback for monitoring progress. May be NULL.
+///
+/// Returns YES if the push was successful, NO otherwise (and `error`, if provided,
+/// will point to an error describing what happened).
+- (BOOL)pushNotes:(NSString * _Nullable)noteReferenceName toRemote:(GTRemote *)remote withOptions:(NSDictionary * _Nullable)options error:(NSError **)error progress:(void (^ _Nullable)(unsigned int current, unsigned int total, size_t bytes, BOOL *stop))progressBlock;
 
 /// Delete a remote branch
 ///
@@ -108,7 +127,7 @@ typedef NS_ENUM(NSInteger, GTFetchPruneOption) {
 ///
 /// Returns YES if the push was successful, NO otherwise (and `error`, if provided,
 /// will point to an error describing what happened).
-- (BOOL)deleteBranch:(GTBranch *)branch fromRemote:(GTRemote *)remote withOptions:(nullable NSDictionary *)options error:(NSError **)error;
+- (BOOL)deleteBranch:(GTBranch *)branch fromRemote:(GTRemote *)remote withOptions:(NSDictionary * _Nullable)options error:(NSError **)error;
 @end
 
 NS_ASSUME_NONNULL_END
