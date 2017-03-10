@@ -40,10 +40,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// The repository in which the index resides. This may be nil if the index was
 /// created with -initWithFileURL:error:.
-@property (nonatomic, readonly, strong, nullable) GTRepository *repository;
+@property (nonatomic, readonly, strong) GTRepository * _Nullable repository;
 
 /// The file URL for the index if it exists on disk; nil otherwise.
-@property (nonatomic, readonly, copy, nullable) NSURL *fileURL;
+@property (nonatomic, readonly, copy) NSURL * _Nullable fileURL;
 
 /// The number of entries in the index.
 @property (nonatomic, readonly) NSUInteger entryCount;
@@ -60,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error      - If not NULL, set to any error that occurs.
 ///
 /// Returns the newly created index, or nil if an error occurred.
-+ (nullable instancetype)inMemoryIndexWithRepository:(GTRepository *)repository error:(NSError **)error;
++ (instancetype _Nullable)inMemoryIndexWithRepository:(GTRepository *)repository error:(NSError **)error;
 
 /// Loads the index at the given file URL.
 ///
@@ -69,7 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error      - If not NULL, set to any error that occurs.
 ///
 /// Returns the loaded index, or nil if an error occurred.
-+ (nullable instancetype)indexWithFileURL:(NSURL *)fileURL repository:(GTRepository *)repository error:(NSError **)error;
++ (instancetype _Nullable)indexWithFileURL:(NSURL *)fileURL repository:(GTRepository *)repository error:(NSError **)error;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -105,10 +105,10 @@ NS_ASSUME_NONNULL_BEGIN
 /// index - The index of the entry to get. Must be within 0 and self.entryCount.
 ///
 /// Returns a new GTIndexEntry, or nil if an error occurred.
-- (nullable GTIndexEntry *)entryAtIndex:(NSUInteger)index;
+- (GTIndexEntry * _Nullable)entryAtIndex:(NSUInteger)index;
 
 /// Get the entry with the given path, or nil if an error occurred.
-- (nullable GTIndexEntry *)entryWithPath:(NSString *)path;
+- (GTIndexEntry * _Nullable)entryWithPath:(NSString *)path;
 
 /// Get the entry with the given name.
 ///
@@ -116,7 +116,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error - The error if one occurred.
 ///
 /// Returns a new GTIndexEntry, or nil if an error occurred.
-- (nullable GTIndexEntry *)entryWithPath:(NSString *)path error:(NSError **)error;
+- (GTIndexEntry * _Nullable)entryWithPath:(NSString *)path error:(NSError **)error;
 
 /// Add an entry to the index.
 ///
@@ -179,7 +179,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error - The error if one occurred.
 ///
 /// Returns a new GTTree, or nil if an error occurred.
-- (nullable GTTree *)writeTree:(NSError **)error;
+- (GTTree * _Nullable)writeTree:(NSError **)error;
 
 /// Write the index to the given repository as a tree.
 /// Will fail if the receiver's index has conflicts.
@@ -188,7 +188,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error      - The error if one occurred.
 ///
 /// Returns a new GTTree or nil if an error occurred.
-- (nullable GTTree *)writeTreeToRepository:(GTRepository *)repository error:(NSError **)error;
+- (GTTree * _Nullable)writeTreeToRepository:(GTRepository *)repository error:(NSError **)error;
 
 /// Enumerate through any conflicts in the index, running the provided block each
 /// time.
@@ -220,11 +220,11 @@ NS_ASSUME_NONNULL_BEGIN
 /// error     - When something goes wrong, this parameter is set. Optional.
 ///
 /// Returns `YES` in the event that everything has gone smoothly. Otherwise, `NO`.
-- (BOOL)updatePathspecs:(nullable NSArray<NSString*> *)pathspecs error:(NSError **)error passingTest:(nullable BOOL (^)(NSString *matchedPathspec, NSString *path, BOOL *stop))block;
+- (BOOL)updatePathspecs:(NSArray<NSString*> * _Nullable)pathspecs error:(NSError **)error passingTest:(BOOL (^ _Nullable)(NSString *matchedPathspec, NSString *path, BOOL *stop))block;
 
 #pragma mark Deprecations
-- (nullable GTIndexEntry *)entryWithName:(NSString *)name __deprecated_msg("use entryWithPath: instead.");
-- (nullable GTIndexEntry *)entryWithName:(NSString *)name error:(NSError **)error __deprecated_msg("use entryWithPath:error: instead.");
+- (GTIndexEntry * _Nullable)entryWithName:(NSString *)name __deprecated_msg("use entryWithPath: instead.");
+- (GTIndexEntry * _Nullable)entryWithName:(NSString *)name error:(NSError **)error __deprecated_msg("use entryWithPath:error: instead.");
 
 
 @end

@@ -34,13 +34,13 @@ typedef enum {
 @property (nonatomic, readonly, strong) GTRepository *repository;
 
 /// The name of the remote.
-@property (nonatomic, readonly, copy, nullable) NSString *name;
+@property (nonatomic, readonly, copy) NSString * _Nullable name;
 
 /// The URL string for the remote.
-@property (nonatomic, readonly, copy, nullable) NSString *URLString;
+@property (nonatomic, readonly, copy) NSString * _Nullable URLString;
 
 /// The push URL for the remote, if provided.
-@property (nonatomic, copy, nullable) NSString *pushURLString;
+@property (nonatomic, copy) NSString * _Nullable pushURLString;
 
 /// Whether the remote is connected or not.
 @property (nonatomic, readonly, getter=isConnected) BOOL connected;
@@ -56,13 +56,13 @@ typedef enum {
 ///
 /// This array will contain NSStrings of the form
 /// `+refs/heads/*:refs/remotes/REMOTE/*`.
-@property (nonatomic, readonly, copy, nullable) NSArray<NSString *> *fetchRefspecs;
+@property (nonatomic, readonly, copy) NSArray<NSString *> * _Nullable fetchRefspecs;
 
 /// The push refspecs for this remote.
 ///
 /// This array will contain NSStrings of the form
 /// `+refs/heads/*:refs/remotes/REMOTE/*`.
-@property (nonatomic, readonly, copy, nullable) NSArray<NSString *> *pushRefspecs;
+@property (nonatomic, readonly, copy) NSArray<NSString *> * _Nullable pushRefspecs;
 
 /// Tests if a name is valid
 + (BOOL)isValidRemoteName:(NSString *)name;
@@ -75,7 +75,7 @@ typedef enum {
 /// error     - Will be set if an error occurs.
 ///
 /// Returns a new remote, or nil if an error occurred
-+ (nullable instancetype)createRemoteWithName:(NSString *)name URLString:(NSString *)URLString inRepository:(GTRepository *)repo error:(NSError **)error;
++ (instancetype _Nullable)createRemoteWithName:(NSString *)name URLString:(NSString *)URLString inRepository:(GTRepository *)repo error:(NSError **)error;
 
 /// Load a remote from a repository.
 ///
@@ -84,7 +84,7 @@ typedef enum {
 /// error - Will be set if an error occurs.
 ///
 /// Returns the loaded remote, or nil if an error occurred.
-+ (nullable instancetype)remoteWithName:(NSString *)name inRepository:(GTRepository *)repo error:(NSError **)error;
++ (instancetype _Nullable)remoteWithName:(NSString *)name inRepository:(GTRepository *)repo error:(NSError **)error;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -94,7 +94,7 @@ typedef enum {
 /// repo   - The repository the remote belongs to. Cannot be nil.
 ///
 /// Returns the initialized receiver, or nil if an error occurred.
-- (nullable instancetype)initWithGitRemote:(git_remote *)remote inRepository:(GTRepository *)repo NS_DESIGNATED_INITIALIZER;
+- (instancetype _Nullable)initWithGitRemote:(git_remote *)remote inRepository:(GTRepository *)repo NS_DESIGNATED_INITIALIZER;
 
 /// The underlying `git_remote` object.
 - (git_remote *)git_remote __attribute__((objc_returns_inner_pointer));

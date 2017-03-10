@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, strong) GTRepository *repository;
 @property (nonatomic, readonly) GTReferenceType referenceType;
 @property (nonatomic, readonly) const git_oid *git_oid;
-@property (nonatomic, strong, readonly, nullable) GTOID *OID;
+@property (nonatomic, strong, readonly) GTOID * _Nullable OID;
 
 /// Whether this is a remote-tracking branch.
 @property (nonatomic, readonly, getter = isRemote) BOOL remote;
@@ -61,8 +61,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, strong) GTReflog *reflog;
 
 /// Convenience initializers
-+ (nullable instancetype)referenceByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error;
-- (nullable instancetype)initByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error;
++ (instancetype _Nullable)referenceByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error;
+- (instancetype _Nullable)initByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -72,16 +72,16 @@ NS_ASSUME_NONNULL_BEGIN
 /// repository - The repository containing the reference. Must not be nil.
 ///
 /// Returns the initialized receiver.
-- (nullable instancetype)initWithGitReference:(git_reference *)ref repository:(GTRepository *)repository NS_DESIGNATED_INITIALIZER;
+- (instancetype _Nullable)initWithGitReference:(git_reference *)ref repository:(GTRepository *)repository NS_DESIGNATED_INITIALIZER;
 
 /// The underlying `git_reference` object.
 - (git_reference *)git_reference __attribute__((objc_returns_inner_pointer));
 
 /// The target (either GTObject or GTReference) to which the reference points.
-@property (nonatomic, readonly, copy, nullable) id unresolvedTarget;
+@property (nonatomic, readonly, copy) id _Nullable unresolvedTarget;
 
 /// The resolved object to which the reference points.
-@property (nonatomic, readonly, copy, nullable) id resolvedTarget;
+@property (nonatomic, readonly, copy) id _Nullable resolvedTarget;
 
 /// The last direct reference in a chain
 @property (nonatomic, readonly, copy) GTReference *resolvedReference;
@@ -100,10 +100,10 @@ NS_ASSUME_NONNULL_BEGIN
 /// error     - The error if one occurred.
 ///
 /// Returns the updated reference, or nil if an error occurred.
-- (nullable GTReference *)referenceByUpdatingTarget:(NSString *)newTarget message:(nullable NSString *)message error:(NSError **)error;
+- (GTReference * _Nullable)referenceByUpdatingTarget:(NSString *)newTarget message:(NSString * _Nullable)message error:(NSError **)error;
 
 /// The name of the reference.
-@property (nonatomic, readonly, copy, nullable) NSString *name;
+@property (nonatomic, readonly, copy) NSString * _Nullable name;
 
 /// Updates the on-disk reference to the name and returns the renamed reference.
 ///
@@ -113,7 +113,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error   - The error if one occurred.
 ///
 /// Returns the renamed reference, or nil if an error occurred.
-- (nullable GTReference *)referenceByRenaming:(NSString *)newName error:(NSError **)error;
+- (GTReference * _Nullable)referenceByRenaming:(NSString *)newName error:(NSError **)error;
 
 /// Delete this reference.
 ///
@@ -127,14 +127,14 @@ NS_ASSUME_NONNULL_BEGIN
 /// error(out) - will be filled if an error occurs
 ///
 /// returns the peeled GTReference or nil if an error occurred.
-- (nullable GTReference *)resolvedReferenceWithError:(NSError **)error;
+- (GTReference * _Nullable)resolvedReferenceWithError:(NSError **)error;
 
 /// Reload the reference from disk.
 ///
 /// error - The error if one occurred.
 ///
 /// Returns the reloaded reference, or nil if an error occurred.
-- (nullable GTReference *)reloadedReferenceWithError:(NSError **)error;
+- (GTReference * _Nullable)reloadedReferenceWithError:(NSError **)error;
 
 /// An error indicating that the git_reference is no longer valid.
 + (NSError *)invalidReferenceError;

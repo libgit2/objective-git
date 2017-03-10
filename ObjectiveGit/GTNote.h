@@ -40,10 +40,10 @@ NS_ASSUME_NONNULL_BEGIN
 @interface GTNote : NSObject {}
 
 /// The author of the note.
-@property (nonatomic, readonly, strong, nullable) GTSignature *author;
+@property (nonatomic, readonly, strong) GTSignature * _Nullable author;
 
 /// The committer of the note.
-@property (nonatomic, readonly, strong, nullable) GTSignature *committer;
+@property (nonatomic, readonly, strong) GTSignature * _Nullable committer;
 
 /// Content of the note.
 @property (nonatomic, readonly, strong) NSString *note;
@@ -62,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///                 May be NULL.
 ///
 /// Returns initialized GTNote instance or nil on failure (error will be populated, if passed).
-- (nullable instancetype)initWithTargetOID:(GTOID *)oid repository:(GTRepository *)repository referenceName:(nullable NSString *)referenceName error:(NSError **)error;
+- (instancetype _Nullable)initWithTargetOID:(GTOID *)oid repository:(GTRepository *)repository referenceName:(NSString * _Nullable)referenceName error:(NSError **)error;
 
 /// Create a note with target libgit2 oid in the given repository.
 ///
@@ -71,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// referenceName - Name for the notes reference in the repo, or NULL for default ("refs/notes/commits")
 ///
 /// Returns initialized GTNote instance or nil on failure.
-- (nullable instancetype)initWithTargetGitOID:(git_oid *)oid repository:(git_repository *)repository referenceName:(const char * _Nullable)referenceName error:(NSError **)error NS_DESIGNATED_INITIALIZER;
+- (instancetype _Nullable)initWithTargetGitOID:(git_oid *)oid repository:(git_repository *)repository referenceName:(const char * _Nullable)referenceName error:(NSError **)error NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -83,7 +83,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///                 May be NULL.
 ///
 /// Returns default reference name (usually "refs/notes/commits").
-+ (nullable NSString *)defaultReferenceNameForRepository:(GTRepository *)repository error:(NSError **)error;
++ (NSString * _Nullable)defaultReferenceNameForRepository:(GTRepository *)repository error:(NSError **)error;
 
 @end
 

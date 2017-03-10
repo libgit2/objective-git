@@ -199,7 +199,7 @@ typedef NS_OPTIONS(NSInteger, GTDiffFindOptionsFlags) {
 ///              available.
 ///
 /// Returns a newly created `GTDiff` object or nil on error.
-+ (nullable instancetype)diffOldTree:(nullable GTTree *)oldTree withNewTree:(nullable GTTree *)newTree inRepository:(GTRepository *)repository options:(nullable NSDictionary *)options error:(NSError **)error;
++ (instancetype _Nullable)diffOldTree:(GTTree * _Nullable)oldTree withNewTree:(GTTree * _Nullable)newTree inRepository:(GTRepository *)repository options:(NSDictionary * _Nullable)options error:(NSError **)error;
 
 /// Create a diff between `GTTree` and `GTIndex`.
 ///
@@ -216,7 +216,7 @@ typedef NS_OPTIONS(NSInteger, GTDiffFindOptionsFlags) {
 ///              available.
 ///
 /// Returns a newly created `GTDiff` object or nil on error.
-+ (nullable instancetype)diffOldTree:(nullable GTTree *)oldTree withNewIndex:(nullable GTIndex *)newIndex inRepository:(GTRepository *)repository options:(nullable NSDictionary *)options error:(NSError **)error;
++ (instancetype _Nullable)diffOldTree:(GTTree * _Nullable)oldTree withNewIndex:(GTIndex * _Nullable)newIndex inRepository:(GTRepository *)repository options:(NSDictionary * _Nullable)options error:(NSError **)error;
 
 /// Create a diff between two `GTIndex`es.
 ///
@@ -233,7 +233,7 @@ typedef NS_OPTIONS(NSInteger, GTDiffFindOptionsFlags) {
 ///              available.
 ///
 /// Returns a newly created `GTDiff` object or nil on error.
-+ (nullable instancetype)diffOldIndex:(nullable GTIndex *)oldIndex withNewIndex:(nullable GTIndex *)newIndex inRepository:(GTRepository *)repository options:(nullable NSDictionary *)options error:(NSError **)error;
++ (instancetype _Nullable)diffOldIndex:(GTIndex * _Nullable)oldIndex withNewIndex:(GTIndex * _Nullable)newIndex inRepository:(GTRepository *)repository options:(NSDictionary * _Nullable)options error:(NSError **)error;
 
 /// Create a diff between a repository's current index.
 ///
@@ -253,7 +253,7 @@ typedef NS_OPTIONS(NSInteger, GTDiffFindOptionsFlags) {
 ///              available.
 ///
 /// Returns a newly created `GTDiff` object or nil on error.
-+ (nullable instancetype)diffIndexFromTree:(nullable GTTree *)tree inRepository:(nullable GTRepository *)repository options:(nullable NSDictionary *)options error:(NSError **)error;
++ (instancetype _Nullable)diffIndexFromTree:(GTTree * _Nullable)tree inRepository:(GTRepository * _Nullable)repository options:(NSDictionary * _Nullable)options error:(NSError **)error;
 
 /// Create a diff between the index and working directory in a given repository.
 ///
@@ -266,7 +266,7 @@ typedef NS_OPTIONS(NSInteger, GTDiffFindOptionsFlags) {
 ///              available.
 ///
 /// Returns a newly created `GTDiff` object or nil on error.
-+ (nullable instancetype)diffIndexToWorkingDirectoryInRepository:(GTRepository *)repository options:(nullable NSDictionary *)options error:(NSError **)error;
++ (instancetype _Nullable)diffIndexToWorkingDirectoryInRepository:(GTRepository *)repository options:(NSDictionary * _Nullable)options error:(NSError **)error;
 
 /// Create a diff between a repository's working directory and a tree.
 ///
@@ -279,7 +279,7 @@ typedef NS_OPTIONS(NSInteger, GTDiffFindOptionsFlags) {
 ///              available.
 ///
 /// Returns a newly created `GTDiff` object or nil on error.
-+ (nullable instancetype)diffWorkingDirectoryFromTree:(nullable GTTree *)tree inRepository:(GTRepository *)repository options:(nullable NSDictionary *)options error:(NSError **)error;
++ (instancetype _Nullable)diffWorkingDirectoryFromTree:(GTTree * _Nullable)tree inRepository:(GTRepository *)repository options:(NSDictionary * _Nullable)options error:(NSError **)error;
 
 /// Create a diff between the working directory and HEAD.
 ///
@@ -292,7 +292,7 @@ typedef NS_OPTIONS(NSInteger, GTDiffFindOptionsFlags) {
 /// error      - Populated if an error occurs.
 ///
 /// Returns a newly created GTDiff, or nil if an error occurred.
-+ (nullable instancetype)diffWorkingDirectoryToHEADInRepository:(GTRepository *)repository options:(nullable NSDictionary *)options error:(NSError **)error;
++ (instancetype _Nullable)diffWorkingDirectoryToHEADInRepository:(GTRepository *)repository options:(NSDictionary * _Nullable)options error:(NSError **)error;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -302,7 +302,7 @@ typedef NS_OPTIONS(NSInteger, GTDiffFindOptionsFlags) {
 /// repository - The repository in which the diff lives. Cannot be nil.
 ///
 /// Returns the initialized object.
-- (nullable instancetype)initWithGitDiff:(git_diff *)diff repository:(GTRepository *)repository NS_DESIGNATED_INITIALIZER;
+- (instancetype _Nullable)initWithGitDiff:(git_diff *)diff repository:(GTRepository *)repository NS_DESIGNATED_INITIALIZER;
 
 /// The libgit2 diff object.
 - (git_diff *)git_diff __attribute__((objc_returns_inner_pointer));
@@ -327,7 +327,7 @@ typedef NS_OPTIONS(NSInteger, GTDiffFindOptionsFlags) {
 ///
 /// options - A dictionary containing any of the GTDiffFindOptions key constants
 ///           or nil to use the defaults.
-- (void)findSimilarWithOptions:(nullable NSDictionary *)options;
+- (void)findSimilarWithOptions:(NSDictionary * _Nullable)options;
 
 /// Merge a diff with another diff.
 ///

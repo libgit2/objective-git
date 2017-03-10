@@ -43,10 +43,10 @@ NS_ASSUME_NONNULL_BEGIN
 /// equal.
 @interface GTBranch : NSObject
 
-@property (nonatomic, readonly, nullable) NSString *name;
-@property (nonatomic, readonly, nullable) NSString *shortName;
-@property (nonatomic, copy, readonly, nullable) GTOID *OID;
-@property (nonatomic, readonly, nullable) NSString *remoteName;
+@property (nonatomic, readonly) NSString * _Nullable name;
+@property (nonatomic, readonly) NSString * _Nullable shortName;
+@property (nonatomic, copy, readonly) GTOID * _Nullable OID;
+@property (nonatomic, readonly) NSString * _Nullable remoteName;
 @property (nonatomic, readonly) GTBranchType branchType;
 @property (nonatomic, readonly, strong) GTRepository *repository;
 @property (nonatomic, readonly, strong) GTReference *reference;
@@ -62,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// repo - The repository containing the branch. Must not be nil.
 ///
 /// Returns the initialized receiver.
-- (nullable instancetype)initWithReference:(GTReference *)ref repository:(GTRepository *)repo NS_DESIGNATED_INITIALIZER;
+- (instancetype _Nullable)initWithReference:(GTReference *)ref repository:(GTRepository *)repo NS_DESIGNATED_INITIALIZER;
 
 /// Convenience class initializer.
 ///
@@ -70,14 +70,14 @@ NS_ASSUME_NONNULL_BEGIN
 /// repo - The repository containing the branch. Must not be nil.
 ///
 /// Returns an initialized instance.
-+ (nullable instancetype)branchWithReference:(GTReference *)ref repository:(GTRepository *)repo;
++ (instancetype _Nullable)branchWithReference:(GTReference *)ref repository:(GTRepository *)repo;
 
 /// Get the target commit for this branch
 ///
 /// error(out) - will be filled if an error occurs
 ///
 /// returns a GTCommit object or nil if an error occurred
-- (nullable GTCommit *)targetCommitWithError:(NSError **)error;
+- (GTCommit * _Nullable)targetCommitWithError:(NSError **)error;
 
 /// Count all commits in this branch
 ///
@@ -92,7 +92,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error       - If not NULL, set to any error that occurs.
 ///
 /// Returns a (possibly empty) array of GTCommits, or nil if an error occurs.
-- (nullable NSArray<GTCommit *> *)uniqueCommitsRelativeToBranch:(GTBranch *)otherBranch error:(NSError **)error;
+- (NSArray<GTCommit *> * _Nullable)uniqueCommitsRelativeToBranch:(GTBranch *)otherBranch error:(NSError **)error;
 
 /// Deletes the local branch and nils out the reference.
 - (BOOL)deleteWithError:(NSError **)error;
@@ -100,7 +100,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// If the receiver is a local branch, looks up and returns its tracking branch.
 /// If the receiver is a remote branch, returns self. If no tracking branch was
 /// found, returns nil and sets `success` to YES.
-- (nullable GTBranch *)trackingBranchWithError:(NSError **)error success:(nullable BOOL *)success;
+- (GTBranch * _Nullable)trackingBranchWithError:(NSError **)error success:(BOOL * _Nullable)success;
 
 /// Update the tracking branch.
 ///
@@ -109,7 +109,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error          - The error if one occurred.
 ///
 /// Returns whether it was successful.
-- (BOOL)updateTrackingBranch:(nullable GTBranch *)trackingBranch error:(NSError **)error;
+- (BOOL)updateTrackingBranch:(GTBranch * _Nullable)trackingBranch error:(NSError **)error;
 
 /// Reloads the branch's reference and creates a new branch based off that newly
 /// loaded reference.
@@ -119,7 +119,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error - The error if one occurred.
 ///
 /// Returns the reloaded branch, or nil if an error occurred.
-- (nullable GTBranch *)reloadedBranchWithError:(NSError **)error;
+- (GTBranch * _Nullable)reloadedBranchWithError:(NSError **)error;
 
 /// Calculate the ahead/behind count from this branch to the given branch.
 ///

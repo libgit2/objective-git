@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// reflog - The reflog in which the entry resides. Cannot be nil.
 ///
 /// Returns the initialized object.
-- (nullable instancetype)initWithGitReflogEntry:(const git_reflog_entry *)entry reflog:(GTReflog *)reflog NS_DESIGNATED_INITIALIZER;
+- (instancetype _Nullable)initWithGitReflogEntry:(const git_reflog_entry *)entry reflog:(GTReflog *)reflog NS_DESIGNATED_INITIALIZER;
 
 @end
 

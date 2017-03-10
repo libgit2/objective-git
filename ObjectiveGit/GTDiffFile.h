@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) mode_t mode;
 
 /// The OID for the file.
-@property (nonatomic, readonly, copy, nullable) GTOID *OID;
+@property (nonatomic, readonly, copy) GTOID * _Nullable OID;
 
 /// The git_diff_file represented by the receiver.
 @property (nonatomic, readonly) git_diff_file git_diff_file;
@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// file - The git_diff_file wrapped by the receiver.
 ///
 /// Returns an initialized GTDiffFile.
-- (nullable instancetype)initWithGitDiffFile:(git_diff_file)file NS_DESIGNATED_INITIALIZER;
+- (instancetype _Nullable)initWithGitDiffFile:(git_diff_file)file NS_DESIGNATED_INITIALIZER;
 
 @end
 

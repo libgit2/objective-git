@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error      - Will be set if an error occurs. This may be nil.
 ///
 /// Return a newly created blob object, or nil if an error occurs.
-+ (nullable instancetype)blobWithString:(NSString *)string inRepository:(GTRepository *)repository error:(NSError **)error;
++ (instancetype _Nullable)blobWithString:(NSString *)string inRepository:(GTRepository *)repository error:(NSError **)error;
 
 /// Creates a new blob from the given data.
 ///
@@ -54,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error      - Will be set if an error occurs. This may be nil.
 ///
 /// Return a newly created blob object, or nil if an error occurs.
-+ (nullable instancetype)blobWithData:(NSData *)data inRepository:(GTRepository *)repository error:(NSError **)error;
++ (instancetype _Nullable)blobWithData:(NSData *)data inRepository:(GTRepository *)repository error:(NSError **)error;
 
 /// Creates a new blob given an NSURL to a file.
 ///
@@ -65,7 +65,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error      - Will be set if an error occurs. This may be nil.
 ///
 /// Return a newly created blob object, or nil if an error occurs.
-+ (nullable instancetype)blobWithFile:(NSURL *)file inRepository:(GTRepository *)repository error:(NSError **)error;
++ (instancetype _Nullable)blobWithFile:(NSURL *)file inRepository:(GTRepository *)repository error:(NSError **)error;
 
 /// Creates a new blob from the given string.
 ///
@@ -76,7 +76,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error      - Will be set if an error occurs. This may be nil.
 ///
 /// Return a newly created blob object, or nil if an error occurs.
-- (nullable instancetype)initWithString:(NSString *)string inRepository:(GTRepository *)repository error:(NSError **)error;
+- (instancetype _Nullable)initWithString:(NSString *)string inRepository:(GTRepository *)repository error:(NSError **)error;
 
 /// Creates a new blob from the passed data.
 ///
@@ -87,7 +87,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error      - Will be set if an error occurs. This may be nil.
 ///
 /// Returns a newly created blob object, or nil if an error occurs.
-- (nullable instancetype)initWithData:(NSData *)data inRepository:(GTRepository *)repository error:(NSError **)error;
+- (instancetype _Nullable)initWithData:(NSData *)data inRepository:(GTRepository *)repository error:(NSError **)error;
 
 /// Creates a new blob from the specified file.
 ///
@@ -98,14 +98,14 @@ NS_ASSUME_NONNULL_BEGIN
 /// error      - Will be set if an error occurs. This may be nil.
 ///
 /// Returns a newly created blob object, or nil if an error occurs.
-- (nullable instancetype)initWithFile:(NSURL *)file inRepository:(GTRepository *)repository error:(NSError **)error;
+- (instancetype _Nullable)initWithFile:(NSURL *)file inRepository:(GTRepository *)repository error:(NSError **)error;
 
 /// The underlying `git_object` as a `git_blob` object.
 - (git_blob *)git_blob __attribute__((objc_returns_inner_pointer));
 
 - (git_off_t)size;
 - (NSString *)content;
-- (nullable NSData *)data;
+- (NSData * _Nullable)data;
 
 /// Attempts to apply the filter list for `path` to the blob.
 ///
@@ -113,7 +113,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error - If not NULL, set to any error that occurs.
 ///
 /// Returns the filtered data, or nil if an error occurs.
-- (nullable NSData *)applyFiltersForPath:(NSString *)path error:(NSError **)error;
+- (NSData * _Nullable)applyFiltersForPath:(NSString *)path error:(NSError **)error;
 
 @end
 

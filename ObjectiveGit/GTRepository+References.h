@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error - The error if one occurs. May be NULL.
 ///
 /// Returns the reference or nil if look up failed.
-- (nullable GTReference *)lookUpReferenceWithName:(NSString *)name error:(NSError **)error;
+- (GTReference * _Nullable)lookUpReferenceWithName:(NSString *)name error:(NSError **)error;
 
 @end
 

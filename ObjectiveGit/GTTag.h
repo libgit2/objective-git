@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface GTTag : GTObject {}
 
 /// The author of the tag.
-@property (nonatomic, readonly, strong, nullable) GTSignature *tagger;
+@property (nonatomic, readonly, strong) GTSignature * _Nullable tagger;
 
 /// The description given when the tag was created.
 @property (nonatomic, readonly, strong) NSString *message;
@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, strong) NSString *name;
 
 /// The 'tagged' object.
-@property (nonatomic, readonly, strong, nullable) GTObject *target;
+@property (nonatomic, readonly, strong) GTObject * _Nullable target;
 
 /// The type of the 'tagged' object.
 @property (nonatomic, readonly) GTObjectType targetType;
@@ -57,7 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///         May be NULL.
 ///
 /// Returns the found object or nil on error.
-- (nullable id)objectByPeelingTagError:(NSError **)error;
+- (id _Nullable)objectByPeelingTagError:(NSError **)error;
 
 /// The underlying `git_object` as a `git_tag` object.
 - (git_tag *)git_tag __attribute__((objc_returns_inner_pointer));
