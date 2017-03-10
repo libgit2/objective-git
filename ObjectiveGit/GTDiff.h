@@ -193,7 +193,7 @@ typedef NS_OPTIONS(NSInteger, GTDiffFindOptionsFlags) {
 /// newTree    - The "right" side of the diff. May be nil to represent an empty
 ///              tree.
 /// repository - The repository to be used for the diff. Cannot be nil.
-/// options    - A dictionary containing any of the above options key constants, or
+/// options    - A dictionary containing any of the GTDiffOptions key constants, or
 ///              nil to use the defaults.
 /// error      - Populated with an `NSError` object on error, if information is
 ///              available.
@@ -210,7 +210,7 @@ typedef NS_OPTIONS(NSInteger, GTDiffFindOptionsFlags) {
 /// newIndex   - The "right" side of the diff. May be nil to represent an empty
 ///              index.
 /// repository - The repository to be used for the diff. Cannot be nil.
-/// options    - A dictionary containing any of the above options key constants, or
+/// options    - A dictionary containing any of the GTDiffOptions key constants, or
 ///              nil to use the defaults.
 /// error      - Populated with an `NSError` object on error, if information is
 ///              available.
@@ -227,7 +227,7 @@ typedef NS_OPTIONS(NSInteger, GTDiffFindOptionsFlags) {
 /// newIndex   - The "right" side of the diff. May be nil to represent an empty
 ///              index.
 /// repository - The repository to be used for the diff. Cannot be nil.
-/// options    - A dictionary containing any of the above options key constants, or
+/// options    - A dictionary containing any of the GTDiffOptions key constants, or
 ///              nil to use the defaults.
 /// error      - Populated with an `NSError` object on error, if information is
 ///              available.
@@ -247,7 +247,7 @@ typedef NS_OPTIONS(NSInteger, GTDiffFindOptionsFlags) {
 ///              repository. The left side of the diff. May be nil to represent an
 ///              empty tree.
 /// repository - The repository to be used for the diff.
-/// options    - A dictionary containing any of the above options key constants, or
+/// options    - A dictionary containing any of the GTDiffOptions key constants, or
 ///              nil to use the defaults.
 /// error      - Populated with an `NSError` object on error, if information is
 ///              available.
@@ -260,7 +260,7 @@ typedef NS_OPTIONS(NSInteger, GTDiffFindOptionsFlags) {
 /// This matches the `git diff` command.
 ///
 /// repository - The repository to be used for the diff. May not be nil.
-/// options    - A dictionary containing any of the above options key constants,
+/// options    - A dictionary containing any of the GTDiffOptions key constants,
 ///              or nil to use the defaults.
 /// error      - Populated with an `NSError` object on error, if information is
 ///              available.
@@ -273,7 +273,7 @@ typedef NS_OPTIONS(NSInteger, GTDiffFindOptionsFlags) {
 /// tree       - The tree to be diffed. The tree will be the left side of the diff.
 ///              May be nil to represent an empty tree.
 /// repository - The repository to be used for the diff. May not be nil.
-/// options    - A dictionary containing any of the above options key constants, or
+/// options    - A dictionary containing any of the GTDiffOptions key constants, or
 ///              nil to use the defaults.
 /// error      - Populated with an `NSError` object on error, if information is
 ///              available.
@@ -287,7 +287,7 @@ typedef NS_OPTIONS(NSInteger, GTDiffFindOptionsFlags) {
 /// the working directory as if everything would be part of the initial commit.
 ///
 /// repository - The repository to be used for the diff. May not be nil.
-/// options    - A dictionary containing any of the above options key constants,
+/// options    - A dictionary containing any of the GTDiffOptions key constants,
 ///              or nil to use the defaults.
 /// error      - Populated if an error occurs.
 ///
@@ -325,7 +325,7 @@ typedef NS_OPTIONS(NSInteger, GTDiffFindOptionsFlags) {
 
 /// Modify the diff list to combine similar changes using the given options.
 ///
-/// options - A dictionary containing any of the above find options key constants
+/// options - A dictionary containing any of the GTDiffFindOptions key constants
 ///           or nil to use the defaults.
 - (void)findSimilarWithOptions:(nullable NSDictionary *)options;
 
