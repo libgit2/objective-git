@@ -24,8 +24,11 @@ project.xcworkspace
 *.xccheckout
 *.xcscmblueprint
 
+ObjectiveGitTests/expecta/
 ObjectiveGitTests/fixtures/Fixtures/*
+ObjectiveGitTests/specta/
 
+External/Configuration
 External/ios-openssl/include
 External/ios-openssl/lib
 External/libssh2-ios
