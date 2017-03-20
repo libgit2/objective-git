@@ -80,7 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error - will be filled if an error occurs
 ///
 /// Returns this entry as a GTObject or nil if an error occurred.
-- (GTObject *)GTObject:(NSError **)error;
+- (nullable GTObject *)GTObject:(NSError **)error;
 
 @end
 
