@@ -209,13 +209,13 @@ NS_ASSUME_NONNULL_BEGIN
 /// index, `NO` in case of error.
 - (BOOL)enumerateConflictedFilesWithError:(NSError **)error usingBlock:(void (^)(GTIndexEntry * _Nullable ancestor, GTIndexEntry * _Nullable ours, GTIndexEntry * _Nullable theirs, BOOL *stop))block;
 
-/// An enum for use with addPathspecs:flags:error:passingTest: below
+/// Options for use with addPathspecs:flags:error:passingTest: below
 /// See index.h for documentation of each individual git_index_add_option_t flag.
-typedef NS_OPTIONS(NSInteger, GTIndexAddOptionFlags) {
-	GTIndexAddOptionDefault = GIT_INDEX_ADD_DEFAULT,
-	GTIndexAddOptionForce = GIT_INDEX_ADD_FORCE,
-	GTIndexAddOptionDisablePathspecMatch = GIT_INDEX_ADD_DISABLE_PATHSPEC_MATCH,
-	GTIndexAddOptionCheckPathspec = GIT_INDEX_ADD_CHECK_PATHSPEC
+typedef NS_OPTIONS(NSInteger, GTIndexAddOptions) {
+	GTIndexAddOptionsDefault = GIT_INDEX_ADD_DEFAULT,
+	GTIndexAddOptionsForce = GIT_INDEX_ADD_FORCE,
+	GTIndexAddOptionsDisablePathspecMatch = GIT_INDEX_ADD_DISABLE_PATHSPEC_MATCH,
+	GTIndexAddOptionsCheckPathspec = GIT_INDEX_ADD_CHECK_PATHSPEC
 };
 
 /// Add or update index entries matching files in the working directory.
@@ -223,10 +223,10 @@ typedef NS_OPTIONS(NSInteger, GTIndexAddOptionFlags) {
 ///
 /// pathspecs - An `NSString` array of path patterns. (E.g: *.c)
 ///             If nil is passed in, all index entries will be updated.
-/// flags     - A combination of GTIndexAddOptionFlags flags
-/// block     - A block run each time a pathspec is matched; before the index is
-///             added/updated. The `matchedPathspec` parameter is a string indicating
-///             what the pathspec (from `pathspecs`) matched. If you pass in NULL
+/// flags     - A combination of GTIndexAddOptions flags
+/// block     - A block that will be called on each match, before the index is changed.
+///             The `matchedPathspec` parameter is a string indicating
+///             which pathspec (from `pathspecs`) matched. If you pass in nil
 ///             in to the `pathspecs` parameter this parameter will be nil.
 ///             The `path` parameter is a repository relative path to the file
 ///             about to be added/updated.
@@ -235,16 +235,16 @@ typedef NS_OPTIONS(NSInteger, GTIndexAddOptionFlags) {
 /// error     - When something goes wrong, this parameter is set. Optional.
 ///
 /// Returns `YES` in the event that everything has gone smoothly. Otherwise, `NO`.
-- (BOOL)addPathspecs:(NSArray<NSString*> * _Nullable)pathspecs flags:(GTIndexAddOptionFlags)flags error:(NSError **)error passingTest:(BOOL (^ _Nullable )(NSString * _Nullable matchedPathspec, NSString *path, BOOL *stop))block;
+- (BOOL)addPathspecs:(NSArray<NSString*> * _Nullable)pathspecs flags:(GTIndexAddOptions)flags error:(NSError **)error passingTest:(BOOL (^ _Nullable )(NSString * _Nullable matchedPathspec, NSString *path, BOOL *stop))block;
 
 /// Remove all matching index entries.
 /// This method will immediately fail if the index's repo is bare.
 ///
 /// pathspecs - An `NSString` array of path patterns. (E.g: *.c)
 ///             If nil is passed in, all index entries will be updated.
-/// block     - A block run each time a pathspec is matched; before the index is
-///             removed. The `matchedPathspec` parameter is a string indicating
-///             what the pathspec (from `pathspecs`) matched. If you pass in NULL
+/// block     - A block that will be called on each match, before the index is changed.
+///             The `matchedPathspec` parameter is a string indicating
+///             which pathspec (from `pathspecs`) matched. If you pass in nil
 ///             in to the `pathspecs` parameter this parameter will be nil.
 ///             The `path` parameter is a repository relative path to the file
 ///             about to be updated.
