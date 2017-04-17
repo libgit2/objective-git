@@ -127,7 +127,7 @@ typedef struct {
 	[optionsDict[GTRepositoryInitOptionsMode] unsignedIntegerValue];
 	options.workdir_path = [optionsDict[GTRepositoryInitOptionsWorkingDirectoryPath] UTF8String];
 	options.description = [optionsDict[GTRepositoryInitOptionsDescription] UTF8String];
-	options.template_path = [optionsDict[GTRepositoryInitOptionsTemplateURL] path].UTF8String;
+	options.template_path = ((NSURL *)optionsDict[GTRepositoryInitOptionsTemplateURL]).path.UTF8String;
 	options.initial_head = [optionsDict[GTRepositoryInitOptionsInitialHEAD] UTF8String];
 	options.origin_url = [optionsDict[GTRepositoryInitOptionsOriginURLString] UTF8String];
 
