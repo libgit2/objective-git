@@ -592,7 +592,33 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 	// bare repository, you may be looking for gitDirectoryURL
 	if (path == NULL) return nil;
 
-	return [NSURL fileURLWithPath:@(path) isDirectory:YES];
+	NSString *pathString = @(path);
+	NSURL *fileURL = [NSURL fileURLWithPath:pathString isDirectory:YES];
+
+	if ([fileURL baseURL]) {
+		// This might be a relative path because we've loaded a worktree
+		// In this case we need to see if we can find the parent repository to construct an absolute URL
+		git_buf root = {0};
+
+		int error = git_repository_discover(&root, [[[self gitDirectoryURL] URLByDeletingLastPathComponent] fileSystemRepresentation], false, NULL);
+
+		if (!error) {
+			git_repository *repository;
+
+			if (git_repository_open(&repository, root.ptr) == 0) {
+				const char *workdir = git_repository_workdir(repository);
+				NSString *workdirString = [NSString stringWithUTF8String:workdir];
+
+				fileURL = [NSURL fileURLWithPath:pathString isDirectory:YES relativeToURL:[NSURL fileURLWithPath:workdirString]];
+
+				git_repository_free(repository);
+			}
+		}
+
+		git_buf_free(&root);
+	}
+
+	return fileURL;
 }
 
 - (NSURL *)gitDirectoryURL {
