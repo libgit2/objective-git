@@ -1,0 +1,8 @@
+//
+// Prefix header for all source files of the 'ocgit' target in the 'ocgit' project
+//
+
+#ifdef __OBJC__
+#import <Foundation/Foundation.h>
+#import <ObjectiveGit/ObjectiveGit.h>
+#endif
