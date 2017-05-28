@@ -218,6 +218,16 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 	return YES;
 }
 
+- (BOOL)addAll:(NSError **)error {
+	int status = git_index_add_all(self.git_index, nil, GIT_INDEX_ADD_CHECK_PATHSPEC, nil, nil);
+	if (status != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to add all the contents of the working tree to the index"];
+		return NO;
+	}
+
+	return YES;
+}
+
 - (BOOL)removeFile:(NSString *)file error:(NSError **)error {
 	NSString *unicodeString = [self composedUnicodeStringWithString:file];
 
