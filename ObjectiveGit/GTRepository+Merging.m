@@ -17,6 +17,8 @@
 #import "GTTree.h"
 #import "GTIndex.h"
 #import "GTIndexEntry.h"
+#import "GTOdbObject.h"
+#import "GTObjectDatabase.h"
 
 typedef void (^GTRemoteFetchTransferProgressBlock)(const git_transfer_progress *stats, BOOL *stop);
 
@@ -168,6 +170,86 @@ int GTMergeHeadEntriesCallback(const git_oid *oid, void *payload) {
 	}
 
 	return NO;
+}
+
+- (NSString* _Nullable)stringForConflictWithAncestor:(GTIndexEntry *)ancestor ourSide:(GTIndexEntry *)ourSide theirSide:(GTIndexEntry *)theirSide withError:(NSError **)error {
+
+	GTObjectDatabase *database = [self objectDatabaseWithError:error];
+	if (database == nil) {
+		return nil;
+	}
+
+	// initialize the ancestor's merge file input
+	git_merge_file_input ancestorInput;
+	int gitError = git_merge_file_init_input(&ancestorInput, GIT_MERGE_FILE_INPUT_VERSION);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to create merge file input for ancestor"];
+		return nil;
+	}
+
+	git_oid ancestorId = ancestor.git_index_entry->id;
+	GTOID *ancestorOID = [[GTOID alloc] initWithGitOid:&ancestorId];
+	NSData *ancestorData = [[database objectWithOID:ancestorOID error: error] data];
+	if (ancestorData == nil) {
+		return nil;
+	}
+	NSString *ancestorString = [[NSString alloc] initWithData: ancestorData encoding:NSUTF8StringEncoding];
+	ancestorInput.ptr = [ancestorString cStringUsingEncoding:NSUTF8StringEncoding];
+	ancestorInput.size = ancestorString.length;
+
+
+	// initialize our merge file input
+	git_merge_file_input ourInput;
+	gitError = git_merge_file_init_input(&ourInput, GIT_MERGE_FILE_INPUT_VERSION);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to create merge file input for our side"];
+		return nil;
+	}
+
+	git_oid ourId = ourSide.git_index_entry->id;
+	GTOID *ourOID = [[GTOID alloc] initWithGitOid:&ourId];
+	NSData *ourData = [[database objectWithOID:ourOID error: error] data];
+	if (ourData == nil) {
+		return nil;
+	}
+	NSString *ourString = [[NSString alloc] initWithData: ourData encoding:NSUTF8StringEncoding];
+	ourInput.ptr = [ourString cStringUsingEncoding:NSUTF8StringEncoding];
+	ourInput.size = ourString.length;
+
+
+	// initialize their merge file input
+	git_merge_file_input theirInput;
+	gitError = git_merge_file_init_input(&theirInput, GIT_MERGE_FILE_INPUT_VERSION);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to create merge file input other side"];
+		return nil;
+	}
+
+	git_oid theirId = theirSide.git_index_entry->id;
+	GTOID *theirOID = [[GTOID alloc] initWithGitOid:&theirId];
+	NSData *theirData = [[database objectWithOID:theirOID error: error] data];
+	if (theirData == nil) {
+		return nil;
+	}
+	NSString *theirString = [[NSString alloc] initWithData: theirData encoding:NSUTF8StringEncoding];
+	theirInput.ptr = [theirString cStringUsingEncoding:NSUTF8StringEncoding];
+	theirInput.size = theirString.length;
+
+
+	git_merge_file_result result;
+	git_merge_file(&result, &ancestorInput, &ourInput, &theirInput, nil);
+
+	char * cString = malloc(result.len * sizeof(char*) + 1);
+	strncpy(cString, result.ptr, result.len);
+	cString[result.len] = '\0';
+
+	NSString *mergedContent = [[NSString alloc] initWithCString:cString encoding:NSUTF8StringEncoding];
+
+	free(cString);
+
+	git_merge_file_result_free(&result);
+
+	return mergedContent;
 }
 
 - (BOOL)annotatedCommit:(git_annotated_commit **)annotatedCommit fromCommit:(GTCommit *)fromCommit error:(NSError **)error {
