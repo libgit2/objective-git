@@ -63,7 +63,7 @@ typedef NS_OPTIONS(NSInteger, GTMergeAnalysis) {
 /// error    - The error if one occurred. Can be NULL.
 ///
 /// Returns The file content annotated with conflict markers or null on error
-- (NSString* _Nullable)stringForConflictWithAncestor:(GTIndexEntry *)ancestor ourSide:(GTIndexEntry *)ourSide theirSide:(GTIndexEntry *)theirSide withError:(NSError **)error;
+- (NSString * _Nullable)contentsOfDiffWithAncestor:(GTIndexEntry *)ancestor ourSide:(GTIndexEntry *)ourSide theirSide:(GTIndexEntry *)theirSide error:(NSError **)error;
 
 /// Analyze which merge to perform.
 ///

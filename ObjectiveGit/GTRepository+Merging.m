@@ -172,7 +172,7 @@ int GTMergeHeadEntriesCallback(const git_oid *oid, void *payload) {
 	return NO;
 }
 
-- (NSString* _Nullable)stringForConflictWithAncestor:(GTIndexEntry *)ancestor ourSide:(GTIndexEntry *)ourSide theirSide:(GTIndexEntry *)theirSide withError:(NSError **)error {
+- (NSString * _Nullable)contentsOfDiffWithAncestor:(GTIndexEntry *)ancestor ourSide:(GTIndexEntry *)ourSide theirSide:(GTIndexEntry *)theirSide error:(NSError **)error {
 
 	GTObjectDatabase *database = [self objectDatabaseWithError:error];
 	if (database == nil) {
@@ -193,9 +193,8 @@ int GTMergeHeadEntriesCallback(const git_oid *oid, void *payload) {
 	if (ancestorData == nil) {
 		return nil;
 	}
-	NSString *ancestorString = [[NSString alloc] initWithData: ancestorData encoding:NSUTF8StringEncoding];
-	ancestorInput.ptr = [ancestorString cStringUsingEncoding:NSUTF8StringEncoding];
-	ancestorInput.size = ancestorString.length;
+	ancestorInput.ptr = ancestorData.bytes;
+	ancestorInput.size = ancestorData.length;
 
 
 	// initialize our merge file input
@@ -212,9 +211,8 @@ int GTMergeHeadEntriesCallback(const git_oid *oid, void *payload) {
 	if (ourData == nil) {
 		return nil;
 	}
-	NSString *ourString = [[NSString alloc] initWithData: ourData encoding:NSUTF8StringEncoding];
-	ourInput.ptr = [ourString cStringUsingEncoding:NSUTF8StringEncoding];
-	ourInput.size = ourString.length;
+	ourInput.ptr = ourData.bytes;
+	ourInput.size = ourData.length;
 
 
 	// initialize their merge file input
@@ -231,15 +229,18 @@ int GTMergeHeadEntriesCallback(const git_oid *oid, void *payload) {
 	if (theirData == nil) {
 		return nil;
 	}
-	NSString *theirString = [[NSString alloc] initWithData: theirData encoding:NSUTF8StringEncoding];
-	theirInput.ptr = [theirString cStringUsingEncoding:NSUTF8StringEncoding];
-	theirInput.size = theirString.length;
+	theirInput.ptr = theirData.bytes;
+	theirInput.size = theirData.length;
 
 
 	git_merge_file_result result;
-	git_merge_file(&result, &ancestorInput, &ourInput, &theirInput, nil);
+	gitError = git_merge_file(&result, &ancestorInput, &ourInput, &theirInput, nil);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to create merge file"];
+		return nil;
+	}
 
-	char * cString = malloc(result.len * sizeof(char*) + 1);
+	char *cString = malloc(result.len * sizeof(char *) + 1);
 	strncpy(cString, result.ptr, result.len);
 	cString[result.len] = '\0';
 

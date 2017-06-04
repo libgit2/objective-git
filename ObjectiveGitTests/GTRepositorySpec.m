@@ -260,6 +260,50 @@ describe(@"-preparedMessage", ^{
 	});
 });
 
+describe(@"-contentsOfDiffWithAncestor:ourSide:theirSide:error:", ^{
+	it(@"should produce a nice merge conflict description", ^{
+		NSURL *mainURL = [repository.fileURL URLByAppendingPathComponent:@"main.m"];
+		NSData *mainData = [[NSFileManager defaultManager] contentsAtPath:mainURL.path];
+		expect(mainData).notTo(beNil());
+
+		NSString *mainString = [[NSString alloc] initWithData:mainData encoding:NSUTF8StringEncoding];
+		NSData *masterData = [[mainString stringByReplacingOccurrencesOfString:@"return" withString:@"//The meaning of life is 41\n    return"] dataUsingEncoding:NSUTF8StringEncoding];
+		NSData *otherData = [[mainString stringByReplacingOccurrencesOfString:@"return" withString:@"//The meaning of life is 42\n    return"] dataUsingEncoding:NSUTF8StringEncoding];
+
+		expect(@([[NSFileManager defaultManager] createFileAtPath:mainURL.path contents:masterData attributes:nil])).to(beTruthy());
+
+		GTIndex *index = [repository indexWithError:NULL];
+		expect(@([index addFile:mainURL.lastPathComponent error:NULL])).to(beTruthy());
+		GTReference *head = [repository headReferenceWithError:NULL];
+		GTCommit *parent = [repository lookUpObjectByOID:head.targetOID objectType:GTObjectTypeCommit error:NULL];
+		expect(parent).toNot(beNil());
+		GTCommit *masterCommit = [repository createCommitWithTree:[index writeTree:NULL] message:@"MOLTAE is 41" parents:[NSArray arrayWithObject:parent] updatingReferenceNamed:head.name error:NULL];
+		expect(masterCommit).toNot(beNil());
+
+		GTBranch *otherBranch = [repository lookUpBranchWithName:@"other-branch" type:GTBranchTypeLocal success:NULL error:NULL];
+		expect(otherBranch).toNot(beNil());
+		expect(@([repository checkoutReference:otherBranch.reference options:nil error:NULL])).to(beTruthy());
+
+		expect(@([[NSFileManager defaultManager] createFileAtPath:mainURL.path contents:otherData attributes:nil])).to(beTruthy());
+
+		index = [repository indexWithError:NULL];
+		expect(@([index addFile:mainURL.lastPathComponent error:NULL])).to(beTruthy());
+		parent = [repository lookUpObjectByOID:otherBranch.OID objectType:GTObjectTypeCommit error:NULL];
+		expect(parent).toNot(beNil());
+		GTCommit *otherCommit = [repository createCommitWithTree:[index writeTree:NULL] message:@"MOLTAE is 42!" parents:[NSArray arrayWithObject:parent] updatingReferenceNamed:otherBranch.name error:NULL];
+		expect(otherCommit).toNot(beNil());
+
+		GTIndex *conflictIndex = [otherCommit merge:masterCommit error:NULL];
+		expect(@([conflictIndex hasConflicts])).to(beTruthy());
+
+		[conflictIndex enumerateConflictedFilesWithError:NULL usingBlock:^(GTIndexEntry * _Nonnull ancestor, GTIndexEntry * _Nonnull ours, GTIndexEntry * _Nonnull theirs, BOOL * _Nonnull stop) {
+
+			NSString *conflictString = [repository contentsOfDiffWithAncestor:ancestor ourSide:ours theirSide:theirs error:NULL];
+			expect(conflictString).to(equal(@"//\n//  main.m\n//  Test\n//\n//  Created by Joe Ricioppo on 9/28/10.\n//  Copyright 2010 __MyCompanyName__. All rights reserved.\n//\n\n#import <Cocoa/Cocoa.h>\n\nint main(int argc, char *argv[])\n{\n<<<<<<< file.txt\n    //The meaning of life is 42\n=======\n    //The meaning of life is 41\n>>>>>>> file.txt\n    return NSApplicationMain(argc,  (const char **) argv);\n}\n123456789\n123456789\n123456789\n123456789!blah!\n"));
+		}];
+	});
+});
+
 describe(@"-mergeBaseBetweenFirstOID:secondOID:error:", ^{
 	it(@"should find the merge base between two branches", ^{
 		NSError *error = nil;
