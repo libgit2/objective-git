@@ -291,7 +291,7 @@ describe(@"analyzeMerge", ^{
 		__block GTMergeAnalysis analysis = 0;
 		expect(@([repository analyzeMerge:&analysis fromBranch:branch2 toBranch:branch1 error:&error])).to(beTruthy());
 		expect(error).to(beNil());
-		expect(@(analysis)).to(equal(GTMergeAnalysisUpToDate | 0));
+		expect(analysis == (GTMergeAnalysisUpToDate | 0)).to(beTruthy());
 	});
 
 	it(@"should correctly recognize fast-forward merges", ^{
@@ -307,7 +307,7 @@ describe(@"analyzeMerge", ^{
 		__block GTMergeAnalysis analysis = 0;
 		expect(@([repository analyzeMerge:&analysis fromBranch:otherBranch toBranch:masterBranch error:&error])).to(beTruthy());
 		expect(error).to(beNil());
-		expect(@(analysis)).to(equal(GTMergeAnalysisFastForward | GTMergeAnalysisNormal));
+		expect(analysis == (GTMergeAnalysisFastForward | GTMergeAnalysisNormal)).to(beTruthy());
 	});
 
 	it(@"should correctly recognize 3-way merges", ^{
@@ -325,7 +325,7 @@ describe(@"analyzeMerge", ^{
 		__block GTMergeAnalysis analysis = 0;
 		expect(@([repository analyzeMerge:&analysis fromBranch:branch1 toBranch:branch2 error:&error])).to(beTruthy());
 		expect(error).to(beNil());
-		expect(@(analysis)).to(equal(GTMergeAnalysisNormal | 0));
+		expect(analysis == (GTMergeAnalysisNormal | 0)).to(beTruthy());
 	});
 
 	it(@"should correctly recognize unmergeable merges", ^{
@@ -351,7 +351,7 @@ describe(@"analyzeMerge", ^{
 		__block GTMergeAnalysis analysis = 0;
 		expect(@([repository analyzeMerge:&analysis fromBranch:masterBranch toBranch:unconnectedBranch error:&error])).to(beTruthy());
 		expect(error).to(beNil());
-		expect(@(analysis)).to(equal(GTMergeAnalysisNone | 0));
+		expect(analysis == (GTMergeAnalysisNone | 0)).to(beTruthy());
 	});
 
 	it(@"should correctly recognize unborn merges", ^{
@@ -380,7 +380,7 @@ describe(@"analyzeMerge", ^{
 		__block GTMergeAnalysis analysis = 0;
 		expect(@([repo analyzeMerge:&analysis fromBranch:unrelatedNewMaster error:&error])).to(beTruthy());
 		expect(error).to(beNil());
-		expect(@(analysis)).to(equal(GTMergeAnalysisUnborn | GTMergeAnalysisFastForward));
+		expect(analysis == (GTMergeAnalysisUnborn | GTMergeAnalysisFastForward)).to(beTruthy());
 	});
 });
 
