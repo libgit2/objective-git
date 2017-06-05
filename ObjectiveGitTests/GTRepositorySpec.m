@@ -277,8 +277,8 @@ describe(@"-contentsOfDiffWithAncestor:ourSide:theirSide:error:", ^{
 		GTReference *head = [repository headReferenceWithError:NULL];
 		GTCommit *parent = [repository lookUpObjectByOID:head.targetOID objectType:GTObjectTypeCommit error:NULL];
 		expect(parent).toNot(beNil());
-		GTCommit *masterCommit = [repository createCommitWithTree:[index writeTree:NULL] message:@"MOLTAE is 41" parents:[NSArray arrayWithObject:parent] updatingReferenceNamed:head.name error:NULL];
-		expect(masterCommit).toNot(beNil());
+		GTTree *masterTree = [index writeTree:NULL];
+		expect(masterTree).toNot(beNil());
 
 		GTBranch *otherBranch = [repository lookUpBranchWithName:@"other-branch" type:GTBranchTypeLocal success:NULL error:NULL];
 		expect(otherBranch).toNot(beNil());
@@ -288,12 +288,10 @@ describe(@"-contentsOfDiffWithAncestor:ourSide:theirSide:error:", ^{
 
 		index = [repository indexWithError:NULL];
 		expect(@([index addFile:mainURL.lastPathComponent error:NULL])).to(beTruthy());
-		parent = [repository lookUpObjectByOID:otherBranch.OID objectType:GTObjectTypeCommit error:NULL];
-		expect(parent).toNot(beNil());
-		GTCommit *otherCommit = [repository createCommitWithTree:[index writeTree:NULL] message:@"MOLTAE is 42!" parents:[NSArray arrayWithObject:parent] updatingReferenceNamed:otherBranch.name error:NULL];
-		expect(otherCommit).toNot(beNil());
+		GTTree *otherTree = [index writeTree:NULL];
+		expect(otherTree).toNot(beNil());
 
-		GTIndex *conflictIndex = [otherCommit merge:masterCommit error:NULL];
+		GTIndex *conflictIndex = [otherTree merge:masterTree ancestor:parent.tree error:NULL];
 		expect(@([conflictIndex hasConflicts])).to(beTruthy());
 
 		[conflictIndex enumerateConflictedFilesWithError:NULL usingBlock:^(GTIndexEntry * _Nonnull ancestor, GTIndexEntry * _Nonnull ours, GTIndexEntry * _Nonnull theirs, BOOL * _Nonnull stop) {
