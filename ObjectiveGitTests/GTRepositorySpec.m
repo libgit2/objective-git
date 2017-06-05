@@ -277,6 +277,113 @@ describe(@"-mergeBaseBetweenFirstOID:secondOID:error:", ^{
 	});
 });
 
+describe(@"analyzeMerge", ^{
+	it(@"should correctly recognize up-to-date merges", ^{
+		__block NSError *error = nil;
+		GTBranch *branch1 = [repository lookUpBranchWithName:@"new" type:GTBranchTypeLocal success:NULL error:&error];
+		expect(branch1).notTo(beNil());
+		expect(error).to(beNil());
+
+		GTBranch *branch2 = [repository lookUpBranchWithName:@"hi!" type:GTBranchTypeLocal success:NULL error:&error];
+		expect(branch2).notTo(beNil());
+		expect(error).to(beNil());
+
+		__block GTMergeAnalysis analysis = 0;
+		expect(@([repository analyzeMerge:&analysis fromBranch:branch2 toBranch:branch1 error:&error])).to(beTruthy());
+		expect(error).to(beNil());
+		expect(@(analysis)).to(equal(GTMergeAnalysisUpToDate | 0));
+	});
+
+	it(@"should correctly recognize fast-forward merges", ^{
+		__block NSError *error = nil;
+		GTBranch *masterBranch = [repository lookUpBranchWithName:@"master" type:GTBranchTypeLocal success:NULL error:&error];
+		expect(masterBranch).notTo(beNil());
+		expect(error).to(beNil());
+
+		GTBranch *otherBranch = [repository lookUpBranchWithName:@"other-branch" type:GTBranchTypeLocal success:NULL error:&error];
+		expect(otherBranch).notTo(beNil());
+		expect(error).to(beNil());
+
+		__block GTMergeAnalysis analysis = 0;
+		expect(@([repository analyzeMerge:&analysis fromBranch:otherBranch toBranch:masterBranch error:&error])).to(beTruthy());
+		expect(error).to(beNil());
+		expect(@(analysis)).to(equal(GTMergeAnalysisFastForward | GTMergeAnalysisNormal));
+	});
+
+	it(@"should correctly recognize 3-way merges", ^{
+		__block NSError *error = nil;
+		GTOID *oid1 = [GTOID oidWithSHA:@"3921db10e466211cb4d60b7f0e871667f318a7cd"];
+		GTBranch *branch1 = [repository createBranchNamed:@"branch1" fromOID:oid1 message:@"new branch 1" error:&error];
+		expect(branch1).notTo(beNil());
+		expect(error).to(beNil());
+
+		GTOID *oid2 = [GTOID oidWithSHA:@"47563e7aba76b656a43c04d30b3b6fbe76da6e81"];
+		GTBranch *branch2 = [repository createBranchNamed:@"branch2" fromOID:oid2 message:@"new branch 2" error:&error];
+		expect(branch2).notTo(beNil());
+		expect(error).to(beNil());
+
+		__block GTMergeAnalysis analysis = 0;
+		expect(@([repository analyzeMerge:&analysis fromBranch:branch1 toBranch:branch2 error:&error])).to(beTruthy());
+		expect(error).to(beNil());
+		expect(@(analysis)).to(equal(GTMergeAnalysisNormal | 0));
+	});
+
+	it(@"should correctly recognize unmergeable merges", ^{
+		__block NSError *error = nil;
+		GTBranch *masterBranch = [repository lookUpBranchWithName:@"master" type:GTBranchTypeLocal success:NULL error:&error];
+		expect(masterBranch).notTo(beNil());
+		expect(error).to(beNil());
+
+		NSURL *mainURL = [repository.fileURL URLByAppendingPathComponent:@"main.m"];
+		NSData *newMainContent = [@"This used to be main..." dataUsingEncoding:NSUTF8StringEncoding];
+		expect(@([[NSFileManager defaultManager] createFileAtPath:mainURL.path contents:newMainContent attributes:nil])).to(beTruthy());
+
+		GTIndex *index = [repository indexWithError:NULL];
+		expect(@([index addFile:mainURL.lastPathComponent error:NULL])).to(beTruthy());
+		GTCommit *unconnectedCommit = [repository createCommitWithTree:[index writeTree:NULL] message:@"unconnected commit" parents:[[NSArray alloc] init] updatingReferenceNamed:nil error:&error];
+		expect(unconnectedCommit).toNot(beNil());
+		expect(error).to(beNil());
+
+		GTBranch *unconnectedBranch = [repository createBranchNamed:@"unconnected" fromOID:unconnectedCommit.OID message:@"Create a new branch that has no common ancestor with head" error:&error];
+		expect(unconnectedBranch).notTo(beNil());
+		expect(error).to(beNil());
+
+		__block GTMergeAnalysis analysis = 0;
+		expect(@([repository analyzeMerge:&analysis fromBranch:masterBranch toBranch:unconnectedBranch error:&error])).to(beTruthy());
+		expect(error).to(beNil());
+		expect(@(analysis)).to(equal(GTMergeAnalysisNone | 0));
+	});
+
+	it(@"should correctly recognize unborn merges", ^{
+		__block NSError *error = nil;
+		GTRepository *repo = self.blankFixtureRepository;
+		expect(@(repo.isHEADUnborn)).to(beTruthy());
+
+		NSURL *mainURL = [repo.fileURL URLByAppendingPathComponent:@"main.m"];
+		NSData *newMainContent = [@"new main file" dataUsingEncoding:NSUTF8StringEncoding];
+		expect(@([[NSFileManager defaultManager] createFileAtPath:mainURL.path contents:newMainContent attributes:nil])).to(beTruthy());
+
+		GTIndex *index = [repo indexWithError:NULL];
+		expect(@([index addFile:mainURL.lastPathComponent error:NULL])).to(beTruthy());
+		GTTree *commitTree = [index writeTree:&error];
+		expect(commitTree).toNot(beNil());
+		expect(error).to(beNil());
+
+		GTCommit *initialCommit = [repo createCommitWithTree:commitTree message:@"initial commit" parents:[[NSArray alloc] init] updatingReferenceNamed:nil error:&error];
+		expect(initialCommit).toNot(beNil());
+		expect(error).to(beNil());
+
+		GTBranch *unrelatedNewMaster = [repo createBranchNamed:@"new_master" fromOID:initialCommit.OID message:@"create master" error:&error];
+		expect(unrelatedNewMaster).toNot(beNil());
+		expect(error).to(beNil());
+
+		__block GTMergeAnalysis analysis = 0;
+		expect(@([repo analyzeMerge:&analysis fromBranch:unrelatedNewMaster error:&error])).to(beTruthy());
+		expect(error).to(beNil());
+		expect(@(analysis)).to(equal(GTMergeAnalysisUnborn | GTMergeAnalysisFastForward));
+	});
+});
+
 describe(@"-allTagsWithError:", ^{
 	it(@"should return all tags", ^{
 		NSError *error = nil;
