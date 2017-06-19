@@ -53,6 +53,10 @@
 	return nil;
 }
 
+- (git_revwalk *)git_revwalk {
+	return self.walk;
+}
+
 - (instancetype)initWithRepository:(GTRepository *)repo error:(NSError **)error {
 	NSParameterAssert(repo != nil);
 

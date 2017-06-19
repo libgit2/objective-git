@@ -64,6 +64,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)init NS_UNAVAILABLE;
 
+/// The underlying `git_revwalk` from libgit2.
+- (git_revwalk *)git_revwalk __attribute__((objc_returns_inner_pointer));
+
 /// Initializes the receiver to enumerate the commits in the given repository. Designated initializer.
 ///
 /// repo  - The repository to enumerate the commits of. This must not be nil.
