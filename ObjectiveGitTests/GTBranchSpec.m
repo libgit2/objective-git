@@ -307,29 +307,6 @@ describe(@"-rename:force:error", ^{
 	});
 });
 
-// TODO: Test branch renaming, branch upstream
-//- (void)testCanRenameBranch {
-//
-//	NSError *error = nil;
-//	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH()] error:&error];
-//	STAssertNil(error, [error localizedDescription]);
-//
-//	NSArray *branches = [GTBranch listAllLocalBranchesInRepository:repo error:&error];
-//	STAssertNotNil(branches, [error localizedDescription], nil);
-//	STAssertEquals(2, (int)branches.count, nil);
-//
-//	NSString *newBranchName = [NSString stringWithFormat:@"%@%@", [GTBranch localNamePrefix], @"this_is_the_renamed_branch"];
-//	GTBranch *firstBranch = [branches objectAtIndex:0];
-//	NSString *originalBranchName = firstBranch.name;
-//	BOOL success = [firstBranch.reference setName:newBranchName error:&error];
-//	STAssertTrue(success, [error localizedDescription]);
-//	STAssertEqualObjects(firstBranch.name, newBranchName, nil);
-//
-//	success = [firstBranch.reference setName:originalBranchName error:&error];
-//	STAssertTrue(success, [error localizedDescription]);
-//	STAssertEqualObjects(firstBranch.name, originalBranchName, nil);
-//}
-
 afterEach(^{
 	[self tearDown];
 });
