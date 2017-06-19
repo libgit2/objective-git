@@ -40,11 +40,10 @@ CreateCommitBlock createCommitInRepository = ^ GTCommit * (NSString *message, NS
 #pragma mark - Branch
 
 BranchBlock localBranchWithName = ^ GTBranch * (NSString *branchName, GTRepository *repo) {
-	NSString *reference = [GTBranch.localNamePrefix stringByAppendingString:branchName];
-	NSArray *branches = [repo branchesWithPrefix:reference error:NULL];
-	expect(branches).notTo(beNil());
-	expect(@(branches.count)).to(equal(@1));
-	expect(((GTBranch *)branches[0]).shortName).to(equal(branchName));
+	BOOL success = NO;
+	GTBranch *branch = [repo lookUpBranchWithName:branchName type:GTBranchTypeLocal success:&success error:NULL];
+	expect(branch).notTo(beNil());
+	expect(branch.shortName).to(equal(branchName));
 
-	return branches[0];
+	return branch;
 };
