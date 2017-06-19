@@ -272,6 +272,41 @@ describe(@"-updateTrackingBranch:error:", ^{
 	});
 });
 
+describe(@"-rename:force:error", ^{
+	__block GTBranch *masterBranch;
+	beforeEach(^{
+		masterBranch = [repository lookUpBranchWithName:@"master" type:GTBranchTypeLocal success:NULL error:NULL];
+		expect(masterBranch).notTo(beNil());
+	});
+
+	it(@"should rename the branch", ^{
+		NSError *error = nil;
+		BOOL success = [masterBranch rename:@"plop" force:NO error:&error];
+		expect(@(success)).to(beTruthy());
+		expect(error).to(beNil());
+
+		expect(masterBranch.shortName).to(equal(@"plop"));
+	});
+
+	it(@"should fail on duplicates", ^{
+		NSError *error = nil;
+		BOOL success = [masterBranch rename:@"feature" force:NO error:&error];
+		expect(@(success)).to(beFalsy());
+		expect(error).notTo(beNil());
+
+		expect(masterBranch.shortName).to(equal(@"master"));
+	});
+
+	it(@"should rename when forced", ^{
+		NSError *error = nil;
+		BOOL success = [masterBranch rename:@"feature" force:YES error:&error];
+		expect(@(success)).to(beTruthy());
+		expect(error).to(beNil());
+
+		expect(masterBranch.shortName).to(equal(@"feature"));
+	});
+});
+
 // TODO: Test branch renaming, branch upstream
 //- (void)testCanRenameBranch {
 //

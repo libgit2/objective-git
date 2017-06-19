@@ -171,6 +171,19 @@
 	return YES;
 }
 
+- (BOOL)rename:(NSString *)name force:(BOOL)force error:(NSError **)error {
+	git_reference *git_ref;
+	int gitError = git_branch_move(&git_ref, self.reference.git_reference, name.UTF8String, (force ? 1 : 0));
+	if (gitError != GIT_OK) {
+		if (error) *error = [NSError git_errorFor:gitError description:@"Rename branch failed"];
+		return NO;
+	}
+
+	_reference = [[GTReference alloc] initWithGitReference:git_ref repository:self.repository];
+
+	return YES;
+}
+
 - (GTBranch *)trackingBranchWithError:(NSError **)error success:(BOOL *)success {
 	if (self.branchType == GTBranchTypeRemote) {
 		if (success != NULL) *success = YES;

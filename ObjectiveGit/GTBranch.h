@@ -78,6 +78,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// returns a GTCommit object or nil if an error occurred
 - (GTCommit * _Nullable)targetCommitWithError:(NSError **)error;
 
+/// Renames the branch. Setting `force` to YES to delete another branch with the same name.
+- (BOOL)rename:(NSString *)name force:(BOOL)force error:(NSError **)error;
+
 /// Count all commits in this branch
 ///
 /// error(out) - will be filled if an error occurs
