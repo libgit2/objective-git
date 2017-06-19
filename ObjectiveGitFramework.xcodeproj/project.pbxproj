@@ -1745,7 +1745,7 @@
 					.,
 					External,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
 					"$(inherited)",
@@ -1779,7 +1779,7 @@
 					.,
 					External,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				OTHER_CFLAGS = (
 					"$(inherited)",
 					"-DGIT_SSH",
@@ -1905,7 +1905,7 @@
 					.,
 					External,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				OTHER_CFLAGS = (
 					"$(inherited)",
 					"-DGIT_SSH",
@@ -2143,7 +2143,7 @@
 					.,
 					External,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				OTHER_CFLAGS = (
 					"$(inherited)",
 					"-DGIT_SSH",
