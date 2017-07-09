@@ -1,12 +1,12 @@
-osx_image: xcode8
+osx_image: xcode8.3
 language: objective-c
 matrix:
   fast_finish: true
   include:
-    - osx_image: xcode8
+    - osx_image: xcode8.3
       env:
         - SCHEME="ObjectiveGit Mac"
-    - osx_image: xcode8
+    - osx_image: xcode8.3
       env:
         - SCHEME="ObjectiveGit iOS"
 before_install:

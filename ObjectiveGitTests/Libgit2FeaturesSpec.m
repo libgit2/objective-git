@@ -31,7 +31,7 @@ describe(@"libgit", ^{
 		expect(@(git_features & GIT_FEATURE_HTTPS)).to(beTruthy());
 	});
 
-	it(@"should be built with SSH enabled", ^{
+	xit(@"should be built with SSH enabled", ^{
 		expect(@(git_features & GIT_FEATURE_SSH)).to(beTruthy());
 	});
 
