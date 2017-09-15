@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// Content of the note.
 @property (nonatomic, readonly, strong) NSString *note;
 
-@property (nonatomic, readonly, strong) GTObject *target;
+@property (nonatomic, readonly, strong) GTOID *targetOID;
 
 /// The underlying `git_note` object.
 - (git_note *)git_note __attribute__((objc_returns_inner_pointer));
