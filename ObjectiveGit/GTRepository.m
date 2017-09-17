@@ -624,7 +624,7 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 	return (BOOL)git_repository_head_unborn(self.git_repository);
 }
 
-- (NSString *)preparedMessageWithError:(NSError **)error {
+- (NSString *)preparedMessageWithError:(NSError * __autoreleasing *)error {
 	void (^setErrorFromCode)(int) = ^(int errorCode) {
 		if (errorCode == 0 || errorCode == GIT_ENOTFOUND) {
 			// Not an error.
