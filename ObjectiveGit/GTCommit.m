@@ -53,6 +53,10 @@
 
 #pragma mark API
 
+- (GTOID *)OID {
+	return [GTOID oidWithGitOid:git_commit_id(self.git_commit)];
+}
+
 - (NSString *)message {
 	const char *s = git_commit_message(self.git_commit);
 	if(s == NULL) return nil;
@@ -115,6 +119,19 @@
 
 - (BOOL)isMerge {
 	return git_commit_parentcount(self.git_commit) > 1;
+}
+
+- (NSArray <GTOID *> *)parentOIDs {
+	unsigned numberOfParents = git_commit_parentcount(self.git_commit);
+	NSMutableArray <GTOID *> *parents = [NSMutableArray arrayWithCapacity:numberOfParents];
+
+	for (unsigned i = 0; i < numberOfParents; i++) {
+		const git_oid *parent = git_commit_parent_id(self.git_commit, i);
+
+		[parents addObject:[GTOID oidWithGitOid:parent]];
+	}
+
+	return parents;
 }
 
 - (NSArray *)parents {

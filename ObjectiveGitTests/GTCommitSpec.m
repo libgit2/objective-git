@@ -31,6 +31,7 @@ it(@"can read commit data", ^{
 	expect(commit).to(beAnInstanceOf(GTCommit.class));
 	expect(commit.type).to(equal(@"commit"));
 	expect(commit.SHA).to(equal(commitSHA));
+	expect(commit.OID).to(equal([GTOID oidWithSHA:commitSHA]));
 
 	expect(commit.message).to(equal(@"testing\n"));
 	expect(commit.messageSummary).to(equal(@"testing"));
@@ -60,7 +61,14 @@ it(@"can have multiple parents", ^{
 	expect(commit).notTo(beNil());
 	expect(error).to(beNil());
 
-	expect(@(commit.parents.count)).to(equal(@2));
+	NSArray *commitOIDs = @[@"c47800c7266a2be04c571c04d5a6614691ea99bd", @"9fd738e8f7967c078dceed8190330fc8648ee56a"];
+	NSArray *commitParents = commit.parentOIDs;
+	expect(@(commitParents.count)).to(equal(@(commitOIDs.count)));
+	expect([commitParents valueForKey:@"SHA"]).to(equal(commitOIDs));
+
+	commitParents = commit.parents;
+	expect(@(commitParents.count)).to(equal(@(commitOIDs.count)));
+	expect([commitParents valueForKeyPath:@"OID.SHA"]).to(equal(commitOIDs));
 });
 
 it(@"can identify merges", ^{

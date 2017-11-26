@@ -105,6 +105,18 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 	return self;
 }
 
+- (BOOL)isBranch {
+	return git_reference_is_branch(self.git_reference) != 0;
+}
+
+- (BOOL)isTag {
+	return git_reference_is_tag(self.git_reference) != 0;
+}
+
+- (BOOL)isNote {
+	return git_reference_is_note(self.git_reference) != 0;
+}
+
 - (NSString *)name {
 	const char *refName = git_reference_name(self.git_reference);
 	if (refName == NULL) return nil;

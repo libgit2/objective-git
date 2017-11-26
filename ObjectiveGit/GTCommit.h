@@ -39,9 +39,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface GTCommit : GTObject {}
 
+@property (nonatomic, readonly, strong) GTOID *OID;
 @property (nonatomic, readonly, strong) GTSignature * _Nullable author;
 @property (nonatomic, readonly, strong) GTSignature * _Nullable committer;
 @property (nonatomic, readonly, copy) NSArray<GTCommit *> *parents;
+@property (nonatomic, readonly, copy) NSArray<GTOID *> *parentOIDs;
 @property (nonatomic, readonly) NSString * _Nullable message;
 @property (nonatomic, readonly) NSString *messageDetails;
 @property (nonatomic, readonly) NSString *messageSummary;

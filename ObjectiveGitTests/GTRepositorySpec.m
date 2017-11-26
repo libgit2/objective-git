@@ -292,7 +292,7 @@ describe(@"-currentBranchWithError:", ^{
 		GTBranch *currentBranch = [repository currentBranchWithError:&error];
 		expect(currentBranch).notTo(beNil());
 		expect(error).to(beNil());
-		expect(currentBranch.name).to(equal(@"refs/heads/master"));
+		expect(currentBranch.name).to(equal(@"master"));
 	});
 });
 
@@ -332,7 +332,7 @@ describe(@"-remoteBranchesWithError:", ^{
 		expect(error).to(beNil());
 		expect(@(branches.count)).to(equal(@1));
 		GTBranch *remoteBranch = branches[0];
-		expect(remoteBranch.name).to(equal(@"refs/remotes/origin/master"));
+		expect(remoteBranch.name).to(equal(@"origin/master"));
 	});
 });
 

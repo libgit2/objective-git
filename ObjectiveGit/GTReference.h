@@ -54,8 +54,17 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) const git_oid *git_oid;
 @property (nonatomic, strong, readonly) GTOID * _Nullable OID;
 
+/// Whether this is a tag.
+@property (nonatomic, readonly, getter = isTag) BOOL tag;
+
+/// Whether this is a local branch.
+@property (nonatomic, readonly, getter = isBranch) BOOL branch;
+
 /// Whether this is a remote-tracking branch.
 @property (nonatomic, readonly, getter = isRemote) BOOL remote;
+
+/// Whether this is a note ref.
+@property (nonatomic, readonly, getter = isNote) BOOL note;
 
 /// The reflog for the reference.
 @property (nonatomic, readonly, strong) GTReflog *reflog;

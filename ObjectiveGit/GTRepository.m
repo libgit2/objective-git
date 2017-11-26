@@ -325,7 +325,7 @@ struct GTRemoteCreatePayload {
 		return nil;
 	}
 
-    return [GTObject objectWithObj:obj inRepository:self];
+	return [GTObject objectWithObj:obj inRepository:self];
 }
 
 - (id)lookUpObjectByGitOid:(const git_oid *)oid error:(NSError **)error {
@@ -377,7 +377,7 @@ struct GTRemoteCreatePayload {
 	if (ref == NULL) return nil;
 
 	GTReference *gtRef = [[GTReference alloc] initWithGitReference:ref repository:self];
-	return [[GTBranch alloc] initWithReference:gtRef repository:self];
+	return [[GTBranch alloc] initWithReference:gtRef];
 }
 
 - (GTReference *)headReferenceWithError:(NSError **)error {
@@ -395,22 +395,55 @@ struct GTRemoteCreatePayload {
 	return [[GTReference alloc] initWithGitReference:headRef repository:self];
 }
 
+typedef void (^GTRepositoryBranchEnumerationBlock)(GTBranch *branch, BOOL *stop);
+
+- (BOOL)enumerateBranchesWithType:(GTBranchType)type error:(NSError **)error usingBlock:(GTRepositoryBranchEnumerationBlock)block {
+	git_branch_iterator *iter = NULL;
+	git_reference *gitRef = NULL;
+	int gitError = git_branch_iterator_new(&iter, self.git_repository, (git_branch_t)type);
+	if (gitError != GIT_OK) {
+		if (error) *error = [NSError git_errorFor:gitError description:@"Branch enumeration failed"];
+		return NO;
+	}
+
+	git_branch_t branchType;
+	while ((gitError = git_branch_next(&gitRef, &branchType, iter)) == GIT_OK) {
+		GTReference *ref = [[GTReference alloc] initWithGitReference:gitRef repository:self];
+		GTBranch *branch = [GTBranch branchWithReference:ref];
+		BOOL stop = NO;
+		block(branch, &stop);
+		if (stop) break;
+	}
+
+	if (gitError != GIT_OK && gitError != GIT_ITEROVER) {
+		if (error) *error = [NSError git_errorFor:gitError description:@"Branch enumeration failed"];
+		return NO;
+	}
+
+	return YES;
+}
+
 - (NSArray *)localBranchesWithError:(NSError **)error {
-	return [self branchesWithPrefix:[GTBranch localNamePrefix] error:error];
+	NSMutableArray *localBranches = [NSMutableArray array];
+	BOOL success = [self enumerateBranchesWithType:GTBranchTypeLocal error:error usingBlock:^(GTBranch *branch, BOOL *stop) {
+		[localBranches addObject:branch];
+	}];
+
+	if (success != YES) return nil;
+
+	return [localBranches copy];
 }
 
 - (NSArray *)remoteBranchesWithError:(NSError **)error {
-	NSArray *remoteBranches = [self branchesWithPrefix:[GTBranch remoteNamePrefix] error:error];
-	if (remoteBranches == nil) return nil;
+	NSMutableArray *remoteBranches = [NSMutableArray array];
+	BOOL success = [self enumerateBranchesWithType:GTBranchTypeRemote error:error usingBlock:^(GTBranch *branch, BOOL *stop) {
+		if (![branch.shortName isEqualToString:@"HEAD"])
+			[remoteBranches addObject:branch];
+	}];
 
-	NSMutableArray *filteredList = [NSMutableArray arrayWithCapacity:remoteBranches.count];
-	for (GTBranch *branch in remoteBranches) {
-		if (![branch.shortName isEqualToString:@"HEAD"]) {
-			[filteredList addObject:branch];
-		}
-	}
+	if (success != YES) return nil;
 
-	return filteredList;
+	return [remoteBranches copy];
 }
 
 - (NSArray *)branchesWithPrefix:(NSString *)prefix error:(NSError **)error {
@@ -424,7 +457,7 @@ struct GTRemoteCreatePayload {
 		GTReference *ref = [self lookUpReferenceWithName:refName error:error];
 		if (ref == nil) continue;
 
-		GTBranch *branch = [[GTBranch alloc] initWithReference:ref repository:self];
+		GTBranch *branch = [[GTBranch alloc] initWithReference:ref];
 		if (branch == nil) continue;
 
 		[branches addObject:branch];
@@ -561,7 +594,7 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 	GTReference *newRef = [self createReferenceNamed:[GTBranch.localNamePrefix stringByAppendingString:name] fromOID:targetOID message:message error:error];
 	if (newRef == nil) return nil;
 
-	return [GTBranch branchWithReference:newRef repository:self];
+	return [GTBranch branchWithReference:newRef];
 }
 
 - (BOOL)isEmpty {
@@ -572,7 +605,7 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 	GTReference *head = [self headReferenceWithError:error];
 	if (head == nil) return nil;
 
-	return [GTBranch branchWithReference:head repository:self];
+	return [GTBranch branchWithReference:head];
 }
 
 - (NSArray *)localCommitsRelativeToRemoteBranch:(GTBranch *)remoteBranch error:(NSError **)error {

@@ -59,6 +59,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// Returns the found object or nil on error.
 - (id _Nullable)objectByPeelingTagError:(NSError **)error;
 
+/// Delete the receiver.
+- (BOOL)delete:(NSError **)error;
+
 /// The underlying `git_object` as a `git_tag` object.
 - (git_tag *)git_tag __attribute__((objc_returns_inner_pointer));
 
