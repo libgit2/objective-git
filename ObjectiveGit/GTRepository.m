@@ -648,7 +648,7 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 
 - (NSURL *)gitDirectoryURL {
 	const char *cPath = git_repository_path(self.git_repository);
-	if (cPath == NULL) return nil;
+	NSAssert(cPath, @"gitdirectory is nil");
 
 	NSString *path = @(cPath);
 	NSAssert(path, @"gitdirectory is nil");
