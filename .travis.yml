@@ -1,18 +1,31 @@
-osx_image: xcode8.3
+#
+# .travis.yml
+# Objective-Git
+#
+# https://docs.travis-ci.com/user/reference/osx/
+# https://docs.travis-ci.com/user/build-stages/matrix-expansion/
+#
+---
+os: osx
+# 9.3 beta is latest available as of 2018-04-08
+osx_image: xcode9.3beta
 language: objective-c
+
 matrix:
   fast_finish: true
   include:
-    - osx_image: xcode8.3
+    - osx_image: xcode9.3beta
       env:
         - SCHEME="ObjectiveGit Mac"
-    - osx_image: xcode8.3
+    - osx_image: xcode9.3beta
       env:
         - SCHEME="ObjectiveGit iOS"
+
 before_install:
   - gem install xcpretty
   - gem install xcpretty-travis-formatter
 install: script/bootstrap
 script: script/cibuild
+
 notifications:
   email: false
