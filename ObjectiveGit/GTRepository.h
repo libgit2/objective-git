@@ -417,7 +417,7 @@ typedef NS_ENUM(NSInteger, GTRepositoryStateType) {
 /// defaults will be used instead. Will never return nil.
 ///
 /// Returns the signature.
-- (GTSignature *)userSignatureForNow;
+- (GTSignature * _Nullable)userSignatureForNow;
 
 /// Enumerates over all the tracked submodules in the repository.
 ///

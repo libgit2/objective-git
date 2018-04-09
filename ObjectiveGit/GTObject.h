@@ -52,10 +52,10 @@ NS_ASSUME_NONNULL_BEGIN
 @interface GTObject : NSObject
 
 @property (nonatomic, readonly) NSString *type;
-@property (nonatomic, readonly) NSString * _Nullable SHA;
-@property (nonatomic, readonly) NSString * _Nullable shortSHA;
+@property (nonatomic, readonly) NSString *SHA;
+@property (nonatomic, readonly) NSString *shortSHA;
 @property (nonatomic, readonly, strong) GTRepository *repository;
-@property (nonatomic, readonly) GTOID * _Nullable OID;
+@property (nonatomic, readonly) GTOID *OID;
 
 - (instancetype)init NS_UNAVAILABLE;
 

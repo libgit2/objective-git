@@ -55,7 +55,9 @@
 
 - (instancetype)initWithSHA:(NSString *)SHA error:(NSError **)error {
 	NSParameterAssert(SHA != nil);
-	return [self initWithSHACString:SHA.UTF8String error:error];
+	const char *SHACString = SHA.UTF8String;
+	NSAssert(SHACString, @"Unexpected nil SHA");
+	return [self initWithSHACString:SHACString error:error];
 }
 
 - (instancetype)initWithSHA:(NSString *)SHA {

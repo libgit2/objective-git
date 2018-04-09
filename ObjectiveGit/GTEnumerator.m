@@ -259,7 +259,8 @@
 #pragma mark NSEnumerator
 
 - (NSArray *)allObjects {
-	return [self allObjectsWithError:NULL];
+	NSArray *objects = [self allObjectsWithError:NULL];
+	return objects ? objects : [NSArray array];
 }
 
 - (id)nextObject {

@@ -179,14 +179,21 @@
 		return NO;
 	}
 
-	_reference = [[GTReference alloc] initWithGitReference:git_ref repository:self.repository];
+	GTReference *renamedRef = [[GTReference alloc] initWithGitReference:git_ref repository:self.repository];
+	NSAssert(renamedRef, @"Unable to allocate renamed ref");
+	_reference = renamedRef;
 
 	return YES;
 }
 
 - (GTBranch *)trackingBranchWithError:(NSError **)error success:(BOOL *)success {
+	BOOL underSuccess = NO;
+	if (success == NULL) {
+		success = &underSuccess;
+	}
+
 	if (self.branchType == GTBranchTypeRemote) {
-		if (success != NULL) *success = YES;
+		*success = YES;
 		return self;
 	}
 
@@ -195,25 +202,32 @@
 
 	// GIT_ENOTFOUND means no tracking branch found.
 	if (gitError == GIT_ENOTFOUND) {
-		if (success != NULL) *success = YES;
+		*success = YES;
 		return nil;
 	}
 
 	if (gitError != GIT_OK) {
-		if (success != NULL) *success = NO;
+		*success = NO;
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to create reference to tracking branch from %@", self];
 		return nil;
 	}
 
 	if (trackingRef == NULL) {
-		if (success != NULL) *success = NO;
+		*success = NO;
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Got a NULL remote ref for %@", self];
 		return nil;
 	}
 
-	if (success != NULL) *success = YES;
+	GTReference *upsteamRef = [[GTReference alloc] initWithGitReference:trackingRef repository:self.repository];
+	if (upsteamRef == nil) {
+		*success = NO;
+		if (error != NULL) *error = [NSError git_errorFor:GIT_ERROR description:@"Failed to allocate upstream ref"];
+		return nil;
+	}
 
-	return [[self class] branchWithReference:[[GTReference alloc] initWithGitReference:trackingRef repository:self.repository]];
+	*success = YES;
+
+	return [[self class] branchWithReference:upsteamRef];
 }
 
 - (BOOL)updateTrackingBranch:(GTBranch *)trackingBranch error:(NSError **)error {

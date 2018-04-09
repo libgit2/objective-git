@@ -196,7 +196,9 @@ typedef struct {
 			if (idx < ceilingDirURLs.count - 1) {
 				[ceilingDirsString appendString:[NSString stringWithFormat:@"%@%c", url.path, GIT_PATH_LIST_SEPARATOR]];
 			} else {
-				[ceilingDirsString appendString:url.path];
+				NSString *path = url.path;
+				NSAssert(path != nil, @"Unexpected nil path component");
+				[ceilingDirsString appendString:path];
 			}
 		}];
 	}

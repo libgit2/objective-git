@@ -87,13 +87,13 @@ typedef NS_OPTIONS(NSInteger, GTCheckoutNotifyFlags) {
 @property (assign) GTCheckoutStrategyType strategy;
 
 /// The checkout progress block that was passed in.
-@property (copy) void (^progressBlock)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps);
+@property (copy, nullable) void (^progressBlock)(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps);
 
 /// The notification flags currently enabled.
 @property (assign) GTCheckoutNotifyFlags notifyFlags;
 
 /// The checkout notification block that was passed in.
-@property (copy) int (^notifyBlock)(GTCheckoutNotifyFlags why, NSString *path, GTDiffFile *baseline, GTDiffFile *target, GTDiffFile *workdir);
+@property (copy, nullable) int (^notifyBlock)(GTCheckoutNotifyFlags why, NSString *path, GTDiffFile *baseline, GTDiffFile *target, GTDiffFile *workdir);
 
 /// An array of strings used to restrict what will be checked out.
 @property (copy) NSArray <NSString *> *pathSpecs;

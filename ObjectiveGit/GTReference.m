@@ -119,7 +119,7 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 
 - (NSString *)name {
 	const char *refName = git_reference_name(self.git_reference);
-	if (refName == NULL) return nil;
+	NSAssert(refName != nil, @"Unexpected nil name");
 
 	return @(refName);
 }
@@ -166,7 +166,8 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 }
 
 - (GTReference *)resolvedReference {
-	return [self.class referenceByResolvingSymbolicReference:self error:NULL];
+	GTReference *resolvedReference = [self.class referenceByResolvingSymbolicReference:self error:NULL];
+	return resolvedReference ? resolvedReference : self;
 }
 
 - (GTOID *)targetOID {

@@ -123,7 +123,9 @@
 }
 
 - (NSString *)type {
-	return [NSString stringWithUTF8String:git_object_type2string(git_object_type(self.git_object))];
+	NSString *type = [NSString stringWithUTF8String:git_object_type2string(git_object_type(self.git_object))];
+	NSAssert(type != nil, @"type was nil");
+	return type;
 }
 
 - (GTOID *)OID {
