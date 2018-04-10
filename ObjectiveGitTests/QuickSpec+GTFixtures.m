@@ -7,7 +7,6 @@
 //
 
 #import "QuickSpec+GTFixtures.h"
-//#import <objc/runtime.h>
 
 @import ObjectiveC;
 @import ObjectiveGit;
