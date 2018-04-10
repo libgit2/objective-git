@@ -96,7 +96,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, copy) GTReference *resolvedReference;
 
 /// The OID of the target object.
-@property (nonatomic, readonly, copy) GTOID *targetOID;
+@property (nonatomic, readonly, copy, nullable) GTOID *targetOID;
 
 /// Updates the on-disk reference to point to the target and returns the updated
 /// reference.

@@ -124,19 +124,23 @@
 }
 
 - (GTCommit *)targetCommitWithError:(NSError **)error {
-	if (self.OID == nil) {
+	GTOID *oid = self.OID;
+	if (oid == nil) {
 		if (error != NULL) *error = GTReference.invalidReferenceError;
 		return nil;
 	}
 
-	return [self.repository lookUpObjectByOID:self.OID objectType:GTObjectTypeCommit error:error];
+	return [self.repository lookUpObjectByOID:oid objectType:GTObjectTypeCommit error:error];
 }
 
 - (NSUInteger)numberOfCommitsWithError:(NSError **)error {
 	GTEnumerator *enumerator = [[GTEnumerator alloc] initWithRepository:self.repository error:error];
 	if (enumerator == nil) return NSNotFound;
 
-	if (![enumerator pushSHA:self.OID.SHA error:error]) return NSNotFound;
+	GTOID *oid = self.OID;
+	if (oid == nil) return NSNotFound;
+
+	if (![enumerator pushSHA:oid.SHA error:error]) return NSNotFound;
 	return [enumerator countRemainingObjects:error];
 }
 
@@ -157,7 +161,9 @@
 }
 
 - (NSArray *)uniqueCommitsRelativeToBranch:(GTBranch *)otherBranch error:(NSError **)error {
-	GTEnumerator *enumerator = [self.repository enumeratorForUniqueCommitsFromOID:self.OID relativeToOID:otherBranch.OID error:error];
+	GTOID *oid = self.OID;
+	GTOID *otherOID = otherBranch.OID;
+	GTEnumerator *enumerator = [self.repository enumeratorForUniqueCommitsFromOID:oid relativeToOID:otherOID error:error];
 	return [enumerator allObjectsWithError:error];
 }
 
@@ -253,7 +259,9 @@
 }
 
 - (BOOL)calculateAhead:(size_t *)ahead behind:(size_t *)behind relativeTo:(GTBranch *)branch error:(NSError **)error {
-	return [self.repository calculateAhead:ahead behind:behind ofOID:self.OID relativeToOID:branch.OID error:error];
+	GTOID *oid = self.OID;
+	GTOID *branchOID = branch.OID;
+	return [self.repository calculateAhead:ahead behind:behind ofOID:oid relativeToOID:branchOID error:error];
 }
 
 @end
