@@ -47,7 +47,9 @@
 
 	_patch = patch;
 	_hunkIndex = hunkIndex;
-	_header = [[[NSString alloc] initWithBytes:self.git_hunk->header length:self.git_hunk->header_len encoding:NSUTF8StringEncoding] stringByTrimmingCharactersInSet:NSCharacterSet.newlineCharacterSet];
+	NSString *hunkHeader = [[[NSString alloc] initWithBytes:self.git_hunk->header length:self.git_hunk->header_len encoding:NSUTF8StringEncoding] stringByTrimmingCharactersInSet:NSCharacterSet.newlineCharacterSet];
+	NSAssert(hunkHeader != nil, @"Failed to build hunk header");
+	_header = hunkHeader;
 
 	return self;
 }

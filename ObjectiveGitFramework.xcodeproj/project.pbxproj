@@ -60,7 +60,6 @@
 		2089E43C17D9A58000F451DA /* GTTagSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 2089E43B17D9A58000F451DA /* GTTagSpec.m */; };
 		20F43DE318A2F668007D3621 /* GTRepository+Blame.h in Headers */ = {isa = PBXBuildFile; fileRef = 20F43DE118A2F667007D3621 /* GTRepository+Blame.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		20F43DE618A2F668007D3621 /* GTRepository+Blame.m in Sources */ = {isa = PBXBuildFile; fileRef = 20F43DE218A2F667007D3621 /* GTRepository+Blame.m */; };
-		23BB67BC1C7DF45300A37A66 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 23BB67BB1C7DF45300A37A66 /* libz.tbd */; };
 		23BB67C11C7DF60300A37A66 /* GTRepository+PullSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = F8EFA0361B405020000FF7D0 /* GTRepository+PullSpec.m */; };
 		23BB67C21C7DF60400A37A66 /* GTRepository+PullSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = F8EFA0361B405020000FF7D0 /* GTRepository+PullSpec.m */; };
 		23F39FAD1C86DB1C00849F3C /* GTRepository+Merging.h in Headers */ = {isa = PBXBuildFile; fileRef = 23F39FAB1C86DB1C00849F3C /* GTRepository+Merging.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -88,7 +87,6 @@
 		30DCBA7317B4791A009B0EBD /* NSArray+StringArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 30DCBA7017B4791A009B0EBD /* NSArray+StringArray.m */; };
 		30FDC07F16835A8100654BF0 /* GTDiffLine.h in Headers */ = {isa = PBXBuildFile; fileRef = 30FDC07D16835A8100654BF0 /* GTDiffLine.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		30FDC08116835A8100654BF0 /* GTDiffLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 30FDC07E16835A8100654BF0 /* GTDiffLine.m */; };
-		4D103ADD1819CFAA0029DB24 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D103ADC1819CFAA0029DB24 /* libiconv.dylib */; };
 		4D123240178E009E0048F785 /* GTRepositoryCommittingSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D12323F178E009E0048F785 /* GTRepositoryCommittingSpec.m */; };
 		4D1C40D8182C006D00BE2960 /* GTBlobSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D1C40D7182C006D00BE2960 /* GTBlobSpec.m */; };
 		4D79C0EE17DF9F4D00997DE4 /* GTCredential.h in Headers */ = {isa = PBXBuildFile; fileRef = 4D79C0EC17DF9F4D00997DE4 /* GTCredential.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -111,7 +109,6 @@
 		6EEB51A2199D62B9001D72C0 /* GTFetchHeadEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEB51A0199D62B9001D72C0 /* GTFetchHeadEntry.m */; };
 		79262F1013C697C100A4B1EA /* git2 in Copy git2 Headers */ = {isa = PBXBuildFile; fileRef = 79262F0E13C697BE00A4B1EA /* git2 */; };
 		79262F8B13C69B1600A4B1EA /* git2.h in Headers */ = {isa = PBXBuildFile; fileRef = 79262F8A13C69B1600A4B1EA /* git2.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		8803DA871313145700E6E818 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8803DA861313145700E6E818 /* libz.dylib */; };
 		880EE66118AE700500B82455 /* GTFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 880EE65F18AE700500B82455 /* GTFilter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		880EE66318AE700500B82455 /* GTFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 880EE66018AE700500B82455 /* GTFilter.m */; };
 		882154691714740500D76B76 /* GTReflog.h in Headers */ = {isa = PBXBuildFile; fileRef = 882154671714740500D76B76 /* GTReflog.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -126,8 +123,6 @@
 		88328128173D8A64006D7DCF /* GTTreeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88328127173D8A64006D7DCF /* GTTreeSpec.m */; };
 		883CD6AB1600EBC600F57354 /* GTRemote.h in Headers */ = {isa = PBXBuildFile; fileRef = 883CD6A91600EBC600F57354 /* GTRemote.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		883CD6AC1600EBC600F57354 /* GTRemote.m in Sources */ = {isa = PBXBuildFile; fileRef = 883CD6AA1600EBC600F57354 /* GTRemote.m */; };
-		884C8A3719FF4B4D0017E98D /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 884C8A3619FF4B4D0017E98D /* libz.dylib */; };
-		884C8A3919FF4B6D0017E98D /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 884C8A3819FF4B6D0017E98D /* libiconv.dylib */; };
 		884C8A3A19FF4B890017E98D /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = 306123AA17EA5261006591D4 /* EXTScope.m */; };
 		886E622A18AEBF75000611A0 /* GTFilterSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 886E622818AEBF75000611A0 /* GTFilterSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		886E622C18AEBF75000611A0 /* GTFilterSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 886E622918AEBF75000611A0 /* GTFilterSource.m */; };
@@ -321,21 +316,21 @@
 		DD3D9513182A81E1004AF532 /* GTBlame.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3D9511182A81E1004AF532 /* GTBlame.m */; };
 		DD3D951C182AB25C004AF532 /* GTBlameHunk.h in Headers */ = {isa = PBXBuildFile; fileRef = DD3D951A182AB25C004AF532 /* GTBlameHunk.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DD3D951D182AB25C004AF532 /* GTBlameHunk.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3D951B182AB25C004AF532 /* GTBlameHunk.m */; };
+		F81B6B50207B032800AB0836 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8D63871207AE62A00D1FD32 /* XCTest.framework */; };
+		F81B6B55207B0A9F00AB0836 /* Mac-XCTest.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = F81B6B54207B0A9F00AB0836 /* Mac-XCTest.xcconfig */; };
+		F81B6B59207B0D3B00AB0836 /* SwiftSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A0129619F9A660007F1914 /* SwiftSpec.swift */; };
+		F84277BA207B1002008AB8E8 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8D63865207ACCAA00D1FD32 /* Nimble.framework */; };
+		F84277BE207B104A008AB8E8 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8D63872207AE63A00D1FD32 /* XCTest.framework */; };
 		F86949AA1BF1B79E00A989D3 /* GTUtilityFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = F8EFA0391B4059ED000FF7D0 /* GTUtilityFunctions.m */; };
 		F879D8311B4B788F002D5C07 /* Libgit2FeaturesSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = F879D82F1B4B77F4002D5C07 /* Libgit2FeaturesSpec.m */; };
 		F879D83C1B4B7F7D002D5C07 /* ObjectiveGit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D01B6ED319F82E2000D411BC /* ObjectiveGit.framework */; };
 		F879D8441B4B80C7002D5C07 /* Libgit2FeaturesSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = F879D82F1B4B77F4002D5C07 /* Libgit2FeaturesSpec.m */; };
-		F879D8451B4B8138002D5C07 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0A0128819F98475007F1914 /* Quick.framework */; };
-		F879D8471B4B8138002D5C07 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F879D8461B4B8138002D5C07 /* Nimble.framework */; };
-		F879D8481B4B83B9002D5C07 /* SwiftSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A0129619F9A660007F1914 /* SwiftSpec.swift */; };
-		F895F4DF1C801E5F004EA221 /* ZipArchive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F895F4DE1C801E5F004EA221 /* ZipArchive.framework */; };
 		F8D007701B4F7CA8009A8DAF /* NSErrorGitSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F4E28917C7F24200BBDE30 /* NSErrorGitSpec.m */; };
 		F8D007711B4F7CB0009A8DAF /* NSDataGitSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D01EFD9F195DEF2200838D24 /* NSDataGitSpec.m */; };
 		F8D007721B4F7CB6009A8DAF /* NSArray+StringArraySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 307623AA17C6C8BD00E2CDF1 /* NSArray+StringArraySpec.m */; };
 		F8D007731B4F7CC3009A8DAF /* GTSignatureSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D040AF77177B9A9E001AD9EB /* GTSignatureSpec.m */; };
 		F8D007741B4F7CCC009A8DAF /* GTOIDSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D040AF6F177B9779001AD9EB /* GTOIDSpec.m */; };
 		F8D007761B4F7D10009A8DAF /* GTTimeAdditionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 30B1E7FF1703871900D0814D /* GTTimeAdditionsSpec.m */; };
-		F8D0078B1B4F9F9E009A8DAF /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F8D0078A1B4F9F9E009A8DAF /* libz.dylib */; };
 		F8D0078C1B4FA03B009A8DAF /* GTBlobSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D1C40D7182C006D00BE2960 /* GTBlobSpec.m */; };
 		F8D0078D1B4FA03B009A8DAF /* GTBranchSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A994B916FCE7D400402C7B /* GTBranchSpec.m */; };
 		F8D0078E1B4FA03B009A8DAF /* GTCommitSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F05AA416011FFD00B7AD1D /* GTCommitSpec.m */; };
@@ -369,8 +364,15 @@
 		F8D1BDEF1B31FE7C00CDEC90 /* GTRepository+Pull.h in Headers */ = {isa = PBXBuildFile; fileRef = F8D1BDEC1B31FE7C00CDEC90 /* GTRepository+Pull.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8D1BDF01B31FE7C00CDEC90 /* GTRepository+Pull.m in Sources */ = {isa = PBXBuildFile; fileRef = F8D1BDED1B31FE7C00CDEC90 /* GTRepository+Pull.m */; };
 		F8D1BDF11B31FE7C00CDEC90 /* GTRepository+Pull.m in Sources */ = {isa = PBXBuildFile; fileRef = F8D1BDED1B31FE7C00CDEC90 /* GTRepository+Pull.m */; };
+		F8D6384B207A618D00D1FD32 /* script in Resources */ = {isa = PBXBuildFile; fileRef = F8D6384A207A618D00D1FD32 /* script */; };
+		F8D6385C207AC74A00D1FD32 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F8D6385B207AC74A00D1FD32 /* libiconv.tbd */; };
+		F8D6385D207AC75100D1FD32 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 23BB67BB1C7DF45300A37A66 /* libz.tbd */; };
+		F8D6385F207ACAE600D1FD32 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F8D6385E207ACAE600D1FD32 /* libz.tbd */; };
+		F8D63861207ACAF700D1FD32 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F8D63860207ACAF600D1FD32 /* libiconv.tbd */; };
+		F8D63868207ACCEE00D1FD32 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8D63867207ACCEE00D1FD32 /* Quick.framework */; };
+		F8D6386A207ACDDD00D1FD32 /* ZipArchive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8D63869207ACDDD00D1FD32 /* ZipArchive.framework */; };
+		F8D6386C207ACE0600D1FD32 /* ZipArchive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8D6386B207ACE0600D1FD32 /* ZipArchive.framework */; };
 		F8E4A2911A170CA6006485A8 /* GTRemotePushSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = F8E4A2901A170CA6006485A8 /* GTRemotePushSpec.m */; };
-		F8E68E731C800B1600DBC517 /* ZipArchive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8E68E721C800B1600DBC517 /* ZipArchive.framework */; };
 		F8EFA03A1B4059ED000FF7D0 /* GTUtilityFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = F8EFA0391B4059ED000FF7D0 /* GTUtilityFunctions.m */; };
 		F964D5F11CE9D9B200F1D8DD /* GTNote.h in Headers */ = {isa = PBXBuildFile; fileRef = F964D5EF1CE9D9B200F1D8DD /* GTNote.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F964D5F21CE9D9B200F1D8DD /* GTNote.h in Headers */ = {isa = PBXBuildFile; fileRef = F964D5EF1CE9D9B200F1D8DD /* GTNote.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -484,7 +486,6 @@
 		30DCBA7017B4791A009B0EBD /* NSArray+StringArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+StringArray.m"; sourceTree = "<group>"; };
 		30FDC07D16835A8100654BF0 /* GTDiffLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTDiffLine.h; sourceTree = "<group>"; };
 		30FDC07E16835A8100654BF0 /* GTDiffLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTDiffLine.m; sourceTree = "<group>"; };
-		4D103ADC1819CFAA0029DB24 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		4D12323F178E009E0048F785 /* GTRepositoryCommittingSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTRepositoryCommittingSpec.m; sourceTree = "<group>"; };
 		4D1C40D7182C006D00BE2960 /* GTBlobSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTBlobSpec.m; sourceTree = "<group>"; };
 		4D79C0EC17DF9F4D00997DE4 /* GTCredential.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTCredential.h; sourceTree = "<group>"; };
@@ -505,13 +506,11 @@
 		5BE612921745EEBC00266D8C /* GTTreeBuilderSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTTreeBuilderSpec.m; sourceTree = "<group>"; };
 		6A1F2FD317C6A8F3003DFADE /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = "External/ios-openssl/lib/libcrypto.a"; sourceTree = "<group>"; };
 		6A1F2FD417C6A8F3003DFADE /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = "External/ios-openssl/lib/libssl.a"; sourceTree = "<group>"; };
-		6A3C60A017D5987600382DFF /* update_libssh2_ios */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = update_libssh2_ios; path = script/update_libssh2_ios; sourceTree = SOURCE_ROOT; };
 		6A502B8617D6892D00BAF4A5 /* libssh2-ios.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libssh2-ios.a"; path = "External/libssh2-ios/lib/libssh2-ios.a"; sourceTree = "<group>"; };
 		6EEB519F199D62B9001D72C0 /* GTFetchHeadEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTFetchHeadEntry.h; sourceTree = "<group>"; };
 		6EEB51A0199D62B9001D72C0 /* GTFetchHeadEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTFetchHeadEntry.m; sourceTree = "<group>"; };
 		79262F0E13C697BE00A4B1EA /* git2 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = git2; path = External/libgit2/include/git2; sourceTree = "<group>"; };
 		79262F8A13C69B1600A4B1EA /* git2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = git2.h; path = External/libgit2/include/git2.h; sourceTree = "<group>"; };
-		8803DA861313145700E6E818 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		880EE65F18AE700500B82455 /* GTFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTFilter.h; sourceTree = "<group>"; };
 		880EE66018AE700500B82455 /* GTFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTFilter.m; sourceTree = "<group>"; };
 		882154671714740500D76B76 /* GTReflog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTReflog.h; sourceTree = "<group>"; };
@@ -529,8 +528,6 @@
 		883CD6A91600EBC600F57354 /* GTRemote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTRemote.h; sourceTree = "<group>"; };
 		883CD6AA1600EBC600F57354 /* GTRemote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTRemote.m; sourceTree = "<group>"; };
 		883CD6AE1600F01000F57354 /* GTConfiguration+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GTConfiguration+Private.h"; sourceTree = "<group>"; };
-		884C8A3619FF4B4D0017E98D /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/usr/lib/libz.dylib; sourceTree = DEVELOPER_DIR; };
-		884C8A3819FF4B6D0017E98D /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/usr/lib/libiconv.dylib; sourceTree = DEVELOPER_DIR; };
 		886E622818AEBF75000611A0 /* GTFilterSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTFilterSource.h; sourceTree = "<group>"; };
 		886E622918AEBF75000611A0 /* GTFilterSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTFilterSource.m; sourceTree = "<group>"; };
 		886E623618AECD86000611A0 /* GTFilterSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTFilterSpec.m; sourceTree = "<group>"; };
@@ -615,7 +612,7 @@
 		D09C2E351755F16200065E36 /* GTSubmodule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTSubmodule.m; sourceTree = "<group>"; };
 		D09C2E50175602A500065E36 /* fixtures.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; name = fixtures.zip; path = fixtures/fixtures.zip; sourceTree = "<group>"; };
 		D0A0128819F98475007F1914 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Quick.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D0A0128B19F9853D007F1914 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Nimble.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0A0128B19F9853D007F1914 /* Nimble.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Nimble.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0A0129619F9A660007F1914 /* SwiftSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftSpec.swift; sourceTree = "<group>"; };
 		D0A463D617E57C45000F5021 /* Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
 		D0A463D817E57C45000F5021 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
@@ -641,17 +638,24 @@
 		DD3D9511182A81E1004AF532 /* GTBlame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTBlame.m; sourceTree = "<group>"; };
 		DD3D951A182AB25C004AF532 /* GTBlameHunk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTBlameHunk.h; sourceTree = "<group>"; };
 		DD3D951B182AB25C004AF532 /* GTBlameHunk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTBlameHunk.m; sourceTree = "<group>"; };
-		E46931A7172740D300F2077D /* update_libgit2 */ = {isa = PBXFileReference; lastKnownFileType = text; name = update_libgit2; path = script/update_libgit2; sourceTree = "<group>"; };
-		E46931A8172740D300F2077D /* update_libgit2_ios */ = {isa = PBXFileReference; lastKnownFileType = text; name = update_libgit2_ios; path = script/update_libgit2_ios; sourceTree = "<group>"; };
+		F81B6B51207B0A7700AB0836 /* Extension.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Extension.xcconfig; sourceTree = "<group>"; };
+		F81B6B53207B0A8B00AB0836 /* iOS-Extension.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "iOS-Extension.xcconfig"; sourceTree = "<group>"; };
+		F81B6B54207B0A9F00AB0836 /* Mac-XCTest.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Mac-XCTest.xcconfig"; sourceTree = "<group>"; };
 		F879D82F1B4B77F4002D5C07 /* Libgit2FeaturesSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Libgit2FeaturesSpec.m; sourceTree = "<group>"; };
 		F879D8361B4B7F7C002D5C07 /* ObjectiveGit-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ObjectiveGit-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		F879D8461B4B8138002D5C07 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = "Carthage/Checkouts/Nimble/build/Debug-iphoneos/Nimble.framework"; sourceTree = "<group>"; };
-		F895F4DE1C801E5F004EA221 /* ZipArchive.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZipArchive.framework; path = "/Volumes/DerivedData/ObjectiveGitFramework-drtqacfhlqybdcdpqayztrrwneun/Build/Products/Debug/ZipArchive.framework"; sourceTree = "<absolute>"; };
-		F8D0078A1B4F9F9E009A8DAF /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.4.sdk/usr/lib/libz.dylib; sourceTree = DEVELOPER_DIR; };
 		F8D1BDEC1B31FE7C00CDEC90 /* GTRepository+Pull.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTRepository+Pull.h"; sourceTree = "<group>"; };
 		F8D1BDED1B31FE7C00CDEC90 /* GTRepository+Pull.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GTRepository+Pull.m"; sourceTree = "<group>"; };
+		F8D6384A207A618D00D1FD32 /* script */ = {isa = PBXFileReference; lastKnownFileType = folder; path = script; sourceTree = "<group>"; };
+		F8D6385B207AC74A00D1FD32 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
+		F8D6385E207ACAE600D1FD32 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
+		F8D63860207ACAF600D1FD32 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk/usr/lib/libiconv.tbd; sourceTree = DEVELOPER_DIR; };
+		F8D63865207ACCAA00D1FD32 /* Nimble.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = Nimble.framework; path = "../Debug-iphonesimulator/Nimble.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F8D63867207ACCEE00D1FD32 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = "../Debug-iphonesimulator/Quick.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F8D63869207ACDDD00D1FD32 /* ZipArchive.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZipArchive.framework; path = "../Debug-iphonesimulator/ZipArchive.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F8D6386B207ACE0600D1FD32 /* ZipArchive.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ZipArchive.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F8D63871207AE62A00D1FD32 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		F8D63872207AE63A00D1FD32 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		F8E4A2901A170CA6006485A8 /* GTRemotePushSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTRemotePushSpec.m; sourceTree = "<group>"; };
-		F8E68E721C800B1600DBC517 /* ZipArchive.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZipArchive.framework; path = "Carthage/Checkouts/ZipArchive/build/Debug-iphoneos/ZipArchive.framework"; sourceTree = "<group>"; };
 		F8EFA0361B405020000FF7D0 /* GTRepository+PullSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GTRepository+PullSpec.m"; sourceTree = "<group>"; };
 		F8EFA0381B4059ED000FF7D0 /* GTUtilityFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTUtilityFunctions.h; sourceTree = "<group>"; };
 		F8EFA0391B4059ED000FF7D0 /* GTUtilityFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTUtilityFunctions.m; sourceTree = "<group>"; };
@@ -665,11 +669,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23BB67BC1C7DF45300A37A66 /* libz.tbd in Frameworks */,
+				F81B6B50207B032800AB0836 /* XCTest.framework in Frameworks */,
 				D0A0128A19F98475007F1914 /* Quick.framework in Frameworks */,
 				88F05A9E16011F6E00B7AD1D /* ObjectiveGit.framework in Frameworks */,
 				D0A0128C19F9853D007F1914 /* Nimble.framework in Frameworks */,
-				F895F4DF1C801E5F004EA221 /* ZipArchive.framework in Frameworks */,
+				F8D6386C207ACE0600D1FD32 /* ZipArchive.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -677,9 +681,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4D103ADD1819CFAA0029DB24 /* libiconv.dylib in Frameworks */,
+				F8D6385D207AC75100D1FD32 /* libz.tbd in Frameworks */,
+				F8D6385C207AC74A00D1FD32 /* libiconv.tbd in Frameworks */,
 				8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */,
-				8803DA871313145700E6E818 /* libz.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -687,9 +691,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				884C8A3919FF4B6D0017E98D /* libiconv.dylib in Frameworks */,
-				884C8A3719FF4B4D0017E98D /* libz.dylib in Frameworks */,
+				F8D63861207ACAF700D1FD32 /* libiconv.tbd in Frameworks */,
+				F8D6385F207ACAE600D1FD32 /* libz.tbd in Frameworks */,
 				D05FC5E319FAD03C008C9348 /* libssl.a in Frameworks */,
+				F84277BA207B1002008AB8E8 /* Nimble.framework in Frameworks */,
 				D05FC5E219FAD039008C9348 /* libcrypto.a in Frameworks */,
 				D05FC5E419FAD040008C9348 /* libssh2-ios.a in Frameworks */,
 			);
@@ -699,11 +704,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8D0078B1B4F9F9E009A8DAF /* libz.dylib in Frameworks */,
-				F879D8471B4B8138002D5C07 /* Nimble.framework in Frameworks */,
-				F879D8451B4B8138002D5C07 /* Quick.framework in Frameworks */,
+				F84277BE207B104A008AB8E8 /* XCTest.framework in Frameworks */,
+				F8D63868207ACCEE00D1FD32 /* Quick.framework in Frameworks */,
 				F879D83C1B4B7F7D002D5C07 /* ObjectiveGit.framework in Frameworks */,
-				F8E68E731C800B1600DBC517 /* ZipArchive.framework in Frameworks */,
+				F8D6386A207ACDDD00D1FD32 /* ZipArchive.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -733,7 +737,7 @@
 				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
 				D0D81857174421EB00995A2E /* Configuration */,
 				034768DFFF38A50411DB9C8B /* Products */,
-				E46931A6172740D300F2077D /* Scripts */,
+				F8D6384A207A618D00D1FD32 /* script */,
 			);
 			name = ObjectiveGitFramework;
 			sourceTree = "<group>";
@@ -742,24 +746,25 @@
 		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				306123A817EA5261006591D4 /* extobjc */,
-				4D103ADC1819CFAA0029DB24 /* libiconv.dylib */,
-				8803DA861313145700E6E818 /* libz.dylib */,
-				F8D0078A1B4F9F9E009A8DAF /* libz.dylib */,
-				884C8A3619FF4B4D0017E98D /* libz.dylib */,
-				23BB67BB1C7DF45300A37A66 /* libz.tbd */,
-				884C8A3819FF4B6D0017E98D /* libiconv.dylib */,
-				6A1F2FD317C6A8F3003DFADE /* libcrypto.a */,
-				6A1F2FD417C6A8F3003DFADE /* libssl.a */,
-				6A502B8617D6892D00BAF4A5 /* libssh2-ios.a */,
-				887DAFF615CB1C8000F30D0D /* Security.framework */,
 				1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */,
-				D0A0128819F98475007F1914 /* Quick.framework */,
-				D0A0128B19F9853D007F1914 /* Nimble.framework */,
-				F879D8461B4B8138002D5C07 /* Nimble.framework */,
+				306123A817EA5261006591D4 /* extobjc */,
 				889923F919FF5DD40092A9A6 /* git2 */,
-				F895F4DE1C801E5F004EA221 /* ZipArchive.framework */,
-				F8E68E721C800B1600DBC517 /* ZipArchive.framework */,
+				6A1F2FD317C6A8F3003DFADE /* libcrypto.a */,
+				F8D63860207ACAF600D1FD32 /* libiconv.tbd */,
+				F8D6385B207AC74A00D1FD32 /* libiconv.tbd */,
+				6A502B8617D6892D00BAF4A5 /* libssh2-ios.a */,
+				6A1F2FD417C6A8F3003DFADE /* libssl.a */,
+				23BB67BB1C7DF45300A37A66 /* libz.tbd */,
+				F8D6385E207ACAE600D1FD32 /* libz.tbd */,
+				D0A0128B19F9853D007F1914 /* Nimble.framework */,
+				F8D63865207ACCAA00D1FD32 /* Nimble.framework */,
+				D0A0128819F98475007F1914 /* Quick.framework */,
+				F8D63867207ACCEE00D1FD32 /* Quick.framework */,
+				887DAFF615CB1C8000F30D0D /* Security.framework */,
+				F8D63871207AE62A00D1FD32 /* XCTest.framework */,
+				F8D63872207AE63A00D1FD32 /* XCTest.framework */,
+				F8D6386B207ACE0600D1FD32 /* ZipArchive.framework */,
+				F8D63869207ACDDD00D1FD32 /* ZipArchive.framework */,
 			);
 			name = "External Frameworks and Libraries";
 			sourceTree = "<group>";
@@ -821,11 +826,13 @@
 				88A994B916FCE7D400402C7B /* GTBranchSpec.m */,
 				88F05AA416011FFD00B7AD1D /* GTCommitSpec.m */,
 				88C0BC5817038CF3009E99AA /* GTConfigurationSpec.m */,
+				8870390A1975E3F2004118D7 /* GTDiffDeltaSpec.m */,
 				30865A90167F503400B1AB6E /* GTDiffSpec.m */,
 				D06D9E001755D10000558C17 /* GTEnumeratorSpec.m */,
 				D0751CD818BE520400134314 /* GTFilterListSpec.m */,
 				886E623618AECD86000611A0 /* GTFilterSpec.m */,
 				8832811E173D8816006D7DCF /* GTIndexSpec.m */,
+				F9D1D4221CEB79D1009E5855 /* GTNoteSpec.m */,
 				88948AC81779243600809CDA /* GTObjectDatabaseSpec.m */,
 				88F05AA816011FFD00B7AD1D /* GTObjectSpec.m */,
 				D040AF6F177B9779001AD9EB /* GTOIDSpec.m */,
@@ -837,7 +844,6 @@
 				30A269AC17B4878C000FE64E /* GTRepository+StatusSpec.m */,
 				88E353051982EA6B0051001F /* GTRepositoryAttributesSpec.m */,
 				4D12323F178E009E0048F785 /* GTRepositoryCommittingSpec.m */,
-				F9D1D4221CEB79D1009E5855 /* GTNoteSpec.m */,
 				88234B2518F2FE260039972E /* GTRepositoryResetSpec.m */,
 				D0AC906B172F941F00347DC4 /* GTRepositorySpec.m */,
 				D015F7D417F6965400AD5E1F /* GTRepositoryStashingSpec.m */,
@@ -850,7 +856,6 @@
 				F879D82F1B4B77F4002D5C07 /* Libgit2FeaturesSpec.m */,
 				307623AA17C6C8BD00E2CDF1 /* NSArray+StringArraySpec.m */,
 				D01EFD9F195DEF2200838D24 /* NSDataGitSpec.m */,
-				8870390A1975E3F2004118D7 /* GTDiffDeltaSpec.m */,
 				D0F4E28917C7F24200BBDE30 /* NSErrorGitSpec.m */,
 				88F05A7616011E5400B7AD1D /* Supporting Files */,
 			);
@@ -1013,6 +1018,7 @@
 			isa = PBXGroup;
 			children = (
 				D0A463DD17E57C45000F5021 /* Application.xcconfig */,
+				F81B6B51207B0A7700AB0836 /* Extension.xcconfig */,
 				D019778B19F830CC00F523DA /* Framework.xcconfig */,
 				D0A463DE17E57C45000F5021 /* StaticLibrary.xcconfig */,
 			);
@@ -1036,6 +1042,7 @@
 			children = (
 				D0D81863174421EB00995A2E /* iOS-Application.xcconfig */,
 				D0D81864174421EB00995A2E /* iOS-Base.xcconfig */,
+				F81B6B53207B0A8B00AB0836 /* iOS-Extension.xcconfig */,
 				D019778C19F830D100F523DA /* iOS-Framework.xcconfig */,
 				D0D81865174421EB00995A2E /* iOS-StaticLibrary.xcconfig */,
 			);
@@ -1050,18 +1057,9 @@
 				D0D81869174421EB00995A2E /* Mac-DynamicLibrary.xcconfig */,
 				D0D8186A174421EB00995A2E /* Mac-Framework.xcconfig */,
 				D0D8186B174421EB00995A2E /* Mac-StaticLibrary.xcconfig */,
+				F81B6B54207B0A9F00AB0836 /* Mac-XCTest.xcconfig */,
 			);
 			path = "Mac OS X";
-			sourceTree = "<group>";
-		};
-		E46931A6172740D300F2077D /* Scripts */ = {
-			isa = PBXGroup;
-			children = (
-				6A3C60A017D5987600382DFF /* update_libssh2_ios */,
-				E46931A7172740D300F2077D /* update_libgit2 */,
-				E46931A8172740D300F2077D /* update_libgit2_ios */,
-			);
-			path = Scripts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1279,7 +1277,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 0700;
 				LastTestingUpgradeCheck = 0510;
-				LastUpgradeCheck = 0830;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "GitHub, Inc";
 				TargetAttributes = {
 					88F05A6A16011E5400B7AD1D = {
@@ -1294,7 +1292,7 @@
 					};
 					F879D8351B4B7F7C002D5C07 = {
 						CreatedOnToolsVersion = 6.4;
-						LastSwiftMigration = 0830;
+						LastSwiftMigration = 0930;
 					};
 				};
 			};
@@ -1340,6 +1338,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */,
+				F8D6384B207A618D00D1FD32 /* script in Resources */,
+				F81B6B55207B0A9F00AB0836 /* Mac-XCTest.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1599,6 +1599,7 @@
 				F8D007721B4F7CB6009A8DAF /* NSArray+StringArraySpec.m in Sources */,
 				F8D007731B4F7CC3009A8DAF /* GTSignatureSpec.m in Sources */,
 				F8D007A21B4FA03B009A8DAF /* GTFilterSpec.m in Sources */,
+				F81B6B59207B0D3B00AB0836 /* SwiftSpec.swift in Sources */,
 				F8D007971B4FA03B009A8DAF /* GTRemoteSpec.m in Sources */,
 				F8D007A61B4FA03B009A8DAF /* GTRepositoryAttributesSpec.m in Sources */,
 				F8D007941B4FA03B009A8DAF /* GTReferenceSpec.m in Sources */,
@@ -1624,7 +1625,6 @@
 				F8D007A01B4FA03B009A8DAF /* GTRepository+StatusSpec.m in Sources */,
 				F8D007961B4FA03B009A8DAF /* GTRemotePushSpec.m in Sources */,
 				F8D007A51B4FA03B009A8DAF /* GTDiffDeltaSpec.m in Sources */,
-				F879D8481B4B83B9002D5C07 /* SwiftSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1679,7 +1679,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D0D8186A174421EB00995A2E /* Mac-Framework.xcconfig */;
 			buildSettings = {
-				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
@@ -1704,7 +1703,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D0D8186A174421EB00995A2E /* Mac-Framework.xcconfig */;
 			buildSettings = {
-				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
@@ -1731,10 +1729,15 @@
 			buildSettings = {
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO;
 				HEADER_SEARCH_PATHS = (
 					External/libgit2/include,
@@ -1766,9 +1769,14 @@
 			buildSettings = {
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO;
 				HEADER_SEARCH_PATHS = (
 					External/libgit2/include,
@@ -1843,8 +1851,9 @@
 		};
 		88F05A8016011E5400B7AD1D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D0D81867174421EB00995A2E /* Mac-Application.xcconfig */;
+			baseConfigurationReference = F81B6B54207B0A9F00AB0836 /* Mac-XCTest.xcconfig */;
 			buildSettings = {
+				CLANG_WARN_NULLABLE_TO_NONNULL_CONVERSION = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
@@ -1870,6 +1879,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D0D81867174421EB00995A2E /* Mac-Application.xcconfig */;
 			buildSettings = {
+				CLANG_WARN_NULLABLE_TO_NONNULL_CONVERSION = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
@@ -1892,9 +1902,14 @@
 			buildSettings = {
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO;
 				HEADER_SEARCH_PATHS = (
 					External/libgit2/include,
@@ -1923,7 +1938,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D0D8186A174421EB00995A2E /* Mac-Framework.xcconfig */;
 			buildSettings = {
-				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
@@ -1946,8 +1960,9 @@
 		};
 		D019778F19F830F500F523DA /* Test */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D0D81867174421EB00995A2E /* Mac-Application.xcconfig */;
+			baseConfigurationReference = F81B6B54207B0A9F00AB0836 /* Mac-XCTest.xcconfig */;
 			buildSettings = {
+				CLANG_WARN_NULLABLE_TO_NONNULL_CONVERSION = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
@@ -2130,9 +2145,14 @@
 			buildSettings = {
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = NO;
 				HEADER_SEARCH_PATHS = (
 					External/libgit2/include,
@@ -2161,7 +2181,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D0D8186A174421EB00995A2E /* Mac-Framework.xcconfig */;
 			buildSettings = {
-				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
@@ -2186,6 +2205,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D0D81867174421EB00995A2E /* Mac-Application.xcconfig */;
 			buildSettings = {
+				CLANG_WARN_NULLABLE_TO_NONNULL_CONVERSION = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
@@ -2256,21 +2276,19 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NULLABLE_TO_NONNULL_CONVERSION = NO;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -2301,7 +2319,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libgit2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -2311,14 +2329,13 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NULLABLE_TO_NONNULL_CONVERSION = NO;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -2326,7 +2343,6 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -2348,7 +2364,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libgit2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Test;
@@ -2359,14 +2375,13 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NULLABLE_TO_NONNULL_CONVERSION = NO;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -2374,7 +2389,6 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -2397,7 +2411,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -2408,14 +2422,13 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NULLABLE_TO_NONNULL_CONVERSION = NO;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -2423,7 +2436,6 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -2445,7 +2457,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libgit2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Profile;

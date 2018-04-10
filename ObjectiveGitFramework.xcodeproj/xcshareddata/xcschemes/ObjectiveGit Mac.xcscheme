@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0830"
+   LastUpgradeVersion = "0930"
    version = "2.0">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -32,6 +32,48 @@
                BuildableName = "ObjectiveGit-MacTests.xctest"
                BlueprintName = "ObjectiveGit-MacTests"
                ReferencedContainer = "container:ObjectiveGitFramework.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "DAEB6B8D1943873100289F44"
+               BuildableName = "Quick.framework"
+               BlueprintName = "Quick-macOS"
+               ReferencedContainer = "container:Carthage/Checkouts/Quick/Quick.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "1F925EAC195C0D6300ED456B"
+               BuildableName = "Nimble.framework"
+               BlueprintName = "Nimble-macOS"
+               ReferencedContainer = "container:Carthage/Checkouts/Nimble/Nimble.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "AFF75A231C37279600F450AC"
+               BuildableName = "ZipArchive.framework"
+               BlueprintName = "ZipArchive-Mac"
+               ReferencedContainer = "container:Carthage/Checkouts/ZipArchive/ZipArchive.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

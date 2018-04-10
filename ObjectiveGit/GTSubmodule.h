@@ -79,14 +79,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) GTOID * _Nullable workingDirectoryOID;
 
 /// The name of this submodule.
-@property (nonatomic, copy, readonly) NSString * _Nullable name;
+@property (nonatomic, copy, readonly) NSString *name;
 
 /// The path to this submodule, relative to its parent repository's root.
-@property (nonatomic, copy, readonly) NSString * _Nullable path;
+@property (nonatomic, copy, readonly) NSString *path;
 
 /// The remote URL provided for this submodule, read from the parent repository's
 /// `.git/config` or `.gitmodules` file.
-@property (nonatomic, copy, readonly) NSString * _Nullable URLString;
+@property (nonatomic, copy, readonly) NSString *URLString;
 
 - (instancetype)init NS_UNAVAILABLE;
 

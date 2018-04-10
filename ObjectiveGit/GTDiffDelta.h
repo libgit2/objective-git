@@ -63,10 +63,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, readonly) GTDiffFileFlag flags;
 
 /// The file to the "left" of the diff.
-@property (nonatomic, readonly, copy) GTDiffFile *oldFile;
+@property (nonatomic, readonly, copy) GTDiffFile * _Nullable oldFile;
 
 /// The file to the "right" of the diff.
-@property (nonatomic, readonly, copy) GTDiffFile *newFile __attribute__((ns_returns_not_retained));
+@property (nonatomic, readonly, copy) GTDiffFile * _Nullable newFile __attribute__((ns_returns_not_retained));
 
 /// The type of change that this delta represents.
 ///

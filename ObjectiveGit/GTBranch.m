@@ -124,19 +124,23 @@
 }
 
 - (GTCommit *)targetCommitWithError:(NSError **)error {
-	if (self.OID == nil) {
+	GTOID *oid = self.OID;
+	if (oid == nil) {
 		if (error != NULL) *error = GTReference.invalidReferenceError;
 		return nil;
 	}
 
-	return [self.repository lookUpObjectByOID:self.OID objectType:GTObjectTypeCommit error:error];
+	return [self.repository lookUpObjectByOID:oid objectType:GTObjectTypeCommit error:error];
 }
 
 - (NSUInteger)numberOfCommitsWithError:(NSError **)error {
 	GTEnumerator *enumerator = [[GTEnumerator alloc] initWithRepository:self.repository error:error];
 	if (enumerator == nil) return NSNotFound;
 
-	if (![enumerator pushSHA:self.OID.SHA error:error]) return NSNotFound;
+	GTOID *oid = self.OID;
+	if (oid == nil) return NSNotFound;
+
+	if (![enumerator pushSHA:oid.SHA error:error]) return NSNotFound;
 	return [enumerator countRemainingObjects:error];
 }
 
@@ -157,7 +161,9 @@
 }
 
 - (NSArray *)uniqueCommitsRelativeToBranch:(GTBranch *)otherBranch error:(NSError **)error {
-	GTEnumerator *enumerator = [self.repository enumeratorForUniqueCommitsFromOID:self.OID relativeToOID:otherBranch.OID error:error];
+	GTOID *oid = self.OID;
+	GTOID *otherOID = otherBranch.OID;
+	GTEnumerator *enumerator = [self.repository enumeratorForUniqueCommitsFromOID:oid relativeToOID:otherOID error:error];
 	return [enumerator allObjectsWithError:error];
 }
 
@@ -179,14 +185,21 @@
 		return NO;
 	}
 
-	_reference = [[GTReference alloc] initWithGitReference:git_ref repository:self.repository];
+	GTReference *renamedRef = [[GTReference alloc] initWithGitReference:git_ref repository:self.repository];
+	NSAssert(renamedRef, @"Unable to allocate renamed ref");
+	_reference = renamedRef;
 
 	return YES;
 }
 
 - (GTBranch *)trackingBranchWithError:(NSError **)error success:(BOOL *)success {
+	BOOL underSuccess = NO;
+	if (success == NULL) {
+		success = &underSuccess;
+	}
+
 	if (self.branchType == GTBranchTypeRemote) {
-		if (success != NULL) *success = YES;
+		*success = YES;
 		return self;
 	}
 
@@ -195,25 +208,32 @@
 
 	// GIT_ENOTFOUND means no tracking branch found.
 	if (gitError == GIT_ENOTFOUND) {
-		if (success != NULL) *success = YES;
+		*success = YES;
 		return nil;
 	}
 
 	if (gitError != GIT_OK) {
-		if (success != NULL) *success = NO;
+		*success = NO;
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to create reference to tracking branch from %@", self];
 		return nil;
 	}
 
 	if (trackingRef == NULL) {
-		if (success != NULL) *success = NO;
+		*success = NO;
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Got a NULL remote ref for %@", self];
 		return nil;
 	}
 
-	if (success != NULL) *success = YES;
+	GTReference *upsteamRef = [[GTReference alloc] initWithGitReference:trackingRef repository:self.repository];
+	if (upsteamRef == nil) {
+		*success = NO;
+		if (error != NULL) *error = [NSError git_errorFor:GIT_ERROR description:@"Failed to allocate upstream ref"];
+		return nil;
+	}
 
-	return [[self class] branchWithReference:[[GTReference alloc] initWithGitReference:trackingRef repository:self.repository]];
+	*success = YES;
+
+	return [[self class] branchWithReference:upsteamRef];
 }
 
 - (BOOL)updateTrackingBranch:(GTBranch *)trackingBranch error:(NSError **)error {
@@ -239,7 +259,9 @@
 }
 
 - (BOOL)calculateAhead:(size_t *)ahead behind:(size_t *)behind relativeTo:(GTBranch *)branch error:(NSError **)error {
-	return [self.repository calculateAhead:ahead behind:behind ofOID:self.OID relativeToOID:branch.OID error:error];
+	GTOID *oid = self.OID;
+	GTOID *branchOID = branch.OID;
+	return [self.repository calculateAhead:ahead behind:behind ofOID:oid relativeToOID:branchOID error:error];
 }
 
 @end

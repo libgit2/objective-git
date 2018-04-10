@@ -6,10 +6,9 @@
 //  Copyright (c) 2015 GitHub, Inc. All rights reserved.
 //
 
-#import <Nimble/Nimble.h>
-#import <Nimble/Nimble-Swift.h>
-#import <ObjectiveGit/ObjectiveGit.h>
-#import <Quick/Quick.h>
+@import ObjectiveGit;
+@import Nimble;
+@import Quick;
 
 #import "QuickSpec+GTFixtures.h"
 

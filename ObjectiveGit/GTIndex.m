@@ -278,7 +278,9 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 - (NSArray *)entries {
 	NSMutableArray *entries = [NSMutableArray arrayWithCapacity:self.entryCount];
 	for (NSUInteger i = 0; i < self.entryCount; i++) {
-		[entries addObject:[self entryAtIndex:i]];
+		GTIndexEntry *entry = [self entryAtIndex:i];
+		if (entry)
+			[entries addObject:entry];
 	}
 
 	return entries;

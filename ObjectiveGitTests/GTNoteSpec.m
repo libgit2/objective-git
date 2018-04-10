@@ -6,9 +6,9 @@
 //  Copyright (c) 2016 Wildbit LLC. All rights reserved.
 //
 
-#import <Nimble/Nimble.h>
-#import <ObjectiveGit/ObjectiveGit.h>
-#import <Quick/Quick.h>
+@import ObjectiveGit;
+@import Nimble;
+@import Quick;
 
 #import "QuickSpec+GTFixtures.h"
 
