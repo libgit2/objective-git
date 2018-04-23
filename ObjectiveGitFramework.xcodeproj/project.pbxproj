@@ -91,11 +91,14 @@
 		4D1C40D8182C006D00BE2960 /* GTBlobSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D1C40D7182C006D00BE2960 /* GTBlobSpec.m */; };
 		4D79C0EE17DF9F4D00997DE4 /* GTCredential.h in Headers */ = {isa = PBXBuildFile; fileRef = 4D79C0EC17DF9F4D00997DE4 /* GTCredential.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4D79C0EF17DF9F4D00997DE4 /* GTCredential.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D79C0ED17DF9F4D00997DE4 /* GTCredential.m */; };
+		4D9BCD24206D84AD003CD3CE /* libgit2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D9BCD23206D84AD003CD3CE /* libgit2.a */; };
+		4D9BCD25206D84B2003CD3CE /* libgit2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D9BCD23206D84AD003CD3CE /* libgit2.a */; };
 		4DBA4A3217DA73CE006CD5F5 /* GTRemoteSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DBA4A3117DA73CE006CD5F5 /* GTRemoteSpec.m */; };
 		4DC55AE51AD859AD0032563C /* GTCheckoutOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC55AE31AD859AD0032563C /* GTCheckoutOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4DC55AE61AD859AD0032563C /* GTCheckoutOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC55AE31AD859AD0032563C /* GTCheckoutOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4DC55AE71AD859AD0032563C /* GTCheckoutOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC55AE41AD859AD0032563C /* GTCheckoutOptions.m */; };
 		4DC55AE81AD859AD0032563C /* GTCheckoutOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC55AE41AD859AD0032563C /* GTCheckoutOptions.m */; };
+		4DFA918F207D0B87003CD3CE /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8D63865207ACCAA00D1FD32 /* Nimble.framework */; };
 		4DFFB15B183AA8D600D1565E /* GTRepository+RemoteOperations.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DFFB159183AA8D600D1565E /* GTRepository+RemoteOperations.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4DFFB15C183AA8D600D1565E /* GTRepository+RemoteOperations.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DFFB15A183AA8D600D1565E /* GTRepository+RemoteOperations.m */; };
 		55C8055013861FE7004DCB0F /* GTObjectDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C8054D13861F34004DCB0F /* GTObjectDatabase.m */; };
@@ -297,7 +300,7 @@
 		D040AF78177B9A9E001AD9EB /* GTSignatureSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D040AF77177B9A9E001AD9EB /* GTSignatureSpec.m */; };
 		D05FC5E219FAD039008C9348 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A1F2FD317C6A8F3003DFADE /* libcrypto.a */; };
 		D05FC5E319FAD03C008C9348 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A1F2FD417C6A8F3003DFADE /* libssl.a */; };
-		D05FC5E419FAD040008C9348 /* libssh2-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A502B8617D6892D00BAF4A5 /* libssh2-ios.a */; };
+		D05FC5E419FAD040008C9348 /* libssh2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A502B8617D6892D00BAF4A5 /* libssh2.a */; };
 		D06D9E011755D10000558C17 /* GTEnumeratorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D06D9E001755D10000558C17 /* GTEnumeratorSpec.m */; };
 		D0751CD918BE520400134314 /* GTFilterListSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0751CD818BE520400134314 /* GTFilterListSpec.m */; };
 		D09C2E361755F16200065E36 /* GTSubmodule.h in Headers */ = {isa = PBXBuildFile; fileRef = D09C2E341755F16200065E36 /* GTSubmodule.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -490,6 +493,7 @@
 		4D79C0EC17DF9F4D00997DE4 /* GTCredential.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTCredential.h; sourceTree = "<group>"; };
 		4D79C0ED17DF9F4D00997DE4 /* GTCredential.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTCredential.m; sourceTree = "<group>"; };
 		4D79C0F617DFAA7100997DE4 /* GTCredential+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTCredential+Private.h"; sourceTree = "<group>"; };
+		4D9BCD23206D84AD003CD3CE /* libgit2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgit2.a; path = External/build/lib/libgit2.a; sourceTree = "<group>"; };
 		4DBA4A3117DA73CE006CD5F5 /* GTRemoteSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTRemoteSpec.m; sourceTree = "<group>"; };
 		4DC55AE31AD859AD0032563C /* GTCheckoutOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTCheckoutOptions.h; sourceTree = "<group>"; };
 		4DC55AE41AD859AD0032563C /* GTCheckoutOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTCheckoutOptions.m; sourceTree = "<group>"; };
@@ -503,9 +507,9 @@
 		5BE612861745EE3300266D8C /* GTTreeBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTTreeBuilder.h; sourceTree = "<group>"; };
 		5BE612871745EE3300266D8C /* GTTreeBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTTreeBuilder.m; sourceTree = "<group>"; };
 		5BE612921745EEBC00266D8C /* GTTreeBuilderSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTTreeBuilderSpec.m; sourceTree = "<group>"; };
-		6A1F2FD317C6A8F3003DFADE /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = "External/ios-openssl/lib/libcrypto.a"; sourceTree = "<group>"; };
-		6A1F2FD417C6A8F3003DFADE /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = "External/ios-openssl/lib/libssl.a"; sourceTree = "<group>"; };
-		6A502B8617D6892D00BAF4A5 /* libssh2-ios.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libssh2-ios.a"; path = "External/libssh2-ios/lib/libssh2-ios.a"; sourceTree = "<group>"; };
+		6A1F2FD317C6A8F3003DFADE /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = External/build/lib/libcrypto.a; sourceTree = "<group>"; };
+		6A1F2FD417C6A8F3003DFADE /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = External/build/lib/libssl.a; sourceTree = "<group>"; };
+		6A502B8617D6892D00BAF4A5 /* libssh2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssh2.a; path = External/build/lib/libssh2.a; sourceTree = "<group>"; };
 		6EEB519F199D62B9001D72C0 /* GTFetchHeadEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTFetchHeadEntry.h; sourceTree = "<group>"; };
 		6EEB51A0199D62B9001D72C0 /* GTFetchHeadEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTFetchHeadEntry.m; sourceTree = "<group>"; };
 		79262F0E13C697BE00A4B1EA /* git2 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = git2; path = External/libgit2/include/git2; sourceTree = "<group>"; };
@@ -682,6 +686,7 @@
 			files = (
 				F8D6385D207AC75100D1FD32 /* libz.tbd in Frameworks */,
 				F8D6385C207AC74A00D1FD32 /* libiconv.tbd in Frameworks */,
+				4D9BCD24206D84AD003CD3CE /* libgit2.a in Frameworks */,
 				8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -694,7 +699,8 @@
 				F8D6385F207ACAE600D1FD32 /* libz.tbd in Frameworks */,
 				D05FC5E319FAD03C008C9348 /* libssl.a in Frameworks */,
 				D05FC5E219FAD039008C9348 /* libcrypto.a in Frameworks */,
-				D05FC5E419FAD040008C9348 /* libssh2-ios.a in Frameworks */,
+				D05FC5E419FAD040008C9348 /* libssh2.a in Frameworks */,
+				4D9BCD25206D84B2003CD3CE /* libgit2.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -705,6 +711,7 @@
 				F84277BE207B104A008AB8E8 /* XCTest.framework in Frameworks */,
 				F8D63868207ACCEE00D1FD32 /* Quick.framework in Frameworks */,
 				F879D83C1B4B7F7D002D5C07 /* ObjectiveGit.framework in Frameworks */,
+				4DFA918F207D0B87003CD3CE /* Nimble.framework in Frameworks */,
 				F8D6386A207ACDDD00D1FD32 /* ZipArchive.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -744,16 +751,17 @@
 		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */,
 				306123A817EA5261006591D4 /* extobjc */,
 				889923F919FF5DD40092A9A6 /* git2 */,
 				6A1F2FD317C6A8F3003DFADE /* libcrypto.a */,
 				F8D63860207ACAF600D1FD32 /* libiconv.tbd */,
 				F8D6385B207AC74A00D1FD32 /* libiconv.tbd */,
-				6A502B8617D6892D00BAF4A5 /* libssh2-ios.a */,
-				6A1F2FD417C6A8F3003DFADE /* libssl.a */,
 				23BB67BB1C7DF45300A37A66 /* libz.tbd */,
 				F8D6385E207ACAE600D1FD32 /* libz.tbd */,
+				6A1F2FD417C6A8F3003DFADE /* libssl.a */,
+				6A502B8617D6892D00BAF4A5 /* libssh2.a */,
+				4D9BCD23206D84AD003CD3CE /* libgit2.a */,
+				1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */,
 				D0A0128B19F9853D007F1914 /* Nimble.framework */,
 				F8D63865207ACCAA00D1FD32 /* Nimble.framework */,
 				D0A0128819F98475007F1914 /* Quick.framework */,
@@ -1681,6 +1689,10 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Info.plist;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/External/build/lib",
+				);
 				MODULEMAP_FILE = ObjectiveGit.modulemap;
 				OTHER_LDFLAGS = (
 					"-lgit2",
@@ -1705,6 +1717,10 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Info.plist;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/External/build/lib",
+				);
 				MODULEMAP_FILE = ObjectiveGit.modulemap;
 				OTHER_LDFLAGS = (
 					"-lgit2",
@@ -1940,6 +1956,10 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Info.plist;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/External/build/lib",
+				);
 				MODULEMAP_FILE = ObjectiveGit.modulemap;
 				OTHER_LDFLAGS = (
 					"-lgit2",
@@ -1988,22 +2008,15 @@
 				DYLIB_CURRENT_VERSION = 1;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"External/libssh2-ios/include/libssh2",
-					External/libgit2/include,
+					External/build/include,
 				);
 				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = (
-					"External/ios-openssl/lib",
-					"External/libssh2-ios/lib",
-					"External/libgit2-ios",
-				);
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/External/build/lib";
 				MODULEMAP_FILE = ObjectiveGit.modulemap;
-				OTHER_LDFLAGS = (
-					"-lgit2-ios",
-					"-all_load",
-				);
+				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libgit2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ObjectiveGit;
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/External/libgit2/include";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -2052,22 +2065,15 @@
 				DYLIB_CURRENT_VERSION = 1;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"External/libssh2-ios/include/libssh2",
-					External/libgit2/include,
+					External/build/include,
 				);
 				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = (
-					"External/ios-openssl/lib",
-					"External/libssh2-ios/lib",
-					"External/libgit2-ios",
-				);
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/External/build/lib";
 				MODULEMAP_FILE = ObjectiveGit.modulemap;
-				OTHER_LDFLAGS = (
-					"-lgit2-ios",
-					"-all_load",
-				);
+				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libgit2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ObjectiveGit;
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/External/libgit2/include";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -2084,22 +2090,15 @@
 				DYLIB_CURRENT_VERSION = 1;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"External/libssh2-ios/include/libssh2",
-					External/libgit2/include,
+					External/build/include,
 				);
 				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = (
-					"External/ios-openssl/lib",
-					"External/libssh2-ios/lib",
-					"External/libgit2-ios",
-				);
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/External/build/lib";
 				MODULEMAP_FILE = ObjectiveGit.modulemap;
-				OTHER_LDFLAGS = (
-					"-lgit2-ios",
-					"-all_load",
-				);
+				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libgit2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ObjectiveGit;
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/External/libgit2/include";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -2116,22 +2115,15 @@
 				DYLIB_CURRENT_VERSION = 1;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"External/libssh2-ios/include/libssh2",
-					External/libgit2/include,
+					External/build/include,
 				);
 				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = (
-					"External/ios-openssl/lib",
-					"External/libssh2-ios/lib",
-					"External/libgit2-ios",
-				);
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/External/build/lib";
 				MODULEMAP_FILE = ObjectiveGit.modulemap;
-				OTHER_LDFLAGS = (
-					"-lgit2-ios",
-					"-all_load",
-				);
+				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libgit2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ObjectiveGit;
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/External/libgit2/include";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -2183,6 +2175,10 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Info.plist;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/External/build/lib",
+				);
 				MODULEMAP_FILE = ObjectiveGit.modulemap;
 				OTHER_LDFLAGS = (
 					"-lgit2",
