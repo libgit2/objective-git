@@ -1691,6 +1691,7 @@
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					/usr/local/opt/openssl/lib,
 					"$(PROJECT_DIR)/External/build/lib",
 				);
 				MODULEMAP_FILE = ObjectiveGit.modulemap;
@@ -1719,6 +1720,7 @@
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					/usr/local/opt/openssl/lib,
 					"$(PROJECT_DIR)/External/build/lib",
 				);
 				MODULEMAP_FILE = ObjectiveGit.modulemap;
@@ -1958,6 +1960,7 @@
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					/usr/local/opt/openssl/lib,
 					"$(PROJECT_DIR)/External/build/lib",
 				);
 				MODULEMAP_FILE = ObjectiveGit.modulemap;
@@ -2177,6 +2180,7 @@
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					/usr/local/opt/openssl/lib,
 					"$(PROJECT_DIR)/External/build/lib",
 				);
 				MODULEMAP_FILE = ObjectiveGit.modulemap;
