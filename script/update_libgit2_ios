@@ -29,6 +29,9 @@ function build_libgit2 ()
     # LOL Cmake
     SYS_ROOT="-DCMAKE_OSX_SYSROOT=${SDKROOT}"
 
+    # We only want to discover our static library
+    export PKG_CONFIG="${SCRIPT_DIR}"/pkg-config-static
+
     # Limit pkg-config to what we're currently expecting it to use
     # PKG_CONFIG_PATH="${INSTALL_PATH}/lib/pkgconfig/"
     # LDFLAGS="-L $(xcrun --sdk iphoneos --show-sdk-path)/usr/lib"
