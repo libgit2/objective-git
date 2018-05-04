@@ -3,7 +3,7 @@
 set -e
 
 # source the common build functions
-SCRIPT_DIR=$(dirname "$0")
+SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
 source "${SCRIPT_DIR}/ios_build_functions.sh"
 
 function setup ()
