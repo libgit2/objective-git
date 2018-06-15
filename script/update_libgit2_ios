@@ -3,74 +3,68 @@
 set -e
 
 # source the common build functions
-SCRIPT_DIR=$(dirname "$0")
+SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
 source "${SCRIPT_DIR}/ios_build_functions.sh"
 
 function setup ()
 {
-    if [ "${ROOT_PATH}/External/libgit2-ios/libgit2-ios.a" -nt "${ROOT_PATH}/External/libgit2" ]
+    if [ "${INSTALL_PATH}/lib/libgit2.a" -nt "${ROOT_PATH}/External/libgit2" ]
     then
         echo "No update needed."
         exit 0
     fi
 
     LIBRARY_NAME="libgit2"
-    LIB_PATH="${ROOT_PATH}/External/libgit2-ios"
-    rm -rf "${LIB_PATH}"
-
-    pushd "${ROOT_PATH}/External/libgit2" > /dev/null
 }
 
 function build_libgit2 ()
 {
-    rm -rf "build"
-    mkdir "build"
 
-    pushd "build" > /dev/null
+    # Force CMake to rebuild
+    rm -rf "${ARCH_INSTALL_PATH}/libgit2"
+
+    mkdir -p "${ARCH_INSTALL_PATH}/libgit2"
+    pushd "${ARCH_INSTALL_PATH}/libgit2" > /dev/null
 
     # LOL Cmake
-    if [ "${ARCH}" != "i386" ] && [ "${ARCH}" != "x86_64" ]
-    then
-        SYS_ROOT="-DCMAKE_OSX_SYSROOT=${SDKROOT}"
-    fi
+    SYS_ROOT="-DCMAKE_OSX_SYSROOT=${SDKROOT}"
 
-    # install the each built arch somewhere sane
-    INSTALL_PREFIX="${LIB_PATH}/${SDKNAME}-${ARCH}.sdk"
+    # We only want to discover our static library
+    export PKG_CONFIG="${SCRIPT_DIR}"/pkg-config-static
 
-    mkdir -p "${INSTALL_PREFIX}"
-
-    LOG="${INSTALL_PREFIX}/build-libgit2.log"
-    echo "$LOG"
+    # Limit pkg-config to what we're currently expecting it to use
+    # PKG_CONFIG_PATH="${INSTALL_PATH}/lib/pkgconfig/"
+    # LDFLAGS="-L $(xcrun --sdk iphoneos --show-sdk-path)/usr/lib"
+    # export PKG_CONFIG_PATH
+    # export LDFLAGS
 
     cmake \
         -DCMAKE_C_COMPILER_WORKS:BOOL=ON \
         -DBUILD_SHARED_LIBS:BOOL=OFF \
-        -DCMAKE_PREFIX_PATH:PATH="${ROOT_PATH}/External/libssh2-ios/bin/${SDKNAME}-${ARCH}.sdk" \
+        -DCMAKE_PREFIX_PATH:PATH="${INSTALL_PATH}/" \
         -DPKG_CONFIG_USE_CMAKE_PREFIX_PATH:BOOL=ON \
-        -DCMAKE_INSTALL_PREFIX:PATH="${INSTALL_PREFIX}/" \
+        -DCMAKE_INSTALL_PREFIX:PATH="${ARCH_INSTALL_PATH}/" \
         -DBUILD_CLAR:BOOL=OFF \
         -DTHREADSAFE:BOOL=ON \
         -DCURL:BOOL=OFF \
         -DCMAKE_C_FLAGS:STRING="-fembed-bitcode" \
         "${SYS_ROOT}" \
         -DCMAKE_OSX_ARCHITECTURES:STRING="${ARCH}" \
-        .. >> "${LOG}" 2>&1
+        "${ROOT_PATH}/External/libgit2" >> "${LOG}" 2>&1
     cmake --build . --target install >> "${LOG}" 2>&1
+    popd > /dev/null
 
     # push the built library into the list
-    BUILT_LIB_PATHS+=("${INSTALL_PREFIX}/lib/libgit2.a")
-    popd > /dev/null
+    BUILT_LIB_PATHS+=("${ARCH_INSTALL_PATH}/lib/libgit2.a")
 }
 
 function fat_binary ()
 {
     echo "Building fat binary..."
 
-    lipo -create "${BUILT_LIB_PATHS[@]}" -output "${ROOT_PATH}/External/libgit2-ios/libgit2-ios.a"
+    lipo -create "${BUILT_LIB_PATHS[@]}" -output "${INSTALL_PATH}/lib/libgit2.a"
 
     echo "Building done."
-
-    popd > /dev/null
 }
 
 build_all_archs setup build_libgit2 fat_binary

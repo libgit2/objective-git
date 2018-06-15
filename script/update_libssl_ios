@@ -1,35 +1,28 @@
 #!/bin/bash
 
+set -e
+
 # source the common build functions
 SCRIPT_DIR=$(dirname "$0")
 source "${SCRIPT_DIR}/ios_build_functions.sh"
 
 function setup ()
 {
-    if [ -f "${ROOT_PATH}/External/ios-openssl/lib/libssl.a" ] && [ -f "${ROOT_PATH}/External/ios-openssl/lib/libcrypto.a" ] && [ -d "${ROOT_PATH}/External/ios-openssl/include" ]
+    if [ -f "${INSTALL_PATH}/lib/libssl.a" -a \
+       -f "${INSTALL_PATH}/lib/libcrypto.a" -a \
+       -d "${INSTALL_PATH}/include/openssl" ]
     then
         echo "No update needed."
         exit 0
     fi
 
     LIBRARY_NAME="OpenSSL"
-
-    rm -rf "${ROOT_PATH}/External/ios-openssl/include" "External/ios-openssl/lib"
 }
 
-function cleanup () 
+function build_ssl ()
 {
-    rm -rf "/tmp/openssl"
-    rm -rf "/tmp/openssl-*.log"
-}
-
-function build_ssl () 
-{
-    rm -rf "/tmp/openssl"
-    cp -r "${ROOT_PATH}/External/openssl" "/tmp/"
-    pushd "/tmp/openssl" > /dev/null
-
-    LOG="/tmp/openssl-${ARCH}.log"
+    cp -r "${ROOT_PATH}/External/openssl" "${ARCH_INSTALL_PATH}/openssl"
+    pushd "${ARCH_INSTALL_PATH}/openssl" > /dev/null
 
     if [ "${ARCH}" == "arm64" ] || [ "${ARCH}" == "x86_64" ]
     then
@@ -40,36 +33,36 @@ function build_ssl ()
         CONFIG="no-gost no-asm"
         perl -i -pe 's|static volatile sig_atomic_t intr_signal|static volatile int intr_signal|' crypto/ui/ui_openssl.c
     fi
-    echo "$LOG"
 
-    ./Configure ${HOST} ${CONFIG} --openssldir="/tmp/openssl-${ARCH}" >> "${LOG}" 2>&1
+    ./Configure ${HOST} ${CONFIG} --openssldir="${ARCH_INSTALL_PATH}" >> "${LOG}" 2>&1
     perl -i -pe "s|^CC= gcc|CC= ${CLANG} -miphoneos-version-min=${IPHONEOS_DEPLOYMENT_TARGET} -arch ${ARCH} -fembed-bitcode |g" Makefile >> "${LOG}" 2>&1
     perl -i -pe "s|^CFLAG= (.*)|CFLAG= -isysroot ${SDKROOT} \$1|g" Makefile >> "${LOG}" 2>&1
     make >> "${LOG}" 2>&1
 
     make install_sw >> "${LOG}" 2>&1
     popd > /dev/null
-    rm -rf "/tmp/openssl"
 
-    BUILT_CRYPTO_PATHS+=("/tmp/openssl-${ARCH}/lib/libcrypto.a")
-    BUILT_SSL_PATHS+=("/tmp/openssl-${ARCH}/lib/libssl.a")
+    rm -rf "${ARCH_INSTALL_PATH}/openssl"
+
+    BUILT_CRYPTO_PATHS+=("${ARCH_INSTALL_PATH}/lib/libcrypto.a")
+    BUILT_SSL_PATHS+=("${ARCH_INSTALL_PATH}/lib/libssl.a")
 }
 
 function fat_binary ()
 {
+    echo "Copying headers & pkg-config files"
+    cp -r "${ARCH_INSTALL_PATH}/include/openssl" "${INSTALL_PATH}/include/"
+    for pkgfile in "${ARCH_INSTALL_PATH}"/lib/pkgconfig/*.pc; do
+      cp "${pkgfile}" "${INSTALL_PATH}/lib/pkgconfig/"
+      perl -i -pe "s|^(prefix=${INSTALL_PATH}).*$|\$1|g" "${INSTALL_PATH}/lib/pkgconfig/$(basename "${pkgfile}")" >> "${LOG}" 2>&1
+    done
+
     echo "Building fat binary..."
 
-    mkdir -p "${ROOT_PATH}/External/ios-openssl/include"
-    cp -r /tmp/openssl-i386/include/openssl "${ROOT_PATH}/External/ios-openssl/include/"
-
-    mkdir -p "${ROOT_PATH}/External/ios-openssl/lib"
-
-    lipo -create "${BUILT_CRYPTO_PATHS[@]}" -output "${ROOT_PATH}/External/ios-openssl/lib/libcrypto.a"
-    lipo -create "${BUILT_SSL_PATHS[@]}" -output "${ROOT_PATH}/External/ios-openssl/lib/libssl.a"
+    lipo -create "${BUILT_CRYPTO_PATHS[@]}" -output "${INSTALL_PATH}/lib/libcrypto.a"
+    lipo -create "${BUILT_SSL_PATHS[@]}" -output "${INSTALL_PATH}/lib/libssl.a"
 
     echo "Building done."
 }
 
-cleanup
 build_all_archs setup build_ssl fat_binary
-cleanup

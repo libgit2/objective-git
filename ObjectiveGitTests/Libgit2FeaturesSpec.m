@@ -30,10 +30,17 @@ describe(@"libgit", ^{
 		expect(@(git_features & GIT_FEATURE_HTTPS)).to(beTruthy());
 	});
 
-	xit(@"should be built with SSH enabled", ^{
+	it(@"should be built with SSH enabled", ^{
 		expect(@(git_features & GIT_FEATURE_SSH)).to(beTruthy());
 	});
 
+	it(@"should have ssh memory credentials", ^{
+		NSError *error;
+		GTCredential *cred = [GTCredential credentialWithUserName:@"null" publicKeyString:@"pub" privateKeyString:@"priv" passphrase:@"pass" error:&error];
+
+		expect(cred).notTo(beNil());
+		expect(error).to(beNil());
+	});
 });
 
 QuickSpecEnd
