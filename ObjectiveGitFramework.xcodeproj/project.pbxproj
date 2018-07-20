@@ -320,7 +320,6 @@
 		DD3D951C182AB25C004AF532 /* GTBlameHunk.h in Headers */ = {isa = PBXBuildFile; fileRef = DD3D951A182AB25C004AF532 /* GTBlameHunk.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DD3D951D182AB25C004AF532 /* GTBlameHunk.m in Sources */ = {isa = PBXBuildFile; fileRef = DD3D951B182AB25C004AF532 /* GTBlameHunk.m */; };
 		F81B6B50207B032800AB0836 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8D63871207AE62A00D1FD32 /* XCTest.framework */; };
-		F81B6B55207B0A9F00AB0836 /* Mac-XCTest.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = F81B6B54207B0A9F00AB0836 /* Mac-XCTest.xcconfig */; };
 		F81B6B59207B0D3B00AB0836 /* SwiftSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A0129619F9A660007F1914 /* SwiftSpec.swift */; };
 		F84277BE207B104A008AB8E8 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8D63872207AE63A00D1FD32 /* XCTest.framework */; };
 		F86949AA1BF1B79E00A989D3 /* GTUtilityFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = F8EFA0391B4059ED000FF7D0 /* GTUtilityFunctions.m */; };
@@ -1345,7 +1344,6 @@
 			files = (
 				8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */,
 				F8D6384B207A618D00D1FD32 /* script in Resources */,
-				F81B6B55207B0A9F00AB0836 /* Mac-XCTest.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
