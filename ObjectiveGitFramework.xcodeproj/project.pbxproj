@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
+		562126272101D971009A787A /* genstrings */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 5621262C2101D971009A787A /* Build configuration list for PBXAggregateTarget "genstrings" */;
+			buildPhases = (
+				5621262D2101D978009A787A /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = genstrings;
+			productName = genstrings;
+		};
 		6A28265217C69CB400C6A948 /* OpenSSL-iOS */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 6A28265417C69CB400C6A948 /* Build configuration list for PBXAggregateTarget "OpenSSL-iOS" */;
@@ -1290,6 +1301,11 @@
 				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "GitHub, Inc";
 				TargetAttributes = {
+					562126272101D971009A787A = {
+						CreatedOnToolsVersion = 9.4.1;
+						DevelopmentTeam = X2L8375ZQ7;
+						ProvisioningStyle = Automatic;
+					};
 					88F05A6A16011E5400B7AD1D = {
 						LastSwiftMigration = 0830;
 					};
@@ -1329,6 +1345,7 @@
 				D0A330F216027F3600A616FA /* libgit2-iOS */,
 				6A28265217C69CB400C6A948 /* OpenSSL-iOS */,
 				6A3C609017D5963700382DFF /* libssh2-iOS */,
+				562126272101D971009A787A /* genstrings */,
 			);
 		};
 /* End PBXProject section */
@@ -1364,6 +1381,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		5621262D2101D978009A787A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /usr/bin/python;
+			shellScript = "# encoding=utf-8\n\nimport os, time, codecs\nroot = os.getenv('SRCROOT')\nprint \"update localisation in\", root\nfor (dirpath, dirnames, filenames) in os.walk(root):\n    if \"en.lproj\" in dirnames:\n        os.chdir(dirpath)\n        os.system(\"find ./ -name '*.mm' -o -name '*.m' | xargs genstrings -u -q -o en.lproj\")\n";
+		};
 		6A28265317C69CB400C6A948 /* OpenSSL-iOS */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1829,6 +1859,42 @@
 				);
 			};
 			name = Release;
+		};
+		562126282101D971009A787A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = X2L8375ZQ7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		562126292101D971009A787A /* Test */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = X2L8375ZQ7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Test;
+		};
+		5621262A2101D971009A787A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = X2L8375ZQ7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		5621262B2101D971009A787A /* Profile */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = X2L8375ZQ7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Profile;
 		};
 		6A28265517C69CB400C6A948 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -2490,6 +2556,17 @@
 				D019778D19F830F500F523DA /* Test */,
 				1DEB91B308733DA50010E9CD /* Release */,
 				D03FC3D71602E97F00BCFA73 /* Profile */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5621262C2101D971009A787A /* Build configuration list for PBXAggregateTarget "genstrings" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				562126282101D971009A787A /* Debug */,
+				562126292101D971009A787A /* Test */,
+				5621262A2101D971009A787A /* Release */,
+				5621262B2101D971009A787A /* Profile */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
