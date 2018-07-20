@@ -63,7 +63,10 @@ NSString * const GTGitErrorOID = @"GTOID";
 	}
 
 	NSError *underError = [self git_errorFor:code];
-	if (underError != nil) userInfo[NSUnderlyingErrorKey] = underError;
+	if (underError != nil) {
+		userInfo[NSUnderlyingErrorKey] = underError;
+		userInfo[NSLocalizedRecoverySuggestionErrorKey] = [underError localizedDescription];
+	}
 
 	return [NSError errorWithDomain:GTGitErrorDomain code:code userInfo:userInfo];
 }
