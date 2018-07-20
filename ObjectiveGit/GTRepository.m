@@ -139,7 +139,7 @@ typedef struct {
 	git_repository *repository = NULL;
 	int gitError = git_repository_init_ext(&repository, path, &options);
 	if (gitError != GIT_OK || repository == NULL) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to initialize empty repository at URL %@.", localFileURL];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:NSLocalizedString(@"Failed to initialize empty repository at URL %@.", @"error"), localFileURL];
 		return nil;
 	}
 
@@ -175,7 +175,7 @@ typedef struct {
 	git_repository *r;
 	int gitError = git_repository_open(&r, localFileURL.path.fileSystemRepresentation);
 	if (gitError < GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to open repository at URL %@.", localFileURL];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:NSLocalizedString(@"Failed to open repository at URL %@.", @"error"), localFileURL];
 		return nil;
 	}
 
@@ -206,7 +206,7 @@ typedef struct {
 	git_repository *r;
 	int gitError = git_repository_open_ext(&r, localFileURL.path.fileSystemRepresentation, (unsigned int)flags, ceilingDirsString.fileSystemRepresentation);
 	if (gitError < GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to open repository at URL %@.", localFileURL];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:NSLocalizedString(@"Failed to open repository at URL %@.", @"error"), localFileURL];
 		return nil;
 	}
 
@@ -291,7 +291,7 @@ struct GTRemoteCreatePayload {
 	if (serverCertificateURL) {
 		int gitError = git_libgit2_opts(GIT_OPT_SET_SSL_CERT_LOCATIONS, serverCertificateURL.fileSystemRepresentation, NULL);
 		if (gitError < GIT_OK) {
-			if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to configure the server certificate at %@", serverCertificateURL];
+			if (error != NULL) *error = [NSError git_errorFor:gitError description:NSLocalizedString(@"Failed to configure the server certificate at %@", @"error"), serverCertificateURL];
 			return nil;
 		}
 	}
@@ -307,7 +307,7 @@ struct GTRemoteCreatePayload {
 	git_repository *repository;
 	int gitError = git_clone(&repository, remoteURL, workingDirectoryPath, &cloneOptions);
 	if (gitError < GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to clone repository from %@ to %@", originURL, workdirURL];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:NSLocalizedString(@"Failed to clone repository from %@ to %@", @"error"), originURL, workdirURL];
 		return nil;
 	}
 
@@ -322,7 +322,7 @@ struct GTRemoteCreatePayload {
 		if (error != NULL) {
 			char oid_str[GIT_OID_HEXSZ+1];
 			git_oid_tostr(oid_str, sizeof(oid_str), oid);
-			*error = [NSError git_errorFor:gitError description:@"Failed to lookup object" userInfo:@{GTGitErrorOID: [GTOID oidWithGitOid:oid]} failureReason:@"The object %s couldn't be found in the repository.", oid_str];
+			*error = [NSError git_errorFor:gitError description:NSLocalizedString(@"Failed to lookup object", @"error") userInfo:@{GTGitErrorOID: [GTOID oidWithGitOid:oid]} failureReason:@"The object %s couldn't be found in the repository.", oid_str];
 		}
 		return nil;
 	}
@@ -357,7 +357,7 @@ struct GTRemoteCreatePayload {
 	git_object *obj;
 	int gitError = git_revparse_single(&obj, self.git_repository, spec.UTF8String);
 	if (gitError < GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Revision specifier lookup failed." failureReason:@"The revision specifier \"%@\" couldn't be parsed.", spec];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:NSLocalizedString(@"Revision specifier lookup failed.", @"error") failureReason:@"The revision specifier \"%@\" couldn't be parsed.", spec];
 		return nil;
 	}
 	return [GTObject objectWithObj:obj inRepository:self];
@@ -370,7 +370,7 @@ struct GTRemoteCreatePayload {
 	int gitError = git_branch_lookup(&ref, self.git_repository, branchName.UTF8String, (git_branch_t)branchType);
 	if (gitError < GIT_OK && gitError != GIT_ENOTFOUND) {
 		if (success != NULL) *success = NO;
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Branch lookup failed"];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:NSLocalizedString(@"Branch lookup failed", @"error")];
 
 		return nil;
 	}
@@ -390,7 +390,7 @@ struct GTRemoteCreatePayload {
 		if (gitError == GIT_EUNBORNBRANCH) {
 			unborn = @" (unborn)";
 		}
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to get HEAD%@", unborn];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:NSLocalizedString(@"Failed to get HEAD%@", @"error"), unborn];
 		return nil;
 	}
 
@@ -404,7 +404,7 @@ typedef void (^GTRepositoryBranchEnumerationBlock)(GTBranch *branch, BOOL *stop)
 	git_reference *gitRef = NULL;
 	int gitError = git_branch_iterator_new(&iter, self.git_repository, (git_branch_t)type);
 	if (gitError != GIT_OK) {
-		if (error) *error = [NSError git_errorFor:gitError description:@"Branch enumeration failed"];
+		if (error) *error = [NSError git_errorFor:gitError description:NSLocalizedString(@"Branch enumeration failed", @"error")];
 		return NO;
 	}
 
@@ -418,7 +418,7 @@ typedef void (^GTRepositoryBranchEnumerationBlock)(GTBranch *branch, BOOL *stop)
 	}
 
 	if (gitError != GIT_OK && gitError != GIT_ITEROVER) {
-		if (error) *error = [NSError git_errorFor:gitError description:@"Branch enumeration failed"];
+		if (error) *error = [NSError git_errorFor:gitError description:NSLocalizedString(@"Branch enumeration failed", @"error")];
 		return NO;
 	}
 
@@ -491,7 +491,7 @@ typedef void (^GTRepositoryBranchEnumerationBlock)(GTBranch *branch, BOOL *stop)
 	git_strarray array;
 	int gitError = git_remote_list(&array, self.git_repository);
 	if (gitError < GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to list all remotes."];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:NSLocalizedString(@"Failed to list all remotes.", @"error")];
 		return nil;
 	}
 
@@ -505,7 +505,7 @@ typedef void (^GTRepositoryBranchEnumerationBlock)(GTBranch *branch, BOOL *stop)
 - (BOOL)deleteRemoteNamed:(NSString *)remoteName error:(NSError **)error {
 	int gitError = git_remote_delete(self.git_repository, [remoteName cStringUsingEncoding:NSUTF8StringEncoding]);
 	if (gitError < GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to delete remote."];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:NSLocalizedString(@"Failed to delete remote.", @"error")];
 		return NO;
 	}
 
@@ -538,7 +538,7 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 	};
 	int gitError = git_tag_foreach(self.git_repository, GTRepositoryForeachTagCallback, &payload);
 	if (gitError != GIT_OK && gitError != GIT_EUSER) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to enumerate tags"];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:NSLocalizedString(@"Failed to enumerate tags", @"error")];
 		return NO;
 	}
 
@@ -567,7 +567,7 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 	git_reference *ref;
 	int gitError = git_reference_create(&ref, self.git_repository, name.UTF8String, targetOID.git_oid, 0, message.UTF8String);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to create direct reference to %@", targetOID];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:NSLocalizedString(@"Failed to create direct reference to %@", @"error"), targetOID];
 		return nil;
 	}
 
@@ -582,7 +582,7 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 	git_reference *ref;
 	int gitError = git_reference_symbolic_create(&ref, self.git_repository, name.UTF8String, targetRef.name.UTF8String, 0, message.UTF8String);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to create symbolic reference to %@", targetRef];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:NSLocalizedString(@"Failed to create symbolic reference to %@", @"error"), targetRef];
 		return nil;
 	}
 
@@ -621,7 +621,7 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 	git_strarray array;
 	int gitError = git_reference_list(&array, self.git_repository);
 	if (gitError < GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to list all references."];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:NSLocalizedString(@"Failed to list all references.", @"error")];
 		return nil;
 	}
 
@@ -667,7 +667,7 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 		}
 
 		if (error != NULL) {
-			*error = [NSError git_errorFor:errorCode description:@"Failed to read prepared message."];
+			*error = [NSError git_errorFor:errorCode description:NSLocalizedString(@"Failed to read prepared message.", @"error")];
 		}
 	};
 
@@ -693,7 +693,7 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 	git_oid mergeBase;
 	int errorCode = git_merge_base(&mergeBase, self.git_repository, firstOID.git_oid, secondOID.git_oid);
 	if (errorCode < GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:errorCode description:@"Failed to find merge base between commits %@ and %@.", firstOID.SHA, secondOID.SHA];
+		if (error != NULL) *error = [NSError git_errorFor:errorCode description:NSLocalizedString(@"Failed to find merge base between commits %@ and %@.", @"error"), firstOID.SHA, secondOID.SHA];
 		return nil;
 	}
 
@@ -708,7 +708,7 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 	git_config *config = NULL;
 	int gitError = git_repository_config(&config, self.git_repository);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to get config for repository."];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:NSLocalizedString(@"Failed to get config for repository.", @"error")];
 		return nil;
 	}
 
@@ -719,7 +719,7 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 	git_index *index = NULL;
 	int gitError = git_repository_index(&index, self.git_repository);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to get index for repository."];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:NSLocalizedString(@"Failed to get index for repository.", @"error")];
 		return nil;
 	}
 
@@ -766,7 +766,7 @@ static int submoduleEnumerationCallback(git_submodule *git_submodule, const char
 	git_submodule *submodule;
 	int gitError = git_submodule_lookup(&submodule, self.git_repository, name.UTF8String);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to look up submodule %@.", name];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:NSLocalizedString(@"Failed to look up submodule %@.", @"error"), name];
 		return nil;
 	}
 

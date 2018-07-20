@@ -92,7 +92,7 @@ int GTRemotePushTransferProgressCallback(unsigned int current, unsigned int tota
 	__block git_strarray refspecs;
 	int gitError = git_remote_get_fetch_refspecs(&refspecs, remote.git_remote);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to get fetch refspecs for remote"];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:NSLocalizedString(@"Failed to get fetch refspecs for remote", @"")];
 		return NO;
 	}
 
@@ -104,7 +104,7 @@ int GTRemotePushTransferProgressCallback(unsigned int current, unsigned int tota
 
 	gitError = git_remote_fetch(remote.git_remote, &refspecs, &fetchOptions, reflog_message.UTF8String);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to fetch from remote"];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:NSLocalizedString(@"Failed to fetch from remote", @"error")];
 		return NO;
 	}
 
