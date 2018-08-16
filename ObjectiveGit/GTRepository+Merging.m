@@ -208,4 +208,34 @@ int GTMergeHeadEntriesCallback(const git_oid *oid, void *payload) {
 	return YES;
 }
 
+- (BOOL)analyzeMerge:(GTMergeAnalysis *)analysis fromBranch:(GTBranch *)fromBranch toBranch:(GTBranch *)toBranch error:(NSError **)error {
+	NSParameterAssert(analysis != NULL);
+	NSParameterAssert(fromBranch != nil);
+	NSParameterAssert(toBranch != nil);
+
+	GTCommit *theirs = [toBranch targetCommitWithError:error];
+	GTCommit *ours = [fromBranch targetCommitWithError:error];
+	if (theirs == nil || ours == nil) {
+		return NO;
+	}
+
+	GTCommit *ancestor = [self mergeBaseBetweenFirstOID:theirs.OID secondOID:ours.OID error:NULL];
+
+	if (ours.SHA == nil && theirs.SHA == nil) {
+		*analysis = GTMergeAnalysisUnborn | 0;;
+	} else if (ours.SHA == nil && theirs.SHA != nil) {
+		*analysis = GTMergeAnalysisUnborn | GTMergeAnalysisFastForward;
+	} else if (ancestor.SHA == nil || theirs.SHA == nil) {
+		*analysis = GTMergeAnalysisNone | 0;
+	} else if ([ours.SHA isEqualToString:theirs.SHA] || [ancestor.SHA isEqualToString:theirs.SHA]) {
+		*analysis = GTMergeAnalysisUpToDate | 0;
+	} else if ([ancestor.SHA isEqualToString:ours.SHA]) {
+		*analysis = GTMergeAnalysisFastForward | GTMergeAnalysisNormal;
+	} else {
+		*analysis = GTMergeAnalysisNormal | 0;
+	}
+
+	return YES;
+}
+
 @end

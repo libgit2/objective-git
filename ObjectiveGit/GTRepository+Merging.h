@@ -52,7 +52,7 @@ typedef NS_OPTIONS(NSInteger, GTMergeAnalysis) {
 /// will point to an error describing what happened).
 - (BOOL)mergeBranchIntoCurrentBranch:(GTBranch *)fromBranch withError:(NSError **)error;
 
-/// Analyze which merge to perform.
+/// Analyze which merge to perform from the branch to HEAD
 ///
 /// analysis   - The resulting analysis.
 /// fromBranch - The branch to merge from.
@@ -61,6 +61,17 @@ typedef NS_OPTIONS(NSInteger, GTMergeAnalysis) {
 /// Returns YES if the analysis was successful, NO otherwise (and `error`, if provided,
 /// will point to an error describing what happened).
 - (BOOL)analyzeMerge:(GTMergeAnalysis *)analysis fromBranch:(GTBranch *)fromBranch error:(NSError **)error;
+
+/// Analyze which merge to perform between two branches
+///
+/// analysis   - The resulting analysis.
+/// fromBranch - The branch to merge from.
+/// toBranch   - The branch to merge into
+/// error      - The error if one occurred. Can be NULL.
+///
+/// Returns YES if the analysis was successful, NO otherwise (and `error`, if provided,
+/// will point to an error describing what happened).
+- (BOOL)analyzeMerge:(GTMergeAnalysis *)analysis fromBranch:(GTBranch *)fromBranch toBranch:(GTBranch *)toBranch error:(NSError **)error;
 
 @end
 
