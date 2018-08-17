@@ -7,6 +7,7 @@
 //
 
 #import "GTRepository.h"
+#import "GTIndexEntry.h"
 #import "git2/merge.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -51,6 +52,18 @@ typedef NS_OPTIONS(NSInteger, GTMergeAnalysis) {
 /// Returns YES if the merge was successful, NO otherwise (and `error`, if provided,
 /// will point to an error describing what happened).
 - (BOOL)mergeBranchIntoCurrentBranch:(GTBranch *)fromBranch withError:(NSError **)error;
+
+/// Gets the file content with conflict markers for the given file
+///
+/// The parameters taked are the ones received from `enumerateConflictedFiles`.
+///
+/// ancestor - The ancestor entry
+/// ours     - The index entry of our side
+/// theirs   - The index entry of their side
+/// error    - The error if one occurred. Can be NULL.
+///
+/// Returns The file content annotated with conflict markers or null on error
+- (NSString * _Nullable)contentsOfDiffWithAncestor:(GTIndexEntry *)ancestor ourSide:(GTIndexEntry *)ourSide theirSide:(GTIndexEntry *)theirSide error:(NSError **)error;
 
 /// Analyze which merge to perform.
 ///
