@@ -6,13 +6,15 @@
 //  Copyright (c) 2013 GitHub, Inc. All rights reserved.
 //
 
-#import <Quick/Quick.h>
+@import ObjectiveGit;
+@import Quick;
 
 @class GTRepository;
 
 // FIXME: This category is a total hack, but there's no other way to run
 // teardown logic for every example yet:
 // https://github.com/Quick/Quick/issues/163
+// TODO: https://github.com/Quick/Quick/blob/master/Documentation/en-us/ConfiguringQuick.md#adding-global-beforeeach-and-aftereach-closures
 @interface QuickSpec (GTFixtures)
 
 // The file URL for a temporary directory which will live for the length of each

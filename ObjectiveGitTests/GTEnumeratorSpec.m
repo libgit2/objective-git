@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 GitHub, Inc. All rights reserved.
 //
 
-#import <Nimble/Nimble.h>
-#import <ObjectiveGit/ObjectiveGit.h>
-#import <Quick/Quick.h>
+@import ObjectiveGit;
+@import Nimble;
+@import Quick;
 
 #import "QuickSpec+GTFixtures.h"
 
@@ -31,10 +31,12 @@ it(@"should walk from repository HEAD", ^{
 	GTReference *HEADRef = [repo headReferenceWithError:NULL];
 	expect(HEADRef).notTo(beNil());
 
-	[enumerator pushSHA:HEADRef.targetOID.SHA error:NULL];
+	BOOL success = [enumerator pushSHA:HEADRef.targetOID.SHA error:&error];
+	expect(@(success)).to(beTruthy());
+	expect(error).to(beNil());
+
 	NSUInteger count = [enumerator allObjects].count;
 	expect(@(count)).to(equal(@3));
-	expect(error).to(beNil());
 });
 
 describe(@"with a rev list", ^{

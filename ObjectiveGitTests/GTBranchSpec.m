@@ -6,10 +6,9 @@
 //  Copyright (c) 2013 GitHub, Inc. All rights reserved.
 //
 
-#import <Nimble/Nimble.h>
-#import <Nimble/Nimble-Swift.h>
-#import <ObjectiveGit/ObjectiveGit.h>
-#import <Quick/Quick.h>
+@import ObjectiveGit;
+@import Nimble;
+@import Quick;
 
 #import "QuickSpec+GTFixtures.h"
 
@@ -33,6 +32,16 @@ beforeEach(^{
 	expect(trackingBranch).notTo(equal(masterBranch));
 	expect(@(success)).to(beTruthy());
 	expect(error).to(beNil());
+});
+
+describe(@"name", ^{
+	it(@"should use just the branch name for a local branch", ^{
+		expect(masterBranch.name).to(equal(@"master"));
+	});
+
+	it(@"should include the remote name for a tracking branch", ^{
+		expect(trackingBranch.name).to(equal(@"origin/master"));
+	});
 });
 
 describe(@"shortName", ^{
@@ -163,7 +172,7 @@ describe(@"-trackingBranchWithError:success:", ^{
 		expect(otherRef).notTo(beNil());
 		expect(error).to(beNil());
 
-		GTBranch *otherBranch = [GTBranch branchWithReference:otherRef repository:repository];
+		GTBranch *otherBranch = [GTBranch branchWithReference:otherRef];
 		expect(otherBranch).notTo(beNil());
 
 		BOOL success = NO;
@@ -179,7 +188,7 @@ describe(@"-trackingBranchWithError:success:", ^{
 		expect(remoteRef).notTo(beNil());
 		expect(error).to(beNil());
 
-		GTBranch *remoteBranch = [GTBranch branchWithReference:remoteRef repository:repository];
+		GTBranch *remoteBranch = [GTBranch branchWithReference:remoteRef];
 		expect(remoteBranch).notTo(beNil());
 
 		BOOL success = NO;
@@ -262,28 +271,40 @@ describe(@"-updateTrackingBranch:error:", ^{
 	});
 });
 
-// TODO: Test branch renaming, branch upstream
-//- (void)testCanRenameBranch {
-//
-//	NSError *error = nil;
-//	GTRepository *repo = [GTRepository repoByOpeningRepositoryInDirectory:[NSURL URLWithString:TEST_REPO_PATH()] error:&error];
-//	STAssertNil(error, [error localizedDescription]);
-//
-//	NSArray *branches = [GTBranch listAllLocalBranchesInRepository:repo error:&error];
-//	STAssertNotNil(branches, [error localizedDescription], nil);
-//	STAssertEquals(2, (int)branches.count, nil);
-//
-//	NSString *newBranchName = [NSString stringWithFormat:@"%@%@", [GTBranch localNamePrefix], @"this_is_the_renamed_branch"];
-//	GTBranch *firstBranch = [branches objectAtIndex:0];
-//	NSString *originalBranchName = firstBranch.name;
-//	BOOL success = [firstBranch.reference setName:newBranchName error:&error];
-//	STAssertTrue(success, [error localizedDescription]);
-//	STAssertEqualObjects(firstBranch.name, newBranchName, nil);
-//
-//	success = [firstBranch.reference setName:originalBranchName error:&error];
-//	STAssertTrue(success, [error localizedDescription]);
-//	STAssertEqualObjects(firstBranch.name, originalBranchName, nil);
-//}
+describe(@"-rename:force:error", ^{
+	__block GTBranch *masterBranch;
+	beforeEach(^{
+		masterBranch = [repository lookUpBranchWithName:@"master" type:GTBranchTypeLocal success:NULL error:NULL];
+		expect(masterBranch).notTo(beNil());
+	});
+
+	it(@"should rename the branch", ^{
+		NSError *error = nil;
+		BOOL success = [masterBranch rename:@"plop" force:NO error:&error];
+		expect(@(success)).to(beTruthy());
+		expect(error).to(beNil());
+
+		expect(masterBranch.shortName).to(equal(@"plop"));
+	});
+
+	it(@"should fail on duplicates", ^{
+		NSError *error = nil;
+		BOOL success = [masterBranch rename:@"feature" force:NO error:&error];
+		expect(@(success)).to(beFalsy());
+		expect(error).notTo(beNil());
+
+		expect(masterBranch.shortName).to(equal(@"master"));
+	});
+
+	it(@"should rename when forced", ^{
+		NSError *error = nil;
+		BOOL success = [masterBranch rename:@"feature" force:YES error:&error];
+		expect(@(success)).to(beTruthy());
+		expect(error).to(beNil());
+
+		expect(masterBranch.shortName).to(equal(@"feature"));
+	});
+});
 
 afterEach(^{
 	[self tearDown];

@@ -54,11 +54,20 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) const git_oid *git_oid;
 @property (nonatomic, strong, readonly) GTOID * _Nullable OID;
 
+/// Whether this is a tag.
+@property (nonatomic, readonly, getter = isTag) BOOL tag;
+
+/// Whether this is a local branch.
+@property (nonatomic, readonly, getter = isBranch) BOOL branch;
+
 /// Whether this is a remote-tracking branch.
 @property (nonatomic, readonly, getter = isRemote) BOOL remote;
 
+/// Whether this is a note ref.
+@property (nonatomic, readonly, getter = isNote) BOOL note;
+
 /// The reflog for the reference.
-@property (nonatomic, readonly, strong) GTReflog *reflog;
+@property (nonatomic, readonly, strong) GTReflog * _Nullable reflog;
 
 /// Convenience initializers
 + (instancetype _Nullable)referenceByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error;
@@ -87,7 +96,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, copy) GTReference *resolvedReference;
 
 /// The OID of the target object.
-@property (nonatomic, readonly, copy) GTOID *targetOID;
+@property (nonatomic, readonly, copy, nullable) GTOID *targetOID;
 
 /// Updates the on-disk reference to point to the target and returns the updated
 /// reference.
@@ -103,7 +112,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (GTReference * _Nullable)referenceByUpdatingTarget:(NSString *)newTarget message:(NSString * _Nullable)message error:(NSError **)error;
 
 /// The name of the reference.
-@property (nonatomic, readonly, copy) NSString * _Nullable name;
+@property (nonatomic, readonly, copy) NSString *name;
 
 /// Updates the on-disk reference to the name and returns the renamed reference.
 ///

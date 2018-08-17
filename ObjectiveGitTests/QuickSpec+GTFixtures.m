@@ -6,10 +6,11 @@
 //  Copyright (c) 2013 GitHub, Inc. All rights reserved.
 //
 
-#import <ObjectiveGit/ObjectiveGit.h>
 #import "QuickSpec+GTFixtures.h"
-#import <objc/runtime.h>
-#import <ZipArchive/ZipArchive.h>
+
+@import ObjectiveC;
+@import ObjectiveGit;
+@import ZipArchive;
 
 static const NSInteger FixturesErrorUnzipFailed = 666;
 

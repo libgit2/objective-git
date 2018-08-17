@@ -53,6 +53,10 @@
 	return nil;
 }
 
+- (git_revwalk *)git_revwalk {
+	return self.walk;
+}
+
 - (instancetype)initWithRepository:(GTRepository *)repo error:(NSError **)error {
 	NSParameterAssert(repo != nil);
 
@@ -107,6 +111,26 @@
 	return YES;
 }
 
+- (BOOL)pushHEAD:(NSError **)error {
+	int gitError = git_revwalk_push_head(self.walk);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to push HEAD onto rev walker."];
+		return NO;
+	}
+	return YES;
+}
+
+- (BOOL)pushReferenceName:(NSString *)refName error:(NSError **)error {
+	NSParameterAssert(refName != nil);
+
+	int gitError = git_revwalk_push_ref(self.walk, refName.UTF8String);
+	if (gitError != 0) {
+		if (error) *error = [NSError git_errorFor:gitError description:@"Failed to push reference %@", refName];
+		return NO;
+	}
+	return YES;
+}
+
 - (BOOL)hideSHA:(NSString *)sha error:(NSError **)error {
 	NSParameterAssert(sha != nil);
 
@@ -127,10 +151,30 @@
 
 	int gitError = git_revwalk_hide_glob(self.walk, refGlob.UTF8String);
 	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to push glob %@ onto rev walker.", refGlob];
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to hide glob %@ in rev walker.", refGlob];
 		return NO;
 	}
 	
+	return YES;
+}
+
+- (BOOL)hideHEAD:(NSError **)error {
+	int gitError = git_revwalk_hide_head(self.walk);
+	if (gitError != GIT_OK) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to hide HEAD onto rev walker."];
+		return NO;
+	}
+	return YES;
+}
+
+- (BOOL)hideReferenceName:(NSString *)refName error:(NSError **)error {
+	NSParameterAssert(refName != nil);
+
+	int gitError = git_revwalk_hide_ref(self.walk, refName.UTF8String);
+	if (gitError != 0) {
+		if (error) *error = [NSError git_errorFor:gitError description:@"Failed to hide reference %@", refName];
+		return NO;
+	}
 	return YES;
 }
 
@@ -215,7 +259,8 @@
 #pragma mark NSEnumerator
 
 - (NSArray *)allObjects {
-	return [self allObjectsWithError:NULL];
+	NSArray *objects = [self allObjectsWithError:NULL];
+	return objects ? objects : [NSArray array];
 }
 
 - (id)nextObject {

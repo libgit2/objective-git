@@ -333,6 +333,13 @@ typedef NS_ENUM(NSInteger, GTRepositoryStateType) {
 /// returns an array of NSStrings holding the names of the remotes, or nil if an error occurred
 - (NSArray<NSString *> * _Nullable)remoteNamesWithError:(NSError **)error;
 
+/// Delete the given remote by name
+///
+/// error - If not NULL, set to any error that occurs.
+///
+/// returns YES if the deletion succeeded, otherwise NO.
+- (BOOL)deleteRemoteNamed:(NSString *)remoteName error:(NSError **)error;
+
 /// Get all tags in the repository.
 ///
 /// error - If not NULL, set to any error that occurs.
@@ -410,7 +417,7 @@ typedef NS_ENUM(NSInteger, GTRepositoryStateType) {
 /// defaults will be used instead. Will never return nil.
 ///
 /// Returns the signature.
-- (GTSignature *)userSignatureForNow;
+- (GTSignature * _Nullable)userSignatureForNow;
 
 /// Enumerates over all the tracked submodules in the repository.
 ///

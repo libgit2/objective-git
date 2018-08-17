@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 GitHub, Inc. All rights reserved.
 //
 
-#import <Nimble/Nimble.h>
-#import <ObjectiveGit/ObjectiveGit.h>
-#import <Quick/Quick.h>
+@import ObjectiveGit;
+@import Nimble;
+@import Quick;
 
 #import "QuickSpec+GTFixtures.h"
 
@@ -37,6 +37,18 @@ it(@"can read tag data", ^{
 	expect(signature.name).to(equal(@"Scott Chacon"));
 	expect(@(signature.time.timeIntervalSince1970)).to(equal(@1288114383));
 	expect(signature.email).to(equal(@"schacon@gmail.com"));
+});
+
+it(@"can delete tags", ^{
+	NSError *error = nil;
+
+	BOOL success = [tag delete:&error];
+	expect(@(success)).to(beTruthy());
+	expect(error).to(beNil());
+
+	success = [tag delete:&error];
+	expect(@(success)).to(beFalsy());
+	expect(error).notTo(beNil());
 });
 
 afterEach(^{

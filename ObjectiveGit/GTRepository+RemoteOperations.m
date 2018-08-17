@@ -266,9 +266,9 @@ int GTFetchHeadEntriesCallback(const char *ref_name, const char *remote_url, con
 	};
 
 	git_remote_callbacks remote_callbacks = GIT_REMOTE_CALLBACKS_INIT;
-	remote_callbacks.credentials = (credProvider != nil ? GTCredentialAcquireCallback : NULL),
+	remote_callbacks.credentials = (credProvider != nil ? GTCredentialAcquireCallback : NULL);
 	remote_callbacks.push_transfer_progress = GTRemotePushTransferProgressCallback;
-	remote_callbacks.payload = &connectionInfo,
+	remote_callbacks.payload = &connectionInfo;
 
 	gitError = git_remote_connect(remote.git_remote, GIT_DIRECTION_PUSH, &remote_callbacks, NULL, NULL);
 	if (gitError != GIT_OK) {

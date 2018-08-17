@@ -6,11 +6,9 @@
 //  Copyright (c) 2015 GitHub, Inc. All rights reserved.
 //
 
-#import <Nimble/Nimble.h>
-#import <ObjectiveGit/ObjectiveGit.h>
-#import <Quick/Quick.h>
-
-@import Foundation;
+@import ObjectiveGit;
+@import Nimble;
+@import Quick;
 
 @class GTBranch;
 @class GTCommit;

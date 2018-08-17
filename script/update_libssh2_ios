@@ -3,12 +3,12 @@
 set -e
 
 # source the common build functions
-SCRIPT_DIR=$(dirname "$0")
+SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
 source "${SCRIPT_DIR}/ios_build_functions.sh"
 
 function setup ()
 {
-    if [ -f "${ROOT_PATH}/External/libssh2-ios/lib/libssh2-ios.a" ]
+    if [ -f "${INSTALL_PATH}/lib/libssh2.a" ]
     then
         echo "No update needed."
         exit 0
@@ -16,38 +16,36 @@ function setup ()
     LIBRARY_NAME="libssh2"
 }
 
-function build_ssh2 () 
+function build_ssh2 ()
 {
-    mkdir -p "${ROOT_PATH}/External/libssh2-ios/lib" "${ROOT_PATH}/External/libssh2-ios/lib" "${ROOT_PATH}/External/libssh2-ios/src"
-
-    rm -rf "${ROOT_PATH}/External/libssh2-ios/src/libssh2"
-    cp -R "${ROOT_PATH}/External/libssh2" "${ROOT_PATH}/External/libssh2-ios/src/"
-    pushd "${ROOT_PATH}/External/libssh2-ios/src/libssh2" > /dev/null
+    cp -R "${ROOT_PATH}/External/libssh2" "${ARCH_INSTALL_PATH}/libssh2"
+    pushd "${ARCH_INSTALL_PATH}/libssh2" > /dev/null
 
     export CFLAGS="-arch ${ARCH} -fembed-bitcode -pipe -no-cpp-precomp -isysroot ${SDKROOT} -miphoneos-version-min=${IPHONEOS_DEPLOYMENT_TARGET}"
     export CPPFLAGS="-arch ${ARCH} -fembed-bitcode -pipe -no-cpp-precomp -isysroot ${SDKROOT} -miphoneos-version-min=${IPHONEOS_DEPLOYMENT_TARGET}"
 
-    mkdir -p "${ROOT_PATH}/External/libssh2-ios/bin/${SDKNAME}-${ARCH}.sdk"
-    LOG="${ROOT_PATH}/External/libssh2-ios/bin/${SDKNAME}-${ARCH}.sdk/build-libssh2.log"
-
-    echo "${LOG}"
-
     ./buildconf >> "${LOG}" 2>&1
-    ./configure --host=${HOST} --prefix="${ROOT_PATH}/External/libssh2-ios/bin/${SDKNAME}-${ARCH}.sdk" --with-openssl --with-libssl-prefix="${ROOT_PATH}/External/ios-openssl" --disable-shared --enable-static >> "${LOG}" 2>&1
+    ./configure --host=${HOST} --prefix="${ARCH_INSTALL_PATH}" --with-openssl --with-libssl-prefix="${INSTALL_PATH}" --disable-shared --enable-static >> "${LOG}" 2>&1
     make >> "${LOG}" 2>&1
     make install >> "${LOG}" 2>&1
     popd > /dev/null
 
-    BUILT_LIBS+=("${ROOT_PATH}/External/libssh2-ios/bin/${SDKNAME}-${ARCH}.sdk/lib/libssh2.a")
+    rm -rf "${ARCH_INSTALL_PATH}/libssh2"
+
+    BUILT_LIBS+=("${ARCH_INSTALL_PATH}/lib/libssh2.a")
 }
 
 function fat_binary ()
 {
+    echo "Copying headers & pkg-config files"
+
+    cp -r "${ARCH_INSTALL_PATH}"/include/libssh*.h "${INSTALL_PATH}/include/"
+    cp "${ARCH_INSTALL_PATH}/lib/pkgconfig/libssh2.pc" "${INSTALL_PATH}/lib/pkgconfig/"
+    perl -i -pe "s|^(prefix=${INSTALL_PATH}).*$|\$1|g" "${INSTALL_PATH}/lib/pkgconfig/libssh2.pc" >> "${LOG}" 2>&1
+
     echo "Building fat binary..."
 
-    lipo -create "${BUILT_LIBS[@]}" -output "${ROOT_PATH}/External/libssh2-ios/lib/libssh2-ios.a"
-    mkdir -p "${ROOT_PATH}/External/libssh2-ios/include/libssh2"
-    cp -R "${ROOT_PATH}/External/libssh2-ios/bin/iphonesimulator${SDKVERSION}-i386.sdk/include/libssh2.h" "${ROOT_PATH}/External/libssh2-ios/include/libssh2/"
+    lipo -create "${BUILT_LIBS[@]}" -output "${INSTALL_PATH}/lib/libssh2.a"
 
     echo "Building done."
 }

@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 GitHub, Inc. All rights reserved.
 //
 
-#import <Nimble/Nimble.h>
-#import <ObjectiveGit/ObjectiveGit.h>
-#import <Quick/Quick.h>
+@import ObjectiveGit;
+@import Nimble;
+@import Quick;
 
 #import "QuickSpec+GTFixtures.h"
 
@@ -225,6 +225,33 @@ describe(@"adding files", ^{
 
 		NSString *newPath = [repo.fileURL.path stringByAppendingPathComponent:renamedFilename];
 		renamedFileURL = [NSURL fileURLWithPath:newPath isDirectory:NO];
+	});
+
+	it(@"should add all files from the current file system to the index", ^{
+		NSData *currentFileContent = [[NSFileManager defaultManager] contentsAtPath:fileURL.path];
+		expect(currentFileContent).notTo(beNil());
+		NSString *currentFileString = [[NSString alloc] initWithData:currentFileContent encoding:NSUTF8StringEncoding];
+		currentFileString = [currentFileString stringByAppendingString:@"I would like to append this to the file"];
+		currentFileContent = [currentFileString dataUsingEncoding:NSUTF8StringEncoding];
+		expect(@([[NSFileManager defaultManager] createFileAtPath:fileURL.path contents:currentFileContent attributes:nil])).to(beTruthy());
+
+		NSString *newFileContent = @"This is a new file \n1 2 3";
+		NSData *newFileData = [newFileContent dataUsingEncoding:NSUTF8StringEncoding];
+		expect(newFileData).notTo(beNil());
+		expect(@([[NSFileManager defaultManager] createFileAtPath:renamedFileURL.path contents:newFileData attributes:nil])).to(beTruthy());
+
+		GTIndexEntry *entry = [index entryWithPath:[filename decomposedStringWithCanonicalMapping]];
+		expect(@(fileStatusEqualsExpected(entry.path, GTDeltaTypeUnmodified, GTDeltaTypeModified))).to(beTruthy());
+		entry = [index entryWithPath:[renamedFilename decomposedStringWithCanonicalMapping]];
+		expect(@(fileStatusEqualsExpected(entry.path, GTDeltaTypeUnmodified, GTDeltaTypeUntracked))).to(beTruthy());
+
+		expect(@([index addAll:NULL])).to(beTruthy());
+		expect(@([index write:NULL])).to(beTruthy());
+
+		entry = [index entryWithPath:[filename decomposedStringWithCanonicalMapping]];
+		expect(@(fileStatusEqualsExpected(entry.path, GTDeltaTypeModified, GTDeltaTypeUnmodified))).to(beTruthy());
+		entry = [index entryWithPath:[renamedFilename decomposedStringWithCanonicalMapping]];
+		expect(@(fileStatusEqualsExpected(entry.path, GTDeltaTypeAdded, GTDeltaTypeUnmodified))).to(beTruthy());
 	});
 
 	it(@"it preserves decomposed Unicode in index paths with precomposeunicode disabled", ^{

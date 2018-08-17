@@ -134,10 +134,12 @@ static int configCallback(const git_config_entry *entry, void *payload) {
 	NSMutableArray *remotes = [NSMutableArray arrayWithCapacity:names.count];
 	for (size_t i = 0; i < names.count; i++) {
 		const char *name = names.strings[i];
-		git_remote *remote = NULL;
+		git_remote *git_remote = NULL;
 
-		if (git_remote_lookup(&remote, repository.git_repository, name) == 0) {
-			[remotes addObject:[[GTRemote alloc] initWithGitRemote:remote inRepository:repository]];
+		if (git_remote_lookup(&git_remote, repository.git_repository, name) == 0) {
+			GTRemote *remote = [[GTRemote alloc] initWithGitRemote:git_remote inRepository:repository];
+			if (remote)
+				[remotes addObject:remote];
 		}
 	}
 

@@ -155,6 +155,13 @@ NS_ASSUME_NONNULL_BEGIN
 /// Returns whether reading the tree was successful.
 - (BOOL)addContentsOfTree:(GTTree *)tree error:(NSError **)error;
 
+/// Add all the content of the working directory to the index. Like `git add -A`
+///
+/// error - If not NULL, set to any error that occurs.
+///
+/// Returns whether the operation was successful
+- (BOOL)addAll:(NSError **)error;
+
 /// Remove an entry (by relative path) from the index.
 /// Will fail if the receiver's repository is nil.
 ///

@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface GTOID : NSObject <NSCopying>
 
 /// The SHA pointed to by the OID.
-@property (nonatomic, readonly, copy) NSString * _Nullable SHA;
+@property (nonatomic, readonly, copy) NSString *SHA;
 
 /// Is the OID all zero? This usually indicates that the object has not been
 /// inserted into the ODB yet.

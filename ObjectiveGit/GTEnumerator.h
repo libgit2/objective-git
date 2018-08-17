@@ -64,6 +64,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)init NS_UNAVAILABLE;
 
+/// The underlying `git_revwalk` from libgit2.
+- (git_revwalk *)git_revwalk __attribute__((objc_returns_inner_pointer));
+
 /// Initializes the receiver to enumerate the commits in the given repository. Designated initializer.
 ///
 /// repo  - The repository to enumerate the commits of. This must not be nil.
@@ -89,6 +92,21 @@ NS_ASSUME_NONNULL_BEGIN
 /// Returns whether pushing matching references was successful.
 - (BOOL)pushGlob:(NSString *)refGlob error:(NSError **)error;
 
+/// Push HEAD reference.
+///
+/// error - If not NULL, this will be set to any error that occurs.
+///
+/// Returns whether pushing the HEAD reference was successful.
+- (BOOL)pushHEAD:(NSError **)error;
+
+/// Push a reference by name.
+///
+/// refName - The reference name to push. Must not be nil.
+/// error   - If not NULL, this will be set to any error that occurs.
+///
+/// Returns whether pushing the reference name was successful.
+- (BOOL)pushReferenceName:(NSString *)refName error:(NSError **)error;
+
 /// Hides the specified commit and all of its ancestors when enumerating.
 ///
 /// sha   - The SHA of a commit in the receiver's repository. This must not be
@@ -105,6 +123,22 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// Returns whether marking matching references for hiding was successful.
 - (BOOL)hideGlob:(NSString *)refGlob error:(NSError **)error;
+
+/// Hide HEAD reference.
+///
+/// error - If not NULL, this will be set to any error that occurs.
+///
+/// Returns whether marking HEAD for hiding was successful.
+- (BOOL)hideHEAD:(NSError **)error;
+
+
+/// Hide a reference by name.
+///
+/// refName - The reference name to hide. Must not be nil.
+/// error   - If not NULL, this will be set to any error that occurs.
+///
+/// Returns whether hiding the reference name was successful.
+- (BOOL)hideReferenceName:(NSString *)refName error:(NSError **)error;
 
 /// Resets the receiver, putting it back into a clean state for reuse, and
 /// replacing the receiver's `options`.

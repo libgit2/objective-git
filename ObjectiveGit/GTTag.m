@@ -84,4 +84,13 @@
 	return [[GTObject alloc] initWithObj:target inRepository:self.repository];
 }
 
+- (BOOL)delete:(NSError **)error {
+	int gitError = git_tag_delete(self.repository.git_repository, self.name.UTF8String);
+	if (gitError != GIT_OK) {
+		if (error) *error = [NSError git_errorFor:gitError description:@"Tag deletion failed"];
+		return NO;
+	}
+	return YES;
+}
+
 @end

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export SCRIPT_DIR=$(dirname "$0")
+export SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
 
 ##
 ## Configuration Variables
@@ -71,6 +71,7 @@ check_deps ()
 
         if [ "$code" -eq "0" ]
         then
+            echo "*** $tool is available"
             continue
         elif [ "$code" -ne "1" ]
         then

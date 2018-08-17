@@ -50,6 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) GTBranchType branchType;
 @property (nonatomic, readonly, strong) GTRepository *repository;
 @property (nonatomic, readonly, strong) GTReference *reference;
+@property (nonatomic, readonly, getter=isHEAD) BOOL HEAD;
 
 + (NSString *)localNamePrefix;
 + (NSString *)remoteNamePrefix;
@@ -59,18 +60,16 @@ NS_ASSUME_NONNULL_BEGIN
 /// Designated initializer.
 ///
 /// ref  - The branch reference to wrap. Must not be nil.
-/// repo - The repository containing the branch. Must not be nil.
 ///
 /// Returns the initialized receiver.
-- (instancetype _Nullable)initWithReference:(GTReference *)ref repository:(GTRepository *)repo NS_DESIGNATED_INITIALIZER;
+- (instancetype _Nullable)initWithReference:(GTReference *)ref NS_DESIGNATED_INITIALIZER;
 
 /// Convenience class initializer.
 ///
 /// ref  - The branch reference to wrap. Must not be nil.
-/// repo - The repository containing the branch. Must not be nil.
 ///
 /// Returns an initialized instance.
-+ (instancetype _Nullable)branchWithReference:(GTReference *)ref repository:(GTRepository *)repo;
++ (instancetype _Nullable)branchWithReference:(GTReference *)ref;
 
 /// Get the target commit for this branch
 ///
@@ -78,6 +77,9 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// returns a GTCommit object or nil if an error occurred
 - (GTCommit * _Nullable)targetCommitWithError:(NSError **)error;
+
+/// Renames the branch. Setting `force` to YES to delete another branch with the same name.
+- (BOOL)rename:(NSString *)name force:(BOOL)force error:(NSError **)error;
 
 /// Count all commits in this branch
 ///

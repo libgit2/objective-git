@@ -105,9 +105,21 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 	return self;
 }
 
+- (BOOL)isBranch {
+	return git_reference_is_branch(self.git_reference) != 0;
+}
+
+- (BOOL)isTag {
+	return git_reference_is_tag(self.git_reference) != 0;
+}
+
+- (BOOL)isNote {
+	return git_reference_is_note(self.git_reference) != 0;
+}
+
 - (NSString *)name {
 	const char *refName = git_reference_name(self.git_reference);
-	if (refName == NULL) return nil;
+	NSAssert(refName != nil, @"Unexpected nil name");
 
 	return @(refName);
 }
@@ -154,7 +166,8 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 }
 
 - (GTReference *)resolvedReference {
-	return [self.class referenceByResolvingSymbolicReference:self error:NULL];
+	GTReference *resolvedReference = [self.class referenceByResolvingSymbolicReference:self error:NULL];
+	return resolvedReference ? resolvedReference : self;
 }
 
 - (GTOID *)targetOID {

@@ -104,8 +104,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (git_blob *)git_blob __attribute__((objc_returns_inner_pointer));
 
 - (git_off_t)size;
-- (NSString *)content;
-- (NSData * _Nullable)data;
+- (NSString * _Nullable)content;
+- (NSData *)data;
 
 /// Attempts to apply the filter list for `path` to the blob.
 ///
