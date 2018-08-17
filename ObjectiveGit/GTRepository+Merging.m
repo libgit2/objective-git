@@ -240,13 +240,7 @@ int GTMergeHeadEntriesCallback(const git_oid *oid, void *payload) {
 		return nil;
 	}
 
-	char *cString = malloc(result.len * sizeof(char *) + 1);
-	strncpy(cString, result.ptr, result.len);
-	cString[result.len] = '\0';
-
-	NSString *mergedContent = [[NSString alloc] initWithCString:cString encoding:NSUTF8StringEncoding];
-
-	free(cString);
+	NSString *mergedContent = [[NSString alloc] initWithBytes:result.ptr length:result.len encoding:NSUTF8StringEncoding];
 
 	git_merge_file_result_free(&result);
 
