@@ -104,7 +104,7 @@ NSString * const GTRemoteRenameProblematicRefSpecs = @"GTRemoteRenameProblematic
 + (BOOL)isValidRemoteName:(NSString *)name {
 	NSParameterAssert(name != nil);
 
-	return git_remote_is_valid_name(name.UTF8String) == GIT_OK;
+	return (git_remote_is_valid_name(name.UTF8String) == 1 ? YES : NO);
 }
 
 #pragma mark Properties
