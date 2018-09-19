@@ -1,0 +1,90 @@
+/* No comment provided by engineer. */
+"A filter named \"%@\" has already been registered" = "A filter named \"%@\" has already been registered";
+
+/* error */
+"Branch enumeration failed" = "Branch enumeration failed";
+
+/* error */
+"Branch lookup failed" = "Branch lookup failed";
+
+/* No comment provided by engineer. */
+"Could not create git index iterator." = "Could not create git index iterator.";
+
+/* No comment provided by engineer. */
+"Could not create status list." = "Could not create status list.";
+
+/* No comment provided by engineer. */
+"Could not iterate conflict." = "Could not iterate conflict.";
+
+/* No comment provided by engineer. */
+"Could not update index." = "Could not update index.";
+
+/* error */
+"Failed to clone repository from %@ to %@" = "Failed to clone repository from %1$@ to %2$@";
+
+/* error */
+"Failed to configure the server certificate at %@" = "Failed to configure the server certificate at %@";
+
+/* error */
+"Failed to create direct reference to %@" = "Failed to create direct reference to %@";
+
+/* error */
+"Failed to create symbolic reference to %@" = "Failed to create symbolic reference to %@";
+
+/* error */
+"Failed to delete remote." = "Failed to delete remote.";
+
+/* error */
+"Failed to enumerate tags" = "Failed to enumerate tags";
+
+/* error */
+"Failed to fetch from remote" = "Fetch von Remote ist fehlgeschlagen";
+
+/* error */
+"Failed to find merge base between commits %@ and %@." = "Failed to find merge base between commits %1$@ and %2$@.";
+
+/* error */
+"Failed to get config for repository." = "Failed to get config for repository.";
+
+/* No comment provided by engineer. */
+"Failed to get fetch refspecs for remote" = "Failed to get fetch refspecs for remote";
+
+/* error */
+"Failed to get HEAD%@" = "Failed to get HEAD%@";
+
+/* error */
+"Failed to get index for repository." = "Failed to get index for repository.";
+
+/* error */
+"Failed to initialize empty repository at URL %@." = "Failed to initialize empty repository at URL %@.";
+
+/* error */
+"Failed to list all references." = "Failed to list all references.";
+
+/* error */
+"Failed to list all remotes." = "Failed to list all remotes.";
+
+/* error */
+"Failed to look up submodule %@." = "Failed to look up submodule %@.";
+
+/* error */
+"Failed to lookup object" = "Failed to lookup object";
+
+/* error */
+"Failed to open repository at URL %@." = "Failed to open repository at URL %@.";
+
+/* error */
+"Failed to read prepared message." = "Failed to read prepared message.";
+
+/* No comment provided by engineer. */
+"Invalid file path URL to initialize repository." = "Invalid file path URL to initialize repository.";
+
+/* No comment provided by engineer. */
+"Invalid file path URL to open." = "Invalid file path URL to open.";
+
+/* error */
+"Revision specifier lookup failed." = "Revision specifier lookup failed.";
+
+/* No comment provided by engineer. */
+"Unregister the existing filter first." = "Unregister the existing filter first.";
+
