@@ -238,6 +238,11 @@ int GTMergeHeadEntriesCallback(const git_oid *oid, void *payload) {
 		return NO;
 	}
 
+	success = [self cleanupStateWithError:error];
+	if (!success) {
+		return NO;
+	}
+
 	success = [self checkoutReference:localBranch.reference options:[GTCheckoutOptions checkoutOptionsWithStrategy:GTCheckoutStrategyForce] error:error];
 	return success;
 }
