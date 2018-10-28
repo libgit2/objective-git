@@ -10,6 +10,8 @@
 #import "GTIndexEntry.h"
 #import "git2/merge.h"
 
+@class GTAnnotatedCommit;
+
 NS_ASSUME_NONNULL_BEGIN
 
 /// UserInfo key for conflicted files when pulling fails with a merge conflict
@@ -23,6 +25,14 @@ typedef NS_OPTIONS(NSInteger, GTMergeAnalysis) {
 	GTMergeAnalysisUpToDate = GIT_MERGE_ANALYSIS_UP_TO_DATE,
 	GTMergeAnalysisUnborn = GIT_MERGE_ANALYSIS_UNBORN,
 	GTMergeAnalysisFastForward = GIT_MERGE_ANALYSIS_FASTFORWARD,
+};
+
+/// An enum describing the users' preference w.r.t fast-forward merges.
+/// See `git_merge_preference_t`.
+typedef NS_OPTIONS(NSInteger, GTMergePreference) {
+	GTMergePreferenceNone = GIT_MERGE_PREFERENCE_NONE,
+	GTMergePreferenceNoFastForward = GIT_MERGE_PREFERENCE_NO_FASTFORWARD,
+	GTMergePreferenceFastForwardOnly = GIT_MERGE_PREFERENCE_FASTFORWARD_ONLY,
 };
 
 @interface GTRepository (Merging)

@@ -19,6 +19,8 @@
 #import "GTIndexEntry.h"
 #import "GTOdbObject.h"
 #import "GTObjectDatabase.h"
+#import "GTAnnotatedCommit.h"
+#import "EXTScope.h"
 
 typedef void (^GTRemoteFetchTransferProgressBlock)(const git_transfer_progress *stats, BOOL *stop);
 
@@ -71,6 +73,34 @@ int GTMergeHeadEntriesCallback(const git_oid *oid, void *payload) {
 	}];
 
 	return entries;
+}
+
+- (BOOL)analyzeMerge:(GTMergeAnalysis *)analysis preference:(GTMergePreference *)preference fromAnnotatedCommits:(NSArray <GTAnnotatedCommit *> *)annotatedCommits error:(NSError * _Nullable __autoreleasing *)error {
+	NSParameterAssert(annotatedCommits != nil);
+
+	const git_annotated_commit **annotatedHeads = NULL;
+	if (annotatedCommits.count > 0) {
+		annotatedHeads = calloc(annotatedCommits.count, sizeof(git_annotated_commit *));
+		for (NSUInteger i = 0; i < annotatedCommits.count; i++){
+			annotatedHeads[i] = [annotatedCommits[i] git_annotated_commit];
+		}
+	}
+	@onExit {
+		free(annotatedHeads);
+	};
+
+	git_merge_analysis_t merge_analysis;
+	git_merge_preference_t merge_preference;
+	int gitError = git_merge_analysis(&merge_analysis, &merge_preference, self.git_repository, annotatedHeads, annotatedCommits.count);
+	if (gitError != 0) {
+		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to analyze merge"];
+		return NO;
+	}
+
+	*analysis = (GTMergeAnalysis)merge_analysis;
+	if (preference != NULL) *preference = (GTMergePreference)merge_preference;
+
+	return YES;
 }
 
 - (BOOL)mergeBranchIntoCurrentBranch:(GTBranch *)branch withError:(NSError **)error {
@@ -266,23 +296,12 @@ int GTMergeHeadEntriesCallback(const git_oid *oid, void *payload) {
 		return NO;
 	}
 
-	git_annotated_commit *annotatedCommit;
-	[self annotatedCommit:&annotatedCommit fromCommit:fromCommit error:error];
-
-	// Allow fast-forward or normal merge
-	git_merge_preference_t preference = GIT_MERGE_PREFERENCE_NONE;
-
-	// Merge analysis
-	int gitError = git_merge_analysis((git_merge_analysis_t *)analysis, &preference, self.git_repository, (const git_annotated_commit **) &annotatedCommit, 1);
-	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to analyze merge"];
+	GTAnnotatedCommit *annotatedCommit = [GTAnnotatedCommit annotatedCommitFromReference:fromBranch.reference error:error];
+	if (!annotatedCommit) {
 		return NO;
 	}
 
-	// Cleanup
-	git_annotated_commit_free(annotatedCommit);
-
-	return YES;
+	return [self analyzeMerge:analysis preference:NULL fromAnnotatedCommits:@[annotatedCommit] error:error];
 }
 
 @end
