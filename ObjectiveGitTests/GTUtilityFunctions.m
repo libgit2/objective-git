@@ -26,10 +26,7 @@ CreateCommitBlock createCommitInRepository = ^ GTCommit * (NSString *message, NS
 
 	// We need the parent commit to make the new one
 	GTReference *headReference = [repo headReferenceWithError:nil];
-
-	GTEnumerator *commitEnum = [[GTEnumerator alloc] initWithRepository:repo error:nil];
-	[commitEnum pushSHA:[headReference targetOID].SHA error:nil];
-	GTCommit *parent = [commitEnum nextObject];
+	GTCommit *parent = [repo lookUpObjectByOID:[headReference targetOID] objectType:GTObjectTypeCommit error:NULL];
 
 	GTCommit *testCommit = [repo createCommitWithTree:testTree message:message parents:@[ parent ] updatingReferenceNamed:headReference.name error:nil];
 	expect(testCommit).notTo(beNil());
