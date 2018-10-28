@@ -120,8 +120,14 @@ int GTMergeHeadEntriesCallback(const git_oid *oid, void *payload) {
 		return NO;
 	}
 
+	GTAnnotatedCommit *remoteAnnotatedCommit = [GTAnnotatedCommit annotatedCommitFromReference:branch.reference error:error];
+	if (!remoteAnnotatedCommit) {
+		return NO;
+	}
+
 	GTMergeAnalysis analysis = GTMergeAnalysisNone;
-	BOOL success = [self analyzeMerge:&analysis fromBranch:branch error:error];
+	GTMergePreference preference = GTMergePreferenceNone;
+	BOOL success = [self analyzeMerge:&analysis preference:&preference fromAnnotatedCommits:@[remoteAnnotatedCommit] error:error];
 	if (!success) {
 		return NO;
 	}
@@ -129,9 +135,20 @@ int GTMergeHeadEntriesCallback(const git_oid *oid, void *payload) {
 	if (analysis & GTMergeAnalysisUpToDate) {
 		// Nothing to do
 		return YES;
-	} else if (analysis & GTMergeAnalysisFastForward ||
-			   analysis & GTMergeAnalysisUnborn) {
+	} else if (analysis & GTMergeAnalysisFastForward && preference == GTMergePreferenceNoFastForward) {
 		// Fast-forward branch
+		if (error != NULL) {
+			*error = [NSError git_errorFor:GIT_ERROR description:@"Normal merge not possible for branch '%@'", branch.name];
+		}
+		return NO;
+	} else if (analysis & GTMergeAnalysisNormal && preference == GTMergePreferenceFastForwardOnly) {
+		if (error != NULL) {
+			*error = [NSError git_errorFor:GIT_ERROR description:@"Fast-forward not possible for branch '%@'", branch.name];
+		}
+		return NO;
+	}
+
+	if (analysis & GTMergeAnalysisFastForward) {
 		NSString *message = [NSString stringWithFormat:@"merge %@: Fast-forward", branch.name];
 		GTReference *reference = [localBranch.reference referenceByUpdatingTarget:remoteCommit.SHA message:message error:error];
 		BOOL checkoutSuccess = [self checkoutReference:reference options:[GTCheckoutOptions checkoutOptionsWithStrategy:GTCheckoutStrategyForce] error:error];
