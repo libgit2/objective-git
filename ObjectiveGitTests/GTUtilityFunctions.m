@@ -34,6 +34,13 @@ CreateCommitBlock createCommitInRepository = ^ GTCommit * (NSString *message, NS
 	GTCommit *testCommit = [repo createCommitWithTree:testTree message:message parents:@[ parent ] updatingReferenceNamed:headReference.name error:nil];
 	expect(testCommit).notTo(beNil());
 
+	if (!repo.isBare) {
+		git_checkout_options opts = GIT_CHECKOUT_OPTIONS_INIT;
+		opts.checkout_strategy = GIT_CHECKOUT_FORCE;
+		int gitError = git_checkout_head(repo.git_repository, &opts);
+		expect(gitError).to(equal(0));
+	}
+
 	return testCommit;
 };
 
