@@ -129,25 +129,51 @@ int GTMergeHeadEntriesCallback(const git_oid *oid, void *payload) {
 	return YES;
 }
 
+- (BOOL)finalizeMergeOfBranch:(GTBranch *)localBranch mergedTree:(GTTree *)mergedTree parents:(NSArray <GTCommit *> *)parents error:(NSError **)error {
+
+	// Load the message to use
+	NSURL *mergeMsgFile = [[self gitDirectoryURL] URLByAppendingPathComponent:@"MERGE_MSG"];
+	NSString *message = [NSString stringWithContentsOfURL:mergeMsgFile
+												 encoding:NSUTF8StringEncoding
+													error:NULL];
+	if (!message) {
+		message = [NSString stringWithFormat:@"Merge branch '%@'", localBranch.shortName];
+	}
+
+	// Create the merge commit
+	GTCommit *mergeCommit = [self createCommitWithTree:mergedTree message:message parents:parents updatingReferenceNamed:localBranch.reference.name error:error];
+	if (!mergeCommit) {
+		return NO;
+	}
+
+	BOOL success = [self cleanupStateWithError:error];
+	if (!success) {
+		return NO;
+	}
+
+	success = [self checkoutReference:localBranch.reference options:[GTCheckoutOptions checkoutOptionsWithStrategy:GTCheckoutStrategyForce] error:error];
+	return success;
+}
+
 - (BOOL)mergeBranchIntoCurrentBranch:(GTBranch *)branch withError:(NSError **)error {
 	// Check if merge is necessary
 	GTBranch *localBranch = [self currentBranchWithError:error];
-	if (!localBranch) {
+	if (localBranch == nil) {
 		return NO;
 	}
 
 	GTCommit *localCommit = [localBranch targetCommitWithError:error];
-	if (!localCommit) {
+	if (localCommit == nil) {
 		return NO;
 	}
 
 	GTCommit *remoteCommit = [branch targetCommitWithError:error];
-	if (!remoteCommit) {
+	if (remoteCommit == nil) {
 		return NO;
 	}
 
 	GTAnnotatedCommit *remoteAnnotatedCommit = [GTAnnotatedCommit annotatedCommitFromReference:branch.reference error:error];
-	if (!remoteAnnotatedCommit) {
+	if (remoteAnnotatedCommit == nil) {
 		return NO;
 	}
 
@@ -176,7 +202,7 @@ int GTMergeHeadEntriesCallback(const git_oid *oid, void *payload) {
 
 	if (analysis & GTMergeAnalysisFastForward) {
 		NSString *message = [NSString stringWithFormat:@"merge %@: Fast-forward", branch.name];
-		GTReference *reference = [localBranch.reference referenceByUpdatingTarget:remoteCommit.SHA message:message error:error];
+		GTReference *reference = [localBranch.reference referenceByUpdatingTarget:remoteCommit.OID.SHA message:message error:error];
 		BOOL checkoutSuccess = [self checkoutReference:reference options:[GTCheckoutOptions checkoutOptionsWithStrategy:GTCheckoutStrategyForce] error:error];
 		return checkoutSuccess;
 	}
@@ -222,29 +248,7 @@ int GTMergeHeadEntriesCallback(const git_oid *oid, void *payload) {
 		return NO;
 	}
 
-	// Create merge commit
-	NSError *mergeMsgError = nil;
-	NSURL *mergeMsgFile = [[self gitDirectoryURL] URLByAppendingPathComponent:@"MERGE_MSG"];
-	NSString *message = [NSString stringWithContentsOfURL:mergeMsgFile
-												 encoding:NSUTF8StringEncoding
-													error:&mergeMsgError];
-	if (!message) {
-		message = [NSString stringWithFormat:@"Merge branch '%@'", localBranch.shortName];
-	}
-
-	NSArray *parents = @[ localCommit, remoteCommit ];
-	GTCommit *mergeCommit = [self createCommitWithTree:mergedTree message:message parents:parents updatingReferenceNamed:localBranch.reference.name error:error];
-	if (!mergeCommit) {
-		return NO;
-	}
-
-	success = [self cleanupStateWithError:error];
-	if (!success) {
-		return NO;
-	}
-
-	success = [self checkoutReference:localBranch.reference options:[GTCheckoutOptions checkoutOptionsWithStrategy:GTCheckoutStrategyForce] error:error];
-	return success;
+	return [self finalizeMergeOfBranch:localBranch mergedTree:mergedTree parents:@[ localCommit, remoteCommit ] error:error];
 }
 
 - (NSString * _Nullable)contentsOfDiffWithAncestor:(GTIndexEntry *)ancestor ourSide:(GTIndexEntry *)ourSide theirSide:(GTIndexEntry *)theirSide error:(NSError **)error {
