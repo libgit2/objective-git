@@ -223,9 +223,16 @@ int GTMergeHeadEntriesCallback(const git_oid *oid, void *payload) {
 	}
 
 	// Create merge commit
-	NSString *message = [NSString stringWithFormat:@"Merge branch '%@'", localBranch.shortName];
-	NSArray *parents = @[ localCommit, remoteCommit ];
+	NSError *mergeMsgError = nil;
+	NSURL *mergeMsgFile = [[self gitDirectoryURL] URLByAppendingPathComponent:@"MERGE_MSG"];
+	NSString *message = [NSString stringWithContentsOfURL:mergeMsgFile
+												 encoding:NSUTF8StringEncoding
+													error:&mergeMsgError];
+	if (!message) {
+		message = [NSString stringWithFormat:@"Merge branch '%@'", localBranch.shortName];
+	}
 
+	NSArray *parents = @[ localCommit, remoteCommit ];
 	GTCommit *mergeCommit = [self createCommitWithTree:mergedTree message:message parents:parents updatingReferenceNamed:localBranch.reference.name error:error];
 	if (!mergeCommit) {
 		return NO;
