@@ -129,6 +129,69 @@ int GTMergeHeadEntriesCallback(const git_oid *oid, void *payload) {
 	return YES;
 }
 
+- (BOOL)finalizeMerge:(NSError **)error {
+	GTRepositoryStateType state;
+	BOOL success = [self calculateState:&state withError:error];
+	if (!success) {
+		return NO;
+	}
+
+	if (state != GTRepositoryStateMerge) {
+		if (error) *error = [NSError git_errorFor:GIT_EINVALID description:@"Repository is not in a merge state"];
+		return NO;
+	}
+
+	GTIndex *index = [self indexWithError:error];
+	if (index == nil) {
+		return NO;
+	}
+
+	if (index.hasConflicts) {
+		if (error) *error = [NSError git_errorFor:GIT_ECONFLICT description:@"Index has unmerged changes"];
+		return NO;
+	}
+
+	GTTree *mergedTree = [index writeTree:error];
+	if (mergedTree == nil) {
+		return NO;
+	}
+
+	GTBranch *localBranch = [self currentBranchWithError:error];
+	if (localBranch == nil) {
+		return NO;
+	}
+
+	GTCommit *localCommit = [localBranch targetCommitWithError:error];
+	if (!localCommit) {
+		return NO;
+	}
+
+	// Build the commits' parents
+	NSMutableArray *parents = [NSMutableArray array];
+	[parents addObject:localCommit];
+
+	NSArray *mergeHeads = [self mergeHeadEntriesWithError:error];
+	if (mergeHeads.count == 0) {
+		return NO;
+	}
+	for (GTOID *oid in mergeHeads) {
+		NSError *lookupError = nil;
+		GTCommit *commit = [self lookUpObjectByOID:oid objectType:GTObjectTypeCommit error:&lookupError];
+		if (commit == nil) {
+			if (error) {
+				*error = [NSError git_errorFor:GIT_ERROR
+								   description:@"Failed to lookup one of the merge heads"
+									  userInfo:@{ NSUnderlyingErrorKey: lookupError }
+								 failureReason:nil];
+			}
+			return NO;
+		}
+		[parents addObject:commit];
+	}
+
+	return [self finalizeMergeOfBranch:localBranch mergedTree:mergedTree parents:parents error:error];
+}
+
 - (BOOL)finalizeMergeOfBranch:(GTBranch *)localBranch mergedTree:(GTTree *)mergedTree parents:(NSArray <GTCommit *> *)parents error:(NSError **)error {
 
 	// Load the message to use

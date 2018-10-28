@@ -63,6 +63,16 @@ typedef NS_OPTIONS(NSInteger, GTMergePreference) {
 /// will point to an error describing what happened).
 - (BOOL)mergeBranchIntoCurrentBranch:(GTBranch *)fromBranch withError:(NSError **)error;
 
+/// Complete a pending merge
+///
+/// This method can be used to complete a merge that has been stopped because
+/// of conflicts.
+///
+/// error - The error if one occurred. Can be NULL
+///
+/// Returns YES if the merge could be committed, NO otherwise.
+- (BOOL)finalizeMerge:(NSError **)error;
+
 /// Gets the file content with conflict markers for the given file
 ///
 /// The parameters taked are the ones received from `enumerateConflictedFiles`.
