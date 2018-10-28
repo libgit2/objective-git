@@ -103,6 +103,32 @@ int GTMergeHeadEntriesCallback(const git_oid *oid, void *payload) {
 	return YES;
 }
 
+- (BOOL)mergeAnnotatedCommits:(NSArray <GTAnnotatedCommit *> *)annotatedCommits mergeOptions:(NSDictionary *)mergeOptions checkoutOptions:(GTCheckoutOptions *)checkoutOptions error:(NSError **)error {
+	NSParameterAssert(annotatedCommits);
+
+	git_merge_options merge_opts = GIT_MERGE_OPTIONS_INIT;
+
+	const git_annotated_commit **annotated_commits = NULL;
+	if (annotatedCommits.count > 0) {
+		annotated_commits = calloc(annotatedCommits.count, sizeof(git_annotated_commit *));
+		for (NSUInteger i = 0; i < annotatedCommits.count; i++){
+			annotated_commits[i] = [annotatedCommits[i] git_annotated_commit];
+		}
+	}
+	@onExit {
+		free(annotated_commits);
+	};
+
+	int gitError = git_merge(self.git_repository, annotated_commits, annotatedCommits.count, &merge_opts, checkoutOptions.git_checkoutOptions);
+	if (gitError != GIT_OK) {
+		if (error != NULL) {
+			*error = [NSError git_errorFor:gitError description:@"Merge failed"];
+		}
+		return NO;
+	}
+	return YES;
+}
+
 - (BOOL)mergeBranchIntoCurrentBranch:(GTBranch *)branch withError:(NSError **)error {
 	// Check if merge is necessary
 	GTBranch *localBranch = [self currentBranchWithError:error];
@@ -156,45 +182,43 @@ int GTMergeHeadEntriesCallback(const git_oid *oid, void *payload) {
 	}
 
 	// Do normal merge
-	GTTree *localTree = localCommit.tree;
-	GTTree *remoteTree = remoteCommit.tree;
-
-	// TODO: Find common ancestor
-	GTTree *ancestorTree = nil;
-
-	// Merge
-	GTIndex *index = [localTree merge:remoteTree ancestor:ancestorTree error:error];
-	if (!index) {
+	GTIndex *index = [self indexWithError:error];
+	if (index == nil) {
 		return NO;
 	}
 
-	// Check for conflict
-	if (index.hasConflicts) {
-		NSMutableArray <NSString *>*files = [NSMutableArray array];
-		[index enumerateConflictedFilesWithError:error usingBlock:^(GTIndexEntry * _Nonnull ancestor, GTIndexEntry * _Nonnull ours, GTIndexEntry * _Nonnull theirs, BOOL * _Nonnull stop) {
-			[files addObject:ours.path];
-		}];
+	NSError *mergeError = nil;
+	GTCheckoutOptions *checkoutOptions = [GTCheckoutOptions checkoutOptionsWithStrategy:GTCheckoutStrategySafe|GTCheckoutStrategyAllowConflicts];
 
+	success = [self mergeAnnotatedCommits:@[remoteAnnotatedCommit]
+							 mergeOptions:nil
+						  checkoutOptions:checkoutOptions
+									error:&mergeError];
+	if (!success) {
 		if (error != NULL) {
-			NSDictionary *userInfo = @{GTPullMergeConflictedFiles: files};
-			*error = [NSError git_errorFor:GIT_ECONFLICT description:@"Merge conflict" userInfo:userInfo failureReason:nil];
+			*error = mergeError;
 		}
-
-		// Write conflicts
-		git_merge_options merge_opts = GIT_MERGE_OPTIONS_INIT;
-		git_checkout_options checkout_opts = GIT_CHECKOUT_OPTIONS_INIT;
-		checkout_opts.checkout_strategy = (GIT_CHECKOUT_SAFE | GIT_CHECKOUT_ALLOW_CONFLICTS);
-
-		git_annotated_commit *annotatedCommit;
-		[self annotatedCommit:&annotatedCommit fromCommit:remoteCommit error:error];
-
-		git_merge(self.git_repository, (const git_annotated_commit **)&annotatedCommit, 1, &merge_opts, &checkout_opts);
-
 		return NO;
 	}
 
-	GTTree *newTree = [index writeTreeToRepository:self error:error];
-	if (!newTree) {
+	if (![index refresh:error]) {
+		return NO;
+	}
+
+	if (index.hasConflicts) {
+		if (error) {
+			NSMutableArray <NSString *> *files = [NSMutableArray array];
+			[index enumerateConflictedFilesWithError:error usingBlock:^(GTIndexEntry * _Nonnull ancestor, GTIndexEntry * _Nonnull ours, GTIndexEntry * _Nonnull theirs, BOOL * _Nonnull stop) {
+				[files addObject:ours.path];
+			}];
+			NSDictionary *userInfo = @{GTPullMergeConflictedFiles: files};
+			*error = [NSError git_errorFor:GIT_EMERGECONFLICT description:@"Merge conflict" userInfo:userInfo failureReason:nil];
+		}
+		return NO;
+	}
+
+	GTTree *mergedTree = [index writeTree:error];
+	if (mergedTree == nil) {
 		return NO;
 	}
 
@@ -202,8 +226,7 @@ int GTMergeHeadEntriesCallback(const git_oid *oid, void *payload) {
 	NSString *message = [NSString stringWithFormat:@"Merge branch '%@'", localBranch.shortName];
 	NSArray *parents = @[ localCommit, remoteCommit ];
 
-	// FIXME: This is stepping on the local tree
-	GTCommit *mergeCommit = [self createCommitWithTree:newTree message:message parents:parents updatingReferenceNamed:localBranch.reference.name error:error];
+	GTCommit *mergeCommit = [self createCommitWithTree:mergedTree message:message parents:parents updatingReferenceNamed:localBranch.reference.name error:error];
 	if (!mergeCommit) {
 		return NO;
 	}
@@ -285,16 +308,6 @@ int GTMergeHeadEntriesCallback(const git_oid *oid, void *payload) {
 	git_merge_file_result_free(&result);
 
 	return mergedContent;
-}
-
-- (BOOL)annotatedCommit:(git_annotated_commit **)annotatedCommit fromCommit:(GTCommit *)fromCommit error:(NSError **)error {
-	int gitError = git_annotated_commit_lookup(annotatedCommit, self.git_repository, fromCommit.OID.git_oid);
-	if (gitError != GIT_OK) {
-		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to lookup annotated commit for %@", fromCommit];
-		return NO;
-	}
-
-	return YES;
 }
 
 - (BOOL)analyzeMerge:(GTMergeAnalysis *)analysis fromBranch:(GTBranch *)fromBranch error:(NSError **)error {
