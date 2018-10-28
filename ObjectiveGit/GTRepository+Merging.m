@@ -120,11 +120,6 @@ int GTMergeHeadEntriesCallback(const git_oid *oid, void *payload) {
 		return NO;
 	}
 
-	if ([localCommit.SHA isEqualToString:remoteCommit.SHA]) {
-		// Local and remote tracking branch are already in sync
-		return YES;
-	}
-
 	GTMergeAnalysis analysis = GTMergeAnalysisNone;
 	BOOL success = [self analyzeMerge:&analysis fromBranch:branch error:error];
 	if (!success) {
