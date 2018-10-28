@@ -136,65 +136,63 @@ int GTMergeHeadEntriesCallback(const git_oid *oid, void *payload) {
 		GTReference *reference = [localBranch.reference referenceByUpdatingTarget:remoteCommit.SHA message:message error:error];
 		BOOL checkoutSuccess = [self checkoutReference:reference options:[GTCheckoutOptions checkoutOptionsWithStrategy:GTCheckoutStrategyForce] error:error];
 		return checkoutSuccess;
-	} else if (analysis & GTMergeAnalysisNormal) {
-		// Do normal merge
-		GTTree *localTree = localCommit.tree;
-		GTTree *remoteTree = remoteCommit.tree;
-
-		// TODO: Find common ancestor
-		GTTree *ancestorTree = nil;
-
-		// Merge
-		GTIndex *index = [localTree merge:remoteTree ancestor:ancestorTree error:error];
-		if (!index) {
-			return NO;
-		}
-
-		// Check for conflict
-		if (index.hasConflicts) {
-			NSMutableArray <NSString *>*files = [NSMutableArray array];
-			[index enumerateConflictedFilesWithError:error usingBlock:^(GTIndexEntry * _Nonnull ancestor, GTIndexEntry * _Nonnull ours, GTIndexEntry * _Nonnull theirs, BOOL * _Nonnull stop) {
-				[files addObject:ours.path];
-			}];
-
-			if (error != NULL) {
-				NSDictionary *userInfo = @{GTPullMergeConflictedFiles: files};
-				*error = [NSError git_errorFor:GIT_ECONFLICT description:@"Merge conflict" userInfo:userInfo failureReason:nil];
-			}
-
-			// Write conflicts
-			git_merge_options merge_opts = GIT_MERGE_OPTIONS_INIT;
-			git_checkout_options checkout_opts = GIT_CHECKOUT_OPTIONS_INIT;
-			checkout_opts.checkout_strategy = (GIT_CHECKOUT_SAFE | GIT_CHECKOUT_ALLOW_CONFLICTS);
-
-			git_annotated_commit *annotatedCommit;
-			[self annotatedCommit:&annotatedCommit fromCommit:remoteCommit error:error];
-
-			git_merge(self.git_repository, (const git_annotated_commit **)&annotatedCommit, 1, &merge_opts, &checkout_opts);
-
-			return NO;
-		}
-
-		GTTree *newTree = [index writeTreeToRepository:self error:error];
-		if (!newTree) {
-			return NO;
-		}
-
-		// Create merge commit
-		NSString *message = [NSString stringWithFormat:@"Merge branch '%@'", localBranch.shortName];
-		NSArray *parents = @[ localCommit, remoteCommit ];
-
-		// FIXME: This is stepping on the local tree
-		GTCommit *mergeCommit = [self createCommitWithTree:newTree message:message parents:parents updatingReferenceNamed:localBranch.reference.name error:error];
-		if (!mergeCommit) {
-			return NO;
-		}
-
-		BOOL success = [self checkoutReference:localBranch.reference options:[GTCheckoutOptions checkoutOptionsWithStrategy:GTCheckoutStrategyForce] error:error];
-		return success;
 	}
 
-	return NO;
+	// Do normal merge
+	GTTree *localTree = localCommit.tree;
+	GTTree *remoteTree = remoteCommit.tree;
+
+	// TODO: Find common ancestor
+	GTTree *ancestorTree = nil;
+
+	// Merge
+	GTIndex *index = [localTree merge:remoteTree ancestor:ancestorTree error:error];
+	if (!index) {
+		return NO;
+	}
+
+	// Check for conflict
+	if (index.hasConflicts) {
+		NSMutableArray <NSString *>*files = [NSMutableArray array];
+		[index enumerateConflictedFilesWithError:error usingBlock:^(GTIndexEntry * _Nonnull ancestor, GTIndexEntry * _Nonnull ours, GTIndexEntry * _Nonnull theirs, BOOL * _Nonnull stop) {
+			[files addObject:ours.path];
+		}];
+
+		if (error != NULL) {
+			NSDictionary *userInfo = @{GTPullMergeConflictedFiles: files};
+			*error = [NSError git_errorFor:GIT_ECONFLICT description:@"Merge conflict" userInfo:userInfo failureReason:nil];
+		}
+
+		// Write conflicts
+		git_merge_options merge_opts = GIT_MERGE_OPTIONS_INIT;
+		git_checkout_options checkout_opts = GIT_CHECKOUT_OPTIONS_INIT;
+		checkout_opts.checkout_strategy = (GIT_CHECKOUT_SAFE | GIT_CHECKOUT_ALLOW_CONFLICTS);
+
+		git_annotated_commit *annotatedCommit;
+		[self annotatedCommit:&annotatedCommit fromCommit:remoteCommit error:error];
+
+		git_merge(self.git_repository, (const git_annotated_commit **)&annotatedCommit, 1, &merge_opts, &checkout_opts);
+
+		return NO;
+	}
+
+	GTTree *newTree = [index writeTreeToRepository:self error:error];
+	if (!newTree) {
+		return NO;
+	}
+
+	// Create merge commit
+	NSString *message = [NSString stringWithFormat:@"Merge branch '%@'", localBranch.shortName];
+	NSArray *parents = @[ localCommit, remoteCommit ];
+
+	// FIXME: This is stepping on the local tree
+	GTCommit *mergeCommit = [self createCommitWithTree:newTree message:message parents:parents updatingReferenceNamed:localBranch.reference.name error:error];
+	if (!mergeCommit) {
+		return NO;
+	}
+
+	success = [self checkoutReference:localBranch.reference options:[GTCheckoutOptions checkoutOptionsWithStrategy:GTCheckoutStrategyForce] error:error];
+	return success;
 }
 
 - (NSString * _Nullable)contentsOfDiffWithAncestor:(GTIndexEntry *)ancestor ourSide:(GTIndexEntry *)ourSide theirSide:(GTIndexEntry *)theirSide error:(NSError **)error {
