@@ -1301,11 +1301,6 @@
 				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "GitHub, Inc";
 				TargetAttributes = {
-					562126272101D971009A787A = {
-						CreatedOnToolsVersion = 9.4.1;
-						DevelopmentTeam = X2L8375ZQ7;
-						ProvisioningStyle = Automatic;
-					};
 					88F05A6A16011E5400B7AD1D = {
 						LastSwiftMigration = 0830;
 					};
@@ -1863,8 +1858,6 @@
 		562126282101D971009A787A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = X2L8375ZQ7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -1872,8 +1865,6 @@
 		562126292101D971009A787A /* Test */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = X2L8375ZQ7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Test;
@@ -1881,8 +1872,6 @@
 		5621262A2101D971009A787A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = X2L8375ZQ7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -1890,8 +1879,6 @@
 		5621262B2101D971009A787A /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = X2L8375ZQ7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Profile;
