@@ -407,6 +407,10 @@ typedef void (^GTRepositoryBranchEnumerationBlock)(GTBranch *branch, BOOL *stop)
 		if (error) *error = [NSError git_errorFor:gitError description:@"Branch enumeration failed"];
 		return NO;
 	}
+	
+	@onExit {
+		git_branch_iterator_free(iter);
+	};
 
 	git_branch_t branchType;
 	while ((gitError = git_branch_next(&gitRef, &branchType, iter)) == GIT_OK) {
