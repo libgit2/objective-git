@@ -27,10 +27,13 @@
 	self = [super init];
 	if (self == nil) return nil;
 
-	const char *path = git_repository_workdir(git_filter_source_repo(source));
-	_repositoryURL = [NSURL fileURLWithPath:@(path)];
-	
-	_path = @(git_filter_source_path(source));
+	NSString *path = @(git_repository_workdir(git_filter_source_repo(source)));
+	NSAssert(path, @"workdir was nil");
+	_repositoryURL = [NSURL fileURLWithPath:path];
+
+	path = @(git_filter_source_path(source));
+	NSAssert(path, @"path was nil");
+	_path = path;
 
 	const git_oid *gitOid = git_filter_source_id(source);
 	if (gitOid != NULL) _OID = [[GTOID alloc] initWithGitOid:gitOid];

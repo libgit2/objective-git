@@ -118,10 +118,12 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 }
 
 - (NSString *)name {
-	const char *refName = git_reference_name(self.git_reference);
-	NSAssert(refName != nil, @"Unexpected nil name");
+	const char *cRefName = git_reference_name(self.git_reference);
+	NSAssert(cRefName != nil, @"Unexpected nil name");
 
-	return @(refName);
+	NSString *refName = @(cRefName);
+	NSAssert(refName, @"refname is nil");
+	return refName;
 }
 
 - (GTReference *)referenceByRenaming:(NSString *)newName error:(NSError **)error {

@@ -22,8 +22,9 @@
 	self = [super init];
 	if (self == nil) return nil;
 
-	_path = @(file.path);
-	if (_path == nil) return nil;
+	NSString *path = @(file.path);
+	if (path == nil) return nil;
+	_path = path;
 
 	_git_diff_file = file;
 	_size = (NSUInteger)file.size;

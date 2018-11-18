@@ -637,18 +637,22 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 }
 
 - (NSURL *)fileURL {
-	const char *path = git_repository_workdir(self.git_repository);
+	const char *cPath = git_repository_workdir(self.git_repository);
 	// bare repository, you may be looking for gitDirectoryURL
-	if (path == NULL) return nil;
+	if (cPath == NULL) return nil;
 
-	return [NSURL fileURLWithPath:@(path) isDirectory:YES];
+	NSString *path = @(cPath);
+	NSAssert(path, @"workdir is nil");
+	return [NSURL fileURLWithPath:path isDirectory:YES];
 }
 
 - (NSURL *)gitDirectoryURL {
-	const char *path = git_repository_path(self.git_repository);
-	if (path == NULL) return nil;
+	const char *cPath = git_repository_path(self.git_repository);
+	if (cPath == NULL) return nil;
 
-	return [NSURL fileURLWithPath:@(path) isDirectory:YES];
+	NSString *path = @(cPath);
+	NSAssert(path, @"gitdirectory is nil");
+	return [NSURL fileURLWithPath:path isDirectory:YES];
 }
 
 - (BOOL)isBare {
@@ -737,7 +741,9 @@ static int submoduleEnumerationCallback(git_submodule *git_submodule, const char
 
 	NSError *error;
 	// Use -submoduleWithName:error: so that we get a git_submodule that we own.
-	GTSubmodule *submodule = [info->parentRepository submoduleWithName:@(name) error:&error];
+	NSString *submoduleName = @(name);
+	NSCAssert(submoduleName, @"submodule name is nil");
+	GTSubmodule *submodule = [info->parentRepository submoduleWithName:submoduleName error:&error];
 
 	BOOL stop = NO;
 	info->block(submodule, error, &stop);

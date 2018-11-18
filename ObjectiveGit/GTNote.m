@@ -42,7 +42,9 @@
 }
 
 - (NSString *)note {
-	return @(git_note_message(self.git_note));
+	NSString *message = @(git_note_message(self.git_note));
+	NSAssert(message, @"message is nil");
+	return message;
 }
 
 - (GTSignature *)author {

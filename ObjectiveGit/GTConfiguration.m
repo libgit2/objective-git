@@ -112,7 +112,10 @@
 static int configCallback(const git_config_entry *entry, void *payload) {
 	NSMutableArray *configurationKeysArray = (__bridge NSMutableArray *)payload;
 
-	[configurationKeysArray addObject:@(entry->name)];
+	NSString *name = @(entry->name);
+	NSCAssert(name, @"string was nil");
+
+	[configurationKeysArray addObject:name];
 
 	return 0;
 }

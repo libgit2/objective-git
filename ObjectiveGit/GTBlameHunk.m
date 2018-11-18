@@ -39,7 +39,9 @@
 }
 
 - (NSString *)originalPath {
-	return @(self.git_blame_hunk.orig_path);
+	NSString *path = @(self.git_blame_hunk.orig_path);
+	NSAssert(path, @"string was nil");
+	return path;
 }
 
 - (BOOL)isBoundary {

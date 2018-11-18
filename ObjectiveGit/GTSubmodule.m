@@ -62,21 +62,30 @@
 	const char *cName = git_submodule_name(self.git_submodule);
 	NSAssert(cName != NULL, @"Unexpected nil submodule name");
 
-	return @(cName);
+	NSString *name = @(cName);
+	NSAssert(name, @"name is nil");
+
+	return name;
 }
 
 - (NSString *)path {
 	const char *cPath = git_submodule_path(self.git_submodule);
 	NSAssert(cPath != NULL, @"Unexpected nil submodule path");
 
-	return @(cPath);
+	NSString *path = @(cPath);
+	NSAssert(path, @"message is nil");
+
+	return path;
 }
 
 - (NSString *)URLString {
 	const char *cURL = git_submodule_url(self.git_submodule);
 	NSAssert(cURL != NULL, @"Unexpected nil submodule URL");
 
-	return @(cURL);
+	NSString *URL = @(cURL);
+	NSAssert(URL, @"URL is nil");
+
+	return URL;
 }
 
 #pragma mark Lifecycle

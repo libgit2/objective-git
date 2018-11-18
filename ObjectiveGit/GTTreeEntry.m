@@ -94,7 +94,9 @@
 }
 
 - (NSString *)name {
-	return @(git_tree_entry_name(self.git_tree_entry));
+	NSString *name = @(git_tree_entry_name(self.git_tree_entry));
+	NSAssert(name, @"name was nil");
+	return name;
 }
 
 - (NSInteger)attributes {
