@@ -79,23 +79,25 @@ def repackage_dependency(dep)
   note "Packaging #{dep.name}…"
 
   FileUtils.mkdir(TARGET_FRAMEWORKS_PATH) unless Dir.exist?(TARGET_FRAMEWORKS_PATH)
+  packaged_path = File.join(TARGET_FRAMEWORKS_PATH, dep.name)
 
   case dep.type
   when ".dylib"
-    if File.exist?(File.join(TARGET_FRAMEWORKS_PATH, dep.name))
+    if File.exist? packaged_path
       warn "#{dep.path} already in Frameworks directory, removing"
-      FileUtils.rm File.join(TARGET_FRAMEWORKS_PATH, dep.name)
+      FileUtils.rm packaged_path
     end
 
     note "Copying #{dep[:path]} to TARGET_FRAMEWORKS_PATH"
     FileUtils.cp dep[:path], TARGET_FRAMEWORKS_PATH
+    FileUtils.chmod "u=rw", packaged_path
 
     out = `install_name_tool -change #{dep.path} "@rpath/#{dep.name}" #{dep.executable}`
     if $? != 0
       err "install_name_tool failed with error #{$?}:\n#{out}"
     end
 
-    dep.path = File.join(TARGET_FRAMEWORKS_PATH, dep.name)
+    dep.path = packaged_path
     dep.install_name = "@rpath/#{dep.name}"
     dep.is_packaged = true
   else
