@@ -1225,6 +1225,7 @@
 				79262F0F13C697BE00A4B1EA /* Copy git2 Headers */,
 				BEF7E4DF1A3A47450035BB8E /* Copy git2 Headers again */,
 				8DC2EF500486A6940098B216 /* Headers */,
+				4D751E9D215D765D003CD3CE /* Package external libraries */,
 			);
 			buildRules = (
 			);
@@ -1356,6 +1357,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		4D751E9D215D765D003CD3CE /* Package external libraries */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Package external libraries";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./script/repackage-dylibs.rb";
+		};
 		6A28265317C69CB400C6A948 /* OpenSSL-iOS */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
