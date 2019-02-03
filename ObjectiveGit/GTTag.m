@@ -47,11 +47,15 @@
 #pragma mark API
 
 - (NSString *)message {
-	return @(git_tag_message(self.git_tag));
+	NSString *message = @(git_tag_message(self.git_tag));
+	NSAssert(message, @"message is nil");
+	return message;
 }
 
 - (NSString *)name {
-	return @(git_tag_name(self.git_tag));
+	NSString *name = @(git_tag_name(self.git_tag));
+	NSAssert(name, @"message is nil");
+	return name;
 }
 
 - (GTObject *)target {

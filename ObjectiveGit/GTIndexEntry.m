@@ -74,7 +74,9 @@
 #pragma mark Properties
 
 - (NSString *)path {
-	return @(self.git_index_entry->path);
+	NSString *path = @(self.git_index_entry->path);
+	NSAssert(path, @"path is nil");
+	return path;
 }
 
 - (int)flags {
