@@ -127,7 +127,7 @@
 
 - (instancetype)initWithIndexEntry:(GTIndexEntry *)indexEntry error:(NSError **)error {
 	git_object *obj;
-	int gitError = git_object_lookup(&obj, indexEntry.repository.git_repository, indexEntry.OID.git_oid, (git_otype)GTObjectTypeAny);
+	int gitError = git_object_lookup(&obj, indexEntry.repository.git_repository, indexEntry.OID.git_oid, (git_object_t)GTObjectTypeAny);
 
 	if (gitError < GIT_OK) {
 		if (error != NULL) {

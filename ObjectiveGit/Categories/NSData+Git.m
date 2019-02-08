@@ -17,7 +17,7 @@
     if ([self length] != sizeof(git_oid)) {
         if (error != NULL) {
             *error = [NSError errorWithDomain:GTGitErrorDomain 
-                                         code:GITERR_INVALID 
+                                         code:GIT_ERROR_INVALID
                                      userInfo:
                       [NSDictionary dictionaryWithObject:@"can't extract oid from data of incorrect length" 
                                                   forKey:NSLocalizedDescriptionKey]];

@@ -114,7 +114,7 @@ describe(@"+cloneFromURL:toWorkingDirectory:options:error:transferProgressBlock:
 			expect(head).notTo(beNil());
 			expect(error).to(beNil());
 			expect(head.targetOID.SHA).to(equal(@"36060c58702ed4c2a40832c51758d5344201d89a"));
-			expect(@(head.referenceType)).to(equal(@(GTReferenceTypeOid)));
+			expect(@(head.referenceType)).to(equal(@(GTReferenceTypeDirect)));
 		});
 
 		it(@"should handle bare clones", ^{
@@ -139,7 +139,7 @@ describe(@"+cloneFromURL:toWorkingDirectory:options:error:transferProgressBlock:
 			expect(head).notTo(beNil());
 			expect(error).to(beNil());
 			expect(head.targetOID.SHA).to(equal(@"36060c58702ed4c2a40832c51758d5344201d89a"));
-			expect(@(head.referenceType)).to(equal(@(GTReferenceTypeOid)));
+			expect(@(head.referenceType)).to(equal(@(GTReferenceTypeDirect)));
 		});
 
 		it(@"should have set a valid remote URL", ^{
@@ -212,7 +212,7 @@ describe(@"-headReferenceWithError:", ^{
 		expect(head).notTo(beNil());
 		expect(error).to(beNil());
 		expect(head.targetOID.SHA).to(equal(@"36060c58702ed4c2a40832c51758d5344201d89a"));
-		expect(@(head.referenceType)).to(equal(@(GTReferenceTypeOid)));
+		expect(@(head.referenceType)).to(equal(@(GTReferenceTypeDirect)));
 	});
 
 	it(@"should fail to return HEAD for an unborn repo", ^{
