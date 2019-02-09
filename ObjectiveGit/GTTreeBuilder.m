@@ -155,7 +155,7 @@ static int filter_callback(const git_tree_entry *entry, void *payload) {
 	}
 
 	git_object *object = NULL;
-	status = git_object_lookup(&object, self.repository.git_repository, &treeOid, GIT_OBJ_TREE);
+	status = git_object_lookup(&object, self.repository.git_repository, &treeOid, GIT_OBJECT_TREE);
 	if (status != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to lookup tree in repository."];
 		return nil;

@@ -135,7 +135,7 @@ describe(@"+referenceByLookingUpReferenceNamed:inRepository:error:", ^{
 		expect(ref).notTo(beNil());
 		expect(error).to(beNil());
 
-		expectValidReference(ref, @"36060c58702ed4c2a40832c51758d5344201d89a", GTReferenceTypeOid, @"refs/heads/master");
+		expectValidReference(ref, @"36060c58702ed4c2a40832c51758d5344201d89a", GTReferenceTypeDirect, @"refs/heads/master");
 	});
 
 	it(@"should return a valid reference to a tag", ^{
@@ -144,7 +144,7 @@ describe(@"+referenceByLookingUpReferenceNamed:inRepository:error:", ^{
 		expect(ref).notTo(beNil());
 		expect(error).to(beNil());
 
-		expectValidReference(ref, @"5b5b025afb0b4c913b4c338a42934a3863bf3644", GTReferenceTypeOid, @"refs/tags/v0.9");
+		expectValidReference(ref, @"5b5b025afb0b4c913b4c338a42934a3863bf3644", GTReferenceTypeDirect, @"refs/tags/v0.9");
 	});
 });
 
@@ -170,7 +170,7 @@ describe(@"creating", ^{
 		expect(error).to(beNil());
 		expect(ref).notTo(beNil());
 
-		expectValidReference(ref, @"36060c58702ed4c2a40832c51758d5344201d89a", GTReferenceTypeOid, @"refs/heads/unit_test");
+		expectValidReference(ref, @"36060c58702ed4c2a40832c51758d5344201d89a", GTReferenceTypeDirect, @"refs/heads/unit_test");
 	});
 });
 

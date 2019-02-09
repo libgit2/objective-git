@@ -82,18 +82,18 @@
 	NSAssert(object_repo == repo.git_repository, @"object %p doesn't belong to repo %@", object, repo);
 
 	Class objectClass = nil;
-	git_otype t = git_object_type(object);
+	git_object_t t = git_object_type(object);
 	switch (t) {
-		case GIT_OBJ_COMMIT:
+		case GIT_OBJECT_COMMIT:
 			objectClass = [GTCommit class];
 			break;
-		case GIT_OBJ_TREE:
+		case GIT_OBJECT_TREE:
 			objectClass = [GTTree class];
 			break;
-		case GIT_OBJ_BLOB:
+		case GIT_OBJECT_BLOB:
 			objectClass = [GTBlob class];
 			break;
-		case GIT_OBJ_TAG:
+		case GIT_OBJECT_TAG:
 			objectClass = [GTTag class];
 			break;
 		default:
@@ -101,7 +101,7 @@
 	}
 
 	if (!objectClass) {
-		NSLog(@"Unknown git_otype %s (%d)", git_object_type2string(t), (int)t);
+		NSLog(@"Unknown git_object_t %s (%d)", git_object_type2string(t), (int)t);
 		return nil;
 	}
 	
@@ -149,7 +149,7 @@
 
 - (id)objectByPeelingToType:(GTObjectType)type error:(NSError **)error {
 	git_object *peeled = NULL;
-	int gitError = git_object_peel(&peeled, self.git_object, (git_otype)type);
+	int gitError = git_object_peel(&peeled, self.git_object, (git_object_t)type);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Cannot peel object"];
 		return nil;
