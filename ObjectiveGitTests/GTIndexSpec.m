@@ -328,6 +328,75 @@ describe(@"adding data", ^{
 	});
 });
 
+describe(@"-resultOfMergingAncestorEntry:ourEntry:theirEntry:options:error:", ^{
+	it(@"should produce a nice merge conflict description", ^{
+		NSURL *mainURL = [repository.fileURL URLByAppendingPathComponent:@"main.m"];
+		NSData *mainData = [[NSFileManager defaultManager] contentsAtPath:mainURL.path];
+		expect(mainData).notTo(beNil());
+
+		NSString *mainString = [[NSString alloc] initWithData:mainData encoding:NSUTF8StringEncoding];
+		NSData *masterData = [[mainString stringByReplacingOccurrencesOfString:@"return" withString:@"//The meaning of life is 41\n    return"] dataUsingEncoding:NSUTF8StringEncoding];
+		NSData *otherData = [[mainString stringByReplacingOccurrencesOfString:@"return" withString:@"//The meaning of life is 42\n    return"] dataUsingEncoding:NSUTF8StringEncoding];
+
+		expect(@([[NSFileManager defaultManager] createFileAtPath:mainURL.path contents:masterData attributes:nil])).to(beTruthy());
+
+		GTIndex *index = [repository indexWithError:NULL];
+		expect(@([index addFile:mainURL.lastPathComponent error:NULL])).to(beTruthy());
+		GTReference *head = [repository headReferenceWithError:NULL];
+		GTCommit *parent = [repository lookUpObjectByOID:head.targetOID objectType:GTObjectTypeCommit error:NULL];
+		expect(parent).toNot(beNil());
+		GTTree *masterTree = [index writeTree:NULL];
+		expect(masterTree).toNot(beNil());
+
+		GTBranch *otherBranch = [repository lookUpBranchWithName:@"other-branch" type:GTBranchTypeLocal success:NULL error:NULL];
+		expect(otherBranch).toNot(beNil());
+		expect(@([repository checkoutReference:otherBranch.reference options:nil error:NULL])).to(beTruthy());
+
+		expect(@([[NSFileManager defaultManager] createFileAtPath:mainURL.path contents:otherData attributes:nil])).to(beTruthy());
+
+		index = [repository indexWithError:NULL];
+		expect(@([index addFile:mainURL.lastPathComponent error:NULL])).to(beTruthy());
+		GTTree *otherTree = [index writeTree:NULL];
+		expect(otherTree).toNot(beNil());
+
+		GTIndex *conflictIndex = [otherTree merge:masterTree ancestor:parent.tree error:NULL];
+		expect(@([conflictIndex hasConflicts])).to(beTruthy());
+
+		[conflictIndex enumerateConflictedFilesWithError:NULL usingBlock:^(GTIndexEntry * _Nonnull ancestor, GTIndexEntry * _Nonnull ours, GTIndexEntry * _Nonnull theirs, BOOL * _Nonnull stop) {
+
+			GTMergeResult *result = [conflictIndex resultOfMergingAncestorEntry:ancestor ourEntry:ours theirEntry:theirs options:nil error:NULL];
+			expect(result).notTo(beNil());
+
+			NSString *conflictString = [[NSString alloc] initWithData:result.data encoding:NSUTF8StringEncoding];
+			NSString *expectedString = @"//\n"
+			"//  main.m\n"
+			"//  Test\n"
+			"//\n"
+			"//  Created by Joe Ricioppo on 9/28/10.\n"
+			"//  Copyright 2010 __MyCompanyName__. All rights reserved.\n"
+			"//\n"
+			"\n"
+			"#import <Cocoa/Cocoa.h>\n"
+			"\n"
+			"int main(int argc, char *argv[])\n"
+			"{\n"
+			"<<<<<<< main.m\n"
+			"    //The meaning of life is 42\n"
+			"=======\n"
+			"    //The meaning of life is 41\n"
+			">>>>>>> main.m\n"
+			"    return NSApplicationMain(argc,  (const char **) argv);\n"
+			"}\n"
+			"123456789\n"
+			"123456789\n"
+			"123456789\n"
+			"123456789!blah!\n";
+
+			expect(conflictString).to(equal(expectedString));
+		}];
+	});
+});
+
 afterEach(^{
 	[self tearDown];
 });

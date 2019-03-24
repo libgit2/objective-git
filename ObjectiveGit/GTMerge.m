@@ -7,6 +7,12 @@
 //
 
 #import "GTMerge.h"
+#import "GTOID.h"
+#import "GTObjectDatabase.h"
+#import "GTOdbObject.h"
+#import "GTRepository.h"
+#import "GTIndex.h"
+#import "GTIndexEntry.h"
 #import "NSError+Git.h"
 
 @interface GTMergeResult ()
@@ -65,6 +71,21 @@
 	NSAssert(stringData != nil, @"String couldn't be converted to UTF-8");
 
 	return [[self alloc] initWithData:stringData path:path mode:mode];
+}
+
++ (instancetype)fileWithIndexEntry:(GTIndexEntry *)entry error:(NSError **)error {
+	NSParameterAssert(entry);
+
+	const git_index_entry *git_entry = entry.git_index_entry;
+	GTOID *ancestorOID = [[GTOID alloc] initWithGitOid:&git_entry->id];
+	GTRepository *repository = entry.index.repository;
+	GTObjectDatabase *database = [repository objectDatabaseWithError:error];
+	NSData *contents = [[database objectWithOID:ancestorOID error:error] data];
+	if (contents == nil) {
+		return nil;
+	}
+
+	return [[self alloc] initWithData:contents path:entry.path mode:git_entry->mode];
 }
 
 - (instancetype)initWithData:(NSData *)data path:(NSString *)path mode:(unsigned int)mode {

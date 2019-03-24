@@ -33,6 +33,7 @@
 @class GTIndexEntry;
 @class GTRepository;
 @class GTTree;
+@class GTMergeResult;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -233,6 +234,23 @@ NS_ASSUME_NONNULL_BEGIN
 - (GTIndexEntry * _Nullable)entryWithName:(NSString *)name __deprecated_msg("use entryWithPath: instead.");
 - (GTIndexEntry * _Nullable)entryWithName:(NSString *)name error:(NSError **)error __deprecated_msg("use entryWithPath:error: instead.");
 
+
+@end
+
+@interface GTIndex (FileMerging)
+
+/// Gets the result of a merge with the given file entries
+///
+/// The parameters taked are the ones received from `enumerateConflictedFiles`.
+///
+/// ancestor - The ancestor entry
+/// ours     - The index entry of our side
+/// theirs   - The index entry of their side
+/// options  - The merge options to use. Can be nil.
+/// error    - The error if one occurred. Can be NULL.
+///
+/// Returns The results of the merge or nil on error
+- (GTMergeResult * _Nullable)resultOfMergingAncestorEntry:(GTIndexEntry *)ancestor ourEntry:(GTIndexEntry *)ours theirEntry:(GTIndexEntry *)theirs options:(NSDictionary * _Nullable)options error:(NSError * _Nullable __autoreleasing *)error;
 
 @end
 

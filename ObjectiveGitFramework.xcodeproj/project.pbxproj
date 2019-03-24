@@ -500,6 +500,7 @@
 		4D7BA1B82183C4C9003CD3CE /* GTMerge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GTMerge.h; sourceTree = "<group>"; };
 		4D7BA1B92183C4C9003CD3CE /* GTMerge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GTMerge.m; sourceTree = "<group>"; };
 		4D7BA1BF2183DD55003CD3CE /* GTMergeSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GTMergeSpec.m; sourceTree = "<group>"; };
+		4D7BA1BE2183D3EE003CD3CE /* GTMerge+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GTMerge+Private.h"; sourceTree = "<group>"; };
 		4D9BCD23206D84AD003CD3CE /* libgit2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgit2.a; path = External/build/lib/libgit2.a; sourceTree = "<group>"; };
 		4DBA4A3117DA73CE006CD5F5 /* GTRemoteSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTRemoteSpec.m; sourceTree = "<group>"; };
 		4DC55AE31AD859AD0032563C /* GTCheckoutOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTCheckoutOptions.h; sourceTree = "<group>"; };
@@ -987,6 +988,7 @@
 				4DC55AE31AD859AD0032563C /* GTCheckoutOptions.h */,
 				4DC55AE41AD859AD0032563C /* GTCheckoutOptions.m */,
 				4D7BA1B82183C4C9003CD3CE /* GTMerge.h */,
+				4D7BA1BE2183D3EE003CD3CE /* GTMerge+Private.h */,
 				4D7BA1B92183C4C9003CD3CE /* GTMerge.m */,
 			);
 			path = ObjectiveGit;
