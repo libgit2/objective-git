@@ -89,6 +89,8 @@
 		30FDC08116835A8100654BF0 /* GTDiffLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 30FDC07E16835A8100654BF0 /* GTDiffLine.m */; };
 		4D123240178E009E0048F785 /* GTRepositoryCommittingSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D12323F178E009E0048F785 /* GTRepositoryCommittingSpec.m */; };
 		4D1C40D8182C006D00BE2960 /* GTBlobSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D1C40D7182C006D00BE2960 /* GTBlobSpec.m */; };
+		4D5AB893228742FE003CD3CE /* EXTScope.h in Headers */ = {isa = PBXBuildFile; fileRef = 306123A917EA5261006591D4 /* EXTScope.h */; };
+		4D5AB89422874300003CD3CE /* EXTScope.h in Headers */ = {isa = PBXBuildFile; fileRef = 306123A917EA5261006591D4 /* EXTScope.h */; };
 		4D79C0EE17DF9F4D00997DE4 /* GTCredential.h in Headers */ = {isa = PBXBuildFile; fileRef = 4D79C0EC17DF9F4D00997DE4 /* GTCredential.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4D79C0EF17DF9F4D00997DE4 /* GTCredential.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D79C0ED17DF9F4D00997DE4 /* GTCredential.m */; };
 		4D9BCD24206D84AD003CD3CE /* libgit2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D9BCD23206D84AD003CD3CE /* libgit2.a */; };
@@ -487,6 +489,12 @@
 		30FDC07E16835A8100654BF0 /* GTDiffLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTDiffLine.m; sourceTree = "<group>"; };
 		4D12323F178E009E0048F785 /* GTRepositoryCommittingSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTRepositoryCommittingSpec.m; sourceTree = "<group>"; };
 		4D1C40D7182C006D00BE2960 /* GTBlobSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTBlobSpec.m; sourceTree = "<group>"; };
+		4D5AB88C22873EA3003CD3CE /* macOS-Application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "macOS-Application.xcconfig"; sourceTree = "<group>"; };
+		4D5AB88D22873EA3003CD3CE /* macOS-Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "macOS-Framework.xcconfig"; sourceTree = "<group>"; };
+		4D5AB88E22873EA3003CD3CE /* macOS-StaticLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "macOS-StaticLibrary.xcconfig"; sourceTree = "<group>"; };
+		4D5AB88F22873EA3003CD3CE /* macOS-Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "macOS-Base.xcconfig"; sourceTree = "<group>"; };
+		4D5AB89022873EA3003CD3CE /* macOS-XCTest.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "macOS-XCTest.xcconfig"; sourceTree = "<group>"; };
+		4D5AB89122873EA3003CD3CE /* macOS-DynamicLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "macOS-DynamicLibrary.xcconfig"; sourceTree = "<group>"; };
 		4D79C0EC17DF9F4D00997DE4 /* GTCredential.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTCredential.h; sourceTree = "<group>"; };
 		4D79C0ED17DF9F4D00997DE4 /* GTCredential.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTCredential.m; sourceTree = "<group>"; };
 		4D79C0F617DFAA7100997DE4 /* GTCredential+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTCredential+Private.h"; sourceTree = "<group>"; };
@@ -822,6 +830,19 @@
 			name = "Other Sources";
 			sourceTree = "<group>";
 		};
+		4D5AB88B22873EA3003CD3CE /* macOS */ = {
+			isa = PBXGroup;
+			children = (
+				4D5AB88C22873EA3003CD3CE /* macOS-Application.xcconfig */,
+				4D5AB88D22873EA3003CD3CE /* macOS-Framework.xcconfig */,
+				4D5AB88E22873EA3003CD3CE /* macOS-StaticLibrary.xcconfig */,
+				4D5AB88F22873EA3003CD3CE /* macOS-Base.xcconfig */,
+				4D5AB89022873EA3003CD3CE /* macOS-XCTest.xcconfig */,
+				4D5AB89122873EA3003CD3CE /* macOS-DynamicLibrary.xcconfig */,
+			);
+			path = macOS;
+			sourceTree = "<group>";
+		};
 		88F05A7516011E5400B7AD1D /* ObjectiveGitTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -1033,6 +1054,7 @@
 			isa = PBXGroup;
 			children = (
 				D0A463D517E57C45000F5021 /* Base */,
+				4D5AB88B22873EA3003CD3CE /* macOS */,
 				D0D81862174421EB00995A2E /* iOS */,
 				D0D81866174421EB00995A2E /* Mac OS X */,
 				D0D8186C174421EB00995A2E /* README.md */,
@@ -1124,6 +1146,7 @@
 				8821547617147A5200D76B76 /* GTReflogEntry.h in Headers */,
 				30DCBA5C17B45213009B0EBD /* GTStatusDelta.h in Headers */,
 				88746CC417FA1C950005888A /* GTRepository+Committing.h in Headers */,
+				4D5AB893228742FE003CD3CE /* EXTScope.h in Headers */,
 				D09C2E361755F16200065E36 /* GTSubmodule.h in Headers */,
 				F8D1BDEE1B31FE7C00CDEC90 /* GTRepository+Pull.h in Headers */,
 				F964D5F11CE9D9B200F1D8DD /* GTNote.h in Headers */,
@@ -1140,6 +1163,7 @@
 				D01B6F2319F82F8700D411BC /* GTRepository+Reset.h in Headers */,
 				D01B6F2D19F82F8700D411BC /* GTEnumerator.h in Headers */,
 				D01B6F5519F82FA600D411BC /* GTReflog.h in Headers */,
+				4D5AB89422874300003CD3CE /* EXTScope.h in Headers */,
 				23F39FAF1C86DD0A00849F3C /* GTRepository+Merging.h in Headers */,
 				D01B6F3519F82F8700D411BC /* GTBlob.h in Headers */,
 				D01B6F4D19F82F8700D411BC /* GTRemote.h in Headers */,
@@ -1383,7 +1407,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = script/update_libssl_ios;
+			shellScript = "script/update_libssl_ios\n";
 		};
 		6A3C609117D5963700382DFF /* libssh2-iOS */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1411,7 +1435,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = script/update_libgit2;
+			shellScript = "script/update_libgit2\n";
 		};
 		D0A330F616027F3B00A616FA /* libgit2-iOS */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1425,7 +1449,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = script/update_libgit2_ios;
+			shellScript = "script/update_libgit2_ios\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1694,7 +1718,7 @@
 /* Begin XCBuildConfiguration section */
 		1DEB91AE08733DA50010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D0D8186A174421EB00995A2E /* Mac-Framework.xcconfig */;
+			baseConfigurationReference = 4D5AB88D22873EA3003CD3CE /* macOS-Framework.xcconfig */;
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1722,7 +1746,7 @@
 		};
 		1DEB91AF08733DA50010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D0D8186A174421EB00995A2E /* Mac-Framework.xcconfig */;
+			baseConfigurationReference = 4D5AB88D22873EA3003CD3CE /* macOS-Framework.xcconfig */;
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1773,13 +1797,13 @@
 					.,
 					External,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
 					"$(inherited)",
 					"-DGIT_SSH",
 				);
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WARNING_CFLAGS = (
 					"$(inherited)",
@@ -1812,12 +1836,12 @@
 					.,
 					External,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_CFLAGS = (
 					"$(inherited)",
 					"-DGIT_SSH",
 				);
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WARNING_CFLAGS = (
 					"$(inherited)",
@@ -1876,7 +1900,7 @@
 		};
 		88F05A8016011E5400B7AD1D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F81B6B54207B0A9F00AB0836 /* Mac-XCTest.xcconfig */;
+			baseConfigurationReference = 4D5AB89022873EA3003CD3CE /* macOS-XCTest.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_NULLABLE_TO_NONNULL_CONVERSION = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1893,16 +1917,14 @@
 					/usr/local/include,
 				);
 				INFOPLIST_FILE = "ObjectiveGitTests/ObjectiveGitTests-Info.plist";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libgit2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
 		88F05A8116011E5400B7AD1D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D0D81867174421EB00995A2E /* Mac-Application.xcconfig */;
+			baseConfigurationReference = 4D5AB89022873EA3003CD3CE /* macOS-XCTest.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_NULLABLE_TO_NONNULL_CONVERSION = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1914,10 +1936,8 @@
 					/usr/local/include,
 				);
 				INFOPLIST_FILE = "ObjectiveGitTests/ObjectiveGitTests-Info.plist";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libgit2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -1945,12 +1965,12 @@
 					.,
 					External,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_CFLAGS = (
 					"$(inherited)",
 					"-DGIT_SSH",
 				);
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WARNING_CFLAGS = (
 					"$(inherited)",
@@ -1961,7 +1981,7 @@
 		};
 		D019778E19F830F500F523DA /* Test */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D0D8186A174421EB00995A2E /* Mac-Framework.xcconfig */;
+			baseConfigurationReference = 4D5AB88D22873EA3003CD3CE /* macOS-Framework.xcconfig */;
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1989,7 +2009,7 @@
 		};
 		D019778F19F830F500F523DA /* Test */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F81B6B54207B0A9F00AB0836 /* Mac-XCTest.xcconfig */;
+			baseConfigurationReference = 4D5AB89022873EA3003CD3CE /* macOS-XCTest.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_NULLABLE_TO_NONNULL_CONVERSION = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2001,10 +2021,8 @@
 					/usr/local/include,
 				);
 				INFOPLIST_FILE = "ObjectiveGitTests/ObjectiveGitTests-Info.plist";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libgit2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
 			};
 			name = Test;
 		};
@@ -2035,7 +2053,7 @@
 		};
 		D019779219F830F500F523DA /* Test */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D0D8186B174421EB00995A2E /* Mac-StaticLibrary.xcconfig */;
+			baseConfigurationReference = 4D5AB88E22873EA3003CD3CE /* macOS-StaticLibrary.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -2164,12 +2182,12 @@
 					.,
 					External,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_CFLAGS = (
 					"$(inherited)",
 					"-DGIT_SSH",
 				);
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WARNING_CFLAGS = (
 					"$(inherited)",
@@ -2180,7 +2198,7 @@
 		};
 		D03FC3D81602E97F00BCFA73 /* Profile */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D0D8186A174421EB00995A2E /* Mac-Framework.xcconfig */;
+			baseConfigurationReference = 4D5AB88D22873EA3003CD3CE /* macOS-Framework.xcconfig */;
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -2208,7 +2226,7 @@
 		};
 		D03FC3DA1602E97F00BCFA73 /* Profile */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D0D81867174421EB00995A2E /* Mac-Application.xcconfig */;
+			baseConfigurationReference = 4D5AB89022873EA3003CD3CE /* macOS-XCTest.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_NULLABLE_TO_NONNULL_CONVERSION = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2220,16 +2238,14 @@
 					/usr/local/include,
 				);
 				INFOPLIST_FILE = "ObjectiveGitTests/ObjectiveGitTests-Info.plist";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libgit2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
 			};
 			name = Profile;
 		};
 		D03FC3DB1602E97F00BCFA73 /* Profile */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D0D8186B174421EB00995A2E /* Mac-StaticLibrary.xcconfig */;
+			baseConfigurationReference = 4D5AB88E22873EA3003CD3CE /* macOS-StaticLibrary.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -2245,7 +2261,7 @@
 		};
 		D0A330EF16027F1E00A616FA /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D0D8186B174421EB00995A2E /* Mac-StaticLibrary.xcconfig */;
+			baseConfigurationReference = 4D5AB88E22873EA3003CD3CE /* macOS-StaticLibrary.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -2253,7 +2269,7 @@
 		};
 		D0A330F016027F1E00A616FA /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D0D8186B174421EB00995A2E /* Mac-StaticLibrary.xcconfig */;
+			baseConfigurationReference = 4D5AB88E22873EA3003CD3CE /* macOS-StaticLibrary.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

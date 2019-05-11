@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "git2/oid.h"
-#import "GTObject.h"
+#import <ObjectiveGit/git2/oid.h>
+#import <ObjectiveGit/GTObject.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

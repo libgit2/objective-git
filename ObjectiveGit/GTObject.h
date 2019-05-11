@@ -28,7 +28,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "git2/types.h"
+#import <ObjectiveGit/git2/types.h>
 
 typedef NS_ENUM(int, GTObjectType) {
 	GTObjectTypeAny = GIT_OBJECT_ANY,				/**< Object can be any of the following */
