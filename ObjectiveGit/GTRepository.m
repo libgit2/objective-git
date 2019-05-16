@@ -108,10 +108,10 @@ typedef struct {
 }
 
 - (void)dealloc {
-	if (_git_repository != NULL) {
+	if (_git_repository != NULL && _git_repository.workdir != NULL) {
 		git_repository_free(_git_repository);
-		_git_repository = NULL;
 	}
+	_git_repository = NULL;
 }
 
 #pragma mark API
