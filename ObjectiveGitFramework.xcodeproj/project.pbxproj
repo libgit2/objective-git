@@ -1369,7 +1369,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./script/repackage-dylibs.rb";
+			shellScript = "./script/repackage-dylibs.rb\n";
 		};
 		6A28265317C69CB400C6A948 /* OpenSSL-iOS */ = {
 			isa = PBXShellScriptBuildPhase;
