@@ -1411,7 +1411,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = script/update_libgit2;
+			shellScript = "script/update_libgit2\n";
 		};
 		D0A330F616027F3B00A616FA /* libgit2-iOS */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1710,10 +1710,10 @@
 					"-lgit2",
 					"-force_load",
 					External/libgit2.a,
-					/usr/local/lib/libssh2.a,
 					"-lcrypto",
 					"-lssl",
 					"-lcurl",
+					/usr/local/lib/libssh2.a,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libgit2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ObjectiveGit;
@@ -1739,10 +1739,10 @@
 					"-lgit2",
 					"-force_load",
 					External/libgit2.a,
-					/usr/local/lib/libssh2.a,
 					"-lcrypto",
 					"-lssl",
 					"-lcurl",
+					/usr/local/lib/libssh2.a,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libgit2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ObjectiveGit;
@@ -1775,7 +1775,7 @@
 					.,
 					External,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
 					"$(inherited)",
@@ -1814,7 +1814,7 @@
 					.,
 					External,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				OTHER_CFLAGS = (
 					"$(inherited)",
 					"-DGIT_SSH",
@@ -1947,7 +1947,7 @@
 					.,
 					External,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				OTHER_CFLAGS = (
 					"$(inherited)",
 					"-DGIT_SSH",
@@ -1979,10 +1979,10 @@
 					"-lgit2",
 					"-force_load",
 					External/libgit2.a,
-					/usr/local/lib/libssh2.a,
 					"-lcrypto",
 					"-lssl",
 					"-lcurl",
+					/usr/local/lib/libssh2.a,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libgit2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ObjectiveGit;
@@ -2167,7 +2167,7 @@
 					.,
 					External,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				OTHER_CFLAGS = (
 					"$(inherited)",
 					"-DGIT_SSH",
@@ -2199,10 +2199,10 @@
 					"-lgit2",
 					"-force_load",
 					External/libgit2.a,
-					/usr/local/lib/libssh2.a,
 					"-lcrypto",
 					"-lssl",
 					"-lcurl",
+					/usr/local/lib/libssh2.a,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libgit2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ObjectiveGit;
