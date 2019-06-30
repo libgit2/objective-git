@@ -39,8 +39,10 @@
 #import "GTBlob.h"
 #import "NSArray+StringArray.h"
 #import "NSError+Git.h"
+#import "GTMerge+Private.h"
 
 #import "git2/errors.h"
+#import "git2/merge.h"
 
 // The block synonymous with libgit2's `git_index_matched_path_cb` callback.
 typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString *path, BOOL *stop);
@@ -406,4 +408,29 @@ int GTIndexPathspecMatchFound(const char *path, const char *matched_pathspec, vo
 - (GTIndexEntry *)entryWithName:(NSString *)name error:(NSError **)error {
     return [self entryWithPath:name error:error];
 }
+
+@end
+
+@implementation GTIndex (FileMerging)
+
+- (GTMergeResult *)resultOfMergingAncestorEntry:(GTIndexEntry *)ancestorEntry ourEntry:(GTIndexEntry *)ourEntry theirEntry:(GTIndexEntry *)theirEntry options:(NSDictionary *)options error:(NSError * _Nullable __autoreleasing *)error {
+	NSParameterAssert(ourEntry);
+	NSParameterAssert(theirEntry);
+	NSParameterAssert(ancestorEntry);
+
+	git_merge_file_result gitResult;
+	git_merge_file_options opts;
+
+	BOOL success = [GTMergeFile handleMergeFileOptions:&opts optionsDict:options error:error];
+	if (!success) return nil;
+
+	int gitError = git_merge_file_from_index(&gitResult, self.repository.git_repository, ancestorEntry.git_index_entry, ourEntry.git_index_entry, theirEntry.git_index_entry, &opts);
+	if (gitError != 0) {
+		if (error) *error = [NSError git_errorFor:gitError description:@"Merging entries failed"];
+		return nil;
+	}
+
+	return [[GTMergeResult alloc] initWithGitMergeFileResult:&gitResult];
+}
+
 @end

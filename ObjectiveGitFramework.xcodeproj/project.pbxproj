@@ -91,6 +91,12 @@
 		4D1C40D8182C006D00BE2960 /* GTBlobSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D1C40D7182C006D00BE2960 /* GTBlobSpec.m */; };
 		4D79C0EE17DF9F4D00997DE4 /* GTCredential.h in Headers */ = {isa = PBXBuildFile; fileRef = 4D79C0EC17DF9F4D00997DE4 /* GTCredential.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4D79C0EF17DF9F4D00997DE4 /* GTCredential.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D79C0ED17DF9F4D00997DE4 /* GTCredential.m */; };
+		4D7BA1BA2183C4C9003CD3CE /* GTMerge.h in Headers */ = {isa = PBXBuildFile; fileRef = 4D7BA1B82183C4C9003CD3CE /* GTMerge.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4D7BA1BB2183C4C9003CD3CE /* GTMerge.h in Headers */ = {isa = PBXBuildFile; fileRef = 4D7BA1B82183C4C9003CD3CE /* GTMerge.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4D7BA1BC2183C4C9003CD3CE /* GTMerge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D7BA1B92183C4C9003CD3CE /* GTMerge.m */; };
+		4D7BA1BD2183C4C9003CD3CE /* GTMerge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D7BA1B92183C4C9003CD3CE /* GTMerge.m */; };
+		4D7BA1C02183DD55003CD3CE /* GTMergeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D7BA1BF2183DD55003CD3CE /* GTMergeSpec.m */; };
+		4D7BA1C12183DD55003CD3CE /* GTMergeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D7BA1BF2183DD55003CD3CE /* GTMergeSpec.m */; };
 		4D9BCD24206D84AD003CD3CE /* libgit2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D9BCD23206D84AD003CD3CE /* libgit2.a */; };
 		4D9BCD25206D84B2003CD3CE /* libgit2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D9BCD23206D84AD003CD3CE /* libgit2.a */; };
 		4DBA4A3217DA73CE006CD5F5 /* GTRemoteSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DBA4A3117DA73CE006CD5F5 /* GTRemoteSpec.m */; };
@@ -490,6 +496,10 @@
 		4D79C0EC17DF9F4D00997DE4 /* GTCredential.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTCredential.h; sourceTree = "<group>"; };
 		4D79C0ED17DF9F4D00997DE4 /* GTCredential.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTCredential.m; sourceTree = "<group>"; };
 		4D79C0F617DFAA7100997DE4 /* GTCredential+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTCredential+Private.h"; sourceTree = "<group>"; };
+		4D7BA1B82183C4C9003CD3CE /* GTMerge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GTMerge.h; sourceTree = "<group>"; };
+		4D7BA1B92183C4C9003CD3CE /* GTMerge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GTMerge.m; sourceTree = "<group>"; };
+		4D7BA1BF2183DD55003CD3CE /* GTMergeSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GTMergeSpec.m; sourceTree = "<group>"; };
+		4D7BA1BE2183D3EE003CD3CE /* GTMerge+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GTMerge+Private.h"; sourceTree = "<group>"; };
 		4D9BCD23206D84AD003CD3CE /* libgit2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgit2.a; path = External/build/lib/libgit2.a; sourceTree = "<group>"; };
 		4DBA4A3117DA73CE006CD5F5 /* GTRemoteSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTRemoteSpec.m; sourceTree = "<group>"; };
 		4DC55AE31AD859AD0032563C /* GTCheckoutOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTCheckoutOptions.h; sourceTree = "<group>"; };
@@ -836,6 +846,7 @@
 				D0751CD818BE520400134314 /* GTFilterListSpec.m */,
 				886E623618AECD86000611A0 /* GTFilterSpec.m */,
 				8832811E173D8816006D7DCF /* GTIndexSpec.m */,
+				4D7BA1BF2183DD55003CD3CE /* GTMergeSpec.m */,
 				F9D1D4221CEB79D1009E5855 /* GTNoteSpec.m */,
 				88948AC81779243600809CDA /* GTObjectDatabaseSpec.m */,
 				88F05AA816011FFD00B7AD1D /* GTObjectSpec.m */,
@@ -976,6 +987,9 @@
 				6EEB51A0199D62B9001D72C0 /* GTFetchHeadEntry.m */,
 				4DC55AE31AD859AD0032563C /* GTCheckoutOptions.h */,
 				4DC55AE41AD859AD0032563C /* GTCheckoutOptions.m */,
+				4D7BA1B82183C4C9003CD3CE /* GTMerge.h */,
+				4D7BA1BE2183D3EE003CD3CE /* GTMerge+Private.h */,
+				4D7BA1B92183C4C9003CD3CE /* GTMerge.m */,
 			);
 			path = ObjectiveGit;
 			sourceTree = "<group>";
@@ -1095,6 +1109,7 @@
 				88F6D9FB1320467500CC0BA8 /* GTObject.h in Headers */,
 				AA046112134F4D2000DF526B /* GTOdbObject.h in Headers */,
 				D0A0129519F99EF8007F1914 /* NSDate+GTTimeAdditions.h in Headers */,
+				4D7BA1BA2183C4C9003CD3CE /* GTMerge.h in Headers */,
 				4DFFB15B183AA8D600D1565E /* GTRepository+RemoteOperations.h in Headers */,
 				BDB2B1301386F34300C88D55 /* GTObjectDatabase.h in Headers */,
 				88F6D9FC1320467800CC0BA8 /* GTSignature.h in Headers */,
@@ -1173,6 +1188,7 @@
 				D01B6F2F19F82F8700D411BC /* GTObject.h in Headers */,
 				4DC55AE61AD859AD0032563C /* GTCheckoutOptions.h in Headers */,
 				D01B6F4B19F82F8700D411BC /* GTConfiguration.h in Headers */,
+				4D7BA1BB2183C4C9003CD3CE /* GTMerge.h in Headers */,
 				D01B6F6719F82FA600D411BC /* GTFetchHeadEntry.h in Headers */,
 				D01B6F5F19F82FA600D411BC /* GTFilter.h in Headers */,
 				D01B6F5319F82FA600D411BC /* GTBlameHunk.h in Headers */,
@@ -1472,6 +1488,7 @@
 				D040AF70177B9779001AD9EB /* GTOIDSpec.m in Sources */,
 				D040AF78177B9A9E001AD9EB /* GTSignatureSpec.m in Sources */,
 				4DBA4A3217DA73CE006CD5F5 /* GTRemoteSpec.m in Sources */,
+				4D7BA1C02183DD55003CD3CE /* GTMergeSpec.m in Sources */,
 				4D123240178E009E0048F785 /* GTRepositoryCommittingSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1531,6 +1548,7 @@
 				8821547F17147B3600D76B76 /* GTOID.m in Sources */,
 				D03B57A418BFFF07007124F4 /* GTDiffPatch.m in Sources */,
 				D03B07F71965DAB0009E5624 /* NSData+Git.m in Sources */,
+				4D7BA1BC2183C4C9003CD3CE /* GTMerge.m in Sources */,
 				20F43DE618A2F668007D3621 /* GTRepository+Blame.m in Sources */,
 				5BE6128A1745EE3400266D8C /* GTTreeBuilder.m in Sources */,
 				D09C2E381755F16200065E36 /* GTSubmodule.m in Sources */,
@@ -1593,6 +1611,7 @@
 				D01B6F5E19F82FA600D411BC /* GTCredential.m in Sources */,
 				D01B6F6219F82FA600D411BC /* GTFilterSource.m in Sources */,
 				D01B6F1C19F82F7B00D411BC /* NSDate+GTTimeAdditions.m in Sources */,
+				4D7BA1BD2183C4C9003CD3CE /* GTMerge.m in Sources */,
 				D01B6F1619F82F7B00D411BC /* NSData+Git.m in Sources */,
 				D01B6F1E19F82F7B00D411BC /* NSArray+StringArray.m in Sources */,
 				D01B6F5819F82FA600D411BC /* GTReflogEntry.m in Sources */,
@@ -1642,6 +1661,7 @@
 				F8D007A01B4FA03B009A8DAF /* GTRepository+StatusSpec.m in Sources */,
 				F8D007961B4FA03B009A8DAF /* GTRemotePushSpec.m in Sources */,
 				F8D007A51B4FA03B009A8DAF /* GTDiffDeltaSpec.m in Sources */,
+				4D7BA1C12183DD55003CD3CE /* GTMergeSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
