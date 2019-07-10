@@ -89,8 +89,14 @@
 		30FDC08116835A8100654BF0 /* GTDiffLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 30FDC07E16835A8100654BF0 /* GTDiffLine.m */; };
 		4D123240178E009E0048F785 /* GTRepositoryCommittingSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D12323F178E009E0048F785 /* GTRepositoryCommittingSpec.m */; };
 		4D1C40D8182C006D00BE2960 /* GTBlobSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D1C40D7182C006D00BE2960 /* GTBlobSpec.m */; };
+		4D2740CE1E06C048004C3A6F /* GTAnnotatedCommit.h in Headers */ = {isa = PBXBuildFile; fileRef = 4D2740CC1E06C048004C3A6F /* GTAnnotatedCommit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4D2740CF1E06C048004C3A6F /* GTAnnotatedCommit.h in Headers */ = {isa = PBXBuildFile; fileRef = 4D2740CC1E06C048004C3A6F /* GTAnnotatedCommit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4D2740D01E06C048004C3A6F /* GTAnnotatedCommit.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D2740CD1E06C048004C3A6F /* GTAnnotatedCommit.m */; };
+		4D2740D11E06C048004C3A6F /* GTAnnotatedCommit.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D2740CD1E06C048004C3A6F /* GTAnnotatedCommit.m */; };
 		4D79C0EE17DF9F4D00997DE4 /* GTCredential.h in Headers */ = {isa = PBXBuildFile; fileRef = 4D79C0EC17DF9F4D00997DE4 /* GTCredential.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4D79C0EF17DF9F4D00997DE4 /* GTCredential.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D79C0ED17DF9F4D00997DE4 /* GTCredential.m */; };
+		4D7BA1C3218531AD003CD3CE /* GTAnnotatedCommitSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D7BA1C2218531AD003CD3CE /* GTAnnotatedCommitSpec.m */; };
+		4D7BA1C4218531AD003CD3CE /* GTAnnotatedCommitSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D7BA1C2218531AD003CD3CE /* GTAnnotatedCommitSpec.m */; };
 		4D9BCD24206D84AD003CD3CE /* libgit2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D9BCD23206D84AD003CD3CE /* libgit2.a */; };
 		4D9BCD25206D84B2003CD3CE /* libgit2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D9BCD23206D84AD003CD3CE /* libgit2.a */; };
 		4DBA4A3217DA73CE006CD5F5 /* GTRemoteSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DBA4A3117DA73CE006CD5F5 /* GTRemoteSpec.m */; };
@@ -487,9 +493,12 @@
 		30FDC07E16835A8100654BF0 /* GTDiffLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTDiffLine.m; sourceTree = "<group>"; };
 		4D12323F178E009E0048F785 /* GTRepositoryCommittingSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTRepositoryCommittingSpec.m; sourceTree = "<group>"; };
 		4D1C40D7182C006D00BE2960 /* GTBlobSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTBlobSpec.m; sourceTree = "<group>"; };
+		4D2740CC1E06C048004C3A6F /* GTAnnotatedCommit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTAnnotatedCommit.h; sourceTree = "<group>"; };
+		4D2740CD1E06C048004C3A6F /* GTAnnotatedCommit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTAnnotatedCommit.m; sourceTree = "<group>"; };
 		4D79C0EC17DF9F4D00997DE4 /* GTCredential.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTCredential.h; sourceTree = "<group>"; };
 		4D79C0ED17DF9F4D00997DE4 /* GTCredential.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTCredential.m; sourceTree = "<group>"; };
 		4D79C0F617DFAA7100997DE4 /* GTCredential+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTCredential+Private.h"; sourceTree = "<group>"; };
+		4D7BA1C2218531AD003CD3CE /* GTAnnotatedCommitSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GTAnnotatedCommitSpec.m; sourceTree = "<group>"; };
 		4D9BCD23206D84AD003CD3CE /* libgit2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgit2.a; path = External/build/lib/libgit2.a; sourceTree = "<group>"; };
 		4DBA4A3117DA73CE006CD5F5 /* GTRemoteSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTRemoteSpec.m; sourceTree = "<group>"; };
 		4DC55AE31AD859AD0032563C /* GTCheckoutOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTCheckoutOptions.h; sourceTree = "<group>"; };
@@ -825,6 +834,7 @@
 		88F05A7516011E5400B7AD1D /* ObjectiveGitTests */ = {
 			isa = PBXGroup;
 			children = (
+				4D7BA1C2218531AD003CD3CE /* GTAnnotatedCommitSpec.m */,
 				200578C418932A82001C06C3 /* GTBlameSpec.m */,
 				4D1C40D7182C006D00BE2960 /* GTBlobSpec.m */,
 				88A994B916FCE7D400402C7B /* GTBranchSpec.m */,
@@ -976,6 +986,8 @@
 				6EEB51A0199D62B9001D72C0 /* GTFetchHeadEntry.m */,
 				4DC55AE31AD859AD0032563C /* GTCheckoutOptions.h */,
 				4DC55AE41AD859AD0032563C /* GTCheckoutOptions.m */,
+				4D2740CC1E06C048004C3A6F /* GTAnnotatedCommit.h */,
+				4D2740CD1E06C048004C3A6F /* GTAnnotatedCommit.m */,
 			);
 			path = ObjectiveGit;
 			sourceTree = "<group>";
@@ -1090,6 +1102,7 @@
 				4DC55AE51AD859AD0032563C /* GTCheckoutOptions.h in Headers */,
 				BD441E08131ED0C300187010 /* GTReference.h in Headers */,
 				88F6D9D91320451F00CC0BA8 /* ObjectiveGit.h in Headers */,
+				4D2740CE1E06C048004C3A6F /* GTAnnotatedCommit.h in Headers */,
 				88B2131C1B20E785005CF2C5 /* GTRepository+References.h in Headers */,
 				88F6D9FA1320467100CC0BA8 /* GTCommit.h in Headers */,
 				88F6D9FB1320467500CC0BA8 /* GTObject.h in Headers */,
@@ -1179,6 +1192,7 @@
 				D01B6F6F19F82FB300D411BC /* GTDiffHunk.h in Headers */,
 				D01B6F4319F82F8700D411BC /* GTReference.h in Headers */,
 				D01B6F3F19F82F8700D411BC /* GTIndex.h in Headers */,
+				4D2740CF1E06C048004C3A6F /* GTAnnotatedCommit.h in Headers */,
 				D01B6F2719F82F8700D411BC /* GTRepository+Stashing.h in Headers */,
 				D01B6F5119F82FA600D411BC /* GTBlame.h in Headers */,
 				D01B6F1D19F82F7B00D411BC /* NSArray+StringArray.h in Headers */,
@@ -1450,6 +1464,7 @@
 				F8EFA03A1B4059ED000FF7D0 /* GTUtilityFunctions.m in Sources */,
 				30B1E8001703871900D0814D /* GTTimeAdditionsSpec.m in Sources */,
 				8870390B1975E3F2004118D7 /* GTDiffDeltaSpec.m in Sources */,
+				4D7BA1C3218531AD003CD3CE /* GTAnnotatedCommitSpec.m in Sources */,
 				88C0BC5917038CF3009E99AA /* GTConfigurationSpec.m in Sources */,
 				88215483171499BE00D76B76 /* GTReflogSpec.m in Sources */,
 				88948AC91779243600809CDA /* GTObjectDatabaseSpec.m in Sources */,
@@ -1532,6 +1547,7 @@
 				D03B57A418BFFF07007124F4 /* GTDiffPatch.m in Sources */,
 				D03B07F71965DAB0009E5624 /* NSData+Git.m in Sources */,
 				20F43DE618A2F668007D3621 /* GTRepository+Blame.m in Sources */,
+				4D2740D01E06C048004C3A6F /* GTAnnotatedCommit.m in Sources */,
 				5BE6128A1745EE3400266D8C /* GTTreeBuilder.m in Sources */,
 				D09C2E381755F16200065E36 /* GTSubmodule.m in Sources */,
 				4D79C0EF17DF9F4D00997DE4 /* GTCredential.m in Sources */,
@@ -1594,6 +1610,7 @@
 				D01B6F6219F82FA600D411BC /* GTFilterSource.m in Sources */,
 				D01B6F1C19F82F7B00D411BC /* NSDate+GTTimeAdditions.m in Sources */,
 				D01B6F1619F82F7B00D411BC /* NSData+Git.m in Sources */,
+				4D2740D11E06C048004C3A6F /* GTAnnotatedCommit.m in Sources */,
 				D01B6F1E19F82F7B00D411BC /* NSArray+StringArray.m in Sources */,
 				D01B6F5819F82FA600D411BC /* GTReflogEntry.m in Sources */,
 				D01B6F4A19F82F8700D411BC /* GTOdbObject.m in Sources */,
@@ -1630,6 +1647,7 @@
 				F8D007901B4FA03B009A8DAF /* GTDiffSpec.m in Sources */,
 				F8D007A71B4FA040009A8DAF /* QuickSpec+GTFixtures.m in Sources */,
 				F8D0079A1B4FA03B009A8DAF /* GTRepositoryCommittingSpec.m in Sources */,
+				4D7BA1C4218531AD003CD3CE /* GTAnnotatedCommitSpec.m in Sources */,
 				F8D0078E1B4FA03B009A8DAF /* GTCommitSpec.m in Sources */,
 				F86949AA1BF1B79E00A989D3 /* GTUtilityFunctions.m in Sources */,
 				F8D0078F1B4FA03B009A8DAF /* GTConfigurationSpec.m in Sources */,

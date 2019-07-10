@@ -33,7 +33,7 @@ typedef NS_OPTIONS(NSInteger, GTCheckoutStrategyType) {
 	GTCheckoutStrategySkipLockedDirectories = GIT_CHECKOUT_SKIP_LOCKED_DIRECTORIES,
 	GTCheckoutStrategyDoNotOverwriteIgnored = GIT_CHECKOUT_DONT_OVERWRITE_IGNORED,
 	GTCheckoutStrategyConflictStyleMerge = GIT_CHECKOUT_CONFLICT_STYLE_MERGE,
-	GTCheckoutStrategyCoflictStyleDiff3 = GIT_CHECKOUT_CONFLICT_STYLE_DIFF3,
+	GTCheckoutStrategyConflictStyleDiff3 = GIT_CHECKOUT_CONFLICT_STYLE_DIFF3,
 	GTCheckoutStrategyDoNotRemoveExisting = GIT_CHECKOUT_DONT_REMOVE_EXISTING,
 	GTCheckoutStrategyDoNotWriteIndex = GIT_CHECKOUT_DONT_WRITE_INDEX,
 };

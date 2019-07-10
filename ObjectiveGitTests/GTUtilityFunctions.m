@@ -26,13 +26,17 @@ CreateCommitBlock createCommitInRepository = ^ GTCommit * (NSString *message, NS
 
 	// We need the parent commit to make the new one
 	GTReference *headReference = [repo headReferenceWithError:nil];
-
-	GTEnumerator *commitEnum = [[GTEnumerator alloc] initWithRepository:repo error:nil];
-	[commitEnum pushSHA:[headReference targetOID].SHA error:nil];
-	GTCommit *parent = [commitEnum nextObject];
+	GTCommit *parent = [repo lookUpObjectByOID:[headReference targetOID] objectType:GTObjectTypeCommit error:NULL];
 
 	GTCommit *testCommit = [repo createCommitWithTree:testTree message:message parents:@[ parent ] updatingReferenceNamed:headReference.name error:nil];
 	expect(testCommit).notTo(beNil());
+
+	if (!repo.isBare) {
+		git_checkout_options opts = GIT_CHECKOUT_OPTIONS_INIT;
+		opts.checkout_strategy = GIT_CHECKOUT_FORCE;
+		int gitError = git_checkout_head(repo.git_repository, &opts);
+		expect(gitError).to(equal(0));
+	}
 
 	return testCommit;
 };

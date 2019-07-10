@@ -10,6 +10,8 @@
 #import "GTIndexEntry.h"
 #import "git2/merge.h"
 
+@class GTAnnotatedCommit;
+
 NS_ASSUME_NONNULL_BEGIN
 
 /// UserInfo key for conflicted files when pulling fails with a merge conflict
@@ -23,6 +25,14 @@ typedef NS_OPTIONS(NSInteger, GTMergeAnalysis) {
 	GTMergeAnalysisUpToDate = GIT_MERGE_ANALYSIS_UP_TO_DATE,
 	GTMergeAnalysisUnborn = GIT_MERGE_ANALYSIS_UNBORN,
 	GTMergeAnalysisFastForward = GIT_MERGE_ANALYSIS_FASTFORWARD,
+};
+
+/// An enum describing the users' preference w.r.t fast-forward merges.
+/// See `git_merge_preference_t`.
+typedef NS_OPTIONS(NSInteger, GTMergePreference) {
+	GTMergePreferenceNone = GIT_MERGE_PREFERENCE_NONE,
+	GTMergePreferenceNoFastForward = GIT_MERGE_PREFERENCE_NO_FASTFORWARD,
+	GTMergePreferenceFastForwardOnly = GIT_MERGE_PREFERENCE_FASTFORWARD_ONLY,
 };
 
 @interface GTRepository (Merging)
@@ -52,6 +62,16 @@ typedef NS_OPTIONS(NSInteger, GTMergeAnalysis) {
 /// Returns YES if the merge was successful, NO otherwise (and `error`, if provided,
 /// will point to an error describing what happened).
 - (BOOL)mergeBranchIntoCurrentBranch:(GTBranch *)fromBranch withError:(NSError **)error;
+
+/// Complete a pending merge
+///
+/// This method can be used to complete a merge that has been stopped because
+/// of conflicts.
+///
+/// error - The error if one occurred. Can be NULL
+///
+/// Returns YES if the merge could be committed, NO otherwise.
+- (BOOL)finalizeMerge:(NSError **)error;
 
 /// Gets the file content with conflict markers for the given file
 ///
