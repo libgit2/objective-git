@@ -156,7 +156,7 @@ typedef NS_ENUM(NSInteger, GTRepositoryStateType) {
 /// Returns nil for a bare repository.
 @property (nonatomic, readonly, strong) NSURL * _Nullable fileURL;
 /// The file URL for the repository's .git directory.
-@property (nonatomic, readonly, strong) NSURL * _Nullable gitDirectoryURL;
+@property (nonatomic, readonly, strong) NSURL *gitDirectoryURL;
 
 /// Is this a bare repository (one without a working directory)?
 @property (nonatomic, readonly, getter = isBare) BOOL bare;
