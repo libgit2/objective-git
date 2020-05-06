@@ -159,7 +159,6 @@
 		88F6D9FA1320467100CC0BA8 /* GTCommit.h in Headers */ = {isa = PBXBuildFile; fileRef = BD6C22A41314609A00992935 /* GTCommit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88F6D9FB1320467500CC0BA8 /* GTObject.h in Headers */ = {isa = PBXBuildFile; fileRef = BD6C22A71314625800992935 /* GTObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88F6D9FC1320467800CC0BA8 /* GTSignature.h in Headers */ = {isa = PBXBuildFile; fileRef = BD6C254313148DC900992935 /* GTSignature.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 		AA046112134F4D2000DF526B /* GTOdbObject.h in Headers */ = {isa = PBXBuildFile; fileRef = AA046110134F4D2000DF526B /* GTOdbObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA046114134F4D2000DF526B /* GTOdbObject.m in Sources */ = {isa = PBXBuildFile; fileRef = AA046111134F4D2000DF526B /* GTOdbObject.m */; };
@@ -452,7 +451,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		200578C418932A82001C06C3 /* GTBlameSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTBlameSpec.m; sourceTree = "<group>"; };
 		2089E43B17D9A58000F451DA /* GTTagSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTTagSpec.m; sourceTree = "<group>"; };
@@ -777,7 +775,6 @@
 			isa = PBXGroup;
 			children = (
 				8DC2EF5A0486A6940098B216 /* Info.plist */,
-				089C1666FE841158C02AAC07 /* InfoPlist.strings */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1342,7 +1339,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1679,17 +1675,6 @@
 			targetProxy = F879D83D1B4B7F7D002D5C07 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		089C1666FE841158C02AAC07 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				089C1667FE841158C02AAC07 /* English */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		1DEB91AE08733DA50010E9CD /* Debug */ = {
