@@ -98,7 +98,7 @@
 }
 
 - (BOOL)isZero {
-	return git_oid_iszero(self.git_oid) != 0;
+	return git_oid_is_zero(self.git_oid) != 0;
 }
 
 #pragma mark NSObject

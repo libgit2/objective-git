@@ -196,7 +196,7 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 	entry.path = [path cStringUsingEncoding:NSUTF8StringEncoding];
 	entry.mode = GIT_FILEMODE_BLOB;
 	
-	int status = git_index_add_frombuffer(self.git_index, &entry, [data bytes], [data length]);
+	int status = git_index_add_from_buffer(self.git_index, &entry, [data bytes], [data length]);
 	
 	if (status != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to add data with name %@ into index.", path];

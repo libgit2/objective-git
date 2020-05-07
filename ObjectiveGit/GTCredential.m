@@ -39,14 +39,14 @@ typedef GTCredential *(^GTCredentialProviderBlock)(GTCredentialType allowedTypes
 @end
 
 @interface GTCredential ()
-@property (nonatomic, assign, readonly) git_cred *git_cred;
+@property (nonatomic, assign, readonly) git_credential *git_credential;
 @end
 
 @implementation GTCredential
 
 + (instancetype)credentialWithUserName:(NSString *)userName password:(NSString *)password error:(NSError **)error {
-	git_cred *cred;
-	int gitError = git_cred_userpass_plaintext_new(&cred, userName.UTF8String, password.UTF8String);
+	git_credential *cred;
+	int gitError = git_credential_userpass_plaintext_new(&cred, userName.UTF8String, password.UTF8String);
 	if (gitError != GIT_OK) {
 		if (error) *error = [NSError git_errorFor:gitError description:@"Failed to create credentials object" failureReason:@"There was an error creating a credential object for username %@.", userName];
 		return nil;
@@ -61,8 +61,8 @@ typedef GTCredential *(^GTCredentialProviderBlock)(GTCredentialType allowedTypes
 	NSString *privateKeyPath = privateKeyURL.filePathURL.path;
 	NSAssert(privateKeyPath != nil, @"Invalid file URL passed: %@", privateKeyURL);
 
-	git_cred *cred;
-	int gitError = git_cred_ssh_key_new(&cred, userName.UTF8String, publicKeyPath.fileSystemRepresentation, privateKeyPath.fileSystemRepresentation, passphrase.UTF8String);
+	git_credential *cred;
+	int gitError = git_credential_ssh_key_new(&cred, userName.UTF8String, publicKeyPath.fileSystemRepresentation, privateKeyPath.fileSystemRepresentation, passphrase.UTF8String);
 	if (gitError != GIT_OK) {
 		if (error) *error = [NSError git_errorFor:gitError description:@"Failed to create credentials object" failureReason:@"There was an error creating a credential object for username %@ with the provided public/private key pair.\nPublic key: %@\nPrivate key: %@", userName, publicKeyURL, privateKeyURL];
 		return nil;
@@ -74,8 +74,8 @@ typedef GTCredential *(^GTCredentialProviderBlock)(GTCredentialType allowedTypes
 + (instancetype)credentialWithUserName:(NSString *)userName publicKeyString:(NSString *)publicKeyString privateKeyString:(NSString *)privateKeyString passphrase:(NSString *)passphrase error:(NSError **)error {
 	NSParameterAssert(privateKeyString != nil);
 	
-	git_cred *cred;
-	int gitError = git_cred_ssh_key_memory_new(&cred, userName.UTF8String, publicKeyString.UTF8String, privateKeyString.UTF8String, passphrase.UTF8String);
+	git_credential *cred;
+	int gitError = git_credential_ssh_key_memory_new(&cred, userName.UTF8String, publicKeyString.UTF8String, privateKeyString.UTF8String, passphrase.UTF8String);
 	if (gitError != GIT_OK) {
 		if (error) *error = [NSError git_errorFor:gitError description:@"Failed to create credentials object" failureReason:@"There was an error creating a credential object for username %@ with the provided public/private key pair.\nPublic key: %@", userName, publicKeyString];
 		return nil;
@@ -84,21 +84,21 @@ typedef GTCredential *(^GTCredentialProviderBlock)(GTCredentialType allowedTypes
 	return [[self alloc] initWithGitCred:cred];
 }
 
-- (instancetype)initWithGitCred:(git_cred *)cred {
+- (instancetype)initWithGitCred:(git_credential *)cred {
 	NSParameterAssert(cred != nil);
 	self = [self init];
 
 	if (self == nil) return nil;
 
-	_git_cred = cred;
+	_git_credential = cred;
 
 	return self;
 }
 
 @end
 
-int GTCredentialAcquireCallback(git_cred **git_cred, const char *url, const char *username_from_url, unsigned int allowed_types, void *payload) {
-	NSCParameterAssert(git_cred != NULL);
+int GTCredentialAcquireCallback(git_credential **git_credential, const char *url, const char *username_from_url, unsigned int allowed_types, void *payload) {
+	NSCParameterAssert(git_credential != NULL);
 	NSCParameterAssert(payload != NULL);
 
 	GTCredentialAcquireCallbackInfo *info = payload;
@@ -118,6 +118,6 @@ int GTCredentialAcquireCallback(git_cred **git_cred, const char *url, const char
 		return GIT_ERROR;
 	}
 
-	*git_cred = cred.git_cred;
+	*git_credential = cred.git_credential;
 	return GIT_OK;
 }
