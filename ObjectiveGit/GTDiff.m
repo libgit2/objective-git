@@ -71,7 +71,7 @@ NSString *const GTDiffFindOptionsRenameLimitKey = @"GTDiffFindOptionsRenameLimit
 	git_strarray strArray = pathSpec.git_strarray;
 	if (pathSpec != nil) newOptions.pathspec = strArray;
 	@onExit {
-		git_strarray_free((git_strarray *)&strArray);
+		git_strarray_dispose((git_strarray *)&strArray);
 	};
 
 	git_diff_options *optionsPtr = &newOptions;
