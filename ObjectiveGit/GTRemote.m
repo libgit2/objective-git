@@ -157,7 +157,7 @@ NSString * const GTRemoteRenameProblematicRefSpecs = @"GTRemoteRenameProblematic
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to rename remote" userInfo:userInfo failureReason:@"Couldn't rename remote %@ to %@", self.name, name];
 	}
 
-	git_strarray_free(&problematic_refspecs);
+	git_strarray_dispose(&problematic_refspecs);
 
 	return gitError == GIT_OK;
 }
@@ -168,7 +168,7 @@ NSString * const GTRemoteRenameProblematicRefSpecs = @"GTRemoteRenameProblematic
 	if (gitError != GIT_OK) return nil;
 
 	@onExit {
-		git_strarray_free(&refspecs);
+		git_strarray_dispose(&refspecs);
 	};
 
 	return [NSArray git_arrayWithStrarray:refspecs];
@@ -181,7 +181,7 @@ NSString * const GTRemoteRenameProblematicRefSpecs = @"GTRemoteRenameProblematic
 	if (gitError != GIT_OK) return nil;
 
 	@onExit {
-		git_strarray_free(&refspecs);
+		git_strarray_dispose(&refspecs);
 	};
 	
 	return [NSArray git_arrayWithStrarray:refspecs];

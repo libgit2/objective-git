@@ -146,7 +146,7 @@ static int configCallback(const git_config_entry *entry, void *payload) {
 		}
 	}
 
-	git_strarray_free(&names);
+	git_strarray_dispose(&names);
 
 	return remotes;
 }

@@ -51,7 +51,7 @@ typedef NS_ENUM(NSInteger, GTFetchPruneOption) {
 ///
 /// Returns YES if the fetch was successful, NO otherwise (and `error`, if provided,
 /// will point to an error describing what happened).
-- (BOOL)fetchRemote:(GTRemote *)remote withOptions:(NSDictionary * _Nullable)options error:(NSError * __autoreleasing *)error progress:(void (^ _Nullable)(const git_transfer_progress *stats, BOOL *stop))progressBlock;
+- (BOOL)fetchRemote:(GTRemote *)remote withOptions:(NSDictionary * _Nullable)options error:(NSError * __autoreleasing *)error progress:(void (^ _Nullable)(const git_indexer_progress *stats, BOOL *stop))progressBlock;
 
 /// Enumerate all available fetch head entries.
 ///

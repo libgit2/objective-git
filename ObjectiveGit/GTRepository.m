@@ -214,9 +214,9 @@ typedef struct {
 }
 
 
-typedef void(^GTTransferProgressBlock)(const git_transfer_progress *progress, BOOL *stop);
+typedef void(^GTTransferProgressBlock)(const git_indexer_progress *progress, BOOL *stop);
 
-static int transferProgressCallback(const git_transfer_progress *progress, void *payload) {
+static int transferProgressCallback(const git_indexer_progress *progress, void *payload) {
 	if (payload == NULL) return 0;
 	struct GTClonePayload *pld = payload;
 	if (pld->transferProgressBlock == NULL) return 0;
@@ -244,7 +244,7 @@ struct GTRemoteCreatePayload {
 	git_remote_callbacks remoteCallbacks;
 };
 
-+ (instancetype _Nullable)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL options:(NSDictionary * _Nullable)options error:(NSError * __autoreleasing *)error transferProgressBlock:(void (^ _Nullable)(const git_transfer_progress *, BOOL *stop))transferProgressBlock {
++ (instancetype _Nullable)cloneFromURL:(NSURL *)originURL toWorkingDirectory:(NSURL *)workdirURL options:(NSDictionary * _Nullable)options error:(NSError * __autoreleasing *)error transferProgressBlock:(void (^ _Nullable)(const git_indexer_progress *, BOOL *stop))transferProgressBlock {
 
 	git_clone_options cloneOptions = GIT_CLONE_OPTIONS_INIT;
 

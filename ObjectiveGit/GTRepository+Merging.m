@@ -20,7 +20,7 @@
 #import "GTOdbObject.h"
 #import "GTObjectDatabase.h"
 
-typedef void (^GTRemoteFetchTransferProgressBlock)(const git_transfer_progress *stats, BOOL *stop);
+typedef void (^GTRemoteFetchTransferProgressBlock)(const git_indexer_progress *stats, BOOL *stop);
 
 @implementation GTRepository (Merging)
 
@@ -181,7 +181,7 @@ int GTMergeHeadEntriesCallback(const git_oid *oid, void *payload) {
 
 	// initialize the ancestor's merge file input
 	git_merge_file_input ancestorInput;
-	int gitError = git_merge_file_init_input(&ancestorInput, GIT_MERGE_FILE_INPUT_VERSION);
+	int gitError = git_merge_file_input_init(&ancestorInput, GIT_MERGE_FILE_INPUT_VERSION);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to create merge file input for ancestor"];
 		return nil;
@@ -199,7 +199,7 @@ int GTMergeHeadEntriesCallback(const git_oid *oid, void *payload) {
 
 	// initialize our merge file input
 	git_merge_file_input ourInput;
-	gitError = git_merge_file_init_input(&ourInput, GIT_MERGE_FILE_INPUT_VERSION);
+	gitError = git_merge_file_input_init(&ourInput, GIT_MERGE_FILE_INPUT_VERSION);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to create merge file input for our side"];
 		return nil;
@@ -217,7 +217,7 @@ int GTMergeHeadEntriesCallback(const git_oid *oid, void *payload) {
 
 	// initialize their merge file input
 	git_merge_file_input theirInput;
-	gitError = git_merge_file_init_input(&theirInput, GIT_MERGE_FILE_INPUT_VERSION);
+	gitError = git_merge_file_input_init(&theirInput, GIT_MERGE_FILE_INPUT_VERSION);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to create merge file input other side"];
 		return nil;
