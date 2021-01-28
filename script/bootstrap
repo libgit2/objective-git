@@ -62,7 +62,7 @@ check_deps ()
     fi
 
     # Ensure that we have libgit2's dependencies installed.
-    installed=`brew list`
+    installed=`brew list --formula`
 
     for tool in $REQUIRED_TOOLS
     do
