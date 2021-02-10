@@ -2,16 +2,6 @@
 *.swp
 *~.nib
 
-build/*
-.build/*
-build-iPhoneSimulator/*
-build-iPhoneOS/*
-objective-git.bridgesupport
-ObjectiveGitFramework/build/*
-ObjectiveGit-iOS.framework/*
-External/libgit2*.a
-External/libgit2-ios
-
 *.pbxuser
 *.perspective
 *.perspectivev3
@@ -19,16 +9,9 @@ External/libgit2-ios
 *.mode1v3
 *.mode2v3
 
-project.xcworkspace
 */xcuserdata/
 *.xccheckout
 *.xcscmblueprint
-
-ObjectiveGitTests/fixtures/Fixtures/*
-
-External/ios-openssl/include
-External/ios-openssl/lib
-External/libssh2-ios
 
 Carthage/Build
 
