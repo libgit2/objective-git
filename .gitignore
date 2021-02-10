@@ -13,5 +13,6 @@
 *.xccheckout
 *.xcscmblueprint
 
+External/libgit2-mac.a
 Carthage/Build
 
