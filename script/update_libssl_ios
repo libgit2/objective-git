@@ -21,28 +21,39 @@ function setup ()
 
 function build_ssl ()
 {
-    cp -r "${ROOT_PATH}/External/openssl" "${ARCH_INSTALL_PATH}/openssl"
-    pushd "${ARCH_INSTALL_PATH}/openssl" > /dev/null
+  if [ -f "${ARCH_INSTALL_PATH}/lib/libssl.a" -a \
+       -f "${ARCH_INSTALL_PATH}/lib/libcrypto.a" ]; then
+         echo "No building needed." 2>&1
+     else
 
-    if [ "${ARCH}" == "arm64" ] || [ "${ARCH}" == "x86_64" ]
-    then
-        HOST="BSD-generic64"
-        CONFIG="no-gost no-asm enable-ec_nistp_64_gcc_128"
-    else
-        HOST="BSD-generic32"
-        CONFIG="no-gost no-asm"
-        perl -i -pe 's|static volatile sig_atomic_t intr_signal|static volatile int intr_signal|' crypto/ui/ui_openssl.c
+      cp -r "${ROOT_PATH}/External/openssl" "${ARCH_INSTALL_PATH}/openssl"
+      pushd "${ARCH_INSTALL_PATH}/openssl" > /dev/null
+
+      if [ "${ARCH}" == "x86_64" ]; then
+          HOST="iossimulator-xcrun"
+          CONFIG=""
+      elif [ "${ARCH}" == "arm64" ]; then
+          HOST="ios64-cross"
+          CONFIG=""
+      elif [ "${ARCH}" == "armv7" ] || [ "${ARCH}" == "armv7s" ]; then
+          HOST="ios-cross"
+          CONFIG=""
+      else
+          echo "Unhandled ARCH: ${ARCH}"
+          exit -1
+      fi
+
+      echo "./Configure ${HOST} ${CONFIG} --prefix=\"${ARCH_INSTALL_PATH}\" --openssldir=\"${ARCH_INSTALL_PATH}\" >> \"${LOG}\" 2>&1"
+      ./Configure ${HOST} ${CONFIG} --prefix=${ARCH_INSTALL_PATH} --openssldir="${ARCH_INSTALL_PATH}" >> "${LOG}" 2>&1
+      perl -i -pe "s|^CFLAGS=(.*)|CFLAGS= -arch ${ARCH} -miphoneos-version-min=${IPHONEOS_DEPLOYMENT_TARGET} -isysroot ${SDKROOT} -fembed-bitcode \$1|g" Makefile >> "${LOG}" 2>&1
+      perl -i -pe "s|-arch (\w+)|-arch ${ARCH}|g" Makefile >> "${LOG}" 2>&1
+      make >> "${LOG}" 2>&1
+
+      make install_sw >> "${LOG}" 2>&1
+      popd > /dev/null
+
+      rm -rf "${ARCH_INSTALL_PATH}/openssl"
     fi
-
-    ./Configure ${HOST} ${CONFIG} --openssldir="${ARCH_INSTALL_PATH}" >> "${LOG}" 2>&1
-    perl -i -pe "s|^CC= gcc|CC= ${CLANG} -miphoneos-version-min=${IPHONEOS_DEPLOYMENT_TARGET} -arch ${ARCH} -fembed-bitcode |g" Makefile >> "${LOG}" 2>&1
-    perl -i -pe "s|^CFLAG= (.*)|CFLAG= -isysroot ${SDKROOT} \$1|g" Makefile >> "${LOG}" 2>&1
-    make >> "${LOG}" 2>&1
-
-    make install_sw >> "${LOG}" 2>&1
-    popd > /dev/null
-
-    rm -rf "${ARCH_INSTALL_PATH}/openssl"
 
     BUILT_CRYPTO_PATHS+=("${ARCH_INSTALL_PATH}/lib/libcrypto.a")
     BUILT_SSL_PATHS+=("${ARCH_INSTALL_PATH}/lib/libssl.a")

@@ -39,7 +39,7 @@ function setup_build_environment ()
         CAN_BUILD_64BIT="1"
     fi
 
-    ARCHS="i386 armv7 armv7s"
+    ARCHS="armv7 armv7s"
     if [ "${CAN_BUILD_64BIT}" -eq "1" ]
     then
         # For some stupid reason cmake needs simulator
@@ -72,19 +72,12 @@ function build_all_archs ()
     do
         if [ "${ARCH}" == "i386" ] || [ "${ARCH}" == "x86_64" ]
         then
-            PLATFORM="iphonesimulator"
+            PLATFORM="iPhoneSimulator"
         else
-            PLATFORM="iphoneos"
+            PLATFORM="iPhoneOS"
         fi
 
         SDKVERSION=$(ios_sdk_version)
-
-        if [ "${ARCH}" == "arm64" ]
-        then
-            HOST="aarch64-apple-darwin"
-        else
-            HOST="${ARCH}-apple-darwin"
-        fi
 
         SDKNAME="${PLATFORM}${SDKVERSION}"
         SDKROOT="$(ios_sdk_path ${SDKNAME})"
