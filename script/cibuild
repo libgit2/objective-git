@@ -69,7 +69,7 @@ elif [ "$SCHEME" == "ObjectiveGit iOS" ]; then
 
   xcodebuild -workspace "$XCWORKSPACE" \
     -scheme "$SCHEME" \
-    -destination "platform=iOS Simulator,name=iPhone 5" \
+    -destination "platform=iOS Simulator,name=iPhone 11" \
     -sdk iphonesimulator \
     ${XCODE_OPTIONS[*]} \
     build test \
