@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -93,12 +93,17 @@
 		4D79C0EF17DF9F4D00997DE4 /* GTCredential.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D79C0ED17DF9F4D00997DE4 /* GTCredential.m */; };
 		4D9BCD24206D84AD003CD3CE /* libgit2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D9BCD23206D84AD003CD3CE /* libgit2.a */; };
 		4D9BCD25206D84B2003CD3CE /* libgit2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D9BCD23206D84AD003CD3CE /* libgit2.a */; };
+		4DB9711D2645CA3700D14944 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DB970A32645C8BB00D14944 /* Quick.framework */; };
+		4DB9711F2645CA5200D14944 /* ZipArchive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DB971172645C8F300D14944 /* ZipArchive.framework */; };
+		4DB971202645CA5D00D14944 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DB970AD2645C8BB00D14944 /* Quick.framework */; };
+		4DB971212645CA6600D14944 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DB971062645C8F300D14944 /* Nimble.framework */; };
+		4DB971222645CA6D00D14944 /* ZipArchive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DB971152645C8F300D14944 /* ZipArchive.framework */; };
 		4DBA4A3217DA73CE006CD5F5 /* GTRemoteSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DBA4A3117DA73CE006CD5F5 /* GTRemoteSpec.m */; };
 		4DC55AE51AD859AD0032563C /* GTCheckoutOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC55AE31AD859AD0032563C /* GTCheckoutOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4DC55AE61AD859AD0032563C /* GTCheckoutOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC55AE31AD859AD0032563C /* GTCheckoutOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4DC55AE71AD859AD0032563C /* GTCheckoutOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC55AE41AD859AD0032563C /* GTCheckoutOptions.m */; };
 		4DC55AE81AD859AD0032563C /* GTCheckoutOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC55AE41AD859AD0032563C /* GTCheckoutOptions.m */; };
-		4DFA918F207D0B87003CD3CE /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8D63865207ACCAA00D1FD32 /* Nimble.framework */; };
+		4DD769A92645D214007599B8 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DB971022645C8F300D14944 /* Nimble.framework */; };
 		4DFFB15B183AA8D600D1565E /* GTRepository+RemoteOperations.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DFFB159183AA8D600D1565E /* GTRepository+RemoteOperations.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4DFFB15C183AA8D600D1565E /* GTRepository+RemoteOperations.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DFFB15A183AA8D600D1565E /* GTRepository+RemoteOperations.m */; };
 		55C8055013861FE7004DCB0F /* GTObjectDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C8054D13861F34004DCB0F /* GTObjectDatabase.m */; };
@@ -305,8 +310,6 @@
 		D09C2E361755F16200065E36 /* GTSubmodule.h in Headers */ = {isa = PBXBuildFile; fileRef = D09C2E341755F16200065E36 /* GTSubmodule.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D09C2E381755F16200065E36 /* GTSubmodule.m in Sources */ = {isa = PBXBuildFile; fileRef = D09C2E351755F16200065E36 /* GTSubmodule.m */; };
 		D09C2E51175602A500065E36 /* fixtures.zip in Resources */ = {isa = PBXBuildFile; fileRef = D09C2E50175602A500065E36 /* fixtures.zip */; };
-		D0A0128A19F98475007F1914 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0A0128819F98475007F1914 /* Quick.framework */; };
-		D0A0128C19F9853D007F1914 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0A0128B19F9853D007F1914 /* Nimble.framework */; };
 		D0A0129519F99EF8007F1914 /* NSDate+GTTimeAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 30B1E7EC1703522100D0814D /* NSDate+GTTimeAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D0A0129719F9A660007F1914 /* SwiftSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A0129619F9A660007F1914 /* SwiftSpec.swift */; };
 		D0AC906C172F941F00347DC4 /* GTRepositorySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D0AC906B172F941F00347DC4 /* GTRepositorySpec.m */; };
@@ -368,9 +371,6 @@
 		F8D6385D207AC75100D1FD32 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 23BB67BB1C7DF45300A37A66 /* libz.tbd */; };
 		F8D6385F207ACAE600D1FD32 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F8D6385E207ACAE600D1FD32 /* libz.tbd */; };
 		F8D63861207ACAF700D1FD32 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F8D63860207ACAF600D1FD32 /* libiconv.tbd */; };
-		F8D63868207ACCEE00D1FD32 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8D63867207ACCEE00D1FD32 /* Quick.framework */; };
-		F8D6386A207ACDDD00D1FD32 /* ZipArchive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8D63869207ACDDD00D1FD32 /* ZipArchive.framework */; };
-		F8D6386C207ACE0600D1FD32 /* ZipArchive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8D6386B207ACE0600D1FD32 /* ZipArchive.framework */; };
 		F8E4A2911A170CA6006485A8 /* GTRemotePushSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = F8E4A2901A170CA6006485A8 /* GTRemotePushSpec.m */; };
 		F8EFA03A1B4059ED000FF7D0 /* GTUtilityFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = F8EFA0391B4059ED000FF7D0 /* GTUtilityFunctions.m */; };
 		F964D5F11CE9D9B200F1D8DD /* GTNote.h in Headers */ = {isa = PBXBuildFile; fileRef = F964D5EF1CE9D9B200F1D8DD /* GTNote.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -387,6 +387,209 @@
 			proxyType = 1;
 			remoteGlobalIDString = D0A330ED16027F1E00A616FA;
 			remoteInfo = libgit2;
+		};
+		4DB970A22645C8BB00D14944 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4DB970912645C8BA00D14944 /* Quick.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DAEB6B8E1943873100289F44;
+			remoteInfo = "Quick-macOS";
+		};
+		4DB970A42645C8BB00D14944 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4DB970912645C8BA00D14944 /* Quick.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DAEB6B991943873100289F44;
+			remoteInfo = "Quick - macOSTests";
+		};
+		4DB970A62645C8BB00D14944 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4DB970912645C8BA00D14944 /* Quick.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CD89D17B247A673100C1F086;
+			remoteInfo = QuickIssue853RegressionTests;
+		};
+		4DB970A82645C8BB00D14944 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4DB970912645C8BA00D14944 /* Quick.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DA5663E81A4C8D8500193C88;
+			remoteInfo = "QuickFocused - macOSTests";
+		};
+		4DB970AA2645C8BB00D14944 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4DB970912645C8BA00D14944 /* Quick.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 64076CF51D6D7C2000E2B499;
+			remoteInfo = "QuickAfterSuite - macOSTests";
+		};
+		4DB970AC2645C8BB00D14944 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4DB970912645C8BA00D14944 /* Quick.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5A5D117C19473F2100F6D13D;
+			remoteInfo = "Quick-iOS";
+		};
+		4DB970AE2645C8BB00D14944 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4DB970912645C8BA00D14944 /* Quick.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5A5D118619473F2100F6D13D;
+			remoteInfo = "Quick - iOSTests";
+		};
+		4DB970B02645C8BB00D14944 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4DB970912645C8BA00D14944 /* Quick.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DA9876B21A4C70EB0004AA17;
+			remoteInfo = "QuickFocused - iOSTests";
+		};
+		4DB970B22645C8BB00D14944 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4DB970912645C8BA00D14944 /* Quick.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 64076D081D6D7CD600E2B499;
+			remoteInfo = "QuickAfterSuite - iOSTests";
+		};
+		4DB970B42645C8BB00D14944 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4DB970912645C8BA00D14944 /* Quick.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1F118CD51BDCA4AB005013A2;
+			remoteInfo = "Quick-tvOS";
+		};
+		4DB970B62645C8BB00D14944 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4DB970912645C8BA00D14944 /* Quick.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1F118CDE1BDCA4AB005013A2;
+			remoteInfo = "Quick - tvOSTests";
+		};
+		4DB970B82645C8BB00D14944 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4DB970912645C8BA00D14944 /* Quick.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1F118CF01BDCA4BB005013A2;
+			remoteInfo = "QuickFocused - tvOSTests";
+		};
+		4DB970BA2645C8BB00D14944 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4DB970912645C8BA00D14944 /* Quick.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 64076D1A1D6D7CEA00E2B499;
+			remoteInfo = "QuickAfterSuite - tvOSTests";
+		};
+		4DB971012645C8F300D14944 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4DB970F72645C8F300D14944 /* Nimble.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1F925EAD195C0D6300ED456B;
+			remoteInfo = "Nimble-macOS";
+		};
+		4DB971032645C8F300D14944 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4DB970F72645C8F300D14944 /* Nimble.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1F925EB7195C0D6300ED456B;
+			remoteInfo = "Nimble-macOSTests";
+		};
+		4DB971052645C8F300D14944 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4DB970F72645C8F300D14944 /* Nimble.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1F1A74291940169200FFFC47;
+			remoteInfo = "Nimble-iOS";
+		};
+		4DB971072645C8F300D14944 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4DB970F72645C8F300D14944 /* Nimble.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1F1A74341940169200FFFC47;
+			remoteInfo = "Nimble-iOSTests";
+		};
+		4DB971092645C8F300D14944 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4DB970F72645C8F300D14944 /* Nimble.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1F5DF1551BDCA0CE00C3A531;
+			remoteInfo = "Nimble-tvOS";
+		};
+		4DB9710B2645C8F300D14944 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4DB970F72645C8F300D14944 /* Nimble.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1F5DF15E1BDCA0CE00C3A531;
+			remoteInfo = "Nimble-tvOSTests";
+		};
+		4DB971142645C8F300D14944 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4DB9710D2645C8F300D14944 /* ZipArchive.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B423AE1A1C0DF76A0004A2F1;
+			remoteInfo = "ZipArchive-iOS";
+		};
+		4DB971162645C8F300D14944 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4DB9710D2645C8F300D14944 /* ZipArchive.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AFF75A241C37279600F450AC;
+			remoteInfo = "ZipArchive-Mac";
+		};
+		4DB971182645C8F300D14944 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4DB9710D2645C8F300D14944 /* ZipArchive.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 37952C261F63B50D00DD6677;
+			remoteInfo = "ZipArchive-tvos";
+		};
+		4DB9711A2645C8F300D14944 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4DB9710D2645C8F300D14944 /* ZipArchive.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 37952C5E1F63BB7100DD6677;
+			remoteInfo = "ZipArchive-watchos";
+		};
+		4DD769842645D15D007599B8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4DB970912645C8BA00D14944 /* Quick.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = DAEB6B8D1943873100289F44;
+			remoteInfo = "Quick-macOS";
+		};
+		4DD769862645D15D007599B8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4DB970F72645C8F300D14944 /* Nimble.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 1F925EAC195C0D6300ED456B;
+			remoteInfo = "Nimble-macOS";
+		};
+		4DD769882645D15D007599B8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4DB9710D2645C8F300D14944 /* ZipArchive.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = AFF75A231C37279600F450AC;
+			remoteInfo = "ZipArchive-Mac";
+		};
+		4DD769A32645D16B007599B8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4DB970912645C8BA00D14944 /* Quick.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 5A5D117B19473F2100F6D13D;
+			remoteInfo = "Quick-iOS";
+		};
+		4DD769A52645D16B007599B8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4DB970F72645C8F300D14944 /* Nimble.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 1F1A74281940169200FFFC47;
+			remoteInfo = "Nimble-iOS";
+		};
+		4DD769A72645D16B007599B8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4DB9710D2645C8F300D14944 /* ZipArchive.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = B423AE191C0DF76A0004A2F1;
+			remoteInfo = "ZipArchive-iOS";
 		};
 		6A3C609C17D5964E00382DFF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -496,6 +699,9 @@
 		4DB97077264596AE00D14944 /* macOS-Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "macOS-Base.xcconfig"; sourceTree = "<group>"; };
 		4DB97078264596AE00D14944 /* macOS-XCTest.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "macOS-XCTest.xcconfig"; sourceTree = "<group>"; };
 		4DB97079264596AE00D14944 /* macOS-DynamicLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "macOS-DynamicLibrary.xcconfig"; sourceTree = "<group>"; };
+		4DB970912645C8BA00D14944 /* Quick.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Quick.xcodeproj; path = Carthage/Checkouts/Quick/Quick.xcodeproj; sourceTree = "<group>"; };
+		4DB970F72645C8F300D14944 /* Nimble.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Nimble.xcodeproj; path = Carthage/Checkouts/Nimble/Nimble.xcodeproj; sourceTree = "<group>"; };
+		4DB9710D2645C8F300D14944 /* ZipArchive.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ZipArchive.xcodeproj; path = Carthage/Checkouts/ZipArchive/ZipArchive.xcodeproj; sourceTree = "<group>"; };
 		4DBA4A3117DA73CE006CD5F5 /* GTRemoteSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTRemoteSpec.m; sourceTree = "<group>"; };
 		4DC55AE31AD859AD0032563C /* GTCheckoutOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTCheckoutOptions.h; sourceTree = "<group>"; };
 		4DC55AE41AD859AD0032563C /* GTCheckoutOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTCheckoutOptions.m; sourceTree = "<group>"; };
@@ -616,8 +822,6 @@
 		D09C2E341755F16200065E36 /* GTSubmodule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTSubmodule.h; sourceTree = "<group>"; };
 		D09C2E351755F16200065E36 /* GTSubmodule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTSubmodule.m; sourceTree = "<group>"; };
 		D09C2E50175602A500065E36 /* fixtures.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; name = fixtures.zip; path = fixtures/fixtures.zip; sourceTree = "<group>"; };
-		D0A0128819F98475007F1914 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Quick.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D0A0128B19F9853D007F1914 /* Nimble.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Nimble.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0A0129619F9A660007F1914 /* SwiftSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftSpec.swift; sourceTree = "<group>"; };
 		D0A463D617E57C45000F5021 /* Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
 		D0A463D817E57C45000F5021 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
@@ -648,10 +852,6 @@
 		F8D6385B207AC74A00D1FD32 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
 		F8D6385E207ACAE600D1FD32 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
 		F8D63860207ACAF600D1FD32 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk/usr/lib/libiconv.tbd; sourceTree = DEVELOPER_DIR; };
-		F8D63865207ACCAA00D1FD32 /* Nimble.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = Nimble.framework; path = "../Debug-iphonesimulator/Nimble.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		F8D63867207ACCEE00D1FD32 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = "../Debug-iphonesimulator/Quick.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		F8D63869207ACDDD00D1FD32 /* ZipArchive.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZipArchive.framework; path = "../Debug-iphonesimulator/ZipArchive.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		F8D6386B207ACE0600D1FD32 /* ZipArchive.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ZipArchive.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8D63871207AE62A00D1FD32 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		F8D63872207AE63A00D1FD32 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		F8E4A2901A170CA6006485A8 /* GTRemotePushSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTRemotePushSpec.m; sourceTree = "<group>"; };
@@ -669,10 +869,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				F81B6B50207B032800AB0836 /* XCTest.framework in Frameworks */,
-				D0A0128A19F98475007F1914 /* Quick.framework in Frameworks */,
 				88F05A9E16011F6E00B7AD1D /* ObjectiveGit.framework in Frameworks */,
-				D0A0128C19F9853D007F1914 /* Nimble.framework in Frameworks */,
-				F8D6386C207ACE0600D1FD32 /* ZipArchive.framework in Frameworks */,
+				4DB9711D2645CA3700D14944 /* Quick.framework in Frameworks */,
+				4DD769A92645D214007599B8 /* Nimble.framework in Frameworks */,
+				4DB9711F2645CA5200D14944 /* ZipArchive.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -705,10 +905,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				F84277BE207B104A008AB8E8 /* XCTest.framework in Frameworks */,
-				F8D63868207ACCEE00D1FD32 /* Quick.framework in Frameworks */,
 				F879D83C1B4B7F7D002D5C07 /* ObjectiveGit.framework in Frameworks */,
-				4DFA918F207D0B87003CD3CE /* Nimble.framework in Frameworks */,
-				F8D6386A207ACDDD00D1FD32 /* ZipArchive.framework in Frameworks */,
+				4DB971202645CA5D00D14944 /* Quick.framework in Frameworks */,
+				4DB971212645CA6600D14944 /* Nimble.framework in Frameworks */,
+				4DB971222645CA6D00D14944 /* ZipArchive.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -739,6 +939,7 @@
 				D0D81857174421EB00995A2E /* Configuration */,
 				034768DFFF38A50411DB9C8B /* Products */,
 				F8D6384A207A618D00D1FD32 /* script */,
+				4DB9711C2645CA3700D14944 /* Frameworks */,
 			);
 			name = ObjectiveGitFramework;
 			sourceTree = "<group>";
@@ -747,6 +948,7 @@
 		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				4DB970902645C8A500D14944 /* Carthage */,
 				306123A817EA5261006591D4 /* extobjc */,
 				889923F919FF5DD40092A9A6 /* git2 */,
 				6A1F2FD317C6A8F3003DFADE /* libcrypto.a */,
@@ -758,15 +960,9 @@
 				6A502B8617D6892D00BAF4A5 /* libssh2.a */,
 				4D9BCD23206D84AD003CD3CE /* libgit2.a */,
 				1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */,
-				D0A0128B19F9853D007F1914 /* Nimble.framework */,
-				F8D63865207ACCAA00D1FD32 /* Nimble.framework */,
-				D0A0128819F98475007F1914 /* Quick.framework */,
-				F8D63867207ACCEE00D1FD32 /* Quick.framework */,
 				887DAFF615CB1C8000F30D0D /* Security.framework */,
 				F8D63871207AE62A00D1FD32 /* XCTest.framework */,
 				F8D63872207AE63A00D1FD32 /* XCTest.framework */,
-				F8D6386B207ACE0600D1FD32 /* ZipArchive.framework */,
-				F8D63869207ACDDD00D1FD32 /* ZipArchive.framework */,
 			);
 			name = "External Frameworks and Libraries";
 			sourceTree = "<group>";
@@ -830,6 +1026,67 @@
 				4DB97079264596AE00D14944 /* macOS-DynamicLibrary.xcconfig */,
 			);
 			path = macOS;
+			sourceTree = "<group>";
+		};
+		4DB970902645C8A500D14944 /* Carthage */ = {
+			isa = PBXGroup;
+			children = (
+				4DB970912645C8BA00D14944 /* Quick.xcodeproj */,
+				4DB970F72645C8F300D14944 /* Nimble.xcodeproj */,
+				4DB9710D2645C8F300D14944 /* ZipArchive.xcodeproj */,
+			);
+			name = Carthage;
+			sourceTree = "<group>";
+		};
+		4DB970922645C8BA00D14944 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4DB970A32645C8BB00D14944 /* Quick.framework */,
+				4DB970A52645C8BB00D14944 /* Quick - macOSTests.xctest */,
+				4DB970A72645C8BB00D14944 /* QuickIssue853RegressionTests.xctest */,
+				4DB970A92645C8BB00D14944 /* QuickFocused - macOSTests.xctest */,
+				4DB970AB2645C8BB00D14944 /* QuickAfterSuite - macOSTests.xctest */,
+				4DB970AD2645C8BB00D14944 /* Quick.framework */,
+				4DB970AF2645C8BB00D14944 /* Quick - iOSTests.xctest */,
+				4DB970B12645C8BB00D14944 /* QuickFocused - iOSTests.xctest */,
+				4DB970B32645C8BB00D14944 /* QuickAfterSuite - iOSTests.xctest */,
+				4DB970B52645C8BB00D14944 /* Quick.framework */,
+				4DB970B72645C8BB00D14944 /* Quick - tvOSTests.xctest */,
+				4DB970B92645C8BB00D14944 /* QuickFocused - tvOSTests.xctest */,
+				4DB970BB2645C8BB00D14944 /* QuickAfterSuite - tvOSTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4DB970F82645C8F300D14944 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4DB971022645C8F300D14944 /* Nimble.framework */,
+				4DB971042645C8F300D14944 /* NimbleTests.xctest */,
+				4DB971062645C8F300D14944 /* Nimble.framework */,
+				4DB971082645C8F300D14944 /* NimbleTests.xctest */,
+				4DB9710A2645C8F300D14944 /* Nimble.framework */,
+				4DB9710C2645C8F300D14944 /* NimbleTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4DB9710E2645C8F300D14944 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4DB971152645C8F300D14944 /* ZipArchive.framework */,
+				4DB971172645C8F300D14944 /* ZipArchive.framework */,
+				4DB971192645C8F300D14944 /* ZipArchive.framework */,
+				4DB9711B2645C8F300D14944 /* ZipArchive.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4DB9711C2645CA3700D14944 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		88F05A7516011E5400B7AD1D /* ObjectiveGitTests */ = {
@@ -1205,6 +1462,9 @@
 			buildRules = (
 			);
 			dependencies = (
+				4DD769852645D15D007599B8 /* PBXTargetDependency */,
+				4DD769872645D15D007599B8 /* PBXTargetDependency */,
+				4DD769892645D15D007599B8 /* PBXTargetDependency */,
 				88F05AA016011F9000B7AD1D /* PBXTargetDependency */,
 			);
 			name = "ObjectiveGit-MacTests";
@@ -1264,6 +1524,9 @@
 			buildRules = (
 			);
 			dependencies = (
+				4DD769A42645D16B007599B8 /* PBXTargetDependency */,
+				4DD769A62645D16B007599B8 /* PBXTargetDependency */,
+				4DD769A82645D16B007599B8 /* PBXTargetDependency */,
 				F879D83E1B4B7F7D002D5C07 /* PBXTargetDependency */,
 			);
 			name = "ObjectiveGit-iOSTests";
@@ -1312,6 +1575,20 @@
 			mainGroup = 0867D691FE84028FC02AAC07 /* ObjectiveGitFramework */;
 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 4DB970F82645C8F300D14944 /* Products */;
+					ProjectRef = 4DB970F72645C8F300D14944 /* Nimble.xcodeproj */;
+				},
+				{
+					ProductGroup = 4DB970922645C8BA00D14944 /* Products */;
+					ProjectRef = 4DB970912645C8BA00D14944 /* Quick.xcodeproj */;
+				},
+				{
+					ProductGroup = 4DB9710E2645C8F300D14944 /* Products */;
+					ProjectRef = 4DB9710D2645C8F300D14944 /* ZipArchive.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				8DC2EF4F0486A6940098B216 /* ObjectiveGit-Mac */,
@@ -1325,6 +1602,170 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		4DB970A32645C8BB00D14944 /* Quick.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Quick.framework;
+			remoteRef = 4DB970A22645C8BB00D14944 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4DB970A52645C8BB00D14944 /* Quick - macOSTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Quick - macOSTests.xctest";
+			remoteRef = 4DB970A42645C8BB00D14944 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4DB970A72645C8BB00D14944 /* QuickIssue853RegressionTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = QuickIssue853RegressionTests.xctest;
+			remoteRef = 4DB970A62645C8BB00D14944 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4DB970A92645C8BB00D14944 /* QuickFocused - macOSTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "QuickFocused - macOSTests.xctest";
+			remoteRef = 4DB970A82645C8BB00D14944 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4DB970AB2645C8BB00D14944 /* QuickAfterSuite - macOSTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "QuickAfterSuite - macOSTests.xctest";
+			remoteRef = 4DB970AA2645C8BB00D14944 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4DB970AD2645C8BB00D14944 /* Quick.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Quick.framework;
+			remoteRef = 4DB970AC2645C8BB00D14944 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4DB970AF2645C8BB00D14944 /* Quick - iOSTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Quick - iOSTests.xctest";
+			remoteRef = 4DB970AE2645C8BB00D14944 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4DB970B12645C8BB00D14944 /* QuickFocused - iOSTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "QuickFocused - iOSTests.xctest";
+			remoteRef = 4DB970B02645C8BB00D14944 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4DB970B32645C8BB00D14944 /* QuickAfterSuite - iOSTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "QuickAfterSuite - iOSTests.xctest";
+			remoteRef = 4DB970B22645C8BB00D14944 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4DB970B52645C8BB00D14944 /* Quick.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Quick.framework;
+			remoteRef = 4DB970B42645C8BB00D14944 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4DB970B72645C8BB00D14944 /* Quick - tvOSTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Quick - tvOSTests.xctest";
+			remoteRef = 4DB970B62645C8BB00D14944 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4DB970B92645C8BB00D14944 /* QuickFocused - tvOSTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "QuickFocused - tvOSTests.xctest";
+			remoteRef = 4DB970B82645C8BB00D14944 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4DB970BB2645C8BB00D14944 /* QuickAfterSuite - tvOSTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "QuickAfterSuite - tvOSTests.xctest";
+			remoteRef = 4DB970BA2645C8BB00D14944 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4DB971022645C8F300D14944 /* Nimble.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Nimble.framework;
+			remoteRef = 4DB971012645C8F300D14944 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4DB971042645C8F300D14944 /* NimbleTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = NimbleTests.xctest;
+			remoteRef = 4DB971032645C8F300D14944 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4DB971062645C8F300D14944 /* Nimble.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Nimble.framework;
+			remoteRef = 4DB971052645C8F300D14944 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4DB971082645C8F300D14944 /* NimbleTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = NimbleTests.xctest;
+			remoteRef = 4DB971072645C8F300D14944 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4DB9710A2645C8F300D14944 /* Nimble.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Nimble.framework;
+			remoteRef = 4DB971092645C8F300D14944 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4DB9710C2645C8F300D14944 /* NimbleTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = NimbleTests.xctest;
+			remoteRef = 4DB9710B2645C8F300D14944 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4DB971152645C8F300D14944 /* ZipArchive.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ZipArchive.framework;
+			remoteRef = 4DB971142645C8F300D14944 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4DB971172645C8F300D14944 /* ZipArchive.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ZipArchive.framework;
+			remoteRef = 4DB971162645C8F300D14944 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4DB971192645C8F300D14944 /* ZipArchive.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ZipArchive.framework;
+			remoteRef = 4DB971182645C8F300D14944 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4DB9711B2645C8F300D14944 /* ZipArchive.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ZipArchive.framework;
+			remoteRef = 4DB9711A2645C8F300D14944 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		88F05A6816011E5400B7AD1D /* Resources */ = {
@@ -1649,6 +2090,36 @@
 			target = D0A330ED16027F1E00A616FA /* libgit2 */;
 			targetProxy = 3D6123BD1A6432F6008F831A /* PBXContainerItemProxy */;
 		};
+		4DD769852645D15D007599B8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Quick-macOS";
+			targetProxy = 4DD769842645D15D007599B8 /* PBXContainerItemProxy */;
+		};
+		4DD769872645D15D007599B8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Nimble-macOS";
+			targetProxy = 4DD769862645D15D007599B8 /* PBXContainerItemProxy */;
+		};
+		4DD769892645D15D007599B8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "ZipArchive-Mac";
+			targetProxy = 4DD769882645D15D007599B8 /* PBXContainerItemProxy */;
+		};
+		4DD769A42645D16B007599B8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Quick-iOS";
+			targetProxy = 4DD769A32645D16B007599B8 /* PBXContainerItemProxy */;
+		};
+		4DD769A62645D16B007599B8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Nimble-iOS";
+			targetProxy = 4DD769A52645D16B007599B8 /* PBXContainerItemProxy */;
+		};
+		4DD769A82645D16B007599B8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "ZipArchive-iOS";
+			targetProxy = 4DD769A72645D16B007599B8 /* PBXContainerItemProxy */;
+		};
 		6A3C609D17D5964E00382DFF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 6A28265217C69CB400C6A948 /* OpenSSL-iOS */;
@@ -1666,6 +2137,7 @@
 		};
 		D019779719F8335100F523DA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
+			platformFilter = ios;
 			target = D0A330F216027F3600A616FA /* libgit2-iOS */;
 			targetProxy = D019779619F8335100F523DA /* PBXContainerItemProxy */;
 		};
@@ -1869,6 +2341,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -1893,6 +2366,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
 				HEADER_SEARCH_PATHS = (
 					External/libgit2/include,
@@ -1979,6 +2453,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
 				HEADER_SEARCH_PATHS = (
 					External/libgit2/include,
@@ -2197,6 +2672,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
 				HEADER_SEARCH_PATHS = (
 					External/libgit2/include,
@@ -2275,6 +2751,10 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -2296,7 +2776,11 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "ObjectiveGitTests/ObjectiveGitTests-Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					.,
 					External,
@@ -2328,6 +2812,10 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -2340,7 +2828,11 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "ObjectiveGitTests/ObjectiveGitTests-Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					.,
 					External,
@@ -2373,6 +2865,10 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -2385,7 +2881,11 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "ObjectiveGitTests/ObjectiveGitTests-Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					.,
 					External,
@@ -2394,7 +2894,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libgit2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -2419,6 +2920,10 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -2431,7 +2936,11 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "ObjectiveGitTests/ObjectiveGitTests-Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					.,
 					External,
