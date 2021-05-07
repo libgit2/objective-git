@@ -102,8 +102,8 @@
 		4DC55AE61AD859AD0032563C /* GTCheckoutOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DC55AE31AD859AD0032563C /* GTCheckoutOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4DC55AE71AD859AD0032563C /* GTCheckoutOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC55AE41AD859AD0032563C /* GTCheckoutOptions.m */; };
 		4DC55AE81AD859AD0032563C /* GTCheckoutOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC55AE41AD859AD0032563C /* GTCheckoutOptions.m */; };
-		4DD769A92645D214007599B8 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DB971022645C8F300D14944 /* Nimble.framework */; };
 		4DD7422C25D3F8CB009D9A17 /* libgit2-mac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DD7422B25D3F8CB009D9A17 /* libgit2-mac.a */; };
+		4DD769A92645D214007599B8 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DB971022645C8F300D14944 /* Nimble.framework */; };
 		4DFFB15B183AA8D600D1565E /* GTRepository+RemoteOperations.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DFFB159183AA8D600D1565E /* GTRepository+RemoteOperations.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4DFFB15C183AA8D600D1565E /* GTRepository+RemoteOperations.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DFFB15A183AA8D600D1565E /* GTRepository+RemoteOperations.m */; };
 		55C8055013861FE7004DCB0F /* GTObjectDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C8054D13861F34004DCB0F /* GTObjectDatabase.m */; };
