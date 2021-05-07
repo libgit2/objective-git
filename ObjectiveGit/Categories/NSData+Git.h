@@ -3,8 +3,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "git2/buffer.h"
-#import "git2/oid.h"
+#import <ObjectiveGit/git2/buffer.h>
+#import <ObjectiveGit/git2/oid.h>
 
 @interface NSData (Git)
 
