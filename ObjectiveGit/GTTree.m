@@ -56,7 +56,7 @@ typedef struct GTTreeEnumerationStruct {
 	return (NSUInteger)git_tree_entrycount(self.git_tree);
 }
 
-- (GTTreeEntry *)createEntryWithEntry:(const git_tree_entry *)entry error:(NSError **)error {
+- (GTTreeEntry *)createEntryWithEntry:(const git_tree_entry *)entry error:(NSError * __autoreleasing *)error {
 	return (entry != NULL ? [GTTreeEntry entryWithEntry:entry parentTree:self error:nil] : nil);
 }
 
@@ -68,7 +68,7 @@ typedef struct GTTreeEnumerationStruct {
 	return [self createEntryWithEntry:git_tree_entry_byname(self.git_tree, name.UTF8String) error:nil];
 }
 
-- (GTTreeEntry *)entryWithPath:(NSString *)path error:(NSError **)error {
+- (GTTreeEntry *)entryWithPath:(NSString *)path error:(NSError * __autoreleasing *)error {
 	git_tree_entry *internalEntry = NULL;
 	int gitError = git_tree_entry_bypath(&internalEntry, self.git_tree, path.UTF8String);
 	if (gitError != GIT_OK) {
@@ -111,7 +111,7 @@ static int treewalk_cb(const char *root, const git_tree_entry *git_entry, void *
 	}
 }
 
-- (BOOL)enumerateEntriesWithOptions:(GTTreeEnumerationOptions)option error:(NSError **)error block:(GTTreeEnumerationBlock)block {
+- (BOOL)enumerateEntriesWithOptions:(GTTreeEnumerationOptions)option error:(NSError * __autoreleasing *)error block:(GTTreeEnumerationBlock)block {
 	NSParameterAssert(block != nil);
 
 	NSMutableDictionary *structure = [[NSMutableDictionary alloc] initWithCapacity:self.entryCount];
@@ -145,7 +145,7 @@ static int treewalk_cb(const char *root, const git_tree_entry *git_entry, void *
 
 #pragma mark Merging
 
-- (GTIndex *)merge:(GTTree *)otherTree ancestor:(GTTree *)ancestorTree error:(NSError **)error {
+- (GTIndex *)merge:(GTTree *)otherTree ancestor:(GTTree *)ancestorTree error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(otherTree != nil);
 
 	git_index *index;

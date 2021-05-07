@@ -75,7 +75,7 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 	if (_git_index != NULL) git_index_free(_git_index);
 }
 
-+ (instancetype)inMemoryIndexWithRepository:(GTRepository *)repository error:(NSError **)error {
++ (instancetype)inMemoryIndexWithRepository:(GTRepository *)repository error:(NSError * __autoreleasing *)error {
 	git_index *index = NULL;
 	
 	int status = git_index_new(&index);
@@ -92,7 +92,7 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 	return nil;
 }
 
-+ (instancetype)indexWithFileURL:(NSURL *)fileURL repository:(GTRepository *)repository error:(NSError **)error {
++ (instancetype)indexWithFileURL:(NSURL *)fileURL repository:(GTRepository *)repository error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(fileURL != nil);
 	NSParameterAssert(fileURL.isFileURL);
 
@@ -125,7 +125,7 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 	return git_index_entrycount(self.git_index);
 }
 
-- (BOOL)refresh:(NSError **)error {
+- (BOOL)refresh:(NSError * __autoreleasing *)error {
 	int status = git_index_read(self.git_index, 1);
 	if (status != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to refresh index."];
@@ -135,7 +135,7 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 	return YES;
 }
 
-- (BOOL)clear:(NSError **)error {
+- (BOOL)clear:(NSError * __autoreleasing *)error {
 	int gitError = git_index_clear(self.git_index);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to clear index"];
@@ -155,7 +155,7 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 	return [self entryWithPath:path error:NULL];
 }
 
-- (GTIndexEntry *)entryWithPath:(NSString *)path error:(NSError **)error {
+- (GTIndexEntry *)entryWithPath:(NSString *)path error:(NSError * __autoreleasing *)error {
 	size_t pos = 0;
 	int gitError = git_index_find(&pos, self.git_index, path.UTF8String);
 	if (gitError != GIT_OK) {
@@ -165,7 +165,7 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 	return [self entryAtIndex:pos];
 }
 
-- (BOOL)addEntry:(GTIndexEntry *)entry error:(NSError **)error {
+- (BOOL)addEntry:(GTIndexEntry *)entry error:(NSError * __autoreleasing *)error {
 	int status = git_index_add(self.git_index, entry.git_index_entry);
 	if (status != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to add entry to index."];
@@ -175,7 +175,7 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 	return YES;
 }
 
-- (BOOL)addFile:(NSString *)file error:(NSError **)error {
+- (BOOL)addFile:(NSString *)file error:(NSError * __autoreleasing *)error {
 	NSString *unicodeString = [self composedUnicodeStringWithString:file];
 
 	int status = git_index_add_bypath(self.git_index, unicodeString.UTF8String);
@@ -187,7 +187,7 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 	return YES;
 }
 
-- (BOOL)addData:(NSData *)data withPath:(NSString *)path error:(NSError **)error {
+- (BOOL)addData:(NSData *)data withPath:(NSString *)path error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(data != nil);
 	NSParameterAssert(path != nil);
 	
@@ -206,7 +206,7 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 	return YES;
 }
 
-- (BOOL)addContentsOfTree:(GTTree *)tree error:(NSError **)error {
+- (BOOL)addContentsOfTree:(GTTree *)tree error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(tree != nil);
 
 	int status = git_index_read_tree(self.git_index, tree.git_tree);
@@ -218,7 +218,7 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 	return YES;
 }
 
-- (BOOL)addAll:(NSError **)error {
+- (BOOL)addAll:(NSError * __autoreleasing *)error {
 	int status = git_index_add_all(self.git_index, nil, GIT_INDEX_ADD_CHECK_PATHSPEC, nil, nil);
 	if (status != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to add all the contents of the working tree to the index"];
@@ -228,7 +228,7 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 	return YES;
 }
 
-- (BOOL)removeFile:(NSString *)file error:(NSError **)error {
+- (BOOL)removeFile:(NSString *)file error:(NSError * __autoreleasing *)error {
 	NSString *unicodeString = [self composedUnicodeStringWithString:file];
 
 	int status = git_index_remove_bypath(self.git_index, unicodeString.UTF8String);
@@ -240,7 +240,7 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 	return YES;
 }
 
-- (BOOL)write:(NSError **)error {
+- (BOOL)write:(NSError * __autoreleasing *)error {
 	int status = git_index_write(self.git_index);
 	if (status != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to write index."];
@@ -250,7 +250,7 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 	return YES;
 }
 
-- (GTTree *)writeTree:(NSError **)error {
+- (GTTree *)writeTree:(NSError * __autoreleasing *)error {
 	git_oid oid;
 
 	int status = git_index_write_tree(&oid, self.git_index);
@@ -262,7 +262,7 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 	return [self.repository lookUpObjectByGitOid:&oid objectType:GTObjectTypeTree error:NULL];
 }
 
-- (GTTree *)writeTreeToRepository:(GTRepository *)repository error:(NSError **)error {
+- (GTTree *)writeTreeToRepository:(GTRepository *)repository error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(repository != nil);
 	git_oid oid;
 
@@ -292,7 +292,7 @@ typedef BOOL (^GTIndexPathspecMatchedBlock)(NSString *matchedPathspec, NSString 
 	return (BOOL)git_index_has_conflicts(self.git_index);
 }
 
-- (BOOL)enumerateConflictedFilesWithError:(NSError **)error usingBlock:(void (^)(GTIndexEntry *ancestor, GTIndexEntry *ours, GTIndexEntry *theirs, BOOL *stop))block {
+- (BOOL)enumerateConflictedFilesWithError:(NSError * __autoreleasing *)error usingBlock:(void (^)(GTIndexEntry *ancestor, GTIndexEntry *ours, GTIndexEntry *theirs, BOOL *stop))block {
 	NSParameterAssert(block != nil);
 	if (!self.hasConflicts) return YES;
 
@@ -348,7 +348,7 @@ struct GTIndexPathspecMatchedInfo {
 	BOOL shouldAbortImmediately;
 };
 
-- (BOOL)updatePathspecs:(NSArray *)pathspecs error:(NSError **)error passingTest:(GTIndexPathspecMatchedBlock)block {
+- (BOOL)updatePathspecs:(NSArray *)pathspecs error:(NSError * __autoreleasing *)error passingTest:(GTIndexPathspecMatchedBlock)block {
 	NSAssert(self.repository.isBare == NO, @"This method only works with non-bare repositories.");
 
 	const git_strarray strarray = pathspecs.git_strarray;
@@ -403,7 +403,7 @@ int GTIndexPathspecMatchFound(const char *path, const char *matched_pathspec, vo
     return [self entryWithPath:name];
 }
 
-- (GTIndexEntry *)entryWithName:(NSString *)name error:(NSError **)error {
+- (GTIndexEntry *)entryWithName:(NSString *)name error:(NSError * __autoreleasing *)error {
     return [self entryWithPath:name error:error];
 }
 @end

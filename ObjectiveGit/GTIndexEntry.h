@@ -54,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error - will be filled if an error occurs
 ///
 /// Returns the initialized object.
-- (instancetype)initWithGitIndexEntry:(const git_index_entry *)entry index:(GTIndex * _Nullable)index error:(NSError **)error NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithGitIndexEntry:(const git_index_entry *)entry index:(GTIndex * _Nullable)index error:(NSError * __autoreleasing *)error NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithGitIndexEntry:(const git_index_entry *)entry;
 
 /// The underlying `git_index_entry` object.
@@ -80,14 +80,14 @@ NS_ASSUME_NONNULL_BEGIN
 /// error - will be filled if an error occurs
 ///
 /// Returns this entry as a GTObject or nil if an error occurred.
-- (nullable GTObject *)GTObject:(NSError **)error;
+- (nullable GTObject *)GTObject:(NSError * __autoreleasing *)error;
 
 @end
 
 @interface GTObject (GTIndexEntry)
 
-+ (instancetype _Nullable)objectWithIndexEntry:(GTIndexEntry *)indexEntry error:(NSError **)error;
-- (instancetype _Nullable)initWithIndexEntry:(GTIndexEntry *)indexEntry error:(NSError **)error;
++ (instancetype _Nullable)objectWithIndexEntry:(GTIndexEntry *)indexEntry error:(NSError * __autoreleasing *)error;
+- (instancetype _Nullable)initWithIndexEntry:(GTIndexEntry *)indexEntry error:(NSError * __autoreleasing *)error;
 
 @end
 

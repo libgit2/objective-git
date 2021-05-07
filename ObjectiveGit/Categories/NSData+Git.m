@@ -13,7 +13,7 @@
     return [NSData dataWithBytes:oid length:sizeof(git_oid)];
 }
 
-- (BOOL)git_getOid:(git_oid *)oid error:(NSError **)error {
+- (BOOL)git_getOid:(git_oid *)oid error:(NSError * __autoreleasing *)error {
     if ([self length] != sizeof(git_oid)) {
         if (error != NULL) {
             *error = [NSError errorWithDomain:GTGitErrorDomain 

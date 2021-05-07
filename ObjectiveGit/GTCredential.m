@@ -44,7 +44,7 @@ typedef GTCredential *(^GTCredentialProviderBlock)(GTCredentialType allowedTypes
 
 @implementation GTCredential
 
-+ (instancetype)credentialWithUserName:(NSString *)userName password:(NSString *)password error:(NSError **)error {
++ (instancetype)credentialWithUserName:(NSString *)userName password:(NSString *)password error:(NSError * __autoreleasing *)error {
 	git_cred *cred;
 	int gitError = git_cred_userpass_plaintext_new(&cred, userName.UTF8String, password.UTF8String);
 	if (gitError != GIT_OK) {
@@ -55,7 +55,7 @@ typedef GTCredential *(^GTCredentialProviderBlock)(GTCredentialType allowedTypes
 	return [[self alloc] initWithGitCred:cred];
 }
 
-+ (instancetype)credentialWithUserName:(NSString *)userName publicKeyURL:(NSURL *)publicKeyURL privateKeyURL:(NSURL *)privateKeyURL passphrase:(NSString *)passphrase error:(NSError **)error {
++ (instancetype)credentialWithUserName:(NSString *)userName publicKeyURL:(NSURL *)publicKeyURL privateKeyURL:(NSURL *)privateKeyURL passphrase:(NSString *)passphrase error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(privateKeyURL != nil);
 	NSString *publicKeyPath = publicKeyURL.filePathURL.path;
 	NSString *privateKeyPath = privateKeyURL.filePathURL.path;
@@ -71,7 +71,7 @@ typedef GTCredential *(^GTCredentialProviderBlock)(GTCredentialType allowedTypes
 	return [[self alloc] initWithGitCred:cred];
 }
 
-+ (instancetype)credentialWithUserName:(NSString *)userName publicKeyString:(NSString *)publicKeyString privateKeyString:(NSString *)privateKeyString passphrase:(NSString *)passphrase error:(NSError **)error {
++ (instancetype)credentialWithUserName:(NSString *)userName publicKeyString:(NSString *)publicKeyString privateKeyString:(NSString *)privateKeyString passphrase:(NSString *)passphrase error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(privateKeyString != nil);
 	
 	git_cred *cred;

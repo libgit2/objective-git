@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error - Will be filled with an error object in if the SHA cannot be parsed
 ///
 /// Returns the initialized receiver or nil if an error occured.
-- (instancetype _Nullable)initWithSHA:(NSString *)SHA error:(NSError **)error;
+- (instancetype _Nullable)initWithSHA:(NSString *)SHA error:(NSError * __autoreleasing *)error;
 
 /// Initializes the receiver by converting the given SHA C string to an OID.
 ///
@@ -61,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error  - Will be filled with an error object in if the SHA cannot be parsed
 ///
 /// Returns the initialized receiver.
-- (instancetype _Nullable)initWithSHACString:(const char *)string error:(NSError **)error NS_DESIGNATED_INITIALIZER;
+- (instancetype _Nullable)initWithSHACString:(const char *)string error:(NSError * __autoreleasing *)error NS_DESIGNATED_INITIALIZER;
 
 /// Creates a new instance with the given git_oid using initWithGitOid:
 + (instancetype)oidWithGitOid:(const git_oid *)git_oid;
@@ -85,7 +85,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// type - The type of the git object.
 ///
 /// Returns a new OID, or nil if an error occurred.
-+ (instancetype _Nullable)OIDByHashingData:(NSData *)data type:(GTObjectType)type error:(NSError **)error;
++ (instancetype _Nullable)OIDByHashingData:(NSData *)data type:(GTObjectType)type error:(NSError * __autoreleasing *)error;
 
 @end
 

@@ -75,7 +75,7 @@ typedef enum {
 /// error     - Will be set if an error occurs.
 ///
 /// Returns a new remote, or nil if an error occurred
-+ (instancetype _Nullable)createRemoteWithName:(NSString *)name URLString:(NSString *)URLString inRepository:(GTRepository *)repo error:(NSError **)error;
++ (instancetype _Nullable)createRemoteWithName:(NSString *)name URLString:(NSString *)URLString inRepository:(GTRepository *)repo error:(NSError * __autoreleasing *)error;
 
 /// Load a remote from a repository.
 ///
@@ -84,7 +84,7 @@ typedef enum {
 /// error - Will be set if an error occurs.
 ///
 /// Returns the loaded remote, or nil if an error occurred.
-+ (instancetype _Nullable)remoteWithName:(NSString *)name inRepository:(GTRepository *)repo error:(NSError **)error;
++ (instancetype _Nullable)remoteWithName:(NSString *)name inRepository:(GTRepository *)repo error:(NSError * __autoreleasing *)error;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -107,7 +107,7 @@ typedef enum {
 ///         `GTRemoteRenameProblematicRefSpecs` key.
 ///
 /// Return YES if successful, NO otherwise.
-- (BOOL)rename:(NSString *)name error:(NSError **)error;
+- (BOOL)rename:(NSString *)name error:(NSError * __autoreleasing *)error;
 
 /// Updates the URL string for this remote.
 ///
@@ -117,7 +117,7 @@ typedef enum {
 ///
 /// Returns YES if the URLString was successfully updated, NO and an error
 /// if updating or saving the remote failed.
-- (BOOL)updateURLString:(NSString *)URLString error:(NSError **)error;
+- (BOOL)updateURLString:(NSString *)URLString error:(NSError * __autoreleasing *)error;
 
 /// Updates the push URL string for this remote.
 ///
@@ -127,7 +127,7 @@ typedef enum {
 ///
 /// Returns YES if the push URLString was successfully updated, NO and an error
 /// if updating or saving the remote failed.
-- (BOOL)updatePushURLString:(NSString *)URLString error:(NSError **)error;
+- (BOOL)updatePushURLString:(NSString *)URLString error:(NSError * __autoreleasing *)error;
 
 /// Adds a fetch refspec to this remote.
 ///
@@ -138,7 +138,7 @@ typedef enum {
 /// Returns YES if there is the refspec is successfully added
 /// or a matching refspec is already present, NO and an error if
 /// adding the refspec or saving the remote failed.
-- (BOOL)addFetchRefspec:(NSString *)fetchRefspec error:(NSError **)error;
+- (BOOL)addFetchRefspec:(NSString *)fetchRefspec error:(NSError * __autoreleasing *)error;
 
 @end
 

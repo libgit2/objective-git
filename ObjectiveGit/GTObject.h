@@ -71,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error(out) - will be filled if an error occurs
 ///
 /// returns a GTOdbObject or nil if an error occurred.
-- (GTOdbObject * _Nullable)odbObjectWithError:(NSError **)error;
+- (GTOdbObject * _Nullable)odbObjectWithError:(NSError * __autoreleasing *)error;
 
 /// Recursively peel an object until an object of the specified type is met.
 ///
@@ -82,7 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///         May be NULL.
 ///
 /// Returns the found object or nil on error.
-- (id _Nullable)objectByPeelingToType:(GTObjectType)type error:(NSError **)error;
+- (id _Nullable)objectByPeelingToType:(GTObjectType)type error:(NSError * __autoreleasing *)error;
 
 @end
 

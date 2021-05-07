@@ -59,11 +59,11 @@
 	return [GTOID oidWithGitOid:git_note_id(self.git_note)];
 }
 
-- (instancetype)initWithTargetOID:(GTOID *)oid repository:(GTRepository *)repository referenceName:(NSString *)referenceName error:(NSError **)error {
+- (instancetype)initWithTargetOID:(GTOID *)oid repository:(GTRepository *)repository referenceName:(NSString *)referenceName error:(NSError * __autoreleasing *)error {
 	return [self initWithTargetGitOID:(git_oid *)oid.git_oid repository:repository.git_repository referenceName:referenceName.UTF8String error:error];
 }
 
-- (instancetype)initWithTargetGitOID:(git_oid *)oid repository:(git_repository *)repository referenceName:(const char *)referenceName error:(NSError **)error {
+- (instancetype)initWithTargetGitOID:(git_oid *)oid repository:(git_repository *)repository referenceName:(const char *)referenceName error:(NSError * __autoreleasing *)error {
 	self = [super init];
 	if (self == nil) return nil;
 	
@@ -82,7 +82,7 @@
 	return nil;
 }
 
-+ (NSString *)defaultReferenceNameForRepository:(GTRepository *)repository error:(NSError **)error {
++ (NSString *)defaultReferenceNameForRepository:(GTRepository *)repository error:(NSError * __autoreleasing *)error {
 	NSString *noteRef = nil;
 	
 	git_buf default_ref_name = { 0 };

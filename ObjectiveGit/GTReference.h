@@ -70,8 +70,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, strong) GTReflog * _Nullable reflog;
 
 /// Convenience initializers
-+ (instancetype _Nullable)referenceByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error;
-- (instancetype _Nullable)initByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error;
++ (instancetype _Nullable)referenceByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError * __autoreleasing *)error;
+- (instancetype _Nullable)initByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError * __autoreleasing *)error;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -109,7 +109,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error     - The error if one occurred.
 ///
 /// Returns the updated reference, or nil if an error occurred.
-- (GTReference * _Nullable)referenceByUpdatingTarget:(NSString *)newTarget message:(NSString * _Nullable)message error:(NSError **)error;
+- (GTReference * _Nullable)referenceByUpdatingTarget:(NSString *)newTarget message:(NSString * _Nullable)message error:(NSError * __autoreleasing *)error;
 
 /// The name of the reference.
 @property (nonatomic, readonly, copy) NSString *name;
@@ -122,28 +122,28 @@ NS_ASSUME_NONNULL_BEGIN
 /// error   - The error if one occurred.
 ///
 /// Returns the renamed reference, or nil if an error occurred.
-- (GTReference * _Nullable)referenceByRenaming:(NSString *)newName error:(NSError **)error;
+- (GTReference * _Nullable)referenceByRenaming:(NSString *)newName error:(NSError * __autoreleasing *)error;
 
 /// Delete this reference.
 ///
 /// error - The error if one occurred.
 ///
 /// Returns whether the deletion was successful.
-- (BOOL)deleteWithError:(NSError **)error;
+- (BOOL)deleteWithError:(NSError * __autoreleasing *)error;
 
 /// Resolve this reference as a symbolic ref
 ///
 /// error(out) - will be filled if an error occurs
 ///
 /// returns the peeled GTReference or nil if an error occurred.
-- (GTReference * _Nullable)resolvedReferenceWithError:(NSError **)error;
+- (GTReference * _Nullable)resolvedReferenceWithError:(NSError * __autoreleasing *)error;
 
 /// Reload the reference from disk.
 ///
 /// error - The error if one occurred.
 ///
 /// Returns the reloaded reference, or nil if an error occurred.
-- (GTReference * _Nullable)reloadedReferenceWithError:(NSError **)error;
+- (GTReference * _Nullable)reloadedReferenceWithError:(NSError * __autoreleasing *)error;
 
 /// An error indicating that the git_reference is no longer valid.
 + (NSError *)invalidReferenceError;

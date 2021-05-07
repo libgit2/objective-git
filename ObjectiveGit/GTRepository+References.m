@@ -14,7 +14,7 @@
 
 @implementation GTRepository (References)
 
-- (GTReference *)lookUpReferenceWithName:(NSString *)name error:(NSError **)error {
+- (GTReference *)lookUpReferenceWithName:(NSString *)name error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(name != nil);
 
 	git_reference *ref = NULL;

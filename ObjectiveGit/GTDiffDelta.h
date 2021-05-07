@@ -88,7 +88,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error       - If not NULL, set to any error that occurs.
 ///
 /// Returns a diff delta, or nil if an error occurs.
-+ (instancetype _Nullable)diffDeltaFromBlob:(GTBlob * _Nullable)oldBlob forPath:(NSString * _Nullable)oldBlobPath toBlob:(GTBlob * _Nullable)newBlob forPath:(NSString * _Nullable)newBlobPath options:(NSDictionary * _Nullable)options error:(NSError **)error;
++ (instancetype _Nullable)diffDeltaFromBlob:(GTBlob * _Nullable)oldBlob forPath:(NSString * _Nullable)oldBlobPath toBlob:(GTBlob * _Nullable)newBlob forPath:(NSString * _Nullable)newBlobPath options:(NSDictionary * _Nullable)options error:(NSError * __autoreleasing *)error;
 
 /// Diffs the given blob and data buffer.
 ///
@@ -103,7 +103,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error    - If not NULL, set to any error that occurs.
 ///
 /// Returns a diff delta, or nil if an error occurs.
-+ (instancetype _Nullable)diffDeltaFromBlob:(GTBlob * _Nullable)blob forPath:(NSString * _Nullable)blobPath toData:(NSData * _Nullable)data forPath:(NSString * _Nullable)dataPath options:(NSDictionary * _Nullable)options error:(NSError **)error;
++ (instancetype _Nullable)diffDeltaFromBlob:(GTBlob * _Nullable)blob forPath:(NSString * _Nullable)blobPath toData:(NSData * _Nullable)data forPath:(NSString * _Nullable)dataPath options:(NSDictionary * _Nullable)options error:(NSError * __autoreleasing *)error;
 
 /// Diffs the given data buffers.
 ///
@@ -118,7 +118,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error       - If not NULL, set to any error that occurs.
 ///
 /// Returns a diff delta, or nil if an error occurs.
-+ (instancetype _Nullable)diffDeltaFromData:(NSData * _Nullable)oldData forPath:(NSString * _Nullable)oldDataPath toData:(NSData * _Nullable)newData forPath:(NSString * _Nullable)newDataPath options:(NSDictionary * _Nullable)options error:(NSError **)error;
++ (instancetype _Nullable)diffDeltaFromData:(NSData * _Nullable)oldData forPath:(NSString * _Nullable)oldDataPath toData:(NSData * _Nullable)newData forPath:(NSString * _Nullable)newDataPath options:(NSDictionary * _Nullable)options error:(NSError * __autoreleasing *)error;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -137,7 +137,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error - If not NULL, set to any error that occurs.
 ///
 /// Returns a new patch, or nil if an error occurs.
-- (GTDiffPatch * _Nullable)generatePatch:(NSError **)error;
+- (GTDiffPatch * _Nullable)generatePatch:(NSError * __autoreleasing *)error;
 
 @end
 

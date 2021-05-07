@@ -60,7 +60,7 @@
 	return nil;
 }
 
-- (instancetype)initWithTree:(GTTree *)treeOrNil repository:(GTRepository *)repository error:(NSError **)error {
+- (instancetype)initWithTree:(GTTree *)treeOrNil repository:(GTRepository *)repository error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(repository != nil);
 
 	self = [super init];
@@ -109,7 +109,7 @@ static int filter_callback(const git_tree_entry *entry, void *payload) {
 	return [GTTreeEntry entryWithEntry:entry parentTree:nil error:nil];
 }
 
-- (GTTreeEntry *)addEntryWithData:(NSData *)data fileName:(NSString *)fileName fileMode:(GTFileMode)fileMode error:(NSError **)error {
+- (GTTreeEntry *)addEntryWithData:(NSData *)data fileName:(NSString *)fileName fileMode:(GTFileMode)fileMode error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(data != nil);
 	NSParameterAssert(fileName != nil);
 
@@ -122,7 +122,7 @@ static int filter_callback(const git_tree_entry *entry, void *payload) {
 	return [self addEntryWithOID:OID fileName:fileName fileMode:fileMode error:error];
 }
 
-- (GTTreeEntry *)addEntryWithOID:(GTOID *)oid fileName:(NSString *)fileName fileMode:(GTFileMode)fileMode error:(NSError **)error {
+- (GTTreeEntry *)addEntryWithOID:(GTOID *)oid fileName:(NSString *)fileName fileMode:(GTFileMode)fileMode error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(oid != nil);
 	NSParameterAssert(fileName != nil);
 
@@ -137,7 +137,7 @@ static int filter_callback(const git_tree_entry *entry, void *payload) {
 	return [GTTreeEntry entryWithEntry:entry parentTree:nil error:error];
 }
 
-- (BOOL)removeEntryWithFileName:(NSString *)fileName error:(NSError **)error {
+- (BOOL)removeEntryWithFileName:(NSString *)fileName error:(NSError * __autoreleasing *)error {
 	int status = git_treebuilder_remove(self.git_treebuilder, fileName.UTF8String);
 	if (status != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:status description:@"Failed to remove entry with name %@ from tree builder.", fileName];
@@ -146,7 +146,7 @@ static int filter_callback(const git_tree_entry *entry, void *payload) {
 	return status == GIT_OK;
 }
 
-- (GTTree *)writeTree:(NSError **)error {
+- (GTTree *)writeTree:(NSError * __autoreleasing *)error {
 	git_oid treeOid;
 	int status = git_treebuilder_write(&treeOid, self.git_treebuilder);
 	if (status != GIT_OK) {

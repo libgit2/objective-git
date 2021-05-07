@@ -44,7 +44,7 @@ int GTMergeHeadEntriesCallback(const git_oid *oid, void *payload) {
 	return (stop == YES ? GIT_EUSER : 0);
 }
 
-- (BOOL)enumerateMergeHeadEntriesWithError:(NSError **)error usingBlock:(void (^)(GTOID *mergeHeadEntry, BOOL *stop))block {
+- (BOOL)enumerateMergeHeadEntriesWithError:(NSError * __autoreleasing *)error usingBlock:(void (^)(GTOID *mergeHeadEntry, BOOL *stop))block {
 	NSParameterAssert(block != nil);
 
 	GTEnumerateMergeHeadEntriesPayload payload = {
@@ -61,7 +61,7 @@ int GTMergeHeadEntriesCallback(const git_oid *oid, void *payload) {
 	return YES;
 }
 
-- (NSArray *)mergeHeadEntriesWithError:(NSError **)error {
+- (NSArray *)mergeHeadEntriesWithError:(NSError * __autoreleasing *)error {
 	NSMutableArray *entries = [NSMutableArray array];
 
 	[self enumerateMergeHeadEntriesWithError:error usingBlock:^(GTOID *mergeHeadEntry, BOOL *stop) {
@@ -73,7 +73,7 @@ int GTMergeHeadEntriesCallback(const git_oid *oid, void *payload) {
 	return entries;
 }
 
-- (BOOL)mergeBranchIntoCurrentBranch:(GTBranch *)branch withError:(NSError **)error {
+- (BOOL)mergeBranchIntoCurrentBranch:(GTBranch *)branch withError:(NSError * __autoreleasing *)error {
 	// Check if merge is necessary
 	GTBranch *localBranch = [self currentBranchWithError:error];
 	if (!localBranch) {
@@ -172,7 +172,7 @@ int GTMergeHeadEntriesCallback(const git_oid *oid, void *payload) {
 	return NO;
 }
 
-- (NSString * _Nullable)contentsOfDiffWithAncestor:(GTIndexEntry *)ancestor ourSide:(GTIndexEntry *)ourSide theirSide:(GTIndexEntry *)theirSide error:(NSError **)error {
+- (NSString * _Nullable)contentsOfDiffWithAncestor:(GTIndexEntry *)ancestor ourSide:(GTIndexEntry *)ourSide theirSide:(GTIndexEntry *)theirSide error:(NSError * __autoreleasing *)error {
 
 	GTObjectDatabase *database = [self objectDatabaseWithError:error];
 	if (database == nil) {
@@ -247,7 +247,7 @@ int GTMergeHeadEntriesCallback(const git_oid *oid, void *payload) {
 	return mergedContent;
 }
 
-- (BOOL)annotatedCommit:(git_annotated_commit **)annotatedCommit fromCommit:(GTCommit *)fromCommit error:(NSError **)error {
+- (BOOL)annotatedCommit:(git_annotated_commit **)annotatedCommit fromCommit:(GTCommit *)fromCommit error:(NSError * __autoreleasing *)error {
 	int gitError = git_annotated_commit_lookup(annotatedCommit, self.git_repository, fromCommit.OID.git_oid);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to lookup annotated commit for %@", fromCommit];
@@ -257,7 +257,7 @@ int GTMergeHeadEntriesCallback(const git_oid *oid, void *payload) {
 	return YES;
 }
 
-- (BOOL)analyzeMerge:(GTMergeAnalysis *)analysis fromBranch:(GTBranch *)fromBranch error:(NSError **)error {
+- (BOOL)analyzeMerge:(GTMergeAnalysis *)analysis fromBranch:(GTBranch *)fromBranch error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(analysis != NULL);
 	NSParameterAssert(fromBranch != nil);
 

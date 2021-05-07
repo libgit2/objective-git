@@ -62,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///                 May be NULL.
 ///
 /// Returns initialized GTNote instance or nil on failure (error will be populated, if passed).
-- (instancetype _Nullable)initWithTargetOID:(GTOID *)oid repository:(GTRepository *)repository referenceName:(NSString * _Nullable)referenceName error:(NSError **)error;
+- (instancetype _Nullable)initWithTargetOID:(GTOID *)oid repository:(GTRepository *)repository referenceName:(NSString * _Nullable)referenceName error:(NSError * __autoreleasing *)error;
 
 /// Create a note with target libgit2 oid in the given repository.
 ///
@@ -71,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// referenceName - Name for the notes reference in the repo, or NULL for default ("refs/notes/commits")
 ///
 /// Returns initialized GTNote instance or nil on failure.
-- (instancetype _Nullable)initWithTargetGitOID:(git_oid *)oid repository:(git_repository *)repository referenceName:(const char * _Nullable)referenceName error:(NSError **)error NS_DESIGNATED_INITIALIZER;
+- (instancetype _Nullable)initWithTargetGitOID:(git_oid *)oid repository:(git_repository *)repository referenceName:(const char * _Nullable)referenceName error:(NSError * __autoreleasing *)error NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -83,7 +83,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///                 May be NULL.
 ///
 /// Returns default reference name (usually "refs/notes/commits").
-+ (NSString * _Nullable)defaultReferenceNameForRepository:(GTRepository *)repository error:(NSError **)error;
++ (NSString * _Nullable)defaultReferenceNameForRepository:(GTRepository *)repository error:(NSError * __autoreleasing *)error;
 
 @end
 

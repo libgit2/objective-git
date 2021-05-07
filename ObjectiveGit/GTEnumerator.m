@@ -57,7 +57,7 @@
 	return self.walk;
 }
 
-- (instancetype)initWithRepository:(GTRepository *)repo error:(NSError **)error {
+- (instancetype)initWithRepository:(GTRepository *)repo error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(repo != nil);
 
 	self = [super init];
@@ -84,7 +84,7 @@
 
 #pragma mark Pushing and Hiding
 
-- (BOOL)pushSHA:(NSString *)sha error:(NSError **)error {
+- (BOOL)pushSHA:(NSString *)sha error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(sha != nil);
 
 	GTOID *oid = [[GTOID alloc] initWithSHA:sha error:error];
@@ -99,7 +99,7 @@
 	return YES;
 }
 
-- (BOOL)pushGlob:(NSString *)refGlob error:(NSError **)error {
+- (BOOL)pushGlob:(NSString *)refGlob error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(refGlob != nil);
 
 	int gitError = git_revwalk_push_glob(self.walk, refGlob.UTF8String);
@@ -111,7 +111,7 @@
 	return YES;
 }
 
-- (BOOL)pushHEAD:(NSError **)error {
+- (BOOL)pushHEAD:(NSError * __autoreleasing *)error {
 	int gitError = git_revwalk_push_head(self.walk);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to push HEAD onto rev walker."];
@@ -120,7 +120,7 @@
 	return YES;
 }
 
-- (BOOL)pushReferenceName:(NSString *)refName error:(NSError **)error {
+- (BOOL)pushReferenceName:(NSString *)refName error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(refName != nil);
 
 	int gitError = git_revwalk_push_ref(self.walk, refName.UTF8String);
@@ -131,7 +131,7 @@
 	return YES;
 }
 
-- (BOOL)hideSHA:(NSString *)sha error:(NSError **)error {
+- (BOOL)hideSHA:(NSString *)sha error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(sha != nil);
 
 	GTOID *oid = [[GTOID alloc] initWithSHA:sha error:error];
@@ -146,7 +146,7 @@
 	return YES;
 }
 
-- (BOOL)hideGlob:(NSString *)refGlob error:(NSError **)error {
+- (BOOL)hideGlob:(NSString *)refGlob error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(refGlob != nil);
 
 	int gitError = git_revwalk_hide_glob(self.walk, refGlob.UTF8String);
@@ -158,7 +158,7 @@
 	return YES;
 }
 
-- (BOOL)hideHEAD:(NSError **)error {
+- (BOOL)hideHEAD:(NSError * __autoreleasing *)error {
 	int gitError = git_revwalk_hide_head(self.walk);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to hide HEAD onto rev walker."];
@@ -167,7 +167,7 @@
 	return YES;
 }
 
-- (BOOL)hideReferenceName:(NSString *)refName error:(NSError **)error {
+- (BOOL)hideReferenceName:(NSString *)refName error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(refName != nil);
 
 	int gitError = git_revwalk_hide_ref(self.walk, refName.UTF8String);
@@ -189,7 +189,7 @@
 
 #pragma mark Enumerating
 
-- (GTOID *)nextOIDWithSuccess:(BOOL *)success error:(NSError **)error {
+- (GTOID *)nextOIDWithSuccess:(BOOL *)success error:(NSError * __autoreleasing *)error {
 	git_oid oid;
 
 	int gitError = git_revwalk_next(&oid, self.walk);
@@ -207,7 +207,7 @@
 	return [GTOID oidWithGitOid:&oid];
 }
 
-- (GTCommit *)nextObjectWithSuccess:(BOOL *)success error:(NSError **)error {
+- (GTCommit *)nextObjectWithSuccess:(BOOL *)success error:(NSError * __autoreleasing *)error {
 	GTOID *oid = [self nextOIDWithSuccess:success error:error];
 	if (oid == nil) {
 		// We don't care whether the iteration completed, or an error occurred,
@@ -221,7 +221,7 @@
 	return commit;
 }
 
-- (NSArray *)allObjectsWithError:(NSError **)error {
+- (NSArray *)allObjectsWithError:(NSError * __autoreleasing *)error {
 	NSMutableArray *array = [NSMutableArray array];
 
 	GTCommit *object;
@@ -238,7 +238,7 @@
 	return array;
 }
 
-- (NSUInteger)countRemainingObjects:(NSError **)error {
+- (NSUInteger)countRemainingObjects:(NSError * __autoreleasing *)error {
 	git_oid oid;
 
 	int gitError;

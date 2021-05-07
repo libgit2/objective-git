@@ -60,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error    - If not NULL, set to any errors that occur.
 ///
 /// Return a new GTCredential instance, or nil if an error occurred
-+ (instancetype _Nullable)credentialWithUserName:(NSString *)userName password:(NSString *)password error:(NSError **)error;
++ (instancetype _Nullable)credentialWithUserName:(NSString *)userName password:(NSString *)password error:(NSError * __autoreleasing *)error;
 
 /// Create a credential object from a SSH keyfile
 ///
@@ -72,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error         - If not NULL, set to any errors that occur.
 ///
 /// Return a new GTCredential instance, or nil if an error occurred
-+ (instancetype _Nullable)credentialWithUserName:(NSString *)userName publicKeyURL:(NSURL * _Nullable)publicKeyURL privateKeyURL:(NSURL *)privateKeyURL passphrase:(NSString * _Nullable)passphrase error:(NSError **)error;
++ (instancetype _Nullable)credentialWithUserName:(NSString *)userName publicKeyURL:(NSURL * _Nullable)publicKeyURL privateKeyURL:(NSURL *)privateKeyURL passphrase:(NSString * _Nullable)passphrase error:(NSError * __autoreleasing *)error;
 
 /// Create a credential object from a SSH keyfile data string
 ///
@@ -84,7 +84,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error            - If not NULL, set to any errors that occur.
 ///
 /// Return a new GTCredential instance, or nil if an error occurred
-+ (instancetype _Nullable)credentialWithUserName:(NSString *)userName publicKeyString:(NSString * _Nullable)publicKeyString privateKeyString:(NSString *)privateKeyString passphrase:(NSString * _Nullable)passphrase error:(NSError **)error;
++ (instancetype _Nullable)credentialWithUserName:(NSString *)userName publicKeyString:(NSString * _Nullable)publicKeyString privateKeyString:(NSString *)privateKeyString passphrase:(NSString * _Nullable)passphrase error:(NSError * __autoreleasing *)error;
 
 /// The underlying `git_cred` object.
 - (git_cred *)git_cred __attribute__((objc_returns_inner_pointer));

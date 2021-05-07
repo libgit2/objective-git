@@ -61,7 +61,7 @@
 	return nil;
 }
 
-- (instancetype)initWithRepository:(GTRepository *)repo error:(NSError **)error {
+- (instancetype)initWithRepository:(GTRepository *)repo error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(repo != nil);
 
 	self = [super init];
@@ -78,7 +78,7 @@
 	return self;
 }
 
-- (GTOdbObject *)objectWithOID:(GTOID *)oid error:(NSError **)error {
+- (GTOdbObject *)objectWithOID:(GTOID *)oid error:(NSError * __autoreleasing *)error {
 	git_odb_object *obj;
 	int gitError = git_odb_read(&obj, self.git_odb, oid.git_oid);
 	if (gitError != GIT_OK) {
@@ -89,7 +89,7 @@
 	return [[GTOdbObject alloc] initWithOdbObj:obj repository:self.repository];
 }
 
-- (GTOdbObject *)objectWithSHA:(NSString *)sha error:(NSError **)error {
+- (GTOdbObject *)objectWithSHA:(NSString *)sha error:(NSError * __autoreleasing *)error {
 	GTOID *oid = [[GTOID alloc] initWithSHA:sha error:error];
 	if (oid == nil) return nil;
 
@@ -98,7 +98,7 @@
 
 #pragma mark Writing
 
-- (GTOID *)writeData:(NSData *)data type:(GTObjectType)type error:(NSError **)error {
+- (GTOID *)writeData:(NSData *)data type:(GTObjectType)type error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(data != nil);
 
 	git_odb_stream *stream;
@@ -128,7 +128,7 @@
 	return [GTOID oidWithGitOid:&oid];
 }
 
-- (BOOL)containsObjectWithSHA:(NSString *)sha error:(NSError **)error {
+- (BOOL)containsObjectWithSHA:(NSString *)sha error:(NSError * __autoreleasing *)error {
 	GTOID *oid = [[GTOID alloc] initWithSHA:sha error:error];
 	if (oid == nil) return NO;
 

@@ -55,7 +55,7 @@
 
 #pragma mark Entries
 
-- (BOOL)writeEntryWithCommitter:(GTSignature *)committer message:(NSString *)message error:(NSError **)error {
+- (BOOL)writeEntryWithCommitter:(GTSignature *)committer message:(NSString *)message error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(committer != nil);
 
 	int status = git_reflog_append(self.git_reflog, self.reference.git_oid, committer.git_signature, message.UTF8String);

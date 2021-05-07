@@ -71,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// path - the path of the entry relative to the repository root
 ///
 /// returns a GTTreeEntry or nil if there is nothing with the specified path
-- (GTTreeEntry * _Nullable)entryWithPath:(NSString *)path error:(NSError **)error;
+- (GTTreeEntry * _Nullable)entryWithPath:(NSString *)path error:(NSError * __autoreleasing *)error;
 
 /// Enumerates the contents of the tree
 ///
@@ -86,7 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///            Returning `YES` or `NO` only matters when in pre-order mode.
 ///
 /// Returns `YES` if the enumeration completed successfully, `NO` otherwise.
-- (BOOL)enumerateEntriesWithOptions:(GTTreeEnumerationOptions)options error:(NSError **)error block:(BOOL (^)(GTTreeEntry *entry, NSString *root, BOOL *stop))block;
+- (BOOL)enumerateEntriesWithOptions:(GTTreeEnumerationOptions)options error:(NSError * __autoreleasing *)error block:(BOOL (^)(GTTreeEntry *entry, NSString *root, BOOL *stop))block;
 
 /// Merges the given tree into the receiver in memory and produces the result as
 /// an index.
@@ -98,7 +98,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// Returns an index which represents the result of the merge, or nil if an error
 /// occurred.
-- (GTIndex * _Nullable)merge:(GTTree *)otherTree ancestor:(GTTree * _Nullable)ancestorTree error:(NSError **)error;
+- (GTIndex * _Nullable)merge:(GTTree *)otherTree ancestor:(GTTree * _Nullable)ancestorTree error:(NSError * __autoreleasing *)error;
 
 @end
 

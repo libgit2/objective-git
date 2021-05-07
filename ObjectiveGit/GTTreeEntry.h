@@ -36,10 +36,10 @@ NS_ASSUME_NONNULL_BEGIN
 @interface GTTreeEntry : NSObject
 
 /// Initializes the receiver.
-- (instancetype _Nullable)initWithEntry:(const git_tree_entry *)theEntry parentTree:(GTTree * _Nullable)parent error:(NSError **)error;
+- (instancetype _Nullable)initWithEntry:(const git_tree_entry *)theEntry parentTree:(GTTree * _Nullable)parent error:(NSError * __autoreleasing *)error;
 
 /// Convience class initializer.
-+ (instancetype _Nullable)entryWithEntry:(const git_tree_entry *)theEntry parentTree:(GTTree * _Nullable)parent error:(NSError **)error;
++ (instancetype _Nullable)entryWithEntry:(const git_tree_entry *)theEntry parentTree:(GTTree * _Nullable)parent error:(NSError * __autoreleasing *)error;
 
 /// The underlying `git_tree_entry`.
 - (git_tree_entry *)git_tree_entry __attribute__((objc_returns_inner_pointer));
@@ -67,15 +67,15 @@ NS_ASSUME_NONNULL_BEGIN
 /// error - will be filled if an error occurs
 ///
 /// Returns this entry as a GTObject or nil if an error occurred.
-- (GTObject * _Nullable)GTObject:(NSError **)error;
+- (GTObject * _Nullable)GTObject:(NSError * __autoreleasing *)error;
 
 @end
 
 
 @interface GTObject (GTTreeEntry)
 
-+ (instancetype _Nullable)objectWithTreeEntry:(GTTreeEntry *)treeEntry error:(NSError **)error;
-- (instancetype _Nullable)initWithTreeEntry:(GTTreeEntry *)treeEntry error:(NSError **)error;
++ (instancetype _Nullable)objectWithTreeEntry:(GTTreeEntry *)treeEntry error:(NSError * __autoreleasing *)error;
+- (instancetype _Nullable)initWithTreeEntry:(GTTreeEntry *)treeEntry error:(NSError * __autoreleasing *)error;
 
 @end
 

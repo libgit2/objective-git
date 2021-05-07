@@ -53,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// Returns a commit representing the stashed changes if successful, or nil
 /// otherwise.
-- (GTCommit * _Nullable)stashChangesWithMessage:(NSString * _Nullable)message flags:(GTRepositoryStashFlag)flags error:(NSError **)error;
+- (GTCommit * _Nullable)stashChangesWithMessage:(NSString * _Nullable)message flags:(GTRepositoryStashFlag)flags error:(NSError * __autoreleasing *)error;
 
 /// Enumerate over all the stashes in the repository, from most recent to oldest.
 ///
@@ -71,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// progressBlock - A block that will be executed on each step of the stash application.
 ///
 /// Returns YES if the requested stash was successfully applied, NO otherwise.
-- (BOOL)applyStashAtIndex:(NSUInteger)index flags:(GTRepositoryStashApplyFlag)flags checkoutOptions:(GTCheckoutOptions * _Nullable)options error:(NSError **)error progressBlock:(void (^ _Nullable)(GTRepositoryStashApplyProgress progress, BOOL *stop))progressBlock;
+- (BOOL)applyStashAtIndex:(NSUInteger)index flags:(GTRepositoryStashApplyFlag)flags checkoutOptions:(GTCheckoutOptions * _Nullable)options error:(NSError * __autoreleasing *)error progressBlock:(void (^ _Nullable)(GTRepositoryStashApplyProgress progress, BOOL *stop))progressBlock;
 
 /// Pop stashed changes.
 ///
@@ -82,7 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// progressBlock - A block that will be executed on each step of the stash application.
 ///
 /// Returns YES if the requested stash was successfully applied, NO otherwise.
-- (BOOL)popStashAtIndex:(NSUInteger)index flags:(GTRepositoryStashApplyFlag)flags checkoutOptions:(GTCheckoutOptions * _Nullable)options error:(NSError **)error progressBlock:(void (^ _Nullable)(GTRepositoryStashApplyProgress progress, BOOL *stop))progressBlock;
+- (BOOL)popStashAtIndex:(NSUInteger)index flags:(GTRepositoryStashApplyFlag)flags checkoutOptions:(GTCheckoutOptions * _Nullable)options error:(NSError * __autoreleasing *)error progressBlock:(void (^ _Nullable)(GTRepositoryStashApplyProgress progress, BOOL *stop))progressBlock;
 
 /// Drop a stash from the repository's list of stashes.
 ///
@@ -90,7 +90,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error - If not NULL, set to any error that occurs.
 ///
 /// Returns YES if the stash was successfully dropped, NO otherwise
-- (BOOL)dropStashAtIndex:(NSUInteger)index error:(NSError **)error;
+- (BOOL)dropStashAtIndex:(NSUInteger)index error:(NSError * __autoreleasing *)error;
 
 @end
 

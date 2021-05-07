@@ -76,17 +76,17 @@ NS_ASSUME_NONNULL_BEGIN
 /// error(out) - will be filled if an error occurs
 ///
 /// returns a GTCommit object or nil if an error occurred
-- (GTCommit * _Nullable)targetCommitWithError:(NSError **)error;
+- (GTCommit * _Nullable)targetCommitWithError:(NSError * __autoreleasing *)error;
 
 /// Renames the branch. Setting `force` to YES to delete another branch with the same name.
-- (BOOL)rename:(NSString *)name force:(BOOL)force error:(NSError **)error;
+- (BOOL)rename:(NSString *)name force:(BOOL)force error:(NSError * __autoreleasing *)error;
 
 /// Count all commits in this branch
 ///
 /// error(out) - will be filled if an error occurs
 ///
 /// returns number of commits in the branch or NSNotFound if an error occurred
-- (NSUInteger)numberOfCommitsWithError:(NSError **)error;
+- (NSUInteger)numberOfCommitsWithError:(NSError * __autoreleasing *)error;
 
 /// Get unique commits
 ///
@@ -94,15 +94,15 @@ NS_ASSUME_NONNULL_BEGIN
 /// error       - If not NULL, set to any error that occurs.
 ///
 /// Returns a (possibly empty) array of GTCommits, or nil if an error occurs.
-- (NSArray<GTCommit *> * _Nullable)uniqueCommitsRelativeToBranch:(GTBranch *)otherBranch error:(NSError **)error;
+- (NSArray<GTCommit *> * _Nullable)uniqueCommitsRelativeToBranch:(GTBranch *)otherBranch error:(NSError * __autoreleasing *)error;
 
 /// Deletes the local branch and nils out the reference.
-- (BOOL)deleteWithError:(NSError **)error;
+- (BOOL)deleteWithError:(NSError * __autoreleasing *)error;
 
 /// If the receiver is a local branch, looks up and returns its tracking branch.
 /// If the receiver is a remote branch, returns self. If no tracking branch was
 /// found, returns nil and sets `success` to YES.
-- (GTBranch * _Nullable)trackingBranchWithError:(NSError **)error success:(BOOL * _Nullable)success;
+- (GTBranch * _Nullable)trackingBranchWithError:(NSError * __autoreleasing *)error success:(BOOL * _Nullable)success;
 
 /// Update the tracking branch.
 ///
@@ -111,7 +111,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error          - The error if one occurred.
 ///
 /// Returns whether it was successful.
-- (BOOL)updateTrackingBranch:(GTBranch * _Nullable)trackingBranch error:(NSError **)error;
+- (BOOL)updateTrackingBranch:(GTBranch * _Nullable)trackingBranch error:(NSError * __autoreleasing *)error;
 
 /// Reloads the branch's reference and creates a new branch based off that newly
 /// loaded reference.
@@ -121,7 +121,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error - The error if one occurred.
 ///
 /// Returns the reloaded branch, or nil if an error occurred.
-- (GTBranch * _Nullable)reloadedBranchWithError:(NSError **)error;
+- (GTBranch * _Nullable)reloadedBranchWithError:(NSError * __autoreleasing *)error;
 
 /// Calculate the ahead/behind count from this branch to the given branch.
 ///
@@ -132,7 +132,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error  - The error if one occurs.
 ///
 /// Returns whether the calculation was successful.
-- (BOOL)calculateAhead:(size_t *)ahead behind:(size_t *)behind relativeTo:(GTBranch *)branch error:(NSError **)error;
+- (BOOL)calculateAhead:(size_t *)ahead behind:(size_t *)behind relativeTo:(GTBranch *)branch error:(NSError * __autoreleasing *)error;
 
 @end
 

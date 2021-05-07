@@ -46,19 +46,19 @@
 
 #pragma mark API
 
-+ (instancetype)blobWithString:(NSString *)string inRepository:(GTRepository *)repository error:(NSError **)error {
++ (instancetype)blobWithString:(NSString *)string inRepository:(GTRepository *)repository error:(NSError * __autoreleasing *)error {
 	return [[self alloc] initWithString:string inRepository:repository error:error];
 }
 
-+ (instancetype)blobWithData:(NSData *)data inRepository:(GTRepository *)repository error:(NSError **)error {
++ (instancetype)blobWithData:(NSData *)data inRepository:(GTRepository *)repository error:(NSError * __autoreleasing *)error {
 	return [[self alloc] initWithData:data inRepository:repository error:error];
 }
 
-+ (instancetype)blobWithFile:(NSURL *)file inRepository:(GTRepository *)repository error:(NSError **)error {
++ (instancetype)blobWithFile:(NSURL *)file inRepository:(GTRepository *)repository error:(NSError * __autoreleasing *)error {
 	return [[self alloc] initWithFile:file inRepository:repository error:error];
 }
 
-- (instancetype)initWithOid:(const git_oid *)oid inRepository:(GTRepository *)repository error:(NSError **)error {
+- (instancetype)initWithOid:(const git_oid *)oid inRepository:(GTRepository *)repository error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(oid != NULL);
 	NSParameterAssert(repository != nil);
 
@@ -74,12 +74,12 @@
     return [self initWithObj:obj inRepository:repository];
 }
 
-- (instancetype)initWithString:(NSString *)string inRepository:(GTRepository *)repository error:(NSError **)error {
+- (instancetype)initWithString:(NSString *)string inRepository:(GTRepository *)repository error:(NSError * __autoreleasing *)error {
 	NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
     return [self initWithData:data inRepository:repository error:error];
 }
 
-- (instancetype)initWithData:(NSData *)data inRepository:(GTRepository *)repository error:(NSError **)error {
+- (instancetype)initWithData:(NSData *)data inRepository:(GTRepository *)repository error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(data != nil);
 	NSParameterAssert(repository != nil);
 
@@ -95,7 +95,7 @@
     return [self initWithOid:&oid inRepository:repository error:error];
 }
 
-- (instancetype)initWithFile:(NSURL *)file inRepository:(GTRepository *)repository error:(NSError **)error {
+- (instancetype)initWithFile:(NSURL *)file inRepository:(GTRepository *)repository error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(file != nil);
 	NSParameterAssert(repository != nil);
 
@@ -133,7 +133,7 @@
     return [NSData dataWithBytes:git_blob_rawcontent(self.git_blob) length:(NSUInteger)s];
 }
 
-- (NSData *)applyFiltersForPath:(NSString *)path error:(NSError **)error {
+- (NSData *)applyFiltersForPath:(NSString *)path error:(NSError * __autoreleasing *)error {
 	NSCParameterAssert(path != nil);
 
 	git_buf buffer = GIT_BUF_INIT_CONST(0, NULL);

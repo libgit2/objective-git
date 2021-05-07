@@ -53,7 +53,7 @@
 	return self;
 }
 
-- (instancetype)initWithSHA:(NSString *)SHA error:(NSError **)error {
+- (instancetype)initWithSHA:(NSString *)SHA error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(SHA != nil);
 	const char *SHACString = SHA.UTF8String;
 	NSAssert(SHACString, @"Unexpected nil SHA");
@@ -64,7 +64,7 @@
 	return [self initWithSHA:SHA error:NULL];
 }
 
-- (instancetype)initWithSHACString:(const char *)string error:(NSError **)error {
+- (instancetype)initWithSHACString:(const char *)string error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(string != NULL);
 	
 	self = [super init];
@@ -129,7 +129,7 @@
 
 @implementation GTOID (GTObjectDatabase)
 
-+ (instancetype)OIDByHashingData:(NSData *)data type:(GTObjectType)type error:(NSError **)error {
++ (instancetype)OIDByHashingData:(NSData *)data type:(GTObjectType)type error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(data != nil);
 
 	git_oid oid;

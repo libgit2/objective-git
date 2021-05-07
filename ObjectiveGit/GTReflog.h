@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error     - The error if one occurred.
 ///
 /// Returns whether the entry was successfully written.
-- (BOOL)writeEntryWithCommitter:(GTSignature *)committer message:(NSString *)message error:(NSError **)error;
+- (BOOL)writeEntryWithCommitter:(GTSignature *)committer message:(NSString *)message error:(NSError * __autoreleasing *)error;
 
 /// Get the reflog entry at the given index.
 ///
