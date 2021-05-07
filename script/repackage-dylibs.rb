@@ -45,7 +45,7 @@ TARGET_EXECUTABLE_PATH = File.join(TARGET_BUILD_DIR, EXECUTABLE_PATH)
 TARGET_FRAMEWORKS_PATH = File.join(TARGET_BUILD_DIR, FRAMEWORKS_FOLDER_PATH)
 
 def extract_link_dependencies(executable)
-  deps = `otool -L #{executable}`
+  deps = `otool -L "#{executable}"`
 
   lines = deps.split("\n").map(&:strip)
   lines.shift
@@ -92,7 +92,7 @@ def repackage_dependency(dep)
     FileUtils.cp dep[:path], TARGET_FRAMEWORKS_PATH
     FileUtils.chmod "u=rw", packaged_path
 
-    out = `install_name_tool -change #{dep.path} "@rpath/#{dep.name}" #{dep.executable}`
+    out = `install_name_tool -change "#{dep.path}" "@rpath/#{dep.name}" "#{dep.executable}"`
     if $? != 0
       err "install_name_tool failed with error #{$?}:\n#{out}"
     end
@@ -107,7 +107,7 @@ end
 
 def fix_install_id(dep)
   note "Fixing #{dep.name} install_name id…"
-  out = `install_name_tool -id @rpath/#{dep.name} #{dep.executable}`
+  out = `install_name_tool -id "@rpath/#{dep.name}" "#{dep.executable}"`
   if $? != 0
     err "install_name_tool failed with error #{$?}:\n#{out}"
   end
