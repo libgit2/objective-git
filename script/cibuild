@@ -59,7 +59,7 @@ if [ "$SCHEME" == "ObjectiveGit Mac" ]; then
     -scheme "$SCHEME" \
     ${XCODE_OPTIONS[*]} \
     build test \
-    2>&1 | xcpretty $XCPRETTY_FORMAT_OPTIONS
+    2>&1 #| xcpretty $XCPRETTY_FORMAT_OPTIONS
 elif [ "$SCHEME" == "ObjectiveGit iOS" ]; then
   echo "*** Prebuilding OpenSSL"
   "$SCRIPT_DIR/update_libssl_ios"
@@ -73,5 +73,5 @@ elif [ "$SCHEME" == "ObjectiveGit iOS" ]; then
     -sdk iphonesimulator \
     ${XCODE_OPTIONS[*]} \
     build test \
-    2>&1 | xcpretty $XCPRETTY_FORMAT_OPTIONS
+    2>&1 #| xcpretty $XCPRETTY_FORMAT_OPTIONS
 fi
