@@ -21,7 +21,7 @@ typedef void (^GTRepositoryStashEnumerationBlock)(NSUInteger index, NSString *me
 - (GTCommit *)stashChangesWithMessage:(NSString *)message flags:(GTRepositoryStashFlag)flags error:(NSError * __autoreleasing *)error {
 	git_oid git_oid;
 
-	int gitError = git_stash_save(&git_oid, self.git_repository, [self userSignatureForNow].git_signature, message.UTF8String, flags);
+	int gitError = git_stash_save(&git_oid, self.git_repository, [self userSignatureForNow].git_signature, message.UTF8String, (unsigned int)flags);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to stash."];
 		return nil;

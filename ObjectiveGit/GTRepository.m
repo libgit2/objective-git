@@ -914,7 +914,7 @@ static int submoduleEnumerationCallback(git_submodule *git_submodule, const char
 	NSParameterAssert(path != nil);
 
 	git_filter_list *list = NULL;
-	int gitError = git_filter_list_load(&list, self.git_repository, blob.git_blob, path.UTF8String, (git_filter_mode_t)mode, options);
+	int gitError = git_filter_list_load(&list, self.git_repository, blob.git_blob, path.UTF8String, (git_filter_mode_t)mode, (unsigned int)options);
 	if (gitError != GIT_OK) {
 		if (success != NULL) *success = NO;
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to load filter list for %@", path];

@@ -79,7 +79,7 @@ static int GTCheckoutNotifyCallback(git_checkout_notify_t why, const char *path,
 }
 
 - (git_checkout_options *)git_checkoutOptions {
-	_git_checkoutOptions.checkout_strategy = self.strategy;
+	_git_checkoutOptions.checkout_strategy = (unsigned int)self.strategy;
 
 	if (self.progressBlock != nil) {
 		_git_checkoutOptions.progress_cb = GTCheckoutProgressCallback;
@@ -88,7 +88,7 @@ static int GTCheckoutNotifyCallback(git_checkout_notify_t why, const char *path,
 
 	if (self.notifyBlock != nil) {
 		_git_checkoutOptions.notify_cb = GTCheckoutNotifyCallback;
-		_git_checkoutOptions.notify_flags = self.notifyFlags;
+		_git_checkoutOptions.notify_flags = (unsigned int)self.notifyFlags;
 		_git_checkoutOptions.notify_payload = (__bridge void *)self.notifyBlock;
 	}
 
