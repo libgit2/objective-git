@@ -29,7 +29,9 @@
 
 #import <Foundation/Foundation.h>
 #include "git2/types.h"
+#include "git2/index.h"
 
+@class GTOID;
 @class GTIndexEntry;
 @class GTRepository;
 @class GTTree;
@@ -44,6 +46,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// The file URL for the index if it exists on disk; nil otherwise.
 @property (nonatomic, readonly, copy) NSURL * _Nullable fileURL;
+
+/// The index checksum
+@property (nonatomic, readonly, strong) GTOID * _Nullable checksum;
 
 /// The number of entries in the index.
 @property (nonatomic, readonly) NSUInteger entryCount;
@@ -209,7 +214,53 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// Returns `YES` in the event of successful enumeration or no conflicts in the
 /// index, `NO` in case of error.
-- (BOOL)enumerateConflictedFilesWithError:(NSError **)error usingBlock:(void (^)(GTIndexEntry *ancestor, GTIndexEntry *ours, GTIndexEntry *theirs, BOOL *stop))block;
+- (BOOL)enumerateConflictedFilesWithError:(NSError **)error usingBlock:(void (^)(GTIndexEntry * _Nullable ancestor, GTIndexEntry * _Nullable ours, GTIndexEntry * _Nullable theirs, BOOL *stop))block;
+
+/// Options for use with addPathspecs:flags:error:passingTest: below
+/// See index.h for documentation of each individual git_index_add_option_t flag.
+typedef NS_OPTIONS(NSInteger, GTIndexAddOptions) {
+	GTIndexAddOptionsDefault = GIT_INDEX_ADD_DEFAULT,
+	GTIndexAddOptionsForce = GIT_INDEX_ADD_FORCE,
+	GTIndexAddOptionsDisablePathspecMatch = GIT_INDEX_ADD_DISABLE_PATHSPEC_MATCH,
+	GTIndexAddOptionsCheckPathspec = GIT_INDEX_ADD_CHECK_PATHSPEC
+};
+
+/// Add or update index entries matching files in the working directory.
+/// This method will immediately fail if the index's repo is bare.
+///
+/// pathspecs - An `NSString` array of path patterns. (E.g: *.c)
+///             If nil is passed in, all index entries will be updated.
+/// flags     - A combination of GTIndexAddOptions flags
+/// block     - A block that will be called on each match, before the index is changed.
+///             The `matchedPathspec` parameter is a string indicating
+///             which pathspec (from `pathspecs`) matched. If you pass in nil
+///             in to the `pathspecs` parameter this parameter will be nil.
+///             The `path` parameter is a repository relative path to the file
+///             about to be added/updated.
+///             The `stop` parameter can be set to `YES` to abort the operation.
+///             Return `YES` to update the given path, or `NO` to skip it. May be nil.
+/// error     - When something goes wrong, this parameter is set. Optional.
+///
+/// Returns `YES` in the event that everything has gone smoothly. Otherwise, `NO`.
+- (BOOL)addPathspecs:(NSArray<NSString*> * _Nullable)pathspecs flags:(GTIndexAddOptions)flags error:(NSError **)error passingTest:(BOOL (^ _Nullable )(NSString * _Nullable matchedPathspec, NSString *path, BOOL *stop))block;
+
+/// Remove all matching index entries.
+/// This method will immediately fail if the index's repo is bare.
+///
+/// pathspecs - An `NSString` array of path patterns. (E.g: *.c)
+///             If nil is passed in, all index entries will be updated.
+/// block     - A block that will be called on each match, before the index is changed.
+///             The `matchedPathspec` parameter is a string indicating
+///             which pathspec (from `pathspecs`) matched. If you pass in nil
+///             in to the `pathspecs` parameter this parameter will be nil.
+///             The `path` parameter is a repository relative path to the file
+///             about to be updated.
+///             The `stop` parameter can be set to `YES` to abort the operation.
+///             Return `YES` to update the given path, or `NO` to skip it. May be nil.
+/// error     - When something goes wrong, this parameter is set. Optional.
+///
+/// Returns `YES` in the event that everything has gone smoothly. Otherwise, `NO`.
+- (BOOL)removePathspecs:(NSArray<NSString*> * _Nullable)pathspecs error:(NSError **)error passingTest:(BOOL (^ _Nullable)(NSString * _Nullable matchedPathspec, NSString *path, BOOL *stop))block;
 
 /// Update all index entries to match the working directory.
 /// This method will immediately fail if the index's repo is bare.
