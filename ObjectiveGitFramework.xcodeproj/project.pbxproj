@@ -1478,12 +1478,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1DEB91AD08733DA50010E9CD /* Build configuration list for PBXNativeTarget "ObjectiveGit-Mac" */;
 			buildPhases = (
-				8DC2EF540486A6940098B216 /* Sources */,
 				8DC2EF520486A6940098B216 /* Resources */,
-				8DC2EF560486A6940098B216 /* Frameworks */,
 				79262F0F13C697BE00A4B1EA /* Copy git2 Headers */,
 				BEF7E4DF1A3A47450035BB8E /* Copy git2 Headers again */,
 				8DC2EF500486A6940098B216 /* Headers */,
+				8DC2EF540486A6940098B216 /* Sources */,
+				8DC2EF560486A6940098B216 /* Frameworks */,
 				4D751E9D215D765D003CD3CE /* Package external libraries */,
 			);
 			buildRules = (
@@ -1501,9 +1501,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D01B6EE619F82E2000D411BC /* Build configuration list for PBXNativeTarget "ObjectiveGit-iOS" */;
 			buildPhases = (
+				D01B6ED019F82E2000D411BC /* Headers */,
 				D01B6ECE19F82E2000D411BC /* Sources */,
 				D01B6ECF19F82E2000D411BC /* Frameworks */,
-				D01B6ED019F82E2000D411BC /* Headers */,
 			);
 			buildRules = (
 			);
