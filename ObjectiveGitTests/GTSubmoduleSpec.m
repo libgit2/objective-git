@@ -246,7 +246,8 @@ describe(@"dirty, checked out submodule", ^{
 
 		__block NSError *error = nil;
 		expect(@([submodule sync:&error])).to(beTruthy());
-		expect([config stringForKey:configKey]).to(equal(@"../Test_App"));
+		NSString *submoduleURL = [[[repo.fileURL URLByAppendingPathComponent:@"../Test_App"] URLByResolvingSymlinksInPath] path];
+		expect([config stringForKey:configKey]).to(equal(submoduleURL));
 	});
 });
 
