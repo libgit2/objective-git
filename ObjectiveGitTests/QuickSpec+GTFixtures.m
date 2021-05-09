@@ -121,8 +121,9 @@ static NSString * const FixturesErrorDomain = @"com.objectivegit.Fixtures";
 
 - (GTRepository *)fixtureRepositoryNamed:(NSString *)name {
 	NSURL *url = [NSURL fileURLWithPath:[self pathForFixtureRepositoryNamed:name]];
-	GTRepository *repository = [[GTRepository alloc] initWithURL:url error:NULL];
-	XCTAssertNotNil(repository, @"Couldn't create a repository for %@", name);
+	NSError *error = nil;
+	GTRepository *repository = [[GTRepository alloc] initWithURL:url error:&error];
+	XCTAssertNotNil(repository, @"Couldn't create a repository for %@: %@", name, error);
 	return repository;
 }
 
