@@ -57,7 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///         be nil.
 /// Return YES if the enumeration was successful, NO otherwise (and an error will
 /// be set in `error`).
-- (BOOL)enumerateLinesInHunk:(NSError **)error usingBlock:(void (^)(GTDiffLine *line, BOOL *stop))block;
+- (BOOL)enumerateLinesInHunk:(NSError * __autoreleasing *)error usingBlock:(void (^)(GTDiffLine *line, BOOL *stop))block;
 
 @end
 

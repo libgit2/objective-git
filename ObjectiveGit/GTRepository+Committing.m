@@ -18,7 +18,7 @@
 
 @implementation GTRepository (Committing)
 
-- (GTCommit *)createCommitWithTree:(GTTree *)tree message:(NSString *)message parents:(NSArray *)parents updatingReferenceNamed:(NSString *)refName error:(NSError **)error {
+- (GTCommit *)createCommitWithTree:(GTTree *)tree message:(NSString *)message parents:(NSArray *)parents updatingReferenceNamed:(NSString *)refName error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(tree != nil);
 	NSParameterAssert(message != nil);
 
@@ -26,7 +26,7 @@
 	return [self createCommitWithTree:tree message:message author:signature committer:signature parents:parents updatingReferenceNamed:refName error:error];
 }
 
-- (GTCommit *)createCommitWithTree:(GTTree *)tree message:(NSString *)message author:(GTSignature *)author committer:(GTSignature *)committer parents:(NSArray *)parents updatingReferenceNamed:(NSString *)refName error:(NSError **)error {
+- (GTCommit *)createCommitWithTree:(GTTree *)tree message:(NSString *)message author:(GTSignature *)author committer:(GTSignature *)committer parents:(NSArray *)parents updatingReferenceNamed:(NSString *)refName error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(tree != nil);
 	NSParameterAssert(message != nil);
 	NSParameterAssert(author != nil);

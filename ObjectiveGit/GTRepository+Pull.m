@@ -20,7 +20,7 @@ NSString * const GTPullMergeConflictedFiles = @"GTPullMergeConflictedFiles";
 
 #pragma mark - Pull
 
-- (BOOL)pullBranch:(GTBranch *)branch fromRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError **)error progress:(GTRemoteFetchTransferProgressBlock)progressBlock {
+- (BOOL)pullBranch:(GTBranch *)branch fromRemote:(GTRemote *)remote withOptions:(NSDictionary *)options error:(NSError * __autoreleasing *)error progress:(GTRemoteFetchTransferProgressBlock)progressBlock {
 	NSParameterAssert(branch != nil);
 	NSParameterAssert(remote != nil);
 

@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setInt64:(int64_t)i forKey:(NSString *)key;
 - (int64_t)int64ForKey:(NSString *)key;
 
-- (BOOL)deleteValueForKey:(NSString *)key error:(NSError **)error;
+- (BOOL)deleteValueForKey:(NSString *)key error:(NSError * __autoreleasing *)error;
 
 @end
 

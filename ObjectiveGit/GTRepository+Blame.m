@@ -20,7 +20,7 @@ NSString * const GTBlameOptionsLastLine = @"GTBlameOptionsLastLine";
 
 @implementation GTRepository (Blame)
 
-- (GTBlame *)blameWithFile:(NSString *)path options:(NSDictionary *)options error:(NSError **)error {
+- (GTBlame *)blameWithFile:(NSString *)path options:(NSDictionary *)options error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(path != nil);
 	
 	git_blame *blame = NULL;

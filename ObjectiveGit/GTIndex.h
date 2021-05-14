@@ -60,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error      - If not NULL, set to any error that occurs.
 ///
 /// Returns the newly created index, or nil if an error occurred.
-+ (instancetype _Nullable)inMemoryIndexWithRepository:(GTRepository *)repository error:(NSError **)error;
++ (instancetype _Nullable)inMemoryIndexWithRepository:(GTRepository *)repository error:(NSError * __autoreleasing *)error;
 
 /// Loads the index at the given file URL.
 ///
@@ -69,7 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error      - If not NULL, set to any error that occurs.
 ///
 /// Returns the loaded index, or nil if an error occurred.
-+ (instancetype _Nullable)indexWithFileURL:(NSURL *)fileURL repository:(GTRepository *)repository error:(NSError **)error;
++ (instancetype _Nullable)indexWithFileURL:(NSURL *)fileURL repository:(GTRepository *)repository error:(NSError * __autoreleasing *)error;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -90,7 +90,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error - The error if one occurred.
 ///
 /// Returns whether the refresh was successful.
-- (BOOL)refresh:(NSError **)error;
+- (BOOL)refresh:(NSError * __autoreleasing *)error;
 
 /// Clear all the entries from the index. This happens in memory. Changes can be
 /// written to the datastore by calling -write:.
@@ -98,7 +98,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error - The error if one ocurred.
 ///
 /// Returns whether the clear operation was successful.
-- (BOOL)clear:(NSError **)error;
+- (BOOL)clear:(NSError * __autoreleasing *)error;
 
 /// Get the entry at the given index.
 ///
@@ -116,7 +116,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error - The error if one occurred.
 ///
 /// Returns a new GTIndexEntry, or nil if an error occurred.
-- (GTIndexEntry * _Nullable)entryWithPath:(NSString *)path error:(NSError **)error;
+- (GTIndexEntry * _Nullable)entryWithPath:(NSString *)path error:(NSError * __autoreleasing *)error;
 
 /// Add an entry to the index.
 ///
@@ -126,7 +126,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error - The error if one occurred.
 ///
 /// Returns YES if successful, NO otherwise.
-- (BOOL)addEntry:(GTIndexEntry *)entry error:(NSError **)error;
+- (BOOL)addEntry:(GTIndexEntry *)entry error:(NSError * __autoreleasing *)error;
 
 /// Add an entry (by relative path) to the index.
 /// Will fail if the receiver's repository is nil.
@@ -137,7 +137,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error - The error if one occurred.
 ///
 /// Returns YES if successful, NO otherwise.
-- (BOOL)addFile:(NSString *)file error:(NSError **)error;
+- (BOOL)addFile:(NSString *)file error:(NSError * __autoreleasing *)error;
 
 /// Add an entry (with the provided data and name) to the index.
 /// Will fail if the receiver's repository is nil.
@@ -145,7 +145,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// data  - The content of the entry to add. Cannot be nil.
 /// path  - The path of the entry to add. Cannot be nil.
 /// error - The error if one occurred.
-- (BOOL)addData:(NSData *)data withPath:(NSString *)path error:(NSError **)error;
+- (BOOL)addData:(NSData *)data withPath:(NSString *)path error:(NSError * __autoreleasing *)error;
 
 /// Reads the contents of the given tree into the index.
 ///
@@ -153,14 +153,14 @@ NS_ASSUME_NONNULL_BEGIN
 /// error - If not NULL, set to any error that occurs.
 ///
 /// Returns whether reading the tree was successful.
-- (BOOL)addContentsOfTree:(GTTree *)tree error:(NSError **)error;
+- (BOOL)addContentsOfTree:(GTTree *)tree error:(NSError * __autoreleasing *)error;
 
 /// Add all the content of the working directory to the index. Like `git add -A`
 ///
 /// error - If not NULL, set to any error that occurs.
 ///
 /// Returns whether the operation was successful
-- (BOOL)addAll:(NSError **)error;
+- (BOOL)addAll:(NSError * __autoreleasing *)error;
 
 /// Remove an entry (by relative path) from the index.
 /// Will fail if the receiver's repository is nil.
@@ -170,7 +170,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error - The error, if one occurred.
 ///
 /// Returns YES if successful, NO otherwise.
-- (BOOL)removeFile:(NSString *)file error:(NSError **)error;
+- (BOOL)removeFile:(NSString *)file error:(NSError * __autoreleasing *)error;
 
 /// Write the index to the repository.
 /// Will fail if the receiver's repository is nil.
@@ -178,7 +178,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error - The error if one occurred.
 ///
 /// Returns YES if successful, NO otherwise.
-- (BOOL)write:(NSError **)error;
+- (BOOL)write:(NSError * __autoreleasing *)error;
 
 /// Write the index to the repository as a tree.
 /// Will fail if the receiver's repository is nil.
@@ -186,7 +186,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error - The error if one occurred.
 ///
 /// Returns a new GTTree, or nil if an error occurred.
-- (GTTree * _Nullable)writeTree:(NSError **)error;
+- (GTTree * _Nullable)writeTree:(NSError * __autoreleasing *)error;
 
 /// Write the index to the given repository as a tree.
 /// Will fail if the receiver's index has conflicts.
@@ -195,7 +195,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error      - The error if one occurred.
 ///
 /// Returns a new GTTree or nil if an error occurred.
-- (GTTree * _Nullable)writeTreeToRepository:(GTRepository *)repository error:(NSError **)error;
+- (GTTree * _Nullable)writeTreeToRepository:(GTRepository *)repository error:(NSError * __autoreleasing *)error;
 
 /// Enumerate through any conflicts in the index, running the provided block each
 /// time.
@@ -209,7 +209,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// Returns `YES` in the event of successful enumeration or no conflicts in the
 /// index, `NO` in case of error.
-- (BOOL)enumerateConflictedFilesWithError:(NSError **)error usingBlock:(void (^)(GTIndexEntry *ancestor, GTIndexEntry *ours, GTIndexEntry *theirs, BOOL *stop))block;
+- (BOOL)enumerateConflictedFilesWithError:(NSError * __autoreleasing *)error usingBlock:(void (^)(GTIndexEntry *ancestor, GTIndexEntry *ours, GTIndexEntry *theirs, BOOL *stop))block;
 
 /// Update all index entries to match the working directory.
 /// This method will immediately fail if the index's repo is bare.
@@ -227,11 +227,11 @@ NS_ASSUME_NONNULL_BEGIN
 /// error     - When something goes wrong, this parameter is set. Optional.
 ///
 /// Returns `YES` in the event that everything has gone smoothly. Otherwise, `NO`.
-- (BOOL)updatePathspecs:(NSArray<NSString*> * _Nullable)pathspecs error:(NSError **)error passingTest:(BOOL (^ _Nullable)(NSString *matchedPathspec, NSString *path, BOOL *stop))block;
+- (BOOL)updatePathspecs:(NSArray<NSString*> * _Nullable)pathspecs error:(NSError * __autoreleasing *)error passingTest:(BOOL (^ _Nullable)(NSString *matchedPathspec, NSString *path, BOOL *stop))block;
 
 #pragma mark Deprecations
 - (GTIndexEntry * _Nullable)entryWithName:(NSString *)name __deprecated_msg("use entryWithPath: instead.");
-- (GTIndexEntry * _Nullable)entryWithName:(NSString *)name error:(NSError **)error __deprecated_msg("use entryWithPath:error: instead.");
+- (GTIndexEntry * _Nullable)entryWithName:(NSString *)name error:(NSError * __autoreleasing *)error __deprecated_msg("use entryWithPath:error: instead.");
 
 
 @end

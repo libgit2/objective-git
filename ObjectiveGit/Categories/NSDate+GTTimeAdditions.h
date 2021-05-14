@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "git2/types.h"
+#import <ObjectiveGit/git2/types.h>
 
 @interface NSDate (GTTimeAdditions)
 

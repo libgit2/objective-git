@@ -18,10 +18,10 @@ typedef void (^GTRepositoryStashEnumerationBlock)(NSUInteger index, NSString *me
 
 @implementation GTRepository (Stashing)
 
-- (GTCommit *)stashChangesWithMessage:(NSString *)message flags:(GTRepositoryStashFlag)flags error:(NSError **)error {
+- (GTCommit *)stashChangesWithMessage:(NSString *)message flags:(GTRepositoryStashFlag)flags error:(NSError * __autoreleasing *)error {
 	git_oid git_oid;
 
-	int gitError = git_stash_save(&git_oid, self.git_repository, [self userSignatureForNow].git_signature, message.UTF8String, flags);
+	int gitError = git_stash_save(&git_oid, self.git_repository, [self userSignatureForNow].git_signature, message.UTF8String, (unsigned int)flags);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to stash."];
 		return nil;
@@ -59,7 +59,7 @@ static int stashApplyProgressCallback(git_stash_apply_progress_t progress, void 
 	return (stop ? GIT_EUSER : 0);
 }
 
-- (BOOL)applyStashAtIndex:(NSUInteger)index flags:(GTRepositoryStashApplyFlag)flags checkoutOptions:(GTCheckoutOptions *)options error:(NSError **)error progressBlock:(void (^)(GTRepositoryStashApplyProgress progress, BOOL *stop))progressBlock {
+- (BOOL)applyStashAtIndex:(NSUInteger)index flags:(GTRepositoryStashApplyFlag)flags checkoutOptions:(GTCheckoutOptions *)options error:(NSError * __autoreleasing *)error progressBlock:(void (^)(GTRepositoryStashApplyProgress progress, BOOL *stop))progressBlock {
 	git_stash_apply_options stash_options = GIT_STASH_APPLY_OPTIONS_INIT;
 
 	stash_options.flags = (git_stash_apply_flags)flags;
@@ -81,7 +81,7 @@ static int stashApplyProgressCallback(git_stash_apply_progress_t progress, void 
 	return YES;
 }
 
-- (BOOL)popStashAtIndex:(NSUInteger)index flags:(GTRepositoryStashApplyFlag)flags checkoutOptions:(GTCheckoutOptions *)options error:(NSError **)error progressBlock:(void (^)(GTRepositoryStashApplyProgress progress, BOOL *stop))progressBlock {
+- (BOOL)popStashAtIndex:(NSUInteger)index flags:(GTRepositoryStashApplyFlag)flags checkoutOptions:(GTCheckoutOptions *)options error:(NSError * __autoreleasing *)error progressBlock:(void (^)(GTRepositoryStashApplyProgress progress, BOOL *stop))progressBlock {
 	git_stash_apply_options stash_options = GIT_STASH_APPLY_OPTIONS_INIT;
 
 	stash_options.flags = (git_stash_apply_flags)flags;
@@ -103,7 +103,7 @@ static int stashApplyProgressCallback(git_stash_apply_progress_t progress, void 
 	return YES;
 }
 
-- (BOOL)dropStashAtIndex:(NSUInteger)index error:(NSError **)error {
+- (BOOL)dropStashAtIndex:(NSUInteger)index error:(NSError * __autoreleasing *)error {
 	int gitError = git_stash_drop(self.git_repository, index);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Stash drop failed" failureReason:@"The stash at index %ld couldn't be dropped", (unsigned long)index];

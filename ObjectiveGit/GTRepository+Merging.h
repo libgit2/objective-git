@@ -35,14 +35,14 @@ typedef NS_OPTIONS(NSInteger, GTMergeAnalysis) {
 ///         enumeration to stop after the block returns. Must not be nil.
 ///
 /// Returns YES if the operation succedded, NO otherwise.
-- (BOOL)enumerateMergeHeadEntriesWithError:(NSError **)error usingBlock:(void (^)(GTOID *mergeHeadEntry, BOOL *stop))block;
+- (BOOL)enumerateMergeHeadEntriesWithError:(NSError * __autoreleasing *)error usingBlock:(void (^)(GTOID *mergeHeadEntry, BOOL *stop))block;
 
 /// Convenience method for -enumerateMergeHeadEntriesWithError:usingBlock: that retuns an NSArray with all the fetch head entries.
 ///
 /// error - The error if one ocurred. Can be NULL.
 ///
 /// Retruns a (possibly empty) array with GTOID objects. Will not be nil.
-- (NSArray <GTOID *>*)mergeHeadEntriesWithError:(NSError **)error;
+- (NSArray <GTOID *>*)mergeHeadEntriesWithError:(NSError * __autoreleasing *)error;
 
 /// Merge Branch into current branch
 ///
@@ -51,7 +51,7 @@ typedef NS_OPTIONS(NSInteger, GTMergeAnalysis) {
 ///
 /// Returns YES if the merge was successful, NO otherwise (and `error`, if provided,
 /// will point to an error describing what happened).
-- (BOOL)mergeBranchIntoCurrentBranch:(GTBranch *)fromBranch withError:(NSError **)error;
+- (BOOL)mergeBranchIntoCurrentBranch:(GTBranch *)fromBranch withError:(NSError * __autoreleasing *)error;
 
 /// Gets the file content with conflict markers for the given file
 ///
@@ -63,7 +63,7 @@ typedef NS_OPTIONS(NSInteger, GTMergeAnalysis) {
 /// error    - The error if one occurred. Can be NULL.
 ///
 /// Returns The file content annotated with conflict markers or null on error
-- (NSString * _Nullable)contentsOfDiffWithAncestor:(GTIndexEntry *)ancestor ourSide:(GTIndexEntry *)ourSide theirSide:(GTIndexEntry *)theirSide error:(NSError **)error;
+- (NSString * _Nullable)contentsOfDiffWithAncestor:(GTIndexEntry *)ancestor ourSide:(GTIndexEntry *)ourSide theirSide:(GTIndexEntry *)theirSide error:(NSError * __autoreleasing *)error;
 
 /// Analyze which merge to perform.
 ///
@@ -73,7 +73,7 @@ typedef NS_OPTIONS(NSInteger, GTMergeAnalysis) {
 ///
 /// Returns YES if the analysis was successful, NO otherwise (and `error`, if provided,
 /// will point to an error describing what happened).
-- (BOOL)analyzeMerge:(GTMergeAnalysis *)analysis fromBranch:(GTBranch *)fromBranch error:(NSError **)error;
+- (BOOL)analyzeMerge:(GTMergeAnalysis *)analysis fromBranch:(GTBranch *)fromBranch error:(NSError * __autoreleasing *)error;
 
 @end
 

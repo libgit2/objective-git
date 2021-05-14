@@ -16,7 +16,7 @@
 
 @implementation GTRepository (Reset)
 
-- (BOOL)resetToCommit:(GTCommit *)commit resetType:(GTRepositoryResetType)resetType error:(NSError **)error {
+- (BOOL)resetToCommit:(GTCommit *)commit resetType:(GTRepositoryResetType)resetType error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(commit != nil);
 
 	git_checkout_options options = GIT_CHECKOUT_OPTIONS_INIT;
@@ -32,7 +32,7 @@
 	return YES;
 }
 
-- (BOOL)resetPathspecs:(NSArray *)paths toCommit:(GTCommit *)commit error:(NSError **)error {
+- (BOOL)resetPathspecs:(NSArray *)paths toCommit:(GTCommit *)commit error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(paths != nil);
 	NSParameterAssert(commit != nil);
 

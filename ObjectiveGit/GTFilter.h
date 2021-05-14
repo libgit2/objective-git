@@ -69,14 +69,14 @@ extern const NSInteger GTFilterErrorNameAlreadyRegistered;
 /// error    - The error if one occurred.
 ///
 /// Returns whether the registration was successful.
-- (BOOL)registerWithPriority:(int)priority error:(NSError **)error;
+- (BOOL)registerWithPriority:(int)priority error:(NSError * __autoreleasing *)error;
 
 /// Unregisters the filter.
 ///
 /// error - The error if one occurred.
 ///
 /// Returns whether the unregistration was successful.
-- (BOOL)unregister:(NSError **)error;
+- (BOOL)unregister:(NSError * __autoreleasing *)error;
 
 @end
 

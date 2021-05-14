@@ -73,7 +73,7 @@ static int GTDiffDeltaCallback(const git_diff_delta *delta, float progress, void
 	return GIT_OK;
 }
 
-+ (instancetype)diffDeltaFromBlob:(GTBlob *)oldBlob forPath:(NSString *)oldBlobPath toBlob:(GTBlob *)newBlob forPath:(NSString *)newBlobPath options:(NSDictionary *)options error:(NSError **)error {
++ (instancetype)diffDeltaFromBlob:(GTBlob *)oldBlob forPath:(NSString *)oldBlobPath toBlob:(GTBlob *)newBlob forPath:(NSString *)newBlobPath options:(NSDictionary *)options error:(NSError * __autoreleasing *)error {
 	__block git_diff_delta diffDelta;
 
 	int returnValue = [GTDiff handleParsedOptionsDictionary:options usingBlock:^(git_diff_options *optionsStruct) {
@@ -94,7 +94,7 @@ static int GTDiffDeltaCallback(const git_diff_delta *delta, float progress, void
 	}];
 }
 
-+ (instancetype)diffDeltaFromBlob:(GTBlob *)blob forPath:(NSString *)blobPath toData:(NSData *)data forPath:(NSString *)dataPath options:(NSDictionary *)options error:(NSError **)error {
++ (instancetype)diffDeltaFromBlob:(GTBlob *)blob forPath:(NSString *)blobPath toData:(NSData *)data forPath:(NSString *)dataPath options:(NSDictionary *)options error:(NSError * __autoreleasing *)error {
 	__block git_diff_delta diffDelta;
 
 	int returnValue = [GTDiff handleParsedOptionsDictionary:options usingBlock:^(git_diff_options *optionsStruct) {
@@ -115,7 +115,7 @@ static int GTDiffDeltaCallback(const git_diff_delta *delta, float progress, void
 	}];
 }
 
-+ (instancetype)diffDeltaFromData:(NSData *)oldData forPath:(NSString *)oldDataPath toData:(NSData *)newData forPath:(NSString *)newDataPath options:(NSDictionary *)options error:(NSError **)error {
++ (instancetype)diffDeltaFromData:(NSData *)oldData forPath:(NSString *)oldDataPath toData:(NSData *)newData forPath:(NSString *)newDataPath options:(NSDictionary *)options error:(NSError * __autoreleasing *)error {
 	__block git_diff_delta diffDelta;
 
 	int returnValue = [GTDiff handleParsedOptionsDictionary:options usingBlock:^(git_diff_options *optionsStruct) {
@@ -166,7 +166,7 @@ static int GTDiffDeltaCallback(const git_diff_delta *delta, float progress, void
 
 #pragma mark Patch Generation
 
-- (GTDiffPatch *)generatePatch:(NSError **)error {
+- (GTDiffPatch *)generatePatch:(NSError * __autoreleasing *)error {
 	git_patch *patch = NULL;
 	int gitError = self.patchGenerator(&patch);
 	if (gitError != GIT_OK) {

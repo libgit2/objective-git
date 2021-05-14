@@ -27,4 +27,4 @@ typedef struct {
 	__unsafe_unretained GTCredentialProvider *credProvider;
 } GTCredentialAcquireCallbackInfo;
 
-int GTCredentialAcquireCallback(git_cred **cred, const char *url, const char *username_from_url, unsigned int allowed_types, void *payload);
+int GTCredentialAcquireCallback(git_credential **cred, const char *url, const char *username_from_url, unsigned int allowed_types, void *payload);

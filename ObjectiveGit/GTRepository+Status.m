@@ -22,7 +22,7 @@ NSString *const GTRepositoryStatusOptionsPathSpecArrayKey = @"GTRepositoryStatus
 
 @implementation GTRepository (Status)
 
-- (BOOL)enumerateFileStatusWithOptions:(NSDictionary *)options error:(NSError **)error usingBlock:(void (^)(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop))block {
+- (BOOL)enumerateFileStatusWithOptions:(NSDictionary *)options error:(NSError * __autoreleasing *)error usingBlock:(void (^)(GTStatusDelta *headToIndex, GTStatusDelta *indexToWorkingDirectory, BOOL *stop))block {
 	NSParameterAssert(block != NULL);
 	
 	__block git_status_options gitOptions = GIT_STATUS_OPTIONS_INIT;
@@ -41,7 +41,7 @@ NSString *const GTRepositoryStatusOptionsPathSpecArrayKey = @"GTRepositoryStatus
 	int err = git_status_list_new(&statusList, self.git_repository, &gitOptions);
 	@onExit {
 		git_status_list_free(statusList);
-		if (gitOptions.pathspec.count > 0) git_strarray_free(&gitOptions.pathspec);
+		if (gitOptions.pathspec.count > 0) git_strarray_dispose(&gitOptions.pathspec);
 	};
 	
 	if (err != GIT_OK) {
@@ -93,7 +93,7 @@ NSString *const GTRepositoryStatusOptionsPathSpecArrayKey = @"GTRepositoryStatus
 	return clean;
 }
 
-- (GTFileStatusFlags)statusForFile:(NSString *)filePath success:(BOOL *)success error:(NSError **)error {
+- (GTFileStatusFlags)statusForFile:(NSString *)filePath success:(BOOL *)success error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(filePath != nil);
 
 	git_status_t status;
@@ -109,7 +109,7 @@ NSString *const GTRepositoryStatusOptionsPathSpecArrayKey = @"GTRepositoryStatus
 	return (GTFileStatusFlags)status;
 }
 
-- (BOOL)shouldFileBeIgnored:(NSURL *)fileURL success:(BOOL *)success error:(NSError **)error {
+- (BOOL)shouldFileBeIgnored:(NSURL *)fileURL success:(BOOL *)success error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(fileURL != nil);
 
 	int ignoreState = 0;
@@ -125,7 +125,7 @@ NSString *const GTRepositoryStatusOptionsPathSpecArrayKey = @"GTRepositoryStatus
 	return (ignoreState == 1 ? YES : NO);
 }
 
-- (GTFileIgnoreState)shouldIgnoreFileURL:(NSURL *)fileURL error:(NSError **)error {
+- (GTFileIgnoreState)shouldIgnoreFileURL:(NSURL *)fileURL error:(NSError * __autoreleasing *)error {
 	BOOL success = NO;
 	BOOL ignore = [self shouldFileBeIgnored:fileURL success:&success error:error];
 	if (success) {

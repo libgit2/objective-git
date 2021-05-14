@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void (^GTRemoteFetchTransferProgressBlock)(const git_transfer_progress *progress, BOOL *stop);
+typedef void (^GTRemoteFetchTransferProgressBlock)(const git_indexer_progress *progress, BOOL *stop);
 
 @interface GTRepository (Pull)
 
@@ -30,7 +30,7 @@ typedef void (^GTRemoteFetchTransferProgressBlock)(const git_transfer_progress *
 ///
 /// Returns YES if the pull was successful, NO otherwise (and `error`, if provided,
 /// will point to an error describing what happened).
-- (BOOL)pullBranch:(GTBranch *)branch fromRemote:(GTRemote *)remote withOptions:(NSDictionary * _Nullable)options error:(NSError **)error progress:(GTRemoteFetchTransferProgressBlock _Nullable)progressBlock;
+- (BOOL)pullBranch:(GTBranch *)branch fromRemote:(GTRemote *)remote withOptions:(NSDictionary * _Nullable)options error:(NSError * __autoreleasing *)error progress:(GTRemoteFetchTransferProgressBlock _Nullable)progressBlock;
 
 @end
 

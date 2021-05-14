@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error     - If not NULL, set to any error that occurs.
 ///
 /// Returns the filtered data, or nil if an error occurs.
-- (NSData * _Nullable)applyToData:(NSData *)inputData error:(NSError **)error;
+- (NSData * _Nullable)applyToData:(NSData *)inputData error:(NSError * __autoreleasing *)error;
 
 /// Attempts to apply the filter list to a file in the given repository.
 ///
@@ -53,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error        - If not NULL, set to any error that occurs.
 ///
 /// Returns the filtered data, or nil if an error occurs.
-- (NSData * _Nullable)applyToPath:(NSString *)relativePath inRepository:(GTRepository *)repository error:(NSError **)error;
+- (NSData * _Nullable)applyToPath:(NSString *)relativePath inRepository:(GTRepository *)repository error:(NSError * __autoreleasing *)error;
 
 /// Attempts to apply the filter list to a blob.
 ///
@@ -61,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error - If not NULL, set to any error that occurs.
 ///
 /// Returns the filtered data, or nil if an error occurs.
-- (NSData * _Nullable)applyToBlob:(GTBlob *)blob error:(NSError **)error;
+- (NSData * _Nullable)applyToBlob:(GTBlob *)blob error:(NSError * __autoreleasing *)error;
 
 @end
 

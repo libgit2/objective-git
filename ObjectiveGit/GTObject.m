@@ -140,14 +140,14 @@
 	return [self.SHA git_shortUniqueShaString];
 }
 
-- (GTOdbObject *)odbObjectWithError:(NSError **)error {
+- (GTOdbObject *)odbObjectWithError:(NSError * __autoreleasing *)error {
 	GTObjectDatabase *database = [self.repository objectDatabaseWithError:error];
 	if (database == nil) return nil;
 
 	return [database objectWithOID:self.OID error:error];
 }
 
-- (id)objectByPeelingToType:(GTObjectType)type error:(NSError **)error {
+- (id)objectByPeelingToType:(GTObjectType)type error:(NSError * __autoreleasing *)error {
 	git_object *peeled = NULL;
 	int gitError = git_object_peel(&peeled, self.git_object, (git_object_t)type);
 	if (gitError != GIT_OK) {

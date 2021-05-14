@@ -63,7 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error      - The error if one occurred.
 ///
 /// Returns the initialized object, or nil if an error occurred.
-- (instancetype _Nullable)initWithTree:(GTTree * _Nullable)treeOrNil repository:(GTRepository *)repository error:(NSError **)error NS_DESIGNATED_INITIALIZER;
+- (instancetype _Nullable)initWithTree:(GTTree * _Nullable)treeOrNil repository:(GTRepository *)repository error:(NSError * __autoreleasing *)error NS_DESIGNATED_INITIALIZER;
 
 /// The underlying `git_treebuilder` object.
 - (git_treebuilder *)git_treebuilder __attribute__((objc_returns_inner_pointer));
@@ -94,7 +94,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// error    - The error if one occurred.
 ///
 /// Returns the added entry, or nil if an error occurred
-- (GTTreeEntry * _Nullable)addEntryWithData:(NSData *)data fileName:(NSString *)fileName fileMode:(GTFileMode)fileMode error:(NSError **)error;
+- (GTTreeEntry * _Nullable)addEntryWithData:(NSData *)data fileName:(NSString *)fileName fileMode:(GTFileMode)fileMode error:(NSError * __autoreleasing *)error;
 
 /// Add or update an entry to the builder.
 ///
@@ -111,7 +111,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// the type of the pointed at object.
 ///
 /// Returns the added entry, or nil if an error occurred.
-- (GTTreeEntry * _Nullable)addEntryWithOID:(GTOID *)oid fileName:(NSString *)fileName fileMode:(GTFileMode)fileMode error:(NSError **)error;
+- (GTTreeEntry * _Nullable)addEntryWithOID:(GTOID *)oid fileName:(NSString *)fileName fileMode:(GTFileMode)fileMode error:(NSError * __autoreleasing *)error;
 
 /// Remove an entry from the builder by its file name.
 ///
@@ -119,14 +119,14 @@ NS_ASSUME_NONNULL_BEGIN
 /// error    - The error if one occurred.
 ///
 /// Returns YES if the entry was removed, or NO if an error occurred.
-- (BOOL)removeEntryWithFileName:(NSString *)fileName error:(NSError **)error;
+- (BOOL)removeEntryWithFileName:(NSString *)fileName error:(NSError * __autoreleasing *)error;
 
 /// Write the contents of the tree builder as a tree object.
 ///
 /// error - The error if one occurred.
 ///
 /// Returns the written tree, or nil if an error occurred.
-- (GTTree * _Nullable)writeTree:(NSError **)error;
+- (GTTree * _Nullable)writeTree:(NSError * __autoreleasing *)error;
 
 @end
 

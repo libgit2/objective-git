@@ -123,7 +123,7 @@
 	return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 }
 
-- (GTCommit *)targetCommitWithError:(NSError **)error {
+- (GTCommit *)targetCommitWithError:(NSError * __autoreleasing *)error {
 	GTOID *oid = self.OID;
 	if (oid == nil) {
 		if (error != NULL) *error = GTReference.invalidReferenceError;
@@ -133,7 +133,7 @@
 	return [self.repository lookUpObjectByOID:oid objectType:GTObjectTypeCommit error:error];
 }
 
-- (NSUInteger)numberOfCommitsWithError:(NSError **)error {
+- (NSUInteger)numberOfCommitsWithError:(NSError * __autoreleasing *)error {
 	GTEnumerator *enumerator = [[GTEnumerator alloc] initWithRepository:self.repository error:error];
 	if (enumerator == nil) return NSNotFound;
 
@@ -160,14 +160,14 @@
 	return (git_branch_is_head(self.reference.git_reference) ? YES : NO);
 }
 
-- (NSArray *)uniqueCommitsRelativeToBranch:(GTBranch *)otherBranch error:(NSError **)error {
+- (NSArray *)uniqueCommitsRelativeToBranch:(GTBranch *)otherBranch error:(NSError * __autoreleasing *)error {
 	GTOID *oid = self.OID;
 	GTOID *otherOID = otherBranch.OID;
 	GTEnumerator *enumerator = [self.repository enumeratorForUniqueCommitsFromOID:oid relativeToOID:otherOID error:error];
 	return [enumerator allObjectsWithError:error];
 }
 
-- (BOOL)deleteWithError:(NSError **)error {
+- (BOOL)deleteWithError:(NSError * __autoreleasing *)error {
 	int gitError = git_branch_delete(self.reference.git_reference);
 	if (gitError != GIT_OK) {
 		if(error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to delete branch %@", self.name];
@@ -177,7 +177,7 @@
 	return YES;
 }
 
-- (BOOL)rename:(NSString *)name force:(BOOL)force error:(NSError **)error {
+- (BOOL)rename:(NSString *)name force:(BOOL)force error:(NSError * __autoreleasing *)error {
 	git_reference *git_ref;
 	int gitError = git_branch_move(&git_ref, self.reference.git_reference, name.UTF8String, (force ? 1 : 0));
 	if (gitError != GIT_OK) {
@@ -192,7 +192,7 @@
 	return YES;
 }
 
-- (GTBranch *)trackingBranchWithError:(NSError **)error success:(BOOL *)success {
+- (GTBranch *)trackingBranchWithError:(NSError * __autoreleasing *)error success:(BOOL *)success {
 	BOOL underSuccess = NO;
 	if (success == NULL) {
 		success = &underSuccess;
@@ -236,7 +236,7 @@
 	return [[self class] branchWithReference:upsteamRef];
 }
 
-- (BOOL)updateTrackingBranch:(GTBranch *)trackingBranch error:(NSError **)error {
+- (BOOL)updateTrackingBranch:(GTBranch *)trackingBranch error:(NSError * __autoreleasing *)error {
 	int result = GIT_ENOTFOUND;
 	if (trackingBranch.branchType == GTBranchTypeRemote) {
 		result = git_branch_set_upstream(self.reference.git_reference, [trackingBranch.name stringByReplacingOccurrencesOfString:[GTBranch remoteNamePrefix] withString:@""].UTF8String);
@@ -251,14 +251,14 @@
 	return YES;
 }
 
-- (GTBranch *)reloadedBranchWithError:(NSError **)error {
+- (GTBranch *)reloadedBranchWithError:(NSError * __autoreleasing *)error {
 	GTReference *reloadedRef = [self.reference reloadedReferenceWithError:error];
 	if (reloadedRef == nil) return nil;
 
 	return [[self.class alloc] initWithReference:reloadedRef];
 }
 
-- (BOOL)calculateAhead:(size_t *)ahead behind:(size_t *)behind relativeTo:(GTBranch *)branch error:(NSError **)error {
+- (BOOL)calculateAhead:(size_t *)ahead behind:(size_t *)behind relativeTo:(GTBranch *)branch error:(NSError * __autoreleasing *)error {
 	GTOID *oid = self.OID;
 	GTOID *branchOID = branch.OID;
 	return [self.repository calculateAhead:ahead behind:behind ofOID:oid relativeToOID:branchOID error:error];

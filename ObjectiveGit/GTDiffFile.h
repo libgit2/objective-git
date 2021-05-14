@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "git2/diff.h"
+#import <ObjectiveGit/git2/diff.h>
 
 /// Flags which may be set on the file.
 ///

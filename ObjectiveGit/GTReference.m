@@ -70,7 +70,7 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 	return git_reference_is_remote(self.git_reference) != 0;
 }
 
-+ (instancetype)referenceByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error {
++ (instancetype)referenceByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError * __autoreleasing *)error {
 	return [[self alloc] initByResolvingSymbolicReference:symbolicRef error:error];
 }
 
@@ -79,7 +79,7 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 	return nil;
 }
 
-- (instancetype)initByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError **)error {
+- (instancetype)initByResolvingSymbolicReference:(GTReference *)symbolicRef error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(symbolicRef != nil);
 
 	git_reference *ref = NULL;
@@ -126,7 +126,7 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 	return refName;
 }
 
-- (GTReference *)referenceByRenaming:(NSString *)newName error:(NSError **)error {
+- (GTReference *)referenceByRenaming:(NSString *)newName error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(newName != nil);
 
 	git_reference *newRef = NULL;
@@ -176,7 +176,7 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 	return [self.resolvedTarget OID];
 }
 
-- (GTReference *)referenceByUpdatingTarget:(NSString *)newTarget message:(NSString *)message error:(NSError **)error {
+- (GTReference *)referenceByUpdatingTarget:(NSString *)newTarget message:(NSString *)message error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(newTarget != nil);
 
 	int gitError;
@@ -198,7 +198,7 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 	return [[self.class alloc] initWithGitReference:newRef repository:self.repository];
 }
 
-- (BOOL)deleteWithError:(NSError **)error {
+- (BOOL)deleteWithError:(NSError * __autoreleasing *)error {
 	int gitError = git_reference_delete(self.git_reference);
 	if (gitError != GIT_OK) {
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to delete reference %@.", self.name];
@@ -208,7 +208,7 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 	return YES;
 }
 
-- (GTReference *)resolvedReferenceWithError:(NSError **)error {
+- (GTReference *)resolvedReferenceWithError:(NSError * __autoreleasing *)error {
 	return [GTReference referenceByResolvingSymbolicReference:self error:error];
 }
 
@@ -223,7 +223,7 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 	return [[GTOID alloc] initWithGitOid:oid];
 }
 
-- (GTReference *)reloadedReferenceWithError:(NSError **)error {
+- (GTReference *)reloadedReferenceWithError:(NSError * __autoreleasing *)error {
 	return [self.repository lookUpReferenceWithName:self.name error:error];
 }
 

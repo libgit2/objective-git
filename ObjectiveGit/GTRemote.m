@@ -29,7 +29,7 @@ NSString * const GTRemoteRenameProblematicRefSpecs = @"GTRemoteRenameProblematic
 
 #pragma mark Lifecycle
 
-+ (instancetype)createRemoteWithName:(NSString *)name URLString:(NSString *)URLString inRepository:(GTRepository *)repo error:(NSError **)error {
++ (instancetype)createRemoteWithName:(NSString *)name URLString:(NSString *)URLString inRepository:(GTRepository *)repo error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(name != nil);
 	NSParameterAssert(URLString != nil);
 	NSParameterAssert(repo != nil);
@@ -45,7 +45,7 @@ NSString * const GTRemoteRenameProblematicRefSpecs = @"GTRemoteRenameProblematic
 	return [[self alloc] initWithGitRemote:remote inRepository:repo];
 }
 
-+ (instancetype)remoteWithName:(NSString *)name inRepository:(GTRepository *)repo error:(NSError **)error {
++ (instancetype)remoteWithName:(NSString *)name inRepository:(GTRepository *)repo error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(name != nil);
 	NSParameterAssert(repo != nil);
 
@@ -144,7 +144,7 @@ NSString * const GTRemoteRenameProblematicRefSpecs = @"GTRemoteRenameProblematic
 
 #pragma mark Renaming
 
-- (BOOL)rename:(NSString *)name error:(NSError **)error {
+- (BOOL)rename:(NSString *)name error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(name != nil);
 	
 	git_strarray problematic_refspecs;
@@ -157,7 +157,7 @@ NSString * const GTRemoteRenameProblematicRefSpecs = @"GTRemoteRenameProblematic
 		if (error != NULL) *error = [NSError git_errorFor:gitError description:@"Failed to rename remote" userInfo:userInfo failureReason:@"Couldn't rename remote %@ to %@", self.name, name];
 	}
 
-	git_strarray_free(&problematic_refspecs);
+	git_strarray_dispose(&problematic_refspecs);
 
 	return gitError == GIT_OK;
 }
@@ -168,7 +168,7 @@ NSString * const GTRemoteRenameProblematicRefSpecs = @"GTRemoteRenameProblematic
 	if (gitError != GIT_OK) return nil;
 
 	@onExit {
-		git_strarray_free(&refspecs);
+		git_strarray_dispose(&refspecs);
 	};
 
 	return [NSArray git_arrayWithStrarray:refspecs];
@@ -181,7 +181,7 @@ NSString * const GTRemoteRenameProblematicRefSpecs = @"GTRemoteRenameProblematic
 	if (gitError != GIT_OK) return nil;
 
 	@onExit {
-		git_strarray_free(&refspecs);
+		git_strarray_dispose(&refspecs);
 	};
 	
 	return [NSArray git_arrayWithStrarray:refspecs];
@@ -189,7 +189,7 @@ NSString * const GTRemoteRenameProblematicRefSpecs = @"GTRemoteRenameProblematic
 
 #pragma mark Update the remote
 
-- (BOOL)updateURLString:(NSString *)URLString error:(NSError **)error {
+- (BOOL)updateURLString:(NSString *)URLString error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(URLString != nil);
 
 	if ([self.URLString isEqualToString:URLString]) return YES;
@@ -204,7 +204,7 @@ NSString * const GTRemoteRenameProblematicRefSpecs = @"GTRemoteRenameProblematic
 	return YES;
 }
 
-- (BOOL)updatePushURLString:(NSString *)URLString error:(NSError **)error {
+- (BOOL)updatePushURLString:(NSString *)URLString error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(URLString != nil);
 	
 	if ([self.pushURLString isEqualToString:URLString]) return YES;
@@ -219,7 +219,7 @@ NSString * const GTRemoteRenameProblematicRefSpecs = @"GTRemoteRenameProblematic
 	return YES;
 }
 
-- (BOOL)addFetchRefspec:(NSString *)fetchRefspec error:(NSError **)error {
+- (BOOL)addFetchRefspec:(NSString *)fetchRefspec error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(fetchRefspec != nil);
 
 	if ([self.fetchRefspecs containsObject:fetchRefspec]) return YES;

@@ -140,7 +140,7 @@ static void GTFilterCleanup(git_filter *filter, void *payload) {
 
 #pragma mark Registration
 
-- (BOOL)registerWithPriority:(int)priority error:(NSError **)error {
+- (BOOL)registerWithPriority:(int)priority error:(NSError * __autoreleasing *)error {
 	if (GTFiltersNameToRegisteredFilters[self.name] != nil) {
 		if (error != NULL) {
 			NSString *description = [NSString stringWithFormat:NSLocalizedString(@"A filter named \"%@\" has already been registered", @""), self.name];
@@ -170,7 +170,7 @@ static void GTFilterCleanup(git_filter *filter, void *payload) {
 	return YES;
 }
 
-- (BOOL)unregister:(NSError **)error {
+- (BOOL)unregister:(NSError * __autoreleasing *)error {
 	int result = git_filter_unregister(self.name.UTF8String);
 	if (result != GIT_OK) {
 		if (error != NULL) {

@@ -46,6 +46,6 @@ extern NSString * const GTBlameOptionsLastLine;
 /// error      - Populated with an `NSError` object on error.
 ///
 /// Returns a new `GTBlame` object or nil if an error occurred.
-- (GTBlame *)blameWithFile:(NSString *)path options:(NSDictionary *)options error:(NSError **)error;
+- (GTBlame *)blameWithFile:(NSString *)path options:(NSDictionary *)options error:(NSError * __autoreleasing *)error;
 
 @end

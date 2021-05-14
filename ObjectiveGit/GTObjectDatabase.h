@@ -42,13 +42,13 @@ NS_ASSUME_NONNULL_BEGIN
 /// error - The error if one occurred.
 ///
 /// Returns the initialized object.
-- (instancetype _Nullable)initWithRepository:(GTRepository *)repo error:(NSError **)error NS_DESIGNATED_INITIALIZER;
+- (instancetype _Nullable)initWithRepository:(GTRepository *)repo error:(NSError * __autoreleasing *)error NS_DESIGNATED_INITIALIZER;
 
 /// The underlying `git_odb` object.
 - (git_odb *)git_odb __attribute__((objc_returns_inner_pointer));
 
-- (GTOdbObject * _Nullable)objectWithOID:(GTOID *)OID error:(NSError **)error;
-- (GTOdbObject * _Nullable)objectWithSHA:(NSString *)SHA error:(NSError **)error;
+- (GTOdbObject * _Nullable)objectWithOID:(GTOID *)OID error:(NSError * __autoreleasing *)error;
+- (GTOdbObject * _Nullable)objectWithSHA:(NSString *)SHA error:(NSError * __autoreleasing *)error;
 
 /// Writes the data into the object database.
 ///
@@ -58,9 +58,9 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// Returns the OID for the object which was written, or nil if an error
 /// occurred.
-- (GTOID * _Nullable)writeData:(NSData *)data type:(GTObjectType)type error:(NSError **)error;
+- (GTOID * _Nullable)writeData:(NSData *)data type:(GTObjectType)type error:(NSError * __autoreleasing *)error;
 
-- (BOOL)containsObjectWithSHA:(NSString *)SHA error:(NSError **)error;
+- (BOOL)containsObjectWithSHA:(NSString *)SHA error:(NSError * __autoreleasing *)error;
 
 /// Checks if the object database contains an object with a given OID.
 ///

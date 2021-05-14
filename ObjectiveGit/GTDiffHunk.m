@@ -58,7 +58,7 @@
 	return [NSString stringWithFormat:@"%@ hunkIndex: %ld, header: %@, lineCount: %ld", super.debugDescription, (unsigned long)self.hunkIndex, self.header, (unsigned long)self.lineCount];
 }
 
-- (BOOL)enumerateLinesInHunk:(NSError **)error usingBlock:(void (^)(GTDiffLine *line, BOOL *stop))block {
+- (BOOL)enumerateLinesInHunk:(NSError * __autoreleasing *)error usingBlock:(void (^)(GTDiffLine *line, BOOL *stop))block {
 	NSParameterAssert(block != nil);
 
 	for (NSUInteger idx = 0; idx < self.lineCount; idx ++) {

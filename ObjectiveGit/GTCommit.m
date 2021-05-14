@@ -151,7 +151,7 @@
 
 #pragma mark Merging
 
-- (GTIndex *)merge:(GTCommit *)otherCommit error:(NSError **)error {
+- (GTIndex *)merge:(GTCommit *)otherCommit error:(NSError * __autoreleasing *)error {
 	NSParameterAssert(otherCommit != nil);
 	
 	git_index *index;
