@@ -6,11 +6,10 @@ export SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
 ## Configuration Variables
 ##
 
-config ()
-{
+config () {
     # A whitespace-separated list of executables that must be present and locatable.
     # These will each be installed through Homebrew if not found.
-    : ${REQUIRED_TOOLS="cmake libssh2 libtool autoconf automake pkg-config"}
+    : ${REQUIRED_TOOLS="cmake libssh2 libtool autoconf automake pkg-config openssl"}
 
     export REQUIRED_TOOLS
 }
