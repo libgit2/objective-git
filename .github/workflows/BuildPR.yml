@@ -19,11 +19,4 @@ jobs:
       - name: Set XCode Version
         run: sudo xcode-select -s /Applications/${{ matrix.xcode }}.app
       - name: Build project
-        run: xcodebuild -workspace ObjectiveGitFramework.xcworkspace -scheme "ObjectiveGit Mac" archive | xcpretty
-      - name: Xcodebuild Action
-        uses: sersoft-gmbh/xcodebuild-action@v1.8
-        with:
-          project: ObjectiveGitFramework.xcodeproj
-          scheme: ObjectiveGit Mac
-          configuration: Release
-          action: archive
+        run: xcodebuild -workspace ObjectiveGitFramework.xcworkspace -scheme "ObjectiveGit Mac" archive
