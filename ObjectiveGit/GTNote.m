@@ -96,7 +96,7 @@
 		if (error != NULL) *error = [NSError git_errorFor:GIT_ERROR description:@"Unable to get default git notes reference name"];
 	}
 	
-	git_buf_free(&default_ref_name);
+	git_buf_dispose(&default_ref_name);
 	
 	return noteRef;
 }

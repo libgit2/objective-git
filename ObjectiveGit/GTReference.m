@@ -45,7 +45,7 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 		case GTReferenceTypeInvalid:
 			return @"invalid";
 
-		case GTReferenceTypeOid:
+		case GTReferenceTypeDirect:
 			return @"direct";
 
 		case GTReferenceTypeSymbolic:
@@ -142,7 +142,7 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 }
 
 - (id)unresolvedTarget {
-	if (self.referenceType == GTReferenceTypeOid) {
+	if (self.referenceType == GTReferenceTypeDirect) {
 		const git_oid *oid = git_reference_target(self.git_reference);
 		if (oid == NULL) return nil;
 
@@ -158,7 +158,7 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 
 - (id)resolvedTarget {
 	git_object *obj;
-	if (git_reference_peel(&obj, self.git_reference, GIT_OBJ_ANY) != GIT_OK) {
+	if (git_reference_peel(&obj, self.git_reference, GIT_OBJECT_ANY) != GIT_OK) {
 		return nil;
 	}
 
@@ -179,7 +179,7 @@ static NSString *referenceTypeToString(GTReferenceType type) {
 
 	int gitError;
 	git_reference *newRef = NULL;
-	if (git_reference_type(self.git_reference) == GIT_REF_OID) {
+	if (git_reference_type(self.git_reference) == GIT_REFERENCE_DIRECT) {
 		GTOID *oid = [[GTOID alloc] initWithSHA:newTarget error:error];
 		if (oid == nil) return nil;
 

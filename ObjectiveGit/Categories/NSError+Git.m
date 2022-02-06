@@ -98,10 +98,10 @@ NSString * const GTGitErrorOID = @"GTOID";
 }
 
 + (NSString *)git_descriptionForErrorCode:(int)code {
-	const git_error *gitLastError = giterr_last();
+	const git_error *gitLastError = git_error_last();
 	if (gitLastError != NULL) {
 		return @(gitLastError->message);
-	} else if (code == GITERR_OS) {
+	} else if (code == GIT_ERROR_OS) {
 		return @(strerror(errno));
 	} else {
 		return nil;

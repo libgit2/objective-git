@@ -102,7 +102,7 @@
 	NSParameterAssert(data != nil);
 
 	git_odb_stream *stream;
-	int gitError = git_odb_open_wstream(&stream, self.git_odb, data.length, (git_otype)type);
+	int gitError = git_odb_open_wstream(&stream, self.git_odb, data.length, (git_object_t)type);
 	@onExit {
 		if (stream != NULL) git_odb_stream_free(stream);
 	};

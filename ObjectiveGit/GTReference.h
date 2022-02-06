@@ -34,9 +34,9 @@ typedef NS_ENUM(NSInteger, GTReferenceErrorCode) {
 };
 
 typedef NS_OPTIONS(NSInteger, GTReferenceType) {
-	GTReferenceTypeInvalid =    GIT_REF_INVALID,  /** Invalid reference */
-	GTReferenceTypeOid =        GIT_REF_OID,      /** A reference which points at an object id */
-	GTReferenceTypeSymbolic =   GIT_REF_SYMBOLIC, /** A reference which points at another reference */
+	GTReferenceTypeInvalid =    GIT_REFERENCE_INVALID,  /** Invalid reference */
+	GTReferenceTypeDirect =     GIT_REFERENCE_DIRECT,   /** A reference which points at an object id */
+	GTReferenceTypeSymbolic =   GIT_REFERENCE_SYMBOLIC, /** A reference which points at another reference */
 };
 
 NS_ASSUME_NONNULL_BEGIN
