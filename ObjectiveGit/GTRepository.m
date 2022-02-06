@@ -317,7 +317,7 @@ struct GTRemoteCreatePayload {
 - (id)lookUpObjectByGitOid:(const git_oid *)oid objectType:(GTObjectType)type error:(NSError **)error {
 	git_object *obj;
 
-	int gitError = git_object_lookup(&obj, self.git_repository, oid, (git_otype)type);
+	int gitError = git_object_lookup(&obj, self.git_repository, oid, (git_object_t)type);
 	if (gitError < GIT_OK) {
 		if (error != NULL) {
 			char oid_str[GIT_OID_HEXSZ+1];
@@ -679,13 +679,13 @@ static int GTRepositoryForeachTagCallback(const char *name, git_oid *oid, void *
 	int errorCode = git_repository_message(&msg, self.git_repository);
 	if (errorCode != GIT_OK) {
 		setErrorFromCode(errorCode);
-		git_buf_free(&msg);
+		git_buf_dispose(&msg);
 		return nil;
 	}
 
 	NSString *message = [[NSString alloc] initWithBytes:msg.ptr length:msg.size encoding:NSUTF8StringEncoding];
 
-	git_buf_free(&msg);
+	git_buf_dispose(&msg);
 
 	return message;
 }
