@@ -1,6 +1,6 @@
 name: PullRequest
 
-on: [pull_request]
+on: [ pull_request ]
 
 jobs:
   build-objective-git:
@@ -9,7 +9,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        xcode: [Xcode_12.5, Xcode_13.1, Xcode_13.2, Xcode_13.0, Xcode_12.4]
+        xcode: [ Xcode_12.5, Xcode_13.1, Xcode_13.2.1, Xcode_13.0, Xcode_12.4 ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2.4.0
