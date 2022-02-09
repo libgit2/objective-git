@@ -26,7 +26,7 @@ main ()
 
     if [ -n "$REQUIRED_TOOLS" ]
     then
-        echo "*** Checking dependencies..."
+        echo "** Checking dependencies in Homebrew ..."
         check_deps
     fi
 }
@@ -48,6 +48,15 @@ check_deps ()
         exit $result
     fi
 
+    brew_prefix=`brew --prefix`
+    if [[ `uname -m` == 'arm64' ]]; then
+      echo "** Running on a Apple Silicon M1"
+      export expected_prefix=/opt/homebrew
+    else
+      echo "** Running on a Apple x86"
+      export expected_prefix=/usr/local
+    fi
+
     # Ensure that we have libgit2's dependencies installed.
     installed=`brew list`
 
@@ -58,7 +67,7 @@ check_deps ()
 
         if [ "$code" -eq "0" ]
         then
-            echo "*** $tool is available"
+            echo "*** $tool is available in 👍"
             continue
         elif [ "$code" -ne "1" ]
         then
@@ -69,14 +78,9 @@ check_deps ()
         brew install "$tool"
     done
 
-    brew_prefix=`brew --prefix`
-    if [[ `uname -m` == 'arm64' ]]; then
-      echo "Running on a Apple Silicon M1"
-      export expected_prefix=/opt/homebrew
-    else
-      echo "Running on a Apple x86"
-      export expected_prefix=/usr/local
-    fi
+    install_path="./External"
+    echo "*** copy "$brew_prefix"/lib/libssh2.a to $install_path"
+    cp "$brew_prefix"/lib/libssh2.a $install_path
 
     if [ "$brew_prefix" != "$expected_prefix" ]
     then
