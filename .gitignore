@@ -9,6 +9,7 @@ build-iPhoneOS/*
 objective-git.bridgesupport
 ObjectiveGitFramework/build/*
 ObjectiveGit-iOS.framework/*
+External/libssh2.a
 External/libgit2*.a
 External/libgit2-ios
 
