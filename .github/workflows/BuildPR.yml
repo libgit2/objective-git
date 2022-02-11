@@ -20,5 +20,5 @@ jobs:
         run: sudo xcode-select -s /Applications/${{ matrix.xcode }}.app
       - name: pre build
         run: script/bootstrap && script/update_libgit2
-      - name: Build project
-        run: xcodebuild -workspace ObjectiveGitFramework.xcworkspace -scheme "ObjectiveGit Mac" archive ARCHS="x86_64 arm64"
+      - name: Test and archive project
+        run: xcodebuild -workspace ObjectiveGitFramework.xcworkspace -scheme "ObjectiveGit Mac" test archive ARCHS="x86_64 arm64"
