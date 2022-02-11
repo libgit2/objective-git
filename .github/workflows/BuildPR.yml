@@ -9,7 +9,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        xcode: [ Xcode_12.5, Xcode_13.1, Xcode_13.2.1, Xcode_13.0, Xcode_12.4 ]
+        xcode: [ Xcode_12.4, Xcode_12.5, Xcode_13.1, Xcode_13.2.1 ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2.4.0
@@ -20,5 +20,5 @@ jobs:
         run: sudo xcode-select -s /Applications/${{ matrix.xcode }}.app
       - name: pre build
         run: script/bootstrap && script/update_libgit2
-      - name: Build project
-        run: xcodebuild -workspace ObjectiveGitFramework.xcworkspace -scheme "ObjectiveGit Mac" archive ARCHS="x86_64 arm64"
+      - name: Test and archive project
+        run: xcodebuild -workspace ObjectiveGitFramework.xcworkspace -scheme "ObjectiveGit Mac" test archive ARCHS="x86_64 arm64"
