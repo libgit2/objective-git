@@ -18,13 +18,15 @@ function setup ()
 
 function build_ssh2 ()
 {
+    echo "cp -R ${ROOT_PATH}/External/libssh2 ${ARCH_INSTALL_PATH}/libssh2"
+
     cp -R "${ROOT_PATH}/External/libssh2" "${ARCH_INSTALL_PATH}/libssh2"
     pushd "${ARCH_INSTALL_PATH}/libssh2" > /dev/null
 
     export CFLAGS="-arch ${ARCH} -fembed-bitcode -pipe -no-cpp-precomp -isysroot ${SDKROOT} -miphoneos-version-min=${IPHONEOS_DEPLOYMENT_TARGET}"
     export CPPFLAGS="-arch ${ARCH} -fembed-bitcode -pipe -no-cpp-precomp -isysroot ${SDKROOT} -miphoneos-version-min=${IPHONEOS_DEPLOYMENT_TARGET}"
 
-    ./buildconf >> "${LOG}" 2>&1
+    ./buildconf | tee "${LOG}" 2>&1
     ./configure --host=${HOST} --prefix="${ARCH_INSTALL_PATH}" --with-openssl --with-libssl-prefix="${INSTALL_PATH}" --disable-shared --enable-static >> "${LOG}" 2>&1
     make >> "${LOG}" 2>&1
     make install >> "${LOG}" 2>&1
