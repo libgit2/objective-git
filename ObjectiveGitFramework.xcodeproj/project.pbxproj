@@ -1688,7 +1688,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"/usr/local/opt/openssl@1.1/lib",
-					/opt/homebrew/opt/openssl/lib,
+					"/opt/homebrew/Cellar/openssl@1.1/1.1.1m/lib",
 					"$(PROJECT_DIR)/External/build/lib",
 				);
 				MODULEMAP_FILE = ObjectiveGit.modulemap;
@@ -1719,7 +1719,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"/usr/local/opt/openssl@1.1/lib",
-					/opt/homebrew/opt/openssl/lib,
+					"/opt/homebrew/Cellar/openssl@1.1/1.1.1m/lib",
 					"$(PROJECT_DIR)/External/build/lib",
 				);
 				MODULEMAP_FILE = ObjectiveGit.modulemap;
@@ -1964,7 +1964,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"/usr/local/opt/openssl@1.1/lib",
-					/opt/homebrew/opt/openssl/lib,
+					"/opt/homebrew/Cellar/openssl@1.1/1.1.1m/lib",
 					"$(PROJECT_DIR)/External/build/lib",
 				);
 				MODULEMAP_FILE = ObjectiveGit.modulemap;
@@ -2187,7 +2187,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"/usr/local/opt/openssl@1.1/lib",
-					/opt/homebrew/opt/openssl/lib,
+					"/opt/homebrew/Cellar/openssl@1.1/1.1.1m/lib",
 					"$(PROJECT_DIR)/External/build/lib",
 				);
 				MODULEMAP_FILE = ObjectiveGit.modulemap;
