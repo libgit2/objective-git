@@ -21,4 +21,4 @@ jobs:
       - name: pre build
         run: script/bootstrap && script/update_libgit2
       - name: Test and archive project
-        run: xcodebuild -workspace ObjectiveGitFramework.xcworkspace -scheme "ObjectiveGit Mac" test archive ARCHS="x86_64 arm64"
+        run: xcodebuild -workspace ObjectiveGitFramework.xcworkspace -scheme "ObjectiveGit Mac" test archive ARCHS="x86_64"
