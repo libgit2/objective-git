@@ -100,6 +100,11 @@ check_deps ()
             sudo ln -s "$brew_prefix/$product" "$destination"
         done
     fi
+
+    # openssl@1 is expected
+    sslSource=$(find $brew_prefix -name libcrypto.a | grep openssl | sort | head -1 | xargs dirname)
+    echo "Find libcrypto.a and take first $sslSource and copy to $install_path"
+    cp $sslSource/* $install_path 2>/dev/null | echo "Copy and ignore subdirectory. This makes build work on x86 and arm64"
 }
 
 main
