@@ -67,7 +67,7 @@ check_deps ()
 
         if [ "$code" -eq "0" ]
         then
-            echo "*** $tool is available in 👍"
+            echo "*** $tool is available 👍"
             continue
         elif [ "$code" -ne "1" ]
         then
