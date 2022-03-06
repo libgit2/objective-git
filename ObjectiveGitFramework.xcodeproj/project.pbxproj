@@ -1693,13 +1693,10 @@
 				);
 				MODULEMAP_FILE = ObjectiveGit.modulemap;
 				OTHER_LDFLAGS = (
-					"-lgit2",
 					"-force_load",
 					External/libgit2.a,
 					External/libssh2.a,
 					"-lcrypto",
-					"-lssl",
-					"-lcurl",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libgit2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ObjectiveGit;
@@ -1724,13 +1721,10 @@
 				);
 				MODULEMAP_FILE = ObjectiveGit.modulemap;
 				OTHER_LDFLAGS = (
-					"-lgit2",
 					"-force_load",
 					External/libgit2.a,
 					External/libssh2.a,
 					"-lcrypto",
-					"-lssl",
-					"-lcurl",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libgit2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ObjectiveGit;
@@ -1970,13 +1964,10 @@
 				);
 				MODULEMAP_FILE = ObjectiveGit.modulemap;
 				OTHER_LDFLAGS = (
-					"-lgit2",
 					"-force_load",
 					External/libgit2.a,
 					External/libssh2.a,
 					"-lcrypto",
-					"-lssl",
-					"-lcurl",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libgit2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ObjectiveGit;
@@ -2193,13 +2184,10 @@
 				);
 				MODULEMAP_FILE = ObjectiveGit.modulemap;
 				OTHER_LDFLAGS = (
-					"-lgit2",
 					"-force_load",
 					External/libgit2.a,
 					External/libssh2.a,
 					"-lcrypto",
-					"-lssl",
-					"-lcurl",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libgit2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ObjectiveGit;
