@@ -1687,8 +1687,6 @@
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"/usr/local/opt/openssl@1.1/lib",
-					"/opt/homebrew/Cellar/openssl@1.1/1.1.1m/lib",
 					"$(PROJECT_DIR)/External/build/lib",
 				);
 				MODULEMAP_FILE = ObjectiveGit.modulemap;
@@ -1696,7 +1694,7 @@
 					"-force_load",
 					External/libgit2.a,
 					External/libssh2.a,
-					"-lcrypto",
+					External/libcrypto.a,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libgit2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ObjectiveGit;
@@ -1715,8 +1713,6 @@
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"/usr/local/opt/openssl@1.1/lib",
-					"/opt/homebrew/Cellar/openssl@1.1/1.1.1m/lib",
 					"$(PROJECT_DIR)/External/build/lib",
 				);
 				MODULEMAP_FILE = ObjectiveGit.modulemap;
@@ -1724,7 +1720,7 @@
 					"-force_load",
 					External/libgit2.a,
 					External/libssh2.a,
-					"-lcrypto",
+					External/libcrypto.a,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libgit2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ObjectiveGit;
@@ -1958,8 +1954,6 @@
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"/usr/local/opt/openssl@1.1/lib",
-					"/opt/homebrew/Cellar/openssl@1.1/1.1.1m/lib",
 					"$(PROJECT_DIR)/External/build/lib",
 				);
 				MODULEMAP_FILE = ObjectiveGit.modulemap;
@@ -1967,7 +1961,7 @@
 					"-force_load",
 					External/libgit2.a,
 					External/libssh2.a,
-					"-lcrypto",
+					External/libcrypto.a,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libgit2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ObjectiveGit;
@@ -2178,8 +2172,6 @@
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"/usr/local/opt/openssl@1.1/lib",
-					"/opt/homebrew/Cellar/openssl@1.1/1.1.1m/lib",
 					"$(PROJECT_DIR)/External/build/lib",
 				);
 				MODULEMAP_FILE = ObjectiveGit.modulemap;
@@ -2187,7 +2179,7 @@
 					"-force_load",
 					External/libgit2.a,
 					External/libssh2.a,
-					"-lcrypto",
+					External/libcrypto.a,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libgit2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ObjectiveGit;
