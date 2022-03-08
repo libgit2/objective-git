@@ -12,7 +12,7 @@ jobs:
         xcode: [ Xcode_12.4, Xcode_12.5, Xcode_13.1, Xcode_13.2.1 ]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
           submodules: true
