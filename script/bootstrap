@@ -45,7 +45,15 @@ check_deps ()
         echo
         echo "Additionally, the following libssh2 files must be symlinked under /usr/local or /opt/homebrew :"
         echo "  lib/libssh2.a include/libssh2.h include/libssh2_sftp.h include/libssh2_publickey.h"
-        exit $result
+
+        if [ ! -z "$CI" ]
+        then
+          echo
+          echo "I will try to install it now on github CI"
+          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+          echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/hannes/.zprofile
+          eval "$(/opt/homebrew/bin/brew shellenv)"
+        fi
     fi
 
     brew_prefix=`brew --prefix`
