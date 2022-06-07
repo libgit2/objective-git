@@ -9,8 +9,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        xcode: [ Xcode_12.4, Xcode_12.5, Xcode_13.1, Xcode_13.2.1 ]
+        xcode: [ Xcode_12.4, Xcode_13.2.1 ]
     steps:
+      - name: ls Xcode
+        run: ls -la /Applications/Xcode*
       - name: Checkout
         uses: actions/checkout@v3
         with:
