@@ -9,7 +9,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        xcode: [ Xcode_12.4, Xcode_13.2.1 ]
+        xcode: [ Xcode_14.2, Xcode_13.2.1 ]
     steps:
       - name: ls Xcode
         run: ls -la /Applications/Xcode*
